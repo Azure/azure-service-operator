@@ -25,5 +25,3 @@ spec:
           group: network.azure.com
           kind: VirtualNetworksSubnet
           name: gatewaysubnet
-
-

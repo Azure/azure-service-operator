@@ -14,13 +14,12 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/emirpasic/gods/maps/linkedhashmap"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -38,13 +37,11 @@ var exclusions = []string{
 	// Compute
 	"virtualmachine",
 	"virtualmachinescaleset",
+	"image",
 	// Network
 	"loadbalancer",
-	"networkinterface",
 	"virtualnetworkgateway",
-	"virtualnetworksubnet",
 	"virtualnetworksvirtualnetworkpeering",
-	"image",
 	// MachineLearningServices
 	"workspacescompute",
 
@@ -59,23 +56,22 @@ type SamplesTester struct {
 	groupVersionPath string
 	namespace        string
 	useRandomName    bool
+	rgName           string
 }
 
 type SampleObject struct {
-	// Using linkedhashmap.Map here to maintain the order(owner->children) of resources we put into the map
-	// to make sure we always have an owner resource before a child resource.
-	SamplesMap   *linkedhashmap.Map
-	childObjects map[string]genruntime.ARMMetaObject
+	SamplesMap map[string]genruntime.ARMMetaObject
+	RefsMap    map[string]genruntime.ARMMetaObject
 }
 
 func NewSampleObject() *SampleObject {
 	return &SampleObject{
-		SamplesMap:   linkedhashmap.New(),
-		childObjects: make(map[string]genruntime.ARMMetaObject),
+		SamplesMap: make(map[string]genruntime.ARMMetaObject),
+		RefsMap:    make(map[string]genruntime.ARMMetaObject),
 	}
 }
 
-func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, groupVersionPath string, namespace string, useRandomName bool) *SamplesTester {
+func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, groupVersionPath string, namespace string, useRandomName bool, rgName string) *SamplesTester {
 	return &SamplesTester{
 		noSpaceNamer:     noSpaceNamer,
 		decoder:          serializer.NewCodecFactory(scheme).UniversalDecoder(),
@@ -83,12 +79,12 @@ func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, groupV
 		groupVersionPath: groupVersionPath,
 		namespace:        namespace,
 		useRandomName:    useRandomName,
+		rgName:           rgName,
 	}
 }
 
-func (t *SamplesTester) LoadSamples() (*SampleObject, *SampleObject, error) {
+func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	samples := NewSampleObject()
-	refSamples := NewSampleObject()
 
 	err := filepath.Walk(t.groupVersionPath,
 		func(filePath string, info os.FileInfo, err error) error {
@@ -104,32 +100,43 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, *SampleObject, error) {
 				if filepath.Base(filepath.Dir(filePath)) == refsPackage {
 					// We don't change name for dependencies as they have fixed refs which we can't access inside the object
 					// need to make sure we have right names for the refs in samples
-					t.handleObject(sample, refSamples, t.noSpaceNamer)
+					t.handleObject(sample, samples.RefsMap)
 				} else {
 					if t.useRandomName {
 						sample.SetName(t.noSpaceNamer.GenerateName(""))
 					}
-					t.handleObject(sample, samples, t.noSpaceNamer)
+					t.handleObject(sample, samples.SamplesMap)
 				}
 			}
-
 			return nil
 		})
 
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	// We process the child objects once we have all the parent objects in the linkedMap already
-	err = t.handleChildObjects(t.scheme, samples)
+	// We add ownership once we have all the resources in the map
+	err = t.setOwnerShip(samples.SamplesMap)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	err = t.handleChildObjects(t.scheme, refSamples)
+	err = t.setOwnerShip(samples.RefsMap)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	return samples, refSamples, nil
+	return samples, nil
+}
+
+// handleObject handles the sample object by adding it into the samples map. If key already exists, then we append a
+// random string to the key and add it to the map so that we don't overwrite the sample. As keys are only used to find
+// if owner Kind actually exist in the map so it should be fine to append random string here.
+func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples map[string]genruntime.ARMMetaObject) {
+	kind := sample.GetObjectKind().GroupVersionKind().Kind
+	_, found := samples[kind]
+	if found {
+		kind = kind + t.noSpaceNamer.makeRandomStringOfLength(5, t.noSpaceNamer.runes)
+	}
+	samples[kind] = sample
 }
 
 func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
@@ -166,68 +173,30 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 	return obj.(genruntime.ARMMetaObject), nil
 }
 
-func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples *SampleObject, namer ResourceNamer) {
-	if sample.Owner() == nil || sample.Owner().Kind == resolver.ResourceGroupKind {
-		putIntoLinkedMap(sample, samples.SamplesMap, t.noSpaceNamer)
-	} else {
-		gk := sample.GetObjectKind().GroupVersionKind().GroupKind().String()
-		_, found := samples.childObjects[gk]
-		if found {
-			gk = gk + namer.makeRandomStringOfLength(3, namer.runes)
-		}
-		samples.childObjects[gk] = sample
-	}
-}
-
-func (t *SamplesTester) handleChildObjects(scheme *runtime.Scheme, samples *SampleObject) error {
-	for gk, sample := range samples.childObjects {
-
-		linkedMap := samples.SamplesMap
-		// get the parent object
-		val, ok := linkedMap.Get(sample.Owner().Kind)
-
-		// If owner already does not exist, we check if its unvisited in 'childObjects' map.
-		// If it does, we wait until we visit the owner and add is to the linkedMap or the test condition fails
-		if !ok {
-			ownerGK := constructGroupKind(sample.Owner().Group, sample.Owner().Kind)
-			_, ok = samples.childObjects[ownerGK]
-			if !ok {
-				return fmt.Errorf("owner: %s, does not exist for resource '%s'", ownerGK, gk)
-			}
+func (t *SamplesTester) setOwnerShip(samples map[string]genruntime.ARMMetaObject) error {
+	for gk, sample := range samples {
+		// We don't apply ownership to the resources which have no owner
+		if sample.Owner() == nil {
 			continue
 		}
 
-		owner := val.(genruntime.ARMMetaObject)
-		sample = SetOwnersName(sample, owner.GetName())
-		putIntoLinkedMap(sample, linkedMap, t.noSpaceNamer)
-
-		// Delete after processing
-		delete(samples.childObjects, gk)
-	}
-
-	// We need to do recursion here, as per the logic in this block, we check if we've visited the owner
-	// for current resource or not. If not, then we keep trying until we visit all the members of childObjects map.
-	if len(samples.childObjects) > 0 {
-		err := t.handleChildObjects(scheme, samples)
-		if err != nil {
-			return err
+		var ownersName string
+		if sample.Owner().Kind == resolver.ResourceGroupKind {
+			ownersName = t.rgName
+		} else {
+			owner, ok := samples[sample.Owner().Kind]
+			if !ok {
+				return fmt.Errorf("owner: %s, does not exist for resource '%s'", sample.Owner().Kind, gk)
+			}
+			ownersName = owner.GetName()
 		}
+
+		sample = setOwnersName(sample, ownersName)
 	}
 	return nil
 }
 
-func putIntoLinkedMap(sample genruntime.ARMMetaObject, samplesMap *linkedhashmap.Map, namer ResourceNamer) {
-	kind := sample.GetObjectKind().GroupVersionKind().Kind
-	_, found := samplesMap.Get(kind)
-	// if found the same kind in a samples directory, we just simply add some random chars in the end of the kind
-	// as to avoid overwriting and  to maintain the order.
-	if found {
-		kind = kind + namer.makeRandomStringOfLength(3, namer.runes)
-	}
-	samplesMap.Put(kind, sample)
-}
-
-func SetOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime.ARMMetaObject {
+func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime.ARMMetaObject {
 	specField := reflect.ValueOf(sample.GetSpec()).Elem()
 	ownerField := specField.FieldByName("Owner").Elem()
 	ownerField.FieldByName("Name").SetString(ownerName)
@@ -243,9 +212,4 @@ func IsExclusion(path string, exclusions []string) bool {
 		}
 	}
 	return false
-}
-
-func constructGroupKind(group string, kind string) string {
-	return kind + "." + group
-
 }

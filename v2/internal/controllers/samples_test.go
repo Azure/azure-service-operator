@@ -13,11 +13,11 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 const samplesPath = "../../config/samples"
@@ -34,6 +34,7 @@ var randomNameExclusions = []string{
 	"cache",
 	"containerservice",
 	"documentdb",
+	"network",
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
@@ -66,47 +67,43 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
+	rg := tc.NewTestResourceGroup()
 	useRandomName := !testcommon.IsExclusion(groupVersionPath, randomNameExclusions)
-	samples, refs, err := testcommon.NewSamplesTester(tc.NoSpaceNamer, tc.GetScheme(), groupVersionPath, tc.Namespace, useRandomName).LoadSamples()
+	samples, err := testcommon.NewSamplesTester(tc.NoSpaceNamer, tc.GetScheme(), groupVersionPath, tc.Namespace, useRandomName, rg.Name).LoadSamples()
 
 	tc.Expect(err).To(BeNil())
 	tc.Expect(samples).ToNot(BeNil())
-	tc.Expect(refs).ToNot(BeNil())
 
 	tc.Expect(samples).ToNot(BeZero())
 
-	rg := tc.NewTestResourceGroup()
 	tc.CreateResourceAndWait(rg)
 
+	refsSlice := processSamples(tc, samples.RefsMap)
+	samplesSlice := processSamples(tc, samples.SamplesMap)
+
 	// Check if we have any references for the samples beforehand and Create them
-	createResourceTree(tc, refs.SamplesMap.Values(), true, rg.Name, 0)
-	createResourceTree(tc, samples.SamplesMap.Values(), false, rg.Name, 0)
+	tc.CreateResourcesAndWait(refsSlice...)
+	tc.CreateResourcesAndWait(samplesSlice...)
 
 	tc.DeleteResourceAndWait(rg)
 }
 
-func createResourceTree(tc *testcommon.KubePerTestContext, resourceChain []interface{}, isRef bool, rgName string, index int) {
+func processSamples(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject) []client.Object {
+	var samplesSlice []client.Object
 
-	if index >= len(resourceChain) {
-		return
+	for _, resourceObj := range samples {
+		r := resourceObj.(client.Object)
+
+		findRefsAndCreateSecrets(tc, resourceObj)
+		samplesSlice = append(samplesSlice, r)
 	}
 
-	resourceObj := resourceChain[index].(genruntime.ARMMetaObject)
-	if resourceObj.Owner() != nil && resourceObj.Owner().Kind == resolver.ResourceGroupKind {
-		resourceObj = testcommon.SetOwnersName(resourceObj, rgName)
-	}
-
-	findRefsAndCreateSecrets(tc, resourceObj)
-	tc.CreateResourceAndWait(resourceObj)
-
-	//Using recursion here to maintain the order of creation and deletion of resources
-	createResourceTree(tc, resourceChain, isRef, rgName, index+1)
+	return samplesSlice
 }
 
 func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resourceObj genruntime.ARMMetaObject) {
 	refs, err := reflecthelpers.FindSecretReferences(resourceObj)
 	tc.Expect(err).To(BeNil())
-	secrets := make(map[string]*v1.Secret)
 	for ref := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
@@ -117,8 +114,11 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resourceObj gen
 			},
 		}
 
-		tc.CreateResource(secret)
-		secrets[ref.Name] = secret
+		err := tc.CheckIfResourceExists(secret)
+		if err != nil {
+			tc.CreateResource(secret)
+
+		}
 	}
 }
 

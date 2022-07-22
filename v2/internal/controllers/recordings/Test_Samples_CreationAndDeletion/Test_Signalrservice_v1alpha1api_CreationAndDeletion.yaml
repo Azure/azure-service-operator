@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-ilenjd","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"name":"asotest-rg-vzmcdo","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,13 +13,15 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -28,12 +30,10 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"asotestvzmcdo","properties":{"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"features":[{"flag":"ServiceMode","value":"Classic"},{"flag":"EnableConnectivityLogs","value":"true"},{"flag":"EnableMessagingLogs","value":"true"},{"flag":"EnableLiveTrace","value":"true"}],"tls":{"clientCertEnabled":false},"upstream":{"templates":[{"categoryPattern":"*","eventPattern":"connect,disconnect","hubPattern":"*","urlTemplate":"https://example.com/chat/api/connect"}]}},"sku":{"capacity":1,"name":"Standard_S1"}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"asotestilenjd","properties":{"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"features":[{"flag":"ServiceMode","value":"Classic"},{"flag":"EnableConnectivityLogs","value":"true"},{"flag":"EnableMessagingLogs","value":"true"},{"flag":"EnableLiveTrace","value":"true"}],"tls":{"clientCertEnabled":false},"upstream":{"templates":[{"categoryPattern":"*","eventPattern":"connect,disconnect","hubPattern":"*","urlTemplate":"https://example.com/chat/api/connect"}]}},"sku":{"capacity":1,"name":"Standard_S1"}}'
     form: {}
     headers:
       Accept:
@@ -77,21 +77,23 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/signalR/asotestvzmcdo?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/signalR/asotestilenjd?api-version=2021-10-01
     method: PUT
   response:
-    body: ""
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Creating","externalIP":null,"hostName":"asotestilenjd.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0-preview","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestilenjd","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"37d7a336-87e0-4a30-84d3-df89c2c1b2e0","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd","name":"asotestilenjd","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "0"
+      - "1818"
+      Content-Type:
+      - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationResults/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationResults/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
       Pragma:
       - no-cache
       Server:
@@ -102,8 +104,8 @@ interactions:
       - nosniff
       X-Rp-Server-Mvid:
       - a240317d-2594-4b08-9f0c-5f370ea616d7
-    status: 202 Accepted
-    code: 202
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -111,10 +113,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","name":"feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac","name":"8ba050cc-c14d-4463-a34d-828f6f5a5bac","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -143,10 +145,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","name":"feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac","name":"8ba050cc-c14d-4463-a34d-828f6f5a5bac","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -175,10 +177,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","name":"feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac","name":"8ba050cc-c14d-4463-a34d-828f6f5a5bac","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -207,10 +209,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo/operationStatuses/feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","name":"feab452d-6adb-4ce8-9f8f-89d59bb0f1e2","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd/operationStatuses/8ba050cc-c14d-4463-a34d-828f6f5a5bac","name":"8ba050cc-c14d-4463-a34d-828f6f5a5bac","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -239,10 +241,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/signalR/asotestvzmcdo?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/signalR/asotestilenjd?api-version=2021-10-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.208","hostName":"asotestvzmcdo.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestvzmcdo","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"0eefbd0f-3b49-43f8-baa6-ff2dd4412b98","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo","name":"asotestvzmcdo","type":"Microsoft.SignalRService/SignalR"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.206","hostName":"asotestilenjd.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestilenjd","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"37d7a336-87e0-4a30-84d3-df89c2c1b2e0","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd","name":"asotestilenjd","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -273,10 +275,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/signalR/asotestvzmcdo?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/signalR/asotestilenjd?api-version=2021-10-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.208","hostName":"asotestvzmcdo.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestvzmcdo","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"0eefbd0f-3b49-43f8-baa6-ff2dd4412b98","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd/providers/Microsoft.SignalRService/SignalR/asotestvzmcdo","name":"asotestvzmcdo","type":"Microsoft.SignalRService/SignalR"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.206","hostName":"asotestilenjd.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestilenjd","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"37d7a336-87e0-4a30-84d3-df89c2c1b2e0","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo/providers/Microsoft.SignalRService/SignalR/asotestilenjd","name":"asotestilenjd","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -307,7 +309,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -319,7 +321,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJTEVOSkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWWk1DRE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -339,10 +341,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -369,10 +371,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -399,10 +401,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -429,10 +431,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd","name":"asotest-rg-ilenjd","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo","name":"asotest-rg-vzmcdo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -459,10 +461,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilenjd?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vzmcdo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ilenjd''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-vzmcdo''
       could not be found."}}'
     headers:
       Cache-Control:

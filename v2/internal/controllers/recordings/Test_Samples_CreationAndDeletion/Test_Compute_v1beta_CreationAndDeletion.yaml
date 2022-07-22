@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-cyfork","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"name":"asotest-rg-ilxitc","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,197 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"asotestilxitc","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500},"sku":{"name":"Standard_LRS"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "153"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc?api-version=2020-09-30
-    method: PUT
-  response:
-    body: "{\r\n  \"name\": \"asotestilxitc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc\",\r\n
-      \ \"location\": \"westcentralus\",\r\n  \"sku\": {\r\n    \"name\": \"Standard_LRS\"\r\n
-      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"provisioningState\":
-      \"Updating\",\r\n    \"isArmResource\": true\r\n  }\r\n}"
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/b3b2c09a-97a0-4d25-9666-59f39be85df9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "430"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/b3b2c09a-97a0-4d25-9666-59f39be85df9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&monitor=true&api-version=2020-09-30
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "2"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/CreateUpdateDisks3Min;998,Microsoft.Compute/CreateUpdateDisks30Min;7992
-      X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/b3b2c09a-97a0-4d25-9666-59f39be85df9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
-    method: GET
-  response:
-    body: "{\r\n  \"startTime\": \"2022-07-21T10:46:03.3041223+00:00\",\r\n  \"endTime\":
-      \"2022-07-21T10:46:03.444785+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
-      {\r\n    \"output\": {\r\n  \"name\": \"asotestilxitc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc\",\r\n
-      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
-      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
-      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
-      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
-      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-21T10:46:03.3041223+00:00\",\r\n
-      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
-      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"04ce024d-a887-450c-a3bf-eca0e8989677\"\r\n
-      \ }\r\n}\r\n  },\r\n  \"name\": \"b3b2c09a-97a0-4d25-9666-59f39be85df9\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;49999,Microsoft.Compute/GetOperation30Min;399969
-      X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc?api-version=2020-09-30
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotestilxitc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc\",\r\n
-      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
-      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
-      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
-      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
-      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-21T10:46:03.3041223+00:00\",\r\n
-      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
-      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"04ce024d-a887-450c-a3bf-eca0e8989677\"\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14989,Microsoft.Compute/LowCostGet30Min;119922
-      X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc?api-version=2020-09-30
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotestilxitc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/disks/asotestilxitc\",\r\n
-      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
-      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
-      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
-      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
-      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-21T10:46:03.3041223+00:00\",\r\n
-      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
-      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"04ce024d-a887-450c-a3bf-eca0e8989677\"\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14987,Microsoft.Compute/LowCostGet30Min;119920
-      X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"location":"westcentralus","name":"asotestnilneg","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":64}}'
+    body: '{"location":"westcentralus","name":"asotestcyfork","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":64}}'
     form: {}
     headers:
       Accept:
@@ -267,17 +77,17 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg?api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork?api-version=2020-09-30
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg\",\r\n
+    body: "{\r\n  \"name\": \"asotestcyfork\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork\",\r\n
       \ \"location\": \"westcentralus\",\r\n  \"properties\": {\r\n    \"creationData\":
       {\r\n      \"createOption\": \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n
       \   \"provisioningState\": \"Updating\",\r\n    \"isArmResource\": true\r\n
       \ }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/e0f96122-3ac5-444c-9a2b-d98ae204466a?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/c0bc7f8c-0240-41f1-b759-e9397a1b5bfd?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -287,7 +97,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/e0f96122-3ac5-444c-9a2b-d98ae204466a?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&monitor=true&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/c0bc7f8c-0240-41f1-b759-e9397a1b5bfd?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Retry-After:
@@ -300,9 +110,60 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;998,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7994
+      - Microsoft.Compute/HighCostSnapshotCreateHydrate3Min;998,Microsoft.Compute/HighCostSnapshotCreateHydrate30Min;7998
       X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"location":"westcentralus","name":"asotestnilneg","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500},"sku":{"name":"Standard_LRS"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "153"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg?api-version=2020-09-30
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"sku\": {\r\n    \"name\": \"Standard_LRS\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"provisioningState\":
+      \"Updating\",\r\n    \"isArmResource\": true\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/41fc1d3c-1334-48cc-afac-681284b34dd9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "430"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/41fc1d3c-1334-48cc-afac-681284b34dd9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&monitor=true&api-version=2020-09-30
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/CreateUpdateDisks3Min;998,Microsoft.Compute/CreateUpdateDisks30Min;7998
+      X-Ms-Served-By:
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
     status: 202 Accepted
     code: 202
     duration: ""
@@ -312,13 +173,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/e0f96122-3ac5-444c-9a2b-d98ae204466a?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/c0bc7f8c-0240-41f1-b759-e9397a1b5bfd?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-07-21T10:46:16.3822903+00:00\",\r\n  \"endTime\":
-      \"2022-07-21T10:46:16.5854305+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
-      {\r\n    \"output\": {\"name\":\"asotestnilneg\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg\",\"type\":\"Microsoft.Compute/snapshots\",\"location\":\"westcentralus\",\"sku\":{\"name\":\"Standard_LRS\",\"tier\":\"Standard\"},\"properties\":{\"creationData\":{\"createOption\":\"Empty\"},\"diskSizeGB\":64,\"encryption\":{\"type\":\"EncryptionAtRestWithPlatformKey\"},\"incremental\":false,\"networkAccessPolicy\":\"AllowAll\",\"timeCreated\":\"2022-07-21T10:46:16.397909+00:00\",\"provisioningState\":\"Succeeded\",\"diskState\":\"Unattached\",\"diskSizeBytes\":68719476736,\"uniqueId\":\"d7f18263-c4ab-497d-af4f-11543540ceb3\"}}\r\n
-      \ },\r\n  \"name\": \"e0f96122-3ac5-444c-9a2b-d98ae204466a\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-07-22T02:46:19.3424552+00:00\",\r\n  \"endTime\":
+      \"2022-07-22T02:46:19.4830167+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\"name\":\"asotestcyfork\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork\",\"type\":\"Microsoft.Compute/snapshots\",\"location\":\"westcentralus\",\"sku\":{\"name\":\"Standard_LRS\",\"tier\":\"Standard\"},\"properties\":{\"creationData\":{\"createOption\":\"Empty\"},\"diskSizeGB\":64,\"encryption\":{\"type\":\"EncryptionAtRestWithPlatformKey\"},\"incremental\":false,\"networkAccessPolicy\":\"AllowAll\",\"timeCreated\":\"2022-07-22T02:46:19.3424552+00:00\",\"provisioningState\":\"Succeeded\",\"diskState\":\"Unattached\",\"diskSizeBytes\":68719476736,\"uniqueId\":\"29faa905-68b1-4274-9b65-9838531652cd\"}}\r\n
+      \ },\r\n  \"name\": \"c0bc7f8c-0240-41f1-b759-e9397a1b5bfd\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -338,9 +199,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;49993,Microsoft.Compute/GetOperation30Min;399963
+      - Microsoft.Compute/GetOperation3Min;49994,Microsoft.Compute/GetOperation30Min;399994
       X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
     status: 200 OK
     code: 200
     duration: ""
@@ -350,19 +211,22 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg?api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westcentralus/DiskOperations/41fc1d3c-1334-48cc-afac-681284b34dd9?p=aa3c9f6f-c947-4d08-8f01-8a0785de1458&api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg\",\r\n
-      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westcentralus\",\r\n
+    body: "{\r\n  \"startTime\": \"2022-07-22T02:46:19.3580174+00:00\",\r\n  \"endTime\":
+      \"2022-07-22T02:46:19.4517966+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg\",\r\n
+      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
       \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
-      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
-      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-07-21T10:46:16.397909+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
-      \   \"uniqueId\": \"d7f18263-c4ab-497d-af4f-11543540ceb3\"\r\n  }\r\n}"
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
+      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
+      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
+      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-22T02:46:19.3580174+00:00\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"7a14b5b4-bca8-4030-bf7b-394a1d307c5d\"\r\n
+      \ }\r\n}\r\n  },\r\n  \"name\": \"41fc1d3c-1334-48cc-afac-681284b34dd9\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -382,9 +246,98 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14979,Microsoft.Compute/LowCostGet30Min;119912
+      - Microsoft.Compute/GetOperation3Min;49993,Microsoft.Compute/GetOperation30Min;399993
       X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotestcyfork\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork\",\r\n
+      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
+      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
+      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
+      \"2022-07-22T02:46:19.3424552+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
+      \   \"uniqueId\": \"29faa905-68b1-4274-9b65-9838531652cd\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14990,Microsoft.Compute/LowCostGet30Min;119990
+      X-Ms-Served-By:
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg\",\r\n
+      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
+      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
+      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
+      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-22T02:46:19.3580174+00:00\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"7a14b5b4-bca8-4030-bf7b-394a1d307c5d\"\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14989,Microsoft.Compute/LowCostGet30Min;119989
+      X-Ms-Served-By:
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
     status: 200 OK
     code: 200
     duration: ""
@@ -396,19 +349,20 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg?api-version=2020-09-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg?api-version=2020-09-30
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork/providers/Microsoft.Compute/snapshots/asotestnilneg\",\r\n
-      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westcentralus\",\r\n
+    body: "{\r\n  \"name\": \"asotestnilneg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/disks/asotestnilneg\",\r\n
+      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westcentralus\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
       \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
-      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
-      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
-      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
-      \"2022-07-21T10:46:16.397909+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
-      \   \"uniqueId\": \"d7f18263-c4ab-497d-af4f-11543540ceb3\"\r\n  }\r\n}"
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
+      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
+      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
+      \"AllowAll\",\r\n    \"timeCreated\": \"2022-07-22T02:46:19.3580174+00:00\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"7a14b5b4-bca8-4030-bf7b-394a1d307c5d\"\r\n
+      \ }\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -428,9 +382,55 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14977,Microsoft.Compute/LowCostGet30Min;119910
+      - Microsoft.Compute/LowCostGet3Min;14988,Microsoft.Compute/LowCostGet30Min;119988
       X-Ms-Served-By:
-      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027855029006082
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork?api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotestcyfork\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc/providers/Microsoft.Compute/snapshots/asotestcyfork\",\r\n
+      \ \"type\": \"Microsoft.Compute/snapshots\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 64,\r\n    \"encryption\": {\r\n
+      \     \"type\": \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"incremental\":
+      false,\r\n    \"networkAccessPolicy\": \"AllowAll\",\r\n    \"timeCreated\":
+      \"2022-07-22T02:46:19.3424552+00:00\",\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"diskState\": \"Unattached\",\r\n    \"diskSizeBytes\": 68719476736,\r\n
+      \   \"uniqueId\": \"29faa905-68b1-4274-9b65-9838531652cd\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14987,Microsoft.Compute/LowCostGet30Min;119987
+      X-Ms-Served-By:
+      - aa3c9f6f-c947-4d08-8f01-8a0785de1458_133027790611426387
     status: 200 OK
     code: 200
     duration: ""
@@ -442,7 +442,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -454,7 +454,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWUZPUkstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJTFhJVEMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -474,10 +474,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -504,10 +504,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -534,10 +534,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -564,10 +564,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork","name":"asotest-rg-cyfork","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc","name":"asotest-rg-ilxitc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -594,10 +594,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyfork?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ilxitc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-cyfork''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ilxitc''
       could not be found."}}'
     headers:
       Cache-Control:

@@ -70,8 +70,8 @@ if __name__ == "__main__":
         dirString = str(entry.relative_to(samples_dir))
         if not entry.is_dir() :
             dirStringSlice = dirString.split(os.sep)
-            if len(dirStringSlice) == 3:
-                dirString = os.path.join(dirStringSlice[0], dirStringSlice[2])
+            if len(dirStringSlice) > 2:
+                dirString = os.path.join(dirStringSlice[0], dirStringSlice[len(dirStringSlice) - 1])
             actual_samples.add(dirString)
 
     difference = expected_samples.difference(actual_samples)

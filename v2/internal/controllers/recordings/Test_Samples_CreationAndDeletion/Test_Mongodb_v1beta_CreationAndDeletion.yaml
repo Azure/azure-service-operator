@@ -72,7 +72,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "179"
+      - "163"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -80,21 +80,21 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account?api-version=2021-05-15
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West
-      Central US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Creating","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"08b2784f-e4e7-4178-9b7e-a67e10202604","databaseAccountOfferType":"Standard","defaultIdentity":"","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Invalid"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West Central
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Creating","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"25ca36ef-99ae-4b8a-a26f-af068d5b33ae","databaseAccountOfferType":"Standard","defaultIdentity":"","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Invalid"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/operationResults/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/operationResults/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -116,7 +116,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -146,7 +146,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -176,7 +176,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -206,7 +206,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -236,7 +236,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -266,7 +266,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/5e066dea-9618-4c19-8c98-a6973066796b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/296b66f7-e43f-4079-9a98-f197deca0c10?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -299,12 +299,12 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West
-      Central US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-mongodb-account.documents.azure.com:443/","mongoEndpoint":"https://sample-mongodb-account.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"08b2784f-e4e7-4178-9b7e-a67e10202604","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West Central
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-mongodb-account.documents.azure.com:443/","mongoEndpoint":"https://sample-mongodb-account.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"25ca36ef-99ae-4b8a-a26f-af068d5b33ae","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -336,12 +336,12 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West
-      Central US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-mongodb-account.documents.azure.com:443/","mongoEndpoint":"https://sample-mongodb-account.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"08b2784f-e4e7-4178-9b7e-a67e10202604","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West
-      Central US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account","name":"sample-mongodb-account","location":"West Central
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-mongodb-account.documents.azure.com:443/","mongoEndpoint":"https://sample-mongodb-account.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"25ca36ef-99ae-4b8a-a26f-af068d5b33ae","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","documentEndpoint":"https://sample-mongodb-account-westcentralus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-mongodb-account-westcentralus","locationName":"West Central
+      US","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -401,7 +401,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "164"
+      - "156"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -412,7 +412,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/b8176a50-c0dc-49c7-84e0-424d0bc1b3f9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/46571352-6cd9-4380-b342-bb0e94ef5508?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -420,7 +420,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/operationResults/b8176a50-c0dc-49c7-84e0-424d0bc1b3f9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/operationResults/46571352-6cd9-4380-b342-bb0e94ef5508?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -440,37 +440,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/b8176a50-c0dc-49c7-84e0-424d0bc1b3f9?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Dequeued"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/b8176a50-c0dc-49c7-84e0-424d0bc1b3f9?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/46571352-6cd9-4380-b342-bb0e94ef5508?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -557,13 +527,53 @@ interactions:
     code: 200
     duration: ""
 - request:
+    body: '{"name":"default","properties":{"resource":{"autoscaleSettings":{"maxThroughput":4000}}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "89"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
+    method: PUT
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/947ca6f3-50f1-4cd1-80c2-5806a1b7cd2c?api-version=2021-05-15
+      Cache-Control:
+      - no-store, no-cache
+      Content-Length:
+      - "21"
+      Content-Type:
+      - application/json
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default/operationResults/947ca6f3-50f1-4cd1-80c2-5806a1b7cd2c?api-version=2021-05-15
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
     body: '{"location":"westcentralus","name":"sample-mongo-collection","properties":{"options":{"throughput":400},"resource":{"id":"sample-mongo-collection","indexes":[{"key":{"keys":["_id"]},"options":{"unique":true}},{"key":{"keys":["col1","col2"]},"options":{"unique":false}}]}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "273"
+      - "265"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -574,7 +584,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/f3eae890-4e86-4ce3-a948-63e43b7e8941?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/4f117aa3-881e-49ac-9bdc-f3c6379d96f9?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -582,7 +592,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/operationResults/f3eae890-4e86-4ce3-a948-63e43b7e8941?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/operationResults/4f117aa3-881e-49ac-9bdc-f3c6379d96f9?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -602,10 +612,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/f3eae890-4e86-4ce3-a948-63e43b7e8941?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/947ca6f3-50f1-4cd1-80c2-5806a1b7cd2c?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Enqueued"}'
+    body: '{"status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -631,8 +641,70 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"wBfz","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/f3eae890-4e86-4ce3-a948-63e43b7e8941?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"wBfz","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/4f117aa3-881e-49ac-9bdc-f3c6379d96f9?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -736,7 +808,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/47df85a6-53cd-4390-8229-fe8460527921?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/ca9a54ab-3368-4303-8878-a1ab55b4f607?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -744,7 +816,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default/operationResults/47df85a6-53cd-4390-8229-fe8460527921?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default/operationResults/ca9a54ab-3368-4303-8878-a1ab55b4f607?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -764,37 +836,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/47df85a6-53cd-4390-8229-fe8460527921?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Enqueued"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/47df85a6-53cd-4390-8229-fe8460527921?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/ca9a54ab-3368-4303-8878-a1ab55b4f607?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -827,7 +869,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"zsCB","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"KNGS","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -859,139 +901,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"zsCB","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"default","properties":{"resource":{"autoscaleSettings":{"maxThroughput":4000}}}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "89"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
-    method: PUT
-  response:
-    body: '{"status":"Enqueued"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/2df4af49-bfa8-4239-ae8a-2d976460de31?api-version=2021-05-15
-      Cache-Control:
-      - no-store, no-cache
-      Content-Length:
-      - "21"
-      Content-Type:
-      - application/json
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default/operationResults/2df4af49-bfa8-4239-ae8a-2d976460de31?api-version=2021-05-15
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westcentralus/operationsStatus/2df4af49-bfa8-4239-ae8a-2d976460de31?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Succeeded"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Cyyt","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Cyyt","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw/providers/Microsoft.DocumentDB/databaseAccounts/sample-mongodb-account/mongodbDatabases/sample-db-mongodb/collections/sample-mongo-collection/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"KNGS","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1472,6 +1382,36 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw","name":"asotest-rg-tizurw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "16"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tizurw?api-version=2020-06-01
     method: GET
   response:

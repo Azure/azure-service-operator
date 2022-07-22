@@ -388,6 +388,13 @@ func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
 }
 
+// CheckIfResourceExists tries to get the current state of the resource from K8s (not from Azure),
+// and if it does not exist, returns an error.
+func (tc *KubePerTestContext) CheckIfResourceExists(obj client.Object) error {
+	namespacedName := types.NamespacedName{Namespace: tc.Namespace, Name: obj.GetName()}
+	return tc.kubeClient.Get(tc.Ctx, namespacedName, obj)
+}
+
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {

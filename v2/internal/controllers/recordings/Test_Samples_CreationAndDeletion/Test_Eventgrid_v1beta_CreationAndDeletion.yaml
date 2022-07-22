@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-gjnlck","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"name":"asotest-rg-qqarri","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -77,7 +77,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta?api-version=2021-04-01
     method: PUT
   response:
     body: ""
@@ -91,7 +91,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/03428aea-3d9b-4e20-a464-2ad37e8c47ff?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/c59cc740-c34d-45cb-b2e0-665529f3b871?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -111,7 +111,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/03428aea-3d9b-4e20-a464-2ad37e8c47ff?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/c59cc740-c34d-45cb-b2e0-665529f3b871?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -125,7 +125,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/03428aea-3d9b-4e20-a464-2ad37e8c47ff?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/c59cc740-c34d-45cb-b2e0-665529f3b871?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -145,10 +145,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/03428aea-3d9b-4e20-a464-2ad37e8c47ff?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/c59cc740-c34d-45cb-b2e0-665529f3b871?monitor=true&api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","name":"samplekubestoragebeta","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://samplekubestoragebeta.dfs.core.windows.net/","web":"https://samplekubestoragebeta.z4.web.core.windows.net/","blob":"https://samplekubestoragebeta.blob.core.windows.net/","queue":"https://samplekubestoragebeta.queue.core.windows.net/","table":"https://samplekubestoragebeta.table.core.windows.net/","file":"https://samplekubestoragebeta.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","name":"samplekubestoragebeta","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://samplekubestoragebeta.dfs.core.windows.net/","web":"https://samplekubestoragebeta.z4.web.core.windows.net/","blob":"https://samplekubestoragebeta.blob.core.windows.net/","queue":"https://samplekubestoragebeta.queue.core.windows.net/","table":"https://samplekubestoragebeta.table.core.windows.net/","file":"https://samplekubestoragebeta.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -177,10 +177,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta?api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","name":"samplekubestoragebeta","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://samplekubestoragebeta.dfs.core.windows.net/","web":"https://samplekubestoragebeta.z4.web.core.windows.net/","blob":"https://samplekubestoragebeta.blob.core.windows.net/","queue":"https://samplekubestoragebeta.queue.core.windows.net/","table":"https://samplekubestoragebeta.table.core.windows.net/","file":"https://samplekubestoragebeta.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","name":"samplekubestoragebeta","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://samplekubestoragebeta.dfs.core.windows.net/","web":"https://samplekubestoragebeta.z4.web.core.windows.net/","blob":"https://samplekubestoragebeta.blob.core.windows.net/","queue":"https://samplekubestoragebeta.queue.core.windows.net/","table":"https://samplekubestoragebeta.table.core.windows.net/","file":"https://samplekubestoragebeta.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -209,7 +209,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/listKeys?api-version=2021-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/listKeys?api-version=2021-09-01
     method: POST
   response:
     body: '{"keys":[{"creationTime":"2001-02-03T04:05:06Z","keyName":"key1","value":"{KEY}","permissions":"FULL"},{"creationTime":"2001-02-03T04:05:06Z","keyName":"key2","value":"{KEY}","permissions":"FULL"}]}'
@@ -231,7 +231,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11998"
+      - "11999"
     status: 200 OK
     code: 200
     duration: ""
@@ -247,7 +247,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default?api-version=2021-04-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -279,10 +279,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"cors":{"corsRules":[]}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"cors":{"corsRules":[]}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -315,10 +315,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta?api-version=2021-04-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta","name":"samplequeuebeta","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta","name":"samplequeuebeta","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -347,10 +347,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta","name":"samplequeuebeta","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta/queueServices/default/queues/samplequeuebeta","name":"samplequeuebeta","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
     headers:
       Cache-Control:
       - no-cache
@@ -372,7 +372,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"asotestqqarri"}'
+    body: '{"location":"westcentralus","name":"asotestgjnlck"}'
     form: {}
     headers:
       Accept:
@@ -383,13 +383,53 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"properties":{"provisioningState":"Creating","endpoint":null},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri","name":"asotestqqarri","type":"Microsoft.EventGrid/domains"}'
+    body: '{"properties":{"provisioningState":"Creating","endpoint":null},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck","name":"asotestgjnlck","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/452E9B43-5E1F-4D2C-B9B7-DBAF9B8C3C4F?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/114B4F6D-8CB3-42BF-B31D-D961949C28C5?api-version=2020-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"location":"westcentralus","name":"asotestuuzwel"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "51"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"properties":{"provisioningState":"Creating","endpoint":null},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CF888CD7-9557-44F4-98D3-C70EFABBA487?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -417,10 +457,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/452E9B43-5E1F-4D2C-B9B7-DBAF9B8C3C4F?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/114B4F6D-8CB3-42BF-B31D-D961949C28C5?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/452E9B43-5E1F-4D2C-B9B7-DBAF9B8C3C4F?api-version=2020-06-01","name":"452e9b43-5e1f-4d2c-b9b7-dbaf9b8c3c4f","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/114B4F6D-8CB3-42BF-B31D-D961949C28C5?api-version=2020-06-01","name":"114b4f6d-8cb3-42bf-b31d-d961949c28c5","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -447,10 +487,70 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CF888CD7-9557-44F4-98D3-C70EFABBA487?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestqqarri.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"a8ff4ed6-267a-4981-8cba-45aa99b51c92","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri","name":"asotestqqarri","type":"Microsoft.EventGrid/domains"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CF888CD7-9557-44F4-98D3-C70EFABBA487?api-version=2020-06-01","name":"cf888cd7-9557-44f4-98d3-c70efabba487","status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestgjnlck.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"0201c0ee-b397-4212-b41a-dc2de77c4434","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck","name":"asotestgjnlck","type":"Microsoft.EventGrid/topics"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestuuzwel.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"43af2470-1ff1-4882-8858-42205d24cbc3","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains"}'
     headers:
       Cache-Control:
       - no-cache
@@ -479,10 +579,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestqqarri.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"a8ff4ed6-267a-4981-8cba-45aa99b51c92","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri","name":"asotestqqarri","type":"Microsoft.EventGrid/domains"}'
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestuuzwel.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"43af2470-1ff1-4882-8858-42205d24cbc3","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains"}'
     headers:
       Cache-Control:
       - no-cache
@@ -504,28 +604,60 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"asotesteoyquo"}'
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotestgjnlck.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"0201c0ee-b397-4212-b41a-dc2de77c4434","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/topics/asotestgjnlck","name":"asotestgjnlck","type":"Microsoft.EventGrid/topics"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotesteoyquo","properties":{"destination":{"endpointType":"StorageQueue","properties":{"queueName":"samplequeuebeta","resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta"}}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "51"
+      - "296"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"properties":{"provisioningState":"Creating","endpoint":null},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/topics"}'
+    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/microsoft.eventgrid/domains/asotestuuzwel","provisioningState":"Creating","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/eventSubscriptions"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/E7F200C1-B8D9-4820-88CB-D5E52A7CC544?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CC38D0FB-A737-417F-8C18-4C8CF87C05D1?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "322"
+      - "889"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -540,103 +672,13 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "898"
     status: 201 Created
     code: 201
     duration: ""
 - request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/E7F200C1-B8D9-4820-88CB-D5E52A7CC544?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/E7F200C1-B8D9-4820-88CB-D5E52A7CC544?api-version=2020-06-01","name":"e7f200c1-b8d9-4820-88cb-d5e52a7cc544","status":"Succeeded"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotesteoyquo.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"29b54d3c-3393-4359-94dc-e2238fc0a52c","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/topics"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotesteoyquo.westcentralus-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"29b54d3c-3393-4359-94dc-e2238fc0a52c","publicNetworkAccess":"Enabled"},"systemData":null,"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/topics/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/topics"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotestuuzwel"}'
+    body: '{"name":"asotestzfzwyp"}'
     form: {}
     headers:
       Accept:
@@ -647,13 +689,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"properties":{"provisioningState":"Creating"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains/topics"}'
+    body: '{"properties":{"provisioningState":"Creating"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/domains/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/8947ABE9-EF68-4014-9B41-27F872723606?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/7B56EB5E-294B-4D07-BB96-86304B99E803?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -681,10 +723,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/8947ABE9-EF68-4014-9B41-27F872723606?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CC38D0FB-A737-417F-8C18-4C8CF87C05D1?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/8947ABE9-EF68-4014-9B41-27F872723606?api-version=2020-06-01","name":"8947abe9-ef68-4014-9b41-27f872723606","status":"Succeeded"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/CC38D0FB-A737-417F-8C18-4C8CF87C05D1?api-version=2020-06-01","name":"cc38d0fb-a737-417f-8c18-4c8cf87c05d1","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -711,10 +753,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel?api-version=2020-06-01
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/7B56EB5E-294B-4D07-BB96-86304B99E803?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains/topics"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/7B56EB5E-294B-4D07-BB96-86304B99E803?api-version=2020-06-01","name":"7b56eb5e-294b-4d07-bb96-86304b99e803","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -732,8 +774,6 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "899"
     status: 200 OK
     code: 200
     duration: ""
@@ -741,14 +781,42 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/topics/asotestuuzwel","name":"asotestuuzwel","type":"Microsoft.EventGrid/domains/topics"}'
+    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/microsoft.eventgrid/domains/asotestuuzwel","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/eventSubscriptions"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/domains/topics"}'
     headers:
       Cache-Control:
       - no-cache
@@ -772,104 +840,36 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotestzfzwyp","properties":{"destination":{"endpointType":"StorageQueue","properties":{"queueName":"samplequeuebeta","resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta"}}}}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp?api-version=2020-06-01
-    method: PUT
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp?api-version=2020-06-01
+    method: GET
   response:
-    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/microsoft.eventgrid/domains/asotestqqarri","provisioningState":"Creating","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/eventSubscriptions"}'
+    body: '{"properties":{"provisioningState":"Succeeded"},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/topics/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/domains/topics"}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/9E4D31B2-95D9-4C7A-B0C6-D7AB2C876729?api-version=2020-06-01
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "889"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "10"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "899"
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/9E4D31B2-95D9-4C7A-B0C6-D7AB2C876729?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westcentralus/operationsStatus/9E4D31B2-95D9-4C7A-B0C6-D7AB2C876729?api-version=2020-06-01","name":"9e4d31b2-95d9-4c7a-b0c6-d7ab2c876729","status":"Succeeded"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/microsoft.eventgrid/domains/asotestqqarri","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/eventSubscriptions"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
+      - "896"
     status: 200 OK
     code: 200
     duration: ""
@@ -881,10 +881,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/microsoft.eventgrid/domains/asotestqqarri","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck/providers/Microsoft.EventGrid/domains/asotestqqarri/providers/Microsoft.EventGrid/eventSubscriptions/asotestzfzwyp","name":"asotestzfzwyp","type":"Microsoft.EventGrid/eventSubscriptions"}'
+    body: '{"properties":{"topic":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/microsoft.eventgrid/domains/asotestuuzwel","provisioningState":"Succeeded","destination":{"properties":{"resourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.Storage/storageAccounts/samplekubestoragebeta","queueName":"samplequeuebeta"},"endpointType":"StorageQueue"},"filter":{"subjectBeginsWith":"","subjectEndsWith":""},"labels":null,"eventDeliverySchema":"EventGridSchema","retryPolicy":{"maxDeliveryAttempts":30,"eventTimeToLiveInMinutes":1440}},"systemData":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri/providers/Microsoft.EventGrid/domains/asotestuuzwel/providers/Microsoft.EventGrid/eventSubscriptions/asotesteoyquo","name":"asotesteoyquo","type":"Microsoft.EventGrid/eventSubscriptions"}'
     headers:
       Cache-Control:
       - no-cache
@@ -913,7 +913,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -925,7 +925,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHSk5MQ0stV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUFSUkktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -945,10 +945,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -975,10 +975,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1005,10 +1005,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1035,10 +1035,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck","name":"asotest-rg-gjnlck","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri","name":"asotest-rg-qqarri","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1065,10 +1065,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gjnlck?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqarri?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-gjnlck''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qqarri''
       could not be found."}}'
     headers:
       Cache-Control:

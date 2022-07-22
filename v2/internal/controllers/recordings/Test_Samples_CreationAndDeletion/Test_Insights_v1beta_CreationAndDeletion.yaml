@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-ppsmov","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"name":"asotest-rg-yqkoyz","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,13 +13,15 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -28,12 +30,10 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,29 +66,29 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"web","location":"westcentralus","name":"asotestyqkoyz","properties":{"Application_Type":"other"}}'
+    body: '{"kind":"web","location":"westcentralus","name":"asotestppsmov","properties":{"Application_Type":"other"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "100"
+      - "99"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov/providers/Microsoft.Insights/components/asotestyqkoyz?api-version=2020-02-02
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.Insights/components/asotestppsmov?api-version=2020-02-02
     method: PUT
   response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov/providers/microsoft.insights/components/asotestyqkoyz\",\r\n
-      \ \"name\": \"asotestyqkoyz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"3a00f5fe-0000-0600-0000-62d554d70000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotestyqkoyz\",\r\n    \"AppId\": \"87e1f0ea-3162-449d-8c79-aa3dcf930aad\",\r\n
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
+      \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
+      \"\\\"0900367b-0000-0100-0000-62da09440000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"f6b8e861-7b71-489e-ac16-8663bebed68a\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"941cdaeb-ca7d-41da-8bf3-a0fa0e763c26\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=941cdaeb-ca7d-41da-8bf3-a0fa0e763c26;IngestionEndpoint=https://westcentralus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestyqkoyz\",\r\n    \"CreationDate\": \"2022-07-18T12:40:54.7739324+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"19820192-8426-4e6e-a8d4-152fc5193541\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=19820192-8426-4e6e-a8d4-152fc5193541;IngestionEndpoint=https://westcentralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-07-22T02:19:48.2815658+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
@@ -128,18 +128,18 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov/providers/Microsoft.Insights/components/asotestyqkoyz?api-version=2020-02-02
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.Insights/components/asotestppsmov?api-version=2020-02-02
     method: GET
   response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov/providers/microsoft.insights/components/asotestyqkoyz\",\r\n
-      \ \"name\": \"asotestyqkoyz\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
-      \ \"etag\": \"\\\"3a00f5fe-0000-0600-0000-62d554d70000\\\"\",\r\n  \"properties\":
-      {\r\n    \"ApplicationId\": \"asotestyqkoyz\",\r\n    \"AppId\": \"87e1f0ea-3162-449d-8c79-aa3dcf930aad\",\r\n
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
+      \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
+      \"\\\"0900367b-0000-0100-0000-62da09440000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"f6b8e861-7b71-489e-ac16-8663bebed68a\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"941cdaeb-ca7d-41da-8bf3-a0fa0e763c26\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=941cdaeb-ca7d-41da-8bf3-a0fa0e763c26;IngestionEndpoint=https://westcentralus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestyqkoyz\",\r\n    \"CreationDate\": \"2022-07-18T12:40:54.7739324+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"19820192-8426-4e6e-a8d4-152fc5193541\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=19820192-8426-4e6e-a8d4-152fc5193541;IngestionEndpoint=https://westcentralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-07-22T02:19:48.2815658+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
@@ -179,7 +179,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -191,7 +191,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRQUFNNT1YtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZUUtPWVotV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -211,10 +211,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -241,10 +241,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -271,10 +271,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -301,10 +301,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov","name":"asotest-rg-ppsmov","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz","name":"asotest-rg-yqkoyz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -331,10 +331,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ppsmov?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ppsmov''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqkoyz''
       could not be found."}}'
     headers:
       Cache-Control:
