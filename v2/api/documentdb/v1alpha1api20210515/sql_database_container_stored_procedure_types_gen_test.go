@@ -23,6 +23,7 @@ func Test_SqlDatabaseContainerStoredProcedure_WhenConvertedToHub_RoundTripsWitho
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from SqlDatabaseContainerStoredProcedure to hub returns original",

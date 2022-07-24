@@ -22,6 +22,7 @@ func Test_MongodbDatabaseThroughputSetting_WhenConvertedToHub_RoundTripsWithoutL
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from MongodbDatabaseThroughputSetting to hub returns original",

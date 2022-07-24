@@ -22,6 +22,7 @@ func Test_StorageAccountsQueueService_WhenConvertedToHub_RoundTripsWithoutLoss(t
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from StorageAccountsQueueService to hub returns original",

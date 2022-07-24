@@ -23,6 +23,7 @@ func Test_FlexibleServersDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *te
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from FlexibleServersDatabase to hub returns original",

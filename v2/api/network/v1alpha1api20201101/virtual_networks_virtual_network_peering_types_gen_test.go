@@ -23,6 +23,7 @@ func Test_VirtualNetworksVirtualNetworkPeering_WhenConvertedToHub_RoundTripsWith
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from VirtualNetworksVirtualNetworkPeering to hub returns original",

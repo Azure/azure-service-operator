@@ -23,6 +23,7 @@ func Test_SqlDatabaseContainerThroughputSetting_WhenConvertedToHub_RoundTripsWit
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from SqlDatabaseContainerThroughputSetting to hub returns original",

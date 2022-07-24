@@ -23,6 +23,7 @@ func Test_RedisEnterprise_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T)
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from RedisEnterprise to hub returns original",

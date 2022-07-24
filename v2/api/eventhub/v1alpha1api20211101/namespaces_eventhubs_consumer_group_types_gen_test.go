@@ -23,6 +23,7 @@ func Test_NamespacesEventhubsConsumerGroup_WhenConvertedToHub_RoundTripsWithoutL
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from NamespacesEventhubsConsumerGroup to hub returns original",

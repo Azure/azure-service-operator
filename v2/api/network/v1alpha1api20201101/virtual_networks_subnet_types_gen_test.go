@@ -23,6 +23,7 @@ func Test_VirtualNetworksSubnet_WhenConvertedToHub_RoundTripsWithoutLoss(t *test
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from VirtualNetworksSubnet to hub returns original",
