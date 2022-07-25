@@ -89,13 +89,13 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 }
 
 func processSamples(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject) []client.Object {
-	var samplesSlice []client.Object
+	samplesSlice := make([]client.Object, len(samples))
 
 	for _, resourceObj := range samples {
-		r := resourceObj.(client.Object)
+		obj := resourceObj.(client.Object)
 
 		findRefsAndCreateSecrets(tc, resourceObj)
-		samplesSlice = append(samplesSlice, r)
+		samplesSlice = append(samplesSlice, obj)
 	}
 
 	return samplesSlice
