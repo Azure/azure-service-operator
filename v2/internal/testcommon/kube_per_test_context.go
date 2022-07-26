@@ -169,7 +169,7 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 		}
 
 		result.T.Logf("Deleting resources before test completes. Resources: %s...", namesToDelete)
-		result.DeleteResourcesAndWait(result.tracker.Resources()...)
+		result.deleteResourcesAndWait(result.tracker.Resources()...) // Use internal method here to bypass resource ownership check
 		result.T.Logf("All resources deleted")
 	})
 
@@ -437,7 +437,13 @@ func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 }
 
 // DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
-func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+//func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+//	tc.checkAndPreventParallelDeletion(objs...) // TODO: Do we want to  this or just delete the root resource
+//	tc.deleteResourcesAndWait(objs...)
+//}
+
+// DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
+func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		err := tc.kubeClient.Delete(tc.Ctx, obj)
 		err = client.IgnoreNotFound(err) // If the resource doesn't exist, that's good for us!
@@ -446,6 +452,77 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
+	}
+}
+
+// DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
+func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+	// Protect against deleting resources that have a parent-child relationship in the same request. This is perfectly
+	// fine in the real world, but in many of our recording envtests we can get into a situation where there's a race
+	// during deletion that causes HTTP replay issues. The sequence of events is:
+	// 1. Delete parent resource and child resource at the same time.
+	// 2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
+	//    after the child that we just record a successful DELETE for the parent and don't bother sending the final child
+	//    DELETE that would return success.
+	// 3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
+	//    in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
+	//    (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+	oids := make(map[types.UID]client.Object)
+	for _, obj := range objs {
+		oids[obj.GetUID()] = obj
+	}
+
+	var roots []client.Object
+
+	for _, obj := range objs {
+		refs := obj.GetOwnerReferences()
+		foundOwner := false
+		for _, ref := range refs {
+			if _, ok := oids[ref.UID]; ok {
+				foundOwner = true
+			}
+		}
+		if !foundOwner {
+			roots = append(roots, obj)
+		}
+	}
+
+	tc.deleteResourcesAndWait(roots...)
+}
+
+func (tc *KubePerTestContext) checkAndPreventParallelDeletion(objs ...client.Object) {
+	// Protect against deleting resources that have a parent-child relationship in the same request. This is perfectly
+	// fine in the real world, but in many of our recording envtests we can get into a situation where there's a race
+	// during deletion that causes HTTP replay issues. The sequence of events is:
+	// 1. Delete parent resource and child resource at the same time.
+	// 2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
+	//    after the child that we just record a successful DELETE for the parent and don't bother sending the final child
+	//    DELETE that would return success.
+	// 3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
+	//    in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
+	//    (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+	oids := make(map[types.UID]client.Object)
+	for _, obj := range objs {
+		oids[obj.GetUID()] = obj
+	}
+
+	// Note: This is imperfect. If you have a situation like A owns B owns C and you pass just A and C here, we won't detect it
+	for _, obj := range objs {
+		refs := obj.GetOwnerReferences()
+		for _, ref := range refs {
+			if res, ok := oids[ref.UID]; ok {
+				// Don't use a "Contains" or other type assertion here because it leads to a big messy hard to read error
+				tc.Expect(false).To(
+					gomega.BeTrue(),
+					"Cannot delete obj [%T] %s/%s and its owner [%T] %s/%s at the same time",
+					obj,
+					obj.GetNamespace(),
+					obj.GetName(),
+					res,
+					res.GetNamespace(),
+					res.GetName())
+			}
+		}
 	}
 }
 

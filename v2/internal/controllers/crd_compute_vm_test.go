@@ -132,8 +132,8 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.Expect(vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).ToNot(BeNil())
 	tc.Expect(*vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).To(BeTrue())
 
-	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
+	// Delete VM.
+	tc.DeleteResourceAndWait(vm)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))

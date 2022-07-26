@@ -44,7 +44,7 @@ func Test_MissingUserSecret_ReturnsError(t *testing.T) {
 		ContainSubstring("failed resolving secret references: %s/%s does not exist", tc.Namespace, secret.Name))
 
 	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
+	tc.DeleteResourceAndWait(rg)
 }
 
 func Test_MissingSecretKey_ReturnsError(t *testing.T) {
@@ -71,5 +71,5 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 		ContainSubstring("Secret \"%s/%s\" does not contain key \"%s\"", tc.Namespace, secret.Name, secret.Key))
 
 	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
+	tc.DeleteResourceAndWait(rg)
 }

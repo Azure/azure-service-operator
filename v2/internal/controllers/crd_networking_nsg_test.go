@@ -104,7 +104,6 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	}
 
 	tc.CreateResourcesAndWait(rule1, rule2)
-	defer tc.DeleteResourcesAndWait(rule1, rule2)
 
 	tc.Expect(rule1.Status.Id).ToNot(BeNil())
 	tc.Expect(rule2.Status.Id).ToNot(BeNil())

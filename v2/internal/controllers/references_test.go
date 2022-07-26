@@ -42,5 +42,6 @@ func Test_MissingCrossResourceReference_ReturnsError(t *testing.T) {
 			networkInterface.Name)))
 
 	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
+	tc.DeleteResourcesAndWait(vm, networkInterface, subnet)
+	tc.DeleteResourcesAndWait(vnet, rg)
 }
