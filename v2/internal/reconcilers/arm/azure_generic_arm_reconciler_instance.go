@@ -542,3 +542,16 @@ func ConvertToARMResourceImpl(
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
 	return result, nil
 }
+
+// MustGetAPIVersion returns the ARM API version for the resource we're reconciling
+func (r *azureDeploymentReconcilerInstance) MustGetAPIVersion() string {
+	metaObject := r.Obj
+	scheme := r.ResourceResolver.Scheme()
+
+	apiVersion, err := genruntime.GetAPIVersion(metaObject, scheme)
+	if err != nil {
+		panic(err)
+	}
+
+	return apiVersion
+}
