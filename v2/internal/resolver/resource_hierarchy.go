@@ -20,6 +20,7 @@ type ResourceHierarchyRoot string
 const (
 	ResourceHierarchyRootResourceGroup = ResourceHierarchyRoot("ResourceGroup")
 	ResourceHierarchyRootSubscription  = ResourceHierarchyRoot("Subscription")
+	ResourceHierarchyRootTenant        = ResourceHierarchyRoot("Tenant")
 )
 
 // If we wanted to type-assert we'd have to solve some circular dependency problems... for now this is ok.
@@ -48,7 +49,7 @@ func (h ResourceHierarchy) Location() (string, error) {
 		return "", errors.Errorf("not rooted in a subscription: %s", rootKind)
 	}
 
-	// There's an assumption here that the top
+	// There's an assumption here that the root resource has a location
 	locatable, ok := h[0].(genruntime.LocatableResource)
 	if !ok {
 		return "", errors.Errorf("root does not implement LocatableResource: %T", h[0])
@@ -68,6 +69,7 @@ func (h ResourceHierarchy) AzureName() string {
 	return azureNames[len(azureNames)-1]
 }
 
+// TODO: It's a bit awkward that this takes a subscriptionID parameter but does nothing with it in the tenant scope case
 // FullyQualifiedARMID returns the fully qualified ARM ID of the resource
 func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, error) {
 	lastResource := h[len(h)-1]
@@ -93,10 +95,11 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 
 	azureNames := h.getAzureNames()
 
-	switch h.RootKind() {
+	rootKind := h.RootKind()
+	switch rootKind {
 	case ResourceHierarchyRootSubscription:
-		// This is currently a special case as the only resource like this is ResourceGroup and ResourceGroup itself
-		// is a bit funky because it doesn't have a /providers like everything else does...
+		// TODO: This is currently a special case as the only resource like this is ResourceGroup and ResourceGroup itself
+		// TODO: is a bit funky because it doesn't have a /providers like everything else does...
 		return genericarmclient.MakeResourceGroupID(subscriptionID, azureNames[0]), nil
 	case ResourceHierarchyRootResourceGroup:
 		rgName := azureNames[0]
@@ -122,23 +125,50 @@ func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, e
 		// Join them together
 		interleaved := genruntime.InterleaveStrSlice(resourceTypes, remainingNames)
 		return genericarmclient.MakeResourceGroupScopeARMID(subscriptionID, rgName, provider, interleaved...)
+	case ResourceHierarchyRootTenant:
+		// The only resource we actually care about for figuring out resource types is the
+		// most derived resource
+		res := h[len(h)-1]
+		provider, resourceTypes, err := getResourceTypeAndProvider(res)
+		if err != nil {
+			return "", err
+		}
+
+		// Ensure that we have the same number of names and types
+		if len(azureNames) != len(resourceTypes) {
+			return "", errors.Errorf(
+				"could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
+				len(azureNames),
+				len(resourceTypes),
+				azureNames,
+				resourceTypes)
+		}
+		// Join them together
+		interleaved := genruntime.InterleaveStrSlice(resourceTypes, azureNames)
+		return genericarmclient.MakeTenantScopeARMID(provider, interleaved...)
 	default:
-		return "", errors.Errorf("unknown root kind %q", h.RootKind())
+		return "", errors.Errorf("unknown root kind %q", rootKind)
 	}
 }
 
+// RootKind returns the ResourceHierarchyRoot type of the hierarchy.
+// There are 4 cases here:
+// 1. The hierarchy is comprised solely of a resource group. This is subscription rooted.
+// 2. The hierarchy has multiple entries and roots up to a resource group. This is Resource Group rooted.
+// 3. The hierarchy has multiple entries and doesn't root up to a resource group. This is subscription rooted.
+// 4. The hierarchy roots up to a tenant scope resource. This is tenant rooted.
 func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
-	// There are 3 cases here:
-	// 1. The hierarchy is comprised solely of a resource group. This is subscription rooted.
-	// 1. The hierarchy has multiple entries and roots up to a resource group. This is RG rooted.
-	// 2. The hierarchy has multiple entries and doesn't root up to a resource group. This is subscription rooted.
-
 	if len(h) == 0 {
 		panic("resource hierarchy cannot be len 0")
 	}
-	gvk := h[0].GetObjectKind().GroupVersionKind()
-	if gvk.Kind == ResourceGroupKind && gvk.Group == ResourceGroupGroup {
-		if len(h) == 1 { // Just resource group
+
+	scope := h[0].GetResourceScope()
+	if scope == genruntime.ResourceScopeTenant {
+		return ResourceHierarchyRootTenant
+	}
+
+	if scope == genruntime.ResourceScopeLocation {
+		if len(h) == 1 { // Just the location scope resource
 			return ResourceHierarchyRootSubscription
 		}
 		return ResourceHierarchyRootResourceGroup

@@ -23,6 +23,7 @@ import (
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
 
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -48,6 +49,7 @@ func NewTestResolver(client kubeclient.Client) (*resolver.Resolver, error) {
 		registration.NewStorageType(new(storage.StorageAccount)),
 		registration.NewStorageType(new(storage.StorageAccountsBlobService)),
 		registration.NewStorageType(new(mysql.FlexibleServer)),
+		registration.NewStorageType(new(subscription.Alias)),
 	}
 	err := res.IndexStorageTypes(client.Scheme(), objs)
 	if err != nil {
@@ -89,6 +91,22 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 		},
 		Spec: resources.ResourceGroupSpec{
 			Location:  to.StringPtr("West US"),
+			AzureName: name, // defaulter webhook will copy Name to AzureName
+		},
+	}
+}
+
+func createSubscription(name string) *subscription.Alias {
+	return &subscription.Alias{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Alias",
+			APIVersion: subscription.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: subscription.Aliases_Spec{
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
 	}
@@ -204,6 +222,15 @@ func createExtensionResourceOnDeepHierarchyInResourceGroup(rgName string, parent
 	return append(hierarchy, extension)
 }
 
+func createExtensionResourceOnTenantScopeResource(subscriptionName string, name string) resolver.ResourceHierarchy {
+
+	sub := createSubscription(subscriptionName)
+	gvk := sub.GetObjectKind().GroupVersionKind()
+	ext := createSimpleExtensionResource(name, sub.GetName(), gvk)
+
+	return resolver.ResourceHierarchy{sub, ext}
+}
+
 func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -214,6 +241,24 @@ func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 
 	resourceGroupName := "myrg"
 	a := createResourceGroup(resourceGroupName)
+
+	hierarchy, err := test.resolver.ResolveResourceHierarchy(ctx, a)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(len(hierarchy)).To(Equal(1))
+	g.Expect(hierarchy[0].GetName()).To(Equal(a.Name))
+	g.Expect(hierarchy[0].GetNamespace()).To(Equal(a.Namespace))
+}
+
+func Test_ResolveResourceHierarchy_TenantScopeResourceOnly(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	subscriptionName := "mysub"
+	a := createSubscription(subscriptionName)
 
 	hierarchy, err := test.resolver.ResolveResourceHierarchy(ctx, a)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -446,6 +491,7 @@ func createTestScheme() *runtime.Scheme {
 	_ = batch.AddToScheme(s)
 	_ = storage.AddToScheme(s)
 	_ = mysql.AddToScheme(s)
+	_ = subscription.AddToScheme(s)
 	_ = v1.AddToScheme(s)
 
 	return s
