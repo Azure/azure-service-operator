@@ -15,6 +15,7 @@ import (
 
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -142,6 +143,8 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 
 	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
 	match := NewKubeMatcher(verify, context)
+
+	format.MaxLength = 0 // Disable output truncation
 
 	result := &KubePerTestContext{
 		KubeGlobalContext:   &ctx,
