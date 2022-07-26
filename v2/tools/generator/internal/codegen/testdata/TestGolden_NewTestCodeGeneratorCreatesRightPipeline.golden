@@ -27,6 +27,7 @@ replaceAnyTypeWithJSON                               Replace properties using in
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
 makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
+applyResourceScopeInterfaces              azure      Ensures that resources implement the correct resource scope interfaces
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources

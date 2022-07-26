@@ -56,6 +56,7 @@ var (
 
 	// Type names - GenRuntime
 	KubernetesResourceType           = MakeTypeName(GenRuntimeReference, "KubernetesResource")
+	TenantResourceType               = MakeTypeName(GenRuntimeReference, "TenantResource")
 	ConvertibleSpecInterfaceType     = MakeTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType   = MakeTypeName(GenRuntimeReference, "ConvertibleStatus")
 	ResourceReferenceType            = MakeTypeName(GenRuntimeReference, "ResourceReference")

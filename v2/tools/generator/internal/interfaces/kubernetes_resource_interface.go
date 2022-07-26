@@ -34,10 +34,12 @@ func AddKubernetesResourceInterfaceImpls(
 	r := resolved.ResourceType
 
 	// Check the spec first to ensure it looks how we expect
-	ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
-	_, ok := spec.Property(ownerProperty)
-	if !ok {
-		return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
+	if r.Kind() == astmodel.ResourceKindNormal || r.Kind() == astmodel.ResourceKindExtension {
+		ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
+		_, ok := spec.Property(ownerProperty)
+		if !ok {
+			return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
+		}
 	}
 
 	azureNameProp, ok := spec.Property(astmodel.AzureNameProperty)
@@ -312,6 +314,9 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 
 			fn.AddStatements(
 				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
+		case astmodel.ResourceKindTenant:
+			// Tenant resources never have an owner, just return nil
+			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
 		default:
 			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
 		}
@@ -336,6 +341,8 @@ func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.Obje
 			resourceKind = "ResourceKindNormal"
 		case astmodel.ResourceKindExtension:
 			resourceKind = "ResourceKindExtension"
+		case astmodel.ResourceKindTenant:
+			resourceKind = "ResourceKindTenant"
 		default:
 			panic(fmt.Sprintf("unknown resource kind %s", r.Kind()))
 		}

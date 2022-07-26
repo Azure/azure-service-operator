@@ -18,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
 
+// ResourceKind is the scope the resource is deployed at.
 type ResourceKind string
 
 const (
@@ -25,6 +26,8 @@ const (
 	ResourceKindNormal = ResourceKind("normal")
 	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
 	ResourceKindExtension = ResourceKind("extension")
+	// ResourceKindTenant is an ARM resource at the tenant level (subscription, managementGroup, etc)
+	ResourceKindTenant = ResourceKind("tenant")
 )
 
 // ResourceType represents a Kubernetes CRD resource which has both

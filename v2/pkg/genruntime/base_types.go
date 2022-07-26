@@ -16,9 +16,11 @@ type ResourceKind string
 
 const (
 	// ResourceKindNormal is a standard ARM resource.
-	ResourceKindNormal = ResourceKind("normal")
+	ResourceKindNormal = ResourceKind("normal") // TODO: Rename this to ResourceGroup?
 	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
 	ResourceKindExtension = ResourceKind("extension")
+	// ResourceKindTenant is an Azure resource rooted to the tenant (subscription, managementGroup, etc)
+	ResourceKindTenant = ResourceKind("tenant")
 )
 
 // TODO: It's weird that this is isn't with the other annotations

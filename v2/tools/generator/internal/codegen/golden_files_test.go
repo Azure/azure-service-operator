@@ -218,13 +218,12 @@ func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
 	path string) *pipeline.Stage {
-	source := configuration.SchemaURL
 
 	return pipeline.NewStage(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
-			klog.V(0).Infof("Loading JSON schema %q", source)
+			klog.V(0).Infof("Loading test schema from %q", path)
 
 			inputFile, err := ioutil.ReadFile(path)
 			if err != nil {
