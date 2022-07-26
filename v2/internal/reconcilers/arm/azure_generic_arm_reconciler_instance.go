@@ -116,7 +116,12 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 		return conditions.NewReadyConditionImpactingError(azureErr, conditions.ConditionSeverityWarning, core.UnknownErrorCode)
 	}
 
-	classifier := extensions.CreateErrorClassifier(r.Extension, ClassifyCloudError, r.MustGetAPIVersion(), r.Log)
+	apiVersion, verr := r.GetAPIVersion()
+	if verr != nil {
+		return errors.Wrapf(verr, "error getting api version for resource %s while making Ready condition", r.Obj.GetName())
+	}
+
+	classifier := extensions.CreateErrorClassifier(r.Extension, ClassifyCloudError, apiVersion, r.Log)
 	details, err := classifier(cloudError)
 	if err != nil {
 		return errors.Wrapf(
@@ -211,8 +216,13 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 		return ctrl.Result{}, err
 	}
 
+	apiVersion, verr := r.GetAPIVersion()
+	if verr != nil {
+		return ctrl.Result{}, errors.Wrapf(verr, "error getting api version for resource %s while starting deletion of resource", r.Obj.GetName())
+	}
+
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.MustGetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, apiVersion)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
@@ -233,8 +243,13 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 		return ctrl.Result{}, errors.Errorf("can't MonitorDelete a resource without a resource ID")
 	}
 
+	apiVersion, verr := r.GetAPIVersion()
+	if verr != nil {
+		return ctrl.Result{}, errors.Wrapf(verr, "error getting api version for resource %s while monitoring deletion of resource", r.Obj.GetName())
+	}
+
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, r.MustGetAPIVersion())
+	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, apiVersion)
 	if err != nil {
 		if retryAfter != 0 {
 			r.Log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -378,8 +393,13 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
 
+	apiVersion, verr := r.GetAPIVersion()
+	if verr != nil {
+		return nil, zeroDuration, errors.Wrapf(verr, "error getting api version for resource %s while getting status", r.Obj.GetName())
+	}
+
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.MustGetAPIVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetByID(ctx, id, apiVersion, armStatus)
 	if err != nil {
 		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 	}
@@ -491,16 +511,15 @@ func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context
 // a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
 func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx context.Context) (genruntime.ARMResource, error) {
 	metaObject := r.Obj
-	resolver := r.ResourceResolver
-	scheme := resolver.Scheme()
+	scheme := r.ResourceResolver.Scheme()
 
-	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, resolver, r.ARMClient.SubscriptionID())
+	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, r.ResourceResolver, r.ARMClient.SubscriptionID())
 	if err != nil {
 		return nil, err
 	}
 
 	// Run any resource-specific extensions
-	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, resolver, r.Log)
+	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, r.ResourceResolver, r.Log)
 	return modifier(ctx, metaObject, result)
 }
 
@@ -545,15 +564,10 @@ func ConvertToARMResourceImpl(
 	return result, nil
 }
 
-// MustGetAPIVersion returns the ARM API version for the resource we're reconciling
-func (r *azureDeploymentReconcilerInstance) MustGetAPIVersion() string {
+// GetAPIVersion returns the ARM API version for the resource we're reconciling
+func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 	metaObject := r.Obj
 	scheme := r.ResourceResolver.Scheme()
 
-	apiVersion, err := genruntime.GetAPIVersion(metaObject, scheme)
-	if err != nil {
-		panic(err)
-	}
-
-	return apiVersion
+	return genruntime.GetAPIVersion(metaObject, scheme)
 }
