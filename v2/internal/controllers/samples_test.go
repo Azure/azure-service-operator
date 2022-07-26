@@ -12,12 +12,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 const samplesPath = "../../config/samples"
@@ -46,6 +47,7 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	_ = filepath.WalkDir(samplesPath,
 		func(filePath string, info os.DirEntry, err error) error {
+
 			if info.IsDir() && !testcommon.IsExclusion(filePath, skipTests) {
 				basePath := filepath.Base(filePath)
 				// proceed only if the base path is the matching versions.
@@ -89,7 +91,7 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 }
 
 func processSamples(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject) []client.Object {
-	samplesSlice := make([]client.Object, len(samples))
+	samplesSlice := make([]client.Object, 0, len(samples))
 
 	for _, resourceObj := range samples {
 		obj := resourceObj.(client.Object)

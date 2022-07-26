@@ -14,11 +14,12 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
+
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
