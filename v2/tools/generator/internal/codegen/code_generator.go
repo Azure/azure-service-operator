@@ -124,7 +124,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
-		pipeline.ImproveResourcePluralization(),
+		pipeline.ImproveResourcePluralization(idFactory),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
