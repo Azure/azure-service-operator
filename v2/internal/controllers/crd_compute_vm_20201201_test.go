@@ -102,6 +102,8 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	tc.AzureRegion = to.StringPtr("westeurope")
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
