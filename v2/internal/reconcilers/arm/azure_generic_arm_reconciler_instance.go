@@ -116,7 +116,7 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 		return conditions.NewReadyConditionImpactingError(azureErr, conditions.ConditionSeverityWarning, core.UnknownErrorCode)
 	}
 
-	classifier := extensions.CreateErrorClassifier(r.Extension, ClassifyCloudError, r.Obj.GetAPIVersion(), r.Log)
+	classifier := extensions.CreateErrorClassifier(r.Extension, ClassifyCloudError, r.MustGetAPIVersion(), r.Log)
 	details, err := classifier(cloudError)
 	if err != nil {
 		return errors.Wrapf(
@@ -212,7 +212,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.Obj.GetAPIVersion())
+	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, r.MustGetAPIVersion())
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
@@ -234,7 +234,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	}
 
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, r.Obj.GetAPIVersion())
+	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, r.MustGetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.Log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -265,7 +265,8 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	r.Log.V(Status).Info("About to send resource to Azure")
 
 	// Try to create the resource
-	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
+	spec := armResource.Spec()
+	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), spec.GetAPIVersion(), spec)
 	if err != nil {
 		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
@@ -378,7 +379,7 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.Obj.GetAPIVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.MustGetAPIVersion(), armStatus)
 	if err != nil {
 		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 	}
@@ -497,6 +498,7 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 	if err != nil {
 		return nil, err
 	}
+
 	// Run any resource-specific extensions
 	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, resolver, r.Log)
 	return modifier(ctx, metaObject, result)
