@@ -12,7 +12,7 @@ import (
 )
 
 // ImproveResourcePluralization improves pluralization for resources
-func ImproveResourcePluralization() *Stage {
+func ImproveResourcePluralization(idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewLegacyStage(
 		"pluralizeNames",
 		"Improve resource pluralization",
@@ -23,7 +23,7 @@ func ImproveResourcePluralization() *Stage {
 
 			for _, typeDef := range definitions {
 				if resourceType, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					newTypeName := typeDef.Name().Singular()
+					newTypeName := typeDef.Name().Singular(idFactory)
 					// check if there is already a resource with this name
 					if _, ok := definitions[newTypeName]; !ok {
 						// not found: rename the resource
@@ -33,7 +33,7 @@ func ImproveResourcePluralization() *Stage {
 
 					// Need to update owner ref too if applicable
 					if resourceType.Owner() != nil {
-						owner := resourceType.Owner().Singular()
+						owner := resourceType.Owner().Singular(idFactory)
 						resourceType = resourceType.WithOwner(&owner)
 						typeDef = typeDef.WithType(resourceType)
 					}
