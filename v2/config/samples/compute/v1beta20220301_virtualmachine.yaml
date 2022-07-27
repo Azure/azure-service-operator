@@ -7,7 +7,7 @@ spec:
     additionalcapabilities: null
     applicationprofile: null
     availabilityset: null
-    azurename: asotest-vm-ljhvpw
+    azurename: asosample-vm
     billingprofile: null
     capacityreservation: null
     diagnosticsprofile:
@@ -34,11 +34,10 @@ spec:
               reference:
                 group: network.azure.com
                 kind: NetworkInterface
-                name: asotest-nic-dajxvb
-                armid: ""
+                name: samplenic
     osprofile:
         adminpassword:
-            name: asotest-vmsecret-jnczcw
+            name: asosample-vmsecret
             key: password
         adminusername: bloom
         allowextensionoperations: null
@@ -49,7 +48,7 @@ spec:
         secrets: []
         windowsconfiguration: null
     owner:
-        name: asotest-rg-zlljte
+        name: asosample-rg
     plan: null
     platformfaultdomain: null
     priority: null

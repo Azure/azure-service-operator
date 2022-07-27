@@ -4,12 +4,11 @@ metadata:
   name: aso-sample-image
   namespace: default
 spec:
-    azurename: asotest-image-hkobbe
     extendedlocation: null
     hypervgeneration: V2
     location: westus2
     owner:
-        name: asotest-rg-hitcxz
+        name: aso-sample-rg
     sourcevirtualmachine: null
     storageprofile:
         datadisks: []
@@ -23,7 +22,7 @@ spec:
             ostype: Linux
             snapshot:
                 reference:
-                    armid: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/asotest-rg-hitcxz/providers/Microsoft.Compute/snapshots/asotest-snapshot-pcngac
+                    armid: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Compute/snapshots/aso-sample-snapshot
             storageaccounttype: null
         zoneresilient: null
     tags: {}
