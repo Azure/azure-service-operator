@@ -81,3 +81,13 @@ func NewEmptyVersionedResourceFromGVK(scheme *runtime.Scheme, gvk schema.GroupVe
 	// Return the empty resource
 	return mo, nil
 }
+
+// GetAPIVersion returns the ARM API version that should be used with the resource
+func GetAPIVersion(metaObject ARMMetaObject, scheme *runtime.Scheme) (string, error) {
+	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
+	if err != nil {
+		return "", errors.Wrapf(err, "unable return API version for %s", metaObject.GetObjectKind().GroupVersionKind())
+	}
+
+	return rsrc.GetAPIVersion(), nil
+}
