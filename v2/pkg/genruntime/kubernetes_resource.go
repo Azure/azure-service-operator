@@ -31,8 +31,8 @@ type KubernetesResource interface {
 	// Microsoft.Network/networkSecurityGroups/securityRules
 	GetType() string
 
-	// GetResourceKind returns the ResourceKind of the resource.
-	GetResourceKind() ResourceKind
+	// GetResourceScope returns the ResourceScope of the resource.
+	GetResourceScope() ResourceScope
 
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)

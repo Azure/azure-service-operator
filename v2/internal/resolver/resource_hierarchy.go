@@ -71,9 +71,9 @@ func (h ResourceHierarchy) AzureName() string {
 // FullyQualifiedARMID returns the fully qualified ARM ID of the resource
 func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, error) {
 	lastResource := h[len(h)-1]
-	lastResourceKind := lastResource.GetResourceKind()
+	lastResourceScope := lastResource.GetResourceScope()
 
-	if lastResourceKind == genruntime.ResourceKindExtension {
+	if lastResourceScope == genruntime.ResourceScopeExtension {
 		hierarchy := h[:len(h)-1]
 		parentARMID, err := hierarchy.FullyQualifiedARMID(subscriptionID)
 		if err != nil {
