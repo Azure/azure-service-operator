@@ -75,9 +75,9 @@ func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (group *NamespacesEventhubsConsumerGroup) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (group *NamespacesEventhubsConsumerGroup) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource

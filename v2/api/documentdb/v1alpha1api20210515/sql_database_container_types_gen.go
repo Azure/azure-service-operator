@@ -115,9 +115,9 @@ func (container SqlDatabaseContainer) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (container *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (container *SqlDatabaseContainer) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource

@@ -104,9 +104,9 @@ func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// GetResourceKind returns the kind of the resource
-func (rg *ResourceGroup) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (rg *ResourceGroup) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeLocation
 }
 
 var _ genruntime.LocatableResource = &ResourceGroup{}

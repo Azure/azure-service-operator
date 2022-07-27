@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
+// TODO: Remove this?
 func AddTenantResourceInterface(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory) (astmodel.TypeDefinition, error) {

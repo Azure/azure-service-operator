@@ -12,15 +12,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-type ResourceKind string
+type ResourceScope string
 
 const (
-	// ResourceKindNormal is a standard ARM resource.
-	ResourceKindNormal = ResourceKind("normal") // TODO: Rename this to ResourceGroup?
-	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
-	ResourceKindExtension = ResourceKind("extension")
-	// ResourceKindTenant is an Azure resource rooted to the tenant (subscription, managementGroup, etc)
-	ResourceKindTenant = ResourceKind("tenant")
+	// ResourceScopeLocation is a resource that is deployed into a location
+	ResourceScopeLocation = ResourceScope("location")
+	// ResourceScopeResourceGroup is a resource that is deployed into a resource group
+	ResourceScopeResourceGroup = ResourceScope("resourcegroup")
+	// ResourceScopeExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceScopeExtension = ResourceScope("extension")
+	// ResourceScopeTenant is an Azure resource rooted to the tenant (examples include subscription, managementGroup, etc)
+	ResourceScopeTenant = ResourceScope("tenant")
 )
 
 // TODO: It's weird that this is isn't with the other annotations

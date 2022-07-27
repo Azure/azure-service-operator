@@ -34,7 +34,7 @@ func AddKubernetesResourceInterfaceImpls(
 	r := resolved.ResourceType
 
 	// Check the spec first to ensure it looks how we expect
-	if r.Kind() == astmodel.ResourceKindNormal || r.Kind() == astmodel.ResourceKindExtension {
+	if r.Scope() == astmodel.ResourceScopeResourceGroup || r.Scope() == astmodel.ResourceScopeExtension {
 		ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
 		_, ok := spec.Property(ownerProperty)
 		if !ok {
@@ -62,8 +62,8 @@ func AddKubernetesResourceInterfaceImpls(
 
 	getTypeFunction := functions.NewGetTypeFunction(r.ARMType(), idFactory, functions.ReceiverTypePtr)
 
-	getResourceKindFunction := functions.NewObjectFunction("GetResourceKind", idFactory, newGetResourceKindFunction(r))
-	getResourceKindFunction.AddPackageReference(astmodel.GenRuntimeReference)
+	getResourceScopeFunction := functions.NewObjectFunction("GetResourceScope", idFactory, newGetResourceScopeFunction(r))
+	getResourceScopeFunction.AddPackageReference(astmodel.GenRuntimeReference)
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionTypeName(), r.APIVersionEnumValue(), idFactory)
 
@@ -72,7 +72,7 @@ func AddKubernetesResourceInterfaceImpls(
 		getOwnerProperty,
 		getSpecFunction,
 		getTypeFunction,
-		getResourceKindFunction,
+		getResourceScopeFunction,
 		getAPIVersionFunc,
 	}
 
@@ -302,49 +302,53 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 			kindLocal = "ownerKind"
 		}
 
-		switch r.Kind() {
-		case astmodel.ResourceKindNormal:
+		switch r.Scope() {
+		case astmodel.ResourceScopeResourceGroup:
 			fn.AddStatements(
 				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
 				astbuilder.Returns(createResourceReference(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), receiverIdent)))
-		case astmodel.ResourceKindExtension:
+		case astmodel.ResourceScopeExtension:
 			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
 			group := astbuilder.Selector(owner, "Group")
 			kind := astbuilder.Selector(owner, "Kind")
 
 			fn.AddStatements(
 				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
-		case astmodel.ResourceKindTenant:
+		case astmodel.ResourceScopeTenant:
 			// Tenant resources never have an owner, just return nil
 			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+		case astmodel.ResourceScopeLocation:
+			// Location resources never have an owner, just return nil
+			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
 		default:
-			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
+			panic(fmt.Sprintf("unknown resource kind: %s", r.Scope()))
 		}
 
 		return fn.DefineFunc()
 	}
 }
 
-// newGetResourceKindFunction creates a function that returns the kind of resource.
-// The generated function is a simple getter which will return either genruntime.ResourceKindNormal or genruntime.ResourceKindExtension:
-//	func (<receiver> *<receiver>) Kind() genruntime.ResourceKind {
-//		return genruntime.ResourceKindNormal
+// newGetResourceScopeFunction creates a function that returns the scope of the resource.
+//	func (<receiver> *<receiver>) GetResourceScope() genruntime.ResourceScope {
+//		return genruntime.ResourceScopeResourceGroup
 //	}
-func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func newGetResourceScopeFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
 
-		var resourceKind string
-		switch r.Kind() {
-		case astmodel.ResourceKindNormal:
-			resourceKind = "ResourceKindNormal"
-		case astmodel.ResourceKindExtension:
-			resourceKind = "ResourceKindExtension"
-		case astmodel.ResourceKindTenant:
-			resourceKind = "ResourceKindTenant"
+		var resourceScope string
+		switch r.Scope() {
+		case astmodel.ResourceScopeLocation:
+			resourceScope = "ResourceScopeLocation"
+		case astmodel.ResourceScopeResourceGroup:
+			resourceScope = "ResourceScopeResourceGroup"
+		case astmodel.ResourceScopeExtension:
+			resourceScope = "ResourceScopeExtension"
+		case astmodel.ResourceScopeTenant:
+			resourceScope = "ResourceScopeTenant"
 		default:
-			panic(fmt.Sprintf("unknown resource kind %s", r.Kind()))
+			panic(fmt.Sprintf("unknown resource kind %s", r.Scope()))
 		}
 
 		fn := &astbuilder.FuncDetails{
@@ -354,11 +358,11 @@ func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.Obje
 			Params:        nil,
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
-					astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceKind))),
+					astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceScope))),
 		}
 
-		fn.AddComments("returns the kind of the resource")
-		fn.AddReturn(astmodel.ResourceKindType.AsType(codeGenerationContext))
+		fn.AddComments("returns the scope of the resource")
+		fn.AddReturn(astmodel.ResourceScopeType.AsType(codeGenerationContext))
 
 		return fn.DefineFunc()
 	}

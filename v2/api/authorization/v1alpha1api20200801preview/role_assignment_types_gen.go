@@ -115,9 +115,9 @@ func (assignment RoleAssignment) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (assignment *RoleAssignment) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindExtension
+// GetResourceScope returns the scope of the resource
+func (assignment *RoleAssignment) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeExtension
 }
 
 // GetSpec returns the specification of this resource

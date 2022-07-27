@@ -18,16 +18,18 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
 
-// ResourceKind is the scope the resource is deployed at.
-type ResourceKind string
+// ResourceScope is the scope the resource is deployed at.
+type ResourceScope string
 
 const (
-	// ResourceKindNormal is a standard ARM resource.
-	ResourceKindNormal = ResourceKind("normal")
-	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
-	ResourceKindExtension = ResourceKind("extension")
-	// ResourceKindTenant is an ARM resource at the tenant level (subscription, managementGroup, etc)
-	ResourceKindTenant = ResourceKind("tenant")
+	// ResourceScopeLocation is a resource deployed into a location (subscription + location)
+	ResourceScopeLocation = ResourceScope("location")
+	// ResourceScopeResourceGroup is a standard ARM resource that deploys into a resource group.
+	ResourceScopeResourceGroup = ResourceScope("resourcegroup")
+	// ResourceScopeExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceScopeExtension = ResourceScope("extension")
+	// ResourceScopeTenant is an ARM resource at the tenant level (for example subscription, managementGroup, etc)
+	ResourceScopeTenant = ResourceScope("tenant")
 )
 
 // ResourceType represents a Kubernetes CRD resource which has both
@@ -41,7 +43,7 @@ type ResourceType struct {
 	functions           map[string]Function
 	testcases           map[string]TestCase
 	annotations         []string // TODO: Consider ensuring that these are actually kubebuilder annotations.
-	kind                ResourceKind
+	scope               ResourceScope
 	armType             string
 	apiVersionTypeName  TypeName
 	apiVersionEnumValue EnumValue
@@ -55,7 +57,7 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 		owner:                nil,
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
-		kind:                 ResourceKindNormal,
+		scope:                ResourceScopeResourceGroup,
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
 
@@ -74,7 +76,7 @@ func IsResourceDefinition(def TypeDefinition) bool {
 // NewAzureResourceType defines a new resource type for Azure. It ensures that
 // the resource has certain expected properties such as type and name.
 // The typeName parameter is just used for logging.
-func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kind ResourceKind) *ResourceType {
+func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, scope ResourceScope) *ResourceType {
 	if objectType, ok := specType.(*ObjectType); ok {
 		// We have certain expectations about structure for resources
 		var nameProperty *PropertyDefinition
@@ -140,7 +142,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		specType = objectType
 	}
 
-	return NewResourceType(specType, statusType).WithKind(kind)
+	return NewResourceType(specType, statusType).WithScope(scope)
 }
 
 // Ensure ResourceType implements the Type interface correctly
@@ -254,10 +256,10 @@ func (resource *ResourceType) WithTestCase(testcase TestCase) *ResourceType {
 	return result
 }
 
-// WithKind returns a new ResourceType with the specified kind
-func (resource *ResourceType) WithKind(kind ResourceKind) *ResourceType {
+// WithScope returns a new ResourceType with the specified scope
+func (resource *ResourceType) WithScope(scope ResourceScope) *ResourceType {
 	result := resource.copy()
-	result.kind = kind
+	result.scope = scope
 	return result
 }
 
@@ -316,7 +318,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 		!TypeEquals(resource.spec, otherResource.spec, override) ||
 		!TypeEquals(resource.status, otherResource.status, override) ||
 		len(resource.annotations) != len(otherResource.annotations) ||
-		resource.kind != otherResource.kind ||
+		resource.scope != otherResource.scope ||
 		resource.armType != otherResource.armType ||
 		!TypeEquals(resource.apiVersionTypeName, otherResource.apiVersionTypeName) ||
 		resource.apiVersionEnumValue.Equals(&otherResource.apiVersionEnumValue) ||
@@ -411,9 +413,9 @@ func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, 
 	return nil, false
 }
 
-// Kind returns the ResourceKind of the resource
-func (resource *ResourceType) Kind() ResourceKind {
-	return resource.kind
+// Scope returns the ResourceScope of the resource
+func (resource *ResourceType) Scope() ResourceScope {
+	return resource.scope
 }
 
 // ARMType returns the ARM Type of the resource. The ARM type is something like Microsoft.Batch/batchAccounts
@@ -697,7 +699,7 @@ func (resource *ResourceType) copy() *ResourceType {
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		annotations:          append([]string(nil), resource.annotations...),
-		kind:                 resource.kind,
+		scope:                resource.scope,
 		armType:              resource.armType,
 		apiVersionTypeName:   resource.apiVersionTypeName,
 		apiVersionEnumValue:  resource.apiVersionEnumValue,

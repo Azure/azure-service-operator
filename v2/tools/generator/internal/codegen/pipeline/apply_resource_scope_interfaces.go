@@ -16,6 +16,7 @@ import (
 
 const ApplyResourceScopeInterfacesStageID = "applyResourceScopeInterfaces"
 
+// TODO: Remove this?
 // ApplyResourceScopeInterfaces ensures that resources implement the correct resource scope interfaces
 func ApplyResourceScopeInterfaces(idFactory astmodel.IdentifierFactory) *Stage {
 	return NewStage(
@@ -26,7 +27,7 @@ func ApplyResourceScopeInterfaces(idFactory astmodel.IdentifierFactory) *Stage {
 
 			for typeName, typeDef := range astmodel.FindResourceDefinitions(state.Definitions()) {
 				resource := typeDef.Type().(*astmodel.ResourceType)
-				if resource.Kind() == astmodel.ResourceKindTenant {
+				if resource.Scope() == astmodel.ResourceScopeTenant {
 					updatedDef, err := interfaces.AddTenantResourceInterface(typeDef, idFactory)
 					if err != nil {
 						return nil, errors.Wrapf(err, "failed to add tenant interface to %s", typeName)
