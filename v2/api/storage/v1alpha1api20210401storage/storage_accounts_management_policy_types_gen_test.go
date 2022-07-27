@@ -22,6 +22,7 @@ func Test_StorageAccountsManagementPolicy_WhenConvertedToHub_RoundTripsWithoutLo
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from StorageAccountsManagementPolicy to hub returns original",

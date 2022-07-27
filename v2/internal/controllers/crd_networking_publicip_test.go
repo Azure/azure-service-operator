@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
@@ -21,22 +22,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Public IP Address
-	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
-	// TODO: depluralization of this resource doesn't work because of the collision.
-	sku := network.PublicIPAddressSkuNameStandard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
-	publicIPAddress := &network.PublicIPAddress{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Sku: &network.PublicIPAddressSku{
-				Name: &sku,
-			},
-			PublicIPAllocationMethod: &allocationMethod,
-		},
-	}
+	publicIPAddress := newPublicIp(tc, testcommon.AsOwner(rg))
 
 	tc.CreateResourceAndWait(publicIPAddress)
 
@@ -57,4 +43,24 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func newPublicIp(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
+	// Public IP Address
+	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
+	// TODO: depluralization of this resource doesn't work because of the collision.
+	sku := network.PublicIPAddressSkuNameStandard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
+
+	return &network.PublicIPAddress{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
+		Spec: network.PublicIPAddresses_Spec{
+			Location: tc.AzureRegion,
+			Owner:    owner,
+			Sku: &network.PublicIPAddressSku{
+				Name: &sku,
+			},
+			PublicIPAllocationMethod: &allocationMethod,
+		},
+	}
 }

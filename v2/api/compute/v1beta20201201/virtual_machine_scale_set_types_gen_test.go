@@ -22,6 +22,7 @@ func Test_VirtualMachineScaleSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *tes
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from VirtualMachineScaleSet to hub returns original",

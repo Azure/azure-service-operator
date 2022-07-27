@@ -22,6 +22,7 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenConvertedToHub_RoundTripsWith
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from NamespacesEventhubsAuthorizationRule to hub returns original",

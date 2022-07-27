@@ -23,6 +23,7 @@ func Test_SqlDatabaseContainerUserDefinedFunction_WhenConvertedToHub_RoundTripsW
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from SqlDatabaseContainerUserDefinedFunction to hub returns original",

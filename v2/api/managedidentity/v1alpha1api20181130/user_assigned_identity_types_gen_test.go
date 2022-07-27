@@ -23,6 +23,7 @@ func Test_UserAssignedIdentity_WhenConvertedToHub_RoundTripsWithoutLoss(t *testi
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from UserAssignedIdentity to hub returns original",
