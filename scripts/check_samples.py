@@ -67,12 +67,12 @@ if __name__ == "__main__":
     actual_samples = set()
 
     for entry in samples_dir.glob("**/*"):
-        dirString = str(entry.relative_to(samples_dir))
+        dir_string = str(entry.relative_to(samples_dir))
         if not entry.is_dir() :
-            dirStringSlice = dirString.split(os.sep)
-            if len(dirStringSlice) > 2:
-                dirString = os.path.join(dirStringSlice[0], dirStringSlice[len(dirStringSlice) - 1])
-            actual_samples.add(dirString)
+            dir_string_slice = dir_string.split(os.sep)
+            if len(dir_string_slice) > 2:
+                dir_string = os.path.join(dir_string_slice[0], dir_string_slice[len(dir_string_slice) - 1])
+            actual_samples.add(dir_string)
 
     difference = expected_samples.difference(actual_samples)
     if difference:
