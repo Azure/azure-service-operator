@@ -36,7 +36,6 @@ pruneResourcesWithLifecycleOwnedByParentStage     azure      Prune embedded reso
 makeOneOfDiscriminantRequired                     azure      Fix one of types to a discriminator which is not omitempty/optional
 applyArmConversionInterface                       azure      Add ARM conversion interfaces to Kubernetes types
 applyKubernetesResourceInterface                  azure      Add the KubernetesResource interface to every resource
-applyResourceScopeInterfaces                      azure      Ensures that resources implement the correct resource scope interfaces
 flattenProperties                                            Apply flattening to properties marked for flattening
 stripUnreferenced                                            Strip unreferenced types
 addStatusConditions                               azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources

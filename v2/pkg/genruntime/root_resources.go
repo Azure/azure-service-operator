@@ -10,10 +10,3 @@ package genruntime
 type LocatableResource interface {
 	Location() string
 }
-
-// TenantResource is a marker interface that indicates that the implementing resource is scoped at the tenant level.
-// Examples are: Subscriptions, Management Groups
-type TenantResource interface {
-	// Tenant is a marker method that indicates the resource in question is a tenant resource
-	Tenant()
-}
