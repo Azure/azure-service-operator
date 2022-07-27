@@ -109,13 +109,6 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
 }
 
-func Test_abc(t *testing.T) {
-	tc := globalTestContext.ForTest(t)
-	rg := tc.NewTestResourceGroup()
-	tc.DeleteResourceAndWait(rg)
-
-}
-
 func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T) {
 	t.Parallel()
 	ns1 := "ns-1"
