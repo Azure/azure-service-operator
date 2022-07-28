@@ -114,11 +114,14 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	ns1 := "ns-1"
 	ns2 := "ns-2"
 
-	tc := globalTestContext.ForTestWithConfig(t, config.Values{
-		OperatorMode:     config.OperatorModeBoth,
-		PodNamespace:     "some-operator",
-		TargetNamespaces: []string{ns1, ns2},
-	})
+	cfg, err := config.ReadFromEnvironment()
+	if err != nil {
+		t.Fatal(err)
+	}
+	cfg.TargetNamespaces = []string{ns1, ns2}
+	cfg.SyncPeriod = nil
+	tc := globalTestContext.ForTestWithConfig(t, cfg)
+
 	createNamespaces(tc, ns1, ns2)
 
 	secretName := tc.Namer.GenerateName("server-secret")
@@ -144,7 +147,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	tc.Expect(resourceID).ToNot(BeEmpty())
 
 	// Deleting server1 here using AzureClient so that Operator does not know about the deletion
-	_, err := tc.AzureClient.DeleteByID(tc.Ctx, resourceID, server1.GetAPIVersion())
+	_, err = tc.AzureClient.DeleteByID(tc.Ctx, resourceID, server1.GetAPIVersion())
 	if err != nil {
 		return
 	}
