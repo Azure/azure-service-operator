@@ -518,6 +518,17 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 		return nil, err
 	}
 
+	// If our current condition was waiting for a reference, but we've successfully resolved the resources we need, then that means
+	// there's no longer any problem. By default Info conditions don't overwrite warning conditions if the ObservedGeneration is the same,
+	// so we force a condition write here to ensure that the user understands their resource is now progressing.
+	// Note that this is only required because ObservedGeneration may not have changed (for example if they created a missing Secret or a missing
+	// Reference nothing about the object being reconciled has changed).
+	ready, found := conditions.GetCondition(metaObject, conditions.ConditionTypeReady)
+	if found && (ready.Reason == conditions.ReasonSecretNotFound || ready.Reason == conditions.ReasonReferenceNotFound) {
+		// TODO: This is a bit of a hack
+		conditions.ForceSetCondition(metaObject, r.PositiveConditions.Ready.Succeeded(metaObject.GetGeneration()))
+	}
+
 	// Run any resource-specific extensions
 	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, r.ResourceResolver, r.Log)
 	return modifier(ctx, metaObject, result)

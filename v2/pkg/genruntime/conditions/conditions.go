@@ -175,7 +175,7 @@ func (c Condition) priority() int {
 		case ConditionSeverityNone:
 			// This shouldn't happen as a Condition with Status False should always specify a severity.
 			// In the interest of safety though, we set this to 5 so if this DOES somehow happen it ties
-			// or wins against most other things and users will se it
+			// or wins against most other things and users will see it
 			return 5
 		}
 	case metav1.ConditionUnknown:
@@ -210,6 +210,16 @@ func (c Condition) String() string {
 // set if the new condition is in a different state than the existing condition of
 // the same type.
 func SetCondition(o Conditioner, new Condition) {
+	setCondition(o, new, false)
+}
+
+// ForceSetCondition sets the provided Condition on the Conditioner. It is set even if
+// the new condition would not normally override the existing condition. Use this sparingly.
+func ForceSetCondition(o Conditioner, new Condition) {
+	setCondition(o, new, true)
+}
+
+func setCondition(o Conditioner, new Condition, force bool) {
 	if o == nil {
 		return
 	}
@@ -217,7 +227,7 @@ func SetCondition(o Conditioner, new Condition) {
 	conditions := o.GetConditions()
 	i, exists := conditions.FindIndexByType(new.Type)
 	if exists {
-		if !new.ShouldOverwrite(conditions[i]) {
+		if !new.ShouldOverwrite(conditions[i]) && !force {
 			// Nothing to do, the new condition is not supposed to overwrite
 			return
 		}
