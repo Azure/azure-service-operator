@@ -177,10 +177,7 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 
 	injectOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if resourceType.Owner() != nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
-			ownerProperty, propErr := c.createOwnerProperty(resourceType.Owner())
-			if propErr != nil {
-				return nil, propErr
-			}
+			ownerProperty := c.createOwnerProperty(resourceType.Owner())
 			t = t.WithProperty(ownerProperty)
 		} else if resourceType.Scope() == astmodel.ResourceScopeExtension {
 			t = t.WithProperty(c.createExtensionResourceOwnerProperty())
@@ -248,7 +245,7 @@ func (c *armConversionApplier) addARMConversionInterface(
 	return result, nil
 }
 
-func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
+func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) *astmodel.PropertyDefinition {
 	grp, _ := ownerTypeName.PackageReference.GroupVersion()
 	group := grp + astmodel.GroupSuffix
 	kind := ownerTypeName.Name()
@@ -266,7 +263,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 	prop = prop.WithTag("kind", kind)
 	prop = prop.MakeRequired() // Owner is always required
 
-	return prop, nil
+	return prop
 }
 
 func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.PropertyDefinition {

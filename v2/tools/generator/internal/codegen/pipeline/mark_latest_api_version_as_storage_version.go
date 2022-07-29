@@ -44,12 +44,7 @@ func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet
 		// see if it is a resource
 		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
 
-			unversionedName, err := getUnversionedName(def.Name())
-			if err != nil {
-				// should never happen as all resources have versioned names
-				return nil, err
-			}
-
+			unversionedName := getUnversionedName(def.Name())
 			allVersionsOfResource := resourceLookup[unversionedName]
 			latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
@@ -81,12 +76,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 		}
 
 		if astmodel.IsResourceDefinition(def) {
-			name, err := getUnversionedName(def.Name())
-			if err != nil {
-				// this should never happen as resources will all have versioned names
-				return nil, errors.Wrapf(err, "Unable to extract unversioned name in groupResources")
-			}
-
+			name := getUnversionedName(def.Name())
 			result[name] = append(result[name], def)
 		}
 	}
@@ -103,10 +93,10 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 	return result, nil
 }
 
-func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
+func getUnversionedName(name astmodel.TypeName) unversionedName {
 	ref := name.PackageReference
 	group, _ := ref.GroupVersion()
-	return unversionedName{group, name.Name()}, nil
+	return unversionedName{group, name.Name()}
 }
 
 type unversionedName struct {
