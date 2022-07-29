@@ -560,11 +560,10 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 func (tc *KubePerTestContext) ExportAsSample(resource runtime.Object) {
 	tc.T.Helper()
 
-	copy := resource.DeepCopyObject()
-	gvk := copy.GetObjectKind().GroupVersionKind()
-	filename := fmt.Sprintf("%s_%s_%s.yaml", gvk.Kind, gvk.Group, gvk.Version)
+	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
 	filepath := path.Join(os.TempDir(), filename)
 
+	copy := resource.DeepCopyObject()
 	err := tc.exportAsYAML(copy, filepath)
 	if err != nil {
 		tc.T.Fatalf("failed to export resource: %s", err)
