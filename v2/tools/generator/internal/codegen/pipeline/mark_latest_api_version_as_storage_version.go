@@ -35,11 +35,7 @@ func MarkLatestAPIVersionAsStorageVersion() *Stage {
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
 func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
-	resourceLookup, err := groupResourcesByVersion(definitions)
-	if err != nil {
-		return nil, err
-	}
-
+	resourceLookup := groupResourcesByVersion(definitions)
 	for _, def := range definitions {
 		// see if it is a resource
 		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
@@ -64,7 +60,7 @@ func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet
 	return result, nil
 }
 
-func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unversionedName][]astmodel.TypeDefinition, error) {
+func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversionedName][]astmodel.TypeDefinition {
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
 	for _, def := range definitions {
@@ -90,7 +86,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 		})
 	}
 
-	return result, nil
+	return result
 }
 
 func getUnversionedName(name astmodel.TypeName) unversionedName {
