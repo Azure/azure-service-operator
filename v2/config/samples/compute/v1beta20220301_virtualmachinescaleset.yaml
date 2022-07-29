@@ -4,43 +4,52 @@ metadata:
   name: samplevmss
   namespace: default
 spec:
-  location: westcentralus
+  location: westeurope
   owner:
     name: aso-sample-rg
-  sku:
-    name: standard_d1_v2
-    capacity: 1
   platformFaultDomainCount: 3
   singlePlacementGroup: false
+  sku:
+    capacity: 1
+    name: STANDARD_D1_v2
   upgradePolicy:
     mode: Automatic
   virtualMachineProfile:
-    storageProfile:
-      imageReference:
-        publisher: Canonical
-        offer: UbuntuServer
-        sku: 18.04-lts
-        version: latest
+    extensionProfile:
+      extensions:
+      - name: mycustomextension
+        publisher: Microsoft.Azure.Extensions
+        settings:
+          commandToExecute: /bin/bash -c "echo hello"
+        type: CustomScript
+        typeHandlerVersion: "2.0"
+    networkProfile:
+      networkInterfaceConfigurations:
+      - ipConfigurations:
+        - loadBalancerInboundNatPools:
+          - reference:
+              armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/inboundNatPools/MyFancyNatPool
+          name: myipconfiguration
+          subnet:
+            reference:
+              group: network.azure.com
+              kind: VirtualNetworksSubnet
+              name: aso-sample-subnet
+        name: mynicconfig
+        primary: true
     osProfile:
-      computerNamePrefix: computer
       adminUsername: adminUser
+      computerNamePrefix: computer
       linuxConfiguration:
         disablePasswordAuthentication: true
         ssh:
           publicKeys:
-            - keyData: ssh-rsa AAAAB  # Specify your SSH public key here
-              path: /home/adminUser/.ssh/authorized_keys
-    networkProfile:
-      networkInterfaceConfigurations:
-        - name: samplenicconfig
-          primary: true
-          ipConfigurations:
-            - name: sampleipconfiguration
-              subnet:
-                reference:
-                  group: network.azure.com
-                  kind: VirtualNetworksSubnet
-                  name: samplesubnet
-              loadBalancerInboundNatPools:
-                - reference:
-                    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancer/inboundNatPools/samplenatpool
+          - keyData: |
+              ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDknXTIQcOeg3Fg/j9ZYK45Sl6PbBdxZrhm7CwOgGMqi6txxhPYXUKJahHvtPBDQFN0cyt0B8jfiey2zU7R0WgXGgBxL9cJYuke1o5DpjdCb4c0hmuqZI8kCfxh5kCaMMn+0JCoAyipCkYQzzhiNoF7/19aW9NZrPa/ybEl1aUy4dkkRkNQIzlwg9zr8PSHHFRUof7+EOtK6s3CHo/n8gWMR912Bg3kNn/Lq1kct+iMTA0S7da0qWXlDNIU0R3fTqCt6vkHVhkOBZYbhC2ZbwwI0u6rkUddy6ju6tnLrzq4GUNOh/Qp3ofItDew7Uwgb2DQKcyGb79fq04LbGpLRRxz
+            path: /home/adminUser/.ssh/authorized_keys
+    storageProfile:
+      imageReference:
+        offer: UbuntuServer
+        publisher: Canonical
+        sku: 18.04-lts
+        version: latest
