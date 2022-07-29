@@ -22,7 +22,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	secrertName := "mysqlsecret"
+	secretName := "mysqlsecret"
 	adminPasswordKey := "adminPassword"
 	secretRef := createPasswordSecret(secrertName, adminPasswordKey, tc)
 
