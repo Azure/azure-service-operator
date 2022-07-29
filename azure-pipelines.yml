@@ -292,7 +292,7 @@ jobs:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          az resource list --tag freeforpipeline=true --query "[?type=='Microsoft.ContainerService/managedClusters'].{Name:name}" -o table > clusters.txt
+          az resource list --tag freeforpipeline=true --query "[?(type == 'Microsoft.ContainerService/managedClusters') || (type == 'microsoft.containerservice/managedclusters')].{Name:name}" -o table > clusters.txt
           clustername=$(tail -n 1 clusters.txt)
           if [ "$clustername" == "" ]; then
             echo AKS clusters unavailable
