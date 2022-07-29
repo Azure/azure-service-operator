@@ -277,6 +277,11 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	if err != nil {
 		return ctrl.Result{}, err
 	}
+
+	// Use conditions.SetConditionReasonAware here to override any Warning conditions set earlier in the reconciliation process.
+	// Note that this call should be done after all validation has passed and all that is left to do is send the payload to ARM.
+	conditions.SetConditionReasonAware(r.Obj, r.PositiveConditions.Ready.Reconciling(r.Obj.GetGeneration()))
+
 	r.Log.V(Status).Info("About to send resource to Azure")
 
 	// Try to create the resource
@@ -516,17 +521,6 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, r.ResourceResolver, r.ARMClient.SubscriptionID())
 	if err != nil {
 		return nil, err
-	}
-
-	// If our current condition was waiting for a reference, but we've successfully resolved the resources we need, then that means
-	// there's no longer any problem. By default Info conditions don't overwrite warning conditions if the ObservedGeneration is the same,
-	// so we force a condition write here to ensure that the user understands their resource is now progressing.
-	// Note that this is only required because ObservedGeneration may not have changed (for example if they created a missing Secret or a missing
-	// Reference nothing about the object being reconciled has changed).
-	ready, found := conditions.GetCondition(metaObject, conditions.ConditionTypeReady)
-	if found && (ready.Reason == conditions.ReasonSecretNotFound || ready.Reason == conditions.ReasonReferenceNotFound) {
-		// TODO: This is a bit of a hack
-		conditions.ForceSetCondition(metaObject, r.PositiveConditions.Ready.Succeeded(metaObject.GetGeneration()))
 	}
 
 	// Run any resource-specific extensions
