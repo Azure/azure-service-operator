@@ -45,7 +45,7 @@ spec:
         ssh:
           publicKeys:
           - keyData: |
-              ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDknXTIQcOeg3Fg/j9ZYK45Sl6PbBdxZrhm7CwOgGMqi6txxhPYXUKJahHvtPBDQFN0cyt0B8jfiey2zU7R0WgXGgBxL9cJYuke1o5DpjdCb4c0hmuqZI8kCfxh5kCaMMn+0JCoAyipCkYQzzhiNoF7/19aW9NZrPa/ybEl1aUy4dkkRkNQIzlwg9zr8PSHHFRUof7+EOtK6s3CHo/n8gWMR912Bg3kNn/Lq1kct+iMTA0S7da0qWXlDNIU0R3fTqCt6vkHVhkOBZYbhC2ZbwwI0u6rkUddy6ju6tnLrzq4GUNOh/Qp3ofItDew7Uwgb2DQKcyGb79fq04LbGpLRRxz
+              ssh-rsa AAAAB # Specify your SSH public key here 
             path: /home/adminUser/.ssh/authorized_keys
     storageProfile:
       imageReference:
