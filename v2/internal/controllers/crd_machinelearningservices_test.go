@@ -60,7 +60,7 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 		},
 	)
 
-	tc.DeleteResourceAndWait(rg) // TODO: Change this back to workspace?
+	tc.DeleteResourceAndWait(rg)
 }
 
 func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machinelearningservices.Workspace) {
