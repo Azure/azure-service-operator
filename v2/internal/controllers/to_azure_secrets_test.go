@@ -8,7 +8,6 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -111,22 +110,21 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 
 func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T) {
 	t.Parallel()
-	ns1 := "ns-1"
-	ns2 := "ns-2"
+	ns1 := "secret-in-different-namespace-ns-1"
+	ns2 := "secret-in-different-namespace-ns-2"
 
-	cfg, err := config.ReadFromEnvironment()
+	cfg, err := testcommon.ReadFromEnvironmentForTest()
 	if err != nil {
 		t.Fatal(err)
 	}
 	cfg.TargetNamespaces = []string{ns1, ns2}
-	cfg.SyncPeriod = nil
 	tc := globalTestContext.ForTestWithConfig(t, cfg)
 
 	createNamespaces(tc, ns1, ns2)
 
 	secretName := tc.Namer.GenerateName("server-secret")
-	secretInCurrentNamespace := createNamespacedSecret(tc, ns1, secretName)
-	secretInDiffNamespace := createNamespacedSecret(tc, ns2, secretName)
+	ns1Secret := createNamespacedSecret(tc, ns1, secretName)
+	ns2Secret := createNamespacedSecret(tc, ns2, secretName)
 
 	rg := tc.NewTestResourceGroup()
 	rg.Namespace = ns1
@@ -136,7 +134,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	rg2.Namespace = ns2
 	tc.CreateResourceGroupAndWait(rg2)
 
-	server1, _ := newFlexibleServer(tc, testcommon.AsOwner(rg), secretInCurrentNamespace)
+	server1, _ := newFlexibleServer(tc, rg, ns1Secret)
 	server1.ObjectMeta = metav1.ObjectMeta{
 		Name:      tc.Namer.GenerateName("mysql"),
 		Namespace: ns1,
@@ -152,7 +150,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 		return
 	}
 
-	server2, _ := newFlexibleServer(tc, testcommon.AsOwner(rg2), secretInDiffNamespace)
+	server2, _ := newFlexibleServer(tc, rg2, ns2Secret)
 	server2.ObjectMeta = metav1.ObjectMeta{
 		Name:      tc.Namer.GenerateName("mysql2"),
 		Namespace: ns2,

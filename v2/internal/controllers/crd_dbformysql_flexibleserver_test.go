@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
@@ -24,9 +25,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	secretName := "mysqlsecret"
 	adminPasswordKey := "adminPassword"
-	secretRef := createPasswordSecret(secrertName, adminPasswordKey, tc)
+	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
 
-	flexibleServer, fqdnSecret := newFlexibleServer(tc, testcommon.AsOwner(rg), secretRef)
+	flexibleServer, fqdnSecret := newFlexibleServer(tc, rg, adminPasswordSecretRef)
 
 	tc.CreateResourceAndWait(flexibleServer)
 
@@ -73,7 +74,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newFlexibleServer(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, secretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
+func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
 	location := "westcentralus"
 	version := mysql.ServerPropertiesVersion8021
@@ -83,14 +84,14 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, owner *genruntime.Know
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
 			Location: &location,
-			Owner:    owner,
+			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
 				Name: to.StringPtr("Standard_D4ds_v4"),
 				Tier: &tier,
 			},
 			AdministratorLogin:         to.StringPtr("myadmin"),
-			AdministratorLoginPassword: &secretRef,
+			AdministratorLoginPassword: &adminPasswordSecretRef,
 			Storage: &mysql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},

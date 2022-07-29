@@ -105,15 +105,21 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
-	cfg, err := config.ReadFromEnvironment()
+	cfg, err := ReadFromEnvironmentForTest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	return ctx.ForTestWithConfig(t, cfg)
+}
+
+func ReadFromEnvironmentForTest() (config.Values, error) {
+	cfg, err := config.ReadFromEnvironment()
+
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
 
-	return ctx.ForTestWithConfig(t, cfg)
+	return cfg, err
 }
 
 func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) *KubePerTestContext {
