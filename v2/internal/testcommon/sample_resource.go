@@ -82,9 +82,9 @@ func (r *SimpleExtensionResource) GetType() string {
 	return "Microsoft.SimpleExtension/simpleExtensions"
 }
 
-// GetResourceKind returns the kind of the resource
-func (r *SimpleExtensionResource) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindExtension
+// GetResourceScope returns the scope of the resource
+func (r *SimpleExtensionResource) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeExtension
 }
 
 type SimpleExtensionResourceSpec struct {

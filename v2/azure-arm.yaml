@@ -210,7 +210,6 @@ typeTransformers:
       optional: true
     remove: true
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
-
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
     group: batch
@@ -242,8 +241,8 @@ typeTransformers:
     property: PrivateEndpoint
     remove: true
     because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - name: VirtualMachineScaleSetIdentity
-    group: compute
+  - group: compute
+    name: VirtualMachineScaleSetIdentity;VirtualMachineScaleSetIdentity_Status;VirtualMachineIdentity;VirtualMachineIdentity_Status
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
@@ -754,6 +753,52 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
       SubResource:
+        Id:
+          $armReference: true
+    2022-03-01:
+      ApiEntityReference:
+        Id:
+          $armReference: true
+      DiskEncryptionSetParameters:
+        Id:
+          $armReference: true
+      Image:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      ImageReference:
+        Id:
+          $armReference: true
+        version:
+          $armReference: false
+      ManagedDiskParameters:
+        Id:
+          $armReference: true
+      SubResource:
+        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
+        Id:
+          $armReference: true
+      VMGalleryApplication:
+        PackageReferenceId:
+          $armReference: true
+      VirtualMachine:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      VirtualMachineScaleSet:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+        # This is an Id that I believe refers to itself.
+        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
+        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+        Id:
+          $armReference: false
+      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+        # This is an Id that I believe refers to itself.
+        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
+        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+        Id:
+          $armReference: false
+      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
         Id:
           $armReference: true
   containerinstance:

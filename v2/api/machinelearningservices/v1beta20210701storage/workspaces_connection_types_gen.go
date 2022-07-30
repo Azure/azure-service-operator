@@ -54,9 +54,9 @@ func (connection WorkspacesConnection) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (connection *WorkspacesConnection) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (connection *WorkspacesConnection) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource

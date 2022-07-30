@@ -213,7 +213,7 @@ func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx cont
 		specType := astmodel.BuildAllOfType(objectBase, resourceType.SpecType())
 		// now replace it
 		scanner.removeTypeDefinition(resourceRef)
-		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name(), resourceType.Kind())))
+		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name(), resourceType.Scope())))
 		return nil
 	})
 
@@ -922,11 +922,11 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 // categorizeResourceType determines if this URL represents an ARM resource or not.
 // If the URL represents a resource, a non-nil value is returned. If the URL does not represent
 // a resource, nil is returned.
-func categorizeResourceType(url *url.URL) *astmodel.ResourceKind {
+func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
-	normal := astmodel.ResourceKindNormal
-	extension := astmodel.ResourceKindExtension
+	normal := astmodel.ResourceScopeResourceGroup
+	extension := astmodel.ResourceScopeExtension
 
 	for _, fragmentPart := range fragmentParts {
 		// resourceDefinitions are "normal" resources

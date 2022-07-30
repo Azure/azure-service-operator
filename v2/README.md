@@ -118,7 +118,7 @@ $ kubectl describe resourcegroups/aso-sample-rg
 Name:         aso-sample-rg
 Namespace:    default
 Labels:       <none>
-Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+Annotations:  resource-id.azure.com: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
               resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
 API Version:  resources.azure.com/v1alpha1api20200601
 Kind:         ResourceGroup
@@ -136,16 +136,16 @@ Status:
     Reason:                Succeeded
     Status:                True
     Type:                  Ready
-  Id:                      /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+  Id:                      /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
   Location:                westcentralus
   Name:                    aso-sample-rg
   Provisioning State:      Succeeded
 Events:
   Type    Reason             Age   From                     Message
   ----    ------             ----  ----                     -------
-  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
-  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
-  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
+  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
+  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
+  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
 
 
 # delete the ResourceGroup

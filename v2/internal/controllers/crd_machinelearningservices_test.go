@@ -145,7 +145,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 	secret := createVMPasswordSecretAndRef(tc)
 
-	vm := newVM(tc, rg, networkInterface, secret)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 	tc.CreateResourceAndWait(vm)
 
 	wsCompute := newWorkspacesCompute(tc, owner, vm, secret)

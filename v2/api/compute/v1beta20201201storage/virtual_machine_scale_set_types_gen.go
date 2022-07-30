@@ -4,20 +4,20 @@
 package v1beta20201201storage
 
 import (
+	"fmt"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=compute.azure.com,resources=virtualmachinescalesets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=compute.azure.com,resources={virtualmachinescalesets/status,virtualmachinescalesets/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -43,6 +43,28 @@ func (scaleSet *VirtualMachineScaleSet) SetConditions(conditions conditions.Cond
 	scaleSet.Status.Conditions = conditions
 }
 
+var _ conversion.Convertible = &VirtualMachineScaleSet{}
+
+// ConvertFrom populates our VirtualMachineScaleSet from the provided hub VirtualMachineScaleSet
+func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20220301s.VirtualMachineScaleSet)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachineScaleSet but received %T instead", hub)
+	}
+
+	return scaleSet.AssignPropertiesFromVirtualMachineScaleSet(source)
+}
+
+// ConvertTo populates the provided hub VirtualMachineScaleSet from our VirtualMachineScaleSet
+func (scaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20220301s.VirtualMachineScaleSet)
+	if !ok {
+		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachineScaleSet but received %T instead", hub)
+	}
+
+	return scaleSet.AssignPropertiesToVirtualMachineScaleSet(destination)
+}
+
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
 
 // AzureName returns the Azure name of the resource
@@ -55,9 +77,9 @@ func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (scaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (scaleSet *VirtualMachineScaleSet) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -109,8 +131,57 @@ func (scaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// Hub marks that this VirtualMachineScaleSet is the hub type for conversion
-func (scaleSet *VirtualMachineScaleSet) Hub() {}
+// AssignPropertiesFromVirtualMachineScaleSet populates our VirtualMachineScaleSet from the provided source VirtualMachineScaleSet
+func (scaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtualMachineScaleSet(source *v20220301s.VirtualMachineScaleSet) error {
+
+	// ObjectMeta
+	scaleSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec VirtualMachineScaleSets_Spec
+	err := spec.AssignPropertiesFromVirtualMachineScaleSetsSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpec() to populate field Spec")
+	}
+	scaleSet.Spec = spec
+
+	// Status
+	var status VirtualMachineScaleSet_Status
+	err = status.AssignPropertiesFromVirtualMachineScaleSetStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetStatus() to populate field Status")
+	}
+	scaleSet.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSet populates the provided destination VirtualMachineScaleSet from our VirtualMachineScaleSet
+func (scaleSet *VirtualMachineScaleSet) AssignPropertiesToVirtualMachineScaleSet(destination *v20220301s.VirtualMachineScaleSet) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *scaleSet.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20220301s.VirtualMachineScaleSets_Spec
+	err := scaleSet.Spec.AssignPropertiesToVirtualMachineScaleSetsSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20220301s.VirtualMachineScaleSet_Status
+	err = scaleSet.Status.AssignPropertiesToVirtualMachineScaleSetStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
@@ -165,20 +236,546 @@ var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_Status{}
 
 // ConvertStatusFrom populates our VirtualMachineScaleSet_Status from the provided source
 func (scaleSet *VirtualMachineScaleSet_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20220301s.VirtualMachineScaleSet_Status)
+	if ok {
+		// Populate our instance from source
+		return scaleSet.AssignPropertiesFromVirtualMachineScaleSetStatus(src)
 	}
 
-	return source.ConvertStatusTo(scaleSet)
+	// Convert to an intermediate form
+	src = &v20220301s.VirtualMachineScaleSet_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = scaleSet.AssignPropertiesFromVirtualMachineScaleSetStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_Status
 func (scaleSet *VirtualMachineScaleSet_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20220301s.VirtualMachineScaleSet_Status)
+	if ok {
+		// Populate destination from our instance
+		return scaleSet.AssignPropertiesToVirtualMachineScaleSetStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(scaleSet)
+	// Convert to an intermediate form
+	dst = &v20220301s.VirtualMachineScaleSet_Status{}
+	err := scaleSet.AssignPropertiesToVirtualMachineScaleSetStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetStatus populates our VirtualMachineScaleSet_Status from the provided source VirtualMachineScaleSet_Status
+func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesFromVirtualMachineScaleSetStatus(source *v20220301s.VirtualMachineScaleSet_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalCapabilities
+	if source.AdditionalCapabilities != nil {
+		var additionalCapability AdditionalCapabilities_Status
+		err := additionalCapability.AssignPropertiesFromAdditionalCapabilitiesStatus(source.AdditionalCapabilities)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilitiesStatus() to populate field AdditionalCapabilities")
+		}
+		scaleSet.AdditionalCapabilities = &additionalCapability
+	} else {
+		scaleSet.AdditionalCapabilities = nil
+	}
+
+	// AutomaticRepairsPolicy
+	if source.AutomaticRepairsPolicy != nil {
+		var automaticRepairsPolicy AutomaticRepairsPolicy_Status
+		err := automaticRepairsPolicy.AssignPropertiesFromAutomaticRepairsPolicyStatus(source.AutomaticRepairsPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutomaticRepairsPolicyStatus() to populate field AutomaticRepairsPolicy")
+		}
+		scaleSet.AutomaticRepairsPolicy = &automaticRepairsPolicy
+	} else {
+		scaleSet.AutomaticRepairsPolicy = nil
+	}
+
+	// Conditions
+	scaleSet.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DoNotRunExtensionsOnOverprovisionedVMs
+	if source.DoNotRunExtensionsOnOverprovisionedVMs != nil {
+		doNotRunExtensionsOnOverprovisionedVM := *source.DoNotRunExtensionsOnOverprovisionedVMs
+		scaleSet.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVM
+	} else {
+		scaleSet.DoNotRunExtensionsOnOverprovisionedVMs = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocationStatusStash v20210701s.ExtendedLocation_Status
+		err := extendedLocationStatusStash.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+		}
+		var extendedLocation ExtendedLocation_Status
+		err = extendedLocation.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+		}
+		scaleSet.ExtendedLocation = &extendedLocation
+	} else {
+		scaleSet.ExtendedLocation = nil
+	}
+
+	// HostGroup
+	if source.HostGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.HostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from HostGroup")
+		}
+		var hostGroup SubResource_Status
+		err = hostGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field HostGroup from SubResource_StatusStash")
+		}
+		scaleSet.HostGroup = &hostGroup
+	} else {
+		scaleSet.HostGroup = nil
+	}
+
+	// Id
+	scaleSet.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity VirtualMachineScaleSetIdentity_Status
+		err := identity.AssignPropertiesFromVirtualMachineScaleSetIdentityStatus(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIdentityStatus() to populate field Identity")
+		}
+		scaleSet.Identity = &identity
+	} else {
+		scaleSet.Identity = nil
+	}
+
+	// Location
+	scaleSet.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	scaleSet.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OrchestrationMode
+	scaleSet.OrchestrationMode = genruntime.ClonePointerToString(source.OrchestrationMode)
+
+	// Overprovision
+	if source.Overprovision != nil {
+		overprovision := *source.Overprovision
+		scaleSet.Overprovision = &overprovision
+	} else {
+		scaleSet.Overprovision = nil
+	}
+
+	// Plan
+	if source.Plan != nil {
+		var plan Plan_Status
+		err := plan.AssignPropertiesFromPlanStatus(source.Plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPlanStatus() to populate field Plan")
+		}
+		scaleSet.Plan = &plan
+	} else {
+		scaleSet.Plan = nil
+	}
+
+	// PlatformFaultDomainCount
+	scaleSet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
+
+	// ProvisioningState
+	scaleSet.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ProximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ProximityPlacementGroup")
+		}
+		var proximityPlacementGroup SubResource_Status
+		err = proximityPlacementGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ProximityPlacementGroup from SubResource_StatusStash")
+		}
+		scaleSet.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		scaleSet.ProximityPlacementGroup = nil
+	}
+
+	// ScaleInPolicy
+	if source.ScaleInPolicy != nil {
+		var scaleInPolicy ScaleInPolicy_Status
+		err := scaleInPolicy.AssignPropertiesFromScaleInPolicyStatus(source.ScaleInPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromScaleInPolicyStatus() to populate field ScaleInPolicy")
+		}
+		scaleSet.ScaleInPolicy = &scaleInPolicy
+	} else {
+		scaleSet.ScaleInPolicy = nil
+	}
+
+	// SinglePlacementGroup
+	if source.SinglePlacementGroup != nil {
+		singlePlacementGroup := *source.SinglePlacementGroup
+		scaleSet.SinglePlacementGroup = &singlePlacementGroup
+	} else {
+		scaleSet.SinglePlacementGroup = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_Status
+		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+		}
+		scaleSet.Sku = &sku
+	} else {
+		scaleSet.Sku = nil
+	}
+
+	// SpotRestorePolicy
+	if source.SpotRestorePolicy != nil {
+		propertyBag.Add("SpotRestorePolicy", *source.SpotRestorePolicy)
+	} else {
+		propertyBag.Remove("SpotRestorePolicy")
+	}
+
+	// Tags
+	scaleSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TimeCreated
+	if source.TimeCreated != nil {
+		propertyBag.Add("TimeCreated", *source.TimeCreated)
+	} else {
+		propertyBag.Remove("TimeCreated")
+	}
+
+	// Type
+	scaleSet.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UniqueId
+	scaleSet.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
+
+	// UpgradePolicy
+	if source.UpgradePolicy != nil {
+		var upgradePolicy UpgradePolicy_Status
+		err := upgradePolicy.AssignPropertiesFromUpgradePolicyStatus(source.UpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromUpgradePolicyStatus() to populate field UpgradePolicy")
+		}
+		scaleSet.UpgradePolicy = &upgradePolicy
+	} else {
+		scaleSet.UpgradePolicy = nil
+	}
+
+	// VirtualMachineProfile
+	if source.VirtualMachineProfile != nil {
+		var virtualMachineProfile VirtualMachineScaleSetVMProfile_Status
+		err := virtualMachineProfile.AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus(source.VirtualMachineProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus() to populate field VirtualMachineProfile")
+		}
+		scaleSet.VirtualMachineProfile = &virtualMachineProfile
+	} else {
+		scaleSet.VirtualMachineProfile = nil
+	}
+
+	// ZoneBalance
+	if source.ZoneBalance != nil {
+		zoneBalance := *source.ZoneBalance
+		scaleSet.ZoneBalance = &zoneBalance
+	} else {
+		scaleSet.ZoneBalance = nil
+	}
+
+	// Zones
+	scaleSet.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		scaleSet.PropertyBag = propertyBag
+	} else {
+		scaleSet.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetStatus populates the provided destination VirtualMachineScaleSet_Status from our VirtualMachineScaleSet_Status
+func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesToVirtualMachineScaleSetStatus(destination *v20220301s.VirtualMachineScaleSet_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(scaleSet.PropertyBag)
+
+	// AdditionalCapabilities
+	if scaleSet.AdditionalCapabilities != nil {
+		var additionalCapability v20220301s.AdditionalCapabilities_Status
+		err := scaleSet.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilitiesStatus(&additionalCapability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilitiesStatus() to populate field AdditionalCapabilities")
+		}
+		destination.AdditionalCapabilities = &additionalCapability
+	} else {
+		destination.AdditionalCapabilities = nil
+	}
+
+	// AutomaticRepairsPolicy
+	if scaleSet.AutomaticRepairsPolicy != nil {
+		var automaticRepairsPolicy v20220301s.AutomaticRepairsPolicy_Status
+		err := scaleSet.AutomaticRepairsPolicy.AssignPropertiesToAutomaticRepairsPolicyStatus(&automaticRepairsPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutomaticRepairsPolicyStatus() to populate field AutomaticRepairsPolicy")
+		}
+		destination.AutomaticRepairsPolicy = &automaticRepairsPolicy
+	} else {
+		destination.AutomaticRepairsPolicy = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(scaleSet.Conditions)
+
+	// DoNotRunExtensionsOnOverprovisionedVMs
+	if scaleSet.DoNotRunExtensionsOnOverprovisionedVMs != nil {
+		doNotRunExtensionsOnOverprovisionedVM := *scaleSet.DoNotRunExtensionsOnOverprovisionedVMs
+		destination.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVM
+	} else {
+		destination.DoNotRunExtensionsOnOverprovisionedVMs = nil
+	}
+
+	// ExtendedLocation
+	if scaleSet.ExtendedLocation != nil {
+		var extendedLocationStatusStash v20210701s.ExtendedLocation_Status
+		err := scaleSet.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+		}
+		var extendedLocation v20220301s.ExtendedLocation_Status
+		err = extendedLocationStatusStash.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HostGroup
+	if scaleSet.HostGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := scaleSet.HostGroup.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from HostGroup")
+		}
+		var hostGroup v20220301s.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&hostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field HostGroup from SubResource_StatusStash")
+		}
+		destination.HostGroup = &hostGroup
+	} else {
+		destination.HostGroup = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(scaleSet.Id)
+
+	// Identity
+	if scaleSet.Identity != nil {
+		var identity v20220301s.VirtualMachineScaleSetIdentity_Status
+		err := scaleSet.Identity.AssignPropertiesToVirtualMachineScaleSetIdentityStatus(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIdentityStatus() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(scaleSet.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(scaleSet.Name)
+
+	// OrchestrationMode
+	destination.OrchestrationMode = genruntime.ClonePointerToString(scaleSet.OrchestrationMode)
+
+	// Overprovision
+	if scaleSet.Overprovision != nil {
+		overprovision := *scaleSet.Overprovision
+		destination.Overprovision = &overprovision
+	} else {
+		destination.Overprovision = nil
+	}
+
+	// Plan
+	if scaleSet.Plan != nil {
+		var plan v20220301s.Plan_Status
+		err := scaleSet.Plan.AssignPropertiesToPlanStatus(&plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPlanStatus() to populate field Plan")
+		}
+		destination.Plan = &plan
+	} else {
+		destination.Plan = nil
+	}
+
+	// PlatformFaultDomainCount
+	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(scaleSet.PlatformFaultDomainCount)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(scaleSet.ProvisioningState)
+
+	// ProximityPlacementGroup
+	if scaleSet.ProximityPlacementGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := scaleSet.ProximityPlacementGroup.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ProximityPlacementGroup")
+		}
+		var proximityPlacementGroup v20220301s.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&proximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ProximityPlacementGroup from SubResource_StatusStash")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// ScaleInPolicy
+	if scaleSet.ScaleInPolicy != nil {
+		var scaleInPolicy v20220301s.ScaleInPolicy_Status
+		err := scaleSet.ScaleInPolicy.AssignPropertiesToScaleInPolicyStatus(&scaleInPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToScaleInPolicyStatus() to populate field ScaleInPolicy")
+		}
+		destination.ScaleInPolicy = &scaleInPolicy
+	} else {
+		destination.ScaleInPolicy = nil
+	}
+
+	// SinglePlacementGroup
+	if scaleSet.SinglePlacementGroup != nil {
+		singlePlacementGroup := *scaleSet.SinglePlacementGroup
+		destination.SinglePlacementGroup = &singlePlacementGroup
+	} else {
+		destination.SinglePlacementGroup = nil
+	}
+
+	// Sku
+	if scaleSet.Sku != nil {
+		var sku v20220301s.Sku_Status
+		err := scaleSet.Sku.AssignPropertiesToSkuStatus(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SpotRestorePolicy
+	if propertyBag.Contains("SpotRestorePolicy") {
+		var spotRestorePolicy v20220301s.SpotRestorePolicy_Status
+		err := propertyBag.Pull("SpotRestorePolicy", &spotRestorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SpotRestorePolicy' from propertyBag")
+		}
+
+		destination.SpotRestorePolicy = &spotRestorePolicy
+	} else {
+		destination.SpotRestorePolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(scaleSet.Tags)
+
+	// TimeCreated
+	if propertyBag.Contains("TimeCreated") {
+		var timeCreated string
+		err := propertyBag.Pull("TimeCreated", &timeCreated)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'TimeCreated' from propertyBag")
+		}
+
+		destination.TimeCreated = &timeCreated
+	} else {
+		destination.TimeCreated = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(scaleSet.Type)
+
+	// UniqueId
+	destination.UniqueId = genruntime.ClonePointerToString(scaleSet.UniqueId)
+
+	// UpgradePolicy
+	if scaleSet.UpgradePolicy != nil {
+		var upgradePolicy v20220301s.UpgradePolicy_Status
+		err := scaleSet.UpgradePolicy.AssignPropertiesToUpgradePolicyStatus(&upgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUpgradePolicyStatus() to populate field UpgradePolicy")
+		}
+		destination.UpgradePolicy = &upgradePolicy
+	} else {
+		destination.UpgradePolicy = nil
+	}
+
+	// VirtualMachineProfile
+	if scaleSet.VirtualMachineProfile != nil {
+		var virtualMachineProfile v20220301s.VirtualMachineScaleSetVMProfile_Status
+		err := scaleSet.VirtualMachineProfile.AssignPropertiesToVirtualMachineScaleSetVMProfileStatus(&virtualMachineProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetVMProfileStatus() to populate field VirtualMachineProfile")
+		}
+		destination.VirtualMachineProfile = &virtualMachineProfile
+	} else {
+		destination.VirtualMachineProfile = nil
+	}
+
+	// ZoneBalance
+	if scaleSet.ZoneBalance != nil {
+		zoneBalance := *scaleSet.ZoneBalance
+		destination.ZoneBalance = &zoneBalance
+	} else {
+		destination.ZoneBalance = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(scaleSet.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec
@@ -221,20 +818,518 @@ var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSets_Spec{}
 
 // ConvertSpecFrom populates our VirtualMachineScaleSets_Spec from the provided source
 func (sets *VirtualMachineScaleSets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == sets {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20220301s.VirtualMachineScaleSets_Spec)
+	if ok {
+		// Populate our instance from source
+		return sets.AssignPropertiesFromVirtualMachineScaleSetsSpec(src)
 	}
 
-	return source.ConvertSpecTo(sets)
+	// Convert to an intermediate form
+	src = &v20220301s.VirtualMachineScaleSets_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = sets.AssignPropertiesFromVirtualMachineScaleSetsSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualMachineScaleSets_Spec
 func (sets *VirtualMachineScaleSets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == sets {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20220301s.VirtualMachineScaleSets_Spec)
+	if ok {
+		// Populate destination from our instance
+		return sets.AssignPropertiesToVirtualMachineScaleSetsSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(sets)
+	// Convert to an intermediate form
+	dst = &v20220301s.VirtualMachineScaleSets_Spec{}
+	err := sets.AssignPropertiesToVirtualMachineScaleSetsSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetsSpec populates our VirtualMachineScaleSets_Spec from the provided source VirtualMachineScaleSets_Spec
+func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesFromVirtualMachineScaleSetsSpec(source *v20220301s.VirtualMachineScaleSets_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalCapabilities
+	if source.AdditionalCapabilities != nil {
+		var additionalCapability AdditionalCapabilities
+		err := additionalCapability.AssignPropertiesFromAdditionalCapabilities(source.AdditionalCapabilities)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		sets.AdditionalCapabilities = &additionalCapability
+	} else {
+		sets.AdditionalCapabilities = nil
+	}
+
+	// AutomaticRepairsPolicy
+	if source.AutomaticRepairsPolicy != nil {
+		var automaticRepairsPolicy AutomaticRepairsPolicy
+		err := automaticRepairsPolicy.AssignPropertiesFromAutomaticRepairsPolicy(source.AutomaticRepairsPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutomaticRepairsPolicy() to populate field AutomaticRepairsPolicy")
+		}
+		sets.AutomaticRepairsPolicy = &automaticRepairsPolicy
+	} else {
+		sets.AutomaticRepairsPolicy = nil
+	}
+
+	// AzureName
+	sets.AzureName = source.AzureName
+
+	// DoNotRunExtensionsOnOverprovisionedVMs
+	if source.DoNotRunExtensionsOnOverprovisionedVMs != nil {
+		doNotRunExtensionsOnOverprovisionedVM := *source.DoNotRunExtensionsOnOverprovisionedVMs
+		sets.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVM
+	} else {
+		sets.DoNotRunExtensionsOnOverprovisionedVMs = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocationStash v20210701s.ExtendedLocation
+		err := extendedLocationStash.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocation ExtendedLocation
+		err = extendedLocation.AssignPropertiesFromExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		sets.ExtendedLocation = &extendedLocation
+	} else {
+		sets.ExtendedLocation = nil
+	}
+
+	// HostGroup
+	if source.HostGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.HostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from HostGroup")
+		}
+		var hostGroup SubResource
+		err = hostGroup.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field HostGroup from SubResourceStash")
+		}
+		sets.HostGroup = &hostGroup
+	} else {
+		sets.HostGroup = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity VirtualMachineScaleSetIdentity
+		err := identity.AssignPropertiesFromVirtualMachineScaleSetIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIdentity() to populate field Identity")
+		}
+		sets.Identity = &identity
+	} else {
+		sets.Identity = nil
+	}
+
+	// Location
+	sets.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OrchestrationMode
+	sets.OrchestrationMode = genruntime.ClonePointerToString(source.OrchestrationMode)
+
+	// OriginalVersion
+	sets.OriginalVersion = source.OriginalVersion
+
+	// Overprovision
+	if source.Overprovision != nil {
+		overprovision := *source.Overprovision
+		sets.Overprovision = &overprovision
+	} else {
+		sets.Overprovision = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		sets.Owner = &owner
+	} else {
+		sets.Owner = nil
+	}
+
+	// Plan
+	if source.Plan != nil {
+		var plan Plan
+		err := plan.AssignPropertiesFromPlan(source.Plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPlan() to populate field Plan")
+		}
+		sets.Plan = &plan
+	} else {
+		sets.Plan = nil
+	}
+
+	// PlatformFaultDomainCount
+	sets.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.ProximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ProximityPlacementGroup")
+		}
+		var proximityPlacementGroup SubResource
+		err = proximityPlacementGroup.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ProximityPlacementGroup from SubResourceStash")
+		}
+		sets.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		sets.ProximityPlacementGroup = nil
+	}
+
+	// ScaleInPolicy
+	if source.ScaleInPolicy != nil {
+		var scaleInPolicy ScaleInPolicy
+		err := scaleInPolicy.AssignPropertiesFromScaleInPolicy(source.ScaleInPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromScaleInPolicy() to populate field ScaleInPolicy")
+		}
+		sets.ScaleInPolicy = &scaleInPolicy
+	} else {
+		sets.ScaleInPolicy = nil
+	}
+
+	// SinglePlacementGroup
+	if source.SinglePlacementGroup != nil {
+		singlePlacementGroup := *source.SinglePlacementGroup
+		sets.SinglePlacementGroup = &singlePlacementGroup
+	} else {
+		sets.SinglePlacementGroup = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignPropertiesFromSku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+		}
+		sets.Sku = &sku
+	} else {
+		sets.Sku = nil
+	}
+
+	// SpotRestorePolicy
+	if source.SpotRestorePolicy != nil {
+		propertyBag.Add("SpotRestorePolicy", *source.SpotRestorePolicy)
+	} else {
+		propertyBag.Remove("SpotRestorePolicy")
+	}
+
+	// Tags
+	sets.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// UpgradePolicy
+	if source.UpgradePolicy != nil {
+		var upgradePolicy UpgradePolicy
+		err := upgradePolicy.AssignPropertiesFromUpgradePolicy(source.UpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromUpgradePolicy() to populate field UpgradePolicy")
+		}
+		sets.UpgradePolicy = &upgradePolicy
+	} else {
+		sets.UpgradePolicy = nil
+	}
+
+	// VirtualMachineProfile
+	if source.VirtualMachineProfile != nil {
+		var virtualMachineProfile VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+		err := virtualMachineProfile.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(source.VirtualMachineProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile() to populate field VirtualMachineProfile")
+		}
+		sets.VirtualMachineProfile = &virtualMachineProfile
+	} else {
+		sets.VirtualMachineProfile = nil
+	}
+
+	// ZoneBalance
+	if source.ZoneBalance != nil {
+		zoneBalance := *source.ZoneBalance
+		sets.ZoneBalance = &zoneBalance
+	} else {
+		sets.ZoneBalance = nil
+	}
+
+	// Zones
+	sets.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sets.PropertyBag = propertyBag
+	} else {
+		sets.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpec populates the provided destination VirtualMachineScaleSets_Spec from our VirtualMachineScaleSets_Spec
+func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesToVirtualMachineScaleSetsSpec(destination *v20220301s.VirtualMachineScaleSets_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sets.PropertyBag)
+
+	// AdditionalCapabilities
+	if sets.AdditionalCapabilities != nil {
+		var additionalCapability v20220301s.AdditionalCapabilities
+		err := sets.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilities(&additionalCapability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilities() to populate field AdditionalCapabilities")
+		}
+		destination.AdditionalCapabilities = &additionalCapability
+	} else {
+		destination.AdditionalCapabilities = nil
+	}
+
+	// AutomaticRepairsPolicy
+	if sets.AutomaticRepairsPolicy != nil {
+		var automaticRepairsPolicy v20220301s.AutomaticRepairsPolicy
+		err := sets.AutomaticRepairsPolicy.AssignPropertiesToAutomaticRepairsPolicy(&automaticRepairsPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutomaticRepairsPolicy() to populate field AutomaticRepairsPolicy")
+		}
+		destination.AutomaticRepairsPolicy = &automaticRepairsPolicy
+	} else {
+		destination.AutomaticRepairsPolicy = nil
+	}
+
+	// AzureName
+	destination.AzureName = sets.AzureName
+
+	// DoNotRunExtensionsOnOverprovisionedVMs
+	if sets.DoNotRunExtensionsOnOverprovisionedVMs != nil {
+		doNotRunExtensionsOnOverprovisionedVM := *sets.DoNotRunExtensionsOnOverprovisionedVMs
+		destination.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVM
+	} else {
+		destination.DoNotRunExtensionsOnOverprovisionedVMs = nil
+	}
+
+	// ExtendedLocation
+	if sets.ExtendedLocation != nil {
+		var extendedLocationStash v20210701s.ExtendedLocation
+		err := sets.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocationStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
+		}
+		var extendedLocation v20220301s.ExtendedLocation
+		err = extendedLocationStash.AssignPropertiesToExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// HostGroup
+	if sets.HostGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := sets.HostGroup.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from HostGroup")
+		}
+		var hostGroup v20220301s.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&hostGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field HostGroup from SubResourceStash")
+		}
+		destination.HostGroup = &hostGroup
+	} else {
+		destination.HostGroup = nil
+	}
+
+	// Identity
+	if sets.Identity != nil {
+		var identity v20220301s.VirtualMachineScaleSetIdentity
+		err := sets.Identity.AssignPropertiesToVirtualMachineScaleSetIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(sets.Location)
+
+	// OrchestrationMode
+	destination.OrchestrationMode = genruntime.ClonePointerToString(sets.OrchestrationMode)
+
+	// OriginalVersion
+	destination.OriginalVersion = sets.OriginalVersion
+
+	// Overprovision
+	if sets.Overprovision != nil {
+		overprovision := *sets.Overprovision
+		destination.Overprovision = &overprovision
+	} else {
+		destination.Overprovision = nil
+	}
+
+	// Owner
+	if sets.Owner != nil {
+		owner := sets.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Plan
+	if sets.Plan != nil {
+		var plan v20220301s.Plan
+		err := sets.Plan.AssignPropertiesToPlan(&plan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPlan() to populate field Plan")
+		}
+		destination.Plan = &plan
+	} else {
+		destination.Plan = nil
+	}
+
+	// PlatformFaultDomainCount
+	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(sets.PlatformFaultDomainCount)
+
+	// ProximityPlacementGroup
+	if sets.ProximityPlacementGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := sets.ProximityPlacementGroup.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ProximityPlacementGroup")
+		}
+		var proximityPlacementGroup v20220301s.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&proximityPlacementGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ProximityPlacementGroup from SubResourceStash")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// ScaleInPolicy
+	if sets.ScaleInPolicy != nil {
+		var scaleInPolicy v20220301s.ScaleInPolicy
+		err := sets.ScaleInPolicy.AssignPropertiesToScaleInPolicy(&scaleInPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToScaleInPolicy() to populate field ScaleInPolicy")
+		}
+		destination.ScaleInPolicy = &scaleInPolicy
+	} else {
+		destination.ScaleInPolicy = nil
+	}
+
+	// SinglePlacementGroup
+	if sets.SinglePlacementGroup != nil {
+		singlePlacementGroup := *sets.SinglePlacementGroup
+		destination.SinglePlacementGroup = &singlePlacementGroup
+	} else {
+		destination.SinglePlacementGroup = nil
+	}
+
+	// Sku
+	if sets.Sku != nil {
+		var sku v20220301s.Sku
+		err := sets.Sku.AssignPropertiesToSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SpotRestorePolicy
+	if propertyBag.Contains("SpotRestorePolicy") {
+		var spotRestorePolicy v20220301s.SpotRestorePolicy
+		err := propertyBag.Pull("SpotRestorePolicy", &spotRestorePolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SpotRestorePolicy' from propertyBag")
+		}
+
+		destination.SpotRestorePolicy = &spotRestorePolicy
+	} else {
+		destination.SpotRestorePolicy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(sets.Tags)
+
+	// UpgradePolicy
+	if sets.UpgradePolicy != nil {
+		var upgradePolicy v20220301s.UpgradePolicy
+		err := sets.UpgradePolicy.AssignPropertiesToUpgradePolicy(&upgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUpgradePolicy() to populate field UpgradePolicy")
+		}
+		destination.UpgradePolicy = &upgradePolicy
+	} else {
+		destination.UpgradePolicy = nil
+	}
+
+	// VirtualMachineProfile
+	if sets.VirtualMachineProfile != nil {
+		var virtualMachineProfile v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+		err := sets.VirtualMachineProfile.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(&virtualMachineProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile() to populate field VirtualMachineProfile")
+		}
+		destination.VirtualMachineProfile = &virtualMachineProfile
+	} else {
+		destination.VirtualMachineProfile = nil
+	}
+
+	// ZoneBalance
+	if sets.ZoneBalance != nil {
+		zoneBalance := *sets.ZoneBalance
+		destination.ZoneBalance = &zoneBalance
+	} else {
+		destination.ZoneBalance = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(sets.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.AutomaticRepairsPolicy
@@ -245,11 +1340,159 @@ type AutomaticRepairsPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromAutomaticRepairsPolicy populates our AutomaticRepairsPolicy from the provided source AutomaticRepairsPolicy
+func (policy *AutomaticRepairsPolicy) AssignPropertiesFromAutomaticRepairsPolicy(source *v20220301s.AutomaticRepairsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// GracePeriod
+	policy.GracePeriod = genruntime.ClonePointerToString(source.GracePeriod)
+
+	// RepairAction
+	if source.RepairAction != nil {
+		propertyBag.Add("RepairAction", *source.RepairAction)
+	} else {
+		propertyBag.Remove("RepairAction")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutomaticRepairsPolicy populates the provided destination AutomaticRepairsPolicy from our AutomaticRepairsPolicy
+func (policy *AutomaticRepairsPolicy) AssignPropertiesToAutomaticRepairsPolicy(destination *v20220301s.AutomaticRepairsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// GracePeriod
+	destination.GracePeriod = genruntime.ClonePointerToString(policy.GracePeriod)
+
+	// RepairAction
+	if propertyBag.Contains("RepairAction") {
+		var repairAction string
+		err := propertyBag.Pull("RepairAction", &repairAction)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'RepairAction' from propertyBag")
+		}
+
+		destination.RepairAction = &repairAction
+	} else {
+		destination.RepairAction = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.AutomaticRepairsPolicy_Status
 type AutomaticRepairsPolicy_Status struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	GracePeriod *string                `json:"gracePeriod,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromAutomaticRepairsPolicyStatus populates our AutomaticRepairsPolicy_Status from the provided source AutomaticRepairsPolicy_Status
+func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesFromAutomaticRepairsPolicyStatus(source *v20220301s.AutomaticRepairsPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// GracePeriod
+	policy.GracePeriod = genruntime.ClonePointerToString(source.GracePeriod)
+
+	// RepairAction
+	if source.RepairAction != nil {
+		propertyBag.Add("RepairAction", *source.RepairAction)
+	} else {
+		propertyBag.Remove("RepairAction")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutomaticRepairsPolicyStatus populates the provided destination AutomaticRepairsPolicy_Status from our AutomaticRepairsPolicy_Status
+func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesToAutomaticRepairsPolicyStatus(destination *v20220301s.AutomaticRepairsPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// GracePeriod
+	destination.GracePeriod = genruntime.ClonePointerToString(policy.GracePeriod)
+
+	// RepairAction
+	if propertyBag.Contains("RepairAction") {
+		var repairAction string
+		err := propertyBag.Pull("RepairAction", &repairAction)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'RepairAction' from propertyBag")
+		}
+
+		destination.RepairAction = &repairAction
+	} else {
+		destination.RepairAction = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.ScaleInPolicy
@@ -259,10 +1502,126 @@ type ScaleInPolicy struct {
 	Rules       []string               `json:"rules,omitempty"`
 }
 
+// AssignPropertiesFromScaleInPolicy populates our ScaleInPolicy from the provided source ScaleInPolicy
+func (policy *ScaleInPolicy) AssignPropertiesFromScaleInPolicy(source *v20220301s.ScaleInPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ForceDeletion
+	if source.ForceDeletion != nil {
+		propertyBag.Add("ForceDeletion", *source.ForceDeletion)
+	} else {
+		propertyBag.Remove("ForceDeletion")
+	}
+
+	// Rules
+	policy.Rules = genruntime.CloneSliceOfString(source.Rules)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToScaleInPolicy populates the provided destination ScaleInPolicy from our ScaleInPolicy
+func (policy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination *v20220301s.ScaleInPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// ForceDeletion
+	if propertyBag.Contains("ForceDeletion") {
+		var forceDeletion bool
+		err := propertyBag.Pull("ForceDeletion", &forceDeletion)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ForceDeletion' from propertyBag")
+		}
+
+		destination.ForceDeletion = &forceDeletion
+	} else {
+		destination.ForceDeletion = nil
+	}
+
+	// Rules
+	destination.Rules = genruntime.CloneSliceOfString(policy.Rules)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.ScaleInPolicy_Status
 type ScaleInPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []string               `json:"rules,omitempty"`
+}
+
+// AssignPropertiesFromScaleInPolicyStatus populates our ScaleInPolicy_Status from the provided source ScaleInPolicy_Status
+func (policy *ScaleInPolicy_Status) AssignPropertiesFromScaleInPolicyStatus(source *v20220301s.ScaleInPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ForceDeletion
+	if source.ForceDeletion != nil {
+		propertyBag.Add("ForceDeletion", *source.ForceDeletion)
+	} else {
+		propertyBag.Remove("ForceDeletion")
+	}
+
+	// Rules
+	policy.Rules = genruntime.CloneSliceOfString(source.Rules)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToScaleInPolicyStatus populates the provided destination ScaleInPolicy_Status from our ScaleInPolicy_Status
+func (policy *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicyStatus(destination *v20220301s.ScaleInPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// ForceDeletion
+	if propertyBag.Contains("ForceDeletion") {
+		var forceDeletion bool
+		err := propertyBag.Pull("ForceDeletion", &forceDeletion)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ForceDeletion' from propertyBag")
+		}
+
+		destination.ForceDeletion = &forceDeletion
+	} else {
+		destination.ForceDeletion = nil
+	}
+
+	// Rules
+	destination.Rules = genruntime.CloneSliceOfString(policy.Rules)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.Sku
@@ -274,12 +1633,112 @@ type Sku struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
+// AssignPropertiesFromSku populates our Sku from the provided source Sku
+func (sku *Sku) AssignPropertiesFromSku(source *v20220301s.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Capacity
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Tier
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sku.PropertyBag = propertyBag
+	} else {
+		sku.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignPropertiesToSku(destination *v20220301s.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
+
+	// Tier
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.Sku_Status
 type Sku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
+}
+
+// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
+func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20220301s.Sku_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Capacity
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Tier
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sku.PropertyBag = propertyBag
+	} else {
+		sku.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
+func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20220301s.Sku_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
+
+	// Tier
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.UpgradePolicy
@@ -291,12 +1750,184 @@ type UpgradePolicy struct {
 	RollingUpgradePolicy     *RollingUpgradePolicy     `json:"rollingUpgradePolicy,omitempty"`
 }
 
+// AssignPropertiesFromUpgradePolicy populates our UpgradePolicy from the provided source UpgradePolicy
+func (policy *UpgradePolicy) AssignPropertiesFromUpgradePolicy(source *v20220301s.UpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticOSUpgradePolicy
+	if source.AutomaticOSUpgradePolicy != nil {
+		var automaticOSUpgradePolicy AutomaticOSUpgradePolicy
+		err := automaticOSUpgradePolicy.AssignPropertiesFromAutomaticOSUpgradePolicy(source.AutomaticOSUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutomaticOSUpgradePolicy() to populate field AutomaticOSUpgradePolicy")
+		}
+		policy.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
+	} else {
+		policy.AutomaticOSUpgradePolicy = nil
+	}
+
+	// Mode
+	policy.Mode = genruntime.ClonePointerToString(source.Mode)
+
+	// RollingUpgradePolicy
+	if source.RollingUpgradePolicy != nil {
+		var rollingUpgradePolicy RollingUpgradePolicy
+		err := rollingUpgradePolicy.AssignPropertiesFromRollingUpgradePolicy(source.RollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRollingUpgradePolicy() to populate field RollingUpgradePolicy")
+		}
+		policy.RollingUpgradePolicy = &rollingUpgradePolicy
+	} else {
+		policy.RollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToUpgradePolicy populates the provided destination UpgradePolicy from our UpgradePolicy
+func (policy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination *v20220301s.UpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AutomaticOSUpgradePolicy
+	if policy.AutomaticOSUpgradePolicy != nil {
+		var automaticOSUpgradePolicy v20220301s.AutomaticOSUpgradePolicy
+		err := policy.AutomaticOSUpgradePolicy.AssignPropertiesToAutomaticOSUpgradePolicy(&automaticOSUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutomaticOSUpgradePolicy() to populate field AutomaticOSUpgradePolicy")
+		}
+		destination.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
+	} else {
+		destination.AutomaticOSUpgradePolicy = nil
+	}
+
+	// Mode
+	destination.Mode = genruntime.ClonePointerToString(policy.Mode)
+
+	// RollingUpgradePolicy
+	if policy.RollingUpgradePolicy != nil {
+		var rollingUpgradePolicy v20220301s.RollingUpgradePolicy
+		err := policy.RollingUpgradePolicy.AssignPropertiesToRollingUpgradePolicy(&rollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRollingUpgradePolicy() to populate field RollingUpgradePolicy")
+		}
+		destination.RollingUpgradePolicy = &rollingUpgradePolicy
+	} else {
+		destination.RollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.UpgradePolicy_Status
 type UpgradePolicy_Status struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_Status `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *string                          `json:"mode,omitempty"`
 	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	RollingUpgradePolicy     *RollingUpgradePolicy_Status     `json:"rollingUpgradePolicy,omitempty"`
+}
+
+// AssignPropertiesFromUpgradePolicyStatus populates our UpgradePolicy_Status from the provided source UpgradePolicy_Status
+func (policy *UpgradePolicy_Status) AssignPropertiesFromUpgradePolicyStatus(source *v20220301s.UpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticOSUpgradePolicy
+	if source.AutomaticOSUpgradePolicy != nil {
+		var automaticOSUpgradePolicy AutomaticOSUpgradePolicy_Status
+		err := automaticOSUpgradePolicy.AssignPropertiesFromAutomaticOSUpgradePolicyStatus(source.AutomaticOSUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutomaticOSUpgradePolicyStatus() to populate field AutomaticOSUpgradePolicy")
+		}
+		policy.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
+	} else {
+		policy.AutomaticOSUpgradePolicy = nil
+	}
+
+	// Mode
+	policy.Mode = genruntime.ClonePointerToString(source.Mode)
+
+	// RollingUpgradePolicy
+	if source.RollingUpgradePolicy != nil {
+		var rollingUpgradePolicy RollingUpgradePolicy_Status
+		err := rollingUpgradePolicy.AssignPropertiesFromRollingUpgradePolicyStatus(source.RollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRollingUpgradePolicyStatus() to populate field RollingUpgradePolicy")
+		}
+		policy.RollingUpgradePolicy = &rollingUpgradePolicy
+	} else {
+		policy.RollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToUpgradePolicyStatus populates the provided destination UpgradePolicy_Status from our UpgradePolicy_Status
+func (policy *UpgradePolicy_Status) AssignPropertiesToUpgradePolicyStatus(destination *v20220301s.UpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AutomaticOSUpgradePolicy
+	if policy.AutomaticOSUpgradePolicy != nil {
+		var automaticOSUpgradePolicy v20220301s.AutomaticOSUpgradePolicy_Status
+		err := policy.AutomaticOSUpgradePolicy.AssignPropertiesToAutomaticOSUpgradePolicyStatus(&automaticOSUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutomaticOSUpgradePolicyStatus() to populate field AutomaticOSUpgradePolicy")
+		}
+		destination.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
+	} else {
+		destination.AutomaticOSUpgradePolicy = nil
+	}
+
+	// Mode
+	destination.Mode = genruntime.ClonePointerToString(policy.Mode)
+
+	// RollingUpgradePolicy
+	if policy.RollingUpgradePolicy != nil {
+		var rollingUpgradePolicy v20220301s.RollingUpgradePolicy_Status
+		err := policy.RollingUpgradePolicy.AssignPropertiesToRollingUpgradePolicyStatus(&rollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRollingUpgradePolicyStatus() to populate field RollingUpgradePolicy")
+		}
+		destination.RollingUpgradePolicy = &rollingUpgradePolicy
+	} else {
+		destination.RollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetIdentity
@@ -306,13 +1937,100 @@ type VirtualMachineScaleSetIdentity struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetIdentity populates our VirtualMachineScaleSetIdentity from the provided source VirtualMachineScaleSetIdentity
+func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachineScaleSetIdentity(source *v20220301s.VirtualMachineScaleSetIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetIdentity populates the provided destination VirtualMachineScaleSetIdentity from our VirtualMachineScaleSetIdentity
+func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachineScaleSetIdentity(destination *v20220301s.VirtualMachineScaleSetIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetIdentity_Status
 type VirtualMachineScaleSetIdentity_Status struct {
-	PrincipalId            *string                                                                 `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                                  `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                                 `json:"tenantId,omitempty"`
-	Type                   *string                                                                 `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetIdentityStatus populates our VirtualMachineScaleSetIdentity_Status from the provided source VirtualMachineScaleSetIdentity_Status
+func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesFromVirtualMachineScaleSetIdentityStatus(source *v20220301s.VirtualMachineScaleSetIdentity_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetIdentityStatus populates the provided destination VirtualMachineScaleSetIdentity_Status from our VirtualMachineScaleSetIdentity_Status
+func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesToVirtualMachineScaleSetIdentityStatus(destination *v20220301s.VirtualMachineScaleSetIdentity_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetVMProfile_Status
@@ -331,6 +2049,328 @@ type VirtualMachineScaleSetVMProfile_Status struct {
 	StorageProfile         *VirtualMachineScaleSetStorageProfile_Status   `json:"storageProfile,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus populates our VirtualMachineScaleSetVMProfile_Status from the provided source VirtualMachineScaleSetVMProfile_Status
+func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus(source *v20220301s.VirtualMachineScaleSetVMProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ApplicationProfile
+	if source.ApplicationProfile != nil {
+		propertyBag.Add("ApplicationProfile", *source.ApplicationProfile)
+	} else {
+		propertyBag.Remove("ApplicationProfile")
+	}
+
+	// BillingProfile
+	if source.BillingProfile != nil {
+		var billingProfile BillingProfile_Status
+		err := billingProfile.AssignPropertiesFromBillingProfileStatus(source.BillingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfileStatus() to populate field BillingProfile")
+		}
+		profile.BillingProfile = &billingProfile
+	} else {
+		profile.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if source.CapacityReservation != nil {
+		propertyBag.Add("CapacityReservation", *source.CapacityReservation)
+	} else {
+		propertyBag.Remove("CapacityReservation")
+	}
+
+	// DiagnosticsProfile
+	if source.DiagnosticsProfile != nil {
+		var diagnosticsProfile DiagnosticsProfile_Status
+		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfileStatus(source.DiagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfileStatus() to populate field DiagnosticsProfile")
+		}
+		profile.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		profile.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	profile.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
+
+	// ExtensionProfile
+	if source.ExtensionProfile != nil {
+		var extensionProfile VirtualMachineScaleSetExtensionProfile_Status
+		err := extensionProfile.AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus(source.ExtensionProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus() to populate field ExtensionProfile")
+		}
+		profile.ExtensionProfile = &extensionProfile
+	} else {
+		profile.ExtensionProfile = nil
+	}
+
+	// HardwareProfile
+	if source.HardwareProfile != nil {
+		propertyBag.Add("HardwareProfile", *source.HardwareProfile)
+	} else {
+		propertyBag.Remove("HardwareProfile")
+	}
+
+	// LicenseType
+	profile.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// NetworkProfile
+	if source.NetworkProfile != nil {
+		var networkProfile VirtualMachineScaleSetNetworkProfile_Status
+		err := networkProfile.AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus(source.NetworkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus() to populate field NetworkProfile")
+		}
+		profile.NetworkProfile = &networkProfile
+	} else {
+		profile.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if source.OsProfile != nil {
+		var osProfile VirtualMachineScaleSetOSProfile_Status
+		err := osProfile.AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus(source.OsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus() to populate field OsProfile")
+		}
+		profile.OsProfile = &osProfile
+	} else {
+		profile.OsProfile = nil
+	}
+
+	// Priority
+	profile.Priority = genruntime.ClonePointerToString(source.Priority)
+
+	// ScheduledEventsProfile
+	if source.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile ScheduledEventsProfile_Status
+		err := scheduledEventsProfile.AssignPropertiesFromScheduledEventsProfileStatus(source.ScheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromScheduledEventsProfileStatus() to populate field ScheduledEventsProfile")
+		}
+		profile.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		profile.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		var securityProfile SecurityProfile_Status
+		err := securityProfile.AssignPropertiesFromSecurityProfileStatus(source.SecurityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfileStatus() to populate field SecurityProfile")
+		}
+		profile.SecurityProfile = &securityProfile
+	} else {
+		profile.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile VirtualMachineScaleSetStorageProfile_Status
+		err := storageProfile.AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus() to populate field StorageProfile")
+		}
+		profile.StorageProfile = &storageProfile
+	} else {
+		profile.StorageProfile = nil
+	}
+
+	// UserData
+	if source.UserData != nil {
+		propertyBag.Add("UserData", *source.UserData)
+	} else {
+		propertyBag.Remove("UserData")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetVMProfileStatus populates the provided destination VirtualMachineScaleSetVMProfile_Status from our VirtualMachineScaleSetVMProfile_Status
+func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesToVirtualMachineScaleSetVMProfileStatus(destination *v20220301s.VirtualMachineScaleSetVMProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ApplicationProfile
+	if propertyBag.Contains("ApplicationProfile") {
+		var applicationProfile v20220301s.ApplicationProfile_Status
+		err := propertyBag.Pull("ApplicationProfile", &applicationProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ApplicationProfile' from propertyBag")
+		}
+
+		destination.ApplicationProfile = &applicationProfile
+	} else {
+		destination.ApplicationProfile = nil
+	}
+
+	// BillingProfile
+	if profile.BillingProfile != nil {
+		var billingProfile v20220301s.BillingProfile_Status
+		err := profile.BillingProfile.AssignPropertiesToBillingProfileStatus(&billingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBillingProfileStatus() to populate field BillingProfile")
+		}
+		destination.BillingProfile = &billingProfile
+	} else {
+		destination.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if propertyBag.Contains("CapacityReservation") {
+		var capacityReservation v20220301s.CapacityReservationProfile_Status
+		err := propertyBag.Pull("CapacityReservation", &capacityReservation)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'CapacityReservation' from propertyBag")
+		}
+
+		destination.CapacityReservation = &capacityReservation
+	} else {
+		destination.CapacityReservation = nil
+	}
+
+	// DiagnosticsProfile
+	if profile.DiagnosticsProfile != nil {
+		var diagnosticsProfile v20220301s.DiagnosticsProfile_Status
+		err := profile.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfileStatus(&diagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfileStatus() to populate field DiagnosticsProfile")
+		}
+		destination.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		destination.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	destination.EvictionPolicy = genruntime.ClonePointerToString(profile.EvictionPolicy)
+
+	// ExtensionProfile
+	if profile.ExtensionProfile != nil {
+		var extensionProfile v20220301s.VirtualMachineScaleSetExtensionProfile_Status
+		err := profile.ExtensionProfile.AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus(&extensionProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus() to populate field ExtensionProfile")
+		}
+		destination.ExtensionProfile = &extensionProfile
+	} else {
+		destination.ExtensionProfile = nil
+	}
+
+	// HardwareProfile
+	if propertyBag.Contains("HardwareProfile") {
+		var hardwareProfile v20220301s.VirtualMachineScaleSetHardwareProfile_Status
+		err := propertyBag.Pull("HardwareProfile", &hardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'HardwareProfile' from propertyBag")
+		}
+
+		destination.HardwareProfile = &hardwareProfile
+	} else {
+		destination.HardwareProfile = nil
+	}
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(profile.LicenseType)
+
+	// NetworkProfile
+	if profile.NetworkProfile != nil {
+		var networkProfile v20220301s.VirtualMachineScaleSetNetworkProfile_Status
+		err := profile.NetworkProfile.AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus(&networkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus() to populate field NetworkProfile")
+		}
+		destination.NetworkProfile = &networkProfile
+	} else {
+		destination.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if profile.OsProfile != nil {
+		var osProfile v20220301s.VirtualMachineScaleSetOSProfile_Status
+		err := profile.OsProfile.AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(&osProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetOSProfileStatus() to populate field OsProfile")
+		}
+		destination.OsProfile = &osProfile
+	} else {
+		destination.OsProfile = nil
+	}
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToString(profile.Priority)
+
+	// ScheduledEventsProfile
+	if profile.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile v20220301s.ScheduledEventsProfile_Status
+		err := profile.ScheduledEventsProfile.AssignPropertiesToScheduledEventsProfileStatus(&scheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToScheduledEventsProfileStatus() to populate field ScheduledEventsProfile")
+		}
+		destination.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		destination.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if profile.SecurityProfile != nil {
+		var securityProfile v20220301s.SecurityProfile_Status
+		err := profile.SecurityProfile.AssignPropertiesToSecurityProfileStatus(&securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfileStatus() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if profile.StorageProfile != nil {
+		var storageProfile v20220301s.VirtualMachineScaleSetStorageProfile_Status
+		err := profile.StorageProfile.AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// UserData
+	if propertyBag.Contains("UserData") {
+		var userDatum string
+		err := propertyBag.Pull("UserData", &userDatum)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'UserData' from propertyBag")
+		}
+
+		destination.UserData = &userDatum
+	} else {
+		destination.UserData = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	BillingProfile         *BillingProfile                                                                 `json:"billingProfile,omitempty"`
@@ -347,6 +2387,328 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	StorageProfile         *VirtualMachineScaleSetStorageProfile                                           `json:"storageProfile,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ApplicationProfile
+	if source.ApplicationProfile != nil {
+		propertyBag.Add("ApplicationProfile", *source.ApplicationProfile)
+	} else {
+		propertyBag.Remove("ApplicationProfile")
+	}
+
+	// BillingProfile
+	if source.BillingProfile != nil {
+		var billingProfile BillingProfile
+		err := billingProfile.AssignPropertiesFromBillingProfile(source.BillingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfile() to populate field BillingProfile")
+		}
+		profile.BillingProfile = &billingProfile
+	} else {
+		profile.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if source.CapacityReservation != nil {
+		propertyBag.Add("CapacityReservation", *source.CapacityReservation)
+	} else {
+		propertyBag.Remove("CapacityReservation")
+	}
+
+	// DiagnosticsProfile
+	if source.DiagnosticsProfile != nil {
+		var diagnosticsProfile DiagnosticsProfile
+		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfile(source.DiagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		profile.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		profile.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	profile.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
+
+	// ExtensionProfile
+	if source.ExtensionProfile != nil {
+		var extensionProfile VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
+		err := extensionProfile.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(source.ExtensionProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile() to populate field ExtensionProfile")
+		}
+		profile.ExtensionProfile = &extensionProfile
+	} else {
+		profile.ExtensionProfile = nil
+	}
+
+	// HardwareProfile
+	if source.HardwareProfile != nil {
+		propertyBag.Add("HardwareProfile", *source.HardwareProfile)
+	} else {
+		propertyBag.Remove("HardwareProfile")
+	}
+
+	// LicenseType
+	profile.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// NetworkProfile
+	if source.NetworkProfile != nil {
+		var networkProfile VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
+		err := networkProfile.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(source.NetworkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile() to populate field NetworkProfile")
+		}
+		profile.NetworkProfile = &networkProfile
+	} else {
+		profile.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if source.OsProfile != nil {
+		var osProfile VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+		err := osProfile.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(source.OsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile() to populate field OsProfile")
+		}
+		profile.OsProfile = &osProfile
+	} else {
+		profile.OsProfile = nil
+	}
+
+	// Priority
+	profile.Priority = genruntime.ClonePointerToString(source.Priority)
+
+	// ScheduledEventsProfile
+	if source.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile ScheduledEventsProfile
+		err := scheduledEventsProfile.AssignPropertiesFromScheduledEventsProfile(source.ScheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromScheduledEventsProfile() to populate field ScheduledEventsProfile")
+		}
+		profile.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		profile.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		var securityProfile SecurityProfile
+		err := securityProfile.AssignPropertiesFromSecurityProfile(source.SecurityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfile() to populate field SecurityProfile")
+		}
+		profile.SecurityProfile = &securityProfile
+	} else {
+		profile.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile VirtualMachineScaleSetStorageProfile
+		err := storageProfile.AssignPropertiesFromVirtualMachineScaleSetStorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetStorageProfile() to populate field StorageProfile")
+		}
+		profile.StorageProfile = &storageProfile
+	} else {
+		profile.StorageProfile = nil
+	}
+
+	// UserData
+	if source.UserData != nil {
+		propertyBag.Add("UserData", *source.UserData)
+	} else {
+		propertyBag.Remove("UserData")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ApplicationProfile
+	if propertyBag.Contains("ApplicationProfile") {
+		var applicationProfile v20220301s.ApplicationProfile
+		err := propertyBag.Pull("ApplicationProfile", &applicationProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ApplicationProfile' from propertyBag")
+		}
+
+		destination.ApplicationProfile = &applicationProfile
+	} else {
+		destination.ApplicationProfile = nil
+	}
+
+	// BillingProfile
+	if profile.BillingProfile != nil {
+		var billingProfile v20220301s.BillingProfile
+		err := profile.BillingProfile.AssignPropertiesToBillingProfile(&billingProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBillingProfile() to populate field BillingProfile")
+		}
+		destination.BillingProfile = &billingProfile
+	} else {
+		destination.BillingProfile = nil
+	}
+
+	// CapacityReservation
+	if propertyBag.Contains("CapacityReservation") {
+		var capacityReservation v20220301s.CapacityReservationProfile
+		err := propertyBag.Pull("CapacityReservation", &capacityReservation)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'CapacityReservation' from propertyBag")
+		}
+
+		destination.CapacityReservation = &capacityReservation
+	} else {
+		destination.CapacityReservation = nil
+	}
+
+	// DiagnosticsProfile
+	if profile.DiagnosticsProfile != nil {
+		var diagnosticsProfile v20220301s.DiagnosticsProfile
+		err := profile.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfile(&diagnosticsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfile() to populate field DiagnosticsProfile")
+		}
+		destination.DiagnosticsProfile = &diagnosticsProfile
+	} else {
+		destination.DiagnosticsProfile = nil
+	}
+
+	// EvictionPolicy
+	destination.EvictionPolicy = genruntime.ClonePointerToString(profile.EvictionPolicy)
+
+	// ExtensionProfile
+	if profile.ExtensionProfile != nil {
+		var extensionProfile v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
+		err := profile.ExtensionProfile.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(&extensionProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile() to populate field ExtensionProfile")
+		}
+		destination.ExtensionProfile = &extensionProfile
+	} else {
+		destination.ExtensionProfile = nil
+	}
+
+	// HardwareProfile
+	if propertyBag.Contains("HardwareProfile") {
+		var hardwareProfile v20220301s.VirtualMachineScaleSetHardwareProfile
+		err := propertyBag.Pull("HardwareProfile", &hardwareProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'HardwareProfile' from propertyBag")
+		}
+
+		destination.HardwareProfile = &hardwareProfile
+	} else {
+		destination.HardwareProfile = nil
+	}
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(profile.LicenseType)
+
+	// NetworkProfile
+	if profile.NetworkProfile != nil {
+		var networkProfile v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
+		err := profile.NetworkProfile.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(&networkProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile() to populate field NetworkProfile")
+		}
+		destination.NetworkProfile = &networkProfile
+	} else {
+		destination.NetworkProfile = nil
+	}
+
+	// OsProfile
+	if profile.OsProfile != nil {
+		var osProfile v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+		err := profile.OsProfile.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(&osProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile() to populate field OsProfile")
+		}
+		destination.OsProfile = &osProfile
+	} else {
+		destination.OsProfile = nil
+	}
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToString(profile.Priority)
+
+	// ScheduledEventsProfile
+	if profile.ScheduledEventsProfile != nil {
+		var scheduledEventsProfile v20220301s.ScheduledEventsProfile
+		err := profile.ScheduledEventsProfile.AssignPropertiesToScheduledEventsProfile(&scheduledEventsProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToScheduledEventsProfile() to populate field ScheduledEventsProfile")
+		}
+		destination.ScheduledEventsProfile = &scheduledEventsProfile
+	} else {
+		destination.ScheduledEventsProfile = nil
+	}
+
+	// SecurityProfile
+	if profile.SecurityProfile != nil {
+		var securityProfile v20220301s.SecurityProfile
+		err := profile.SecurityProfile.AssignPropertiesToSecurityProfile(&securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfile() to populate field SecurityProfile")
+		}
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageProfile
+	if profile.StorageProfile != nil {
+		var storageProfile v20220301s.VirtualMachineScaleSetStorageProfile
+		err := profile.StorageProfile.AssignPropertiesToVirtualMachineScaleSetStorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetStorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// UserData
+	if propertyBag.Contains("UserData") {
+		var userDatum string
+		err := propertyBag.Pull("UserData", &userDatum)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'UserData' from propertyBag")
+		}
+
+		destination.UserData = &userDatum
+	} else {
+		destination.UserData = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.AutomaticOSUpgradePolicy
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
 type AutomaticOSUpgradePolicy struct {
@@ -355,11 +2717,179 @@ type AutomaticOSUpgradePolicy struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromAutomaticOSUpgradePolicy populates our AutomaticOSUpgradePolicy from the provided source AutomaticOSUpgradePolicy
+func (policy *AutomaticOSUpgradePolicy) AssignPropertiesFromAutomaticOSUpgradePolicy(source *v20220301s.AutomaticOSUpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DisableAutomaticRollback
+	if source.DisableAutomaticRollback != nil {
+		disableAutomaticRollback := *source.DisableAutomaticRollback
+		policy.DisableAutomaticRollback = &disableAutomaticRollback
+	} else {
+		policy.DisableAutomaticRollback = nil
+	}
+
+	// EnableAutomaticOSUpgrade
+	if source.EnableAutomaticOSUpgrade != nil {
+		enableAutomaticOSUpgrade := *source.EnableAutomaticOSUpgrade
+		policy.EnableAutomaticOSUpgrade = &enableAutomaticOSUpgrade
+	} else {
+		policy.EnableAutomaticOSUpgrade = nil
+	}
+
+	// UseRollingUpgradePolicy
+	if source.UseRollingUpgradePolicy != nil {
+		propertyBag.Add("UseRollingUpgradePolicy", *source.UseRollingUpgradePolicy)
+	} else {
+		propertyBag.Remove("UseRollingUpgradePolicy")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutomaticOSUpgradePolicy populates the provided destination AutomaticOSUpgradePolicy from our AutomaticOSUpgradePolicy
+func (policy *AutomaticOSUpgradePolicy) AssignPropertiesToAutomaticOSUpgradePolicy(destination *v20220301s.AutomaticOSUpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DisableAutomaticRollback
+	if policy.DisableAutomaticRollback != nil {
+		disableAutomaticRollback := *policy.DisableAutomaticRollback
+		destination.DisableAutomaticRollback = &disableAutomaticRollback
+	} else {
+		destination.DisableAutomaticRollback = nil
+	}
+
+	// EnableAutomaticOSUpgrade
+	if policy.EnableAutomaticOSUpgrade != nil {
+		enableAutomaticOSUpgrade := *policy.EnableAutomaticOSUpgrade
+		destination.EnableAutomaticOSUpgrade = &enableAutomaticOSUpgrade
+	} else {
+		destination.EnableAutomaticOSUpgrade = nil
+	}
+
+	// UseRollingUpgradePolicy
+	if propertyBag.Contains("UseRollingUpgradePolicy") {
+		var useRollingUpgradePolicy bool
+		err := propertyBag.Pull("UseRollingUpgradePolicy", &useRollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'UseRollingUpgradePolicy' from propertyBag")
+		}
+
+		destination.UseRollingUpgradePolicy = &useRollingUpgradePolicy
+	} else {
+		destination.UseRollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.AutomaticOSUpgradePolicy_Status
 type AutomaticOSUpgradePolicy_Status struct {
 	DisableAutomaticRollback *bool                  `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool                  `json:"enableAutomaticOSUpgrade,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromAutomaticOSUpgradePolicyStatus populates our AutomaticOSUpgradePolicy_Status from the provided source AutomaticOSUpgradePolicy_Status
+func (policy *AutomaticOSUpgradePolicy_Status) AssignPropertiesFromAutomaticOSUpgradePolicyStatus(source *v20220301s.AutomaticOSUpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DisableAutomaticRollback
+	if source.DisableAutomaticRollback != nil {
+		disableAutomaticRollback := *source.DisableAutomaticRollback
+		policy.DisableAutomaticRollback = &disableAutomaticRollback
+	} else {
+		policy.DisableAutomaticRollback = nil
+	}
+
+	// EnableAutomaticOSUpgrade
+	if source.EnableAutomaticOSUpgrade != nil {
+		enableAutomaticOSUpgrade := *source.EnableAutomaticOSUpgrade
+		policy.EnableAutomaticOSUpgrade = &enableAutomaticOSUpgrade
+	} else {
+		policy.EnableAutomaticOSUpgrade = nil
+	}
+
+	// UseRollingUpgradePolicy
+	if source.UseRollingUpgradePolicy != nil {
+		propertyBag.Add("UseRollingUpgradePolicy", *source.UseRollingUpgradePolicy)
+	} else {
+		propertyBag.Remove("UseRollingUpgradePolicy")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAutomaticOSUpgradePolicyStatus populates the provided destination AutomaticOSUpgradePolicy_Status from our AutomaticOSUpgradePolicy_Status
+func (policy *AutomaticOSUpgradePolicy_Status) AssignPropertiesToAutomaticOSUpgradePolicyStatus(destination *v20220301s.AutomaticOSUpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DisableAutomaticRollback
+	if policy.DisableAutomaticRollback != nil {
+		disableAutomaticRollback := *policy.DisableAutomaticRollback
+		destination.DisableAutomaticRollback = &disableAutomaticRollback
+	} else {
+		destination.DisableAutomaticRollback = nil
+	}
+
+	// EnableAutomaticOSUpgrade
+	if policy.EnableAutomaticOSUpgrade != nil {
+		enableAutomaticOSUpgrade := *policy.EnableAutomaticOSUpgrade
+		destination.EnableAutomaticOSUpgrade = &enableAutomaticOSUpgrade
+	} else {
+		destination.EnableAutomaticOSUpgrade = nil
+	}
+
+	// UseRollingUpgradePolicy
+	if propertyBag.Contains("UseRollingUpgradePolicy") {
+		var useRollingUpgradePolicy bool
+		err := propertyBag.Pull("UseRollingUpgradePolicy", &useRollingUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'UseRollingUpgradePolicy' from propertyBag")
+		}
+
+		destination.UseRollingUpgradePolicy = &useRollingUpgradePolicy
+	} else {
+		destination.UseRollingUpgradePolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.RollingUpgradePolicy
@@ -374,6 +2904,94 @@ type RollingUpgradePolicy struct {
 	PropertyBag                         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromRollingUpgradePolicy populates our RollingUpgradePolicy from the provided source RollingUpgradePolicy
+func (policy *RollingUpgradePolicy) AssignPropertiesFromRollingUpgradePolicy(source *v20220301s.RollingUpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EnableCrossZoneUpgrade
+	if source.EnableCrossZoneUpgrade != nil {
+		enableCrossZoneUpgrade := *source.EnableCrossZoneUpgrade
+		policy.EnableCrossZoneUpgrade = &enableCrossZoneUpgrade
+	} else {
+		policy.EnableCrossZoneUpgrade = nil
+	}
+
+	// MaxBatchInstancePercent
+	policy.MaxBatchInstancePercent = genruntime.ClonePointerToInt(source.MaxBatchInstancePercent)
+
+	// MaxUnhealthyInstancePercent
+	policy.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyInstancePercent)
+
+	// MaxUnhealthyUpgradedInstancePercent
+	policy.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyUpgradedInstancePercent)
+
+	// PauseTimeBetweenBatches
+	policy.PauseTimeBetweenBatches = genruntime.ClonePointerToString(source.PauseTimeBetweenBatches)
+
+	// PrioritizeUnhealthyInstances
+	if source.PrioritizeUnhealthyInstances != nil {
+		prioritizeUnhealthyInstance := *source.PrioritizeUnhealthyInstances
+		policy.PrioritizeUnhealthyInstances = &prioritizeUnhealthyInstance
+	} else {
+		policy.PrioritizeUnhealthyInstances = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRollingUpgradePolicy populates the provided destination RollingUpgradePolicy from our RollingUpgradePolicy
+func (policy *RollingUpgradePolicy) AssignPropertiesToRollingUpgradePolicy(destination *v20220301s.RollingUpgradePolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// EnableCrossZoneUpgrade
+	if policy.EnableCrossZoneUpgrade != nil {
+		enableCrossZoneUpgrade := *policy.EnableCrossZoneUpgrade
+		destination.EnableCrossZoneUpgrade = &enableCrossZoneUpgrade
+	} else {
+		destination.EnableCrossZoneUpgrade = nil
+	}
+
+	// MaxBatchInstancePercent
+	destination.MaxBatchInstancePercent = genruntime.ClonePointerToInt(policy.MaxBatchInstancePercent)
+
+	// MaxUnhealthyInstancePercent
+	destination.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyInstancePercent)
+
+	// MaxUnhealthyUpgradedInstancePercent
+	destination.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyUpgradedInstancePercent)
+
+	// PauseTimeBetweenBatches
+	destination.PauseTimeBetweenBatches = genruntime.ClonePointerToString(policy.PauseTimeBetweenBatches)
+
+	// PrioritizeUnhealthyInstances
+	if policy.PrioritizeUnhealthyInstances != nil {
+		prioritizeUnhealthyInstance := *policy.PrioritizeUnhealthyInstances
+		destination.PrioritizeUnhealthyInstances = &prioritizeUnhealthyInstance
+	} else {
+		destination.PrioritizeUnhealthyInstances = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.RollingUpgradePolicy_Status
 type RollingUpgradePolicy_Status struct {
 	EnableCrossZoneUpgrade              *bool                  `json:"enableCrossZoneUpgrade,omitempty"`
@@ -385,6 +3003,94 @@ type RollingUpgradePolicy_Status struct {
 	PropertyBag                         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromRollingUpgradePolicyStatus populates our RollingUpgradePolicy_Status from the provided source RollingUpgradePolicy_Status
+func (policy *RollingUpgradePolicy_Status) AssignPropertiesFromRollingUpgradePolicyStatus(source *v20220301s.RollingUpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EnableCrossZoneUpgrade
+	if source.EnableCrossZoneUpgrade != nil {
+		enableCrossZoneUpgrade := *source.EnableCrossZoneUpgrade
+		policy.EnableCrossZoneUpgrade = &enableCrossZoneUpgrade
+	} else {
+		policy.EnableCrossZoneUpgrade = nil
+	}
+
+	// MaxBatchInstancePercent
+	policy.MaxBatchInstancePercent = genruntime.ClonePointerToInt(source.MaxBatchInstancePercent)
+
+	// MaxUnhealthyInstancePercent
+	policy.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyInstancePercent)
+
+	// MaxUnhealthyUpgradedInstancePercent
+	policy.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyUpgradedInstancePercent)
+
+	// PauseTimeBetweenBatches
+	policy.PauseTimeBetweenBatches = genruntime.ClonePointerToString(source.PauseTimeBetweenBatches)
+
+	// PrioritizeUnhealthyInstances
+	if source.PrioritizeUnhealthyInstances != nil {
+		prioritizeUnhealthyInstance := *source.PrioritizeUnhealthyInstances
+		policy.PrioritizeUnhealthyInstances = &prioritizeUnhealthyInstance
+	} else {
+		policy.PrioritizeUnhealthyInstances = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRollingUpgradePolicyStatus populates the provided destination RollingUpgradePolicy_Status from our RollingUpgradePolicy_Status
+func (policy *RollingUpgradePolicy_Status) AssignPropertiesToRollingUpgradePolicyStatus(destination *v20220301s.RollingUpgradePolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// EnableCrossZoneUpgrade
+	if policy.EnableCrossZoneUpgrade != nil {
+		enableCrossZoneUpgrade := *policy.EnableCrossZoneUpgrade
+		destination.EnableCrossZoneUpgrade = &enableCrossZoneUpgrade
+	} else {
+		destination.EnableCrossZoneUpgrade = nil
+	}
+
+	// MaxBatchInstancePercent
+	destination.MaxBatchInstancePercent = genruntime.ClonePointerToInt(policy.MaxBatchInstancePercent)
+
+	// MaxUnhealthyInstancePercent
+	destination.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyInstancePercent)
+
+	// MaxUnhealthyUpgradedInstancePercent
+	destination.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(policy.MaxUnhealthyUpgradedInstancePercent)
+
+	// PauseTimeBetweenBatches
+	destination.PauseTimeBetweenBatches = genruntime.ClonePointerToString(policy.PauseTimeBetweenBatches)
+
+	// PrioritizeUnhealthyInstances
+	if policy.PrioritizeUnhealthyInstances != nil {
+		prioritizeUnhealthyInstance := *policy.PrioritizeUnhealthyInstances
+		destination.PrioritizeUnhealthyInstances = &prioritizeUnhealthyInstance
+	} else {
+		destination.PrioritizeUnhealthyInstances = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.ScheduledEventsProfile
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
 type ScheduledEventsProfile struct {
@@ -392,10 +3098,122 @@ type ScheduledEventsProfile struct {
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
 }
 
+// AssignPropertiesFromScheduledEventsProfile populates our ScheduledEventsProfile from the provided source ScheduledEventsProfile
+func (profile *ScheduledEventsProfile) AssignPropertiesFromScheduledEventsProfile(source *v20220301s.ScheduledEventsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// TerminateNotificationProfile
+	if source.TerminateNotificationProfile != nil {
+		var terminateNotificationProfile TerminateNotificationProfile
+		err := terminateNotificationProfile.AssignPropertiesFromTerminateNotificationProfile(source.TerminateNotificationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTerminateNotificationProfile() to populate field TerminateNotificationProfile")
+		}
+		profile.TerminateNotificationProfile = &terminateNotificationProfile
+	} else {
+		profile.TerminateNotificationProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToScheduledEventsProfile populates the provided destination ScheduledEventsProfile from our ScheduledEventsProfile
+func (profile *ScheduledEventsProfile) AssignPropertiesToScheduledEventsProfile(destination *v20220301s.ScheduledEventsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// TerminateNotificationProfile
+	if profile.TerminateNotificationProfile != nil {
+		var terminateNotificationProfile v20220301s.TerminateNotificationProfile
+		err := profile.TerminateNotificationProfile.AssignPropertiesToTerminateNotificationProfile(&terminateNotificationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTerminateNotificationProfile() to populate field TerminateNotificationProfile")
+		}
+		destination.TerminateNotificationProfile = &terminateNotificationProfile
+	} else {
+		destination.TerminateNotificationProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.ScheduledEventsProfile_Status
 type ScheduledEventsProfile_Status struct {
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	TerminateNotificationProfile *TerminateNotificationProfile_Status `json:"terminateNotificationProfile,omitempty"`
+}
+
+// AssignPropertiesFromScheduledEventsProfileStatus populates our ScheduledEventsProfile_Status from the provided source ScheduledEventsProfile_Status
+func (profile *ScheduledEventsProfile_Status) AssignPropertiesFromScheduledEventsProfileStatus(source *v20220301s.ScheduledEventsProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// TerminateNotificationProfile
+	if source.TerminateNotificationProfile != nil {
+		var terminateNotificationProfile TerminateNotificationProfile_Status
+		err := terminateNotificationProfile.AssignPropertiesFromTerminateNotificationProfileStatus(source.TerminateNotificationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTerminateNotificationProfileStatus() to populate field TerminateNotificationProfile")
+		}
+		profile.TerminateNotificationProfile = &terminateNotificationProfile
+	} else {
+		profile.TerminateNotificationProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToScheduledEventsProfileStatus populates the provided destination ScheduledEventsProfile_Status from our ScheduledEventsProfile_Status
+func (profile *ScheduledEventsProfile_Status) AssignPropertiesToScheduledEventsProfileStatus(destination *v20220301s.ScheduledEventsProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// TerminateNotificationProfile
+	if profile.TerminateNotificationProfile != nil {
+		var terminateNotificationProfile v20220301s.TerminateNotificationProfile_Status
+		err := profile.TerminateNotificationProfile.AssignPropertiesToTerminateNotificationProfileStatus(&terminateNotificationProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTerminateNotificationProfileStatus() to populate field TerminateNotificationProfile")
+		}
+		destination.TerminateNotificationProfile = &terminateNotificationProfile
+	} else {
+		destination.TerminateNotificationProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status
@@ -405,11 +3223,78 @@ type VirtualMachineScaleSetExtensionProfile_Status struct {
 	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus populates our VirtualMachineScaleSetExtensionProfile_Status from the provided source VirtualMachineScaleSetExtensionProfile_Status
+func (profile *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus(source *v20220301s.VirtualMachineScaleSetExtensionProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Extensions
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineScaleSetExtension_Status, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineScaleSetExtension_Status
+			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtensionStatus() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		profile.Extensions = extensionList
+	} else {
+		profile.Extensions = nil
+	}
+
+	// ExtensionsTimeBudget
+	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus populates the provided destination VirtualMachineScaleSetExtensionProfile_Status from our VirtualMachineScaleSetExtensionProfile_Status
+func (profile *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus(destination *v20220301s.VirtualMachineScaleSetExtensionProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Extensions
+	if profile.Extensions != nil {
+		extensionList := make([]v20220301s.VirtualMachineScaleSetExtension_Status, len(profile.Extensions))
+		for extensionIndex, extensionItem := range profile.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension v20220301s.VirtualMachineScaleSetExtension_Status
+			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&extension)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtensionStatus() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		destination.Extensions = extensionList
+	} else {
+		destination.Extensions = nil
+	}
+
+	// ExtensionsTimeBudget
+	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status
@@ -417,6 +3302,118 @@ type VirtualMachineScaleSetNetworkProfile_Status struct {
 	HealthProbe                    *ApiEntityReference_Status                          `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_Status `json:"networkInterfaceConfigurations,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus populates our VirtualMachineScaleSetNetworkProfile_Status from the provided source VirtualMachineScaleSetNetworkProfile_Status
+func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus(source *v20220301s.VirtualMachineScaleSetNetworkProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HealthProbe
+	if source.HealthProbe != nil {
+		var healthProbe ApiEntityReference_Status
+		err := healthProbe.AssignPropertiesFromApiEntityReferenceStatus(source.HealthProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiEntityReferenceStatus() to populate field HealthProbe")
+		}
+		profile.HealthProbe = &healthProbe
+	} else {
+		profile.HealthProbe = nil
+	}
+
+	// NetworkApiVersion
+	if source.NetworkApiVersion != nil {
+		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
+	} else {
+		propertyBag.Remove("NetworkApiVersion")
+	}
+
+	// NetworkInterfaceConfigurations
+	if source.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]VirtualMachineScaleSetNetworkConfiguration_Status, len(source.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration VirtualMachineScaleSetNetworkConfiguration_Status
+			err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		profile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		profile.NetworkInterfaceConfigurations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus populates the provided destination VirtualMachineScaleSetNetworkProfile_Status from our VirtualMachineScaleSetNetworkProfile_Status
+func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus(destination *v20220301s.VirtualMachineScaleSetNetworkProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// HealthProbe
+	if profile.HealthProbe != nil {
+		var healthProbe v20220301s.ApiEntityReference_Status
+		err := profile.HealthProbe.AssignPropertiesToApiEntityReferenceStatus(&healthProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiEntityReferenceStatus() to populate field HealthProbe")
+		}
+		destination.HealthProbe = &healthProbe
+	} else {
+		destination.HealthProbe = nil
+	}
+
+	// NetworkApiVersion
+	if propertyBag.Contains("NetworkApiVersion") {
+		var networkApiVersion string
+		err := propertyBag.Pull("NetworkApiVersion", &networkApiVersion)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'NetworkApiVersion' from propertyBag")
+		}
+
+		destination.NetworkApiVersion = &networkApiVersion
+	} else {
+		destination.NetworkApiVersion = nil
+	}
+
+	// NetworkInterfaceConfigurations
+	if profile.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]v20220301s.VirtualMachineScaleSetNetworkConfiguration_Status, len(profile.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range profile.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration v20220301s.VirtualMachineScaleSetNetworkConfiguration_Status
+			err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetOSProfile_Status
@@ -430,6 +3427,160 @@ type VirtualMachineScaleSetOSProfile_Status struct {
 	WindowsConfiguration *WindowsConfiguration_Status `json:"windowsConfiguration,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus populates our VirtualMachineScaleSetOSProfile_Status from the provided source VirtualMachineScaleSetOSProfile_Status
+func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus(source *v20220301s.VirtualMachineScaleSetOSProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		propertyBag.Add("AllowExtensionOperations", *source.AllowExtensionOperations)
+	} else {
+		propertyBag.Remove("AllowExtensionOperations")
+	}
+
+	// ComputerNamePrefix
+	profile.ComputerNamePrefix = genruntime.ClonePointerToString(source.ComputerNamePrefix)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration_Status
+		err := linuxConfiguration.AssignPropertiesFromLinuxConfigurationStatus(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfigurationStatus() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup_Status, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup_Status
+			err := secret.AssignPropertiesFromVaultSecretGroupStatus(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroupStatus() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration_Status
+		err := windowsConfiguration.AssignPropertiesFromWindowsConfigurationStatus(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfigurationStatus() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetOSProfileStatus populates the provided destination VirtualMachineScaleSetOSProfile_Status from our VirtualMachineScaleSetOSProfile_Status
+func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(destination *v20220301s.VirtualMachineScaleSetOSProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if propertyBag.Contains("AllowExtensionOperations") {
+		var allowExtensionOperation bool
+		err := propertyBag.Pull("AllowExtensionOperations", &allowExtensionOperation)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AllowExtensionOperations' from propertyBag")
+		}
+
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerNamePrefix
+	destination.ComputerNamePrefix = genruntime.ClonePointerToString(profile.ComputerNamePrefix)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20220301s.LinuxConfiguration_Status
+		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfigurationStatus(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfigurationStatus() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20220301s.VaultSecretGroup_Status, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20220301s.VaultSecretGroup_Status
+			err := secretItem.AssignPropertiesToVaultSecretGroupStatus(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroupStatus() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20220301s.WindowsConfiguration_Status
+		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfigurationStatus(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfigurationStatus() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetStorageProfile
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
 type VirtualMachineScaleSetStorageProfile struct {
@@ -437,6 +3588,122 @@ type VirtualMachineScaleSetStorageProfile struct {
 	ImageReference *ImageReference                  `json:"imageReference,omitempty"`
 	OsDisk         *VirtualMachineScaleSetOSDisk    `json:"osDisk,omitempty"`
 	PropertyBag    genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetStorageProfile populates our VirtualMachineScaleSetStorageProfile from the provided source VirtualMachineScaleSetStorageProfile
+func (profile *VirtualMachineScaleSetStorageProfile) AssignPropertiesFromVirtualMachineScaleSetStorageProfile(source *v20220301s.VirtualMachineScaleSetStorageProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataDisks
+	if source.DataDisks != nil {
+		dataDiskList := make([]VirtualMachineScaleSetDataDisk, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk VirtualMachineScaleSetDataDisk
+			err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDisk(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetDataDisk() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		profile.DataDisks = dataDiskList
+	} else {
+		profile.DataDisks = nil
+	}
+
+	// ImageReference
+	if source.ImageReference != nil {
+		var imageReference ImageReference
+		err := imageReference.AssignPropertiesFromImageReference(source.ImageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageReference() to populate field ImageReference")
+		}
+		profile.ImageReference = &imageReference
+	} else {
+		profile.ImageReference = nil
+	}
+
+	// OsDisk
+	if source.OsDisk != nil {
+		var osDisk VirtualMachineScaleSetOSDisk
+		err := osDisk.AssignPropertiesFromVirtualMachineScaleSetOSDisk(source.OsDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetOSDisk() to populate field OsDisk")
+		}
+		profile.OsDisk = &osDisk
+	} else {
+		profile.OsDisk = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetStorageProfile populates the provided destination VirtualMachineScaleSetStorageProfile from our VirtualMachineScaleSetStorageProfile
+func (profile *VirtualMachineScaleSetStorageProfile) AssignPropertiesToVirtualMachineScaleSetStorageProfile(destination *v20220301s.VirtualMachineScaleSetStorageProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataDisks
+	if profile.DataDisks != nil {
+		dataDiskList := make([]v20220301s.VirtualMachineScaleSetDataDisk, len(profile.DataDisks))
+		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v20220301s.VirtualMachineScaleSetDataDisk
+			err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDisk(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetDataDisk() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
+	}
+
+	// ImageReference
+	if profile.ImageReference != nil {
+		var imageReference v20220301s.ImageReference
+		err := profile.ImageReference.AssignPropertiesToImageReference(&imageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageReference() to populate field ImageReference")
+		}
+		destination.ImageReference = &imageReference
+	} else {
+		destination.ImageReference = nil
+	}
+
+	// OsDisk
+	if profile.OsDisk != nil {
+		var osDisk v20220301s.VirtualMachineScaleSetOSDisk
+		err := profile.OsDisk.AssignPropertiesToVirtualMachineScaleSetOSDisk(&osDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetOSDisk() to populate field OsDisk")
+		}
+		destination.OsDisk = &osDisk
+	} else {
+		destination.OsDisk = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetStorageProfile_Status
@@ -447,6 +3714,122 @@ type VirtualMachineScaleSetStorageProfile_Status struct {
 	PropertyBag    genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus populates our VirtualMachineScaleSetStorageProfile_Status from the provided source VirtualMachineScaleSetStorageProfile_Status
+func (profile *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus(source *v20220301s.VirtualMachineScaleSetStorageProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataDisks
+	if source.DataDisks != nil {
+		dataDiskList := make([]VirtualMachineScaleSetDataDisk_Status, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk VirtualMachineScaleSetDataDisk_Status
+			err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		profile.DataDisks = dataDiskList
+	} else {
+		profile.DataDisks = nil
+	}
+
+	// ImageReference
+	if source.ImageReference != nil {
+		var imageReference ImageReference_Status
+		err := imageReference.AssignPropertiesFromImageReferenceStatus(source.ImageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageReferenceStatus() to populate field ImageReference")
+		}
+		profile.ImageReference = &imageReference
+	} else {
+		profile.ImageReference = nil
+	}
+
+	// OsDisk
+	if source.OsDisk != nil {
+		var osDisk VirtualMachineScaleSetOSDisk_Status
+		err := osDisk.AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus(source.OsDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus() to populate field OsDisk")
+		}
+		profile.OsDisk = &osDisk
+	} else {
+		profile.OsDisk = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus populates the provided destination VirtualMachineScaleSetStorageProfile_Status from our VirtualMachineScaleSetStorageProfile_Status
+func (profile *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus(destination *v20220301s.VirtualMachineScaleSetStorageProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// DataDisks
+	if profile.DataDisks != nil {
+		dataDiskList := make([]v20220301s.VirtualMachineScaleSetDataDisk_Status, len(profile.DataDisks))
+		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v20220301s.VirtualMachineScaleSetDataDisk_Status
+			err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetDataDiskStatus() to populate field DataDisks")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
+		}
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
+	}
+
+	// ImageReference
+	if profile.ImageReference != nil {
+		var imageReference v20220301s.ImageReference_Status
+		err := profile.ImageReference.AssignPropertiesToImageReferenceStatus(&imageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageReferenceStatus() to populate field ImageReference")
+		}
+		destination.ImageReference = &imageReference
+	} else {
+		destination.ImageReference = nil
+	}
+
+	// OsDisk
+	if profile.OsDisk != nil {
+		var osDisk v20220301s.VirtualMachineScaleSetOSDisk_Status
+		err := profile.OsDisk.AssignPropertiesToVirtualMachineScaleSetOSDiskStatus(&osDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetOSDiskStatus() to populate field OsDisk")
+		}
+		destination.OsDisk = &osDisk
+	} else {
+		destination.OsDisk = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile struct {
 	Extensions           []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
@@ -454,11 +3837,197 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 	PropertyBag          genruntime.PropertyBag                                                                      `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Extensions
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+			err := extension.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		profile.Extensions = extensionList
+	} else {
+		profile.Extensions = nil
+	}
+
+	// ExtensionsTimeBudget
+	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Extensions
+	if profile.Extensions != nil {
+		extensionList := make([]v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(profile.Extensions))
+		for extensionIndex, extensionItem := range profile.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extension)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		destination.Extensions = extensionList
+	} else {
+		destination.Extensions = nil
+	}
+
+	// ExtensionsTimeBudget
+	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
 	HealthProbe                    *ApiEntityReference                                                                                           `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                                                                                        `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HealthProbe
+	if source.HealthProbe != nil {
+		var healthProbe ApiEntityReference
+		err := healthProbe.AssignPropertiesFromApiEntityReference(source.HealthProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiEntityReference() to populate field HealthProbe")
+		}
+		profile.HealthProbe = &healthProbe
+	} else {
+		profile.HealthProbe = nil
+	}
+
+	// NetworkApiVersion
+	if source.NetworkApiVersion != nil {
+		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
+	} else {
+		propertyBag.Remove("NetworkApiVersion")
+	}
+
+	// NetworkInterfaceConfigurations
+	if source.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(source.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+			err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		profile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		profile.NetworkInterfaceConfigurations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// HealthProbe
+	if profile.HealthProbe != nil {
+		var healthProbe v20220301s.ApiEntityReference
+		err := profile.HealthProbe.AssignPropertiesToApiEntityReference(&healthProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiEntityReference() to populate field HealthProbe")
+		}
+		destination.HealthProbe = &healthProbe
+	} else {
+		destination.HealthProbe = nil
+	}
+
+	// NetworkApiVersion
+	if propertyBag.Contains("NetworkApiVersion") {
+		var networkApiVersion string
+		err := propertyBag.Pull("NetworkApiVersion", &networkApiVersion)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'NetworkApiVersion' from propertyBag")
+		}
+
+		destination.NetworkApiVersion = &networkApiVersion
+	} else {
+		destination.NetworkApiVersion = nil
+	}
+
+	// NetworkInterfaceConfigurations
+	if profile.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(profile.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range profile.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+			err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations() to populate field NetworkInterfaceConfigurations")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		}
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
@@ -473,6 +4042,176 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile str
 	WindowsConfiguration *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		propertyBag.Add("AllowExtensionOperations", *source.AllowExtensionOperations)
+	} else {
+		propertyBag.Remove("AllowExtensionOperations")
+	}
+
+	// ComputerNamePrefix
+	profile.ComputerNamePrefix = genruntime.ClonePointerToString(source.ComputerNamePrefix)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if propertyBag.Contains("AllowExtensionOperations") {
+		var allowExtensionOperation bool
+		err := propertyBag.Pull("AllowExtensionOperations", &allowExtensionOperation)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AllowExtensionOperations' from propertyBag")
+		}
+
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerNamePrefix
+	destination.ComputerNamePrefix = genruntime.ClonePointerToString(profile.ComputerNamePrefix)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20220301s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20220301s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20220301s.VaultSecretGroup
+			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20220301s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.ApiEntityReference
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference
 type ApiEntityReference struct {
@@ -482,10 +4221,96 @@ type ApiEntityReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignPropertiesFromApiEntityReference populates our ApiEntityReference from the provided source ApiEntityReference
+func (reference *ApiEntityReference) AssignPropertiesFromApiEntityReference(source *v20220301s.ApiEntityReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToApiEntityReference populates the provided destination ApiEntityReference from our ApiEntityReference
+func (reference *ApiEntityReference) AssignPropertiesToApiEntityReference(destination *v20220301s.ApiEntityReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.ApiEntityReference_Status
 type ApiEntityReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromApiEntityReferenceStatus populates our ApiEntityReference_Status from the provided source ApiEntityReference_Status
+func (reference *ApiEntityReference_Status) AssignPropertiesFromApiEntityReferenceStatus(source *v20220301s.ApiEntityReference_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToApiEntityReferenceStatus populates the provided destination ApiEntityReference_Status from our ApiEntityReference_Status
+func (reference *ApiEntityReference_Status) AssignPropertiesToApiEntityReferenceStatus(destination *v20220301s.ApiEntityReference_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.TerminateNotificationProfile
@@ -496,11 +4321,119 @@ type TerminateNotificationProfile struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromTerminateNotificationProfile populates our TerminateNotificationProfile from the provided source TerminateNotificationProfile
+func (profile *TerminateNotificationProfile) AssignPropertiesFromTerminateNotificationProfile(source *v20220301s.TerminateNotificationProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		profile.Enable = &enable
+	} else {
+		profile.Enable = nil
+	}
+
+	// NotBeforeTimeout
+	profile.NotBeforeTimeout = genruntime.ClonePointerToString(source.NotBeforeTimeout)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTerminateNotificationProfile populates the provided destination TerminateNotificationProfile from our TerminateNotificationProfile
+func (profile *TerminateNotificationProfile) AssignPropertiesToTerminateNotificationProfile(destination *v20220301s.TerminateNotificationProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Enable
+	if profile.Enable != nil {
+		enable := *profile.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// NotBeforeTimeout
+	destination.NotBeforeTimeout = genruntime.ClonePointerToString(profile.NotBeforeTimeout)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.TerminateNotificationProfile_Status
 type TerminateNotificationProfile_Status struct {
 	Enable           *bool                  `json:"enable,omitempty"`
 	NotBeforeTimeout *string                `json:"notBeforeTimeout,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromTerminateNotificationProfileStatus populates our TerminateNotificationProfile_Status from the provided source TerminateNotificationProfile_Status
+func (profile *TerminateNotificationProfile_Status) AssignPropertiesFromTerminateNotificationProfileStatus(source *v20220301s.TerminateNotificationProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		profile.Enable = &enable
+	} else {
+		profile.Enable = nil
+	}
+
+	// NotBeforeTimeout
+	profile.NotBeforeTimeout = genruntime.ClonePointerToString(source.NotBeforeTimeout)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTerminateNotificationProfileStatus populates the provided destination TerminateNotificationProfile_Status from our TerminateNotificationProfile_Status
+func (profile *TerminateNotificationProfile_Status) AssignPropertiesToTerminateNotificationProfileStatus(destination *v20220301s.TerminateNotificationProfile_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Enable
+	if profile.Enable != nil {
+		enable := *profile.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// NotBeforeTimeout
+	destination.NotBeforeTimeout = genruntime.ClonePointerToString(profile.NotBeforeTimeout)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetDataDisk
@@ -518,6 +4451,140 @@ type VirtualMachineScaleSetDataDisk struct {
 	WriteAcceleratorEnabled *bool                                        `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetDataDisk populates our VirtualMachineScaleSetDataDisk from the provided source VirtualMachineScaleSetDataDisk
+func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesFromVirtualMachineScaleSetDataDisk(source *v20220301s.VirtualMachineScaleSetDataDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// CreateOption
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DiskIOPSReadWrite
+	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Lun
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var managedDisk VirtualMachineScaleSetManagedDiskParameters
+		err := managedDisk.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters() to populate field ManagedDisk")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Name
+	disk.Name = genruntime.ClonePointerToString(source.Name)
+
+	// WriteAcceleratorEnabled
+	if source.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
+		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		disk.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetDataDisk populates the provided destination VirtualMachineScaleSetDataDisk from our VirtualMachineScaleSetDataDisk
+func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesToVirtualMachineScaleSetDataDisk(destination *v20220301s.VirtualMachineScaleSetDataDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// CreateOption
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DiskIOPSReadWrite
+	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var managedDisk v20220301s.VirtualMachineScaleSetManagedDiskParameters
+		err := disk.ManagedDisk.AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters() to populate field ManagedDisk")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(disk.Name)
+
+	// WriteAcceleratorEnabled
+	if disk.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *disk.WriteAcceleratorEnabled
+		destination.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		destination.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetDataDisk_Status
 type VirtualMachineScaleSetDataDisk_Status struct {
 	Caching                 *string                                             `json:"caching,omitempty"`
@@ -530,6 +4597,140 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	Name                    *string                                             `json:"name,omitempty"`
 	PropertyBag             genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
 	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus populates our VirtualMachineScaleSetDataDisk_Status from the provided source VirtualMachineScaleSetDataDisk_Status
+func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(source *v20220301s.VirtualMachineScaleSetDataDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// CreateOption
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DiskIOPSReadWrite
+	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Lun
+	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var managedDisk VirtualMachineScaleSetManagedDiskParameters_Status
+		err := managedDisk.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus() to populate field ManagedDisk")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Name
+	disk.Name = genruntime.ClonePointerToString(source.Name)
+
+	// WriteAcceleratorEnabled
+	if source.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
+		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		disk.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetDataDiskStatus populates the provided destination VirtualMachineScaleSetDataDisk_Status from our VirtualMachineScaleSetDataDisk_Status
+func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(destination *v20220301s.VirtualMachineScaleSetDataDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// CreateOption
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DiskIOPSReadWrite
+	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Lun
+	destination.Lun = genruntime.ClonePointerToInt(disk.Lun)
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var managedDisk v20220301s.VirtualMachineScaleSetManagedDiskParameters_Status
+		err := disk.ManagedDisk.AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus() to populate field ManagedDisk")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(disk.Name)
+
+	// WriteAcceleratorEnabled
+	if disk.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *disk.WriteAcceleratorEnabled
+		destination.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		destination.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetExtension_Status
@@ -550,6 +4751,216 @@ type VirtualMachineScaleSetExtension_Status struct {
 	TypeHandlerVersion       *string                `json:"typeHandlerVersion,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetExtensionStatus populates our VirtualMachineScaleSetExtension_Status from the provided source VirtualMachineScaleSetExtension_Status
+func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(source *v20220301s.VirtualMachineScaleSetExtension_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoUpgradeMinorVersion
+	if source.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
+		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		extension.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if source.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
+		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		extension.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
+
+	// Id
+	extension.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	extension.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PropertiesType
+	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
+
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		extension.ProtectedSettings = protectedSettingMap
+	} else {
+		extension.ProtectedSettings = nil
+	}
+
+	// ProtectedSettingsFromKeyVault
+	if len(source.ProtectedSettingsFromKeyVault) > 0 {
+		propertyBag.Add("ProtectedSettingsFromKeyVault", source.ProtectedSettingsFromKeyVault)
+	} else {
+		propertyBag.Remove("ProtectedSettingsFromKeyVault")
+	}
+
+	// ProvisionAfterExtensions
+	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
+
+	// ProvisioningState
+	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Publisher
+	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// Settings
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		extension.Settings = settingMap
+	} else {
+		extension.Settings = nil
+	}
+
+	// SuppressFailures
+	if source.SuppressFailures != nil {
+		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
+	} else {
+		propertyBag.Remove("SuppressFailures")
+	}
+
+	// Type
+	extension.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		extension.PropertyBag = propertyBag
+	} else {
+		extension.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetExtensionStatus populates the provided destination VirtualMachineScaleSetExtension_Status from our VirtualMachineScaleSetExtension_Status
+func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesToVirtualMachineScaleSetExtensionStatus(destination *v20220301s.VirtualMachineScaleSetExtension_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(extension.PropertyBag)
+
+	// AutoUpgradeMinorVersion
+	if extension.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
+		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		destination.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if extension.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *extension.EnableAutomaticUpgrade
+		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		destination.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	destination.ForceUpdateTag = genruntime.ClonePointerToString(extension.ForceUpdateTag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(extension.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(extension.Name)
+
+	// PropertiesType
+	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
+
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		destination.ProtectedSettings = protectedSettingMap
+	} else {
+		destination.ProtectedSettings = nil
+	}
+
+	// ProtectedSettingsFromKeyVault
+	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
+		var protectedSettingsFromKeyVault map[string]v1.JSON
+		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
+		}
+
+		destination.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVault
+	} else {
+		destination.ProtectedSettingsFromKeyVault = nil
+	}
+
+	// ProvisionAfterExtensions
+	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(extension.Publisher)
+
+	// Settings
+	if extension.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(extension.Settings))
+		for settingKey, settingValue := range extension.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
+	}
+
+	// SuppressFailures
+	if propertyBag.Contains("SuppressFailures") {
+		var suppressFailure bool
+		err := propertyBag.Pull("SuppressFailures", &suppressFailure)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SuppressFailures' from propertyBag")
+		}
+
+		destination.SuppressFailures = &suppressFailure
+	} else {
+		destination.SuppressFailures = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(extension.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(extension.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status
 type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
@@ -562,6 +4973,228 @@ type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	NetworkSecurityGroup        *SubResource_Status                                           `json:"networkSecurityGroup,omitempty"`
 	Primary                     *bool                                                         `json:"primary,omitempty"`
 	PropertyBag                 genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus populates our VirtualMachineScaleSetNetworkConfiguration_Status from the provided source VirtualMachineScaleSetNetworkConfiguration_Status
+func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(source *v20220301s.VirtualMachineScaleSetNetworkConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
+		err := dnsSetting.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus() to populate field DnsSettings")
+		}
+		configuration.DnsSettings = &dnsSetting
+	} else {
+		configuration.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if source.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
+		configuration.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		configuration.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if source.EnableFpga != nil {
+		enableFpga := *source.EnableFpga
+		configuration.EnableFpga = &enableFpga
+	} else {
+		configuration.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if source.EnableIPForwarding != nil {
+		enableIPForwarding := *source.EnableIPForwarding
+		configuration.EnableIPForwarding = &enableIPForwarding
+	} else {
+		configuration.EnableIPForwarding = nil
+	}
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration_Status, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualMachineScaleSetIPConfiguration_Status
+			err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		configuration.IpConfigurations = ipConfigurationList
+	} else {
+		configuration.IpConfigurations = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkSecurityGroup
+	if source.NetworkSecurityGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from NetworkSecurityGroup")
+		}
+		var networkSecurityGroup SubResource_Status
+		err = networkSecurityGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field NetworkSecurityGroup from SubResource_StatusStash")
+		}
+		configuration.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		configuration.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
+	} else {
+		configuration.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus populates the provided destination VirtualMachineScaleSetNetworkConfiguration_Status from our VirtualMachineScaleSetNetworkConfiguration_Status
+func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(destination *v20220301s.VirtualMachineScaleSetNetworkConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configuration.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
+		err := configuration.DnsSettings.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if configuration.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *configuration.EnableAcceleratedNetworking
+		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		destination.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if configuration.EnableFpga != nil {
+		enableFpga := *configuration.EnableFpga
+		destination.EnableFpga = &enableFpga
+	} else {
+		destination.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if configuration.EnableIPForwarding != nil {
+		enableIPForwarding := *configuration.EnableIPForwarding
+		destination.EnableIPForwarding = &enableIPForwarding
+	} else {
+		destination.EnableIPForwarding = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// IpConfigurations
+	if configuration.IpConfigurations != nil {
+		ipConfigurationList := make([]v20220301s.VirtualMachineScaleSetIPConfiguration_Status, len(configuration.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range configuration.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v20220301s.VirtualMachineScaleSetIPConfiguration_Status
+			err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// NetworkSecurityGroup
+	if configuration.NetworkSecurityGroup != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := configuration.NetworkSecurityGroup.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from NetworkSecurityGroup")
+		}
+		var networkSecurityGroup v20220301s.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field NetworkSecurityGroup from SubResource_StatusStash")
+		}
+		destination.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		destination.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if configuration.Primary != nil {
+		primary := *configuration.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetOSDisk
@@ -580,6 +5213,182 @@ type VirtualMachineScaleSetOSDisk struct {
 	WriteAcceleratorEnabled *bool                                        `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetOSDisk populates our VirtualMachineScaleSetOSDisk from the provided source VirtualMachineScaleSetOSDisk
+func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesFromVirtualMachineScaleSetOSDisk(source *v20220301s.VirtualMachineScaleSetOSDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// CreateOption
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DiffDiskSettings
+	if source.DiffDiskSettings != nil {
+		var diffDiskSetting DiffDiskSettings
+		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettings(source.DiffDiskSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettings() to populate field DiffDiskSettings")
+		}
+		disk.DiffDiskSettings = &diffDiskSetting
+	} else {
+		disk.DiffDiskSettings = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Image
+	if source.Image != nil {
+		var image VirtualHardDisk
+		err := image.AssignPropertiesFromVirtualHardDisk(source.Image)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk() to populate field Image")
+		}
+		disk.Image = &image
+	} else {
+		disk.Image = nil
+	}
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var managedDisk VirtualMachineScaleSetManagedDiskParameters
+		err := managedDisk.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters() to populate field ManagedDisk")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Name
+	disk.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OsType
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// VhdContainers
+	disk.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
+
+	// WriteAcceleratorEnabled
+	if source.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
+		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		disk.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetOSDisk populates the provided destination VirtualMachineScaleSetOSDisk from our VirtualMachineScaleSetOSDisk
+func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesToVirtualMachineScaleSetOSDisk(destination *v20220301s.VirtualMachineScaleSetOSDisk) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// CreateOption
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DiffDiskSettings
+	if disk.DiffDiskSettings != nil {
+		var diffDiskSetting v20220301s.DiffDiskSettings
+		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettings(&diffDiskSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettings() to populate field DiffDiskSettings")
+		}
+		destination.DiffDiskSettings = &diffDiskSetting
+	} else {
+		destination.DiffDiskSettings = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Image
+	if disk.Image != nil {
+		var image v20220301s.VirtualHardDisk
+		err := disk.Image.AssignPropertiesToVirtualHardDisk(&image)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk() to populate field Image")
+		}
+		destination.Image = &image
+	} else {
+		destination.Image = nil
+	}
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var managedDisk v20220301s.VirtualMachineScaleSetManagedDiskParameters
+		err := disk.ManagedDisk.AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters() to populate field ManagedDisk")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(disk.Name)
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
+
+	// VhdContainers
+	destination.VhdContainers = genruntime.CloneSliceOfString(disk.VhdContainers)
+
+	// WriteAcceleratorEnabled
+	if disk.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *disk.WriteAcceleratorEnabled
+		destination.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		destination.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetOSDisk_Status
 type VirtualMachineScaleSetOSDisk_Status struct {
 	Caching                 *string                                             `json:"caching,omitempty"`
@@ -595,6 +5404,182 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus populates our VirtualMachineScaleSetOSDisk_Status from the provided source VirtualMachineScaleSetOSDisk_Status
+func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus(source *v20220301s.VirtualMachineScaleSetOSDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Caching
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
+
+	// CreateOption
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DiffDiskSettings
+	if source.DiffDiskSettings != nil {
+		var diffDiskSetting DiffDiskSettings_Status
+		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettingsStatus(source.DiffDiskSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettingsStatus() to populate field DiffDiskSettings")
+		}
+		disk.DiffDiskSettings = &diffDiskSetting
+	} else {
+		disk.DiffDiskSettings = nil
+	}
+
+	// DiskSizeGB
+	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// Image
+	if source.Image != nil {
+		var image VirtualHardDisk_Status
+		err := image.AssignPropertiesFromVirtualHardDiskStatus(source.Image)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskStatus() to populate field Image")
+		}
+		disk.Image = &image
+	} else {
+		disk.Image = nil
+	}
+
+	// ManagedDisk
+	if source.ManagedDisk != nil {
+		var managedDisk VirtualMachineScaleSetManagedDiskParameters_Status
+		err := managedDisk.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus(source.ManagedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus() to populate field ManagedDisk")
+		}
+		disk.ManagedDisk = &managedDisk
+	} else {
+		disk.ManagedDisk = nil
+	}
+
+	// Name
+	disk.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OsType
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// VhdContainers
+	disk.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
+
+	// WriteAcceleratorEnabled
+	if source.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
+		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		disk.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		disk.PropertyBag = propertyBag
+	} else {
+		disk.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetOSDiskStatus populates the provided destination VirtualMachineScaleSetOSDisk_Status from our VirtualMachineScaleSetOSDisk_Status
+func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachineScaleSetOSDiskStatus(destination *v20220301s.VirtualMachineScaleSetOSDisk_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
+
+	// Caching
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
+
+	// CreateOption
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DiffDiskSettings
+	if disk.DiffDiskSettings != nil {
+		var diffDiskSetting v20220301s.DiffDiskSettings_Status
+		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettingsStatus(&diffDiskSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettingsStatus() to populate field DiffDiskSettings")
+		}
+		destination.DiffDiskSettings = &diffDiskSetting
+	} else {
+		destination.DiffDiskSettings = nil
+	}
+
+	// DiskSizeGB
+	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
+
+	// Image
+	if disk.Image != nil {
+		var image v20220301s.VirtualHardDisk_Status
+		err := disk.Image.AssignPropertiesToVirtualHardDiskStatus(&image)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskStatus() to populate field Image")
+		}
+		destination.Image = &image
+	} else {
+		destination.Image = nil
+	}
+
+	// ManagedDisk
+	if disk.ManagedDisk != nil {
+		var managedDisk v20220301s.VirtualMachineScaleSetManagedDiskParameters_Status
+		err := disk.ManagedDisk.AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(&managedDisk)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus() to populate field ManagedDisk")
+		}
+		destination.ManagedDisk = &managedDisk
+	} else {
+		destination.ManagedDisk = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(disk.Name)
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
+
+	// VhdContainers
+	destination.VhdContainers = genruntime.CloneSliceOfString(disk.VhdContainers)
+
+	// WriteAcceleratorEnabled
+	if disk.WriteAcceleratorEnabled != nil {
+		writeAcceleratorEnabled := *disk.WriteAcceleratorEnabled
+		destination.WriteAcceleratorEnabled = &writeAcceleratorEnabled
+	} else {
+		destination.WriteAcceleratorEnabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions struct {
 	Name               *string                `json:"name,omitempty"`
@@ -603,6 +5588,88 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 	Settings           map[string]v1.JSON     `json:"settings,omitempty"`
 	Type               *string                `json:"type,omitempty"`
 	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	extensions.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Publisher
+	extensions.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// Settings
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		extensions.Settings = settingMap
+	} else {
+		extensions.Settings = nil
+	}
+
+	// Type
+	extensions.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	extensions.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		extensions.PropertyBag = propertyBag
+	} else {
+		extensions.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(extensions.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(extensions.Name)
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(extensions.Publisher)
+
+	// Settings
+	if extensions.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(extensions.Settings))
+		for settingKey, settingValue := range extensions.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(extensions.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(extensions.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
@@ -617,6 +5684,228 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	NetworkSecurityGroup        *SubResource                                                                                                                              `json:"networkSecurityGroup,omitempty"`
 	Primary                     *bool                                                                                                                                     `json:"primary,omitempty"`
 	PropertyBag                 genruntime.PropertyBag                                                                                                                    `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachineScaleSetNetworkConfigurationDnsSettings
+		err := dnsSetting.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings() to populate field DnsSettings")
+		}
+		configurations.DnsSettings = &dnsSetting
+	} else {
+		configurations.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if source.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
+		configurations.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		configurations.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if source.EnableFpga != nil {
+		enableFpga := *source.EnableFpga
+		configurations.EnableFpga = &enableFpga
+	} else {
+		configurations.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if source.EnableIPForwarding != nil {
+		enableIPForwarding := *source.EnableIPForwarding
+		configurations.EnableIPForwarding = &enableIPForwarding
+	} else {
+		configurations.EnableIPForwarding = nil
+	}
+
+	// Id
+	configurations.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+			err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		configurations.IpConfigurations = ipConfigurationList
+	} else {
+		configurations.IpConfigurations = nil
+	}
+
+	// Name
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkSecurityGroup
+	if source.NetworkSecurityGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from NetworkSecurityGroup")
+		}
+		var networkSecurityGroup SubResource
+		err = networkSecurityGroup.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field NetworkSecurityGroup from SubResourceStash")
+		}
+		configurations.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		configurations.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configurations.Primary = &primary
+	} else {
+		configurations.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configurations.PropertyBag = propertyBag
+	} else {
+		configurations.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configurations.PropertyBag)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configurations.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings
+		err := configurations.DnsSettings.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if configurations.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *configurations.EnableAcceleratedNetworking
+		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		destination.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableFpga
+	if configurations.EnableFpga != nil {
+		enableFpga := *configurations.EnableFpga
+		destination.EnableFpga = &enableFpga
+	} else {
+		destination.EnableFpga = nil
+	}
+
+	// EnableIPForwarding
+	if configurations.EnableIPForwarding != nil {
+		enableIPForwarding := *configurations.EnableIPForwarding
+		destination.EnableIPForwarding = &enableIPForwarding
+	} else {
+		destination.EnableIPForwarding = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configurations.Id)
+
+	// IpConfigurations
+	if configurations.IpConfigurations != nil {
+		ipConfigurationList := make([]v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(configurations.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range configurations.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+			err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
+
+	// NetworkSecurityGroup
+	if configurations.NetworkSecurityGroup != nil {
+		var subResourceStash v20210701s.SubResource
+		err := configurations.NetworkSecurityGroup.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from NetworkSecurityGroup")
+		}
+		var networkSecurityGroup v20220301s.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field NetworkSecurityGroup from SubResourceStash")
+		}
+		destination.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		destination.NetworkSecurityGroup = nil
+	}
+
+	// Primary
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status
@@ -634,12 +5923,402 @@ type VirtualMachineScaleSetIPConfiguration_Status struct {
 	Subnet                                *ApiEntityReference_Status                                 `json:"subnet,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus populates our VirtualMachineScaleSetIPConfiguration_Status from the provided source VirtualMachineScaleSetIPConfiguration_Status
+func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(source *v20220301s.VirtualMachineScaleSetIPConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ApplicationGatewayBackendAddressPools
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource_Status, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ApplicationGatewayBackendAddressPools")
+			}
+			var applicationGatewayBackendAddressPool SubResource_Status
+			err = applicationGatewayBackendAddressPool.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ApplicationGatewayBackendAddressPools from SubResource_StatusStash")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		configuration.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		configuration.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource_Status, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ApplicationSecurityGroups")
+			}
+			var applicationSecurityGroup SubResource_Status
+			err = applicationSecurityGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ApplicationSecurityGroups from SubResource_StatusStash")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		configuration.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		configuration.ApplicationSecurityGroups = nil
+	}
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LoadBalancerBackendAddressPools
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource_Status, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from LoadBalancerBackendAddressPools")
+			}
+			var loadBalancerBackendAddressPool SubResource_Status
+			err = loadBalancerBackendAddressPool.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field LoadBalancerBackendAddressPools from SubResource_StatusStash")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		configuration.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		configuration.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatPools
+	if source.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]SubResource_Status, len(source.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(&loadBalancerInboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from LoadBalancerInboundNatPools")
+			}
+			var loadBalancerInboundNatPool SubResource_Status
+			err = loadBalancerInboundNatPool.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field LoadBalancerInboundNatPools from SubResource_StatusStash")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		}
+		configuration.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		configuration.LoadBalancerInboundNatPools = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
+	} else {
+		configuration.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
+
+	// PublicIPAddressConfiguration
+	if source.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration VirtualMachineScaleSetPublicIPAddressConfiguration_Status
+		err := publicIPAddressConfiguration.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus(source.PublicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus() to populate field PublicIPAddressConfiguration")
+		}
+		configuration.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		configuration.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet ApiEntityReference_Status
+		err := subnet.AssignPropertiesFromApiEntityReferenceStatus(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiEntityReferenceStatus() to populate field Subnet")
+		}
+		configuration.Subnet = &subnet
+	} else {
+		configuration.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus populates the provided destination VirtualMachineScaleSetIPConfiguration_Status from our VirtualMachineScaleSetIPConfiguration_Status
+func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(destination *v20220301s.VirtualMachineScaleSetIPConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// ApplicationGatewayBackendAddressPools
+	if configuration.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v20220301s.SubResource_Status, len(configuration.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configuration.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ApplicationGatewayBackendAddressPools")
+			}
+			var applicationGatewayBackendAddressPool v20220301s.SubResource_Status
+			err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ApplicationGatewayBackendAddressPools from SubResource_StatusStash")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if configuration.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v20220301s.SubResource_Status, len(configuration.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configuration.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := applicationSecurityGroupItem.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ApplicationSecurityGroups")
+			}
+			var applicationSecurityGroup v20220301s.SubResource_Status
+			err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ApplicationSecurityGroups from SubResource_StatusStash")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// LoadBalancerBackendAddressPools
+	if configuration.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v20220301s.SubResource_Status, len(configuration.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configuration.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from LoadBalancerBackendAddressPools")
+			}
+			var loadBalancerBackendAddressPool v20220301s.SubResource_Status
+			err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field LoadBalancerBackendAddressPools from SubResource_StatusStash")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatPools
+	if configuration.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]v20220301s.SubResource_Status, len(configuration.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range configuration.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var subResourceStatusStash v20210701s.SubResource_Status
+			err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from LoadBalancerInboundNatPools")
+			}
+			var loadBalancerInboundNatPool v20220301s.SubResource_Status
+			err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&loadBalancerInboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field LoadBalancerInboundNatPools from SubResource_StatusStash")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		}
+		destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		destination.LoadBalancerInboundNatPools = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// Primary
+	if configuration.Primary != nil {
+		primary := *configuration.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
+
+	// PublicIPAddressConfiguration
+	if configuration.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration v20220301s.VirtualMachineScaleSetPublicIPAddressConfiguration_Status
+		err := configuration.PublicIPAddressConfiguration.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus(&publicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus() to populate field PublicIPAddressConfiguration")
+		}
+		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		destination.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if configuration.Subnet != nil {
+		var subnet v20220301s.ApiEntityReference_Status
+		err := configuration.Subnet.AssignPropertiesToApiEntityReferenceStatus(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiEntityReferenceStatus() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetManagedDiskParameters
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
 type VirtualMachineScaleSetManagedDiskParameters struct {
 	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
 	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters populates our VirtualMachineScaleSetManagedDiskParameters from the provided source VirtualMachineScaleSetManagedDiskParameters
+func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters(source *v20220301s.VirtualMachineScaleSetManagedDiskParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v20210701s.DiskEncryptionSetParameters
+		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet DiskEncryptionSetParameters
+		err = diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		parameters.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		parameters.DiskEncryptionSet = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		propertyBag.Add("SecurityProfile", *source.SecurityProfile)
+	} else {
+		propertyBag.Remove("SecurityProfile")
+	}
+
+	// StorageAccountType
+	parameters.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters populates the provided destination VirtualMachineScaleSetManagedDiskParameters from our VirtualMachineScaleSetManagedDiskParameters
+func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters(destination *v20220301s.VirtualMachineScaleSetManagedDiskParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// DiskEncryptionSet
+	if parameters.DiskEncryptionSet != nil {
+		var diskEncryptionSetParametersStash v20210701s.DiskEncryptionSetParameters
+		err := parameters.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v20220301s.DiskEncryptionSetParameters
+		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// SecurityProfile
+	if propertyBag.Contains("SecurityProfile") {
+		var securityProfile v20220301s.VMDiskSecurityProfile
+		err := propertyBag.Pull("SecurityProfile", &securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+		}
+
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(parameters.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status
@@ -649,6 +6328,98 @@ type VirtualMachineScaleSetManagedDiskParameters_Status struct {
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus populates our VirtualMachineScaleSetManagedDiskParameters_Status from the provided source VirtualMachineScaleSetManagedDiskParameters_Status
+func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus(source *v20220301s.VirtualMachineScaleSetManagedDiskParameters_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DiskEncryptionSet
+	if source.DiskEncryptionSet != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet SubResource_Status
+		err = diskEncryptionSet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		parameters.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		parameters.DiskEncryptionSet = nil
+	}
+
+	// SecurityProfile
+	if source.SecurityProfile != nil {
+		propertyBag.Add("SecurityProfile", *source.SecurityProfile)
+	} else {
+		propertyBag.Remove("SecurityProfile")
+	}
+
+	// StorageAccountType
+	parameters.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus populates the provided destination VirtualMachineScaleSetManagedDiskParameters_Status from our VirtualMachineScaleSetManagedDiskParameters_Status
+func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(destination *v20220301s.VirtualMachineScaleSetManagedDiskParameters_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// DiskEncryptionSet
+	if parameters.DiskEncryptionSet != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := parameters.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+		}
+		var diskEncryptionSet v20220301s.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+		}
+		destination.DiskEncryptionSet = &diskEncryptionSet
+	} else {
+		destination.DiskEncryptionSet = nil
+	}
+
+	// SecurityProfile
+	if propertyBag.Contains("SecurityProfile") {
+		var securityProfile v20220301s.VMDiskSecurityProfile_Status
+		err := propertyBag.Pull("SecurityProfile", &securityProfile)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SecurityProfile' from propertyBag")
+		}
+
+		destination.SecurityProfile = &securityProfile
+	} else {
+		destination.SecurityProfile = nil
+	}
+
+	// StorageAccountType
+	destination.StorageAccountType = genruntime.ClonePointerToString(parameters.StorageAccountType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetNetworkConfigurationDnsSettings
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
@@ -656,10 +6427,86 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings populates our VirtualMachineScaleSetNetworkConfigurationDnsSettings from the provided source VirtualMachineScaleSetNetworkConfigurationDnsSettings
+func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings(source *v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DnsServers
+	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings populates the provided destination VirtualMachineScaleSetNetworkConfigurationDnsSettings from our VirtualMachineScaleSetNetworkConfigurationDnsSettings
+func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings(destination *v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DnsServers
+	destination.DnsServers = genruntime.CloneSliceOfString(settings.DnsServers)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus populates our VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status from the provided source VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
+func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(source *v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DnsServers
+	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus populates the provided destination VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status from our VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
+func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(destination *v20220301s.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DnsServers
+	destination.DnsServers = genruntime.CloneSliceOfString(settings.DnsServers)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
@@ -677,6 +6524,304 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	Subnet                                *ApiEntityReference                                                                                                                                                              `json:"subnet,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ApplicationGatewayBackendAddressPools
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := subResourceStash.AssignPropertiesFromSubResource(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ApplicationGatewayBackendAddressPools")
+			}
+			var applicationGatewayBackendAddressPool SubResource
+			err = applicationGatewayBackendAddressPool.AssignPropertiesFromSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ApplicationGatewayBackendAddressPools from SubResourceStash")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		configurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		configurations.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var subResourceStash v20210701s.SubResource
+			err := subResourceStash.AssignPropertiesFromSubResource(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ApplicationSecurityGroups")
+			}
+			var applicationSecurityGroup SubResource
+			err = applicationSecurityGroup.AssignPropertiesFromSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ApplicationSecurityGroups from SubResourceStash")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		configurations.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		configurations.ApplicationSecurityGroups = nil
+	}
+
+	// Id
+	configurations.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LoadBalancerBackendAddressPools
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := subResourceStash.AssignPropertiesFromSubResource(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from LoadBalancerBackendAddressPools")
+			}
+			var loadBalancerBackendAddressPool SubResource
+			err = loadBalancerBackendAddressPool.AssignPropertiesFromSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field LoadBalancerBackendAddressPools from SubResourceStash")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		configurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		configurations.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatPools
+	if source.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]SubResource, len(source.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := subResourceStash.AssignPropertiesFromSubResource(&loadBalancerInboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from LoadBalancerInboundNatPools")
+			}
+			var loadBalancerInboundNatPool SubResource
+			err = loadBalancerInboundNatPool.AssignPropertiesFromSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field LoadBalancerInboundNatPools from SubResourceStash")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		}
+		configurations.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		configurations.LoadBalancerInboundNatPools = nil
+	}
+
+	// Name
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configurations.Primary = &primary
+	} else {
+		configurations.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	configurations.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
+
+	// PublicIPAddressConfiguration
+	if source.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+		err := publicIPAddressConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(source.PublicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration() to populate field PublicIPAddressConfiguration")
+		}
+		configurations.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		configurations.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet ApiEntityReference
+		err := subnet.AssignPropertiesFromApiEntityReference(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiEntityReference() to populate field Subnet")
+		}
+		configurations.Subnet = &subnet
+	} else {
+		configurations.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configurations.PropertyBag = propertyBag
+	} else {
+		configurations.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configurations.PropertyBag)
+
+	// ApplicationGatewayBackendAddressPools
+	if configurations.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configurations.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ApplicationGatewayBackendAddressPools")
+			}
+			var applicationGatewayBackendAddressPool v20220301s.SubResource
+			err = subResourceStash.AssignPropertiesToSubResource(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ApplicationGatewayBackendAddressPools from SubResourceStash")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if configurations.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v20220301s.SubResource, len(configurations.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configurations.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var subResourceStash v20210701s.SubResource
+			err := applicationSecurityGroupItem.AssignPropertiesToSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ApplicationSecurityGroups")
+			}
+			var applicationSecurityGroup v20220301s.SubResource
+			err = subResourceStash.AssignPropertiesToSubResource(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ApplicationSecurityGroups from SubResourceStash")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configurations.Id)
+
+	// LoadBalancerBackendAddressPools
+	if configurations.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v20220301s.SubResource, len(configurations.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configurations.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from LoadBalancerBackendAddressPools")
+			}
+			var loadBalancerBackendAddressPool v20220301s.SubResource
+			err = subResourceStash.AssignPropertiesToSubResource(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field LoadBalancerBackendAddressPools from SubResourceStash")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatPools
+	if configurations.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]v20220301s.SubResource, len(configurations.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range configurations.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var subResourceStash v20210701s.SubResource
+			err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from LoadBalancerInboundNatPools")
+			}
+			var loadBalancerInboundNatPool v20220301s.SubResource
+			err = subResourceStash.AssignPropertiesToSubResource(&loadBalancerInboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field LoadBalancerInboundNatPools from SubResourceStash")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		}
+		destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		destination.LoadBalancerInboundNatPools = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
+
+	// Primary
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// PrivateIPAddressVersion
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configurations.PrivateIPAddressVersion)
+
+	// PublicIPAddressConfiguration
+	if configurations.PublicIPAddressConfiguration != nil {
+		var publicIPAddressConfiguration v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+		err := configurations.PublicIPAddressConfiguration.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(&publicIPAddressConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration() to populate field PublicIPAddressConfiguration")
+		}
+		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
+	} else {
+		destination.PublicIPAddressConfiguration = nil
+	}
+
+	// Subnet
+	if configurations.Subnet != nil {
+		var subnet v20220301s.ApiEntityReference
+		err := configurations.Subnet.AssignPropertiesToApiEntityReference(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiEntityReference() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status
 type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
@@ -686,6 +6831,190 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	PropertyBag            genruntime.PropertyBag                                                `json:"$propertyBag,omitempty"`
 	PublicIPAddressVersion *string                                                               `json:"publicIPAddressVersion,omitempty"`
 	PublicIPPrefix         *SubResource_Status                                                   `json:"publicIPPrefix,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus populates our VirtualMachineScaleSetPublicIPAddressConfiguration_Status from the provided source VirtualMachineScaleSetPublicIPAddressConfiguration_Status
+func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus(source *v20220301s.VirtualMachineScaleSetPublicIPAddressConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
+		err := dnsSetting.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus() to populate field DnsSettings")
+		}
+		configuration.DnsSettings = &dnsSetting
+	} else {
+		configuration.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	configuration.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// IpTags
+	if source.IpTags != nil {
+		ipTagList := make([]VirtualMachineScaleSetIpTag_Status, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag VirtualMachineScaleSetIpTag_Status
+			err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIpTagStatus() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		configuration.IpTags = ipTagList
+	} else {
+		configuration.IpTags = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PublicIPAddressVersion
+	configuration.PublicIPAddressVersion = genruntime.ClonePointerToString(source.PublicIPAddressVersion)
+
+	// PublicIPPrefix
+	if source.PublicIPPrefix != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.PublicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from PublicIPPrefix")
+		}
+		var publicIPPrefix SubResource_Status
+		err = publicIPPrefix.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field PublicIPPrefix from SubResource_StatusStash")
+		}
+		configuration.PublicIPPrefix = &publicIPPrefix
+	} else {
+		configuration.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		propertyBag.Add("Sku", *source.Sku)
+	} else {
+		propertyBag.Remove("Sku")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus populates the provided destination VirtualMachineScaleSetPublicIPAddressConfiguration_Status from our VirtualMachineScaleSetPublicIPAddressConfiguration_Status
+func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus(destination *v20220301s.VirtualMachineScaleSetPublicIPAddressConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configuration.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
+		err := configuration.DnsSettings.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(configuration.IdleTimeoutInMinutes)
+
+	// IpTags
+	if configuration.IpTags != nil {
+		ipTagList := make([]v20220301s.VirtualMachineScaleSetIpTag_Status, len(configuration.IpTags))
+		for ipTagIndex, ipTagItem := range configuration.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v20220301s.VirtualMachineScaleSetIpTag_Status
+			err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIpTagStatus() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// PublicIPAddressVersion
+	destination.PublicIPAddressVersion = genruntime.ClonePointerToString(configuration.PublicIPAddressVersion)
+
+	// PublicIPPrefix
+	if configuration.PublicIPPrefix != nil {
+		var subResourceStatusStash v20210701s.SubResource_Status
+		err := configuration.PublicIPPrefix.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from PublicIPPrefix")
+		}
+		var publicIPPrefix v20220301s.SubResource_Status
+		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&publicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field PublicIPPrefix from SubResource_StatusStash")
+		}
+		destination.PublicIPPrefix = &publicIPPrefix
+	} else {
+		destination.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if propertyBag.Contains("Sku") {
+		var sku v20220301s.PublicIPAddressSku_Status
+		err := propertyBag.Pull("Sku", &sku)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Sku' from propertyBag")
+		}
+
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
@@ -699,12 +7028,240 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfil
 	PublicIPPrefix         *SubResource                                                   `json:"publicIPPrefix,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(source *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+		err := dnsSetting.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings() to populate field DnsSettings")
+		}
+		configuration.DnsSettings = &dnsSetting
+	} else {
+		configuration.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	configuration.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// IpTags
+	if source.IpTags != nil {
+		ipTagList := make([]VirtualMachineScaleSetIpTag, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag VirtualMachineScaleSetIpTag
+			err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTag(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIpTag() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		configuration.IpTags = ipTagList
+	} else {
+		configuration.IpTags = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PublicIPAddressVersion
+	configuration.PublicIPAddressVersion = genruntime.ClonePointerToString(source.PublicIPAddressVersion)
+
+	// PublicIPPrefix
+	if source.PublicIPPrefix != nil {
+		var subResourceStash v20210701s.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.PublicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from PublicIPPrefix")
+		}
+		var publicIPPrefix SubResource
+		err = publicIPPrefix.AssignPropertiesFromSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPPrefix from SubResourceStash")
+		}
+		configuration.PublicIPPrefix = &publicIPPrefix
+	} else {
+		configuration.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		propertyBag.Add("Sku", *source.Sku)
+	} else {
+		propertyBag.Remove("Sku")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
+func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(destination *v20220301s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// DnsSettings
+	if configuration.DnsSettings != nil {
+		var dnsSetting v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+		err := configuration.DnsSettings.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(configuration.IdleTimeoutInMinutes)
+
+	// IpTags
+	if configuration.IpTags != nil {
+		ipTagList := make([]v20220301s.VirtualMachineScaleSetIpTag, len(configuration.IpTags))
+		for ipTagIndex, ipTagItem := range configuration.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v20220301s.VirtualMachineScaleSetIpTag
+			err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTag(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIpTag() to populate field IpTags")
+			}
+			ipTagList[ipTagIndex] = ipTag
+		}
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// PublicIPAddressVersion
+	destination.PublicIPAddressVersion = genruntime.ClonePointerToString(configuration.PublicIPAddressVersion)
+
+	// PublicIPPrefix
+	if configuration.PublicIPPrefix != nil {
+		var subResourceStash v20210701s.SubResource
+		err := configuration.PublicIPPrefix.AssignPropertiesToSubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from PublicIPPrefix")
+		}
+		var publicIPPrefix v20220301s.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&publicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPPrefix from SubResourceStash")
+		}
+		destination.PublicIPPrefix = &publicIPPrefix
+	} else {
+		destination.PublicIPPrefix = nil
+	}
+
+	// Sku
+	if propertyBag.Contains("Sku") {
+		var sku v20220301s.PublicIPAddressSku
+		err := propertyBag.Pull("Sku", &sku)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Sku' from propertyBag")
+		}
+
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetIpTag
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIpTag
 type VirtualMachineScaleSetIpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag         *string                `json:"tag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetIpTag populates our VirtualMachineScaleSetIpTag from the provided source VirtualMachineScaleSetIpTag
+func (ipTag *VirtualMachineScaleSetIpTag) AssignPropertiesFromVirtualMachineScaleSetIpTag(source *v20220301s.VirtualMachineScaleSetIpTag) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpTagType
+	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
+
+	// Tag
+	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		ipTag.PropertyBag = propertyBag
+	} else {
+		ipTag.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetIpTag populates the provided destination VirtualMachineScaleSetIpTag from our VirtualMachineScaleSetIpTag
+func (ipTag *VirtualMachineScaleSetIpTag) AssignPropertiesToVirtualMachineScaleSetIpTag(destination *v20220301s.VirtualMachineScaleSetIpTag) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
+
+	// IpTagType
+	destination.IpTagType = genruntime.ClonePointerToString(ipTag.IpTagType)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(ipTag.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetIpTag_Status
@@ -714,6 +7271,50 @@ type VirtualMachineScaleSetIpTag_Status struct {
 	Tag         *string                `json:"tag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetIpTagStatus populates our VirtualMachineScaleSetIpTag_Status from the provided source VirtualMachineScaleSetIpTag_Status
+func (ipTag *VirtualMachineScaleSetIpTag_Status) AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(source *v20220301s.VirtualMachineScaleSetIpTag_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpTagType
+	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
+
+	// Tag
+	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		ipTag.PropertyBag = propertyBag
+	} else {
+		ipTag.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetIpTagStatus populates the provided destination VirtualMachineScaleSetIpTag_Status from our VirtualMachineScaleSetIpTag_Status
+func (ipTag *VirtualMachineScaleSetIpTag_Status) AssignPropertiesToVirtualMachineScaleSetIpTagStatus(destination *v20220301s.VirtualMachineScaleSetIpTag_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
+
+	// IpTagType
+	destination.IpTagType = genruntime.ClonePointerToString(ipTag.IpTagType)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(ipTag.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
@@ -721,10 +7322,86 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings populates our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings from the provided source VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(source *v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DomainNameLabel
+	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings populates the provided destination VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings from our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(destination *v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DomainNameLabel
+	destination.DomainNameLabel = genruntime.ClonePointerToString(settings.DomainNameLabel)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus populates our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status from the provided source VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
+func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(source *v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DomainNameLabel
+	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus populates the provided destination VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status from our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
+func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(destination *v20220301s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DomainNameLabel
+	destination.DomainNameLabel = genruntime.ClonePointerToString(settings.DomainNameLabel)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

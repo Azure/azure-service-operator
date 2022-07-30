@@ -37,7 +37,7 @@ func Test_MissingUserSecret_ReturnsError(t *testing.T) {
 		Name: "thisdoesntexist",
 		Key:  "key",
 	}
-	vm := newVM(tc, rg, networkInterface, secret)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
@@ -64,7 +64,7 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 	tc.CreateResourcesAndWait(subnet, networkInterface)
 	secret := createVMPasswordSecretAndRef(tc)
 	secret.Key = "doesnotexist" // Change the key to a key that doesn't actually exist
-	vm := newVM(tc, rg, networkInterface, secret)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error

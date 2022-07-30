@@ -6,7 +6,7 @@ package v1alpha1api20210701
 import (
 	"encoding/json"
 	alpha20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForImage(subject Image) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210701s.Image
+	var hub v20220301s.Image
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

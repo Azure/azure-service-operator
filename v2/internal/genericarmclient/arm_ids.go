@@ -12,12 +12,31 @@ import (
 	"github.com/pkg/errors"
 )
 
+// NOTE: We don't use arm.ResourceID here because it's only supposed to be created via arm.ParseResourceID,
+// which assumes you have an ID first.
+
+// MakeTenantScopeARMID makes an ARM ID at the tenant scope. This has the format:
+// /providers/<provider>/<resourceType>/<resourceName>/...
+func MakeTenantScopeARMID(provider string, params ...string) (string, error) {
+	if len(params) == 0 {
+		return "", errors.New("At least 2 params must be specified")
+	}
+	if len(params)%2 != 0 {
+		return "", errors.New("ARM Id params must come in resourceKind/name pairs")
+	}
+
+	suffix := strings.Join(params, "/")
+
+	return fmt.Sprintf("/providers/%s/%s", provider, suffix), nil
+}
+
 // MakeSubscriptionScopeARMID makes an ARM ID at the subscription scope. This has the format:
 // /subscriptions/00000000-0000-0000-0000-000000000000/providers/<provider>/<resourceType>/<resourceName>/...
 func MakeSubscriptionScopeARMID(subscription string, provider string, params ...string) (string, error) {
 	if len(params) == 0 {
 		return "", errors.New("At least 2 params must be specified")
 	}
+
 	if len(params)%2 != 0 {
 		return "", errors.New("ARM Id params must come in resourceKind/name pairs")
 	}
