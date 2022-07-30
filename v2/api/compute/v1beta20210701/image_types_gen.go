@@ -48,22 +48,36 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210701s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210701s.Image
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return image.AssignPropertiesFromImage(source)
+	err = image.AssignPropertiesFromImage(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to image")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210701s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210701s.Image
+	err := image.AssignPropertiesToImage(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from image")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return image.AssignPropertiesToImage(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-compute-azure-com-v1beta20210701-image,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=images,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.images.compute.azure.com,admissionReviewVersions=v1

@@ -332,9 +332,6 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusARM(subject 
 var virtualMachineScaleSetIdentityStatusARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetIdentityStatusARMGenerator returns a generator of VirtualMachineScaleSetIdentity_StatusARM instances for property testing.
-// We first initialize virtualMachineScaleSetIdentityStatusARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetIdentityStatusARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetIdentityStatusARMGenerator != nil {
 		return virtualMachineScaleSetIdentityStatusARMGenerator
@@ -342,12 +339,6 @@ func VirtualMachineScaleSetIdentityStatusARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(generators)
-	virtualMachineScaleSetIdentityStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_StatusARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(generators)
 	virtualMachineScaleSetIdentityStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_StatusARM{}), generators)
 
 	return virtualMachineScaleSetIdentityStatusARMGenerator
@@ -362,11 +353,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(
 		VirtualMachineScaleSetIdentityStatusTypeSystemAssigned,
 		VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned,
 		VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -776,68 +762,6 @@ func AddIndependentPropertyGeneratorsForUpgradePolicyStatusARM(gens map[string]g
 func AddRelatedPropertyGeneratorsForUpgradePolicyStatusARM(gens map[string]gopter.Gen) {
 	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicyStatusARMGenerator())
 	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicyStatusARMGenerator())
-}
-
-func Test_VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM, VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM(subject VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator()
-var virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator gopter.Gen
-
-// VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator returns a generator of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM instances for property testing.
-func VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator != nil {
-		return virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM(generators)
-	virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM{}), generators)
-
-	return virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineScaleSetVMProfile_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
