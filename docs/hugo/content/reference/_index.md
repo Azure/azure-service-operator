@@ -58,12 +58,15 @@ grouped by the originating ARM service.
 |------------------------|-------------|---------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | Disk                   | 2020-09-30  | v1beta20200930      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20200930_disk.yaml)                        |
 | Disk                   | 2020-09-30  | v1alpha1api20200930 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_disk.yaml)                   |
+| Image                  | 2022-03-01  | v1beta20220301      | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20220301_image.yaml)                       |
 | Image                  | 2021-07-01  | v1beta20210701      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20210701_image.yaml)                       |
 | Image                  | 2021-07-01  | v1alpha1api20210701 | v2.0.0-alpha.6 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20210701_image.yaml)                  |
 | Snapshot               | 2020-09-30  | v1beta20200930      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20200930_snapshot.yaml)                    |
 | Snapshot               | 2020-09-30  | v1alpha1api20200930 | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_snapshot.yaml)               |
+| VirtualMachine         | 2022-03-01  | v1beta20220301      | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20220301_virtualmachine.yaml)              |
 | VirtualMachine         | 2020-12-01  | v1beta20201201      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20201201_virtualmachine.yaml)              |
 | VirtualMachine         | 2020-12-01  | v1alpha1api20201201 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachine.yaml)         |
+| VirtualMachineScaleSet | 2022-03-01  | v1beta20220301      | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20220301_virtualmachinescaleset.yaml)      |
 | VirtualMachineScaleSet | 2020-12-01  | v1beta20201201      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20201201_virtualmachinescaleset.yaml)      |
 | VirtualMachineScaleSet | 2020-12-01  | v1alpha1api20201201 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachinescaleset.yaml) |
 

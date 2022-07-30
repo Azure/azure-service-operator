@@ -35,21 +35,12 @@ func MarkLatestAPIVersionAsStorageVersion() *Stage {
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
 func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
-	resourceLookup, err := groupResourcesByVersion(definitions)
-	if err != nil {
-		return nil, err
-	}
-
+	resourceLookup := groupResourcesByVersion(definitions)
 	for _, def := range definitions {
 		// see if it is a resource
 		if resourceType, ok := def.Type().(*astmodel.ResourceType); ok {
 
-			unversionedName, err := getUnversionedName(def.Name())
-			if err != nil {
-				// should never happen as all resources have versioned names
-				return nil, err
-			}
-
+			unversionedName := getUnversionedName(def.Name())
 			allVersionsOfResource := resourceLookup[unversionedName]
 			latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
@@ -69,7 +60,7 @@ func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet
 	return result, nil
 }
 
-func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unversionedName][]astmodel.TypeDefinition, error) {
+func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversionedName][]astmodel.TypeDefinition {
 	result := make(map[unversionedName][]astmodel.TypeDefinition)
 
 	for _, def := range definitions {
@@ -81,12 +72,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 		}
 
 		if astmodel.IsResourceDefinition(def) {
-			name, err := getUnversionedName(def.Name())
-			if err != nil {
-				// this should never happen as resources will all have versioned names
-				return nil, errors.Wrapf(err, "Unable to extract unversioned name in groupResources")
-			}
-
+			name := getUnversionedName(def.Name())
 			result[name] = append(result[name], def)
 		}
 	}
@@ -100,13 +86,13 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 		})
 	}
 
-	return result, nil
+	return result
 }
 
-func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
+func getUnversionedName(name astmodel.TypeName) unversionedName {
 	ref := name.PackageReference
 	group, _ := ref.GroupVersion()
-	return unversionedName{group, name.Name()}, nil
+	return unversionedName{group, name.Name()}
 }
 
 type unversionedName struct {

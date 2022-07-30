@@ -2982,10 +2982,9 @@ func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachine
 
 // Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
 type VirtualMachineScaleSetIdentity_Status struct {
-	PrincipalId            *string                                                                 `json:"principalId,omitempty"`
-	TenantId               *string                                                                 `json:"tenantId,omitempty"`
-	Type                   *VirtualMachineScaleSetIdentityStatusType                               `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	PrincipalId *string                                   `json:"principalId,omitempty"`
+	TenantId    *string                                   `json:"tenantId,omitempty"`
+	Type        *VirtualMachineScaleSetIdentityStatusType `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIdentity_Status{}
@@ -3020,19 +3019,6 @@ func (identity *VirtualMachineScaleSetIdentity_Status) PopulateFromARM(owner gen
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
-			}
-			identity.UserAssignedIdentities[key] = value1
-		}
-	}
-
 	// No error
 	return nil
 }
@@ -3052,24 +3038,6 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesFromVirtu
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -3093,24 +3061,6 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesToVirtual
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]alpha20201201s.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity alpha20201201s.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -4910,77 +4860,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesTo
 
 	// ExtensionsTimeBudget
 	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
-type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identities.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identities.PrincipalId = &principalId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities populates our VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities from the provided source VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(source *alpha20201201s.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) error {
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities populates the provided destination VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities from our VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(destination *alpha20201201s.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

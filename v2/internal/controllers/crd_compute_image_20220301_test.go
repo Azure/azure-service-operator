@@ -12,12 +12,12 @@ import (
 	. "github.com/onsi/gomega"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
-	compute2021 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
+	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Compute_Image_CRUD(t *testing.T) {
+func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -44,21 +44,21 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	snapshotARMId := *snapshot.Status.Id
 
 	tc.LogSection("Create Image")
-	v2 := compute2021.ImagePropertiesHyperVGenerationV2
-	linuxOS := compute2021.ImageOSDiskOsTypeLinux
-	linuxOSState := compute2021.ImageOSDiskOsStateGeneralized
-	image := &compute2021.Image{
+	v2 := compute2022.ImagePropertiesHyperVGenerationV2
+	linuxOS := compute2022.ImageOSDiskOsTypeLinux
+	linuxOSState := compute2022.ImageOSDiskOsStateGeneralized
+	image := &compute2022.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
-		Spec: compute2021.Images_Spec{
+		Spec: compute2022.Images_Spec{
 			HyperVGeneration: &v2,
 			Location:         tc.AzureRegion,
 			Owner:            testcommon.AsOwner(rg),
-			StorageProfile: &compute2021.ImageStorageProfile{
-				OsDisk: &compute2021.ImageOSDisk{
+			StorageProfile: &compute2022.ImageStorageProfile{
+				OsDisk: &compute2022.ImageOSDisk{
 					DiskSizeGB: to.IntPtr(32),
 					OsType:     &linuxOS,
 					OsState:    &linuxOSState,
-					Snapshot: &compute2021.SubResource{
+					Snapshot: &compute2022.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: snapshotARMId,
 						},
@@ -82,7 +82,7 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(image, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2021.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2022.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

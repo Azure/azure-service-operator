@@ -6,7 +6,7 @@ package v1alpha1api20201201
 import (
 	"encoding/json"
 	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForVirtualMachine(subject VirtualMachine) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20201201s.VirtualMachine
+	var hub v20220301s.VirtualMachine
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -3209,9 +3209,6 @@ func RunJSONSerializationTestForVirtualMachineIdentityStatus(subject VirtualMach
 var virtualMachineIdentityStatusGenerator gopter.Gen
 
 // VirtualMachineIdentityStatusGenerator returns a generator of VirtualMachineIdentity_Status instances for property testing.
-// We first initialize virtualMachineIdentityStatusGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineIdentityStatusGenerator() gopter.Gen {
 	if virtualMachineIdentityStatusGenerator != nil {
 		return virtualMachineIdentityStatusGenerator
@@ -3219,12 +3216,6 @@ func VirtualMachineIdentityStatusGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatus(generators)
-	virtualMachineIdentityStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_Status{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatus(generators)
 	virtualMachineIdentityStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_Status{}), generators)
 
 	return virtualMachineIdentityStatusGenerator
@@ -3239,11 +3230,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatus(gens map[st
 		VirtualMachineIdentityStatusTypeSystemAssigned,
 		VirtualMachineIdentityStatusTypeSystemAssignedUserAssigned,
 		VirtualMachineIdentityStatusTypeUserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatus(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator())
 }
 
 func Test_VirtualMachineInstanceView_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -6074,110 +6060,6 @@ func VirtualMachineHealthStatusStatusGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVirtualMachineHealthStatusStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineHealthStatusStatus(gens map[string]gopter.Gen) {
 	gens["Status"] = gen.PtrOf(InstanceViewStatusStatusGenerator())
-}
-
-func Test_VirtualMachineIdentity_Status_UserAssignedIdentities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineIdentity_Status_UserAssignedIdentities to VirtualMachineIdentity_Status_UserAssignedIdentities via AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities & AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineIdentityStatusUserAssignedIdentities, VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineIdentityStatusUserAssignedIdentities tests if a specific instance of VirtualMachineIdentity_Status_UserAssignedIdentities can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineIdentityStatusUserAssignedIdentities(subject VirtualMachineIdentity_Status_UserAssignedIdentities) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineIdentity_Status_UserAssignedIdentities
-	err := copied.AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineIdentity_Status_UserAssignedIdentities
-	err = actual.AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineIdentity_Status_UserAssignedIdentities via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentities, VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentities runs a test to see if a specific instance of VirtualMachineIdentity_Status_UserAssignedIdentities round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentities(subject VirtualMachineIdentity_Status_UserAssignedIdentities) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineIdentity_Status_UserAssignedIdentities
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineIdentity_Status_UserAssignedIdentities instances for property testing - lazily
-// instantiated by VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator()
-var virtualMachineIdentityStatusUserAssignedIdentitiesGenerator gopter.Gen
-
-// VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator returns a generator of VirtualMachineIdentity_Status_UserAssignedIdentities instances for property testing.
-func VirtualMachineIdentityStatusUserAssignedIdentitiesGenerator() gopter.Gen {
-	if virtualMachineIdentityStatusUserAssignedIdentitiesGenerator != nil {
-		return virtualMachineIdentityStatusUserAssignedIdentitiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentities(generators)
-	virtualMachineIdentityStatusUserAssignedIdentitiesGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_Status_UserAssignedIdentities{}), generators)
-
-	return virtualMachineIdentityStatusUserAssignedIdentitiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentities is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentities(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachinePatchStatus_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
