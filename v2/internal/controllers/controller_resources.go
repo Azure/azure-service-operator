@@ -140,7 +140,7 @@ func getGeneratedStorageTypes(
 		}
 		extension := extensions[gvk]
 
-		err = augmentWithARMReconciler(
+		augmentWithARMReconciler(
 			armClientFactory,
 			kubeClient,
 			resourceResolver,
@@ -148,9 +148,6 @@ func getGeneratedStorageTypes(
 			options,
 			extension,
 			t)
-		if err != nil {
-			return nil, errors.Wrap(err, "couldn't create reconciler")
-		}
 	}
 
 	return knownStorageTypes, nil
@@ -163,7 +160,7 @@ func augmentWithARMReconciler(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options Options,
 	extension genruntime.ResourceExtension,
-	t *registration.StorageType) error {
+	t *registration.StorageType) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
 		armClientFactory,
 		kubeClient,
@@ -171,8 +168,6 @@ func augmentWithARMReconciler(
 		positiveConditions,
 		options.Config,
 		extension)
-
-	return nil
 }
 
 func augmentWithControllerName(t *registration.StorageType) error {

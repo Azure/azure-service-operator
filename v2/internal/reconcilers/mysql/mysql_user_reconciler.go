@@ -208,7 +208,7 @@ func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger,
 	return nil
 }
 
-func (r *MySQLUserReconciler) connectToDB(ctx context.Context, log logr.Logger, user *asomysql.User, secrets genruntime.ResolvedSecrets) (*sql.DB, error) {
+func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asomysql.User, secrets genruntime.ResolvedSecrets) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
 	owner, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {

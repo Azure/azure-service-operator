@@ -1,4 +1,3 @@
-
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
@@ -10,7 +9,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: webhook-service
       namespace: system
@@ -32,7 +30,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: webhook-service
       namespace: system
@@ -54,7 +51,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: webhook-service
       namespace: system
@@ -76,7 +72,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: webhook-service
       namespace: system

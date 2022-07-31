@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -39,40 +39,40 @@ func createVMPasswordSecretAndRef(tc *testcommon.KubePerTestContext) genruntime.
 	return secretRef
 }
 
-func newVM(
+func newVirtualMachine20201201(
 	tc *testcommon.KubePerTestContext,
 	rg *resources.ResourceGroup,
 	networkInterface *network.NetworkInterface,
 	secretRef genruntime.SecretReference,
-) *compute.VirtualMachine {
+) *compute2020.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute.HardwareProfileVmSizeStandardD1V2
+	size := compute2020.HardwareProfileVmSizeStandardD1V2
 
-	return &compute.VirtualMachine{
+	return &compute2020.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute.VirtualMachines_Spec{
+		Spec: compute2020.VirtualMachines_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			HardwareProfile: &compute.HardwareProfile{
+			HardwareProfile: &compute2020.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute.VirtualMachines_Spec_Properties_OsProfile{
+			OsProfile: &compute2020.VirtualMachines_Spec_Properties_OsProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
 				AdminPassword: &secretRef,
 				ComputerName:  to.StringPtr("poppy"),
 			},
-			StorageProfile: &compute.StorageProfile{
-				ImageReference: &compute.ImageReference{
+			StorageProfile: &compute2020.StorageProfile{
+				ImageReference: &compute2020.ImageReference{
 					Offer:     to.StringPtr("UbuntuServer"),
 					Publisher: to.StringPtr("Canonical"),
 					Sku:       to.StringPtr("18.04-LTS"),
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
+			NetworkProfile: &compute2020.VirtualMachines_Spec_Properties_NetworkProfile{
+				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
 					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},
@@ -98,10 +98,12 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.
 	}
 }
 
-func Test_Compute_VM_CRUD(t *testing.T) {
+func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	tc.AzureRegion = to.StringPtr("westeurope")
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
@@ -112,7 +114,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
 	secret := createVMPasswordSecretAndRef(tc)
-	vm := newVM(tc, rg, networkInterface, secret)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 
 	tc.CreateResourceAndWait(vm)
 	tc.Expect(vm.Status.Id).ToNot(BeNil())
@@ -120,8 +122,8 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 
 	// Perform a simple patch to turn on boot diagnostics
 	old := vm.DeepCopy()
-	vm.Spec.DiagnosticsProfile = &compute.DiagnosticsProfile{
-		BootDiagnostics: &compute.BootDiagnostics{
+	vm.Spec.DiagnosticsProfile = &compute2020.DiagnosticsProfile{
+		BootDiagnostics: &compute2020.BootDiagnostics{
 			Enabled: to.BoolPtr(true),
 		},
 	}
@@ -136,7 +138,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vm)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

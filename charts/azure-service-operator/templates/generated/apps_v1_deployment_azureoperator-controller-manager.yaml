@@ -19,16 +19,6 @@ spec:
     spec:
       containers:
       - args:
-        - --secure-listen-address=0.0.0.0:8443
-        - --upstream=http://127.0.0.1:8080/
-        - --logtostderr=true
-        - --v=10
-        image: {{ .Values.image.kubeRBACProxy }}
-        name: kube-rbac-proxy
-        ports:
-        - containerPort: 8443
-          name: https
-      - args:
         - --metrics-addr=127.0.0.1:8080
         command:
         - /manager
@@ -125,6 +115,16 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=10
+        image: {{ .Values.image.kubeRBACProxy }}
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
       nodeSelector:
         kubernetes.io/os: linux
       terminationGracePeriodSeconds: 10

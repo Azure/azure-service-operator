@@ -72,11 +72,6 @@ type VirtualMachineIdentity_StatusARM struct {
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
 	Type *VirtualMachineIdentityStatusType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]VirtualMachineIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachineProperties_StatusARM struct {
@@ -369,14 +364,6 @@ const (
 	VirtualMachineIdentityStatusTypeSystemAssignedUserAssigned = VirtualMachineIdentityStatusType("SystemAssigned, UserAssigned")
 	VirtualMachineIdentityStatusTypeUserAssigned               = VirtualMachineIdentityStatusType("UserAssigned")
 )
-
-type VirtualMachineIdentity_Status_UserAssignedIdentitiesARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
 
 type VirtualMachineInstanceView_StatusARM struct {
 	// AssignedHost: Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement,
