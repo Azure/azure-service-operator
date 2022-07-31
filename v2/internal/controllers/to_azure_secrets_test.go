@@ -96,7 +96,7 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 	tc.CreateResourceAndWait(subnet)
 	tc.CreateResourceAndWait(networkInterface)
 
-	vm := newVM(tc, rg, networkInterface, secretInDiffNamespace)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secretInDiffNamespace)
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
