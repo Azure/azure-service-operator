@@ -143,6 +143,7 @@ func (tc *ResourceConversionTestCase) Equals(other astmodel.TestCase, override a
 //
 // parameters := gopter.DefaultTestParameters()
 // parameters.MaxSize = 10
+// parameters.MinSuccessfulTests = 10
 // properties := gopter.NewProperties(parameters)
 // properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 // properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -174,6 +175,13 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 	configureMaxSize := astbuilder.QualifiedAssignment(
 		dst.NewIdent(parametersLocal),
 		"MaxSize",
+		token.ASSIGN,
+		astbuilder.IntLiteral(10))
+
+	// parameters.MinSuccessfulTests = 10
+	configureMinSuccessfulTests := astbuilder.QualifiedAssignment(
+		dst.NewIdent(parametersLocal),
+		"MinSuccessfulTests",
 		token.ASSIGN,
 		astbuilder.IntLiteral(10))
 
@@ -217,6 +225,7 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		declareParallel,
 		defineParameters,
 		configureMaxSize,
+		configureMinSuccessfulTests,
 		defineProperties,
 		defineTestCase,
 		runTests)

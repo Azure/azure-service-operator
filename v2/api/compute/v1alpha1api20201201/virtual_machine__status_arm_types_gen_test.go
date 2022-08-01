@@ -224,9 +224,6 @@ func RunJSONSerializationTestForVirtualMachineIdentityStatusARM(subject VirtualM
 var virtualMachineIdentityStatusARMGenerator gopter.Gen
 
 // VirtualMachineIdentityStatusARMGenerator returns a generator of VirtualMachineIdentity_StatusARM instances for property testing.
-// We first initialize virtualMachineIdentityStatusARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineIdentityStatusARMGenerator() gopter.Gen {
 	if virtualMachineIdentityStatusARMGenerator != nil {
 		return virtualMachineIdentityStatusARMGenerator
@@ -234,12 +231,6 @@ func VirtualMachineIdentityStatusARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusARM(generators)
-	virtualMachineIdentityStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_StatusARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatusARM(generators)
 	virtualMachineIdentityStatusARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_StatusARM{}), generators)
 
 	return virtualMachineIdentityStatusARMGenerator
@@ -254,11 +245,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusARM(gens map
 		VirtualMachineIdentityStatusTypeSystemAssigned,
 		VirtualMachineIdentityStatusTypeSystemAssignedUserAssigned,
 		VirtualMachineIdentityStatusTypeUserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineIdentityStatusARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator())
 }
 
 func Test_VirtualMachineProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1063,68 +1049,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineExtensionPropertiesStatusA
 // AddRelatedPropertyGeneratorsForVirtualMachineExtensionPropertiesStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineExtensionPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["InstanceView"] = gen.PtrOf(VirtualMachineExtensionInstanceViewStatusARMGenerator())
-}
-
-func Test_VirtualMachineIdentity_Status_UserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentitiesARM, VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentitiesARM runs a test to see if a specific instance of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentitiesARM(subject VirtualMachineIdentity_Status_UserAssignedIdentitiesARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineIdentity_Status_UserAssignedIdentitiesARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM instances for property testing - lazily
-// instantiated by VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator()
-var virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator gopter.Gen
-
-// VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator returns a generator of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM instances for property testing.
-func VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator() gopter.Gen {
-	if virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator != nil {
-		return virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentitiesARM(generators)
-	virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_Status_UserAssignedIdentitiesARM{}), generators)
-
-	return virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentitiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineIdentityStatusUserAssignedIdentitiesARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineInstanceView_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

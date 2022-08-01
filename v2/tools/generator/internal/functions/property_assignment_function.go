@@ -118,7 +118,8 @@ func NewPropertyAssignmentFunction(
 
 	err := result.createConversions(sourceEndpoints, destinationEndpoints)
 	if err != nil {
-		return nil, errors.Wrapf(err, "creating '%s()'", result.Name())
+		parameterType := astmodel.DebugDescription(otherDefinition.Name(), receiver.Name().PackageReference)
+		return nil, errors.Wrapf(err, "creating '%s(%s)'", result.Name(), parameterType)
 	}
 
 	return result, nil

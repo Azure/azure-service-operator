@@ -8,6 +8,8 @@ import (
 	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
 	v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *VirtualMachineScaleSetExtension) GetExtendedResources() []genru
 		&alpha20201201.VirtualMachineScaleSet{},
 		&alpha20201201s.VirtualMachineScaleSet{},
 		&v20201201.VirtualMachineScaleSet{},
-		&v20201201s.VirtualMachineScaleSet{}}
+		&v20201201s.VirtualMachineScaleSet{},
+		&v20220301.VirtualMachineScaleSet{},
+		&v20220301s.VirtualMachineScaleSet{}}
 }

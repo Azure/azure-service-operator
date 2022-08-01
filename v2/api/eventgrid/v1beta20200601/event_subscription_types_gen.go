@@ -101,9 +101,9 @@ func (subscription EventSubscription) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
-// GetResourceKind returns the kind of the resource
-func (subscription *EventSubscription) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindExtension
+// GetResourceScope returns the scope of the resource
+func (subscription *EventSubscription) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeExtension
 }
 
 // GetSpec returns the specification of this resource

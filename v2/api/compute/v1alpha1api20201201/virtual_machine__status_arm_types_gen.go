@@ -32,10 +32,9 @@ type VirtualMachineExtension_StatusARM struct {
 
 // Deprecated version of VirtualMachineIdentity_Status. Use v1beta20201201.VirtualMachineIdentity_Status instead
 type VirtualMachineIdentity_StatusARM struct {
-	PrincipalId            *string                                                            `json:"principalId,omitempty"`
-	TenantId               *string                                                            `json:"tenantId,omitempty"`
-	Type                   *VirtualMachineIdentityStatusType                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+	PrincipalId *string                           `json:"principalId,omitempty"`
+	TenantId    *string                           `json:"tenantId,omitempty"`
+	Type        *VirtualMachineIdentityStatusType `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualMachineProperties_Status. Use v1beta20201201.VirtualMachineProperties_Status instead
@@ -132,12 +131,6 @@ const (
 	VirtualMachineIdentityStatusTypeSystemAssignedUserAssigned = VirtualMachineIdentityStatusType("SystemAssigned, UserAssigned")
 	VirtualMachineIdentityStatusTypeUserAssigned               = VirtualMachineIdentityStatusType("UserAssigned")
 )
-
-// Deprecated version of VirtualMachineIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_Status_UserAssignedIdentities instead
-type VirtualMachineIdentity_Status_UserAssignedIdentitiesARM struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
-}
 
 // Deprecated version of VirtualMachineInstanceView_Status. Use v1beta20201201.VirtualMachineInstanceView_Status instead
 type VirtualMachineInstanceView_StatusARM struct {

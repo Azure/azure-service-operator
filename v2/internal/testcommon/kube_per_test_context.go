@@ -9,12 +9,16 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"os"
+	"path"
+	"regexp"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -26,6 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/yaml"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -142,6 +147,8 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 
 	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
 	match := NewKubeMatcher(verify, context)
+
+	format.MaxLength = 0 // Disable output truncation
 
 	result := &KubePerTestContext{
 		KubeGlobalContext:   &ctx,
@@ -567,6 +574,45 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 	}
 }
 
+func (tc *KubePerTestContext) ExportAsSample(resource runtime.Object) {
+	tc.T.Helper()
+
+	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
+	filepath := path.Join(os.TempDir(), filename)
+
+	copy := resource.DeepCopyObject()
+	err := tc.exportAsYAML(copy, filepath)
+	if err != nil {
+		tc.T.Fatalf("failed to export resource: %s", err)
+	}
+
+	tc.T.Logf("Exported resource to %s", filepath)
+}
+
+func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename string) error {
+	tc.T.Helper()
+
+	content, err := yaml.Marshal(resource)
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal to yaml")
+	}
+
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	if err != nil {
+		return errors.Wrapf(err, "failed to open file %s", filename)
+	}
+
+	defer file.Close()
+
+	clean := sanitiseSample(string(content))
+	_, err = file.WriteString(clean)
+	if err != nil {
+		return errors.Wrapf(err, "failed to write yaml to file %s", filename)
+	}
+
+	return nil
+}
+
 type ResourceTracker struct {
 	resources []client.Object
 }
@@ -577,4 +623,37 @@ func (r *ResourceTracker) Track(obj client.Object) {
 
 func (r *ResourceTracker) Resources() []client.Object {
 	return r.resources
+}
+
+type sanitisationRule struct {
+	match   *regexp.Regexp
+	replace string
+}
+
+var sanitisationRules = []sanitisationRule{
+	{
+		// Replace subscription IDs with a placeholder
+		match:   regexp.MustCompile(`/(?i:(subscriptions)/(?i:[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}))/`),
+		replace: "/$1/00000000-0000-0000-0000-000000000000/",
+	},
+	{
+		// Replace naming asotest-<type>-<random> with aso-sample-<type>
+		match:   regexp.MustCompile(`asotest-(\w+)-\w+`),
+		replace: "aso-sample-$1",
+	},
+	{
+		// Remove azureName entirely
+		match:   regexp.MustCompile(`(?im:\n\s+azurename: [^\n]+)\n`),
+		replace: "\n",
+	},
+}
+
+func sanitiseSample(sample string) string {
+	result := sample
+
+	for _, rule := range sanitisationRules {
+		result = rule.match.ReplaceAllString(result, rule.replace)
+	}
+
+	return result
 }

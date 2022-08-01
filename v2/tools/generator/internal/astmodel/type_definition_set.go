@@ -138,6 +138,7 @@ func DiffTypes(x, y interface{}) string {
 		OptionalType{},
 		ArrayType{},
 		PrimitiveType{},
+		ResourceType{},
 		EnumType{},
 		TypeName{},
 		LocalPackageReference{},

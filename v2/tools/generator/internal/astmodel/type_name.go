@@ -161,7 +161,7 @@ var typeNamePluralToSingularOverrides = map[string]string{
 var typeNameSingularToPluralOverrides map[string]string
 
 // Singular returns a TypeName with the name singularized.
-func (typeName TypeName) Singular() TypeName {
+func (typeName TypeName) Singular(idFactory IdentifierFactory) TypeName {
 	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
 	name := typeName.name
 	for plural, single := range typeNamePluralToSingularOverrides {
@@ -171,7 +171,10 @@ func (typeName TypeName) Singular() TypeName {
 		}
 	}
 
-	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
+	// Flect isn't consistent about what case it returns. If it's just removing an 's', it will maintain
+	// case, but if it's performing a more complicated transformation the result will be all lower case.
+	singular := idFactory.CreateIdentifier(flect.Singularize(typeName.name), Exported)
+	return MakeTypeName(typeName.PackageReference, singular)
 }
 
 // Plural returns a TypeName with the name pluralized.
