@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.4.0
+    controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
   name: apimgmtapis.azure.microsoft.com
 spec:
@@ -94,10 +94,10 @@ spec:
                       long.
                     type: string
                   format:
-                    description: " Format - Format of the Content in which the API
-                      is getting imported. Possible values include: \t'WadlXML', 'WadlLinkJSON',
-                      'SwaggerJSON', 'SwaggerLinkJSON', 'Wsdl', 'WsdlLink', 'Openapi',
-                      'Openapijson', 'OpenapiLink'"
+                    description: 'Format - Format of the Content in which the API
+                      is getting imported. Possible values include: ''WadlXML'', ''WadlLinkJSON'',
+                      ''SwaggerJSON'', ''SwaggerLinkJSON'', ''Wsdl'', ''WsdlLink'',
+                      ''Openapi'', ''Openapijson'', ''OpenapiLink'''
                     type: string
                   isCurrent:
                     description: IsCurrent - Indicates if API revision is current
@@ -108,11 +108,11 @@ spec:
                       accessible via the gateway.
                     type: boolean
                   path:
-                    description: " Path - Relative URL uniquely identifying this API
+                    description: Path - Relative URL uniquely identifying this API
                       and all of its resource paths within the API Management service
-                      instance. \tIt is appended to the API endpoint base URL specified
+                      instance. It is appended to the API endpoint base URL specified
                       during the service instance creation to form a public URL for
-                      this API."
+                      this API.
                     type: string
                   protocols:
                     description: Protocols - Describes on which protocols the operations
