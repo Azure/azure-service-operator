@@ -9,7 +9,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: azureoperator-webhook-service
       namespace: {{ .Release.Namespace }}
@@ -31,7 +30,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: azureoperator-webhook-service
       namespace: {{ .Release.Namespace }}
@@ -53,7 +51,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: azureoperator-webhook-service
       namespace: {{ .Release.Namespace }}
@@ -75,7 +72,6 @@ webhooks:
   - v1
   - v1beta1
   clientConfig:
-    caBundle: Cg==
     service:
       name: azureoperator-webhook-service
       namespace: {{ .Release.Namespace }}

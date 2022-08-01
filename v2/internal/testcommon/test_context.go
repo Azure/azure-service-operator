@@ -153,7 +153,8 @@ func createTestNamespaceName(t *testing.T) string {
 	const maxLen = 63
 	const disambigLength = 5
 
-	result := "aso-" + strings.ReplaceAll(strings.ToLower(t.Name()), "_", "-")
+	name := strings.ReplaceAll(strings.ToLower(t.Name()), "/", "-")
+	result := "aso-" + strings.ReplaceAll(name, "_", "-")
 	if len(result) <= maxLen {
 		return result
 	}

@@ -1,0 +1,8 @@
+apiVersion: storage.azure.com/v1beta20210401
+kind: StorageAccountsQueueService
+metadata:
+  name: samplekubestoragequeuesbeta
+  namespace: default
+spec:
+  owner:
+    name: samplekubestoragebeta
