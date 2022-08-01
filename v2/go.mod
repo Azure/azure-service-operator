@@ -13,7 +13,6 @@ require (
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/benbjohnson/clock v1.1.0
 	github.com/dnaeon/go-vcr v1.2.0
-	github.com/emirpasic/gods v1.18.1
 	github.com/go-logr/logr v1.2.3
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/go-cmp v0.5.7
