@@ -395,6 +395,13 @@ func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
 }
 
+// CheckIfResourceExists tries to get the current state of the resource from K8s (not from Azure),
+// and if it does not exist, returns an error.
+func (tc *KubePerTestContext) CheckIfResourceExists(obj client.Object) error {
+	namespacedName := types.NamespacedName{Namespace: tc.Namespace, Name: obj.GetName()}
+	return tc.kubeClient.Get(tc.Ctx, namespacedName, obj)
+}
+
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
@@ -414,6 +421,11 @@ func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
 func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
 	tc.G.Expect(tc.kubeClient.Get(tc.Ctx, key, obj)).To(gomega.Succeed())
+}
+
+// GetScheme returns the scheme for kubeclient
+func (tc *KubePerTestContext) GetScheme() *runtime.Scheme {
+	return tc.kubeClient.Scheme()
 }
 
 // ListResources retrieves list of objects for a given namespace and list options. On a
@@ -439,8 +451,13 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
-	tc.G.Expect(tc.kubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
+	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
+}
+
+// DeleteResource deletes the given resource in K8s
+func (tc *KubePerTestContext) DeleteResource(obj client.Object) {
+	tc.G.Expect(tc.kubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
 }
 
 // DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted

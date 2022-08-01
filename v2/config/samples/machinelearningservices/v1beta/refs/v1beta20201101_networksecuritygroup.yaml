@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: NetworkSecurityGroup
+metadata:
+  name: samplensg
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg

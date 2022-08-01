@@ -64,7 +64,15 @@ if __name__ == "__main__":
     for crd in crd_bases:
         expected_samples.update(get_expected_samples(crd))
 
-    actual_samples = {str(entry.relative_to(samples_dir)) for entry in samples_dir.glob("**/*") if not entry.is_dir()}
+    actual_samples = set()
+
+    for entry in samples_dir.glob("**/*"):
+        dir_string = str(entry.relative_to(samples_dir))
+        if not entry.is_dir() :
+            dir_string_slice = dir_string.split(os.sep)
+            if len(dir_string_slice) > 2:
+                dir_string = os.path.join(dir_string_slice[0], dir_string_slice[len(dir_string_slice) - 1])
+            actual_samples.add(dir_string)
 
     difference = expected_samples.difference(actual_samples)
     if difference:
