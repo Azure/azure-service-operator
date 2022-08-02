@@ -68,7 +68,7 @@ typeFilters:
   - action: prune
     group: aadiam
     version: v*20170401
-    because: I don't understand why, but these end up with overlapping spec and status. # TODO: Understand why
+    because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
   - action: prune
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
@@ -116,7 +116,7 @@ typeFilters:
     because: This type is defined recursively.
   - action: prune
     group: management
-    because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively. # TODO: Fix
+    because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
   - action: include
     group: compute.extensions
     name: GenericExtension

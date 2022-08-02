@@ -27,6 +27,7 @@ const samplesPath = "../../config/samples"
 var skipTests = []string{
 	// TODO: Will re-record test .. as resource was having some issues in creation.
 	"cache",
+	"subscription", // Can't be run in our live env currently
 }
 
 // randomNameExclusions slice contains groups for which we don't want to use random names

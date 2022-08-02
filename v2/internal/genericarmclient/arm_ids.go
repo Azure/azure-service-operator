@@ -66,5 +66,14 @@ func MakeResourceGroupScopeARMID(subscription string, resourceGroup string, prov
 func MakeResourceGroupID(subscription string, resourceGroup string) string {
 	// This is a "special" format as it doesn't actually list a provider in it anywhere. I was expecting that it would
 	// have a Microsoft.Resources provider but it doesn't
-	return fmt.Sprintf("/subscriptions/%s/resourceGroups/%s", subscription, resourceGroup)
+	return fmt.Sprintf("%s/resourceGroups/%s", MakeSubscriptionID(subscription), resourceGroup)
+}
+
+// MakeSubscriptionID makes an ARM ID representing a subscription. This has the format:
+// /subscriptions/00000000-0000-0000-0000-000000000000
+// This is "special" because there is no provider at all
+func MakeSubscriptionID(subscription string) string {
+	// This is a "special" format as it doesn't actually list a provider in it anywhere. I was expecting that it would
+	// have a Microsoft.Resources provider but it doesn't
+	return fmt.Sprintf("/subscriptions/%s", subscription)
 }

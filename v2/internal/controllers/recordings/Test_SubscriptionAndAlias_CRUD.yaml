@@ -1,0 +1,407 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-sub-zzqblm","properties":{"billingScope":"/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000","displayName":"Subscription for ASO testing","workload":"Production"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "100"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
+    method: PUT
+  response:
+    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"displayName":"Subscription for ASO testing","workload":"Production","billingScope":"/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000","subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "240"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - b590d896-4a77-40ca-a50d-826965ec0a97
+      Ms-Cv:
+      - gKac1C5a7kS01DRVC6I8NQ.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 55470c92-aa21-4a35-bb73-c6ea0286b3e8
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Tenant-Writes:
+      - "1199"
+      X-Msedge-Ref:
+      - 'Ref A: 616B3195A7AB4F8D8F5579E111E33C41 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:37:56Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "240"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - 1090c388-d9cf-4059-8409-3e37a524658a
+      Ms-Cv:
+      - m0APfVLaS02TaJA/xSCcpA.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 4a3a8e80-743c-46e4-9028-3e4acd966517
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Tenant-Reads:
+      - "14999"
+      X-Msedge-Ref:
+      - 'Ref A: AA72914C07874030B637CB4858881DD2 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:37:59Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"e0823656-ed38-4d04-b949-687bdd167246","properties":{"principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","roleDefinitionId":"/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "245"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    method: PUT
+  response:
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "831"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 87AC2211BF5B43789B5B3E9DDD5E891D Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:11Z'
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    method: GET
+  response:
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "865"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 7F61CE4AB4704CE1B9177036A1DE0325 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:17Z'
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    method: GET
+  response:
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "865"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 0EBB55A4F0F64493B33CFC61B088984F Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:17Z'
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Subscription/cancel?api-version=2021-10-01
+    method: POST
+  response:
+    body: '{"subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "57"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - b8b6d375-9714-48fe-830d-80206609089c
+      Ms-Cv:
+      - 5CaSx+29Rk6chnZ5QqxFLA.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - c3631531-14ec-4c35-9b7c-1917fda72b5b
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "99"
+      X-Msedge-Ref:
+      - 'Ref A: 72A7543DF8C544E3AC29FFF5CDA74EB6 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:25Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - 4dc88c29-f2f2-410a-96ca-e4036ae3c38b
+      Ms-Cv:
+      - N/2V8JMbFUOdzOmFUCPx/g.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - d66d0e40-7d23-42b2-8563-20fe7f810a38
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Tenant-Deletes:
+      - "14999"
+      X-Msedge-Ref:
+      - 'Ref A: 43CC9C06FE7648A99CFC6238C880B7CB Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:32Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"SubscriptionAliasNotFound","message":"Subscription alias
+      not found"},"code":"SubscriptionAliasNotFound","message":"Subscription alias
+      not found"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "163"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - b6372840-3379-4a80-8ee1-88d4ab46c02f
+      Ms-Cv:
+      - cxoN/8UYVEe53R8b79YBYA.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - b05813ca-6d13-445e-8977-c7eb11e52ff3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Tenant-Reads:
+      - "14998"
+      X-Msedge-Ref:
+      - 'Ref A: 1694BDD43BD840D882CFE9D3AEE654E6 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:38Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"SubscriptionAliasNotFound","message":"Subscription alias
+      not found"},"code":"SubscriptionAliasNotFound","message":"Subscription alias
+      not found"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "163"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Mise-Correlation-Id:
+      - 41e38248-2f2c-489a-b7ca-5ebd354cd137
+      Ms-Cv:
+      - VBjsWJqjzkuxqzeCMTgzlA.0
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 82a912f8-4b15-401b-aa97-06ae5cc18dc2
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Gsm:
+      - 1.0.0.0
+      X-Ms-Ratelimit-Remaining-Tenant-Reads:
+      - "14997"
+      X-Msedge-Ref:
+      - 'Ref A: 72760615A2714D9DA4C602E98D975177 Ref B: WSTEDGE0707 Ref C: 2022-08-11T20:38:39Z'
+      X-Powered-By:
+      - ASP.NET
+    status: 404 Not Found
+    code: 404
+    duration: ""
