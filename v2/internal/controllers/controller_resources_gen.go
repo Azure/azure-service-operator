@@ -105,6 +105,8 @@ import (
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_alpha20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	network_alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	network_v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
+	network_v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
@@ -405,6 +407,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20180901s.PrivateDnsZone),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20201101s.LoadBalancer),
@@ -756,6 +761,8 @@ func getKnownTypes() []client.Object {
 		new(network_alpha20201101s.VirtualNetworkGateway),
 		new(network_alpha20201101s.VirtualNetworksSubnet),
 		new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
+	result = append(result, new(network_v20180901.PrivateDnsZone))
+	result = append(result, new(network_v20180901s.PrivateDnsZone))
 	result = append(
 		result,
 		new(network_v20201101.LoadBalancer),
@@ -931,6 +938,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = network_alpha20201101.AddToScheme(scheme)
 	_ = network_alpha20201101s.AddToScheme(scheme)
+	_ = network_v20180901.AddToScheme(scheme)
+	_ = network_v20180901s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
 	_ = operationalinsights_alpha20210601.AddToScheme(scheme)
@@ -1016,6 +1025,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
+	result = append(result, &network_customizations.PrivateDnsZoneExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})
