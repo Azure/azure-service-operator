@@ -468,13 +468,6 @@ func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 		tc.G.Expect(err).To(gomega.Succeed())
 	}
 
-	// TODO: Okay so we have a problem here...
-	// 1. We have to delete all of the resources at the end of an envtest run, because GC isn't enabled so cascading parent->child deletion doesn't work.
-	// 2. Not every resource can wait until a sucessful DELETE response, because some resources (ThroughputSettings, etc) don't have DELETEs that work in ARM.
-	//    You can only delete those resources by deleting their parent.
-	// 3. If we delete everything in parallel, HTTP replay ends up in a race situation
-	// TODO: but if we delete everything in parallel, the HTTP recordings race with one another and sometimes.
-	// TODO: basically we need a hook that envtest sets, I think...
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
 	}
