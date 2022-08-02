@@ -227,7 +227,6 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 		expectedOverwrite bool
 	}
 
-	// TODO: Test backwards generation
 	tests := []testStruct{
 		// Something overwrites nothing
 		{name: "True overwrites empty", initial: nil, new: trueGeneration1Condition, expectedOverwrite: true},
@@ -286,6 +285,108 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 			}
 
 			conditions.SetCondition(o, tt.new)
+			if tt.expectedOverwrite {
+				g.Expect(o.Conditions[0]).To(Equal(tt.new))
+			} else {
+				g.Expect(o.Conditions[0]).To(Equal(*tt.initial))
+			}
+		})
+	}
+}
+
+func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
+	t.Parallel()
+	clk := newMockClock()
+	builder := conditions.NewPositiveConditionBuilder(clk)
+
+	reconcilingCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityInfo,
+		1,
+		conditions.ReasonReconciling,
+		"a message")
+	referenceNotFoundCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityWarning,
+		1,
+		conditions.ReasonReferenceNotFound,
+		"a message")
+	secretNotFoundCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityWarning,
+		1,
+		conditions.ReasonSecretNotFound,
+		"a message")
+	arbitraryInfoCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityInfo,
+		1,
+		"InfoReason",
+		"a message")
+	arbitraryWarningCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityWarning,
+		1,
+		"WarningReason",
+		"a message")
+	arbitraryErrorCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityError,
+		1,
+		"ErrorReason",
+		"a message")
+	waitingForOwnerWarningCondition := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityWarning,
+		1,
+		conditions.ReasonWaitingForOwner,
+		"a message")
+	successCondition := builder.MakeTrueCondition(conditions.ConditionTypeReady, 1)
+
+	type testStruct struct {
+		name              string
+		initial           *conditions.Condition
+		new               conditions.Condition
+		expectedOverwrite bool
+	}
+
+	tests := []testStruct{
+		// Test overwriting within the same generation (positive test cases)
+		{name: "Reconciling overwrites same generation ReferenceNotFound", initial: &referenceNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
+		{name: "Reconciling overwrites same generation SecretNotFound", initial: &secretNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
+		{name: "Reconciling overwrites same generation ReferenceNotFound", initial: &referenceNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
+		{name: "Reconciling overwrites same generation Info", initial: &arbitraryInfoCondition, new: reconcilingCondition, expectedOverwrite: true},
+		{name: "Reconciling overwrites same generation WaitingForOwner", initial: &waitingForOwnerWarningCondition, new: reconcilingCondition, expectedOverwrite: true},
+
+		{name: "ReferenceNotFound overwrites same generation Error", initial: &arbitraryErrorCondition, new: referenceNotFoundCondition, expectedOverwrite: true},
+		{name: "ReferenceNotFound overwrites same generation Warning", initial: &arbitraryWarningCondition, new: referenceNotFoundCondition, expectedOverwrite: true},
+		{name: "ReferenceNotFound overwrites same generation Info", initial: &arbitraryInfoCondition, new: referenceNotFoundCondition, expectedOverwrite: true},
+		{name: "ReferenceNotFound overwrites same generation Reconciling", initial: &reconcilingCondition, new: referenceNotFoundCondition, expectedOverwrite: true},
+
+		{name: "SecretNotFound overwrites same generation Error", initial: &arbitraryErrorCondition, new: secretNotFoundCondition, expectedOverwrite: true},
+		{name: "SecretNotFound overwrites same generation Warning", initial: &arbitraryWarningCondition, new: secretNotFoundCondition, expectedOverwrite: true},
+		{name: "SecretNotFound overwrites same generation Info", initial: &arbitraryInfoCondition, new: secretNotFoundCondition, expectedOverwrite: true},
+		{name: "SecretNotFound overwrites same generation Reconciling", initial: &reconcilingCondition, new: secretNotFoundCondition, expectedOverwrite: true},
+
+		// Test overwriting within the same generation (negative test cases)
+		{name: "Reconciling does NOT overwrite same generation Reconciling", initial: &reconcilingCondition, new: reconcilingCondition, expectedOverwrite: false},
+		{name: "Reconciling does NOT overwrite same generation Warning", initial: &arbitraryWarningCondition, new: reconcilingCondition, expectedOverwrite: false},
+		{name: "Reconciling does NOT overwrite same generation Error", initial: &arbitraryErrorCondition, new: reconcilingCondition, expectedOverwrite: false},
+		{name: "Reconciling does NOT overwrite same generation Success", initial: &successCondition, new: reconcilingCondition, expectedOverwrite: false},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			o := &TestConditioner{}
+			if tt.initial != nil {
+				conditions.SetCondition(o, *tt.initial)
+			}
+
+			conditions.SetConditionReasonAware(o, tt.new)
 			if tt.expectedOverwrite {
 				g.Expect(o.Conditions[0]).To(Equal(tt.new))
 			} else {

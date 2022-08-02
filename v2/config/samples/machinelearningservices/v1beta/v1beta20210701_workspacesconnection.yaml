@@ -1,0 +1,14 @@
+apiVersion: machinelearningservices.azure.com/v1beta20210701
+kind: WorkspacesConnection
+metadata:
+  name: sampleworkspacesconnection
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sampleworkspaces
+  authType: PAT
+  category: ACR
+  target: www.sample.com
+  value: "{}"
+  valueFormat: JSON
