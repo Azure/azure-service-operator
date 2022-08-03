@@ -461,7 +461,7 @@ func (tc *KubePerTestContext) DeleteResource(obj client.Object) {
 }
 
 // DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
-func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		err := tc.kubeClient.Delete(tc.Ctx, obj)
 		err = client.IgnoreNotFound(err) // If the resource doesn't exist, that's good for us!
@@ -470,6 +470,34 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
+	}
+}
+
+// DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted.
+// Take care to avoid calling this method with incomplete resource hierarchies. For example, if resource A owns B and B owns C,
+// call this with [A], [A, B], or [A, B, C], but NOT with [A, C].
+//
+// Note that this protects against deleting resources that have a parent-child relationship in the same request. This is perfectly
+// fine in the real world, but in many of our recording envtests we can get into a situation where there's a race
+// during deletion that causes HTTP replay issues. The sequence of events is:
+// 1. Delete parent resource and child resource at the same time.
+// 2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
+//    after the child that we just record a successful DELETE for the parent and don't bother sending the final child
+//    DELETE that would return success.
+// 3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
+//    in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
+//    (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+// In envtest it's still critical to delete everything, because ownership based deletion isn't enabled in envtest and we can't
+// leave resources around or they will continue to attempt to log to a closed test logger. To avoid this we
+// carefully delete resources starting with the root and working our way down one rank at a time. This shouldn't be much
+// slower than just deleting everything all at once. Once the root resources are deleted (first) each child resource will delete immediately
+// as it realizes that its parent is already gone: No request to Azure will be issued for these deletions so they'll complete quickly.
+func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+	ranks := objectRanksByOwner(objs...)
+
+	// See above method comment for why we do this
+	for _, rank := range ranks {
+		tc.deleteResourcesAndWait(rank...)
 	}
 }
 

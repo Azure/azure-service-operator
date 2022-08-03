@@ -78,8 +78,8 @@ func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 	imageARMId := *image.Status.Id
 
 	tc.LogSection("Clean up")
-	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(image, rg)
+	// Delete image.
+	tc.DeleteResourceAndWait(image)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2021.APIVersionValue))

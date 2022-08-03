@@ -84,5 +84,5 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 		ContainSubstring("Secret \"%s/%s\" does not contain key \"%s\"", tc.Namespace, secret.Name, secret.Key))
 
 	// Delete VM and resources.
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
+	tc.DeleteResourceAndWait(rg)
 }
