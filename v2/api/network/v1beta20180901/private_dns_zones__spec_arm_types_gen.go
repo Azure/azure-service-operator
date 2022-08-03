@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20180901
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type PrivateDnsZones_SpecARM struct {
 	// Etag: The ETag of the Private DNS zone.
@@ -17,9 +14,6 @@ type PrivateDnsZones_SpecARM struct {
 
 	// Name: Name of the resource
 	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of the Private DNS zone.
-	Properties *v1.JSON `json:"properties,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`

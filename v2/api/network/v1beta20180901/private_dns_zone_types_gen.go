@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -340,10 +339,6 @@ type PrivateDnsZones_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// +kubebuilder:validation:Required
-	// Properties: The properties of the Private DNS zone.
-	Properties *v1.JSON `json:"properties,omitempty"`
-
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -371,12 +366,6 @@ func (zones *PrivateDnsZones_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if zones.Properties != nil {
-		properties := *(*zones.Properties).DeepCopy()
-		result.Properties = &properties
-	}
 
 	// Set property ‘Tags’:
 	if zones.Tags != nil {
@@ -418,12 +407,6 @@ func (zones *PrivateDnsZones_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘Owner’:
 	zones.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘Properties’:
-	if typedInput.Properties != nil {
-		properties := *(*typedInput.Properties).DeepCopy()
-		zones.Properties = &properties
 	}
 
 	// Set property ‘Tags’:
@@ -508,14 +491,6 @@ func (zones *PrivateDnsZones_Spec) AssignPropertiesFromPrivateDnsZonesSpec(sourc
 		zones.Owner = nil
 	}
 
-	// Properties
-	if source.Properties != nil {
-		property := *source.Properties.DeepCopy()
-		zones.Properties = &property
-	} else {
-		zones.Properties = nil
-	}
-
 	// Tags
 	zones.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -546,14 +521,6 @@ func (zones *PrivateDnsZones_Spec) AssignPropertiesToPrivateDnsZonesSpec(destina
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Properties
-	if zones.Properties != nil {
-		property := *zones.Properties.DeepCopy()
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
 	}
 
 	// Tags

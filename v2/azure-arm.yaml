@@ -292,6 +292,12 @@ typeTransformers:
     property: Properties
     remove: true
     because: it has no writable properties in swagger
+  - group: network
+    version: "*"
+    name: PrivateDnsZones_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
   - group: servicebus

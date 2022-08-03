@@ -13,7 +13,6 @@ package v1beta20180901
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -94,11 +93,6 @@ func (in *PrivateDnsZones_Spec) DeepCopyInto(out *PrivateDnsZones_Spec) {
 		*out = new(genruntime.KnownResourceReference)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -130,11 +124,6 @@ func (in *PrivateDnsZones_SpecARM) DeepCopyInto(out *PrivateDnsZones_SpecARM) {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
 		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags

@@ -13,7 +13,6 @@ package v1beta20180901storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -93,11 +92,6 @@ func (in *PrivateDnsZones_Spec) DeepCopyInto(out *PrivateDnsZones_Spec) {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
 		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
