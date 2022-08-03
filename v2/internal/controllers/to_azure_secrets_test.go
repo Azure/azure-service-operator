@@ -170,7 +170,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 
 	tc.CreateResourceAndWait(server2)
 
-	// Here we want to make sure that the server1 we deleted in Azure should not be created again with reconcile of secret
+	// Here we want to make sure that the server1 we deleted from Azure was not created again by a reconcile triggered when the second secret was created
 	// in other namespace
 	_, err = tc.AzureClient.GetByID(tc.Ctx, resourceID, server1.GetAPIVersion(), server1)
 	tc.Expect(err).ToNot(BeNil())
