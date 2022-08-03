@@ -43,7 +43,6 @@ type KubePerTestContext struct {
 	*KubeGlobalContext
 	KubeBaseTestContext
 
-	Ctx        context.Context
 	kubeClient client.Client
 	G          gomega.Gomega
 	Verify     *Verify
@@ -118,10 +117,21 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
 
-	return ctx.ForTestWithConfig(t, cfg)
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
 }
 
+type testConfigParallelismLimit string
+
+const (
+	countsAgainstParallelLimits = testConfigParallelismLimit("countsAgainstParallelLimits")
+	bypassesParallelLimits      = testConfigParallelismLimit("bypassesParallelLimits")
+)
+
 func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) *KubePerTestContext {
+	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits)
+}
+
+func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit) *KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
@@ -130,6 +140,7 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 	if err != nil {
 		t.Fatal(err)
 	}
+	perTestContext.CountsTowardsParallelLimits = parallelismRestriction == countsAgainstParallelLimits
 
 	baseCtx, err := ctx.createBaseTestContext(perTestContext, cfg)
 	if err != nil {
@@ -144,9 +155,7 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 	}
 
 	verify := NewVerify(kubeClient)
-
-	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
-	match := NewKubeMatcher(verify, context)
+	match := NewKubeMatcher(verify, baseCtx.Ctx)
 
 	format.MaxLength = 0 // Disable output truncation
 
@@ -157,7 +166,6 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 		Verify:              verify,
 		Match:               match,
 		scheme:              scheme,
-		Ctx:                 context,
 		G:                   gomega.NewWithT(t),
 		tracker:             &ResourceTracker{},
 	}
@@ -236,7 +244,6 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	result := &KubePerTestContext{
 		KubeGlobalContext:   tc.KubeGlobalContext,
 		KubeBaseTestContext: tc.KubeBaseTestContext,
-		Ctx:                 tc.Ctx,
 		kubeClient:          tc.kubeClient,
 		G:                   tc.G,
 		Verify:              tc.Verify,

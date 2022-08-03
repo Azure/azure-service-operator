@@ -23,9 +23,8 @@ func Test_CfgToKey_HasAllConfigDotValuesKeys(t *testing.T) {
 	testConfigType := reflect.TypeOf(testConfig{})
 
 	for i, field := range reflect.VisibleFields(testConfigType) {
-		if i == 0 && field.Name == "Values" {
-			// Skip the embedded struct - we'll check for the fields
-			// inside it.
+		// Skip the embedded struct and TerminateWhenDone field
+		if (i == 0 && field.Name == "Values") || field.Name == "CountsTowardsLimit" {
 			continue
 		}
 		g.Expect(key).To(ContainSubstring(field.Name + ":"))
