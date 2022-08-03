@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1beta20180901
+kind: PrivateDnsZone
+metadata:
+  name: aso-sample-pdz.com
+  namespace: aso-test-networking-privatednszone-crud
+spec:
+  location: global
+  owner:
+    name: aso-sample-rg
