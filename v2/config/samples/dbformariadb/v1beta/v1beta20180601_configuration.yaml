@@ -1,0 +1,11 @@
+apiVersion: dbformariadb.azure.com/v1beta20180601
+kind: Configuration
+metadata:
+  name: query_cache_size
+  namespace: default
+spec:
+  azureName: query_cache_size
+  location: eastus
+  owner:
+    name: myserver
+  value: "102400"

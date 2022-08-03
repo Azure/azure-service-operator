@@ -63,10 +63,10 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourcesAndWait(&acct, &db)
-	defer tc.DeleteResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
 	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindMongoDB
+	tc.Expect(acct.Status.Kind).ToNot(BeNil())
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 

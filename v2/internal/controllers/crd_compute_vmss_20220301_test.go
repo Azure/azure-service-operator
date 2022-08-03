@@ -157,10 +157,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	tc.Expect(found).To(BeTrue())
 
 	// Delete VMSS
-	// We do this in stages to avoid race conditions between owner/owned resources
-	// that can make tests non-deterministic
 	tc.DeleteResourceAndWait(vmss)
-	tc.DeleteResourceAndWait(rg)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2022.APIVersionValue))

@@ -1,0 +1,28 @@
+apiVersion: machinelearningservices.azure.com/v1beta20210701
+kind: WorkspacesCompute
+metadata:
+  name: sampleworkspacescompute
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sampleworkspaces
+  sku:
+    name: Standard_S1
+    tier: Basic
+  properties:
+    virtualMachine:
+      computeLocation: westcentralus
+      computeType: VirtualMachine
+      disableLocalAuth: true
+      resourceReference:
+        group: compute.azure.com
+        kind: VirtualMachine
+        name: samplevm
+      properties:
+        sshPort: 22
+        administratorAccount:
+          username: adminUser
+          password: # This is the name/key of a Kubernetes secret in the same namespace
+            name: vm-admin-pw
+            key: password

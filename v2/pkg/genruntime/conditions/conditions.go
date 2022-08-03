@@ -175,7 +175,7 @@ func (c Condition) priority() int {
 		case ConditionSeverityNone:
 			// This shouldn't happen as a Condition with Status False should always specify a severity.
 			// In the interest of safety though, we set this to 5 so if this DOES somehow happen it ties
-			// or wins against most other things and users will se it
+			// or wins against most other things and users will see it
 			return 5
 		}
 	case metav1.ConditionUnknown:
@@ -207,9 +207,47 @@ func (c Condition) String() string {
 }
 
 // SetCondition sets the provided Condition on the Conditioner. The condition is only
-// set if the new condition is in a different state than the existing condition of
-// the same type.
+// set if the new condition is different from the existing condition of the same type.
+// See Condition.IsEquivalent and Condition.ShouldOverwrite for more details.
 func SetCondition(o Conditioner, new Condition) {
+	setCondition(o, new, func(new Condition, old Condition) bool { return new.ShouldOverwrite(old) })
+}
+
+// Reasons other than those explicitly called out here have the default priority of 0.
+// These are given a negative priority so that they "lose" to the default of 0 and are overwritten.
+// Take care to not modify this structure (Golang doesn't support a readonly map). We could use
+// v2/tools/generator/internal/readonly/readonly_map.go but given
+// Golang generics bugs for now we go with the simpler approach
+var reasonPriority = map[string]int{
+	ReasonReferenceNotFound: -2,
+	ReasonSecretNotFound:    -2,
+	ReasonWaitingForOwner:   -2,
+	ReasonReconciling:       -1,
+}
+
+// SetConditionReasonAware sets the provided Condition on the Conditioner. This is similar to SetCondition
+// with one difference: SetConditionReasonAware understands common Reasons used by ASO and allows some of them to
+// modify the standard Condition priority rules. This is primarily used to allow the Reconciling condition to overwrite
+// Warning conditions raised by the operator that have been fixed. This is useful because sometimes getting a success or
+// error from Azure can take a long time, and workflows like: submit -> warning -> fix warning -> call Azure -> wait -> success
+// otherwise would continue reporting the Warning Condition until the final success step (possibly many minutes after the
+// warning was resolved).
+func SetConditionReasonAware(o Conditioner, new Condition) {
+	shouldOverwrite := func(new Condition, old Condition) bool {
+		if new.ShouldOverwrite(old) {
+			return true
+		}
+
+		// If we normally wouldn't overwrite, check the reason of the old and new condition and compare their priorities
+		oldPriority := reasonPriority[old.Reason] // Default is 0 if not mapped
+		newPriority := reasonPriority[new.Reason] // Default is 0 if not mapped
+		return newPriority > oldPriority          // Just > rather than >= here to prevent things overwriting themselves
+	}
+
+	setCondition(o, new, shouldOverwrite)
+}
+
+func setCondition(o Conditioner, new Condition, shouldOverwrite func(new Condition, old Condition) bool) {
 	if o == nil {
 		return
 	}
@@ -217,7 +255,7 @@ func SetCondition(o Conditioner, new Condition) {
 	conditions := o.GetConditions()
 	i, exists := conditions.FindIndexByType(new.Type)
 	if exists {
-		if !new.ShouldOverwrite(conditions[i]) {
+		if !shouldOverwrite(new, conditions[i]) {
 			// Nothing to do, the new condition is not supposed to overwrite
 			return
 		}

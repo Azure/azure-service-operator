@@ -1,0 +1,19 @@
+apiVersion: dbformysql.azure.com/v1alpha1api20210501
+kind: FlexibleServer
+metadata:
+  name: samplemysql
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  version: "8.0.21"
+  sku:
+    name: Standard_D4ds_v4
+    tier: GeneralPurpose
+  administratorLogin: myAdmin
+  administratorLoginPassword: # This is the name/key of a Kubernetes secret in the same namespace
+    name: server-admin-pw
+    key: password
+  storage:
+    storageSizeGB: 128
