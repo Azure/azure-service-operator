@@ -95,8 +95,15 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *
 }
 
 func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
+	return tc.NewTestResourceGroupWithNamespace(tc.Namespace)
+}
+
+func (tc KubePerTestContext) NewTestResourceGroupWithNamespace(namespace string) *resources.ResourceGroup {
 	return &resources.ResourceGroup{
-		ObjectMeta: tc.MakeObjectMeta("rg"),
+		ObjectMeta: ctrl.ObjectMeta{
+			Name:      tc.Namer.GenerateName("rg"),
+			Namespace: namespace,
+		},
 		Spec: resources.ResourceGroupSpec{
 			Location: tc.AzureRegion,
 			// This tag is used for cleanup optimization

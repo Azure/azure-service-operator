@@ -138,12 +138,10 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	ns1Secret := createNamespacedSecret(tc, ns1, secretName)
 	ns2Secret := createNamespacedSecret(tc, ns2, secretName)
 
-	rg := tc.NewTestResourceGroup()
-	rg.Namespace = ns1
+	rg := tc.NewTestResourceGroupWithNamespace(ns1)
 	tc.CreateResourceGroupAndWait(rg)
 
-	rg2 := tc.NewTestResourceGroup()
-	rg2.Namespace = ns2
+	rg2 := tc.NewTestResourceGroupWithNamespace(ns2)
 	tc.CreateResourceGroupAndWait(rg2)
 
 	server1, _ := newFlexibleServer(tc, rg, ns1Secret)
