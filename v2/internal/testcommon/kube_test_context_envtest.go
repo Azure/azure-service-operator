@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"runtime"
 	"sync"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/sync/semaphore"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
@@ -232,21 +234,25 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	return &runningEnvTest{
 		KubeConfig: kubeConfig,
 		Stop:       cancelFunc,
+		Cfg:        cfg,
+		Callers:    1,
 	}, nil
 }
 
 // sharedEnvTests stores all the envTests we are running
 // we run one per config (cfg.Values)
 type sharedEnvTests struct {
-	envtestLock sync.Mutex
-	envtests    map[string]*runningEnvTest
+	envtestLock               sync.Mutex
+	concurrencyLimitSemaphore *semaphore.Weighted
+	envtests                  map[string]*runningEnvTest
 
 	namespaceResources *namespaceResources
 }
 
 type testConfig struct {
 	config.Values
-	Replaying bool
+	Replaying          bool
+	CountsTowardsLimit bool
 }
 
 func cfgToKey(cfg testConfig) string {
@@ -261,18 +267,67 @@ func (set *sharedEnvTests) stopAll() {
 	defer set.envtestLock.Unlock()
 	for _, v := range set.envtests {
 		v.Stop()
+		if v.Cfg.CountsTowardsLimit {
+			set.concurrencyLimitSemaphore.Release(1)
+		}
 	}
 }
 
-func (set *sharedEnvTests) getEnvTestForConfig(cfg testConfig) (*runningEnvTest, error) {
+func (set *sharedEnvTests) garbageCollect(cfg testConfig, logger logr.Logger) {
 	envTestKey := cfgToKey(cfg)
 	set.envtestLock.Lock()
 	defer set.envtestLock.Unlock()
 
-	if envtest, ok := set.envtests[envTestKey]; ok {
-		return envtest, nil
+	envTest, ok := set.envtests[envTestKey]
+	if !ok {
+		return
 	}
 
+	envTest.Callers -= 1
+	logger.V(2).Info("EnvTest instance now has", "activeTests", envTest.Callers)
+	if envTest.Callers != 0 {
+		return
+	}
+
+	logger.V(2).Info("Shutting down EnvTest instance")
+	envTest.Stop()
+	delete(set.envtests, envTestKey)
+	if cfg.CountsTowardsLimit {
+		set.concurrencyLimitSemaphore.Release(1)
+	}
+}
+
+func (set *sharedEnvTests) getRunningEnvTest(key string) *runningEnvTest {
+	set.envtestLock.Lock()
+	defer set.envtestLock.Unlock()
+
+	if envTest, ok := set.envtests[key]; ok {
+		envTest.Callers += 1
+		return envTest
+	}
+
+	return nil
+}
+
+func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConfig, logger logr.Logger) (*runningEnvTest, error) {
+	envTestKey := cfgToKey(cfg)
+	envTest := set.getRunningEnvTest(envTestKey)
+	if envTest != nil {
+		return envTest, nil
+	}
+
+	// The order of these locks matters: Have to make sure we have spare capacity before take the shared lock
+	if cfg.CountsTowardsLimit {
+		logger.V(2).Info("Acquiring envtest concurrency semaphore")
+		err := set.concurrencyLimitSemaphore.Acquire(ctx, 1)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	set.envtestLock.Lock()
+	defer set.envtestLock.Unlock()
+	logger.V(2).Info("Starting envtest")
 	// no envtest exists for this config; make one
 	newEnvTest, err := createSharedEnvTest(cfg, set.namespaceResources)
 	if err != nil {
@@ -286,6 +341,8 @@ func (set *sharedEnvTests) getEnvTestForConfig(cfg testConfig) (*runningEnvTest,
 type runningEnvTest struct {
 	KubeConfig *rest.Config
 	Stop       context.CancelFunc
+	Cfg        testConfig
+	Callers    int
 }
 
 // each test is run in its own namespace
@@ -331,10 +388,13 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 		clients: make(map[string]*perNamespace),
 	}
 
+	cpus := runtime.NumCPU()
+
 	envTests := sharedEnvTests{
-		envtestLock:        sync.Mutex{},
-		envtests:           make(map[string]*runningEnvTest),
-		namespaceResources: perNamespaceResources,
+		envtestLock:               sync.Mutex{},
+		concurrencyLimitSemaphore: semaphore.NewWeighted(int64(cpus)),
+		envtests:                  make(map[string]*runningEnvTest),
+		namespaceResources:        perNamespaceResources,
 	}
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
@@ -357,12 +417,20 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 		}
 
 		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
-		envtest, err := envTests.getEnvTestForConfig(testConfig{
-			Values:    cfg,
-			Replaying: replaying,
-		})
+		testCfg := testConfig{
+			Values:             cfg,
+			Replaying:          replaying,
+			CountsTowardsLimit: perTestContext.CountsTowardsParallelLimits,
+		}
+		envtest, err := envTests.getEnvTestForConfig(perTestContext.Ctx, testCfg, perTestContext.logger)
 		if err != nil {
 			return nil, err
+		}
+
+		if perTestContext.CountsTowardsParallelLimits {
+			perTestContext.T.Cleanup(func() {
+				envTests.garbageCollect(testCfg, perTestContext.logger)
+			})
 		}
 
 		return &KubeBaseTestContext{
