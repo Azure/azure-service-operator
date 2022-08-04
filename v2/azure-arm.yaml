@@ -1182,7 +1182,7 @@ objectModelConfiguration:
     2018-09-01:
       PrivateDnsZone:
         $export: true
-        $supportedFrom: v2.0.0-beta.3
+        $supportedFrom: v2.0.0-beta.2
     2020-11-01:
       LoadBalancer:
         $export: true
