@@ -130,7 +130,7 @@ func ReadFromEnvironmentForTest() (config.Values, error) {
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
 
-	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
+	return cfg, err
 }
 
 type testConfigParallelismLimit string
