@@ -143,10 +143,10 @@ go-install() {
     fi
 }
 
-go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
-go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0 
-go-install kind sigs.k8s.io/kind@v0.11.1 
-go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.24.3
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.9.2
+go-install kind sigs.k8s.io/kind@v0.14.0
+go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1

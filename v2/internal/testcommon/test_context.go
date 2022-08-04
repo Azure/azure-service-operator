@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
@@ -55,6 +56,10 @@ type PerTestContext struct {
 	NoSpaceNamer        ResourceNamer
 	TestName            string
 	Namespace           string
+	Ctx                 context.Context
+	// CountsTowardsParallelLimits true means that the envtest (if any) started for this test pass counts towards the limit of
+	// concurrent envtests running at once. If this is false, it doesn't count towards the limit.
+	CountsTowardsParallelLimits bool
 }
 
 // There are two prefixes here because each represents a resource kind with a distinct lifecycle.
@@ -133,6 +138,8 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	namer := tc.NameConfig.NewResourceNamer(t.Name())
 
+	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
+
 	return PerTestContext{
 		TestContext:         tc,
 		T:                   t,
@@ -146,6 +153,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
 		Namespace:           createTestNamespaceName(t),
+		Ctx:                 context,
 	}, nil
 }
 
