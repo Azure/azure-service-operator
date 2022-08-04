@@ -646,6 +646,7 @@ func (tc *KubePerTestContext) cleanSample(resource any) {
 		om.SetResourceVersion("")
 		om.SetUID("")
 		om.SetCreationTimestamp(metav1.Time{})
+		om.SetNamespace("default")
 	}
 }
 
