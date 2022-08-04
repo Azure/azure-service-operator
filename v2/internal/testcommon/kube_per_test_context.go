@@ -121,7 +121,7 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
 		t.Fatal(err)
 	}
 
-	return ctx.ForTestWithConfig(t, cfg)
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
 }
 
 func ReadFromEnvironmentForTest() (config.Values, error) {
