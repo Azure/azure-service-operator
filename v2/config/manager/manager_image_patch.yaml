@@ -34,6 +34,24 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_SUBSCRIPTION_ID
+            - name: AZURE_AUTHORITY_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_AUTHORITY_HOST
+                  optional: true
+            - name: AZURE_RESOURCE_MANAGER_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_RESOURCE_MANAGER_ENDPOINT
+                  optional: true
+            - name: AZURE_RESOURCE_MANAGER_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_RESOURCE_MANAGER_AUDIENCE
+                  optional: true
             - name: AZURE_TARGET_NAMESPACES
               valueFrom:
                 secretKeyRef:

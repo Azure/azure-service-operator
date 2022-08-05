@@ -72,6 +72,7 @@ func TestOperatorMode_Watchers(t *testing.T) {
 
 func TestOperatorMode_Both(t *testing.T) {
 	t.Parallel()
+
 	tc := globalTestContext.ForTestWithConfig(t, config.Values{
 		OperatorMode: config.OperatorModeBoth,
 	})

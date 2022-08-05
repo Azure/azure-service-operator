@@ -17,6 +17,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -27,7 +28,10 @@ func Test_NewResourceGroup(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	testContext, err := testContext.ForTest(t)
+	cfg, err := config.ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	testContext, err := testContext.ForTest(t, cfg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceGroup := testContext.NewTestResourceGroup()
@@ -65,7 +69,10 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	testContext, err := testContext.ForTest(t)
+	cfg, err := config.ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	testContext, err := testContext.ForTest(t, cfg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rgName := testContext.Namer.GenerateName("rg")
