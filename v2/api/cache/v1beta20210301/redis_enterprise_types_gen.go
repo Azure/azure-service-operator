@@ -68,7 +68,7 @@ func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
 	return enterprise.AssignPropertiesToRedisEnterprise(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20210301-redisenterprise,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1beta20210301,name=default.v1beta20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20210301-redisenterprise,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1beta20210301,name=default.v1beta20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RedisEnterprise{}
 
@@ -103,9 +103,9 @@ func (enterprise RedisEnterprise) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (enterprise *RedisEnterprise) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (enterprise *RedisEnterprise) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20210301-redisenterprise,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1beta20210301,name=validate.v1beta20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20210301-redisenterprise,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1beta20210301,name=validate.v1beta20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RedisEnterprise{}
 

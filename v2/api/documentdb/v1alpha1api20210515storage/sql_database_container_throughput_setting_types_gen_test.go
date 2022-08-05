@@ -22,6 +22,7 @@ func Test_SqlDatabaseContainerThroughputSetting_WhenConvertedToHub_RoundTripsWit
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from SqlDatabaseContainerThroughputSetting to hub returns original",
@@ -105,7 +106,8 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting(subject S
 func Test_SqlDatabaseContainerThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseContainerThroughputSetting via JSON returns original",
@@ -208,7 +210,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersThroughpu
 func Test_DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS via JSON returns original",
@@ -328,7 +331,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersThroughpu
 func Test_DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec via JSON returns original",

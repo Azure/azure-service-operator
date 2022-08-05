@@ -18,9 +18,14 @@ import (
 // this is shared between tests because
 // instantiating it requires HTTP calls
 var cachedCreds azcore.TokenCredential
-var cachedSubID string
+var cachedSubID AzureIDs
 
-func getCreds() (azcore.TokenCredential, string, error) {
+type AzureIDs struct {
+	subscriptionID string
+	tenantID       string
+}
+
+func getCreds() (azcore.TokenCredential, AzureIDs, error) {
 
 	if cachedCreds != nil {
 		return cachedCreds, cachedSubID, nil
@@ -28,15 +33,25 @@ func getCreds() (azcore.TokenCredential, string, error) {
 
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return nil, "", errors.Wrapf(err, "creating default credential")
+		return nil, AzureIDs{}, errors.Wrapf(err, "creating default credential")
 	}
 
 	subscriptionID := os.Getenv(config.SubscriptionIDVar)
 	if subscriptionID == "" {
-		return nil, "", errors.Errorf("required environment variable %q was not supplied", config.SubscriptionIDVar)
+		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.SubscriptionIDVar)
+	}
+
+	tenantID := os.Getenv(config.TenantIDVar)
+	if tenantID == "" {
+		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.TenantIDVar)
+	}
+
+	ids := AzureIDs{
+		subscriptionID: subscriptionID,
+		tenantID:       tenantID,
 	}
 
 	cachedCreds = creds
-	cachedSubID = subscriptionID
-	return creds, subscriptionID, nil
+	cachedSubID = ids
+	return creds, ids, nil
 }

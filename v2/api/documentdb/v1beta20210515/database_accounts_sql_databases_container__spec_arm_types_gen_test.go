@@ -20,7 +20,8 @@ import (
 func Test_DatabaseAccountsSqlDatabasesContainer_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainer_SpecARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainer_SpecAR
 func Test_SqlContainerCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlContainerCreateUpdatePropertiesARM via JSON returns original",
@@ -158,7 +160,8 @@ func AddRelatedPropertyGeneratorsForSqlContainerCreateUpdatePropertiesARM(gens m
 func Test_SqlContainerResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlContainerResourceARM via JSON returns original",
@@ -237,7 +240,8 @@ func AddRelatedPropertyGeneratorsForSqlContainerResourceARM(gens map[string]gopt
 func Test_ConflictResolutionPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ConflictResolutionPolicyARM via JSON returns original",
@@ -299,7 +303,8 @@ func AddIndependentPropertyGeneratorsForConflictResolutionPolicyARM(gens map[str
 func Test_ContainerPartitionKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerPartitionKeyARM via JSON returns original",
@@ -361,7 +366,8 @@ func AddIndependentPropertyGeneratorsForContainerPartitionKeyARM(gens map[string
 func Test_IndexingPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IndexingPolicyARM via JSON returns original",
@@ -438,7 +444,8 @@ func AddRelatedPropertyGeneratorsForIndexingPolicyARM(gens map[string]gopter.Gen
 func Test_UniqueKeyPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UniqueKeyPolicyARM via JSON returns original",
@@ -497,7 +504,8 @@ func AddRelatedPropertyGeneratorsForUniqueKeyPolicyARM(gens map[string]gopter.Ge
 func Test_CompositePathARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CompositePathARM via JSON returns original",
@@ -557,7 +565,8 @@ func AddIndependentPropertyGeneratorsForCompositePathARM(gens map[string]gopter.
 func Test_ExcludedPathARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExcludedPathARM via JSON returns original",
@@ -616,7 +625,8 @@ func AddIndependentPropertyGeneratorsForExcludedPathARM(gens map[string]gopter.G
 func Test_IncludedPathARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IncludedPathARM via JSON returns original",
@@ -689,7 +699,8 @@ func AddRelatedPropertyGeneratorsForIncludedPathARM(gens map[string]gopter.Gen) 
 func Test_SpatialSpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SpatialSpecARM via JSON returns original",
@@ -753,7 +764,8 @@ func AddIndependentPropertyGeneratorsForSpatialSpecARM(gens map[string]gopter.Ge
 func Test_UniqueKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UniqueKeyARM via JSON returns original",
@@ -812,7 +824,8 @@ func AddIndependentPropertyGeneratorsForUniqueKeyARM(gens map[string]gopter.Gen)
 func Test_IndexesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IndexesARM via JSON returns original",

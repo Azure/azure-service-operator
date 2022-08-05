@@ -4,7 +4,6 @@
 package v1alpha1api20201201storage
 
 import (
-	"fmt"
 	alpha20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
 	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
@@ -47,22 +46,36 @@ var _ conversion.Convertible = &VirtualMachine{}
 
 // ConvertFrom populates our VirtualMachine from the provided hub VirtualMachine
 func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20201201storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.VirtualMachine
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return machine.AssignPropertiesFromVirtualMachine(source)
+	err = machine.AssignPropertiesFromVirtualMachine(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to machine")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachine from our VirtualMachine
 func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20201201storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.VirtualMachine
+	err := machine.AssignPropertiesToVirtualMachine(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from machine")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return machine.AssignPropertiesToVirtualMachine(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachine{}
@@ -77,9 +90,9 @@ func (machine VirtualMachine) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (machine *VirtualMachine) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (machine *VirtualMachine) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -3312,11 +3325,10 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 // Storage version of v1alpha1api20201201.VirtualMachineIdentity_STATUS
 // Deprecated version of VirtualMachineIdentity_STATUS. Use v1beta20201201.VirtualMachineIdentity_STATUS instead
 type VirtualMachineIdentity_STATUS struct {
-	PrincipalId            *string                                                         `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                         `json:"tenantId,omitempty"`
-	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineIdentity_STATUS populates our VirtualMachineIdentity_STATUS from the provided source VirtualMachineIdentity_STATUS
@@ -3332,24 +3344,6 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesFromVirtualMachin
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity VirtualMachineIdentity_UserAssignedIdentities_STATUS
-			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3375,24 +3369,6 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineI
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS
-			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6255,58 +6231,6 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachin
 	} else {
 		destination.Status = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
-// Deprecated version of VirtualMachineIdentity_UserAssignedIdentities_STATUS. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS instead
-type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS populates our VirtualMachineIdentity_UserAssignedIdentities_STATUS from the provided source VirtualMachineIdentity_UserAssignedIdentities_STATUS
-func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS(source *v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		identities.PropertyBag = propertyBag
-	} else {
-		identities.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS populates the provided destination VirtualMachineIdentity_UserAssignedIdentities_STATUS from our VirtualMachineIdentity_UserAssignedIdentities_STATUS
-func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS(destination *v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

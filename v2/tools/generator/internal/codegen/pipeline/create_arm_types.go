@@ -238,8 +238,7 @@ func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition
 }
 
 func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
-	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType) &&
-		!astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
+	if !astmodel.IsTypeResourceReference(prop.PropertyType()) {
 		return nil, nil
 	}
 
@@ -253,11 +252,20 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 		return nil, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
 	}
 
+	var newPropType astmodel.Type
+	if astmodel.IsTypeResourceReferenceSlice(prop.PropertyType()) {
+		newPropType = astmodel.NewArrayType(astmodel.StringType)
+	} else if astmodel.IsTypeResourceReferenceMap(prop.PropertyType()) {
+		newPropType = astmodel.NewMapType(astmodel.StringType, astmodel.StringType)
+	} else {
+		newPropType = astmodel.StringType
+	}
+
 	armPropName := values[0]
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
 		c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
-		astmodel.StringType).MakeTypeOptional()
+		newPropType).MakeTypeOptional()
 
 	return newProp, nil
 }

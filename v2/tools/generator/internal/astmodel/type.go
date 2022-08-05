@@ -44,7 +44,7 @@ type Type interface {
 	// WriteDebugDescription adds a description of the current type to the passed builder
 	// builder receives the full description, including nested types
 	// definitions is a dictionary for resolving named types
-	WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet)
+	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
 }
 
 type EqualityOverrides struct {
@@ -86,8 +86,17 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	return left.Equals(right, override)
 }
 
-func DebugDescription(t Type, definitions TypeDefinitionSet) string {
+func DebugDescription(t Type, pkgs ...PackageReference) string {
+	var currentPackage PackageReference
+	if len(pkgs) > 0 {
+		// If we're passed a package, use that as the current packge
+		currentPackage = pkgs[0]
+	} else if tn, ok := AsTypeName(t); ok {
+		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write
+		currentPackage = tn.PackageReference
+	}
+
 	var builder strings.Builder
-	t.WriteDebugDescription(&builder, definitions)
+	t.WriteDebugDescription(&builder, currentPackage)
 	return builder.String()
 }

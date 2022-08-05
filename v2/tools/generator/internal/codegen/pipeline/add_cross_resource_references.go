@@ -22,8 +22,6 @@ const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
 
-// TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
-
 // AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
 func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
 	return NewLegacyStage(
@@ -176,10 +174,13 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 // DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
 // This can be used for logging/reporting purposes to discover references which we missed.
 func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
-	// The property must be a string or optional string
+	// The property must be a string, optional string, list of strings, or map[string]string
 	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
 	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
-	if !isString && !isOptionalString {
+	isStringSlice := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
+	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
+	if !isString && !isOptionalString && !isStringSlice && !isStringMap {
 		return false
 	}
 
@@ -193,22 +194,41 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 }
 
 func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
+	_, isSlice := astmodel.AsArrayType(existing.PropertyType())
+	_, isMap := astmodel.AsMapType(existing.PropertyType())
+	propertyNameSuffix := "Reference"
+	if isSlice || isMap {
+		propertyNameSuffix = "References"
+	}
+
 	var referencePropertyName string
 	// Special case for "Id" and properties that end in "Id", which are quite common in the specs. This is primarily
 	// because it's awkward to have a field called "Id" not just be a string and instead but a complex type describing
 	// a reference.
 	if existing.PropertyName() == "Id" {
-		referencePropertyName = "Reference"
+		referencePropertyName = propertyNameSuffix
 	} else if strings.HasSuffix(string(existing.PropertyName()), "Id") {
-		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Id") + "Reference"
+		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Id") + propertyNameSuffix
+	} else if strings.HasSuffix(string(existing.PropertyName()), "Ids") {
+		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Ids") + propertyNameSuffix
 	} else {
-		referencePropertyName = string(existing.PropertyName()) + "Reference"
+		referencePropertyName = string(existing.PropertyName()) + propertyNameSuffix
+	}
+
+	var newPropType astmodel.Type
+
+	if isSlice {
+		newPropType = astmodel.NewArrayType(astmodel.ResourceReferenceType)
+	} else if isMap {
+		newPropType = astmodel.NewMapType(astmodel.StringType, astmodel.ResourceReferenceType)
+	} else {
+		newPropType = astmodel.NewOptionalType(astmodel.ResourceReferenceType)
 	}
 
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
 		idFactory.CreateIdentifier(referencePropertyName, astmodel.NotExported),
-		astmodel.NewOptionalType(astmodel.ResourceReferenceType))
+		newPropType)
 
 	newProp = newProp.WithDescription(existing.Description())
 	if existing.IsRequired() {

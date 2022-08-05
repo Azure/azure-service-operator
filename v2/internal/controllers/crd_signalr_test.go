@@ -97,7 +97,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.Expect(signalR.Status.Cors).ToNot(BeNil())
 	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.horse"))
 
-	tc.DeleteResourcesAndWait(&signalR, rg)
+	tc.DeleteResourcesAndWait(&signalR)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.APIVersion_Value))

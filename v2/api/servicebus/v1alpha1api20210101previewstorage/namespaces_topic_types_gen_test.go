@@ -22,6 +22,7 @@ func Test_NamespacesTopic_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T)
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from NamespacesTopic to hub returns original",
@@ -105,7 +106,8 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 func Test_NamespacesTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopic via JSON returns original",
@@ -207,7 +209,8 @@ func RunPropertyAssignmentTestForNamespacesTopic_STATUS(subject NamespacesTopic_
 func Test_NamespacesTopic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopic_STATUS via JSON returns original",
@@ -341,7 +344,8 @@ func RunPropertyAssignmentTestForNamespacesTopic_Spec(subject NamespacesTopic_Sp
 func Test_NamespacesTopic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopic_Spec via JSON returns original",

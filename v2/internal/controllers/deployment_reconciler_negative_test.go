@@ -181,7 +181,7 @@ func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 	// can change the body of the VNET PUT (because VNET PUT contains subnets)
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, loadBalancer, publicIPAddress)
-	vmss := newVMSS(tc, rg, loadBalancer, subnet)
+	vmss := newVMSS20201201(tc, rg, loadBalancer, subnet)
 	imgRef := vmss.Spec.VirtualMachineProfile.StorageProfile.ImageReference
 	originalImgRef := imgRef.DeepCopy()
 

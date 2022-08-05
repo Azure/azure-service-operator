@@ -13,7 +13,7 @@ This project is a beta. We follow the [Kubernetes definition of beta](https://ku
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
+See the list of supported resources [here](https://azure.github.io/azure-service-operator/reference/).
 
 ## Getting Started
 ### Prerequisites
@@ -25,7 +25,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -72,7 +72,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    ```
 
 3. Install [the latest **v2+** Helm chart](/v2/charts). Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/introduction/installing-from-yaml)
-
+   
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
    ```
@@ -118,7 +118,7 @@ $ kubectl describe resourcegroups/aso-sample-rg
 Name:         aso-sample-rg
 Namespace:    default
 Labels:       <none>
-Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+Annotations:  resource-id.azure.com: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
               resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
 API Version:  resources.azure.com/v1alpha1api20200601
 Kind:         ResourceGroup
@@ -136,16 +136,16 @@ Status:
     Reason:                Succeeded
     Status:                True
     Type:                  Ready
-  Id:                      /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+  Id:                      /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
   Location:                westcentralus
   Name:                    aso-sample-rg
   Provisioning State:      Succeeded
 Events:
   Type    Reason             Age   From                     Message
   ----    ------             ----  ----                     -------
-  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
-  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
-  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
+  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
+  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
+  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
 
 
 # delete the ResourceGroup
@@ -167,7 +167,7 @@ As for deleting controller components, just `kubectl delete -f` the release mani
 to get started. For example, creating and deleting cert-manager.
 ```bash
 # remove the cert-manager components
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
 ```
 
 ## How to contribute

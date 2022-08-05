@@ -63,10 +63,10 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourcesAndWait(&acct, &db)
-	defer tc.DeleteResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
 	expectedKind := documentdb.DatabaseAccount_Spec_Kind_MongoDB
+	tc.Expect(acct.Status.Kind).ToNot(BeNil())
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 
@@ -83,14 +83,14 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Collection CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				CosmosDB_MongoDB_Collection_CRUD(testContext, &db)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				CosmosDB_MongoDB_Collection_CRUD(tc, &db)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Database throughput settings CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(testContext, &db)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc, &db)
 			},
 		})
 }
@@ -147,8 +147,8 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB MongoDB Database Collection throughput settings CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(testContext, &collection)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc, &collection)
 			},
 		})
 

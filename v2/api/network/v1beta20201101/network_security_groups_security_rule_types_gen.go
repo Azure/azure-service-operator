@@ -68,7 +68,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) err
 	return rule.AssignPropertiesToNetworkSecurityGroupsSecurityRule(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networksecuritygroupssecurityrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networksecuritygroupssecurityrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NetworkSecurityGroupsSecurityRule{}
 
@@ -103,9 +103,9 @@ func (rule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (rule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (rule *NetworkSecurityGroupsSecurityRule) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-networksecuritygroupssecurityrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-networksecuritygroupssecurityrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NetworkSecurityGroupsSecurityRule{}
 

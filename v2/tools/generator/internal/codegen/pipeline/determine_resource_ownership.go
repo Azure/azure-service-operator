@@ -200,7 +200,7 @@ func setDefaultOwner(
 			continue
 		}
 
-		if resourceType.Owner() == nil && resourceType.Kind() == astmodel.ResourceKindNormal {
+		if resourceType.Owner() == nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
 			ownerTypeName := astmodel.MakeTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really

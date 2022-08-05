@@ -16,6 +16,7 @@ import (
 // +kubebuilder:storageversion
 // Generator information:
 // - Generated from: /sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/Databases_legacy.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}
 type ServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -26,6 +27,7 @@ type ServersDatabase struct {
 // +kubebuilder:object:root=true
 // Generator information:
 // - Generated from: /sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/Databases_legacy.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}
 type ServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -243,44 +245,12 @@ type ServersDatabaseParameters struct {
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
 	CreateMode *DatabaseProperties_CreateMode `json:"createMode,omitempty"`
 
-	// CreationDate: The creation date of the database (ISO8601 format).
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	// CurrentBackupStorageRedundancy: The storage account type used to store backups for this database.
-	CurrentBackupStorageRedundancy *DatabaseProperties_CurrentBackupStorageRedundancy `json:"currentBackupStorageRedundancy,omitempty"`
-
-	// CurrentServiceObjectiveName: The current service level objective name of the database.
-	CurrentServiceObjectiveName *string `json:"currentServiceObjectiveName,omitempty"`
-
-	// CurrentSku: The name and tier of the SKU.
-	CurrentSku *Sku `json:"currentSku,omitempty"`
-
-	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	// DatabaseId: The ID of the database.
-	DatabaseId *string `json:"databaseId,omitempty"`
-
-	// DefaultSecondaryLocation: The default secondary region for this database.
-	DefaultSecondaryLocation *string `json:"defaultSecondaryLocation,omitempty"`
-
-	// EarliestRestoreDate: This records the earliest start date and time that restore is available for this database (ISO8601
-	// format).
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
 	// ElasticPoolId: The resource identifier of the elastic pool containing this database.
 	ElasticPoolId *string `json:"elasticPoolId,omitempty"`
-
-	// FailoverGroupId: Failover Group resource identifier that this database belongs to.
-	FailoverGroupId *string `json:"failoverGroupId,omitempty"`
 
 	// HighAvailabilityReplicaCount: The number of secondary replicas associated with the database that are used to provide
 	// high availability.
 	HighAvailabilityReplicaCount *int `json:"highAvailabilityReplicaCount,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Kind: Kind of database. This is metadata used for the Azure portal experience.
-	Kind *string `json:"kind,omitempty"`
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
@@ -298,24 +268,12 @@ type ServersDatabaseParameters struct {
 	// when the maintenance updates will occur.
 	MaintenanceConfigurationId *string `json:"maintenanceConfigurationId,omitempty"`
 
-	// ManagedBy: Resource that manages the database.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// MaxLogSizeBytes: The max log size for this database.
-	MaxLogSizeBytes *int `json:"maxLogSizeBytes,omitempty"`
-
 	// MaxSizeBytes: The max size of the database expressed in bytes.
 	MaxSizeBytes *int `json:"maxSizeBytes,omitempty"`
 
 	// MinCapacity: Minimal capacity that database will always have allocated, if not paused
 	MinCapacity *float64 `json:"minCapacity,omitempty"`
-
-	// Name: Resource name.
-	Name string `json:"name,omitempty"`
-
-	// PausedDate: The date when database was paused by user configuration or action(ISO8601 format). Null if the database is
-	// ready.
-	PausedDate *string `json:"pausedDate,omitempty"`
+	Name        string   `json:"name,omitempty"`
 
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region.
@@ -331,12 +289,9 @@ type ServersDatabaseParameters struct {
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
 	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
-
-	// RequestedServiceObjectiveName: The requested service level objective name of the database.
-	RequestedServiceObjectiveName *string             `json:"requestedServiceObjectiveName,omitempty"`
-	ResourceGroupName             string              `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef          *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector     *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
+	ResourceGroupName                string                                               `json:"resourceGroupName,omitempty"`
+	ResourceGroupNameRef             *v1alpha1.Reference                                  `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector        *v1alpha1.Selector                                   `json:"resourceGroupNameSelector,omitempty"`
 
 	// RestorableDroppedDatabaseId: The resource identifier of the restorable dropped database associated with create operation
 	// of this database.
@@ -346,15 +301,14 @@ type ServersDatabaseParameters struct {
 	// the new database.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
-	// ResumedDate: The date when database was resumed by user action or database login (ISO8601 format). Null if the database
-	// is paused.
-	ResumedDate *string `json:"resumedDate,omitempty"`
-
 	// SampleName: The name of the sample schema to apply when creating this database.
 	SampleName *DatabaseProperties_SampleName `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType *DatabaseProperties_SecondaryType `json:"secondaryType,omitempty"`
+	SecondaryType      *DatabaseProperties_SecondaryType `json:"secondaryType,omitempty"`
+	ServerName         string                            `json:"serverName,omitempty"`
+	ServerNameRef      *v1alpha1.Reference               `json:"serverNameRef,omitempty"`
+	ServerNameSelector *v1alpha1.Selector                `json:"serverNameSelector,omitempty"`
 
 	// Sku: The database SKU.
 	// The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,
@@ -374,14 +328,8 @@ type ServersDatabaseParameters struct {
 	// SourceDatabaseId: The resource identifier of the source database associated with create operation of this database.
 	SourceDatabaseId *string `json:"sourceDatabaseId,omitempty"`
 
-	// Status: The status of the database.
-	Status *DatabaseProperties_Status `json:"status,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 
 	// ZoneRedundant: Whether or not this database is zone redundant, which means the replicas of this database will be spread
 	// across multiple availability zones.
@@ -432,15 +380,6 @@ const (
 	DatabaseProperties_CreateMode_RestoreExternalBackupSecondary_STATUS = DatabaseProperties_CreateMode_STATUS("RestoreExternalBackupSecondary")
 	DatabaseProperties_CreateMode_RestoreLongTermRetentionBackup_STATUS = DatabaseProperties_CreateMode_STATUS("RestoreLongTermRetentionBackup")
 	DatabaseProperties_CreateMode_Secondary_STATUS                      = DatabaseProperties_CreateMode_STATUS("Secondary")
-)
-
-// +kubebuilder:validation:Enum={"Geo","Local","Zone"}
-type DatabaseProperties_CurrentBackupStorageRedundancy string
-
-const (
-	DatabaseProperties_CurrentBackupStorageRedundancy_Geo   = DatabaseProperties_CurrentBackupStorageRedundancy("Geo")
-	DatabaseProperties_CurrentBackupStorageRedundancy_Local = DatabaseProperties_CurrentBackupStorageRedundancy("Local")
-	DatabaseProperties_CurrentBackupStorageRedundancy_Zone  = DatabaseProperties_CurrentBackupStorageRedundancy("Zone")
 )
 
 type DatabaseProperties_CurrentBackupStorageRedundancy_STATUS string
@@ -528,33 +467,6 @@ type DatabaseProperties_SecondaryType_STATUS string
 const (
 	DatabaseProperties_SecondaryType_Geo_STATUS   = DatabaseProperties_SecondaryType_STATUS("Geo")
 	DatabaseProperties_SecondaryType_Named_STATUS = DatabaseProperties_SecondaryType_STATUS("Named")
-)
-
-// +kubebuilder:validation:Enum={"AutoClosed","Copying","Creating","Disabled","EmergencyMode","Inaccessible","Offline","OfflineChangingDwPerformanceTiers","OfflineSecondary","Online","OnlineChangingDwPerformanceTiers","Paused","Pausing","Recovering","RecoveryPending","Restoring","Resuming","Scaling","Shutdown","Standby","Suspect"}
-type DatabaseProperties_Status string
-
-const (
-	DatabaseProperties_Status_AutoClosed                        = DatabaseProperties_Status("AutoClosed")
-	DatabaseProperties_Status_Copying                           = DatabaseProperties_Status("Copying")
-	DatabaseProperties_Status_Creating                          = DatabaseProperties_Status("Creating")
-	DatabaseProperties_Status_Disabled                          = DatabaseProperties_Status("Disabled")
-	DatabaseProperties_Status_EmergencyMode                     = DatabaseProperties_Status("EmergencyMode")
-	DatabaseProperties_Status_Inaccessible                      = DatabaseProperties_Status("Inaccessible")
-	DatabaseProperties_Status_Offline                           = DatabaseProperties_Status("Offline")
-	DatabaseProperties_Status_OfflineChangingDwPerformanceTiers = DatabaseProperties_Status("OfflineChangingDwPerformanceTiers")
-	DatabaseProperties_Status_OfflineSecondary                  = DatabaseProperties_Status("OfflineSecondary")
-	DatabaseProperties_Status_Online                            = DatabaseProperties_Status("Online")
-	DatabaseProperties_Status_OnlineChangingDwPerformanceTiers  = DatabaseProperties_Status("OnlineChangingDwPerformanceTiers")
-	DatabaseProperties_Status_Paused                            = DatabaseProperties_Status("Paused")
-	DatabaseProperties_Status_Pausing                           = DatabaseProperties_Status("Pausing")
-	DatabaseProperties_Status_Recovering                        = DatabaseProperties_Status("Recovering")
-	DatabaseProperties_Status_RecoveryPending                   = DatabaseProperties_Status("RecoveryPending")
-	DatabaseProperties_Status_Restoring                         = DatabaseProperties_Status("Restoring")
-	DatabaseProperties_Status_Resuming                          = DatabaseProperties_Status("Resuming")
-	DatabaseProperties_Status_Scaling                           = DatabaseProperties_Status("Scaling")
-	DatabaseProperties_Status_Shutdown                          = DatabaseProperties_Status("Shutdown")
-	DatabaseProperties_Status_Standby                           = DatabaseProperties_Status("Standby")
-	DatabaseProperties_Status_Suspect                           = DatabaseProperties_Status("Suspect")
 )
 
 type DatabaseProperties_Status_STATUS string

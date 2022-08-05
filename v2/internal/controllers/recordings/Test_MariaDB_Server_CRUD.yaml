@@ -20,8 +20,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -30,10 +28,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -83,17 +83,17 @@ interactions:
     body: '{"operation":"UpsertElasticServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ec2f9400-7d17-44f5-ad62-c5390dca9fbd?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/d628ffd2-0bb1-4909-acc7-18b069c25b24?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "73"
+      - "74"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/ec2f9400-7d17-44f5-ad62-c5390dca9fbd?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/d628ffd2-0bb1-4909-acc7-18b069c25b24?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -113,10 +113,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ec2f9400-7d17-44f5-ad62-c5390dca9fbd?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/d628ffd2-0bb1-4909-acc7-18b069c25b24?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"ec2f9400-7d17-44f5-ad62-c5390dca9fbd","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"d628ffd2-0bb1-4909-acc7-18b069c25b24","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -144,11 +144,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ec2f9400-7d17-44f5-ad62-c5390dca9fbd?api-version=2018-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"ec2f9400-7d17-44f5-ad62-c5390dca9fbd","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"testadmin","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestmsvruaxdsd.mariadb.database.azure.com","earliestRestoreDate":"2022-07-13T22:11:39.117+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd","name":"asotestmsvruaxdsd","type":"Microsoft.DBforMariaDB/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -158,8 +158,6 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "60"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -178,11 +176,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd?api-version=2018-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"testadmin","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestmsvruaxdsd.mariadb.database.azure.com","earliestRestoreDate":"2022-05-22T22:35:59.257+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd","name":"asotestmsvruaxdsd","type":"Microsoft.DBforMariaDB/servers"}'
+    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"testadmin","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestmsvruaxdsd.mariadb.database.azure.com","earliestRestoreDate":"2022-07-13T22:11:39.117+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd","name":"asotestmsvruaxdsd","type":"Microsoft.DBforMariaDB/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -221,17 +219,17 @@ interactions:
     body: '{"operation":"UpdateElasticServerConfig","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/bddbd918-a59e-4b51-aeca-7837d1d7aeb8?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/04c48b3d-7199-4ea2-8691-5f5d3ffa0b02?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "79"
+      - "80"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/bddbd918-a59e-4b51-aeca-7837d1d7aeb8?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/04c48b3d-7199-4ea2-8691-5f5d3ffa0b02?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -251,10 +249,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/bddbd918-a59e-4b51-aeca-7837d1d7aeb8?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/04c48b3d-7199-4ea2-8691-5f5d3ffa0b02?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"bddbd918-a59e-4b51-aeca-7837d1d7aeb8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"04c48b3d-7199-4ea2-8691-5f5d3ffa0b02","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -282,11 +280,12 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/bddbd918-a59e-4b51-aeca-7837d1d7aeb8?api-version=2018-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/configurations/query_cache_size?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"bddbd918-a59e-4b51-aeca-7837d1d7aeb8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"properties":{"value":"102400","description":"The amount of memory allocated
+      for caching query results.","defaultValue":"0","dataType":"Integer","allowedValues":"0,102400-16777216","source":"user-override","isConfigPendingRestart":"False","isDynamicConfig":"True"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/configurations/query_cache_size","name":"query_cache_size","type":"Microsoft.DBforMariaDB/servers/configurations"}'
     headers:
       Cache-Control:
       - no-cache
@@ -296,8 +295,6 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -316,7 +313,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/configurations/query_cache_size?api-version=2018-06-01
     method: GET
   response:
@@ -360,17 +357,17 @@ interactions:
     body: '{"operation":"UpsertElasticServerDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/99abfede-0ae0-4a60-92cc-a6b28e765e65?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/21b0b1a4-098c-42a8-ad1c-43cfaaa1e261?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "82"
+      - "81"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/99abfede-0ae0-4a60-92cc-a6b28e765e65?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/21b0b1a4-098c-42a8-ad1c-43cfaaa1e261?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -390,10 +387,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/99abfede-0ae0-4a60-92cc-a6b28e765e65?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/21b0b1a4-098c-42a8-ad1c-43cfaaa1e261?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"99abfede-0ae0-4a60-92cc-a6b28e765e65","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"21b0b1a4-098c-42a8-ad1c-43cfaaa1e261","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -420,10 +417,40 @@ interactions:
     body: ""
     form: {}
     headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/databases/adventureworks?api-version=2018-06-01
+    method: GET
+  response:
+    body: '{"properties":{"charset":"latin1","collation":"latin1_swedish_ci"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/databases/adventureworks","name":"adventureworks","type":"Microsoft.DBforMariaDB/servers/databases"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/databases/adventureworks?api-version=2018-06-01
     method: GET
   response:
@@ -462,17 +489,17 @@ interactions:
     body: '{"operation":"DropElasticServerDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/4b185325-6758-4992-8ff8-bea6db805464?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/4f9d5e0d-271d-4471-8b30-c786438fe2cb?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "79"
+      - "80"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/4b185325-6758-4992-8ff8-bea6db805464?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/4f9d5e0d-271d-4471-8b30-c786438fe2cb?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -493,7 +520,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd/databases/adventureworks?api-version=2018-06-01
     method: GET
   response:
@@ -534,7 +561,7 @@ interactions:
     body: '{"operation":"DropElasticServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/899a64ef-30eb-46b8-9ddb-4fe44d653dd0?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/d1f7d72d-ba8e-416e-9fe3-576489052b5e?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -544,7 +571,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/899a64ef-30eb-46b8-9ddb-4fe44d653dd0?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/d1f7d72d-ba8e-416e-9fe3-576489052b5e?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -565,7 +592,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mhhcal/providers/Microsoft.DBforMariaDB/servers/asotestmsvruaxdsd?api-version=2018-06-01
     method: GET
   response:

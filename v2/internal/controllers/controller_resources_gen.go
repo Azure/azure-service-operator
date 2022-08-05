@@ -36,6 +36,11 @@ import (
 	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
+	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
+	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
+	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
+	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001storage"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_alpha20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
 	containerregistry_alpha20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
@@ -86,6 +91,9 @@ import (
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
+	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
+	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
+	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_alpha20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
@@ -129,57 +137,40 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{
-		Obj:     new(authorization_v20200801ps.RoleAssignment),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(authorization_v20200801ps.RoleAssignment),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(batch_v20210101s.BatchAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(batch_v20210101s.BatchAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.Redis),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.Redis),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisLinkedServer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisLinkedServer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisPatchSchedule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisPatchSchedule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20210301s.RedisEnterprise),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20210301s.RedisEnterprise),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20210301s.RedisEnterpriseDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20210301s.RedisEnterpriseDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20200930s.Disk),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20200930s.Disk),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20200930s.Snapshot),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20200930s.Snapshot),
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20201201s.VirtualMachine),
+		Obj: new(compute_v20220301s.Image),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachine),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.osProfile.adminPassword",
@@ -189,12 +180,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v20201201s.VirtualMachineList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20201201s.VirtualMachineScaleSet),
+		Obj: new(compute_v20220301s.VirtualMachineScaleSet),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
@@ -204,44 +195,42 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20201201s.VirtualMachineScaleSetList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20210701s.Image),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerinstance_v20211001s.ContainerGroup),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.imageRegistryCredentials.password",
+				Func: indexContainerinstanceContainerGroupPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerregistry_v20210901s.Registry),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerregistry_v20210901s.Registry),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerservice_v20210501s.ManagedCluster),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerservice_v20210501s.ManagedCluster),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerservice_v20210501s.ManagedClustersAgentPool),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerservice_v20210501s.ManagedClustersAgentPool),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformariadb_v20180601s.Configuration),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformariadb_v20180601s.Configuration),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformariadb_v20180601s.Database),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformariadb_v20180601s.Database),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformariadb_v20180601s.Server),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformariadb_v20180601s.Server),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20210501s.FlexibleServer),
@@ -259,14 +248,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformysql_v20210501s.FlexibleServersDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformysql_v20210501s.FlexibleServersDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformysql_v20210501s.FlexibleServersFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformysql_v20210501s.FlexibleServersFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v20210601s.FlexibleServer),
@@ -284,254 +269,163 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersConfiguration),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersConfiguration),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.DatabaseAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.DatabaseAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseCollection),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseCollection),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.Domain),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.Domain),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.DomainsTopic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.DomainsTopic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.EventSubscription),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.EventSubscription),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.Topic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.Topic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.Namespace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.Namespace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesAuthorizationRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesAuthorizationRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhub),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhub),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(insights_v20180501ps.Webtest),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(insights_v20180501ps.Webtest),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(insights_v20200202s.Component),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(insights_v20200202s.Component),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(keyvault_v20210401ps.Vault),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(keyvault_v20210401ps.Vault),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(managedidentity_v20181130s.UserAssignedIdentity),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.Workspace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.LoadBalancer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkInterface),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.WorkspacesConnection),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkSecurityGroup),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.LoadBalancer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.PublicIPAddress),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkInterface),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.RouteTable),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkSecurityGroup),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.RouteTablesRoute),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetwork),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.PublicIPAddress),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworkGateway),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.RouteTable),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworksSubnet),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.RouteTablesRoute),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworksVirtualNetworkPeering),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetwork),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(operationalinsights_v20210601s.Workspace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworkGateway),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.Namespace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworksSubnet),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.NamespacesQueue),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.NamespacesTopic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(operationalinsights_v20210601s.Workspace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(signalrservice_v20211001s.SignalR),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.Namespace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.NamespacesQueue),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsBlobService),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.NamespacesTopic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsBlobServicesContainer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(signalrservice_v20211001s.SignalR),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsManagementPolicy),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsQueueService),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsBlobService),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsQueueServicesQueue),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsBlobServicesContainer),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(storage_v20210401s.StorageAccountsManagementPolicy),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(storage_v20210401s.StorageAccountsQueueService),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue),
 	})
 	return result
 }
@@ -547,180 +441,228 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(batch_alpha20210101s.BatchAccount))
 	result = append(result, new(batch_v20210101.BatchAccount))
 	result = append(result, new(batch_v20210101s.BatchAccount))
-	result = append(result, new(cache_alpha20201201.Redis))
-	result = append(result, new(cache_alpha20201201.RedisFirewallRule))
-	result = append(result, new(cache_alpha20201201.RedisLinkedServer))
-	result = append(result, new(cache_alpha20201201.RedisPatchSchedule))
-	result = append(result, new(cache_alpha20201201s.Redis))
-	result = append(result, new(cache_alpha20201201s.RedisFirewallRule))
-	result = append(result, new(cache_alpha20201201s.RedisLinkedServer))
-	result = append(result, new(cache_alpha20201201s.RedisPatchSchedule))
-	result = append(result, new(cache_alpha20210301.RedisEnterprise))
-	result = append(result, new(cache_alpha20210301.RedisEnterpriseDatabase))
-	result = append(result, new(cache_alpha20210301s.RedisEnterprise))
-	result = append(result, new(cache_alpha20210301s.RedisEnterpriseDatabase))
-	result = append(result, new(cache_v20201201.Redis))
-	result = append(result, new(cache_v20201201.RedisFirewallRule))
-	result = append(result, new(cache_v20201201.RedisLinkedServer))
-	result = append(result, new(cache_v20201201.RedisPatchSchedule))
-	result = append(result, new(cache_v20201201s.Redis))
-	result = append(result, new(cache_v20201201s.RedisFirewallRule))
-	result = append(result, new(cache_v20201201s.RedisLinkedServer))
-	result = append(result, new(cache_v20201201s.RedisPatchSchedule))
-	result = append(result, new(cache_v20210301.RedisEnterprise))
-	result = append(result, new(cache_v20210301.RedisEnterpriseDatabase))
-	result = append(result, new(cache_v20210301s.RedisEnterprise))
-	result = append(result, new(cache_v20210301s.RedisEnterpriseDatabase))
-	result = append(result, new(compute_alpha20200930.Disk))
-	result = append(result, new(compute_alpha20200930.Snapshot))
-	result = append(result, new(compute_alpha20200930s.Disk))
-	result = append(result, new(compute_alpha20200930s.Snapshot))
-	result = append(result, new(compute_alpha20201201.VirtualMachine))
-	result = append(result, new(compute_alpha20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_alpha20201201s.VirtualMachine))
-	result = append(result, new(compute_alpha20201201s.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(cache_alpha20201201.Redis),
+		new(cache_alpha20201201.RedisFirewallRule),
+		new(cache_alpha20201201.RedisLinkedServer),
+		new(cache_alpha20201201.RedisPatchSchedule))
+	result = append(
+		result,
+		new(cache_alpha20201201s.Redis),
+		new(cache_alpha20201201s.RedisFirewallRule),
+		new(cache_alpha20201201s.RedisLinkedServer),
+		new(cache_alpha20201201s.RedisPatchSchedule))
+	result = append(result, new(cache_alpha20210301.RedisEnterprise), new(cache_alpha20210301.RedisEnterpriseDatabase))
+	result = append(result, new(cache_alpha20210301s.RedisEnterprise), new(cache_alpha20210301s.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20201201.Redis),
+		new(cache_v20201201.RedisFirewallRule),
+		new(cache_v20201201.RedisLinkedServer),
+		new(cache_v20201201.RedisPatchSchedule))
+	result = append(
+		result,
+		new(cache_v20201201s.Redis),
+		new(cache_v20201201s.RedisFirewallRule),
+		new(cache_v20201201s.RedisLinkedServer),
+		new(cache_v20201201s.RedisPatchSchedule))
+	result = append(result, new(cache_v20210301.RedisEnterprise), new(cache_v20210301.RedisEnterpriseDatabase))
+	result = append(result, new(cache_v20210301s.RedisEnterprise), new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(result, new(compute_alpha20200930.Disk), new(compute_alpha20200930.Snapshot))
+	result = append(result, new(compute_alpha20200930s.Disk), new(compute_alpha20200930s.Snapshot))
+	result = append(result, new(compute_alpha20201201.VirtualMachine), new(compute_alpha20201201.VirtualMachineScaleSet))
+	result = append(result, new(compute_alpha20201201s.VirtualMachine), new(compute_alpha20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_alpha20210701.Image))
 	result = append(result, new(compute_alpha20210701s.Image))
-	result = append(result, new(compute_v20200930.Disk))
-	result = append(result, new(compute_v20200930.Snapshot))
-	result = append(result, new(compute_v20200930s.Disk))
-	result = append(result, new(compute_v20200930s.Snapshot))
-	result = append(result, new(compute_v20201201.VirtualMachine))
-	result = append(result, new(compute_v20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_v20201201s.VirtualMachine))
-	result = append(result, new(compute_v20201201s.VirtualMachineScaleSet))
+	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
+	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
+	result = append(result, new(compute_v20201201.VirtualMachine), new(compute_v20201201.VirtualMachineScaleSet))
+	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
+	result = append(
+		result,
+		new(compute_v20220301.Image),
+		new(compute_v20220301.VirtualMachine),
+		new(compute_v20220301.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20220301s.Image),
+		new(compute_v20220301s.VirtualMachine),
+		new(compute_v20220301s.VirtualMachineScaleSet))
+	result = append(result, new(containerinstance_v20211001.ContainerGroup))
+	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_alpha20210901.Registry))
 	result = append(result, new(containerregistry_alpha20210901s.Registry))
 	result = append(result, new(containerregistry_v20210901.Registry))
 	result = append(result, new(containerregistry_v20210901s.Registry))
-	result = append(result, new(containerservice_alpha20210501.ManagedCluster))
-	result = append(result, new(containerservice_alpha20210501.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_alpha20210501s.ManagedCluster))
-	result = append(result, new(containerservice_alpha20210501s.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20210501.ManagedCluster))
-	result = append(result, new(containerservice_v20210501.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20210501s.ManagedCluster))
-	result = append(result, new(containerservice_v20210501s.ManagedClustersAgentPool))
-	result = append(result, new(dbformariadb_v20180601.Configuration))
-	result = append(result, new(dbformariadb_v20180601.Database))
-	result = append(result, new(dbformariadb_v20180601.Server))
-	result = append(result, new(dbformariadb_v20180601s.Configuration))
-	result = append(result, new(dbformariadb_v20180601s.Database))
-	result = append(result, new(dbformariadb_v20180601s.Server))
-	result = append(result, new(dbformysql_alpha20210501.FlexibleServer))
-	result = append(result, new(dbformysql_alpha20210501.FlexibleServersDatabase))
-	result = append(result, new(dbformysql_alpha20210501.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_alpha20210501s.FlexibleServer))
-	result = append(result, new(dbformysql_alpha20210501s.FlexibleServersDatabase))
-	result = append(result, new(dbformysql_alpha20210501s.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_v20210501.FlexibleServer))
-	result = append(result, new(dbformysql_v20210501.FlexibleServersDatabase))
-	result = append(result, new(dbformysql_v20210501.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_v20210501s.FlexibleServer))
-	result = append(result, new(dbformysql_v20210501s.FlexibleServersDatabase))
-	result = append(result, new(dbformysql_v20210501s.FlexibleServersFirewallRule))
-	result = append(result, new(dbforpostgresql_alpha20210601.FlexibleServer))
-	result = append(result, new(dbforpostgresql_alpha20210601.FlexibleServersConfiguration))
-	result = append(result, new(dbforpostgresql_alpha20210601.FlexibleServersDatabase))
-	result = append(result, new(dbforpostgresql_alpha20210601.FlexibleServersFirewallRule))
-	result = append(result, new(dbforpostgresql_alpha20210601s.FlexibleServer))
-	result = append(result, new(dbforpostgresql_alpha20210601s.FlexibleServersConfiguration))
-	result = append(result, new(dbforpostgresql_alpha20210601s.FlexibleServersDatabase))
-	result = append(result, new(dbforpostgresql_alpha20210601s.FlexibleServersFirewallRule))
-	result = append(result, new(dbforpostgresql_v20210601.FlexibleServer))
-	result = append(result, new(dbforpostgresql_v20210601.FlexibleServersConfiguration))
-	result = append(result, new(dbforpostgresql_v20210601.FlexibleServersDatabase))
-	result = append(result, new(dbforpostgresql_v20210601.FlexibleServersFirewallRule))
-	result = append(result, new(dbforpostgresql_v20210601s.FlexibleServer))
-	result = append(result, new(dbforpostgresql_v20210601s.FlexibleServersConfiguration))
-	result = append(result, new(dbforpostgresql_v20210601s.FlexibleServersDatabase))
-	result = append(result, new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule))
-	result = append(result, new(documentdb_alpha20210515.DatabaseAccount))
-	result = append(result, new(documentdb_alpha20210515.MongodbDatabase))
-	result = append(result, new(documentdb_alpha20210515.MongodbDatabaseCollection))
-	result = append(result, new(documentdb_alpha20210515.MongodbDatabaseCollectionThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515.MongodbDatabaseThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabase))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseContainer))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseContainerStoredProcedure))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseContainerThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseContainerTrigger))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseContainerUserDefinedFunction))
-	result = append(result, new(documentdb_alpha20210515.SqlDatabaseThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515s.DatabaseAccount))
-	result = append(result, new(documentdb_alpha20210515s.MongodbDatabase))
-	result = append(result, new(documentdb_alpha20210515s.MongodbDatabaseCollection))
-	result = append(result, new(documentdb_alpha20210515s.MongodbDatabaseCollectionThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515s.MongodbDatabaseThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabase))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseContainer))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseContainerStoredProcedure))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseContainerThroughputSetting))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseContainerTrigger))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseContainerUserDefinedFunction))
-	result = append(result, new(documentdb_alpha20210515s.SqlDatabaseThroughputSetting))
-	result = append(result, new(documentdb_v20210515.DatabaseAccount))
-	result = append(result, new(documentdb_v20210515.MongodbDatabase))
-	result = append(result, new(documentdb_v20210515.MongodbDatabaseCollection))
-	result = append(result, new(documentdb_v20210515.MongodbDatabaseCollectionThroughputSetting))
-	result = append(result, new(documentdb_v20210515.MongodbDatabaseThroughputSetting))
-	result = append(result, new(documentdb_v20210515.SqlDatabase))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseContainer))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseContainerStoredProcedure))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseContainerThroughputSetting))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseContainerTrigger))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseContainerUserDefinedFunction))
-	result = append(result, new(documentdb_v20210515.SqlDatabaseThroughputSetting))
-	result = append(result, new(documentdb_v20210515s.DatabaseAccount))
-	result = append(result, new(documentdb_v20210515s.MongodbDatabase))
-	result = append(result, new(documentdb_v20210515s.MongodbDatabaseCollection))
-	result = append(result, new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting))
-	result = append(result, new(documentdb_v20210515s.MongodbDatabaseThroughputSetting))
-	result = append(result, new(documentdb_v20210515s.SqlDatabase))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainer))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerTrigger))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction))
-	result = append(result, new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
-	result = append(result, new(eventgrid_alpha20200601.Domain))
-	result = append(result, new(eventgrid_alpha20200601.DomainsTopic))
-	result = append(result, new(eventgrid_alpha20200601.EventSubscription))
-	result = append(result, new(eventgrid_alpha20200601.Topic))
-	result = append(result, new(eventgrid_alpha20200601s.Domain))
-	result = append(result, new(eventgrid_alpha20200601s.DomainsTopic))
-	result = append(result, new(eventgrid_alpha20200601s.EventSubscription))
-	result = append(result, new(eventgrid_alpha20200601s.Topic))
-	result = append(result, new(eventgrid_v20200601.Domain))
-	result = append(result, new(eventgrid_v20200601.DomainsTopic))
-	result = append(result, new(eventgrid_v20200601.EventSubscription))
-	result = append(result, new(eventgrid_v20200601.Topic))
-	result = append(result, new(eventgrid_v20200601s.Domain))
-	result = append(result, new(eventgrid_v20200601s.DomainsTopic))
-	result = append(result, new(eventgrid_v20200601s.EventSubscription))
-	result = append(result, new(eventgrid_v20200601s.Topic))
-	result = append(result, new(eventhub_alpha20211101.Namespace))
-	result = append(result, new(eventhub_alpha20211101.NamespacesAuthorizationRule))
-	result = append(result, new(eventhub_alpha20211101.NamespacesEventhub))
-	result = append(result, new(eventhub_alpha20211101.NamespacesEventhubsAuthorizationRule))
-	result = append(result, new(eventhub_alpha20211101.NamespacesEventhubsConsumerGroup))
-	result = append(result, new(eventhub_alpha20211101s.Namespace))
-	result = append(result, new(eventhub_alpha20211101s.NamespacesAuthorizationRule))
-	result = append(result, new(eventhub_alpha20211101s.NamespacesEventhub))
-	result = append(result, new(eventhub_alpha20211101s.NamespacesEventhubsAuthorizationRule))
-	result = append(result, new(eventhub_alpha20211101s.NamespacesEventhubsConsumerGroup))
-	result = append(result, new(eventhub_v20211101.Namespace))
-	result = append(result, new(eventhub_v20211101.NamespacesAuthorizationRule))
-	result = append(result, new(eventhub_v20211101.NamespacesEventhub))
-	result = append(result, new(eventhub_v20211101.NamespacesEventhubsAuthorizationRule))
-	result = append(result, new(eventhub_v20211101.NamespacesEventhubsConsumerGroup))
-	result = append(result, new(eventhub_v20211101s.Namespace))
-	result = append(result, new(eventhub_v20211101s.NamespacesAuthorizationRule))
-	result = append(result, new(eventhub_v20211101s.NamespacesEventhub))
-	result = append(result, new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule))
-	result = append(result, new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup))
+	result = append(result, new(containerservice_alpha20210501.ManagedCluster), new(containerservice_alpha20210501.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_alpha20210501s.ManagedCluster), new(containerservice_alpha20210501s.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(dbformariadb_v20180601.Configuration),
+		new(dbformariadb_v20180601.Database),
+		new(dbformariadb_v20180601.Server))
+	result = append(
+		result,
+		new(dbformariadb_v20180601s.Configuration),
+		new(dbformariadb_v20180601s.Database),
+		new(dbformariadb_v20180601s.Server))
+	result = append(
+		result,
+		new(dbformysql_alpha20210501.FlexibleServer),
+		new(dbformysql_alpha20210501.FlexibleServersDatabase),
+		new(dbformysql_alpha20210501.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbformysql_alpha20210501s.FlexibleServer),
+		new(dbformysql_alpha20210501s.FlexibleServersDatabase),
+		new(dbformysql_alpha20210501s.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbformysql_v20210501.FlexibleServer),
+		new(dbformysql_v20210501.FlexibleServersDatabase),
+		new(dbformysql_v20210501.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbformysql_v20210501s.FlexibleServer),
+		new(dbformysql_v20210501s.FlexibleServersDatabase),
+		new(dbformysql_v20210501s.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_alpha20210601.FlexibleServer),
+		new(dbforpostgresql_alpha20210601.FlexibleServersConfiguration),
+		new(dbforpostgresql_alpha20210601.FlexibleServersDatabase),
+		new(dbforpostgresql_alpha20210601.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_alpha20210601s.FlexibleServer),
+		new(dbforpostgresql_alpha20210601s.FlexibleServersConfiguration),
+		new(dbforpostgresql_alpha20210601s.FlexibleServersDatabase),
+		new(dbforpostgresql_alpha20210601s.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20210601.FlexibleServer),
+		new(dbforpostgresql_v20210601.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20210601.FlexibleServersDatabase),
+		new(dbforpostgresql_v20210601.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20210601s.FlexibleServer),
+		new(dbforpostgresql_v20210601s.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20210601s.FlexibleServersDatabase),
+		new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(documentdb_alpha20210515.DatabaseAccount),
+		new(documentdb_alpha20210515.MongodbDatabase),
+		new(documentdb_alpha20210515.MongodbDatabaseCollection),
+		new(documentdb_alpha20210515.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_alpha20210515.MongodbDatabaseThroughputSetting),
+		new(documentdb_alpha20210515.SqlDatabase),
+		new(documentdb_alpha20210515.SqlDatabaseContainer),
+		new(documentdb_alpha20210515.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_alpha20210515.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_alpha20210515.SqlDatabaseContainerTrigger),
+		new(documentdb_alpha20210515.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_alpha20210515.SqlDatabaseThroughputSetting))
+	result = append(
+		result,
+		new(documentdb_alpha20210515s.DatabaseAccount),
+		new(documentdb_alpha20210515s.MongodbDatabase),
+		new(documentdb_alpha20210515s.MongodbDatabaseCollection),
+		new(documentdb_alpha20210515s.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_alpha20210515s.MongodbDatabaseThroughputSetting),
+		new(documentdb_alpha20210515s.SqlDatabase),
+		new(documentdb_alpha20210515s.SqlDatabaseContainer),
+		new(documentdb_alpha20210515s.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_alpha20210515s.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_alpha20210515s.SqlDatabaseContainerTrigger),
+		new(documentdb_alpha20210515s.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_alpha20210515s.SqlDatabaseThroughputSetting))
+	result = append(
+		result,
+		new(documentdb_v20210515.DatabaseAccount),
+		new(documentdb_v20210515.MongodbDatabase),
+		new(documentdb_v20210515.MongodbDatabaseCollection),
+		new(documentdb_v20210515.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20210515.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20210515.SqlDatabase),
+		new(documentdb_v20210515.SqlDatabaseContainer),
+		new(documentdb_v20210515.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20210515.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20210515.SqlDatabaseContainerTrigger),
+		new(documentdb_v20210515.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20210515.SqlDatabaseThroughputSetting))
+	result = append(
+		result,
+		new(documentdb_v20210515s.DatabaseAccount),
+		new(documentdb_v20210515s.MongodbDatabase),
+		new(documentdb_v20210515s.MongodbDatabaseCollection),
+		new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20210515s.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20210515s.SqlDatabase),
+		new(documentdb_v20210515s.SqlDatabaseContainer),
+		new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
+		new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
+	result = append(
+		result,
+		new(eventgrid_alpha20200601.Domain),
+		new(eventgrid_alpha20200601.DomainsTopic),
+		new(eventgrid_alpha20200601.EventSubscription),
+		new(eventgrid_alpha20200601.Topic))
+	result = append(
+		result,
+		new(eventgrid_alpha20200601s.Domain),
+		new(eventgrid_alpha20200601s.DomainsTopic),
+		new(eventgrid_alpha20200601s.EventSubscription),
+		new(eventgrid_alpha20200601s.Topic))
+	result = append(
+		result,
+		new(eventgrid_v20200601.Domain),
+		new(eventgrid_v20200601.DomainsTopic),
+		new(eventgrid_v20200601.EventSubscription),
+		new(eventgrid_v20200601.Topic))
+	result = append(
+		result,
+		new(eventgrid_v20200601s.Domain),
+		new(eventgrid_v20200601s.DomainsTopic),
+		new(eventgrid_v20200601s.EventSubscription),
+		new(eventgrid_v20200601s.Topic))
+	result = append(
+		result,
+		new(eventhub_alpha20211101.Namespace),
+		new(eventhub_alpha20211101.NamespacesAuthorizationRule),
+		new(eventhub_alpha20211101.NamespacesEventhub),
+		new(eventhub_alpha20211101.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_alpha20211101.NamespacesEventhubsConsumerGroup))
+	result = append(
+		result,
+		new(eventhub_alpha20211101s.Namespace),
+		new(eventhub_alpha20211101s.NamespacesAuthorizationRule),
+		new(eventhub_alpha20211101s.NamespacesEventhub),
+		new(eventhub_alpha20211101s.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_alpha20211101s.NamespacesEventhubsConsumerGroup))
+	result = append(
+		result,
+		new(eventhub_v20211101.Namespace),
+		new(eventhub_v20211101.NamespacesAuthorizationRule),
+		new(eventhub_v20211101.NamespacesEventhub),
+		new(eventhub_v20211101.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_v20211101.NamespacesEventhubsConsumerGroup))
+	result = append(
+		result,
+		new(eventhub_v20211101s.Namespace),
+		new(eventhub_v20211101s.NamespacesAuthorizationRule),
+		new(eventhub_v20211101s.NamespacesEventhub),
+		new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
+		new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup))
 	result = append(result, new(insights_alpha20180501p.Webtest))
 	result = append(result, new(insights_alpha20180501ps.Webtest))
 	result = append(result, new(insights_alpha20200202.Component))
@@ -731,92 +673,128 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
+	result = append(
+		result,
+		new(machinelearningservices_v20210701.Workspace),
+		new(machinelearningservices_v20210701.WorkspacesCompute),
+		new(machinelearningservices_v20210701.WorkspacesConnection))
+	result = append(
+		result,
+		new(machinelearningservices_v20210701s.Workspace),
+		new(machinelearningservices_v20210701s.WorkspacesCompute),
+		new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
-	result = append(result, new(network_alpha20201101.LoadBalancer))
-	result = append(result, new(network_alpha20201101.NetworkInterface))
-	result = append(result, new(network_alpha20201101.NetworkSecurityGroup))
-	result = append(result, new(network_alpha20201101.NetworkSecurityGroupsSecurityRule))
-	result = append(result, new(network_alpha20201101.PublicIPAddress))
-	result = append(result, new(network_alpha20201101.VirtualNetwork))
-	result = append(result, new(network_alpha20201101.VirtualNetworkGateway))
-	result = append(result, new(network_alpha20201101.VirtualNetworksSubnet))
-	result = append(result, new(network_alpha20201101.VirtualNetworksVirtualNetworkPeering))
-	result = append(result, new(network_alpha20201101s.LoadBalancer))
-	result = append(result, new(network_alpha20201101s.NetworkInterface))
-	result = append(result, new(network_alpha20201101s.NetworkSecurityGroup))
-	result = append(result, new(network_alpha20201101s.NetworkSecurityGroupsSecurityRule))
-	result = append(result, new(network_alpha20201101s.PublicIPAddress))
-	result = append(result, new(network_alpha20201101s.VirtualNetwork))
-	result = append(result, new(network_alpha20201101s.VirtualNetworkGateway))
-	result = append(result, new(network_alpha20201101s.VirtualNetworksSubnet))
-	result = append(result, new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
-	result = append(result, new(network_v20201101.LoadBalancer))
-	result = append(result, new(network_v20201101.NetworkInterface))
-	result = append(result, new(network_v20201101.NetworkSecurityGroup))
-	result = append(result, new(network_v20201101.NetworkSecurityGroupsSecurityRule))
-	result = append(result, new(network_v20201101.PublicIPAddress))
-	result = append(result, new(network_v20201101.RouteTable))
-	result = append(result, new(network_v20201101.RouteTablesRoute))
-	result = append(result, new(network_v20201101.VirtualNetwork))
-	result = append(result, new(network_v20201101.VirtualNetworkGateway))
-	result = append(result, new(network_v20201101.VirtualNetworksSubnet))
-	result = append(result, new(network_v20201101.VirtualNetworksVirtualNetworkPeering))
-	result = append(result, new(network_v20201101s.LoadBalancer))
-	result = append(result, new(network_v20201101s.NetworkInterface))
-	result = append(result, new(network_v20201101s.NetworkSecurityGroup))
-	result = append(result, new(network_v20201101s.NetworkSecurityGroupsSecurityRule))
-	result = append(result, new(network_v20201101s.PublicIPAddress))
-	result = append(result, new(network_v20201101s.RouteTable))
-	result = append(result, new(network_v20201101s.RouteTablesRoute))
-	result = append(result, new(network_v20201101s.VirtualNetwork))
-	result = append(result, new(network_v20201101s.VirtualNetworkGateway))
-	result = append(result, new(network_v20201101s.VirtualNetworksSubnet))
-	result = append(result, new(network_v20201101s.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_alpha20201101.LoadBalancer),
+		new(network_alpha20201101.NetworkInterface),
+		new(network_alpha20201101.NetworkSecurityGroup),
+		new(network_alpha20201101.NetworkSecurityGroupsSecurityRule),
+		new(network_alpha20201101.PublicIPAddress),
+		new(network_alpha20201101.VirtualNetwork),
+		new(network_alpha20201101.VirtualNetworkGateway),
+		new(network_alpha20201101.VirtualNetworksSubnet),
+		new(network_alpha20201101.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_alpha20201101s.LoadBalancer),
+		new(network_alpha20201101s.NetworkInterface),
+		new(network_alpha20201101s.NetworkSecurityGroup),
+		new(network_alpha20201101s.NetworkSecurityGroupsSecurityRule),
+		new(network_alpha20201101s.PublicIPAddress),
+		new(network_alpha20201101s.VirtualNetwork),
+		new(network_alpha20201101s.VirtualNetworkGateway),
+		new(network_alpha20201101s.VirtualNetworksSubnet),
+		new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20201101.LoadBalancer),
+		new(network_v20201101.NetworkInterface),
+		new(network_v20201101.NetworkSecurityGroup),
+		new(network_v20201101.NetworkSecurityGroupsSecurityRule),
+		new(network_v20201101.PublicIPAddress),
+		new(network_v20201101.RouteTable),
+		new(network_v20201101.RouteTablesRoute),
+		new(network_v20201101.VirtualNetwork),
+		new(network_v20201101.VirtualNetworkGateway),
+		new(network_v20201101.VirtualNetworksSubnet),
+		new(network_v20201101.VirtualNetworksVirtualNetworkPeering))
+	result = append(
+		result,
+		new(network_v20201101s.LoadBalancer),
+		new(network_v20201101s.NetworkInterface),
+		new(network_v20201101s.NetworkSecurityGroup),
+		new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
+		new(network_v20201101s.PublicIPAddress),
+		new(network_v20201101s.RouteTable),
+		new(network_v20201101s.RouteTablesRoute),
+		new(network_v20201101s.VirtualNetwork),
+		new(network_v20201101s.VirtualNetworkGateway),
+		new(network_v20201101s.VirtualNetworksSubnet),
+		new(network_v20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(result, new(operationalinsights_alpha20210601.Workspace))
 	result = append(result, new(operationalinsights_alpha20210601s.Workspace))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
-	result = append(result, new(servicebus_alpha20210101p.Namespace))
-	result = append(result, new(servicebus_alpha20210101p.NamespacesQueue))
-	result = append(result, new(servicebus_alpha20210101p.NamespacesTopic))
-	result = append(result, new(servicebus_alpha20210101ps.Namespace))
-	result = append(result, new(servicebus_alpha20210101ps.NamespacesQueue))
-	result = append(result, new(servicebus_alpha20210101ps.NamespacesTopic))
-	result = append(result, new(servicebus_v20210101p.Namespace))
-	result = append(result, new(servicebus_v20210101p.NamespacesQueue))
-	result = append(result, new(servicebus_v20210101p.NamespacesTopic))
-	result = append(result, new(servicebus_v20210101ps.Namespace))
-	result = append(result, new(servicebus_v20210101ps.NamespacesQueue))
-	result = append(result, new(servicebus_v20210101ps.NamespacesTopic))
+	result = append(
+		result,
+		new(servicebus_alpha20210101p.Namespace),
+		new(servicebus_alpha20210101p.NamespacesQueue),
+		new(servicebus_alpha20210101p.NamespacesTopic))
+	result = append(
+		result,
+		new(servicebus_alpha20210101ps.Namespace),
+		new(servicebus_alpha20210101ps.NamespacesQueue),
+		new(servicebus_alpha20210101ps.NamespacesTopic))
+	result = append(
+		result,
+		new(servicebus_v20210101p.Namespace),
+		new(servicebus_v20210101p.NamespacesQueue),
+		new(servicebus_v20210101p.NamespacesTopic))
+	result = append(
+		result,
+		new(servicebus_v20210101ps.Namespace),
+		new(servicebus_v20210101ps.NamespacesQueue),
+		new(servicebus_v20210101ps.NamespacesTopic))
 	result = append(result, new(signalrservice_alpha20211001.SignalR))
 	result = append(result, new(signalrservice_alpha20211001s.SignalR))
 	result = append(result, new(signalrservice_v20211001.SignalR))
 	result = append(result, new(signalrservice_v20211001s.SignalR))
-	result = append(result, new(storage_alpha20210401.StorageAccount))
-	result = append(result, new(storage_alpha20210401.StorageAccountsBlobService))
-	result = append(result, new(storage_alpha20210401.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401.StorageAccountsQueueService))
-	result = append(result, new(storage_alpha20210401.StorageAccountsQueueServicesQueue))
-	result = append(result, new(storage_alpha20210401s.StorageAccount))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobService))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueService))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueServicesQueue))
-	result = append(result, new(storage_v20210401.StorageAccount))
-	result = append(result, new(storage_v20210401.StorageAccountsBlobService))
-	result = append(result, new(storage_v20210401.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_v20210401.StorageAccountsManagementPolicy))
-	result = append(result, new(storage_v20210401.StorageAccountsQueueService))
-	result = append(result, new(storage_v20210401.StorageAccountsQueueServicesQueue))
-	result = append(result, new(storage_v20210401s.StorageAccount))
-	result = append(result, new(storage_v20210401s.StorageAccountsBlobService))
-	result = append(result, new(storage_v20210401s.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_v20210401s.StorageAccountsManagementPolicy))
-	result = append(result, new(storage_v20210401s.StorageAccountsQueueService))
-	result = append(result, new(storage_v20210401s.StorageAccountsQueueServicesQueue))
+	result = append(
+		result,
+		new(storage_alpha20210401.StorageAccount),
+		new(storage_alpha20210401.StorageAccountsBlobService),
+		new(storage_alpha20210401.StorageAccountsBlobServicesContainer),
+		new(storage_alpha20210401.StorageAccountsManagementPolicy),
+		new(storage_alpha20210401.StorageAccountsQueueService),
+		new(storage_alpha20210401.StorageAccountsQueueServicesQueue))
+	result = append(
+		result,
+		new(storage_alpha20210401s.StorageAccount),
+		new(storage_alpha20210401s.StorageAccountsBlobService),
+		new(storage_alpha20210401s.StorageAccountsBlobServicesContainer),
+		new(storage_alpha20210401s.StorageAccountsManagementPolicy),
+		new(storage_alpha20210401s.StorageAccountsQueueService),
+		new(storage_alpha20210401s.StorageAccountsQueueServicesQueue))
+	result = append(
+		result,
+		new(storage_v20210401.StorageAccount),
+		new(storage_v20210401.StorageAccountsBlobService),
+		new(storage_v20210401.StorageAccountsBlobServicesContainer),
+		new(storage_v20210401.StorageAccountsManagementPolicy),
+		new(storage_v20210401.StorageAccountsQueueService),
+		new(storage_v20210401.StorageAccountsQueueServicesQueue))
+	result = append(
+		result,
+		new(storage_v20210401s.StorageAccount),
+		new(storage_v20210401s.StorageAccountsBlobService),
+		new(storage_v20210401s.StorageAccountsBlobServicesContainer),
+		new(storage_v20210401s.StorageAccountsManagementPolicy),
+		new(storage_v20210401s.StorageAccountsQueueService),
+		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
 	return result
 }
 
@@ -852,6 +830,10 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20201201s.AddToScheme(scheme)
 	_ = compute_v20210701.AddToScheme(scheme)
 	_ = compute_v20210701s.AddToScheme(scheme)
+	_ = compute_v20220301.AddToScheme(scheme)
+	_ = compute_v20220301s.AddToScheme(scheme)
+	_ = containerinstance_v20211001.AddToScheme(scheme)
+	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -892,6 +874,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20200202s.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = machinelearningservices_v20210701.AddToScheme(scheme)
+	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
@@ -935,6 +919,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
@@ -972,6 +957,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
@@ -998,9 +986,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
-// indexComputeVirtualMachineAdminPassword an index function for compute_v20201201s.VirtualMachine .spec.osProfile.adminPassword
+// indexComputeVirtualMachineAdminPassword an index function for compute_v20220301s.VirtualMachine .spec.osProfile.adminPassword
 func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20201201s.VirtualMachine)
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachine)
 	if !ok {
 		return nil
 	}
@@ -1013,9 +1001,9 @@ func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
 	return []string{obj.Spec.OsProfile.AdminPassword.Name}
 }
 
-// indexComputeVirtualMachineScaleSetAdminPassword an index function for compute_v20201201s.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
+// indexComputeVirtualMachineScaleSetAdminPassword an index function for compute_v20220301s.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
 func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20201201s.VirtualMachineScaleSet)
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSet)
 	if !ok {
 		return nil
 	}
@@ -1029,6 +1017,22 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
+func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, imageRegistryCredentialItem := range obj.Spec.ImageRegistryCredentials {
+		if imageRegistryCredentialItem.Password == nil {
+			continue
+		}
+		result = append(result, imageRegistryCredentialItem.Password.Name)
+	}
+	return result
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword

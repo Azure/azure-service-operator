@@ -20,7 +20,8 @@ import (
 func Test_ManagedClustersAgentPool_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClustersAgentPool_SpecARM via JSON returns original",
@@ -95,7 +96,8 @@ func AddRelatedPropertyGeneratorsForManagedClustersAgentPool_SpecARM(gens map[st
 func Test_ManagedClusterAgentPoolProfilePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAgentPoolProfilePropertiesARM via JSON returns original",
@@ -207,7 +209,8 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesARM(
 func Test_AgentPoolUpgradeSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AgentPoolUpgradeSettingsARM via JSON returns original",
@@ -267,7 +270,8 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsARM(gens map[str
 func Test_KubeletConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KubeletConfigARM via JSON returns original",
@@ -336,7 +340,8 @@ func AddIndependentPropertyGeneratorsForKubeletConfigARM(gens map[string]gopter.
 func Test_LinuxOSConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LinuxOSConfigARM via JSON returns original",
@@ -411,7 +416,8 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfigARM(gens map[string]gopter.Gen)
 func Test_SysctlConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SysctlConfigARM via JSON returns original",

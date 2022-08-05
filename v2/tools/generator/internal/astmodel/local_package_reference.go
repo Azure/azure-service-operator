@@ -32,15 +32,12 @@ const GeneratorVersion string = "v1beta"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {
-	generatorVersion := versionPrefix
-	apiVersion := sanitizePackageName(version)
-
 	return LocalPackageReference{
 		localPathPrefix:  prefix,
 		group:            group,
-		generatorVersion: generatorVersion,
-		apiVersion:       apiVersion,
-		version:          generatorVersion + apiVersion,
+		generatorVersion: versionPrefix,
+		apiVersion:       version,
+		version:          versionPrefix + sanitizePackageName(version),
 	}
 }
 
@@ -101,7 +98,7 @@ func (pr LocalPackageReference) IsPreview() bool {
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix
 func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageReference {
 	pr.generatorVersion = prefix
-	pr.version = prefix + pr.apiVersion
+	pr.version = prefix + sanitizePackageName(pr.apiVersion)
 	return pr
 }
 
@@ -110,24 +107,19 @@ func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
 	return pr.generatorVersion == prefix
 }
 
+// GeneratorVersion returns the part of the package name refering to the version of the generator
 func (pr LocalPackageReference) GeneratorVersion() string {
 	return pr.generatorVersion
 }
 
+// ApiVersion returns the API version of this reference, separate from the generator version
 func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
 }
 
-// ExpandedApiVersion returns the version in 'yyyy-mm-dd(-preview)' form,
-// instead of 'yyyymmdd(preview)'.
-func (pr LocalPackageReference) ExpandedApiVersion() string {
-	av := pr.apiVersion
-	result := av[0:4] + "-" + av[4:6] + "-" + av[6:8]
-	if len(av) > 8 {
-		return result + "-" + av[8:]
-	}
-
-	return result
+// HasApiVersion returns true if this reference has the specified API version
+func (pr LocalPackageReference) HasApiVersion(ver string) bool {
+	return strings.EqualFold(pr.apiVersion, ver)
 }
 
 // IsLocalPackageReference returns true if the supplied reference is a local one

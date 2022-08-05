@@ -225,22 +225,22 @@ func (enum *EnumType) String() string {
 // passed builder
 // builder receives the full description
 // definitions is for resolving named types
-func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
+func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")
 		return
 	}
 
-	builder.WriteString("Enum[")
-	enum.baseType.WriteDebugDescription(builder, definitions)
+	builder.WriteString("enum:")
+	enum.baseType.WriteDebugDescription(builder, currentPackage)
 	if len(enum.options) > 0 {
-		builder.WriteString(":")
+		builder.WriteString("[")
 		for i, v := range enum.options {
 			if i > 0 {
 				builder.WriteString("|")
 			}
 			builder.WriteString(v.Identifier)
 		}
+		builder.WriteString("]")
 	}
-	builder.WriteString("]")
 }

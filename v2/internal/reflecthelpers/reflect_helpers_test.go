@@ -89,7 +89,9 @@ type ResourceWithReferencesSpec struct {
 
 	AzureName string `json:"azureName"`
 
-	Ref *ResourceReference `json:"ref,omitempty"`
+	Ref      *ResourceReference                      `json:"ref,omitempty"`
+	RefSlice []genruntime.ResourceReference          `armReference:"RefSlice" json:"refSlice,omitempty"`
+	RefMap   map[string]genruntime.ResourceReference `armReference:"RefMap" json:"refMap,omitempty"`
 
 	Secret *genruntime.SecretReference `json:"secret,omitempty"`
 
@@ -104,7 +106,11 @@ func Test_FindReferences(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := genruntime.ResourceReference{ARMID: "test"}
+	ref1 := genruntime.ResourceReference{ARMID: "test1"}
+	ref2 := genruntime.ResourceReference{ARMID: "test2"}
+	ref3 := genruntime.ResourceReference{ARMID: "test3"}
+	ref4 := genruntime.ResourceReference{ARMID: "test4"}
+	ref5 := genruntime.ResourceReference{ARMID: "test5"}
 
 	res := ResourceWithReferences{
 		Spec: ResourceWithReferencesSpec{
@@ -114,7 +120,15 @@ func Test_FindReferences(t *testing.T) {
 				Name: "myrg",
 			},
 			Ref: &ResourceReference{
-				Reference: ref,
+				Reference: ref1,
+			},
+			RefSlice: []genruntime.ResourceReference{
+				ref2,
+				ref3,
+			},
+			RefMap: map[string]genruntime.ResourceReference{
+				"a": ref4,
+				"b": ref5,
 			},
 		},
 		ObjectMeta: metav1.ObjectMeta{
@@ -125,8 +139,12 @@ func Test_FindReferences(t *testing.T) {
 
 	refs, err := reflecthelpers.FindResourceReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(refs).To(HaveLen(1))
-	g.Expect(refs).To(HaveKey(ref))
+	g.Expect(refs).To(HaveLen(5))
+	g.Expect(refs).To(HaveKey(ref1))
+	g.Expect(refs).To(HaveKey(ref2))
+	g.Expect(refs).To(HaveKey(ref3))
+	g.Expect(refs).To(HaveKey(ref4))
+	g.Expect(refs).To(HaveKey(ref5))
 }
 
 func Test_FindSecrets(t *testing.T) {

@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServer_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
@@ -48,9 +45,6 @@ func (server *FlexibleServer_SpecARM) GetType() string {
 type IdentityARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Metadata of user assigned identity.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 type ServerPropertiesARM struct {

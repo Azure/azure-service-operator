@@ -53,7 +53,8 @@ type Configuration struct {
 	SamplesURL string `yaml:"samplesUrl"`
 	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.
 	EmitDocFiles bool `yaml:"emitDocFiles"`
-
+	// Destination file and additional information for our supported resources report
+	SupportedResourcesReport *SupportedResourcesReport `yaml:"supportedResourcesReport"`
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
 
@@ -125,14 +126,18 @@ func (config *Configuration) GetPropertyTransformersError() error {
 
 // NewConfiguration returns a new empty Configuration
 func NewConfiguration() *Configuration {
-	return &Configuration{
+	result := &Configuration{
 		ObjectModelConfiguration: NewObjectModelConfiguration(),
 	}
+
+	result.SupportedResourcesReport = NewSupportedResourcesReport(result)
+
+	return result
 }
 
 // LoadConfiguration loads a `Configuration` from the specified file
 func LoadConfiguration(configurationFile string) (*Configuration, error) {
-	data, err := os.ReadFile(configurationFile)
+	f, err := os.Open(configurationFile)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +146,10 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 	// TODO: split Configuration struct so that domain model is not used for serialization!
 	result := NewConfiguration()
 
-	err = yaml.Unmarshal(data, result)
+	decoder := yaml.NewDecoder(f)
+	decoder.KnownFields(true) // Error on unknown fields
+
+	err = decoder.Decode(result)
 	if err != nil {
 		return nil, errors.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
 	}
@@ -187,6 +195,11 @@ func (config *Configuration) VerifyARMReferencesConsumed() error {
 // IsSecret looks up a property to determine whether it is a secret.
 func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	return config.ObjectModelConfiguration.IsSecret(name, property)
+}
+
+// VerifyIsSecretConsumed returns an error if any configured Secret References were not consumed
+func (config *Configuration) VerifyIsSecretConsumed() error {
+	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
 }
 
 // IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
@@ -273,7 +286,7 @@ func (config *Configuration) initialize(configPath string) error {
 			errs = append(errs, err)
 		}
 
-		if transformer.Property.String() != "" {
+		if transformer.Property.IsRestrictive() {
 			propertyTransformers = append(propertyTransformers, transformer)
 		} else {
 			typeTransformers = append(typeTransformers, transformer)
@@ -392,4 +405,18 @@ type SchemaOverride struct {
 
 	// A suffix to add on to the group name
 	Suffix string `yaml:"suffix"`
+
+	// We don't use this now
+	ResourceConfig []ResourceConfig `yaml:"resourceConfig"`
+
+	// We don't use this now
+	PostProcessor string `yaml:"postProcessor"`
+}
+
+type ResourceConfig struct {
+	Type string `yaml:"type"`
+
+	// TODO: Not sure that this datatype should be string, but we don't use it right now so keeping it as
+	// TODO: string for simplicity
+	Scopes string `yaml:"scopes"`
 }

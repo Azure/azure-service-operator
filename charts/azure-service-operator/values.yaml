@@ -48,8 +48,8 @@ recoverSoftDeletedKeyVaultSecrets: True
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.39435
-  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.45297
+  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
 installAadPodIdentity: False

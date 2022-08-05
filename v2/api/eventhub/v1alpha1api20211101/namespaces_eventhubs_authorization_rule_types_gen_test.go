@@ -23,6 +23,7 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenConvertedToHub_RoundTripsWith
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from NamespacesEventhubsAuthorizationRule to hub returns original",
@@ -106,7 +107,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject Na
 func Test_NamespacesEventhubsAuthorizationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsAuthorizationRule via JSON returns original",
@@ -209,7 +211,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule_STATUS(sub
 func Test_NamespacesEventhubsAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsAuthorizationRule_STATUS via JSON returns original",
@@ -329,7 +332,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule_Spec(subje
 func Test_NamespacesEventhubsAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsAuthorizationRule_Spec via JSON returns original",

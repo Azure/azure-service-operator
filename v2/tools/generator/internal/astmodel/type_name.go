@@ -169,8 +169,13 @@ var typeNamePluralToSingularOverrides = map[string]string{
 var typeNameSingularToPluralOverrides map[string]string
 
 // Singular returns a TypeName with the name singularized.
-func (typeName TypeName) Singular() TypeName {
-	return typeName.WithName(Singularize((typeName.Name())))
+func (typeName TypeName) Singular(idFactory IdentifierFactory) TypeName {
+	name := Singularize(typeName.Name())
+
+	// Flect isn't consistent about what case it returns. If it's just removing an 's', it will maintain
+	// case, but if it's performing a more complicated transformation the result will be all lower case.
+	singular := idFactory.CreateIdentifier(name, Exported)
+	return typeName.WithName(singular)
 }
 
 func Singularize(name string) string {
@@ -208,28 +213,33 @@ func (typeName TypeName) Plural() TypeName {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
-	if typeName.PackageReference == nil {
-		builder.WriteString("<nilRef>")
-	} else {
-		builder.WriteString(typeName.PackageReference.String())
-	}
-	builder.WriteString("/")
-	builder.WriteString(typeName.name)
-
-	if typeName.PackageReference != nil {
-		if !IsExternalPackageReference(typeName.PackageReference) {
-			builder.WriteString(":")
-			if definition, ok := definitions[typeName]; ok {
-				definition.Type().WriteDebugDescription(builder, definitions)
-			} else {
-				builder.WriteString("NOTDEFINED")
-			}
+func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+	if typeName.PackageReference != nil && !typeName.PackageReference.Equals(currentPackage) {
+		// Reference to a different package, so qualify the output.
+		// External packages are just qualified by name, other packages by full path
+		if IsExternalPackageReference(typeName.PackageReference) {
+			builder.WriteString(typeName.PackageReference.PackageName())
+		} else {
+			builder.WriteString(typeName.PackageReference.String())
 		}
+
+		builder.WriteString(".")
 	}
+
+	builder.WriteString(typeName.name)
 }
 
 // IsEmpty is a predicate that returns true if the TypeName is empty, false otherwise
 func (typeName TypeName) IsEmpty() bool {
 	return typeName == EmptyTypeName
+}
+
+// IsSpec returns true if the type name specifies a spec
+func IsSpec(name TypeName) bool {
+	return strings.HasSuffix(name.Name(), "_Spec")
+}
+
+// IsStatus returns true if the type name specifies a status
+func IsStatus(name TypeName) bool {
+	return strings.HasSuffix(name.Name(), "_Status")
 }

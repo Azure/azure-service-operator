@@ -68,7 +68,7 @@ func (setting *MongodbDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) e
 	return setting.AssignPropertiesToMongodbDatabaseThroughputSetting(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &MongodbDatabaseThroughputSetting{}
 
@@ -103,9 +103,9 @@ func (setting MongodbDatabaseThroughputSetting) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (setting *MongodbDatabaseThroughputSetting) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (setting *MongodbDatabaseThroughputSetting) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.Con
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-mongodbdatabasethroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-mongodbdatabasethroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &MongodbDatabaseThroughputSetting{}
 

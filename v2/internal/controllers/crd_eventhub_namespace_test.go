@@ -55,14 +55,14 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "EventHub CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				EventHub_CRUD(testContext, namespace)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				EventHub_CRUD(tc, namespace)
 			},
 		},
 		testcommon.Subtest{
 			Name: "EventHub namespace auth rule CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Namespace_AuthorizationRules_CRUD(testContext, namespace)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Namespace_AuthorizationRules_CRUD(tc, namespace)
 			},
 		},
 	)
@@ -99,14 +99,14 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "EventHub auth rule CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				EventHub_AuthorizationRules_CRUD(testContext, eh)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				EventHub_AuthorizationRules_CRUD(tc, eh)
 			},
 		},
 		testcommon.Subtest{
 			Name: "EventHub consumer group CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				EventHub_ConsumerGroup_CRUD(testContext, eh)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				EventHub_ConsumerGroup_CRUD(tc, eh)
 			},
 		},
 	)

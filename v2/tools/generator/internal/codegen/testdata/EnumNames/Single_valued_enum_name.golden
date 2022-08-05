@@ -64,7 +64,7 @@ func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 	return resource.AssignPropertiesToAResource(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &AResource{}
 
@@ -92,9 +92,9 @@ func (resource AResource) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (resource *AResource) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (resource *AResource) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -117,7 +117,7 @@ func (resource *AResource) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-aresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-aresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &AResource{}
 

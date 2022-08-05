@@ -68,7 +68,7 @@ func (topic *Topic) ConvertTo(hub conversion.Hub) error {
 	return topic.AssignPropertiesToTopic(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-topic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-topic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Topic{}
 
@@ -103,9 +103,9 @@ func (topic Topic) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (topic *Topic) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (topic *Topic) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1beta20200601-topic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1beta20200601,name=validate.v1beta20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1beta20200601-topic,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1beta20200601,name=validate.v1beta20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Topic{}
 

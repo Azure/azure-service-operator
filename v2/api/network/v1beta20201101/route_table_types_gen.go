@@ -68,7 +68,7 @@ func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
 	return table.AssignPropertiesToRouteTable(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetable,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetables.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetable,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetables.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RouteTable{}
 
@@ -103,9 +103,9 @@ func (table RouteTable) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (table *RouteTable) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (table *RouteTable) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-routetable,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.routetables.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-routetable,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.routetables.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RouteTable{}
 

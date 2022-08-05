@@ -207,7 +207,7 @@ validate-cainjection-files:
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
 helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
-helm-chart-manifests: KUBE_RBAC_PROXY := gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+helm-chart-manifests: KUBE_RBAC_PROXY := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"
 	# substitute released tag into values file.
@@ -362,7 +362,7 @@ install-test-tools: install-tools
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get sigs.k8s.io/kind@v0.11.1
+	&& go get sigs.k8s.io/kind@v0.14.0
 	rm -r $(TEST_TOOLS_MOD_DIR)
 
 .PHONY: install-tools

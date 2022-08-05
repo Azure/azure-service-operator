@@ -68,7 +68,7 @@ func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
 	return signalR.AssignPropertiesToSignalR(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-signalrservice-azure-com-v1beta20211001-signalr,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-signalrservice-azure-com-v1beta20211001-signalr,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &SignalR{}
 
@@ -103,9 +103,9 @@ func (signalR SignalR) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (signalR *SignalR) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (signalR *SignalR) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-signalrservice-azure-com-v1beta20211001-signalr,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-signalrservice-azure-com-v1beta20211001-signalr,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &SignalR{}
 

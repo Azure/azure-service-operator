@@ -68,7 +68,7 @@ func (group *NamespacesEventhubsConsumerGroup) ConvertTo(hub conversion.Hub) err
 	return group.AssignPropertiesToNamespacesEventhubsConsumerGroup(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespaceseventhubsconsumergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespaceseventhubsconsumergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesEventhubsConsumerGroup{}
 
@@ -103,9 +103,9 @@ func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (group *NamespacesEventhubsConsumerGroup) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (group *NamespacesEventhubsConsumerGroup) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespaceseventhubsconsumergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespaceseventhubsconsumergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesEventhubsConsumerGroup{}
 

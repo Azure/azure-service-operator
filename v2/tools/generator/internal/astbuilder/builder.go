@@ -400,7 +400,7 @@ func NotExpr(expr dst.Expr) *dst.UnaryExpr {
 	}
 }
 
-// NotNil generates an `x != nil` comparison
+// NotNil generates an `x != nil` condition
 func NotNil(x dst.Expr) *dst.BinaryExpr {
 	return AreNotEqual(x, Nil())
 }
@@ -408,6 +408,22 @@ func NotNil(x dst.Expr) *dst.BinaryExpr {
 // Nil returns the nil identifier (not keyword!)
 func Nil() *dst.Ident {
 	return dst.NewIdent("nil")
+}
+
+// Continue returns the continue keyword
+func Continue() dst.Stmt {
+	return &dst.BranchStmt{
+		Tok: token.CONTINUE,
+	}
+}
+
+// NotEmpty generates an `len(x) > 0` condition
+func NotEmpty(x dst.Expr) *dst.BinaryExpr {
+	return &dst.BinaryExpr{
+		X:  CallFunc("len", x),
+		Op: token.GTR,
+		Y:  dst.NewIdent("0"),
+	}
 }
 
 // StatementBlock generates a block containing the supplied statements

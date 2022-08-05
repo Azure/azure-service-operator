@@ -68,7 +68,7 @@ func (network *VirtualNetwork) ConvertTo(hub conversion.Hub) error {
 	return network.AssignPropertiesToVirtualNetwork(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetwork,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworks.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetwork,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworks.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualNetwork{}
 
@@ -103,9 +103,9 @@ func (network VirtualNetwork) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (network *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (network *VirtualNetwork) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (network *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-virtualnetwork,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.virtualnetworks.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-virtualnetwork,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworks,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.virtualnetworks.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualNetwork{}
 

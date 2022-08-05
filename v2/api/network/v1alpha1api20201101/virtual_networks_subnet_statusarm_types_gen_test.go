@@ -20,7 +20,8 @@ import (
 func Test_VirtualNetworksSubnet_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworksSubnet_STATUSARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_STATUSARM(gens map[str
 func Test_SubnetPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SubnetPropertiesFormat_STATUSARM via JSON returns original",
@@ -192,7 +194,8 @@ func AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_STATUSARM(gens map[st
 func Test_ApplicationGatewayIPConfiguration_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayIPConfiguration_STATUSARM via JSON returns original",
@@ -269,7 +272,8 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfiguration_STATUSARM(
 func Test_Delegation_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Delegation_STATUSARM via JSON returns original",
@@ -346,7 +350,8 @@ func AddRelatedPropertyGeneratorsForDelegation_STATUSARM(gens map[string]gopter.
 func Test_IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -423,7 +428,8 @@ func AddRelatedPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetwork
 func Test_IPConfiguration_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfiguration_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -499,7 +505,8 @@ func AddRelatedPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworksSubnet
 func Test_NetworkSecurityGroup_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroup_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -559,7 +566,8 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_VirtualNetwo
 func Test_PrivateEndpoint_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpoint_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -633,7 +641,8 @@ func AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_VirtualNetworksSubnet
 func Test_ResourceNavigationLink_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceNavigationLink_STATUSARM via JSON returns original",
@@ -710,7 +719,8 @@ func AddRelatedPropertyGeneratorsForResourceNavigationLink_STATUSARM(gens map[st
 func Test_RouteTable_STATUS_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTable_STATUS_SubResourceEmbeddedARM via JSON returns original",
@@ -770,7 +780,8 @@ func AddIndependentPropertyGeneratorsForRouteTable_STATUS_SubResourceEmbeddedARM
 func Test_ServiceAssociationLink_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceAssociationLink_STATUSARM via JSON returns original",
@@ -847,7 +858,8 @@ func AddRelatedPropertyGeneratorsForServiceAssociationLink_STATUSARM(gens map[st
 func Test_ServiceEndpointPolicy_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPolicy_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -908,7 +920,8 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPolicy_STATUS_VirtualNetw
 func Test_ServiceEndpointPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceEndpointPropertiesFormat_STATUSARM via JSON returns original",
@@ -974,7 +987,8 @@ func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormat_STATUSAR
 func Test_ApplicationGatewayIPConfigurationPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayIPConfigurationPropertiesFormat_STATUSARM via JSON returns original",
@@ -1052,7 +1066,8 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayIPConfigurationPropertiesF
 func Test_IPConfigurationProfilePropertiesFormat_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationProfilePropertiesFormat_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -1131,7 +1146,8 @@ func AddRelatedPropertyGeneratorsForIPConfigurationProfilePropertiesFormat_STATU
 func Test_IPConfigurationPropertiesFormat_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationPropertiesFormat_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -1213,7 +1229,8 @@ func AddRelatedPropertyGeneratorsForIPConfigurationPropertiesFormat_STATUS_Virtu
 func Test_ResourceNavigationLinkFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceNavigationLinkFormat_STATUSARM via JSON returns original",
@@ -1279,7 +1296,8 @@ func AddIndependentPropertyGeneratorsForResourceNavigationLinkFormat_STATUSARM(g
 func Test_ServiceAssociationLinkPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceAssociationLinkPropertiesFormat_STATUSARM via JSON returns original",
@@ -1347,7 +1365,8 @@ func AddIndependentPropertyGeneratorsForServiceAssociationLinkPropertiesFormat_S
 func Test_ServiceDelegationPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceDelegationPropertiesFormat_STATUSARM via JSON returns original",
@@ -1413,7 +1432,8 @@ func AddIndependentPropertyGeneratorsForServiceDelegationPropertiesFormat_STATUS
 func Test_PublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",
@@ -1489,7 +1509,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_VirtualNetworksSubnet
 func Test_Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedARM via JSON returns original",

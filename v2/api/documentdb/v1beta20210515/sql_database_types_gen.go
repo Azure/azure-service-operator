@@ -68,7 +68,7 @@ func (database *SqlDatabase) ConvertTo(hub conversion.Hub) error {
 	return database.AssignPropertiesToSqlDatabase(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &SqlDatabase{}
 
@@ -103,9 +103,9 @@ func (database SqlDatabase) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (database *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (database *SqlDatabase) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) erro
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &SqlDatabase{}
 

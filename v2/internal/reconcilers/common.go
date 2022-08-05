@@ -12,8 +12,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
@@ -23,17 +22,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-const GenericControllerFinalizer = "serviceoperator.azure.com/finalizer"
-
 // LogObj logs the obj
-func LogObj(log logr.Logger, note string, obj genruntime.MetaObject) {
-	if log.V(Debug).Enabled() {
-		// This could technically select annotations from other Azure operators, but for now that's ok.
-		// In the future when we no longer use annotations as heavily as we do now we can remove this or
-		// scope it to a finite set of annotations.
+func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) {
+	if log.V(level).Enabled() {
 		ourAnnotations := make(map[string]string)
 		for key, value := range obj.GetAnnotations() {
-			if strings.HasSuffix(key, ".azure.com") {
+			if strings.HasPrefix(key, "serviceoperator.azure.com") {
 				ourAnnotations[key] = value
 			}
 		}
@@ -58,7 +52,7 @@ func LogObj(log logr.Logger, note string, obj genruntime.MetaObject) {
 		// Log just what we're interested in. We avoid logging the whole obj
 		// due to possible risk of disclosing secrets or other data that is "private" and users may
 		// not want in logs.
-		log.V(Debug).Info(note, keysAndValues...)
+		log.V(level).Info(note, keysAndValues...)
 	}
 }
 
@@ -69,7 +63,7 @@ type ARMOwnedResourceReconcilerCommon struct {
 
 // NeedsToWaitForOwner returns false if the owner doesn't need to be waited for, and true if it does.
 func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
-	_, err := r.ResourceResolver.ResolveOwner(ctx, obj)
+	owner, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
@@ -78,6 +72,25 @@ func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Conte
 		}
 
 		return true, errors.Wrap(err, "failed to get owner")
+	}
+
+	// No need to wait for resources that don't have an owner
+	if owner == nil {
+		return false, nil
+	}
+
+	// If the owner isn't ready, wait
+	ready := genruntime.GetReadyCondition(owner)
+	isOwnerReady := ready != nil && ready.Status == metav1.ConditionTrue
+	if !isOwnerReady {
+		var readyStr string
+		if ready == nil {
+			readyStr = "<nil>"
+		} else {
+			readyStr = ready.String()
+		}
+		log.V(Info).Info("Owner exists but is not ready. Current condition", "ready", readyStr)
+		return true, nil
 	}
 
 	return false, nil
@@ -100,60 +113,35 @@ func (r *ARMOwnedResourceReconcilerCommon) ApplyOwnership(ctx context.Context, l
 		"Set owner reference",
 		"ownerGvk", owner.GetObjectKind().GroupVersionKind(),
 		"ownerName", owner.GetName())
-	err = r.CommitUpdate(ctx, log, obj)
-
-	if err != nil {
-		return errors.Wrap(err, "update owner references failed")
-	}
 
 	return nil
 }
 
-// ClaimResource adds a finalizer and ensures that the owner reference is set
-func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (ctrl.Result, error) {
+// ClaimResource ensures that the owner reference is set
+func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) error {
 	log.V(Info).Info("applying ownership")
 	waitForOwner, err := r.NeedsToWaitForOwner(ctx, log, obj)
 	if err != nil {
-		return ctrl.Result{}, err
+		return err
 	}
 
 	if waitForOwner {
 		err = errors.Errorf("Owner %q cannot be found. Progress is blocked until the owner is created.", obj.Owner().String())
 		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonWaitingForOwner)
-		return ctrl.Result{}, err
+		return err
 	}
-
-	// Adding the finalizer should happen in a reconcile loop prior to the PUT being sent to Azure to avoid situations where
-	// we issue a PUT to Azure but the commit of the resource into etcd fails, causing us to have an unset
-	// finalizer and have started resource creation in Azure.
-	log.V(Info).Info("adding finalizer")
-	controllerutil.AddFinalizer(obj, GenericControllerFinalizer)
 
 	// Short circuit here if there's no owner management to do
 	if obj.Owner() == nil {
-		err = r.CommitUpdate(ctx, log, obj)
-		if err != nil {
-			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
-		}
-
-		return ctrl.Result{Requeue: true}, nil
+		return nil
 	}
 
 	err = r.ApplyOwnership(ctx, log, obj)
 	if err != nil {
-		return ctrl.Result{}, err
+		return err
 	}
 
-	// Fast requeue as we're moving to the next stage
-	return ctrl.Result{Requeue: true}, nil
-}
-
-func (r *ARMOwnedResourceReconcilerCommon) NeedToClaimResource(obj genruntime.ARMOwnedMetaObject) bool {
-	owner := obj.Owner()
-	unresolvedOwner := owner != nil && len(obj.GetOwnerReferences()) == 0
-	unsetFinalizer := !controllerutil.ContainsFinalizer(obj, GenericControllerFinalizer)
-
-	return unresolvedOwner || unsetFinalizer
+	return nil
 }
 
 type ReconcilerCommon struct {
@@ -161,11 +149,13 @@ type ReconcilerCommon struct {
 	PositiveConditions *conditions.PositiveConditionBuilder
 }
 
-func (r *ReconcilerCommon) CommitUpdate(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
-	err := r.KubeClient.CommitObject(ctx, obj)
-	if err != nil {
-		return err
+func ClassifyResolverError(err error) error {
+	// If it's specifically secret not found, say so
+	var typedErr *resolver.SecretNotFound
+	if errors.As(err, &typedErr) {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
 	}
-	LogObj(log, "updated resource in etcd", obj)
-	return nil
+	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
+	// everything is classified as something, so for now it's good enough.
+	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 }

@@ -20,7 +20,8 @@ import (
 func Test_StorageAccountsBlobServicesContainer_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobServicesContainer_STATUSARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUSA
 func Test_ContainerProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerProperties_STATUSARM via JSON returns original",
@@ -191,7 +193,8 @@ func AddRelatedPropertyGeneratorsForContainerProperties_STATUSARM(gens map[strin
 func Test_ImmutabilityPolicyProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutabilityPolicyProperties_STATUSARM via JSON returns original",
@@ -266,7 +269,8 @@ func AddRelatedPropertyGeneratorsForImmutabilityPolicyProperties_STATUSARM(gens 
 func Test_ImmutableStorageWithVersioning_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutableStorageWithVersioning_STATUSARM via JSON returns original",
@@ -328,7 +332,8 @@ func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUSARM
 func Test_LegalHoldProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LegalHoldProperties_STATUSARM via JSON returns original",
@@ -402,7 +407,8 @@ func AddRelatedPropertyGeneratorsForLegalHoldProperties_STATUSARM(gens map[strin
 func Test_ImmutabilityPolicyProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutabilityPolicyProperty_STATUSARM via JSON returns original",
@@ -464,7 +470,8 @@ func AddIndependentPropertyGeneratorsForImmutabilityPolicyProperty_STATUSARM(gen
 func Test_TagProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TagProperty_STATUSARM via JSON returns original",
@@ -528,7 +535,8 @@ func AddIndependentPropertyGeneratorsForTagProperty_STATUSARM(gens map[string]go
 func Test_UpdateHistoryProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpdateHistoryProperty_STATUSARM via JSON returns original",

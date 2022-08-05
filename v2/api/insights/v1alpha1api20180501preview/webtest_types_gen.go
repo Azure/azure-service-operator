@@ -81,7 +81,7 @@ func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1alpha1api20180501preview-webtest,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1alpha1api20180501preview,name=default.v1alpha1api20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1alpha1api20180501preview-webtest,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1alpha1api20180501preview,name=default.v1alpha1api20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Webtest{}
 
@@ -116,9 +116,9 @@ func (webtest Webtest) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (webtest *Webtest) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (webtest *Webtest) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -170,7 +170,7 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-insights-azure-com-v1alpha1api20180501preview-webtest,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1alpha1api20180501preview,name=validate.v1alpha1api20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-insights-azure-com-v1alpha1api20180501preview-webtest,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1alpha1api20180501preview,name=validate.v1alpha1api20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Webtest{}
 

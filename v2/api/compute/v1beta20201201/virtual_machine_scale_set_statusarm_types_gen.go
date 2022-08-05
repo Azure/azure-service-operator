@@ -89,11 +89,6 @@ type VirtualMachineScaleSetIdentity_STATUSARM struct {
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
 	Type *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
-	// dictionary key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachineScaleSetProperties_STATUSARM struct {
@@ -219,14 +214,6 @@ const (
 	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_UserAssigned_STATUS               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
 )
-
-type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
 
 type VirtualMachineScaleSetVMProfile_STATUSARM struct {
 	// BillingProfile: Specifies the billing related details of a Azure Spot VMSS.

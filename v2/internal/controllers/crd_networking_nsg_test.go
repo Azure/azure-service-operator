@@ -49,8 +49,8 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "SecurityRules CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				NetworkSecurityGroup_SecurityRules_CRUD(testContext, nsg)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				NetworkSecurityGroup_SecurityRules_CRUD(tc, nsg)
 			},
 		},
 	)
@@ -104,7 +104,6 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	}
 
 	tc.CreateResourcesAndWait(rule1, rule2)
-	defer tc.DeleteResourcesAndWait(rule1, rule2)
 
 	tc.Expect(rule1.Status.Id).ToNot(BeNil())
 	tc.Expect(rule2.Status.Id).ToNot(BeNil())

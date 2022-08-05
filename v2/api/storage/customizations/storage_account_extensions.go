@@ -59,7 +59,11 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 		subscription := armClient.SubscriptionID()
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		acctClient := armstorage.NewAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var acctClient *armstorage.AccountsClient
+		acctClient, err = armstorage.NewAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to create new AccountsClient")
+		}
 
 		var resp armstorage.AccountsClientListKeysResponse
 		resp, err = acctClient.ListKeys(ctx, id.ResourceGroupName, obj.AzureName(), nil)

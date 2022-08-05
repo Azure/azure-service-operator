@@ -96,7 +96,8 @@ type overlapError struct {
 	statusRefs []astmodel.TypeName
 }
 
-func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
+// TODO: Remove nolint below
+func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error { // nolint:deadcode
 	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
 		return errors.Wrap(err, "couldn't find all spec definitions")

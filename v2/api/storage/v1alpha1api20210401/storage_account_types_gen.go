@@ -80,7 +80,7 @@ func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-storage-azure-com-v1alpha1api20210401-storageaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccounts.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-storage-azure-com-v1alpha1api20210401-storageaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20210401,name=default.v1alpha1api20210401.storageaccounts.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &StorageAccount{}
 
@@ -115,9 +115,9 @@ func (account StorageAccount) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (account *StorageAccount) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (account *StorageAccount) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -169,7 +169,7 @@ func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-storage-azure-com-v1alpha1api20210401-storageaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccounts.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-storage-azure-com-v1alpha1api20210401-storageaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20210401,name=validate.v1alpha1api20210401.storageaccounts.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &StorageAccount{}
 

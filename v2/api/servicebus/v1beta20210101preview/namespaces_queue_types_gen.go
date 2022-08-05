@@ -68,7 +68,7 @@ func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 	return queue.AssignPropertiesToNamespacesQueue(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesQueue{}
 
@@ -103,9 +103,9 @@ func (queue NamespacesQueue) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (queue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (queue *NamespacesQueue) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=validate.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=validate.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesQueue{}
 

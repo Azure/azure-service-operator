@@ -80,7 +80,7 @@ func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1alpha1api20210101preview-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1alpha1api20210101preview-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Namespace{}
 
@@ -115,9 +115,9 @@ func (namespace Namespace) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (namespace *Namespace) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (namespace *Namespace) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -169,7 +169,7 @@ func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1alpha1api20210101preview-namespace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1alpha1api20210101preview-namespace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Namespace{}
 

@@ -4,7 +4,6 @@
 package v1alpha1api20210701storage
 
 import (
-	"fmt"
 	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
@@ -47,22 +46,36 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210701s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210701s.Image
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return image.AssignPropertiesFromImage(source)
+	err = image.AssignPropertiesFromImage(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to image")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210701s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210701s.Image
+	err := image.AssignPropertiesToImage(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from image")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return image.AssignPropertiesToImage(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &Image{}
@@ -77,9 +90,9 @@ func (image Image) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (image *Image) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (image *Image) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource

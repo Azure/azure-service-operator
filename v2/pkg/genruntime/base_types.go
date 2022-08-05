@@ -6,24 +6,23 @@
 package genruntime
 
 import (
-	"context"
-
-	"github.com/go-logr/logr"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/client-go/tools/record"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-type ResourceKind string
+type ResourceScope string
 
 const (
-	// ResourceKindNormal is a standard ARM resource.
-	ResourceKindNormal = ResourceKind("normal")
-	// ResourceKindExtension is an extension resource. Extension resources can have any resource as their parent.
-	ResourceKindExtension = ResourceKind("extension")
+	// ResourceScopeLocation is a resource that is deployed into a location
+	ResourceScopeLocation = ResourceScope("location")
+	// ResourceScopeResourceGroup is a resource that is deployed into a resource group
+	ResourceScopeResourceGroup = ResourceScope("resourcegroup")
+	// ResourceScopeExtension is an extension resource. Extension resources can have any resource as their parent.
+	ResourceScopeExtension = ResourceScope("extension")
+	// ResourceScopeTenant is an Azure resource rooted to the tenant (examples include subscription, managementGroup, etc)
+	ResourceScopeTenant = ResourceScope("tenant")
 )
 
 // TODO: It's weird that this is isn't with the other annotations
@@ -50,18 +49,6 @@ type ARMMetaObject interface {
 type ARMOwnedMetaObject interface {
 	MetaObject
 	ARMOwned
-}
-
-type Reconciler interface {
-	Reconcile(
-		ctx context.Context,
-		log logr.Logger,
-		eventRecorder record.EventRecorder,
-		obj MetaObject) (ctrl.Result, error)
-	// TODO: Right above this interface we can handle condition impacting errors, as an official first-party thing
-	// TODO: maybe can write a helper to reduce boilerplace for delete checking
-	// TODO: Move makeSuccessResult up above this interface too
-	// TODO: and also logObj should get pulled up probably
 }
 
 // AddAnnotation adds the specified annotation to the object.

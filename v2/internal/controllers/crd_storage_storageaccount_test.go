@@ -47,13 +47,13 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 		},
 		testcommon.Subtest{
 			Name: "Queue Services CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Management Policies CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_ManagementPolicy_CRUD(tc, acct)
 			},
 		},
@@ -84,8 +84,8 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Container CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_Container_CRUD(testContext, blobService)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				StorageAccount_BlobServices_Container_CRUD(tc, blobService)
 			},
 		})
 }
@@ -116,7 +116,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_Queue_CRUD(tc, queueService)
 			},
 		},

@@ -9,12 +9,17 @@ linters:
     - tparallel
     - paralleltest
     - prealloc
+    - unparam  # This was added while we used go1.18 which means it's always been disabled. It may eventually be re-enabled and we'll need to fix what it finds
   presets:
     - bugs
     - unused
   disable: 
     - scopelint # obsoleted by exportloopref
-
+    # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
+    - staticcheck
+    - gosimple
+    - stylecheck
+    - unused
 linters-settings:
   govet:
     check-shadowing: true

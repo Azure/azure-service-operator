@@ -41,8 +41,8 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Routes CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Routes_CRUD(testContext, routeTable)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Routes_CRUD(tc, routeTable)
 			},
 		},
 	)

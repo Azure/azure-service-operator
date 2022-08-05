@@ -85,7 +85,7 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 				// at the moment we assume that a resource is an extension if it can be applied to
 				// any scope:
 				if strings.HasPrefix(resourceInfo.ARMURI, "/{scope}/") {
-					resourceType = resourceType.WithKind(astmodel.ResourceKindExtension)
+					resourceType = resourceType.WithScope(astmodel.ResourceScopeExtension)
 				}
 
 				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)

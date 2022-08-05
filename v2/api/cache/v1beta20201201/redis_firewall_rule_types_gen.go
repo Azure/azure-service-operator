@@ -68,7 +68,7 @@ func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
 	return rule.AssignPropertiesToRedisFirewallRule(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redisfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisfirewallrules,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redisfirewallrules.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redisfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisfirewallrules,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redisfirewallrules.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RedisFirewallRule{}
 
@@ -103,9 +103,9 @@ func (rule RedisFirewallRule) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (rule *RedisFirewallRule) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (rule *RedisFirewallRule) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (rule *RedisFirewallRule) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redisfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisfirewallrules,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redisfirewallrules.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redisfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisfirewallrules,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redisfirewallrules.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RedisFirewallRule{}
 

@@ -2,6 +2,14 @@ schemaRoot: "../../v2/specs/azure-rest-api-specs/specification"
 destinationGoModuleFile: go.mod
 # These two paths are relative to the module path above.
 typesOutputPath: apis
+
+supportedResourcesReport:
+  # Path is relative to the module path, above
+  outputPath: apis/resources.md
+  introduction: |
+    These are the Crossplane resources committed to our **main** branch, grouped by the originating ARM service.
+    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+
 pipeline: crossplane
 typeFilters:
   - action: prune
@@ -82,9 +90,9 @@ typeFilters:
     because: Disk was pruned
 
   - action: prune
-    name: CreateManagementGroupChildInfo
+    name: ManagementGroup
     group: management
-    because: Directly recursive
+    because: Contains directly recursive type.
 
   - action: prune
     group: datashare
@@ -112,6 +120,10 @@ typeFilters:
     group: resources
     name: Tags
     because: This type is defined recursively.
+
+  - action: prune
+    group: web
+    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
 
   - action: prune
     group: compute.extensions

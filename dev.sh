@@ -8,11 +8,15 @@ TOOL_DEST=$GIT_ROOT/hack/tools
 # This will be fast if everything is already installed
 $GIT_ROOT/.devcontainer/install-dependencies.sh --skip-installed
 
-# Put our tools onto the path
-export PATH="$TOOL_DEST:$TOOL_DEST/kubebuilder/bin:$PATH"
+# Setup envtest binaries and define KUBEBUILDER_ASSETS
+# NB: if you change this, .devcontainer/Dockerfile also likely needs updating
+if ! ENVTEST=$("$TOOL_DEST/setup-envtest" use --print env 1.23.5) ; then
+    echo "Failed to setup envtest"
+    exit 1
+fi
+$ENVTEST
 
-# For local dev, make sure we use the local version over a global install
-export KUBEBUILDER_ASSETS=$TOOL_DEST/kubebuilder/bin
+export PATH="$KUBEBUILDER_ASSETS:$TOOL_DEST:$PATH"
 
 echo "Entering $SHELL with expanded PATH (use 'exit' to quit)."
 echo "Try running 'task -l' to see possible commands."

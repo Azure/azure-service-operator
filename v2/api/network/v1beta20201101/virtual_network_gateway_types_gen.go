@@ -68,7 +68,7 @@ func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
 	return gateway.AssignPropertiesToVirtualNetworkGateway(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualNetworkGateway{}
 
@@ -103,9 +103,9 @@ func (gateway VirtualNetworkGateway) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (gateway *VirtualNetworkGateway) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (gateway *VirtualNetworkGateway) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualNetworkGateway{}
 

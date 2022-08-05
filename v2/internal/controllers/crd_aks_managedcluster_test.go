@@ -13,6 +13,7 @@ import (
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
@@ -21,6 +22,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
+
+	region := to.StringPtr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	//region := tc.AzureRegion
 
 	adminUsername := "adminUser"
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
@@ -33,7 +37,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: aks.ManagedCluster_Spec{
-			Location:  tc.AzureRegion,
+			Location:  region,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
@@ -82,11 +86,18 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_Tier_Paid_STATUS))
 
 	// Run sub tests
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "AKS KubeConfig secret CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_Kubeconfig_Secrets(tc, cluster)
+			},
+		})
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_AgentPool_CRUD(tc, cluster)
 			},
 		},
 	)
@@ -136,4 +147,18 @@ func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluste
 	}
 	tc.PatchResourceAndWait(old, agentPool)
 	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
+}
+
+func AKS_ManagedCluster_Kubeconfig_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+	old := cluster.DeepCopy()
+	secret := "kubeconfig"
+	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
+		Secrets: &aks.ManagedClusterOperatorSecrets{
+			AdminCredentials: &genruntime.SecretDestination{Name: secret, Key: "admin"},
+			UserCredentials:  &genruntime.SecretDestination{Name: secret, Key: "user"},
+		},
+	}
+
+	tc.PatchResourceAndWait(old, cluster)
+	tc.ExpectSecretHasKeys(secret, "admin", "user")
 }

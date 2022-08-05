@@ -60,7 +60,6 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	}
 	tc.T.Logf("Creating SQL account and database %q", dbName)
 	tc.CreateResourcesAndWait(&acct, &db)
-	defer tc.DeleteResourcesAndWait(&acct, &db)
 
 	tc.T.Logf("SQL account and database successfully created")
 	tc.RunParallelSubtests(

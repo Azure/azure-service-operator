@@ -60,7 +60,11 @@ func (ext *RedisExtension) RetrieveSecrets(
 		subscription := armClient.SubscriptionID()
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		redisClient := armredis.NewClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var redisClient *armredis.Client
+		redisClient, err = armredis.NewClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to create new new RedisClient")
+		}
 
 		var resp armredis.ClientListKeysResponse
 		resp, err = redisClient.ListKeys(ctx, id.ResourceGroupName, obj.AzureName(), nil)

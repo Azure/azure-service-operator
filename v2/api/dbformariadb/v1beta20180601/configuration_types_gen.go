@@ -68,7 +68,7 @@ func (configuration *Configuration) ConvertTo(hub conversion.Hub) error {
 	return configuration.AssignPropertiesToConfiguration(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-configuration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=configurations,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.configurations.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-configuration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=configurations,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.configurations.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Configuration{}
 
@@ -103,9 +103,9 @@ func (configuration Configuration) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (configuration *Configuration) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (configuration *Configuration) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-configuration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=configurations,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.configurations.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-configuration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=configurations,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.configurations.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Configuration{}
 

@@ -68,7 +68,7 @@ func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
 	return server.AssignPropertiesToFlexibleServer(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1beta20210601-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.flexibleservers.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1beta20210601-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.flexibleservers.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServer{}
 
@@ -103,9 +103,9 @@ func (server FlexibleServer) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (server *FlexibleServer) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (server *FlexibleServer) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbforpostgresql-azure-com-v1beta20210601-flexibleserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.flexibleservers.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbforpostgresql-azure-com-v1beta20210601-flexibleserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.flexibleservers.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServer{}
 

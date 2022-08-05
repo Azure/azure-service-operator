@@ -80,7 +80,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) ConvertTo(hub conversion.Hu
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualNetworksVirtualNetworkPeering{}
 
@@ -115,9 +115,9 @@ func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (peering *VirtualNetworksVirtualNetworkPeering) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (peering *VirtualNetworksVirtualNetworkPeering) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -169,7 +169,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualNetworksVirtualNetworkPeering{}
 

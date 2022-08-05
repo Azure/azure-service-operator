@@ -68,7 +68,7 @@ func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 	return registry.AssignPropertiesToRegistry(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1beta20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1beta20210901,name=default.v1beta20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1beta20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1beta20210901,name=default.v1beta20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Registry{}
 
@@ -103,9 +103,9 @@ func (registry Registry) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (registry *Registry) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (registry *Registry) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1beta20210901-registry,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1beta20210901,name=validate.v1beta20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1beta20210901-registry,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1beta20210901,name=validate.v1beta20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Registry{}
 

@@ -11,18 +11,21 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
-
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
+
+const CreatePollerID = "GenericClient.CreateOrUpdateByID"
+const DeletePollerID = "GenericClient.DeleteByID"
 
 // NOTE: All of these methods (and types) were adapted from
 // https://github.com/Azure/azure-sdk-for-go/blob/sdk/resources/armresources/v0.3.0/sdk/resources/armresources/zz_generated_resources_client.go
@@ -40,12 +43,13 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
+func NewGenericClient(endpoint string, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
 	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
+func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
@@ -63,21 +67,19 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		opts.Transport = httpClient
 	}
 
-	pipeline := armruntime.NewPipeline(
-		"generic",
-		version.BuildVersion,
-		creds,
-		runtime.PipelineOptions{},
-		opts)
+	pipeline, err := armruntime.NewPipeline("generic", version.BuildVersion, creds, runtime.PipelineOptions{}, opts)
+	if err != nil {
+		return nil, err
+	}
 
 	return &GenericClient{
-		endpoint:       string(endpoint),
+		endpoint:       endpoint,
 		pl:             pipeline,
 		creds:          creds,
 		subscriptionID: subscriptionID,
 		opts:           opts,
 		metrics:        metrics,
-	}
+	}, nil
 }
 
 // SubscriptionID returns the subscription the client is configured for
@@ -111,9 +113,10 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 	}
 	result := PollerResponse{
 		RawResponse: resp,
-		ID:          "GenericClient.CreateOrUpdateByID",
+		ID:          CreatePollerID,
 	}
-	pt, err := armruntime.NewPoller("GenericClient.CreateOrUpdateByID", "", resp, client.pl)
+
+	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -140,16 +143,11 @@ func (client *GenericClient) createOrUpdateByID(
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
 
-	statusCode := 0
-	if resp != nil {
-		statusCode = resp.StatusCode
-	}
-	client.metrics.RecordAzureRequestsTotal(resourceType, statusCode, metrics.HttpPut)
-
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
+	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
 		return nil, client.createOrUpdateByIDHandleError(resp)
@@ -237,6 +235,27 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
+func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse, error) {
+	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
+	if err != nil {
+		return nil, err
+	}
+
+	result := PollerResponse{
+		RawResponse: resp,
+		ID:          DeletePollerID,
+	}
+	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
+	if err != nil {
+		return nil, err
+	}
+	result.Poller = pt
+	return &result, nil
+}
+
+// TODO: Delete this in favor of the async-aware one above
+// DeleteByID - Deletes a resource by ID.
+// If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) DeleteByID(ctx context.Context, resourceID string, apiVersion string) (time.Duration, error) {
 	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	retryAfter := GetRetryAfter(resp)
@@ -262,12 +281,12 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
 		return nil, err
 	}
+	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
 		return nil, runtime.NewResponseError(resp)

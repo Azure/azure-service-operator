@@ -17,6 +17,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
@@ -26,11 +27,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -47,6 +50,51 @@ func GetKnownStorageTypes(
 	options Options) ([]*registration.StorageType, error) {
 
 	resourceResolver := resolver.NewResolver(kubeClient)
+	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armClientFactory, kubeClient, resourceResolver, positiveConditions, options)
+	if err != nil {
+		return nil, err
+	}
+
+	knownStorageTypes = append(
+		knownStorageTypes,
+		&registration.StorageType{
+			Obj: &mysql.User{},
+			Reconciler: mysqlreconciler.NewMySQLUserReconciler(
+				kubeClient,
+				resourceResolver,
+				positiveConditions,
+				options.Config),
+			Indexes: []registration.Index{
+				{
+					Key:  ".spec.localUser.password",
+					Func: indexMySQLUserPassword,
+				},
+			},
+			Watches: []registration.Watch{
+				{
+					Src:              &source.Kind{Type: &corev1.Secret{}},
+					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysql.UserList{}),
+				},
+			},
+		})
+
+	for _, t := range knownStorageTypes {
+		err := augmentWithControllerName(t)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return knownStorageTypes, nil
+}
+
+func getGeneratedStorageTypes(
+	mgr ctrl.Manager,
+	armClientFactory arm.ARMClientFactory,
+	kubeClient kubeclient.Client,
+	resourceResolver *resolver.Resolver,
+	positiveConditions *conditions.PositiveConditionBuilder,
+	options Options) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
 	knownStorageTypes = append(
@@ -92,7 +140,7 @@ func GetKnownStorageTypes(
 		}
 		extension := extensions[gvk]
 
-		err = augmentWithARMReconciler(
+		augmentWithARMReconciler(
 			armClientFactory,
 			kubeClient,
 			resourceResolver,
@@ -100,16 +148,6 @@ func GetKnownStorageTypes(
 			options,
 			extension,
 			t)
-		if err != nil {
-			return nil, errors.Wrap(err, "couldn't create reconciler")
-		}
-	}
-
-	for _, t := range knownStorageTypes {
-		err = augmentWithControllerName(t)
-		if err != nil {
-			return nil, err
-		}
 	}
 
 	return knownStorageTypes, nil
@@ -122,7 +160,7 @@ func augmentWithARMReconciler(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options Options,
 	extension genruntime.ResourceExtension,
-	t *registration.StorageType) error {
+	t *registration.StorageType) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
 		armClientFactory,
 		kubeClient,
@@ -130,8 +168,6 @@ func augmentWithARMReconciler(
 		positiveConditions,
 		options.Config,
 		extension)
-
-	return nil
 }
 
 func augmentWithControllerName(t *registration.StorageType) error {
@@ -171,7 +207,8 @@ func GetKnownTypes() []client.Object {
 	knownTypes = append(
 		knownTypes,
 		&resourcesalpha.ResourceGroup{},
-		&resourcesbeta.ResourceGroup{})
+		&resourcesbeta.ResourceGroup{},
+		&mysql.User{})
 
 	return knownTypes
 }
@@ -180,6 +217,7 @@ func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
 	_ = resourcesalpha.AddToScheme(scheme)
 	_ = resourcesbeta.AddToScheme(scheme)
+	_ = mysql.AddToScheme(scheme)
 
 	return scheme
 }
@@ -245,7 +283,7 @@ func watchSecrets(c client.Client, log logr.Logger, keys []string, objList clien
 				continue
 			}
 
-			err := c.List(ctx, matchingResources, client.MatchingFields{key: o.GetName()})
+			err := c.List(ctx, matchingResources, client.MatchingFields{key: o.GetName()}, client.InNamespace(o.GetNamespace()))
 			if err != nil {
 				// According to https://github.com/kubernetes/kubernetes/issues/51046, APIServer itself
 				// doesn't actually support this. In our envtest tests, since we use a real client that

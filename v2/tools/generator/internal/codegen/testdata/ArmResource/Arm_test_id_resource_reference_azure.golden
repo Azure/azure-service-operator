@@ -64,7 +64,7 @@ func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
 	return resource.AssignPropertiesToFakeResource(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FakeResource{}
 
@@ -99,9 +99,9 @@ func (resource FakeResource) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (resource *FakeResource) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (resource *FakeResource) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -124,7 +124,7 @@ func (resource *FakeResource) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FakeResource{}
 
@@ -301,8 +301,10 @@ const APIVersion_Value = APIVersion("2020-01-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourcePropertiesARM struct {
-	Id       *string `json:"id,omitempty"`
-	SubnetId *string `json:"subnetId,omitempty"`
+	Id       *string           `json:"id,omitempty"`
+	NsgIds   []string          `json:"nsgIds,omitempty"`
+	NsgMap   map[string]string `json:"nsgMap,omitempty"`
+	SubnetId *string           `json:"subnetId,omitempty"`
 }
 
 type FakeResource_Spec struct {
@@ -559,6 +561,14 @@ const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
+	// NsgMapReferences: A map of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgMapReferences map[string]genruntime.ResourceReference `armReference:"NsgMap" json:"nsgMapReferences,omitempty"`
+
+	// NsgReferences: A collection of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgReferences []genruntime.ResourceReference `armReference:"NsgIds" json:"nsgReferences,omitempty"`
+
 	// Reference: A string of the form
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -587,6 +597,27 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 		result.Id = &reference
 	}
 
+	// Set property ‘NsgIds’:
+	for _, item := range properties.NsgReferences {
+		itemARMID, err := resolved.ResolvedReferences.ARMIDOrErr(item)
+		if err != nil {
+			return nil, err
+		}
+		result.NsgIds = append(result.NsgIds, itemARMID)
+	}
+
+	// Set property ‘NsgMap’:
+	if properties.NsgMapReferences != nil {
+		result.NsgMap = make(map[string]string, len(properties.NsgMapReferences))
+		for key, value := range properties.NsgMapReferences {
+			valueARMID, err := resolved.ResolvedReferences.ARMIDOrErr(value)
+			if err != nil {
+				return nil, err
+			}
+			result.NsgMap[key] = valueARMID
+		}
+	}
+
 	// Set property ‘SubnetId’:
 	if properties.SubnetReference != nil {
 		subnetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*properties.SubnetReference)
@@ -611,6 +642,10 @@ func (properties *FakeResourceProperties) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourcePropertiesARM, got %T", armInput)
 	}
 
+	// no assignment for property ‘NsgMapReferences’
+
+	// no assignment for property ‘NsgReferences’
+
 	// no assignment for property ‘Reference’
 
 	// no assignment for property ‘SubnetReference’
@@ -621,6 +656,32 @@ func (properties *FakeResourceProperties) PopulateFromARM(owner genruntime.Arbit
 
 // AssignPropertiesFromFakeResourceProperties populates our FakeResourceProperties from the provided source FakeResourceProperties
 func (properties *FakeResourceProperties) AssignPropertiesFromFakeResourceProperties(source *v20200101s.FakeResourceProperties) error {
+
+	// NsgMapReferences
+	if source.NsgMapReferences != nil {
+		nsgMapReferenceMap := make(map[string]genruntime.ResourceReference, len(source.NsgMapReferences))
+		for nsgMapReferenceKey, nsgMapReferenceValue := range source.NsgMapReferences {
+			// Shadow the loop variable to avoid aliasing
+			nsgMapReferenceValue := nsgMapReferenceValue
+			nsgMapReferenceMap[nsgMapReferenceKey] = nsgMapReferenceValue.Copy()
+		}
+		properties.NsgMapReferences = nsgMapReferenceMap
+	} else {
+		properties.NsgMapReferences = nil
+	}
+
+	// NsgReferences
+	if source.NsgReferences != nil {
+		nsgReferenceList := make([]genruntime.ResourceReference, len(source.NsgReferences))
+		for nsgReferenceIndex, nsgReferenceItem := range source.NsgReferences {
+			// Shadow the loop variable to avoid aliasing
+			nsgReferenceItem := nsgReferenceItem
+			nsgReferenceList[nsgReferenceIndex] = nsgReferenceItem.Copy()
+		}
+		properties.NsgReferences = nsgReferenceList
+	} else {
+		properties.NsgReferences = nil
+	}
 
 	// Reference
 	if source.Reference != nil {
@@ -646,6 +707,32 @@ func (properties *FakeResourceProperties) AssignPropertiesFromFakeResourceProper
 func (properties *FakeResourceProperties) AssignPropertiesToFakeResourceProperties(destination *v20200101s.FakeResourceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// NsgMapReferences
+	if properties.NsgMapReferences != nil {
+		nsgMapReferenceMap := make(map[string]genruntime.ResourceReference, len(properties.NsgMapReferences))
+		for nsgMapReferenceKey, nsgMapReferenceValue := range properties.NsgMapReferences {
+			// Shadow the loop variable to avoid aliasing
+			nsgMapReferenceValue := nsgMapReferenceValue
+			nsgMapReferenceMap[nsgMapReferenceKey] = nsgMapReferenceValue.Copy()
+		}
+		destination.NsgMapReferences = nsgMapReferenceMap
+	} else {
+		destination.NsgMapReferences = nil
+	}
+
+	// NsgReferences
+	if properties.NsgReferences != nil {
+		nsgReferenceList := make([]genruntime.ResourceReference, len(properties.NsgReferences))
+		for nsgReferenceIndex, nsgReferenceItem := range properties.NsgReferences {
+			// Shadow the loop variable to avoid aliasing
+			nsgReferenceItem := nsgReferenceItem
+			nsgReferenceList[nsgReferenceIndex] = nsgReferenceItem.Copy()
+		}
+		destination.NsgReferences = nsgReferenceList
+	} else {
+		destination.NsgReferences = nil
+	}
 
 	// Reference
 	if properties.Reference != nil {

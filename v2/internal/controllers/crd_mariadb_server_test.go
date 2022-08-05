@@ -65,7 +65,6 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	tc.T.Logf("Creating MariaDB Server %q", serverName)
 	tc.CreateResourcesAndWait(&server)
-	defer tc.DeleteResourcesAndWait(&server)
 
 	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
@@ -95,7 +94,6 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	tc.T.Logf("Creating MariaDB Database %q", database.Spec.AzureName)
 	tc.CreateResourcesAndWait(&database)
-	defer tc.DeleteResourcesAndWait(&database)
 }
 
 func createPasswordSecret(

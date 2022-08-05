@@ -15,7 +15,11 @@ import (
 
 func TestErroredTypeProperties(t *testing.T) {
 	t.Parallel()
-	g := gopter.NewProperties(nil)
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+
+	g := gopter.NewProperties(parameters)
 
 	g.Property("wrapping an ErroredType with another merges its errors and warnings",
 		prop.ForAll(

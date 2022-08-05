@@ -25,6 +25,9 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
+	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
+	location := "eastus"
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminPasswordKey := "adminPassword"
@@ -47,7 +50,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
-			Location: tc.AzureRegion,
+			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
@@ -90,20 +93,20 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_Database_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_Database_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers firewall CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers configuration CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_Configuration_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_Configuration_CRUD(tc, flexibleServer)
 			},
 		},
 	)

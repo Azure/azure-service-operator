@@ -62,7 +62,7 @@ func (a *A) ConvertTo(hub conversion.Hub) error {
 	return a.AssignPropertiesToA(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.as.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &A{}
 
@@ -97,9 +97,9 @@ func (a A) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (a *A) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (a *A) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -122,7 +122,7 @@ func (a *A) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.as.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.as.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &A{}
 
@@ -336,7 +336,7 @@ func (b *B) ConvertTo(hub conversion.Hub) error {
 	return b.AssignPropertiesToB(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &B{}
 
@@ -371,9 +371,9 @@ func (b B) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (b *B) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (b *B) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -396,7 +396,7 @@ func (b *B) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.bs.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &B{}
 

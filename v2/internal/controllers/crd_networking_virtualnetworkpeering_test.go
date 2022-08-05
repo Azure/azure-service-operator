@@ -22,27 +22,8 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet1 := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.0.0.0/16"},
-			},
-		},
-	}
-
-	vnet2 := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.1.0.0/16"},
-			},
-		},
-	}
+	vnet1 := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/16"})
+	vnet2 := newVNet(tc, testcommon.AsOwner(rg), []string{"10.1.0.0/16"})
 
 	tc.CreateResourcesAndWait(vnet1, vnet2)
 
@@ -85,27 +66,8 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet1 := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.0.0.0/16"},
-			},
-		},
-	}
-
-	vnet2 := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.1.0.0/16"},
-			},
-		},
-	}
+	vnet1 := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/16"})
+	vnet2 := newVNet(tc, testcommon.AsOwner(rg), []string{"10.1.0.0/16"})
 
 	tc.CreateResourcesAndWait(vnet1, vnet2)
 

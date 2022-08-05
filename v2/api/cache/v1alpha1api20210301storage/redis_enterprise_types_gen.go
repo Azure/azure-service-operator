@@ -76,9 +76,9 @@ func (enterprise RedisEnterprise) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (enterprise *RedisEnterprise) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (enterprise *RedisEnterprise) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -713,6 +713,8 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 	// Family
 	if source.Family != nil {
 		propertyBag.Add("Family", *source.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name
@@ -783,6 +785,8 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20201201s.Sku_STA
 	// Family
 	if source.Family != nil {
 		propertyBag.Add("Family", *source.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name

@@ -289,10 +289,18 @@ tasks:
     deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+    - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "15m" .TIMEOUT}}'
+
+  # This target is intended for local use only
+  controller:test-integration-envtest-record:
+    desc: Run integration tests with envtest with a longer timeout suitable for recording the tests.
+    cmds:
+      - task: controller:test-integration-envtest
+        vars: {TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'}
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -540,7 +548,7 @@ tasks:
     cmds:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
-      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml"  # TODO: Bump this version?
+      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml"
     status:
       - "kubectl get namespace cert-manager"
 

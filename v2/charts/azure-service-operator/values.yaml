@@ -42,14 +42,15 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.0
-  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.1
+  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
 # 'metrics' define settings for the metrics from controller.
 # 'address' field defines the metrics binding address on which metrics
 metrics:
   enable: true
-  address: 127.0.0.1:8080
+  address: 0.0.0.0:{{ .Values.metrics.port }}
+  port: 8080
 
 # installCRDs determines if the CRDs subchart should be installed.
 installCRDs: true

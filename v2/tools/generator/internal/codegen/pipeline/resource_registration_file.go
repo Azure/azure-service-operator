@@ -73,11 +73,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	}
 
 	// getKnownStorageTypes() function
-	knownStorageTypes := createGetKnownStorageTypesFunc(
-		codeGenContext,
-		r.storageVersionResources,
-		r.indexFunctions,
-		r.secretPropertyKeys)
+	knownStorageTypes := r.createGetKnownStorageTypesFunc(codeGenContext)
 	decls = append(decls, knownStorageTypes)
 
 	// getKnownTypes() function
@@ -126,7 +122,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
-// generateImports generates the a PackageImportSet containing the imports required for the resources
+// generateImports generates the PackageImportSet containing the imports required for the resources
 // in the ResourceRegistrationFile.
 func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
@@ -194,47 +190,43 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 	}
 
 	resultIdent := dst.NewIdent("result")
-	resultVar := astbuilder.LocalVariableDeclaration(
-		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
-		},
-		"")
+	resultType := &dst.ArrayType{
+		Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
+	}
+	resultVar := astbuilder.LocalVariableDeclaration(resultIdent.String(), resultType, "")
 
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
+	batch := make([]dst.Expr, 0, 10)
+	var lastPkg astmodel.PackageReference
 	for _, typeName := range resources {
-		appendStmt := astbuilder.AppendSlice(
-			resultIdent,
-			astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		if len(batch) > 0 && typeName.PackageReference != lastPkg {
+			appendStmt := astbuilder.AppendItemsToSlice(resultIdent, batch...)
+			resourceAppendStatements = append(resourceAppendStatements, appendStmt)
+			batch = batch[:0]
+		}
+
+		batch = append(batch, astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		lastPkg = typeName.PackageReference
+	}
+
+	if len(batch) > 0 {
+		appendStmt := astbuilder.AppendItemsToSlice(resultIdent, batch...)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
-	returnStmt := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			resultIdent,
-		},
-	}
+	returnStmt := astbuilder.Returns(resultIdent)
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   funcName,
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: &dst.ArrayType{
-					Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
-				},
-			},
-		},
+		Name: funcName,
+		Body: body,
 	}
+
+	f.AddReturn(resultType)
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
@@ -262,12 +254,10 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 //			...
 //			return result
 //		}
-func createGetKnownStorageTypesFunc(
+func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	resources []astmodel.TypeName,
-	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
-	secretPropertyKeys map[astmodel.TypeName][]string,
 ) dst.Decl {
+
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 
@@ -277,10 +267,10 @@ func createGetKnownStorageTypesFunc(
 		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
 		"")
 
-	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
+	sort.Slice(r.storageVersionResources, orderByImportedTypeName(codeGenerationContext, r.storageVersionResources))
 
-	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
-	for _, typeName := range resources {
+	resourceAppendStatements := make([]dst.Stmt, 0, len(r.storageVersionResources))
+	for _, typeName := range r.storageVersionResources {
 		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext))
 		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
 
@@ -291,17 +281,19 @@ func createGetKnownStorageTypesFunc(
 		//			Func: <func>,
 		//		}
 		//	}
-		if indexFuncs, ok := indexFunctions[typeName]; ok {
+		if indexFuncs, ok := r.indexFunctions[typeName]; ok {
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
+			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
+			if len(indexFuncs) > 0 {
+				for _, indexFunc := range indexFuncs {
+					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
+					newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
+					newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
+					sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
+				}
 
-			for _, indexFunc := range indexFuncs {
-				newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
-				newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
-				newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
-				sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
+				newStorageTypeBuilder.AddField("Indexes", sliceBuilder.Build())
 			}
-			// astbuilder.SliceLiteral(astmodel.IndexRegistrationType.AsType(codeGenerationContext), indexRegistrations...)
-			newStorageTypeBuilder.AddField("Indexes", sliceBuilder.Build())
 		}
 
 		// Register additional watches (if needed):
@@ -311,8 +303,10 @@ func createGetKnownStorageTypesFunc(
 		//			MakeEventHandler: <func>,
 		//		}
 		//	}
-		if secretKeys, ok := secretPropertyKeys[typeName]; ok {
+		if secretKeys, ok := r.secretPropertyKeys[typeName]; ok {
 			newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
+			sort.Strings(secretKeys)
+
 			// Not using astbuilder here because we want this to go onto a single line
 			source := &dst.CompositeLit{
 				Type: astmodel.ControllerRuntimeSourceKindType.AsType(codeGenerationContext),
@@ -343,15 +337,14 @@ func createGetKnownStorageTypesFunc(
 				astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
 			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
-			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 			if len(secretKeys) > 0 {
+				sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 				sliceBuilder.AddElement(newWatchBuilder.Build())
+				newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 			}
-
-			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}
 
-		appendStmt := astbuilder.AppendSlice(
+		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
 			astbuilder.AddrOf(newStorageTypeBuilder.Build()))
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
@@ -363,22 +356,17 @@ func createGetKnownStorageTypesFunc(
 		},
 	}
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   funcName,
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: astmodel.NewArrayType(
-					astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
-			},
-		},
+		Name: funcName,
+		Body: body,
 	}
+
+	f.AddReturn(
+		astmodel.NewArrayType(
+			astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).
+			AsType(codeGenerationContext))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
@@ -397,7 +385,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
-		appendStmt := astbuilder.AppendSlice(
+		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
 			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
 		)
@@ -406,10 +394,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 
 	returnStmt := astbuilder.Returns(resultIdent)
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
 		Name: funcName,
@@ -482,21 +467,14 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 		},
 	}
 
-	var body []dst.Stmt
-	body = append(body, initSchemeVar)
-	body = append(body, clientGoSchemeAssign)
-	body = append(body, groupVersionAssignments...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(initSchemeVar, clientGoSchemeAssign, groupVersionAssignments, returnStmt)
 
 	f := &astbuilder.FuncDetails{
 		Name: "createScheme",
 		Body: body,
 	}
 
-	f.AddReturn(
-		astbuilder.Dereference(
-			astbuilder.Selector(dst.NewIdent(runtime), "Scheme")))
-
+	f.AddReturn(astbuilder.Dereference(astbuilder.Selector(dst.NewIdent(runtime), "Scheme")))
 	f.AddComments("creates a Scheme containing the clientgo types and all of the custom types returned by getKnownTypes")
 
 	return f.DefineFunc(), nil

@@ -53,7 +53,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 
 	// Delete VM and resources.
 	tc.LogSection("Clean up")
-	tc.DeleteResourcesAndWait(snapshot, rg)
+	tc.DeleteResourceAndWait(snapshot)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersion_Value))

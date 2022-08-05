@@ -20,7 +20,8 @@ import (
 func Test_Webtest_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Webtest_SpecARM via JSON returns original",
@@ -96,7 +97,8 @@ func AddRelatedPropertyGeneratorsForWebtest_SpecARM(gens map[string]gopter.Gen) 
 func Test_WebTestPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestPropertiesARM via JSON returns original",
@@ -184,7 +186,8 @@ func AddRelatedPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gopter.
 func Test_WebTestGeolocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestGeolocationARM via JSON returns original",
@@ -244,7 +247,8 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocationARM(gens map[string]go
 func Test_WebTestProperties_ConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_ConfigurationARM via JSON returns original",
@@ -304,7 +308,8 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ConfigurationARM(gens 
 func Test_WebTestProperties_RequestARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_RequestARM via JSON returns original",
@@ -382,7 +387,8 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_RequestARM(gens map[string
 func Test_WebTestProperties_ValidationRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_ValidationRulesARM via JSON returns original",
@@ -459,7 +465,8 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRulesARM(gens ma
 func Test_HeaderFieldARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HeaderFieldARM via JSON returns original",
@@ -519,7 +526,8 @@ func AddIndependentPropertyGeneratorsForHeaderFieldARM(gens map[string]gopter.Ge
 func Test_WebTestProperties_ValidationRules_ContentValidationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_ValidationRules_ContentValidationARM via JSON returns original",

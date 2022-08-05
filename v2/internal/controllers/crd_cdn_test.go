@@ -43,8 +43,8 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 
 	tc.RunParallelSubtests(testcommon.Subtest{
 		Name: "CDN Endpoint CRUD",
-		Test: func(testContext *testcommon.KubePerTestContext) {
-			Endpoint_CRUD(testContext, profile)
+		Test: func(tc *testcommon.KubePerTestContext) {
+			Endpoint_CRUD(tc, profile)
 		},
 	})
 

@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -22,16 +24,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.0.0.0/8"},
-			},
-		},
-	}
+	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
 
 	tc.CreateResourceAndWait(vnet)
 
@@ -41,8 +34,8 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subnet CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Subnet_CRUD(testContext, vnet)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Subnet_CRUD(tc, vnet)
 			},
 		},
 	)
@@ -88,16 +81,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetwork_Spec{
-			Owner:    testcommon.AsOwner(rg),
-			Location: tc.AzureRegion,
-			AddressSpace: &network.AddressSpace{
-				AddressPrefixes: []string{"10.0.0.0/16"},
-			},
-		},
-	}
+	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/16"})
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
@@ -124,4 +108,18 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
+}
+
+func newVNet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, addressPrefixes []string) *network.VirtualNetwork {
+	vnet := &network.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network.VirtualNetwork_Spec{
+			Owner:    owner,
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
+				AddressPrefixes: addressPrefixes,
+			},
+		},
+	}
+	return vnet
 }

@@ -16,6 +16,7 @@ import (
 // +kubebuilder:storageversion
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-06-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -26,16 +27,17 @@ type Redis struct {
 // +kubebuilder:object:root=true
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-06-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"2020--0-6--01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020--0-6--01")
 
 type Redis_STATUS struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
@@ -48,28 +50,55 @@ type Redis_Spec struct {
 }
 
 type RedisObservation struct {
+	// AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
+	AccessKeys *RedisAccessKeys_STATUS `json:"accessKeys,omitempty"`
+
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
-	// Id: The ARM Id for this resource.
+	// HostName: Redis host name.
+	HostName *string `json:"hostName,omitempty"`
+
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+
+	// Instances: List of the Redis instances associated with the cache
+	Instances []RedisInstanceDetails_STATUS `json:"instances,omitempty"`
+
+	// LinkedServers: List of the linked servers associated with the cache
+	LinkedServers []RedisLinkedServer_STATUS `json:"linkedServers,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+
+	// Name: Resource name.
+	Name *string `json:"name,omitempty"`
+
+	// Port: Redis non-SSL port.
+	Port *int `json:"port,omitempty"`
+
+	// PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+
+	// ProvisioningState: Redis instance provisioning status.
+	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	// etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
+
+	// RedisVersion: Redis version.
+	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ReplicasPerMaster: The number of replicas to be created per master.
 	ReplicasPerMaster *int `json:"replicasPerMaster,omitempty"`
@@ -79,6 +108,9 @@ type RedisObservation struct {
 
 	// Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// SslPort: Redis SSL port.
+	SslPort *int `json:"sslPort,omitempty"`
 
 	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
 	// Network; auto assigned by default.
@@ -93,6 +125,9 @@ type RedisObservation struct {
 
 	// TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
 
 	// Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
@@ -156,6 +191,36 @@ type RedisParameters struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+type PrivateEndpointConnection_STATUS struct {
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
+	// PrivateEndpoint: The resource of private end point.
+	PrivateEndpoint *PrivateEndpoint_STATUS `json:"privateEndpoint,omitempty"`
+
+	// PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
+	// consumer and provider.
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
+
+	// ProvisioningState: The provisioning state of the private endpoint connection resource.
+	ProvisioningState *PrivateEndpointConnectionProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
+}
+
+type RedisAccessKeys_STATUS struct {
+	// PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
+	PrimaryKey *string `json:"primaryKey,omitempty"`
+
+	// SecondaryKey: The current secondary key that clients can use to authenticate with Redis cache.
+	SecondaryKey *string `json:"secondaryKey,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type RedisCreateProperties_MinimumTlsVersion string
 
@@ -163,14 +228,6 @@ const (
 	RedisCreateProperties_MinimumTlsVersion_10 = RedisCreateProperties_MinimumTlsVersion("1.0")
 	RedisCreateProperties_MinimumTlsVersion_11 = RedisCreateProperties_MinimumTlsVersion("1.1")
 	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
-)
-
-type RedisCreateProperties_MinimumTlsVersion_STATUS string
-
-const (
-	RedisCreateProperties_MinimumTlsVersion_10_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.0")
-	RedisCreateProperties_MinimumTlsVersion_11_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.1")
-	RedisCreateProperties_MinimumTlsVersion_12_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
@@ -181,13 +238,6 @@ const (
 	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
-type RedisCreateProperties_PublicNetworkAccess_STATUS string
-
-const (
-	RedisCreateProperties_PublicNetworkAccess_Disabled_STATUS = RedisCreateProperties_PublicNetworkAccess_STATUS("Disabled")
-	RedisCreateProperties_PublicNetworkAccess_Enabled_STATUS  = RedisCreateProperties_PublicNetworkAccess_STATUS("Enabled")
-)
-
 type RedisCreateProperties_RedisConfiguration struct {
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
 
@@ -196,9 +246,6 @@ type RedisCreateProperties_RedisConfiguration struct {
 
 	// AofStorageConnectionString1: Second storage account connection string
 	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
-
-	// Maxclients: The max clients config
-	Maxclients *string `json:"maxclients,omitempty"`
 
 	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
 	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
@@ -225,7 +272,61 @@ type RedisCreateProperties_RedisConfiguration struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
-type RedisCreateProperties_RedisConfiguration_STATUS struct {
+type RedisInstanceDetails_STATUS struct {
+	// IsMaster: Specifies whether the instance is a master node.
+	IsMaster *bool `json:"isMaster,omitempty"`
+
+	// NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.
+	NonSslPort *int `json:"nonSslPort,omitempty"`
+
+	// ShardId: If clustering is enabled, the Shard ID of Redis Instance
+	ShardId *int `json:"shardId,omitempty"`
+
+	// SslPort: Redis instance SSL port.
+	SslPort *int `json:"sslPort,omitempty"`
+
+	// Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
+	Zone *string `json:"zone,omitempty"`
+}
+
+type RedisLinkedServer_STATUS struct {
+	// Id: Linked server Id.
+	Id *string `json:"id,omitempty"`
+}
+
+type RedisProperties_MinimumTlsVersion_STATUS string
+
+const (
+	RedisProperties_MinimumTlsVersion_10_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.0")
+	RedisProperties_MinimumTlsVersion_11_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.1")
+	RedisProperties_MinimumTlsVersion_12_STATUS = RedisProperties_MinimumTlsVersion_STATUS("1.2")
+)
+
+type RedisProperties_ProvisioningState_STATUS string
+
+const (
+	RedisProperties_ProvisioningState_Creating_STATUS               = RedisProperties_ProvisioningState_STATUS("Creating")
+	RedisProperties_ProvisioningState_Deleting_STATUS               = RedisProperties_ProvisioningState_STATUS("Deleting")
+	RedisProperties_ProvisioningState_Disabled_STATUS               = RedisProperties_ProvisioningState_STATUS("Disabled")
+	RedisProperties_ProvisioningState_Failed_STATUS                 = RedisProperties_ProvisioningState_STATUS("Failed")
+	RedisProperties_ProvisioningState_Linking_STATUS                = RedisProperties_ProvisioningState_STATUS("Linking")
+	RedisProperties_ProvisioningState_Provisioning_STATUS           = RedisProperties_ProvisioningState_STATUS("Provisioning")
+	RedisProperties_ProvisioningState_RecoveringScaleFailure_STATUS = RedisProperties_ProvisioningState_STATUS("RecoveringScaleFailure")
+	RedisProperties_ProvisioningState_Scaling_STATUS                = RedisProperties_ProvisioningState_STATUS("Scaling")
+	RedisProperties_ProvisioningState_Succeeded_STATUS              = RedisProperties_ProvisioningState_STATUS("Succeeded")
+	RedisProperties_ProvisioningState_Unlinking_STATUS              = RedisProperties_ProvisioningState_STATUS("Unlinking")
+	RedisProperties_ProvisioningState_Unprovisioning_STATUS         = RedisProperties_ProvisioningState_STATUS("Unprovisioning")
+	RedisProperties_ProvisioningState_Updating_STATUS               = RedisProperties_ProvisioningState_STATUS("Updating")
+)
+
+type RedisProperties_PublicNetworkAccess_STATUS string
+
+const (
+	RedisProperties_PublicNetworkAccess_Disabled_STATUS = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
+	RedisProperties_PublicNetworkAccess_Enabled_STATUS  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
+)
+
+type RedisProperties_RedisConfiguration_STATUS struct {
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
 
 	// AofStorageConnectionString0: First storage account connection string
@@ -289,6 +390,31 @@ type Sku_STATUS struct {
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
+type PrivateEndpointConnectionProvisioningState_STATUS string
+
+const (
+	PrivateEndpointConnectionProvisioningState_Creating_STATUS  = PrivateEndpointConnectionProvisioningState_STATUS("Creating")
+	PrivateEndpointConnectionProvisioningState_Deleting_STATUS  = PrivateEndpointConnectionProvisioningState_STATUS("Deleting")
+	PrivateEndpointConnectionProvisioningState_Failed_STATUS    = PrivateEndpointConnectionProvisioningState_STATUS("Failed")
+	PrivateEndpointConnectionProvisioningState_Succeeded_STATUS = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
+)
+
+type PrivateEndpoint_STATUS struct {
+	// Id: The ARM identifier for Private Endpoint
+	Id *string `json:"id,omitempty"`
+}
+
+type PrivateLinkServiceConnectionState_STATUS struct {
+	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
+	ActionsRequired *string `json:"actionsRequired,omitempty"`
+
+	// Description: The reason for approval/rejection of the connection.
+	Description *string `json:"description,omitempty"`
+
+	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"C","P"}
 type Sku_Family string
 
@@ -319,6 +445,14 @@ const (
 	Sku_Name_Basic_STATUS    = Sku_Name_STATUS("Basic")
 	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("Premium")
 	Sku_Name_Standard_STATUS = Sku_Name_STATUS("Standard")
+)
+
+type PrivateEndpointServiceConnectionStatus_STATUS string
+
+const (
+	PrivateEndpointServiceConnectionStatus_Approved_STATUS = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
+	PrivateEndpointServiceConnectionStatus_Pending_STATUS  = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
+	PrivateEndpointServiceConnectionStatus_Rejected_STATUS = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
 
 func init() {

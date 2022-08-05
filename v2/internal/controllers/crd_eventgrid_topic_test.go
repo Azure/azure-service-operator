@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -46,64 +47,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 		testcommon.Subtest{
 			Name: "CreateTopicSubscription",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				// First create a queue to use as destination
-
-				kind := storage.StorageAccount_Spec_Kind_StorageV2
-				sku := storage.SkuName_Standard_LRS
-				acctName := tc.NoSpaceNamer.GenerateName("stor")
-				tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-				acct := &storage.StorageAccount{
-					ObjectMeta: tc.MakeObjectMetaWithName(acctName),
-					Spec: storage.StorageAccount_Spec{
-						Owner:      testcommon.AsOwner(rg),
-						Location:   tc.AzureRegion,
-						Kind:       &kind,
-						AccessTier: &tier,
-						Sku:        &storage.Sku{Name: &sku},
-					},
-				}
-
-				tc.CreateResourceAndWait(acct)
-
-				queueService := &storage.StorageAccountsQueueService{
-					ObjectMeta: tc.MakeObjectMeta("qservice"),
-					Spec: storage.StorageAccountsQueueService_Spec{
-						Owner: testcommon.AsOwner(acct),
-					},
-				}
-
-				tc.CreateResourceAndWait(queueService)
-
-				queue := &storage.StorageAccountsQueueServicesQueue{
-					ObjectMeta: tc.MakeObjectMeta("queue"),
-					Spec: storage.StorageAccountsQueueServicesQueue_Spec{
-						Owner: testcommon.AsOwner(queueService),
-					},
-				}
-
-				tc.CreateResourceAndWait(queue)
-
-				/* TODO pending (evildiscriminator)
-				acctReference := tc.MakeReferenceFromResource(acct)
-				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
-				subscription := &eventgrid.EventSubscription{
-					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscription_Spec{
-						Owner: tc.AsExtensionOwner(topic),
-						Destination: &eventgrid.EventSubscriptionDestination{
-							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: &endpointType,
-								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: acctReference,
-									QueueName:         &queue.Name,
-								},
-							},
-						},
-					},
-				}
-
-				tc.CreateResourceAndWait(subscription)
-				*/
+				Topic_Subscription_CRUD(tc, rg, topic)
 			},
 		},
 	)
@@ -117,4 +61,63 @@ func Test_EventGrid_Topic(t *testing.T) {
 		string(eventgrid.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
+	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	sku := storage.SkuName_Standard_LRS
+	acctName := tc.NoSpaceNamer.GenerateName("stor")
+	tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
+		Spec: storage.StorageAccount_Spec{
+			Owner:      testcommon.AsOwner(rg),
+			Location:   tc.AzureRegion,
+			Kind:       &kind,
+			AccessTier: &tier,
+			Sku:        &storage.Sku{Name: &sku},
+		},
+	}
+
+	tc.CreateResourceAndWait(acct)
+
+	queueService := &storage.StorageAccountsQueueService{
+		ObjectMeta: tc.MakeObjectMeta("qservice"),
+		Spec: storage.StorageAccountsQueueService_Spec{
+			Owner: testcommon.AsOwner(acct),
+		},
+	}
+
+	tc.CreateResourceAndWait(queueService)
+
+	queue := &storage.StorageAccountsQueueServicesQueue{
+		ObjectMeta: tc.MakeObjectMeta("queue"),
+		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
+			Owner: testcommon.AsOwner(queueService),
+		},
+	}
+
+	tc.CreateResourceAndWait(queue)
+
+	/* TODO pending (evildiscriminator)
+	acctReference := tc.MakeReferenceFromResource(acct)
+	endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
+	subscription := &eventgrid.EventSubscription{
+		ObjectMeta: tc.MakeObjectMeta("sub"),
+		Spec: eventgrid.EventSubscription_Spec{
+			Owner: tc.AsExtensionOwner(topic),
+			Destination: &eventgrid.EventSubscriptionDestination{
+				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
+					EndpointType: &endpointType,
+					Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+						ResourceReference: acctReference,
+						QueueName:         &queue.Name,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(subscription)
+	*/
 }

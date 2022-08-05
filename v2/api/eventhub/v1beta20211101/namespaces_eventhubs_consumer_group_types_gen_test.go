@@ -22,6 +22,7 @@ func Test_NamespacesEventhubsConsumerGroup_WhenConvertedToHub_RoundTripsWithoutL
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip from NamespacesEventhubsConsumerGroup to hub returns original",
@@ -105,7 +106,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 func Test_NamespacesEventhubsConsumerGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsConsumerGroup via JSON returns original",
@@ -208,7 +210,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS(subject
 func Test_NamespacesEventhubsConsumergroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsConsumergroup_STATUS via JSON returns original",
@@ -330,7 +333,8 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_Spec(subject N
 func Test_NamespacesEventhubsConsumergroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubsConsumergroup_Spec via JSON returns original",

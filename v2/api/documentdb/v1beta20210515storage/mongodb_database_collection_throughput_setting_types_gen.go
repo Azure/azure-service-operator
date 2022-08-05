@@ -56,9 +56,9 @@ func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (setting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource

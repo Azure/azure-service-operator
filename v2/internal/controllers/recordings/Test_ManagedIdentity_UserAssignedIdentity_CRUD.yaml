@@ -13,8 +13,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:15 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo?api-version=2020-06-01
     method: PUT
   response:
@@ -45,8 +43,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:15 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo?api-version=2020-06-01
     method: GET
   response:
@@ -81,12 +77,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"d01798f0-49fa-42f5-bed0-31856f420088","clientId":"10141a82-c3a7-49c8-b1aa-b9f579cca83b"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"1edb86d9-5d75-49bb-b284-68c75444403c","clientId":"73fdd29c-b215-4d4f-a3af-44b457889870"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -108,17 +102,21 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
+    body: '{"location":"westus2","name":"asotest-mi-opfujl"}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
       Test-Request-Attempt:
-      - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:21 GMT
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
-    method: GET
+    method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"d01798f0-49fa-42f5-bed0-31856f420088","clientId":"10141a82-c3a7-49c8-b1aa-b9f579cca83b"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"1edb86d9-5d75-49bb-b284-68c75444403c","clientId":"73fdd29c-b215-4d4f-a3af-44b457889870"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -144,13 +142,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:21 GMT
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"d01798f0-49fa-42f5-bed0-31856f420088","clientId":"10141a82-c3a7-49c8-b1aa-b9f579cca83b"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"1edb86d9-5d75-49bb-b284-68c75444403c","clientId":"73fdd29c-b215-4d4f-a3af-44b457889870"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -180,13 +176,11 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:25 GMT
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{"foo":"bar"},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"d01798f0-49fa-42f5-bed0-31856f420088","clientId":"10141a82-c3a7-49c8-b1aa-b9f579cca83b"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{"foo":"bar"},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"1edb86d9-5d75-49bb-b284-68c75444403c","clientId":"73fdd29c-b215-4d4f-a3af-44b457889870"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -212,13 +206,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:26 GMT
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{"foo":"bar"},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"d01798f0-49fa-42f5-bed0-31856f420088","clientId":"10141a82-c3a7-49c8-b1aa-b9f579cca83b"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl","name":"asotest-mi-opfujl","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{"foo":"bar"},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"1edb86d9-5d75-49bb-b284-68c75444403c","clientId":"73fdd29c-b215-4d4f-a3af-44b457889870"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -245,8 +237,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:30 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: DELETE
   response:
@@ -274,9 +264,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "3"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:32 GMT
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: GET
   response:
@@ -311,8 +299,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:35 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zkrrbo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-opfujl?api-version=2018-11-30
     method: GET
   response:
@@ -347,8 +333,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:35 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo?api-version=2020-06-01
     method: DELETE
   response:
@@ -381,8 +365,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:50 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zkrrbo?api-version=2020-06-01
     method: GET
   response:

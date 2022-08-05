@@ -57,9 +57,9 @@ func (cluster ManagedCluster) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (cluster *ManagedCluster) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (cluster *ManagedCluster) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -232,6 +232,7 @@ type ManagedCluster_Spec struct {
 	Location                     *string                         `json:"location,omitempty"`
 	NetworkProfile               *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
+	OperatorSpec                 *ManagedClusterOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -505,6 +506,13 @@ type ManagedClusterIdentity_STATUS struct {
 	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1beta20210501.ManagedClusterOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ManagedClusterOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Secrets     *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProfile
 type ManagedClusterPodIdentityProfile struct {
 	AllowNetworkPluginKubenet      *bool                                `json:"allowNetworkPluginKubenet,omitempty"`
@@ -681,6 +689,13 @@ type ManagedClusterLoadBalancerProfile_STATUS struct {
 	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS `json:"outboundIPPrefixes,omitempty"`
 	OutboundIPs            *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        `json:"outboundIPs,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterOperatorSecrets
+type ManagedClusterOperatorSecrets struct {
+	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
+	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	UserCredentials  *genruntime.SecretDestination `json:"userCredentials,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity

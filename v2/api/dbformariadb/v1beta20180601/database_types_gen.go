@@ -68,7 +68,7 @@ func (database *Database) ConvertTo(hub conversion.Hub) error {
 	return database.AssignPropertiesToDatabase(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-database,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=databases,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.databases.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-database,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=databases,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.databases.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Database{}
 
@@ -103,9 +103,9 @@ func (database Database) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (database *Database) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (database *Database) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-database,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=databases,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.databases.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-database,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=databases,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.databases.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Database{}
 

@@ -80,7 +80,7 @@ func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1alpha1api20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1alpha1api20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Workspace{}
 
@@ -115,9 +115,9 @@ func (workspace Workspace) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (workspace *Workspace) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (workspace *Workspace) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -169,7 +169,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1alpha1api20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1alpha1api20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Workspace{}
 

@@ -69,7 +69,7 @@ func (component *Component) ConvertTo(hub conversion.Hub) error {
 	return component.AssignPropertiesToComponent(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1beta20200202-component,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1beta20200202,name=default.v1beta20200202.components.insights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-insights-azure-com-v1beta20200202-component,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1beta20200202,name=default.v1beta20200202.components.insights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Component{}
 
@@ -104,9 +104,9 @@ func (component Component) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (component *Component) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (component *Component) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -158,7 +158,7 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-insights-azure-com-v1beta20200202-component,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1beta20200202,name=validate.v1beta20200202.components.insights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-insights-azure-com-v1beta20200202-component,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=components,verbs=create;update,versions=v1beta20200202,name=validate.v1beta20200202.components.insights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Component{}
 

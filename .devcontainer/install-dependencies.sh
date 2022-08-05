@@ -85,9 +85,12 @@ if ! command -v go > /dev/null 2>&1; then
     exit 1
 fi
 
-GOVERREQUIRED="go1.18"
+GOVER=$(go version)
+write-info "Go version: ${GOVER[*]}"
+
+GOVERREQUIRED="go1.18.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
-if [ "$GOVERREQUIRED" != "$GOVERACTUAL" ]; then
+if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
 fi
@@ -140,10 +143,10 @@ go-install() {
     fi
 }
 
-go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.22.2 
-go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0 
-go-install kind sigs.k8s.io/kind@v0.11.1 
-go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.2 
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.24.3
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.9.2
+go-install kind sigs.k8s.io/kind@v0.14.0
+go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1
@@ -153,6 +156,9 @@ go-install htmltest github.com/wjdp/htmltest@v0.15.0
 # TODO: Replace this with the new release tag.
 go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
 
+# Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
+go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+
 # Install golangci-lint
 if [ "$DEVCONTAINER" != true ]; then 
     write-verbose "Checking for $TOOL_DEST/golangci-lint"
@@ -160,7 +166,7 @@ if [ "$DEVCONTAINER" != true ]; then
         write-info "Installing golangci-lint"
         # golangci-lint is provided by base image if in devcontainer
         # this command copied from there
-        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.45.2 2>&1
+        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.46.2 2>&1
     fi
 fi
 
@@ -171,22 +177,9 @@ if should-install "$TOOL_DEST/task"; then
     curl -sL "https://github.com/go-task/task/releases/download/v3.12.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
-# Install binaries for envtest
-os=$(go env GOOS)
-arch=$(go env GOARCH)
-K8S_VERSION=1.23.3
-write-verbose "Checking for envtest binaries in $KUBEBUILDER_DEST/bin/kubebuilder"
-if should-install "$KUBEBUILDER_DEST/bin/kubebuilder"; then 
-    write-info "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
-    curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
-    mkdir -p "$KUBEBUILDER_DEST"
-    tar -C "$KUBEBUILDER_DEST" --strip-components=1 -zvxf envtest-bins.tar.gz
-    rm envtest-bins.tar.gz
-fi
-
 # Install helm
 write-verbose "Checking for $TOOL_DEST/helm"
-if should-install "$TOOL_DEST/helm"; then 
+if should-install "$TOOL_DEST/helm"; then
     write-info "Installing helm…"
     curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
 fi
@@ -202,6 +195,8 @@ if should-install "$TOOL_DEST/yq"; then
 fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
+os=$(go env GOOS)
+arch=$(go env GOARCH)
 write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
@@ -214,7 +209,6 @@ fi
 
 if [ "$DEVCONTAINER" == true ]; then 
     write-info "Setting up k8s webhook certificates"
-
     mkdir -p /tmp/k8s-webhook-server/serving-certs
     openssl genrsa 2048 > tls.key
     openssl req -new -x509 -nodes -sha256 -days 3650 -key tls.key -subj '/' -out tls.crt

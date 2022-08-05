@@ -68,7 +68,7 @@ func (snapshot *Snapshot) ConvertTo(hub conversion.Hub) error {
 	return snapshot.AssignPropertiesToSnapshot(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1beta20200930-snapshot,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=snapshots,verbs=create;update,versions=v1beta20200930,name=default.v1beta20200930.snapshots.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1beta20200930-snapshot,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=snapshots,verbs=create;update,versions=v1beta20200930,name=default.v1beta20200930.snapshots.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Snapshot{}
 
@@ -103,9 +103,9 @@ func (snapshot Snapshot) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (snapshot *Snapshot) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (snapshot *Snapshot) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1beta20200930-snapshot,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=snapshots,verbs=create;update,versions=v1beta20200930,name=validate.v1beta20200930.snapshots.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-compute-azure-com-v1beta20200930-snapshot,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=snapshots,verbs=create;update,versions=v1beta20200930,name=validate.v1beta20200930.snapshots.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Snapshot{}
 

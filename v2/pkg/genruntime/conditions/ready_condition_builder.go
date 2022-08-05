@@ -6,14 +6,19 @@ Licensed under the MIT license.
 package conditions
 
 const (
+	// Precondition reasons
+	ReasonSecretNotFound    = "SecretNotFound"
+	ReasonReferenceNotFound = "ReferenceNotFound"
+	ReasonWaitingForOwner   = "WaitingForOwner"
+
+	// Post-ARM PUT reasons
+	ReasonAzureResourceNotFound = "AzureResourceNotFound"
+	ReasonSecretWriteFailure    = "FailedWritingSecret"
+
+	// Other reasons
 	ReasonReconciling                     = "Reconciling"
-	ReasonWaitingForOwner                 = "WaitingForOwner"
 	ReasonDeleting                        = "Deleting"
 	ReasonReconciliationFailedPermanently = "ReconciliationFailedPermanently"
-	ReasonAzureResourceNotFound           = "AzureResourceNotFound"
-	ReasonSecretNotFound                  = "SecretNotFound"
-	ReasonReferenceNotFound               = "ReferenceNotFound"
-	ReasonSecretWriteFailure              = "FailedWritingSecret"
 
 	// ReasonFailed is a catch-all error code for when we don't have a more specific error classification
 	ReasonFailed = "Failed"

@@ -68,7 +68,7 @@ func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
 	return rule.AssignPropertiesToNamespacesAuthorizationRule(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespacesauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespacesauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesAuthorizationRule{}
 
@@ -103,9 +103,9 @@ func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (rule *NamespacesAuthorizationRule) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (rule *NamespacesAuthorizationRule) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespacesauthorizationrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespacesauthorizationrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesAuthorizationRule{}
 

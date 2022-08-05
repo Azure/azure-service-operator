@@ -80,7 +80,7 @@ func (image *Image) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20210701-image,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=images,verbs=create;update,versions=v1alpha1api20210701,name=default.v1alpha1api20210701.images.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20210701-image,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=images,verbs=create;update,versions=v1alpha1api20210701,name=default.v1alpha1api20210701.images.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Image{}
 
@@ -115,9 +115,9 @@ func (image Image) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (image *Image) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (image *Image) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -169,7 +169,7 @@ func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-compute-azure-com-v1alpha1api20210701-image,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=images,verbs=create;update,versions=v1alpha1api20210701,name=validate.v1alpha1api20210701.images.compute.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-compute-azure-com-v1alpha1api20210701-image,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=images,verbs=create;update,versions=v1alpha1api20210701,name=validate.v1alpha1api20210701.images.compute.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Image{}
 

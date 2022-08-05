@@ -9,15 +9,19 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"os"
+	"path"
+	"regexp"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
-	kerrors "k8s.io/apimachinery/pkg/api/errors"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -26,6 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/yaml"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -38,7 +43,6 @@ type KubePerTestContext struct {
 	*KubeGlobalContext
 	KubeBaseTestContext
 
-	Ctx        context.Context
 	kubeClient client.Client
 	G          gomega.Gomega
 	Verify     *Verify
@@ -58,7 +62,7 @@ func (tc KubePerTestContext) createTestNamespace() error {
 		return nil
 	})
 
-	if err != nil && !kerrors.IsAlreadyExists(err) {
+	if err != nil && !apierrors.IsAlreadyExists(err) {
 		return errors.Wrapf(err, "creating namespace")
 	}
 
@@ -113,10 +117,21 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
 
-	return ctx.ForTestWithConfig(t, cfg)
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
 }
 
+type testConfigParallelismLimit string
+
+const (
+	countsAgainstParallelLimits = testConfigParallelismLimit("countsAgainstParallelLimits")
+	bypassesParallelLimits      = testConfigParallelismLimit("bypassesParallelLimits")
+)
+
 func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) *KubePerTestContext {
+	return ctx.forTestWithConfig(t, cfg, countsAgainstParallelLimits)
+}
+
+func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, parallelismRestriction testConfigParallelismLimit) *KubePerTestContext {
 	/*
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
@@ -125,6 +140,7 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 	if err != nil {
 		t.Fatal(err)
 	}
+	perTestContext.CountsTowardsParallelLimits = parallelismRestriction == countsAgainstParallelLimits
 
 	baseCtx, err := ctx.createBaseTestContext(perTestContext, cfg)
 	if err != nil {
@@ -139,9 +155,9 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 	}
 
 	verify := NewVerify(kubeClient)
+	match := NewKubeMatcher(verify, baseCtx.Ctx)
 
-	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
-	match := NewKubeMatcher(verify, context)
+	format.MaxLength = 0 // Disable output truncation
 
 	result := &KubePerTestContext{
 		KubeGlobalContext:   &ctx,
@@ -150,7 +166,6 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 		Verify:              verify,
 		Match:               match,
 		scheme:              scheme,
-		Ctx:                 context,
 		G:                   gomega.NewWithT(t),
 		tracker:             &ResourceTracker{},
 	}
@@ -229,7 +244,6 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	result := &KubePerTestContext{
 		KubeGlobalContext:   tc.KubeGlobalContext,
 		KubeBaseTestContext: tc.KubeBaseTestContext,
-		Ctx:                 tc.Ctx,
 		kubeClient:          tc.kubeClient,
 		G:                   tc.G,
 		Verify:              tc.Verify,
@@ -242,6 +256,7 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	result.T = t
 	result.G = gomega.NewWithT(t)
 	result.Namer = tc.Namer.WithTestName(t.Name())
+	result.NoSpaceNamer = result.Namer.WithSeparator("") // TODO: better way to avoid this mistake in the future
 	result.TestName = t.Name()
 	result.logger = NewTestLogger(t)
 	return result
@@ -387,6 +402,13 @@ func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
 }
 
+// CheckIfResourceExists tries to get the current state of the resource from K8s (not from Azure),
+// and if it does not exist, returns an error.
+func (tc *KubePerTestContext) CheckIfResourceExists(obj client.Object) error {
+	namespacedName := types.NamespacedName{Namespace: tc.Namespace, Name: obj.GetName()}
+	return tc.kubeClient.Get(tc.Ctx, namespacedName, obj)
+}
+
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {
@@ -406,6 +428,11 @@ func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
 func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
 	tc.G.Expect(tc.kubeClient.Get(tc.Ctx, key, obj)).To(gomega.Succeed())
+}
+
+// GetScheme returns the scheme for kubeclient
+func (tc *KubePerTestContext) GetScheme() *runtime.Scheme {
+	return tc.kubeClient.Scheme()
 }
 
 // ListResources retrieves list of objects for a given namespace and list options. On a
@@ -431,12 +458,17 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
-	tc.G.Expect(tc.kubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
+	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }
 
+// DeleteResource deletes the given resource in K8s
+func (tc *KubePerTestContext) DeleteResource(obj client.Object) {
+	tc.G.Expect(tc.kubeClient.Delete(tc.Ctx, obj)).To(gomega.Succeed())
+}
+
 // DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted
-func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		err := tc.kubeClient.Delete(tc.Ctx, obj)
 		err = client.IgnoreNotFound(err) // If the resource doesn't exist, that's good for us!
@@ -446,6 +478,41 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
 	}
+}
+
+// DeleteResourcesAndWait deletes the resources in K8s and waits for them to be deleted.
+// Take care to avoid calling this method with incomplete resource hierarchies. For example, if resource A owns B and B owns C,
+// call this with [A], [A, B], or [A, B, C], but NOT with [A, C].
+//
+// Note that this protects against deleting resources that have a parent-child relationship in the same request. This is perfectly
+// fine in the real world, but in many of our recording envtests we can get into a situation where there's a race
+// during deletion that causes HTTP replay issues. The sequence of events is:
+// 1. Delete parent resource and child resource at the same time.
+// 2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
+//    after the child that we just record a successful DELETE for the parent and don't bother sending the final child
+//    DELETE that would return success.
+// 3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
+//    in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
+//    (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+// In envtest it's still critical to delete everything, because ownership based deletion isn't enabled in envtest and we can't
+// leave resources around or they will continue to attempt to log to a closed test logger. To avoid this we
+// carefully delete resources starting with the root and working our way down one rank at a time. This shouldn't be much
+// slower than just deleting everything all at once. Once the root resources are deleted (first) each child resource will delete immediately
+// as it realizes that its parent is already gone: No request to Azure will be issued for these deletions so they'll complete quickly.
+func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
+	ranks := objectRanksByOwner(objs...)
+
+	// See above method comment for why we do this
+	for _, rank := range ranks {
+		tc.deleteResourcesAndWait(rank...)
+	}
+}
+
+// ExpectResourceDoesNotExist ensures the resource doesn't exist
+func (tc *KubePerTestContext) ExpectResourceDoesNotExist(key types.NamespacedName, obj client.Object) {
+	err := tc.kubeClient.Get(tc.Ctx, key, obj)
+	tc.Expect(err).To(gomega.HaveOccurred())
+	tc.Expect(apierrors.IsNotFound(err)).To(gomega.BeTrue())
 }
 
 // LogSection creates a distinctive header in the log to aid scanning
@@ -542,6 +609,45 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 	}
 }
 
+func (tc *KubePerTestContext) ExportAsSample(resource runtime.Object) {
+	tc.T.Helper()
+
+	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
+	filepath := path.Join(os.TempDir(), filename)
+
+	copy := resource.DeepCopyObject()
+	err := tc.exportAsYAML(copy, filepath)
+	if err != nil {
+		tc.T.Fatalf("failed to export resource: %s", err)
+	}
+
+	tc.T.Logf("Exported resource to %s", filepath)
+}
+
+func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename string) error {
+	tc.T.Helper()
+
+	content, err := yaml.Marshal(resource)
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal to yaml")
+	}
+
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	if err != nil {
+		return errors.Wrapf(err, "failed to open file %s", filename)
+	}
+
+	defer file.Close()
+
+	clean := sanitiseSample(string(content))
+	_, err = file.WriteString(clean)
+	if err != nil {
+		return errors.Wrapf(err, "failed to write yaml to file %s", filename)
+	}
+
+	return nil
+}
+
 type ResourceTracker struct {
 	resources []client.Object
 }
@@ -552,4 +658,37 @@ func (r *ResourceTracker) Track(obj client.Object) {
 
 func (r *ResourceTracker) Resources() []client.Object {
 	return r.resources
+}
+
+type sanitisationRule struct {
+	match   *regexp.Regexp
+	replace string
+}
+
+var sanitisationRules = []sanitisationRule{
+	{
+		// Replace subscription IDs with a placeholder
+		match:   regexp.MustCompile(`/(?i:(subscriptions)/(?i:[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}))/`),
+		replace: "/$1/00000000-0000-0000-0000-000000000000/",
+	},
+	{
+		// Replace naming asotest-<type>-<random> with aso-sample-<type>
+		match:   regexp.MustCompile(`asotest-(\w+)-\w+`),
+		replace: "aso-sample-$1",
+	},
+	{
+		// Remove azureName entirely
+		match:   regexp.MustCompile(`(?im:\n\s+azurename: [^\n]+)\n`),
+		replace: "\n",
+	},
+}
+
+func sanitiseSample(sample string) string {
+	result := sample
+
+	for _, rule := range sanitisationRules {
+		result = rule.match.ReplaceAllString(result, rule.replace)
+	}
+
+	return result
 }

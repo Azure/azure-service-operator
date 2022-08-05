@@ -10,6 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -21,20 +23,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Public IP Address
-	sku := network.PublicIPAddressSku_Name_Standard
-	allocationMethod := network.IPAllocationMethod_Static
-	publicIPAddress := &network.PublicIPAddress{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddress_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Sku: &network.PublicIPAddressSku{
-				Name: &sku,
-			},
-			PublicIPAllocationMethod: &allocationMethod,
-		},
-	}
+	publicIPAddress := newPublicIp(tc, testcommon.AsOwner(rg))
 
 	tc.CreateResourceAndWait(publicIPAddress)
 
@@ -55,4 +44,23 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func newPublicIp(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
+	// Public IP Address
+	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
+	// TODO: depluralization of this resource doesn't work because of the collision.
+	sku := network.PublicIPAddressSku_Name_Standard
+	allocationMethod := network.IPAllocationMethod_Static
+	return &network.PublicIPAddress{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
+		Spec: network.PublicIPAddress_Spec{
+			Location: tc.AzureRegion,
+			Owner:    owner,
+			Sku: &network.PublicIPAddressSku{
+				Name: &sku,
+			},
+			PublicIPAllocationMethod: &allocationMethod,
+		},
+	}
 }

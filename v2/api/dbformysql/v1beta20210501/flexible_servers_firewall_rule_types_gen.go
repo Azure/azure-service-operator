@@ -68,7 +68,7 @@ func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
 	return rule.AssignPropertiesToFlexibleServersFirewallRule(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1beta20210501-flexibleserversfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1beta20210501-flexibleserversfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1beta20210501,name=default.v1beta20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServersFirewallRule{}
 
@@ -103,9 +103,9 @@ func (rule FlexibleServersFirewallRule) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
-// GetResourceKind returns the kind of the resource
-func (rule *FlexibleServersFirewallRule) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+// GetResourceScope returns the scope of the resource
+func (rule *FlexibleServersFirewallRule) GetResourceScope() genruntime.ResourceScope {
+	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
@@ -157,7 +157,7 @@ func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1beta20210501-flexibleserversfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1beta20210501-flexibleserversfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1beta20210501,name=validate.v1beta20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServersFirewallRule{}
 

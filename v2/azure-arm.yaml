@@ -17,6 +17,14 @@ emitDocFiles: true
 
 pipeline: azure
 
+supportedResourcesReport:
+  # Path is relative to the module path, above
+  outputPath: ../docs/hugo/content/reference/_index.md
+  introduction: |
+    These are the resources with Azure Service Operator support committed to our **main** branch
+    grouped by the originating ARM service.
+    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+
 #
 # These filters are used early in the processing pipeline. 
 #
@@ -137,13 +145,16 @@ typeFilters:
     group: resources
     name: Tags
     because: This type is defined recursively.
+
   - action: include
     group: compute.extensions
     name: GenericExtension
     because: This is the one kind of extension we want to allow
+
   - action: prune
     group: compute.extensions
     because: All other extensions should be removed
+
   - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
@@ -227,7 +238,6 @@ typeTransformers:
       optional: true
     remove: true
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
-
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
     group: batch
@@ -264,14 +274,26 @@ typeTransformers:
     remove: true
     because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
 
-  - name: VirtualMachineScaleSetIdentity
-    group: compute
+  - group: compute
+    name: VirtualMachineScaleSetIdentity;VirtualMachineScaleSetIdentity_Status;VirtualMachineIdentity;VirtualMachineIdentity_Status
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
 
-  - name: Identity
-    group: eventhub
+  - group: eventhub
+    name: Identity
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
+  - group: dbformysql
+    name: Identity
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
+  - group: containerinstance
+    name: ContainerGroupIdentity
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
@@ -611,9 +633,12 @@ status:
 #     identified as an ARM reference.
 #
 # $isSecret: <bool>
-#     Specifies that the property references a secret.
-#     Set to `true` to flag this property as a secret. Secrets are string values 
-#     read from a secure storage by ASO when needed.
+#     Specifies that the property references a secret
+#     Secrets are string values read from a secure storage by ASO when needed.
+#     Set to `true` to flag this property as a secret. This is an override for when the Swagger
+#     is incomplete. If you specify $isSecret: true, you should also open a PR to update the 
+#     upstream Swagger repo spec with the x-ms-secret annotation.
+#     Here's a reference PR: https://github.com/Azure/azure-rest-api-specs/pull/19399
 #
 # $nameInNextVersion: <string>
 #     Gives the name this property has in the next version of the resource
@@ -740,17 +765,50 @@ objectModelConfiguration:
       ManagedDiskParameters:
         Id:
           $armReference: true
-      OSProfile:
-        AdminPassword:
-          $isSecret: true
-      VirtualMachineScaleSetOSProfile:
-        AdminPassword:
-          $isSecret: true
     2021-07-01:
       Image:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
       SubResource:
+        Id:
+          $armReference: true
+    2022-03-01:
+      ApiEntityReference:
+        Id:
+          $armReference: true
+      Image:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      ImageReference:
+        Id:
+          $armReference: true
+        version:
+          $armReference: false
+      ManagedDiskParameters:
+        Id:
+          $armReference: true
+      SubResource:
+        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
+        Id:
+          $armReference: true
+      VMGalleryApplication:
+        PackageReferenceId:
+          $armReference: true
+      VirtualMachine:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      VirtualMachineScaleSet:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+  containerinstance:
+    2021-10-01:
+      ContainerGroup:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+      LogAnalytics:
+        WorkspaceResourceId:
+          $armReference: true
+      ContainerGroupSubnetId:
         Id:
           $armReference: true
   containerregistry:
@@ -766,6 +824,9 @@ objectModelConfiguration:
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
       ManagedClusterAgentPoolProfile:
         VnetSubnetID:
           $armReference: true
@@ -875,6 +936,9 @@ objectModelConfiguration:
           - PrimaryReadonlyMasterKey
           - SecondaryReadonlyMasterKey
           - DocumentEndpoint
+      DatabaseAccountCreateUpdateProperties:
+        NetworkAclBypassResourceIds:
+          $armReference: false  # TODO: Breaking: Change this to true
       DatabaseAccountsMongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
@@ -1024,6 +1088,88 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  machinelearningservices:
+    2021-07-01:
+# TODO(evildiscriminator): disabled for now
+#      AksNetworkingConfiguration:
+#        SubnetId:
+#          $armReference: true
+      Workspace:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+        $azureGeneratedSecrets:
+          - AppInsightsInstrumentationKey
+          - ContainerRegistryUserName
+          - ContainerRegistryPassword
+          - ContainerRegistryPassword2
+          - PrimaryNotebookAccessKey
+          - SecondaryNotebookAccessKey
+          - UserStorageKey
+      WorkspaceProperties:
+        ApplicationInsights:
+          $armReference: true
+        PrimaryUserAssignedIdentity:
+          $armReference: true
+        StorageAccount:
+          $armReference: true
+        KeyVault:
+          $armReference: true
+        ContainerRegistry:
+          $armReference: true
+      SharedPrivateLinkResourceProperty:
+        PrivateLinkResourceId:
+          $armReference: true
+      WorkspacesCompute:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      Compute:
+        ResourceId:
+          $armReference: true
+# TODO(evildiscriminator): disabled for now
+#      ResourceId:
+#        Id:
+#          $armReference: true
+#      Compute_HDInsight:
+#        ResourceId:
+#          $armReference: true
+#      Compute_DataLakeAnalytics:
+#        ResourceId:
+#          $armReference: true
+#      Compute_Databricks:
+#        ResourceId:
+#          $armReference: true
+#      Compute_DataFactory:
+#        ResourceId:
+#          $armReference: true
+#      Compute_AKS:
+#        ResourceId:
+#          $armReference: true
+#      Compute_ComputeInstance:
+#        ResourceId:
+#          $armReference: true
+#      Compute_SynapseSpark:
+#        ResourceId:
+#          $armReference: true
+#      Compute_AmlCompute:
+#        ResourceId:
+#          $armReference: true
+#      Compute_VirtualMachine:
+#        ResourceId:
+#          $armReference: true
+#      VirtualMachineImage:
+#        Id:
+#          $armReference: true
+#      UserAccountCredentials:
+#        AdminUserPassword:
+#          $isSecret: true
+#        AdminUserSshPublicKey:
+#          $isSecret: true
+#      VirtualMachineSshCredentials:
+#        Password:
+#          $isSecret: true
+      WorkspacesConnection:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
   network:
     2020-11-01:
       FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded:
@@ -1165,7 +1311,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.5
       StorageAccountsManagementPolicy:
         $export: true
-        $supportedFrom: v2.0.0-beta.0
+        $supportedFrom: v2.0.0-alpha.6
       VirtualNetworkRule:
         Id:
           $armReference: true

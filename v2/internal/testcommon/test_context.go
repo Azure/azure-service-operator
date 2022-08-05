@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
@@ -19,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -49,11 +50,16 @@ type PerTestContext struct {
 	AzureClientRecorder *recorder.Recorder
 	AzureClient         *genericarmclient.GenericClient
 	AzureSubscription   string
+	AzureTenant         string
 	AzureMatch          *ARMMatcher
 	Namer               ResourceNamer
 	NoSpaceNamer        ResourceNamer
 	TestName            string
 	Namespace           string
+	Ctx                 context.Context
+	// CountsTowardsParallelLimits true means that the envtest (if any) started for this test pass counts towards the limit of
+	// concurrent envtests running at once. If this is false, it doesn't count towards the limit.
+	CountsTowardsParallelLimits bool
 }
 
 // There are two prefixes here because each represents a resource kind with a distinct lifecycle.
@@ -87,7 +93,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	creds, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
+	creds, azureIDs, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -99,8 +105,12 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	httpClient := &http.Client{
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
-
-	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	var armClient *genericarmclient.GenericClient
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, azureIDs.subscriptionID, metrics.NewARMClientMetrics())
+	if err != nil {
+		logger.Error(err, "failed to get new generic client")
+		t.Fail()
+	}
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -128,6 +138,8 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	namer := tc.NameConfig.NewResourceNamer(t.Name())
 
+	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
+
 	return PerTestContext{
 		TestContext:         tc,
 		T:                   t,
@@ -135,11 +147,13 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Namer:               namer,
 		NoSpaceNamer:        namer.WithSeparator(""),
 		AzureClient:         armClient,
-		AzureSubscription:   subscriptionID,
+		AzureSubscription:   azureIDs.subscriptionID,
+		AzureTenant:         azureIDs.tenantID,
 		AzureMatch:          NewARMMatcher(armClient),
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
 		Namespace:           createTestNamespaceName(t),
+		Ctx:                 context,
 	}, nil
 }
 
@@ -147,7 +161,8 @@ func createTestNamespaceName(t *testing.T) string {
 	const maxLen = 63
 	const disambigLength = 5
 
-	result := "aso-" + strings.ReplaceAll(strings.ToLower(t.Name()), "_", "-")
+	name := strings.ReplaceAll(strings.ToLower(t.Name()), "/", "-")
+	result := "aso-" + strings.ReplaceAll(name, "_", "-")
 	if len(result) <= maxLen {
 		return result
 	}
@@ -179,7 +194,7 @@ func ensureCassetteFileExists(cassetteName string) error {
 	return nil
 }
 
-func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredential, string, *recorder.Recorder, error) {
+func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredential, AzureIDs, *recorder.Recorder, error) {
 	var err error
 	var r *recorder.Recorder
 	if recordReplay {
@@ -189,23 +204,24 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 	}
 
 	if err != nil {
-		return nil, "", nil, errors.Wrapf(err, "creating recorder")
+		return nil, AzureIDs{}, nil, errors.Wrapf(err, "creating recorder")
 	}
 
 	var creds azcore.TokenCredential
-	var subscriptionID string
+	var azureIDs AzureIDs
 	if r.Mode() == recorder.ModeRecording ||
 		r.Mode() == recorder.ModeDisabled {
 		// if we are recording, we need auth
-		creds, subscriptionID, err = getCreds()
+		creds, azureIDs, err = getCreds()
 		if err != nil {
-			return nil, "", nil, err
+			return nil, azureIDs, nil, err
 		}
 	} else {
 		// if we are replaying, we won't need auth
-		// and we use a dummy subscription ID
-		subscriptionID = uuid.Nil.String()
+		// and we use a dummy subscription ID/tenant ID
 		creds = mockTokenCred{}
+		azureIDs.tenantID = uuid.Nil.String()
+		azureIDs.subscriptionID = uuid.Nil.String()
 	}
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
@@ -236,23 +252,29 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 		// rewrite all request/response fields to hide the real subscription ID
 		// this is *not* a security measure but intended to make the tests updateable from
 		// any subscription, so a contributor can update the tests against their own sub.
-		hideSubID := func(s string) string {
-			return strings.ReplaceAll(s, subscriptionID, uuid.Nil.String())
+		hideID := func(s string, id string) string {
+			return strings.ReplaceAll(s, id, uuid.Nil.String())
 		}
 
-		i.Request.Body = hideRecordingData(hideSubID(i.Request.Body))
-		i.Response.Body = hideRecordingData(hideSubID(i.Response.Body))
-		i.Request.URL = hideSubID(i.Request.URL)
+		i.Request.Body = hideRecordingData(hideID(i.Request.Body, azureIDs.subscriptionID))
+		i.Response.Body = hideRecordingData(hideID(i.Response.Body, azureIDs.subscriptionID))
+		i.Request.URL = hideID(i.Request.URL, azureIDs.subscriptionID)
+
+		i.Request.Body = hideRecordingData(hideID(i.Request.Body, azureIDs.tenantID))
+		i.Response.Body = hideRecordingData(hideID(i.Response.Body, azureIDs.tenantID))
+		i.Request.URL = hideID(i.Request.URL, azureIDs.tenantID)
 
 		for _, values := range i.Request.Headers {
 			for i := range values {
-				values[i] = hideSubID(values[i])
+				values[i] = hideID(values[i], azureIDs.subscriptionID)
+				values[i] = hideID(values[i], azureIDs.tenantID)
 			}
 		}
 
 		for _, values := range i.Response.Headers {
 			for i := range values {
-				values[i] = hideSubID(values[i])
+				values[i] = hideID(values[i], azureIDs.subscriptionID)
+				values[i] = hideID(values[i], azureIDs.tenantID)
 			}
 		}
 
@@ -267,7 +289,7 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 		return nil
 	})
 
-	return creds, subscriptionID, r, nil
+	return creds, azureIDs, r, nil
 }
 
 var requestHeadersToRemove = []string{
@@ -299,7 +321,7 @@ var responseHeadersToRemove = []string{
 var (
 	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
 	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
-	passwordMatcher = regexp.MustCompile("pass.*?pass")
+	passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 
 	// keyMatcher matches any valid base64 value with at least 10 sets of 4 bytes of data that ends in = or ==.
 	// Both storage account keys and Redis account keys are longer than that and end in = or ==. Note that technically
@@ -308,6 +330,9 @@ var (
 	// in the payloads (such as operationResults URLs for polling async operations for some services) that seem to use
 	// very long base64 strings as well.
 	keyMatcher = regexp.MustCompile("(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)")
+
+	// kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API
+	kubeConfigMatcher = regexp.MustCompile(`"value": "[a-zA-Z0-9+/]+={0,2}"`)
 )
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
@@ -323,17 +348,22 @@ func hideSSHKeys(s string) string {
 
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
-	return passwordMatcher.ReplaceAllLiteralString(s, "{PASSWORD}")
+	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
 }
 
 func hideKeys(s string) string {
 	return keyMatcher.ReplaceAllLiteralString(s, "{KEY}")
 }
 
+func hideKubeConfigs(s string) string {
+	return kubeConfigMatcher.ReplaceAllLiteralString(s, `"value": "IA=="`) // Have to replace with valid base64 data, so replace with " "
+}
+
 func hideRecordingData(s string) string {
 	result := hideDates(s)
 	result = hideSSHKeys(result)
 	result = hidePasswords(result)
+	result = hideKubeConfigs(result)
 	result = hideKeys(result)
 
 	return result

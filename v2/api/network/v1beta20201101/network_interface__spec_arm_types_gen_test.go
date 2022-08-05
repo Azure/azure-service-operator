@@ -20,7 +20,8 @@ import (
 func Test_NetworkInterface_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterface_SpecARM via JSON returns original",
@@ -99,7 +100,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_SpecARM(gens map[string]gop
 func Test_NetworkInterfacePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfacePropertiesFormatARM via JSON returns original",
@@ -184,7 +186,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacePropertiesFormatARM(gens map
 func Test_NetworkInterfaceDnsSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaceDnsSettingsARM via JSON returns original",
@@ -245,7 +248,8 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettingsARM(gens map[
 func Test_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -321,7 +325,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_NetworkInter
 func Test_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -397,7 +402,8 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupSpec_NetworkInterface_Su
 func Test_PrivateLinkServiceSpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkServiceSpecARM via JSON returns original",
@@ -474,7 +480,8 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceSpecARM(gens map[string]go
 func Test_NetworkInterfaceIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaceIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -558,7 +565,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFor
 func Test_NetworkSecurityGroupPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -618,7 +626,8 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormat_Network
 func Test_PrivateLinkServiceProperties_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkServiceProperties_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -696,7 +705,8 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceProperties_NetworkInterfac
 func Test_ApplicationGatewayBackendAddressPoolARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayBackendAddressPoolARM via JSON returns original",
@@ -771,7 +781,8 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolARM(gens
 func Test_BackendAddressPool_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackendAddressPool_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -831,7 +842,8 @@ func AddIndependentPropertyGeneratorsForBackendAddressPool_NetworkInterface_SubR
 func Test_FrontendIPConfiguration_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfiguration_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -907,7 +919,8 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfiguration_NetworkInterface_Sub
 func Test_InboundNatRule_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatRule_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -967,7 +980,8 @@ func AddIndependentPropertyGeneratorsForInboundNatRule_NetworkInterface_SubResou
 func Test_PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1042,7 +1056,8 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfiguration_NetworkInt
 func Test_ResourceSetARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceSetARM via JSON returns original",
@@ -1101,7 +1116,8 @@ func AddIndependentPropertyGeneratorsForResourceSetARM(gens map[string]gopter.Ge
 func Test_SecurityRule_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SecurityRule_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1161,7 +1177,8 @@ func AddIndependentPropertyGeneratorsForSecurityRule_NetworkInterface_SubResourc
 func Test_Subnet_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1221,7 +1238,8 @@ func AddIndependentPropertyGeneratorsForSubnet_NetworkInterface_SubResourceEmbed
 func Test_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1297,7 +1315,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkTapSpec_NetworkInterface_SubRe
 func Test_ApplicationGatewayBackendAddressPoolPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayBackendAddressPoolPropertiesFormatARM via JSON returns original",
@@ -1357,7 +1376,8 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolProperti
 func Test_FrontendIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfigurationPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1436,7 +1456,8 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_Netw
 func Test_PrivateLinkServiceIpConfigurationProperties_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkServiceIpConfigurationProperties_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1514,7 +1535,8 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfigurationProperties_
 func Test_VirtualNetworkTapPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkTapPropertiesFormat_NetworkInterface_SubResourceEmbeddedARM via JSON returns original",
@@ -1588,7 +1610,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkTapPropertiesFormat_NetworkInt
 func Test_ApplicationGatewayBackendAddressARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationGatewayBackendAddressARM via JSON returns original",

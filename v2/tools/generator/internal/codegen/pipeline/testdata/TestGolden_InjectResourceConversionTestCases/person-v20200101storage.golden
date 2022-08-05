@@ -173,11 +173,15 @@ func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Pe
 	// PostalAddress
 	if source.PostalAddress != nil {
 		propertyBag.Add("PostalAddress", *source.PostalAddress)
+	} else {
+		propertyBag.Remove("PostalAddress")
 	}
 
 	// ResidentialAddress
 	if source.ResidentialAddress != nil {
 		propertyBag.Add("ResidentialAddress", *source.ResidentialAddress)
+	} else {
+		propertyBag.Remove("ResidentialAddress")
 	}
 
 	// Update the property bag

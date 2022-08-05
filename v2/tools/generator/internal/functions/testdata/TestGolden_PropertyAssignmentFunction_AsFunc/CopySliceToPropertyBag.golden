@@ -41,7 +41,11 @@ func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Scores
-	propertyBag.Add("Scores", person.Scores)
+	if len(person.Scores) > 0 {
+		propertyBag.Add("Scores", person.Scores)
+	} else {
+		propertyBag.Remove("Scores")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

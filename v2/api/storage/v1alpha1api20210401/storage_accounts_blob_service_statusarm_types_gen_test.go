@@ -20,7 +20,8 @@ import (
 func Test_StorageAccountsBlobService_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobService_STATUSARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(gens ma
 func Test_StorageAccountsBlobService_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobService_Properties_STATUSARM via JSON returns original",
@@ -178,7 +180,8 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUS
 func Test_ChangeFeed_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ChangeFeed_STATUSARM via JSON returns original",
@@ -239,7 +242,8 @@ func AddIndependentPropertyGeneratorsForChangeFeed_STATUSARM(gens map[string]gop
 func Test_CorsRules_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRules_STATUSARM via JSON returns original",
@@ -299,7 +303,8 @@ func AddRelatedPropertyGeneratorsForCorsRules_STATUSARM(gens map[string]gopter.G
 func Test_DeleteRetentionPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeleteRetentionPolicy_STATUSARM via JSON returns original",
@@ -360,7 +365,8 @@ func AddIndependentPropertyGeneratorsForDeleteRetentionPolicy_STATUSARM(gens map
 func Test_LastAccessTimeTrackingPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LastAccessTimeTrackingPolicy_STATUSARM via JSON returns original",
@@ -423,7 +429,8 @@ func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicy_STATUSARM(g
 func Test_RestorePolicyProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RestorePolicyProperties_STATUSARM via JSON returns original",
@@ -486,7 +493,8 @@ func AddIndependentPropertyGeneratorsForRestorePolicyProperties_STATUSARM(gens m
 func Test_CorsRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRule_STATUSARM via JSON returns original",
