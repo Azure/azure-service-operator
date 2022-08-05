@@ -12,7 +12,11 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -95,7 +99,7 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 	secretName := tc.Namer.GenerateName("admin-pw")
 	nameSpaceName := "secret-namespace"
 
-	createNamespaces(tc, nameSpaceName)
+	tc.CreateTestNamespaces(nameSpaceName)
 	secretInDiffNamespace := createNamespacedSecret(tc, nameSpaceName, secretName)
 
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -104,9 +108,7 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
 
-	tc.CreateResourceAndWait(vnet)
-	tc.CreateResourceAndWait(subnet)
-	tc.CreateResourceAndWait(networkInterface)
+	tc.CreateResourcesAndWait(vnet, subnet, networkInterface)
 
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secretInDiffNamespace)
 
@@ -129,51 +131,66 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	// TargetNamespaces is only used here for logger mapping in namespaces, and not multi-tenancy.
 	cfg.TargetNamespaces = []string{ns1, ns2}
 	tc := globalTestContext.ForTestWithConfig(t, cfg)
 
-	createNamespaces(tc, ns1, ns2)
+	tc.CreateTestNamespaces(ns1, ns2)
 
-	secretName := tc.Namer.GenerateName("server-secret")
+	secretName := tc.Namer.GenerateName("vm-secret")
 	ns1Secret := createNamespacedSecret(tc, ns1, secretName)
 	ns2Secret := createNamespacedSecret(tc, ns2, secretName)
 
-	rg := tc.NewTestResourceGroupWithNamespace(ns1)
+	rg := tc.NewTestResourceGroup()
+	rg.Namespace = ns1
 	tc.CreateResourceGroupAndWait(rg)
 
-	rg2 := tc.NewTestResourceGroupWithNamespace(ns2)
+	rg2 := tc.NewTestResourceGroup()
+	rg2.Namespace = ns2
 	tc.CreateResourceGroupAndWait(rg2)
 
-	server1, _ := newFlexibleServer(tc, rg, ns1Secret)
-	server1.ObjectMeta = metav1.ObjectMeta{
-		Name:      tc.Namer.GenerateName("mysql"),
-		Namespace: ns1,
-	}
-	tc.CreateResourceAndWait(server1)
+	// VM1 with same secret name in ns1
+	vm1 := createNamespacedVM(tc, rg, ns1, ns1Secret)
 
-	resourceID := genruntime.GetResourceIDOrDefault(server1)
+	resourceID := genruntime.GetResourceIDOrDefault(vm1)
 	tc.Expect(resourceID).ToNot(BeEmpty())
 
-	// Deleting server1 here using AzureClient so that Operator does not know about the deletion
-	_, err = tc.AzureClient.DeleteByID(tc.Ctx, resourceID, server1.GetAPIVersion())
+	// Deleting server1 here using AzureClient so that Operator does not know about the deletion.
+	// If operator reconciles that resource again it will be recreated and we will notice
+	_, err = tc.AzureClient.DeleteByID(tc.Ctx, resourceID, vm1.GetAPIVersion())
 	if err != nil {
 		return
 	}
 
-	server2, _ := newFlexibleServer(tc, rg2, ns2Secret)
-	server2.ObjectMeta = metav1.ObjectMeta{
-		Name:      tc.Namer.GenerateName("mysql2"),
-		Namespace: ns2,
-	}
-
-	tc.CreateResourceAndWait(server2)
+	// VM2 with same secret name in ns2
+	_ = createNamespacedVM(tc, rg2, ns2, ns2Secret)
 
 	// Here we want to make sure that the server1 we deleted from Azure was not created again by a reconcile triggered when the second secret was created
 	// in other namespace
-	_, err = tc.AzureClient.GetByID(tc.Ctx, resourceID, server1.GetAPIVersion(), server1)
-	tc.Expect(err).ToNot(BeNil())
+	_, err = tc.AzureClient.GetByID(tc.Ctx, resourceID, vm1.GetAPIVersion(), vm1)
+	tc.Expect(err).To(HaveOccurred())
+	tc.Expect(genericarmclient.IsNotFoundError(err)).To(BeTrue())
 
+	tc.GetResource(client.ObjectKeyFromObject(vm1), vm1)
+	tc.Expect(vm1.Status.Conditions[0].Type).To(BeEquivalentTo(conditions.ConditionTypeReady))
 	tc.DeleteResourcesAndWait(rg, rg2)
+}
+
+func createNamespacedVM(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, ns string, ns1Secret genruntime.SecretReference) *v1beta20201201.VirtualMachine {
+	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	vnet.Namespace = ns
+	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
+	subnet.Namespace = ns
+	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
+	networkInterface.Namespace = ns
+
+	tc.CreateResourcesAndWait(vnet, subnet, networkInterface)
+
+	vm1 := newVirtualMachine20201201(tc, rg, networkInterface, ns1Secret)
+	vm1.Namespace = ns
+	tc.CreateResourceAndWait(vm1)
+	return vm1
 }
 
 func createNamespacedSecret(tc *testcommon.KubePerTestContext, namespaceName string, secretName string) genruntime.SecretReference {

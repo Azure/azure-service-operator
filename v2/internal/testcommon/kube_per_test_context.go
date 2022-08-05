@@ -94,15 +94,8 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *
 }
 
 func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
-	return tc.NewTestResourceGroupWithNamespace(tc.Namespace)
-}
-
-func (tc KubePerTestContext) NewTestResourceGroupWithNamespace(namespace string) *resources.ResourceGroup {
 	return &resources.ResourceGroup{
-		ObjectMeta: ctrl.ObjectMeta{
-			Name:      tc.Namer.GenerateName("rg"),
-			Namespace: namespace,
-		},
+		ObjectMeta: tc.MakeObjectMeta("rg"),
 		Spec: resources.ResourceGroupSpec{
 			Location: tc.AzureRegion,
 			// This tag is used for cleanup optimization
@@ -558,6 +551,16 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	tc.Expect(secret.Data).To(gomega.HaveLen(len(expectedKeys)))
 	for _, k := range expectedKeys {
 		tc.Expect(secret.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+	}
+}
+
+func (tc *KubePerTestContext) CreateTestNamespaces(names ...string) {
+	for _, name := range names {
+		tc.CreateResourceUntracked(&corev1.Namespace{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: name,
+			},
+		})
 	}
 }
 

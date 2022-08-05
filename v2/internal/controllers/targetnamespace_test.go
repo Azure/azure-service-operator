@@ -33,7 +33,7 @@ func TestTargetNamespaces(t *testing.T) {
 		TargetNamespaces: []string{"default", "watched"},
 	})
 
-	createNamespaces(tc, "watched", "unwatched")
+	tc.CreateTestNamespaces("watched", "unwatched")
 	standardSpec := resources.ResourceGroupSpec{
 		Location: tc.AzureRegion,
 		Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
@@ -142,16 +142,6 @@ func hasFinalizer(o metav1.Object, finalizer string) bool {
 		}
 	}
 	return false
-}
-
-func createNamespaces(tc *testcommon.KubePerTestContext, names ...string) {
-	for _, name := range names {
-		tc.CreateResourceUntracked(&corev1.Namespace{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: name,
-			},
-		})
-	}
 }
 
 func TestOperatorNamespacePreventsReconciling(t *testing.T) {
