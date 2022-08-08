@@ -36,7 +36,7 @@ service Swagger specifications. We must validate each breaking change so that we
 
 # Creating and testing Helm chart for new release
 1. Create a new branch from `<NEW_RELEASE_TAG>` HEAD
-2. Generate helm manifest for new release: `task controller:gen-helm-manifest`
+2. Generate helm manifest for new release: `task controller:gen-helm-chart`
 3. Check the version in `/v2/charts/azure-service-operator/Chart.yaml` if matches with the latest release tag.
 4. Install helm chart:
     ```

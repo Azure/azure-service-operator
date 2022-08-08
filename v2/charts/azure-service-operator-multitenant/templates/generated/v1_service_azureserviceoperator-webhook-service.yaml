@@ -1,0 +1,13 @@
+{{- if .Values.isCluster }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureserviceoperator-webhook-service
+  namespace: azureserviceoperator-system
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    control-plane: controller-manager
+{{- end }}

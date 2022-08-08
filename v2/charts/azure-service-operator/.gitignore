@@ -1,2 +1,3 @@
 crds
 templates/generated
+*.lock

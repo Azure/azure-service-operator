@@ -1,0 +1,15 @@
+{{- if .Values.isCluster }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: azureserviceoperator-serving-cert
+  namespace: azureserviceoperator-system
+spec:
+  dnsNames:
+  - azureserviceoperator-webhook-service.azureserviceoperator-system.svc
+  - azureserviceoperator-webhook-service.azureserviceoperator-system.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: azureserviceoperator-selfsigned-issuer
+  secretName: webhook-server-cert
+{{- end }}

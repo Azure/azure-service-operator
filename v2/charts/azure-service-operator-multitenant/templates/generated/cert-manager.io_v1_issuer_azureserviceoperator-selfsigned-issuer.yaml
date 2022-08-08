@@ -1,0 +1,9 @@
+{{- if .Values.isCluster }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: azureserviceoperator-selfsigned-issuer
+  namespace: azureserviceoperator-system
+spec:
+  selfSigned: {}
+{{- end }}

@@ -1,12 +1,12 @@
 apiVersion: v2
-name: azure-service-operator
+name: azure-service-operator-multitenant
 version: v2.0.0-beta.1
-description: Deploy components and dependencies of azure-service-operator
+description: Deploy components and dependencies of azure-service-operator-multitenant
 home: https://github.com/Azure/azure-service-operator/v2
 sources:
   - https://github.com/Azure/azure-service-operator/v2
 dependencies:
   - name: azure-service-operator-crds
     version: v2.0.0-beta.1
-    condition: installCRDs
+    condition: isCluster, installCRDs
     repository: file://../azure-service-operator-crds

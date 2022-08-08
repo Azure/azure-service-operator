@@ -1,0 +1,3 @@
+crds
+#templates/generated #TODO: Uncomment this, including files for review(for now). Will uncomment and remove generated files before merge.
+*.lock

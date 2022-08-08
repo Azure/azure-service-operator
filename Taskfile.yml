@@ -14,6 +14,8 @@ vars:
   CONTROLLER_OUTPUT:
     sh: 'realpath v2/config'
 
+  HELM_CHARTS_ROOT: v2/charts/
+
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT: ./scripts
@@ -40,8 +42,6 @@ vars:
   CROSSPLANE_ROOT: ./hack/crossplane/
   CROSSPLANE_OUTPUT:
     sh: 'realpath hack/crossplane/config'
-
-  KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
 
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
@@ -485,7 +485,37 @@ tasks:
     desc: Generate helm manifest using Kustomize for the release
     deps: [controller:generate-kustomize]
     cmds:
-     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
+     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} {{.CHART_DIR}}"
+
+  controller:package-helm-manifest:
+    desc: This target is used to package helm charts repository
+    cmds:
+      - echo "Packaging helm charts"
+      - helm package {{.HELM_CHARTS_ROOT}}azure-service-operator-crds -d {{.HELM_CHARTS_ROOT}}
+      - helm template {{.CHART_DIR}} --dependency-update > /dev/null
+      - helm package {{.CHART_DIR}} -d {{.HELM_CHARTS_ROOT}} # package the helm files into a tar file
+      - helm repo index {{.HELM_CHARTS_ROOT}} # update index.yaml for Helm Repository
+
+  controller:gen-helm-chart:
+    desc: Generate and package helm chart for ASOv2
+    vars:
+      DIR: "{{.HELM_CHARTS_ROOT}}azure-service-operator"
+    cmds:
+      - task: controller:gen-helm-manifest
+        vars: {CHART_DIR: "{{.DIR}}"}
+      - task: controller:package-helm-manifest
+        vars: {CHART_DIR: "{{.DIR}}"}
+
+  controller:gen-multitenant-helm-chart:
+    desc: Generate and package multitenant helm chart for ASOv2
+    vars:
+      DIR: "{{.HELM_CHARTS_ROOT}}azure-service-operator-multitenant"
+    cmds:
+      - task: controller:gen-helm-manifest
+        vars: {CHART_DIR: "{{.DIR}}"}
+      - "{{.SCRIPTS_ROOT}}/make-multitenant-helm.sh {{.DIR}}"
+      - task: controller:package-helm-manifest
+        vars: {CHART_DIR: "{{.DIR}}"}
 
   controller:install-helm:
     desc: Generate and install helm chart on cluster
@@ -509,7 +539,7 @@ tasks:
       - task: controller:kind-create
       - task: controller:install-cert-manager
       - task: controller:docker-push-local
-      - task: controller:gen-helm-manifest
+      - task: controller:gen-helm-chart
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
       - task: controller:install-helm

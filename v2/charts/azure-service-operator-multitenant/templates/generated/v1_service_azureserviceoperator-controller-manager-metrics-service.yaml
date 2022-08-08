@@ -1,0 +1,17 @@
+{{- if .Values.isCluster }}
+{{- if .Values.metrics.enable -}}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: azureserviceoperator-controller-manager-metrics-service
+  namespace: azureserviceoperator-system
+spec:
+  ports:
+  - name: metrics
+    port: {{ .Values.metrics.port | default 8080 }}
+  selector:
+    control-plane: controller-manager
+{{- end }}
+{{- end }}
