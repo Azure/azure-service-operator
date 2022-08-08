@@ -33,7 +33,9 @@ func TestTargetNamespaces(t *testing.T) {
 		TargetNamespaces: []string{"default", "watched"},
 	})
 
-	tc.CreateTestNamespaces("watched", "unwatched")
+	err := tc.CreateTestNamespaces("watched", "unwatched")
+	tc.Expect(err).ToNot(HaveOccurred())
+
 	standardSpec := resources.ResourceGroupSpec{
 		Location: tc.AzureRegion,
 		Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
@@ -74,7 +76,7 @@ func TestTargetNamespaces(t *testing.T) {
 		},
 		Spec: standardSpec,
 	}
-	_, err := tc.CreateResourceGroup(&rgUnwatched)
+	_, err = tc.CreateResourceGroup(&rgUnwatched)
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	// We can tell that the resource isn't being reconciled if it

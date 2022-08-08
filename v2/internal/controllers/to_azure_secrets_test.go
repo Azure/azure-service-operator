@@ -97,10 +97,12 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	secretName := tc.Namer.GenerateName("admin-pw")
-	nameSpaceName := "secret-namespace"
+	namespaceName := "secret-namespace"
 
-	tc.CreateTestNamespaces(nameSpaceName)
-	secretInDiffNamespace := createNamespacedSecret(tc, nameSpaceName, secretName)
+	err := tc.CreateTestNamespaces(namespaceName)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	secretInDiffNamespace := createNamespacedSecret(tc, namespaceName, secretName)
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -136,7 +138,8 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	cfg.TargetNamespaces = []string{ns1, ns2}
 	tc := globalTestContext.ForTestWithConfig(t, cfg)
 
-	tc.CreateTestNamespaces(ns1, ns2)
+	err = tc.CreateTestNamespaces(ns1, ns2)
+	tc.Expect(err).ToNot(HaveOccurred())
 
 	secretName := tc.Namer.GenerateName("vm-secret")
 	ns1Secret := createNamespacedSecret(tc, ns1, secretName)
@@ -173,7 +176,9 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	tc.Expect(genericarmclient.IsNotFoundError(err)).To(BeTrue())
 
 	tc.GetResource(client.ObjectKeyFromObject(vm1), vm1)
+	tc.Expect(vm1.Status.Conditions).ToNot(HaveLen(0))
 	tc.Expect(vm1.Status.Conditions[0].Type).To(BeEquivalentTo(conditions.ConditionTypeReady))
+	tc.Expect(vm1.Status.Conditions[0].Status).To(BeEquivalentTo(metav1.ConditionTrue))
 	tc.DeleteResourcesAndWait(rg, rg2)
 }
 
