@@ -248,7 +248,10 @@ func createReservedWords() map[string]string {
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
 func createForbiddenReceiverSuffixes() set.Set[string] {
-	return set.Make("Status", "Spec", "ARM")
+	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
+	status := strings.TrimPrefix(StatusSuffix, "_")
+	spec := strings.TrimPrefix(SpecSuffix, "_")
+	return set.Make(status, spec, "ARM", status+"ARM", spec+"ARM")
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
