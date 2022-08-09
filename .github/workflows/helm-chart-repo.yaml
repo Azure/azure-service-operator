@@ -83,7 +83,7 @@ jobs:
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:gen-helm-chart
-          docker exec "$container_id" task controller:gen-helm-chart
+          docker exec "$container_id" task controller:gen-multitenant-helm-chart
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@v0.9.0
         with:
