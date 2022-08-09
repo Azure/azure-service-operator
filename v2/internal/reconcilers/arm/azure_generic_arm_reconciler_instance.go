@@ -329,6 +329,12 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 		return ctrl.Result{}, err
 	}
 
+	onSuccess := extensions.CreateSuccessfulCreationHandler(r.Extension, r.Log)
+	err = onSuccess(r.Obj)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	ClearPollerResumeToken(r.Obj)
 	return ctrl.Result{}, nil
 }
