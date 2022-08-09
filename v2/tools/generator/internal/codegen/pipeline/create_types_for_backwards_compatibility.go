@@ -17,7 +17,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
+const (
+	CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
+	v1alpha1apiVersionPrefix              = "v1alpha1api"
+	v1betaVersionPrefix                   = "v1beta"
+)
 
 // CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of types into other packages to
 // provide backward compatibility with previous releases of Azure Service Operator.
@@ -93,7 +97,7 @@ func createBackwardCompatibleDefinitions(
 	}
 
 	// Rename all the types into our compatibility namespace
-	renames := createBackwardCompatibilityRenameMap(defs, "v1alpha1api")
+	renames := createBackwardCompatibilityRenameMap(defs, v1alpha1apiVersionPrefix)
 	visitor := astmodel.NewRenamingVisitor(renames)
 	renamed, err := visitor.RenameAll(withDescriptions)
 	if err != nil {

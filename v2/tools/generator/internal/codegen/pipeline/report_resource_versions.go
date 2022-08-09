@@ -214,10 +214,18 @@ func (report *ResourceVersionsReport) createTable(
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
+	var versionPrefix string
 	crdVersion := rsrc.Name().PackageReference.PackageName()
+
+	if strings.Contains(crdVersion, v1alpha1apiVersionPrefix) {
+		versionPrefix = v1alpha1apiVersionPrefix
+	} else {
+		versionPrefix = v1betaVersionPrefix
+	}
+
 	if samplesURL != "" {
 		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-		samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
+		samplePath := fmt.Sprintf("%s/%s/%s/%s_%s.yaml", samplesURL, group, versionPrefix, crdVersion, strings.ToLower(rsrc.Name().Name()))
 		return fmt.Sprintf("[View](%s)", samplePath)
 	}
 
@@ -234,7 +242,7 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
-	if strings.Contains(ver, "v1beta") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+	if strings.Contains(ver, v1betaVersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
 		return "v2.0.0-beta.0", nil
 	}
 
