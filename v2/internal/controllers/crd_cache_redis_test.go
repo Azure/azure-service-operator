@@ -21,6 +21,7 @@ import (
 
 func Test_Cache_Redis_CRUD(t *testing.T) {
 	t.Parallel()
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -46,9 +47,13 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	// same time seems to wreak havoc (or at least make things take a
 	// lot longer), so test firewall rules synchronously first -
 	// they're quick when not clobbering links.
-	tc.T.Run("Redis firewall rule CRUD", func(t *testing.T) {
-		Redis_FirewallRule_CRUD(tc.Subtest(t), redis1)
-	})
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "Redis firewall rule CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_FirewallRule_CRUD(tc, redis1)
+			},
+		})
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

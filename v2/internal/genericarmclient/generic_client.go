@@ -236,6 +236,9 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse, error) {
+	// The linter doesn't realize that the response is closed in the course of
+	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
+	// nolint:bodyclose
 	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
 	if err != nil {
 		return nil, err
