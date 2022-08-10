@@ -30,6 +30,13 @@ const (
 // TODO: to serviceoperator-internal.azure.com to signify they are internal?
 const (
 	ResourceIDAnnotation = "serviceoperator.azure.com/resource-id"
+
+	// ChildResourceIDOverrideAnnotation is an annotation that can be used to force child resources
+	// to be owned by a different resource ID than it would normally. This is primarily used for
+	// resources like SubscriptionAlias + Subscription, where the create API doesn't use the same
+	// ResourceID as needed by child resources of the subscription.
+	// When present, this takes precedent over
+	ChildResourceIDOverrideAnnotation = "serviceoperator.azure.com/child-resource-id-override"
 )
 
 // MetaObject represents an arbitrary ASO custom resource
