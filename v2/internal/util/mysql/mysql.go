@@ -94,7 +94,13 @@ func DoesUserExist(ctx context.Context, db *sql.DB, username string) (bool, erro
 	var name string
 	err := row.Scan(&name)
 	if err != nil {
-		return false, nil
+		if err == sql.ErrNoRows {
+			// User doesn't exist
+			return false, nil
+		}
+
+		// Something else went wrong
+		return false, err
 	}
 
 	return true, nil
