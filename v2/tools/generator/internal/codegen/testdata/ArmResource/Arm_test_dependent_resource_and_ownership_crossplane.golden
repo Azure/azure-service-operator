@@ -128,10 +128,6 @@ type AParameters struct {
 }
 
 type BParameters struct {
-	AName         string              `json:"aName,omitempty"`
-	ANameRef      *v1alpha1.Reference `json:"aNameRef,omitempty"`
-	ANameSelector *v1alpha1.Selector  `json:"aNameSelector,omitempty"`
-
 	// +kubebuilder:validation:Required
 	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
 
@@ -146,15 +142,8 @@ type BParameters struct {
 }
 
 type CParameters struct {
-	AName         string              `json:"aName,omitempty"`
-	ANameRef      *v1alpha1.Reference `json:"aNameRef,omitempty"`
-	ANameSelector *v1alpha1.Selector  `json:"aNameSelector,omitempty"`
-
 	// +kubebuilder:validation:Required
-	APIVersion    C_Spec_APIVersion   `json:"apiVersion,omitempty"`
-	BName         string              `json:"bName,omitempty"`
-	BNameRef      *v1alpha1.Reference `json:"bNameRef,omitempty"`
-	BNameSelector *v1alpha1.Selector  `json:"bNameSelector,omitempty"`
+	APIVersion C_Spec_APIVersion `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name,omitempty"`
@@ -167,15 +156,8 @@ type CParameters struct {
 }
 
 type DParameters struct {
-	AName         string              `json:"aName,omitempty"`
-	ANameRef      *v1alpha1.Reference `json:"aNameRef,omitempty"`
-	ANameSelector *v1alpha1.Selector  `json:"aNameSelector,omitempty"`
-
 	// +kubebuilder:validation:Required
-	APIVersion    D_Spec_APIVersion   `json:"apiVersion,omitempty"`
-	BName         string              `json:"bName,omitempty"`
-	BNameRef      *v1alpha1.Reference `json:"bNameRef,omitempty"`
-	BNameSelector *v1alpha1.Selector  `json:"bNameSelector,omitempty"`
+	APIVersion D_Spec_APIVersion `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Name                      string              `json:"name,omitempty"`

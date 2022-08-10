@@ -79,10 +79,6 @@ type AParameters struct {
 }
 
 type BParameters struct {
-	AName         string              `json:"aName,omitempty"`
-	ANameRef      *v1alpha1.Reference `json:"aNameRef,omitempty"`
-	ANameSelector *v1alpha1.Selector  `json:"aNameSelector,omitempty"`
-
 	// +kubebuilder:validation:Required
 	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
 

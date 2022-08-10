@@ -1332,8 +1332,8 @@ type B_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/A resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"A"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	Type B_Spec_Type `json:"type,omitempty"`
@@ -1538,8 +1538,8 @@ type C_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/B resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"B"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	Type C_Spec_Type `json:"type,omitempty"`
@@ -1744,8 +1744,8 @@ type D_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/B resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"B"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	Type D_Spec_Type `json:"type,omitempty"`

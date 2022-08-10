@@ -34,10 +34,10 @@ type RedisList struct {
 	Items           []Redis `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020--0-6--01"}
+// +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2020--0-6--01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type Redis_STATUS struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
