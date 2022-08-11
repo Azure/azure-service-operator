@@ -9,16 +9,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/pkg/errors"
 )
 
 const (
-	SubscriptionIDVar   = "AZURE_SUBSCRIPTION_ID"
-	TenantIDVar         = "AZURE_TENANT_ID"
-	targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
-	operatorModeVar     = "AZURE_OPERATOR_MODE"
-	syncPeriodVar       = "AZURE_SYNC_PERIOD"
-	podNamespaceVar     = "POD_NAMESPACE"
+	SubscriptionIDVar          = "AZURE_SUBSCRIPTION_ID"
+	TenantIDVar                = "AZURE_TENANT_ID"
+	targetNamespacesVar        = "AZURE_TARGET_NAMESPACES"
+	operatorModeVar            = "AZURE_OPERATOR_MODE"
+	syncPeriodVar              = "AZURE_SYNC_PERIOD"
+	resourceManagerEndpointVar = "AZURE_RESOURCE_MANAGER_ENDPOINT"
+	resourceManagerAudienceVar = "AZURE_RESOURCE_MANAGER_AUDIENCE"
+	azureAuthorityHostVar      = "AZURE_AUTHORITY_HOST"
+	podNamespaceVar            = "POD_NAMESPACE"
 )
 
 // Values stores configuration values that are set for the operator.
@@ -50,6 +54,25 @@ type Values struct {
 	// This can be set to nil by specifying empty string for AZURE_SYNC_PERIOD explicitly in
 	// the config.
 	SyncPeriod *time.Duration
+
+	// ResourceManagerEndpoint is the Azure Resource Manager endpoint.
+	// If not specified, the default is the Public cloud resource manager endpoint.
+	// See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+	// about how to find available resource manager endpoints for your cloud. Note that the resource manager
+	// endpoint is referred to as "resourceManager" in the Azure CLI.
+	ResourceManagerEndpoint string
+
+	// ResourceManagerAudience is the Azure Resource Manager AAD audience.
+	// If not specified, the default is the Public cloud resource manager audience https://management.core.windows.net/.
+	// See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+	// about how to find available resource manager audiences for your cloud. Note that the resource manager
+	// audience is referred to as "activeDirectoryResourceId" in the Azure CLI.
+	ResourceManagerAudience string
+
+	// AzureAuthorityHost is the URL of the AAD authority. If not specified, the default
+	// is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
+	// https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
+	AzureAuthorityHost string
 }
 
 var _ fmt.Stringer = Values{}
@@ -57,12 +80,53 @@ var _ fmt.Stringer = Values{}
 // Returns the configuration as a string
 func (v Values) String() string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s",
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s",
 		v.SubscriptionID,
 		v.PodNamespace,
 		v.OperatorMode,
 		strings.Join(v.TargetNamespaces, "|"),
-		v.SyncPeriod)
+		v.SyncPeriod,
+		v.ResourceManagerEndpoint,
+		v.ResourceManagerAudience,
+		v.AzureAuthorityHost)
+}
+
+// Cloud returns the cloud the configuration is using
+func (v Values) Cloud() cloud.Configuration {
+
+	// Special handling if we've got all the defaults just return the official public cloud
+	// configuration
+	hasDefaultAzureAuthorityHost := v.AzureAuthorityHost == "" || v.AzureAuthorityHost == cloud.AzurePublic.ActiveDirectoryAuthorityHost
+	hasDefaultResourceManagerEndpoint := v.ResourceManagerEndpoint == "" || v.ResourceManagerEndpoint == cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint
+	hasDefaultResourceManagerAudience := v.ResourceManagerAudience == "" || v.ResourceManagerAudience == cloud.AzurePublic.Services[cloud.ResourceManager].Audience
+
+	if hasDefaultResourceManagerEndpoint && hasDefaultResourceManagerAudience && hasDefaultAzureAuthorityHost {
+		return cloud.AzurePublic
+	}
+
+	// We default here too to more easily support empty Values objects
+	azureAuthorityHost := v.AzureAuthorityHost
+	resourceManagerEndpoint := v.ResourceManagerEndpoint
+	resourceManagerAudience := v.ResourceManagerAudience
+	if azureAuthorityHost == "" {
+		azureAuthorityHost = cloud.AzurePublic.ActiveDirectoryAuthorityHost
+	}
+	if resourceManagerAudience == "" {
+		resourceManagerAudience = cloud.AzurePublic.Services[cloud.ResourceManager].Audience
+	}
+	if resourceManagerEndpoint == "" {
+		resourceManagerEndpoint = cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint
+	}
+
+	return cloud.Configuration{
+		ActiveDirectoryAuthorityHost: azureAuthorityHost,
+		Services: map[cloud.ServiceName]cloud.ServiceConfiguration{
+			cloud.ResourceManager: {
+				Endpoint: resourceManagerEndpoint,
+				Audience: resourceManagerAudience,
+			},
+		},
+	}
 }
 
 // ReadFromEnvironment loads configuration values from the AZURE_*
@@ -86,6 +150,9 @@ func ReadFromEnvironment() (Values, error) {
 	result.PodNamespace = os.Getenv(podNamespaceVar)
 	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(targetNamespacesVar))
 	result.SyncPeriod, err = parseSyncPeriod()
+	result.ResourceManagerEndpoint = envOrDefault(resourceManagerEndpointVar, cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint)
+	result.ResourceManagerAudience = envOrDefault(resourceManagerAudienceVar, cloud.AzurePublic.Services[cloud.ResourceManager].Audience)
+	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, cloud.AzurePublic.ActiveDirectoryAuthorityHost)
 
 	if err != nil {
 		return result, errors.Wrapf(err, "parsing %q", syncPeriodVar)
