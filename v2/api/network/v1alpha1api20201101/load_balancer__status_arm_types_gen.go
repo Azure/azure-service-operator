@@ -49,7 +49,7 @@ type BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 // Deprecated version of ExtendedLocationType_Status. Use v1beta20201101.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
+const ExtendedLocationType_Status_EdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM struct {
@@ -79,16 +79,16 @@ type InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 type LoadBalancerSkuStatusName string
 
 const (
-	LoadBalancerSkuStatusNameBasic    = LoadBalancerSkuStatusName("Basic")
-	LoadBalancerSkuStatusNameStandard = LoadBalancerSkuStatusName("Standard")
+	LoadBalancerSkuStatusName_Basic    = LoadBalancerSkuStatusName("Basic")
+	LoadBalancerSkuStatusName_Standard = LoadBalancerSkuStatusName("Standard")
 )
 
 // Deprecated version of LoadBalancerSkuStatusTier. Use v1beta20201101.LoadBalancerSkuStatusTier instead
 type LoadBalancerSkuStatusTier string
 
 const (
-	LoadBalancerSkuStatusTierGlobal   = LoadBalancerSkuStatusTier("Global")
-	LoadBalancerSkuStatusTierRegional = LoadBalancerSkuStatusTier("Regional")
+	LoadBalancerSkuStatusTier_Global   = LoadBalancerSkuStatusTier("Global")
+	LoadBalancerSkuStatusTier_Regional = LoadBalancerSkuStatusTier("Regional")
 )
 
 // Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead

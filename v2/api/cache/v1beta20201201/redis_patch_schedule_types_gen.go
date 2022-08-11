@@ -91,7 +91,7 @@ func (schedule *RedisPatchSchedule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (schedule RedisPatchSchedule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1018,29 +1018,29 @@ func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destina
 type ScheduleEntryDayOfWeek string
 
 const (
-	ScheduleEntryDayOfWeekEveryday  = ScheduleEntryDayOfWeek("Everyday")
-	ScheduleEntryDayOfWeekFriday    = ScheduleEntryDayOfWeek("Friday")
-	ScheduleEntryDayOfWeekMonday    = ScheduleEntryDayOfWeek("Monday")
-	ScheduleEntryDayOfWeekSaturday  = ScheduleEntryDayOfWeek("Saturday")
-	ScheduleEntryDayOfWeekSunday    = ScheduleEntryDayOfWeek("Sunday")
-	ScheduleEntryDayOfWeekThursday  = ScheduleEntryDayOfWeek("Thursday")
-	ScheduleEntryDayOfWeekTuesday   = ScheduleEntryDayOfWeek("Tuesday")
-	ScheduleEntryDayOfWeekWednesday = ScheduleEntryDayOfWeek("Wednesday")
-	ScheduleEntryDayOfWeekWeekend   = ScheduleEntryDayOfWeek("Weekend")
+	ScheduleEntryDayOfWeek_Everyday  = ScheduleEntryDayOfWeek("Everyday")
+	ScheduleEntryDayOfWeek_Friday    = ScheduleEntryDayOfWeek("Friday")
+	ScheduleEntryDayOfWeek_Monday    = ScheduleEntryDayOfWeek("Monday")
+	ScheduleEntryDayOfWeek_Saturday  = ScheduleEntryDayOfWeek("Saturday")
+	ScheduleEntryDayOfWeek_Sunday    = ScheduleEntryDayOfWeek("Sunday")
+	ScheduleEntryDayOfWeek_Thursday  = ScheduleEntryDayOfWeek("Thursday")
+	ScheduleEntryDayOfWeek_Tuesday   = ScheduleEntryDayOfWeek("Tuesday")
+	ScheduleEntryDayOfWeek_Wednesday = ScheduleEntryDayOfWeek("Wednesday")
+	ScheduleEntryDayOfWeek_Weekend   = ScheduleEntryDayOfWeek("Weekend")
 )
 
 type ScheduleEntryStatusDayOfWeek string
 
 const (
-	ScheduleEntryStatusDayOfWeekEveryday  = ScheduleEntryStatusDayOfWeek("Everyday")
-	ScheduleEntryStatusDayOfWeekFriday    = ScheduleEntryStatusDayOfWeek("Friday")
-	ScheduleEntryStatusDayOfWeekMonday    = ScheduleEntryStatusDayOfWeek("Monday")
-	ScheduleEntryStatusDayOfWeekSaturday  = ScheduleEntryStatusDayOfWeek("Saturday")
-	ScheduleEntryStatusDayOfWeekSunday    = ScheduleEntryStatusDayOfWeek("Sunday")
-	ScheduleEntryStatusDayOfWeekThursday  = ScheduleEntryStatusDayOfWeek("Thursday")
-	ScheduleEntryStatusDayOfWeekTuesday   = ScheduleEntryStatusDayOfWeek("Tuesday")
-	ScheduleEntryStatusDayOfWeekWednesday = ScheduleEntryStatusDayOfWeek("Wednesday")
-	ScheduleEntryStatusDayOfWeekWeekend   = ScheduleEntryStatusDayOfWeek("Weekend")
+	ScheduleEntryStatusDayOfWeek_Everyday  = ScheduleEntryStatusDayOfWeek("Everyday")
+	ScheduleEntryStatusDayOfWeek_Friday    = ScheduleEntryStatusDayOfWeek("Friday")
+	ScheduleEntryStatusDayOfWeek_Monday    = ScheduleEntryStatusDayOfWeek("Monday")
+	ScheduleEntryStatusDayOfWeek_Saturday  = ScheduleEntryStatusDayOfWeek("Saturday")
+	ScheduleEntryStatusDayOfWeek_Sunday    = ScheduleEntryStatusDayOfWeek("Sunday")
+	ScheduleEntryStatusDayOfWeek_Thursday  = ScheduleEntryStatusDayOfWeek("Thursday")
+	ScheduleEntryStatusDayOfWeek_Tuesday   = ScheduleEntryStatusDayOfWeek("Tuesday")
+	ScheduleEntryStatusDayOfWeek_Wednesday = ScheduleEntryStatusDayOfWeek("Wednesday")
+	ScheduleEntryStatusDayOfWeek_Weekend   = ScheduleEntryStatusDayOfWeek("Weekend")
 )
 
 func init() {

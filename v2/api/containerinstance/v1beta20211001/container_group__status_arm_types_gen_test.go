@@ -168,10 +168,10 @@ func AddIndependentPropertyGeneratorsForContainerGroupIdentityStatusARM(gens map
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ContainerGroupIdentityStatusTypeNone,
-		ContainerGroupIdentityStatusTypeSystemAssigned,
-		ContainerGroupIdentityStatusTypeSystemAssignedUserAssigned,
-		ContainerGroupIdentityStatusTypeUserAssigned))
+		ContainerGroupIdentityStatusType_None,
+		ContainerGroupIdentityStatusType_SystemAssigned,
+		ContainerGroupIdentityStatusType_SystemAssignedUserAssigned,
+		ContainerGroupIdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForContainerGroupIdentityStatusARM is a factory method for creating gopter generators
@@ -246,10 +246,10 @@ func ContainerGroupStatusPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerGroupStatusPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerGroupStatusPropertiesARM(gens map[string]gopter.Gen) {
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroupStatusPropertiesOsTypeLinux, ContainerGroupStatusPropertiesOsTypeWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroupStatusPropertiesOsType_Linux, ContainerGroupStatusPropertiesOsType_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroupStatusPropertiesRestartPolicyAlways, ContainerGroupStatusPropertiesRestartPolicyNever, ContainerGroupStatusPropertiesRestartPolicyOnFailure))
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_StatusDedicated, ContainerGroupSku_StatusStandard))
+	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroupStatusPropertiesRestartPolicy_Always, ContainerGroupStatusPropertiesRestartPolicy_Never, ContainerGroupStatusPropertiesRestartPolicy_OnFailure))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_Status_Dedicated, ContainerGroupSku_Status_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForContainerGroupStatusPropertiesARM is a factory method for creating gopter generators
@@ -933,14 +933,14 @@ func IpAddressStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIpAddressStatusARM(gens map[string]gopter.Gen) {
 	gens["DnsNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["DnsNameLabelReusePolicy"] = gen.PtrOf(gen.OneConstOf(
-		IpAddressStatusDnsNameLabelReusePolicyNoreuse,
-		IpAddressStatusDnsNameLabelReusePolicyResourceGroupReuse,
-		IpAddressStatusDnsNameLabelReusePolicySubscriptionReuse,
-		IpAddressStatusDnsNameLabelReusePolicyTenantReuse,
-		IpAddressStatusDnsNameLabelReusePolicyUnsecure))
+		IpAddressStatusDnsNameLabelReusePolicy_Noreuse,
+		IpAddressStatusDnsNameLabelReusePolicy_ResourceGroupReuse,
+		IpAddressStatusDnsNameLabelReusePolicy_SubscriptionReuse,
+		IpAddressStatusDnsNameLabelReusePolicy_TenantReuse,
+		IpAddressStatusDnsNameLabelReusePolicy_Unsecure))
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Ip"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddressStatusTypePrivate, IpAddressStatusTypePublic))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddressStatusType_Private, IpAddressStatusType_Public))
 }
 
 // AddRelatedPropertyGeneratorsForIpAddressStatusARM is a factory method for creating gopter generators
@@ -1434,7 +1434,7 @@ func LogAnalyticsStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLogAnalyticsStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalyticsStatusARM(gens map[string]gopter.Gen) {
-	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalyticsStatusLogTypeContainerInsights, LogAnalyticsStatusLogTypeContainerInstanceLogs))
+	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalyticsStatusLogType_ContainerInsights, LogAnalyticsStatusLogType_ContainerInstanceLogs))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
@@ -1499,7 +1499,7 @@ func PortStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPortStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPortStatusARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortStatusProtocolTCP, PortStatusProtocolUDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortStatusProtocol_TCP, PortStatusProtocol_UDP))
 }
 
 func Test_ContainerPort_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1561,7 +1561,7 @@ func ContainerPortStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForContainerPortStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPortStatusARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPortStatusProtocolTCP, ContainerPortStatusProtocolUDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPortStatusProtocol_TCP, ContainerPortStatusProtocol_UDP))
 }
 
 func Test_ContainerProbe_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2116,7 +2116,7 @@ func ContainerHttpGetStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerHttpGetStatusARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGetStatusSchemeHttp, ContainerHttpGetStatusSchemeHttps))
+	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGetStatusScheme_Http, ContainerHttpGetStatusScheme_Https))
 }
 
 // AddRelatedPropertyGeneratorsForContainerHttpGetStatusARM is a factory method for creating gopter generators
@@ -2400,7 +2400,7 @@ func GpuResourceStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGpuResourceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGpuResourceStatusARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResourceStatusSkuK80, GpuResourceStatusSkuP100, GpuResourceStatusSkuV100))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResourceStatusSku_K80, GpuResourceStatusSku_P100, GpuResourceStatusSku_V100))
 }
 
 func Test_HttpHeader_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

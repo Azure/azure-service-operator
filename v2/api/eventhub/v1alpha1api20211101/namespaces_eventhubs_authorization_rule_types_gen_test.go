@@ -268,6 +268,6 @@ func NamespacesEventhubsAuthorizationRulesSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRulesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRightsListen, AuthorizationRulePropertiesRightsManage, AuthorizationRulePropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRights_Listen, AuthorizationRulePropertiesRights_Manage, AuthorizationRulePropertiesRights_Send))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

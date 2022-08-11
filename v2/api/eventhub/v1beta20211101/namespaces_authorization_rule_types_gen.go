@@ -98,7 +98,7 @@ func (rule *NamespacesAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -812,9 +812,9 @@ func (rules *NamespacesAuthorizationRules_Spec) SetAzureName(azureName string) {
 type AuthorizationRulePropertiesRights string
 
 const (
-	AuthorizationRulePropertiesRightsListen = AuthorizationRulePropertiesRights("Listen")
-	AuthorizationRulePropertiesRightsManage = AuthorizationRulePropertiesRights("Manage")
-	AuthorizationRulePropertiesRightsSend   = AuthorizationRulePropertiesRights("Send")
+	AuthorizationRulePropertiesRights_Listen = AuthorizationRulePropertiesRights("Listen")
+	AuthorizationRulePropertiesRights_Manage = AuthorizationRulePropertiesRights("Manage")
+	AuthorizationRulePropertiesRights_Send   = AuthorizationRulePropertiesRights("Send")
 )
 
 func init() {

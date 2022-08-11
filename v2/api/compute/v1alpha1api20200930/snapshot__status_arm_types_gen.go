@@ -45,7 +45,7 @@ type SnapshotSku_StatusARM struct {
 type SnapshotSkuStatusName string
 
 const (
-	SnapshotSkuStatusNamePremiumLRS  = SnapshotSkuStatusName("Premium_LRS")
-	SnapshotSkuStatusNameStandardLRS = SnapshotSkuStatusName("Standard_LRS")
-	SnapshotSkuStatusNameStandardZRS = SnapshotSkuStatusName("Standard_ZRS")
+	SnapshotSkuStatusName_PremiumLRS  = SnapshotSkuStatusName("Premium_LRS")
+	SnapshotSkuStatusName_StandardLRS = SnapshotSkuStatusName("Standard_LRS")
+	SnapshotSkuStatusName_StandardZRS = SnapshotSkuStatusName("Standard_ZRS")
 )

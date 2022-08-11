@@ -98,7 +98,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -3583,75 +3583,75 @@ func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destin
 type ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG1g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG2g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG3g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG4g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG7g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG1G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG1g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG2G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG2g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG3G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG3g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG4G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG4g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG7G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG7g")
 )
 
 // +kubebuilder:validation:Enum={"OS","Temporary"}
 type ManagedClusterAgentPoolProfilePropertiesKubeletDiskType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS        = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("OS")
-	ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("Temporary")
+	ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_OS        = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("OS")
+	ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_Temporary = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("Temporary")
 )
 
 // +kubebuilder:validation:Enum={"System","User"}
 type ManagedClusterAgentPoolProfilePropertiesMode string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesModeSystem = ManagedClusterAgentPoolProfilePropertiesMode("System")
-	ManagedClusterAgentPoolProfilePropertiesModeUser   = ManagedClusterAgentPoolProfilePropertiesMode("User")
+	ManagedClusterAgentPoolProfilePropertiesMode_System = ManagedClusterAgentPoolProfilePropertiesMode("System")
+	ManagedClusterAgentPoolProfilePropertiesMode_User   = ManagedClusterAgentPoolProfilePropertiesMode("User")
 )
 
 // +kubebuilder:validation:Enum={"Ephemeral","Managed"}
 type ManagedClusterAgentPoolProfilePropertiesOsDiskType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsDiskTypeEphemeral = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Ephemeral")
-	ManagedClusterAgentPoolProfilePropertiesOsDiskTypeManaged   = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Managed")
+	ManagedClusterAgentPoolProfilePropertiesOsDiskType_Ephemeral = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Ephemeral")
+	ManagedClusterAgentPoolProfilePropertiesOsDiskType_Managed   = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Managed")
 )
 
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type ManagedClusterAgentPoolProfilePropertiesOsSKU string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsSKUCBLMariner = ManagedClusterAgentPoolProfilePropertiesOsSKU("CBLMariner")
-	ManagedClusterAgentPoolProfilePropertiesOsSKUUbuntu     = ManagedClusterAgentPoolProfilePropertiesOsSKU("Ubuntu")
+	ManagedClusterAgentPoolProfilePropertiesOsSKU_CBLMariner = ManagedClusterAgentPoolProfilePropertiesOsSKU("CBLMariner")
+	ManagedClusterAgentPoolProfilePropertiesOsSKU_Ubuntu     = ManagedClusterAgentPoolProfilePropertiesOsSKU("Ubuntu")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ManagedClusterAgentPoolProfilePropertiesOsType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsTypeLinux   = ManagedClusterAgentPoolProfilePropertiesOsType("Linux")
-	ManagedClusterAgentPoolProfilePropertiesOsTypeWindows = ManagedClusterAgentPoolProfilePropertiesOsType("Windows")
+	ManagedClusterAgentPoolProfilePropertiesOsType_Linux   = ManagedClusterAgentPoolProfilePropertiesOsType("Linux")
+	ManagedClusterAgentPoolProfilePropertiesOsType_Windows = ManagedClusterAgentPoolProfilePropertiesOsType("Windows")
 )
 
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDeallocate = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Deallocate")
-	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDelete     = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Delete")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Deallocate = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Deallocate")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Delete     = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Delete")
 )
 
 // +kubebuilder:validation:Enum={"Regular","Spot"}
 type ManagedClusterAgentPoolProfilePropertiesScaleSetPriority string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesScaleSetPriorityRegular = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Regular")
-	ManagedClusterAgentPoolProfilePropertiesScaleSetPrioritySpot    = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Spot")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Regular = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Regular")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Spot    = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Spot")
 )
 
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
 type ManagedClusterAgentPoolProfilePropertiesType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesTypeAvailabilitySet         = ManagedClusterAgentPoolProfilePropertiesType("AvailabilitySet")
-	ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
+	ManagedClusterAgentPoolProfilePropertiesType_AvailabilitySet         = ManagedClusterAgentPoolProfilePropertiesType("AvailabilitySet")
+	ManagedClusterAgentPoolProfilePropertiesType_VirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig

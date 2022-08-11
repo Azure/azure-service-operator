@@ -35,7 +35,7 @@ var _ genruntime.ARMResourceSpec = &ManagedClusters_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (clusters ManagedClusters_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -214,7 +214,7 @@ type ContainerServiceNetworkProfileARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
 type ManagedClusterAADProfileARM struct {
@@ -404,9 +404,9 @@ type ManagedClusterHTTPProxyConfigARM struct {
 type ManagedClusterIdentityType string
 
 const (
-	ManagedClusterIdentityTypeNone           = ManagedClusterIdentityType("None")
-	ManagedClusterIdentityTypeSystemAssigned = ManagedClusterIdentityType("SystemAssigned")
-	ManagedClusterIdentityTypeUserAssigned   = ManagedClusterIdentityType("UserAssigned")
+	ManagedClusterIdentityType_None           = ManagedClusterIdentityType("None")
+	ManagedClusterIdentityType_SystemAssigned = ManagedClusterIdentityType("SystemAssigned")
+	ManagedClusterIdentityType_UserAssigned   = ManagedClusterIdentityType("UserAssigned")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
@@ -494,14 +494,14 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKUName string
 
-const ManagedClusterSKUNameBasic = ManagedClusterSKUName("Basic")
+const ManagedClusterSKUName_Basic = ManagedClusterSKUName("Basic")
 
 // +kubebuilder:validation:Enum={"Free","Paid"}
 type ManagedClusterSKUTier string
 
 const (
-	ManagedClusterSKUTierFree = ManagedClusterSKUTier("Free")
-	ManagedClusterSKUTierPaid = ManagedClusterSKUTier("Paid")
+	ManagedClusterSKUTier_Free = ManagedClusterSKUTier("Free")
+	ManagedClusterSKUTier_Paid = ManagedClusterSKUTier("Paid")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile

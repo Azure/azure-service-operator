@@ -112,7 +112,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1140,8 +1140,8 @@ func (databases *RedisEnterpriseDatabases_Spec) SetAzureName(azureName string) {
 type DatabasePropertiesClientProtocol string
 
 const (
-	DatabasePropertiesClientProtocolEncrypted = DatabasePropertiesClientProtocol("Encrypted")
-	DatabasePropertiesClientProtocolPlaintext = DatabasePropertiesClientProtocol("Plaintext")
+	DatabasePropertiesClientProtocol_Encrypted = DatabasePropertiesClientProtocol("Encrypted")
+	DatabasePropertiesClientProtocol_Plaintext = DatabasePropertiesClientProtocol("Plaintext")
 )
 
 // Deprecated version of DatabasePropertiesClusteringPolicy. Use v1beta20210301.DatabasePropertiesClusteringPolicy instead
@@ -1149,8 +1149,8 @@ const (
 type DatabasePropertiesClusteringPolicy string
 
 const (
-	DatabasePropertiesClusteringPolicyEnterpriseCluster = DatabasePropertiesClusteringPolicy("EnterpriseCluster")
-	DatabasePropertiesClusteringPolicyOSSCluster        = DatabasePropertiesClusteringPolicy("OSSCluster")
+	DatabasePropertiesClusteringPolicy_EnterpriseCluster = DatabasePropertiesClusteringPolicy("EnterpriseCluster")
+	DatabasePropertiesClusteringPolicy_OSSCluster        = DatabasePropertiesClusteringPolicy("OSSCluster")
 )
 
 // Deprecated version of DatabasePropertiesEvictionPolicy. Use v1beta20210301.DatabasePropertiesEvictionPolicy instead
@@ -1158,14 +1158,14 @@ const (
 type DatabasePropertiesEvictionPolicy string
 
 const (
-	DatabasePropertiesEvictionPolicyAllKeysLFU     = DatabasePropertiesEvictionPolicy("AllKeysLFU")
-	DatabasePropertiesEvictionPolicyAllKeysLRU     = DatabasePropertiesEvictionPolicy("AllKeysLRU")
-	DatabasePropertiesEvictionPolicyAllKeysRandom  = DatabasePropertiesEvictionPolicy("AllKeysRandom")
-	DatabasePropertiesEvictionPolicyNoEviction     = DatabasePropertiesEvictionPolicy("NoEviction")
-	DatabasePropertiesEvictionPolicyVolatileLFU    = DatabasePropertiesEvictionPolicy("VolatileLFU")
-	DatabasePropertiesEvictionPolicyVolatileLRU    = DatabasePropertiesEvictionPolicy("VolatileLRU")
-	DatabasePropertiesEvictionPolicyVolatileRandom = DatabasePropertiesEvictionPolicy("VolatileRandom")
-	DatabasePropertiesEvictionPolicyVolatileTTL    = DatabasePropertiesEvictionPolicy("VolatileTTL")
+	DatabasePropertiesEvictionPolicy_AllKeysLFU     = DatabasePropertiesEvictionPolicy("AllKeysLFU")
+	DatabasePropertiesEvictionPolicy_AllKeysLRU     = DatabasePropertiesEvictionPolicy("AllKeysLRU")
+	DatabasePropertiesEvictionPolicy_AllKeysRandom  = DatabasePropertiesEvictionPolicy("AllKeysRandom")
+	DatabasePropertiesEvictionPolicy_NoEviction     = DatabasePropertiesEvictionPolicy("NoEviction")
+	DatabasePropertiesEvictionPolicy_VolatileLFU    = DatabasePropertiesEvictionPolicy("VolatileLFU")
+	DatabasePropertiesEvictionPolicy_VolatileLRU    = DatabasePropertiesEvictionPolicy("VolatileLRU")
+	DatabasePropertiesEvictionPolicy_VolatileRandom = DatabasePropertiesEvictionPolicy("VolatileRandom")
+	DatabasePropertiesEvictionPolicy_VolatileTTL    = DatabasePropertiesEvictionPolicy("VolatileTTL")
 )
 
 // Deprecated version of Module. Use v1beta20210301.Module instead
@@ -1658,8 +1658,8 @@ func (persistence *Persistence_Status) AssignPropertiesToPersistenceStatus(desti
 type PersistenceAofFrequency string
 
 const (
-	PersistenceAofFrequency1S     = PersistenceAofFrequency("1s")
-	PersistenceAofFrequencyAlways = PersistenceAofFrequency("always")
+	PersistenceAofFrequency_1S     = PersistenceAofFrequency("1s")
+	PersistenceAofFrequency_Always = PersistenceAofFrequency("always")
 )
 
 // Deprecated version of PersistenceRdbFrequency. Use v1beta20210301.PersistenceRdbFrequency instead
@@ -1667,9 +1667,9 @@ const (
 type PersistenceRdbFrequency string
 
 const (
-	PersistenceRdbFrequency12H = PersistenceRdbFrequency("12h")
-	PersistenceRdbFrequency1H  = PersistenceRdbFrequency("1h")
-	PersistenceRdbFrequency6H  = PersistenceRdbFrequency("6h")
+	PersistenceRdbFrequency_12H = PersistenceRdbFrequency("12h")
+	PersistenceRdbFrequency_1H  = PersistenceRdbFrequency("1h")
+	PersistenceRdbFrequency_6H  = PersistenceRdbFrequency("6h")
 )
 
 func init() {

@@ -52,9 +52,9 @@ type DatabaseAccountGetProperties_StatusARM struct {
 type DatabaseAccountGetResultsStatusKind string
 
 const (
-	DatabaseAccountGetResultsStatusKindGlobalDocumentDB = DatabaseAccountGetResultsStatusKind("GlobalDocumentDB")
-	DatabaseAccountGetResultsStatusKindMongoDB          = DatabaseAccountGetResultsStatusKind("MongoDB")
-	DatabaseAccountGetResultsStatusKindParse            = DatabaseAccountGetResultsStatusKind("Parse")
+	DatabaseAccountGetResultsStatusKind_GlobalDocumentDB = DatabaseAccountGetResultsStatusKind("GlobalDocumentDB")
+	DatabaseAccountGetResultsStatusKind_MongoDB          = DatabaseAccountGetResultsStatusKind("MongoDB")
+	DatabaseAccountGetResultsStatusKind_Parse            = DatabaseAccountGetResultsStatusKind("Parse")
 )
 
 // Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
@@ -127,10 +127,10 @@ type Location_StatusARM struct {
 type ManagedServiceIdentityStatusType string
 
 const (
-	ManagedServiceIdentityStatusTypeNone                       = ManagedServiceIdentityStatusType("None")
-	ManagedServiceIdentityStatusTypeSystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
-	ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityStatusTypeUserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
+	ManagedServiceIdentityStatusType_None                       = ManagedServiceIdentityStatusType("None")
+	ManagedServiceIdentityStatusType_SystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
+	ManagedServiceIdentityStatusType_SystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
+	ManagedServiceIdentityStatusType_UserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
 )
 
 // Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead

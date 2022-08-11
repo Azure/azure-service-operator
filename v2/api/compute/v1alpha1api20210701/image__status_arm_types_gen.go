@@ -31,7 +31,7 @@ type ImageProperties_StatusARM struct {
 // Deprecated version of ExtendedLocationType_Status. Use v1beta20210701.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
+const ExtendedLocationType_Status_EdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_StatusARM struct {

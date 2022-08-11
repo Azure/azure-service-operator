@@ -68,22 +68,22 @@ type RestorePolicyProperties_StatusARM struct {
 type SkuName_Status string
 
 const (
-	SkuName_StatusPremiumLRS     = SkuName_Status("Premium_LRS")
-	SkuName_StatusPremiumZRS     = SkuName_Status("Premium_ZRS")
-	SkuName_StatusStandardGRS    = SkuName_Status("Standard_GRS")
-	SkuName_StatusStandardGZRS   = SkuName_Status("Standard_GZRS")
-	SkuName_StatusStandardLRS    = SkuName_Status("Standard_LRS")
-	SkuName_StatusStandardRAGRS  = SkuName_Status("Standard_RAGRS")
-	SkuName_StatusStandardRAGZRS = SkuName_Status("Standard_RAGZRS")
-	SkuName_StatusStandardZRS    = SkuName_Status("Standard_ZRS")
+	SkuName_Status_PremiumLRS     = SkuName_Status("Premium_LRS")
+	SkuName_Status_PremiumZRS     = SkuName_Status("Premium_ZRS")
+	SkuName_Status_StandardGRS    = SkuName_Status("Standard_GRS")
+	SkuName_Status_StandardGZRS   = SkuName_Status("Standard_GZRS")
+	SkuName_Status_StandardLRS    = SkuName_Status("Standard_LRS")
+	SkuName_Status_StandardRAGRS  = SkuName_Status("Standard_RAGRS")
+	SkuName_Status_StandardRAGZRS = SkuName_Status("Standard_RAGZRS")
+	SkuName_Status_StandardZRS    = SkuName_Status("Standard_ZRS")
 )
 
 // Deprecated version of Tier_Status. Use v1beta20210401.Tier_Status instead
 type Tier_Status string
 
 const (
-	Tier_StatusPremium  = Tier_Status("Premium")
-	Tier_StatusStandard = Tier_Status("Standard")
+	Tier_Status_Premium  = Tier_Status("Premium")
+	Tier_Status_Standard = Tier_Status("Standard")
 )
 
 // Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
@@ -99,17 +99,17 @@ type CorsRule_StatusARM struct {
 // instead
 type LastAccessTimeTrackingPolicyStatusName string
 
-const LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking = LastAccessTimeTrackingPolicyStatusName("AccessTimeTracking")
+const LastAccessTimeTrackingPolicyStatusName_AccessTimeTracking = LastAccessTimeTrackingPolicyStatusName("AccessTimeTracking")
 
 // Deprecated version of CorsRuleStatusAllowedMethods. Use v1beta20210401.CorsRuleStatusAllowedMethods instead
 type CorsRuleStatusAllowedMethods string
 
 const (
-	CorsRuleStatusAllowedMethodsDELETE  = CorsRuleStatusAllowedMethods("DELETE")
-	CorsRuleStatusAllowedMethodsGET     = CorsRuleStatusAllowedMethods("GET")
-	CorsRuleStatusAllowedMethodsHEAD    = CorsRuleStatusAllowedMethods("HEAD")
-	CorsRuleStatusAllowedMethodsMERGE   = CorsRuleStatusAllowedMethods("MERGE")
-	CorsRuleStatusAllowedMethodsOPTIONS = CorsRuleStatusAllowedMethods("OPTIONS")
-	CorsRuleStatusAllowedMethodsPOST    = CorsRuleStatusAllowedMethods("POST")
-	CorsRuleStatusAllowedMethodsPUT     = CorsRuleStatusAllowedMethods("PUT")
+	CorsRuleStatusAllowedMethods_DELETE  = CorsRuleStatusAllowedMethods("DELETE")
+	CorsRuleStatusAllowedMethods_GET     = CorsRuleStatusAllowedMethods("GET")
+	CorsRuleStatusAllowedMethods_HEAD    = CorsRuleStatusAllowedMethods("HEAD")
+	CorsRuleStatusAllowedMethods_MERGE   = CorsRuleStatusAllowedMethods("MERGE")
+	CorsRuleStatusAllowedMethods_OPTIONS = CorsRuleStatusAllowedMethods("OPTIONS")
+	CorsRuleStatusAllowedMethods_POST    = CorsRuleStatusAllowedMethods("POST")
+	CorsRuleStatusAllowedMethods_PUT     = CorsRuleStatusAllowedMethods("PUT")
 )

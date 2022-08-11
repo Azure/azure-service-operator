@@ -153,10 +153,10 @@ func IdentityARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeNone,
-		IdentityTypeSystemAssigned,
-		IdentityTypeSystemAssignedUserAssigned,
-		IdentityTypeUserAssigned))
+		IdentityType_None,
+		IdentityType_SystemAssigned,
+		IdentityType_SystemAssignedUserAssigned,
+		IdentityType_UserAssigned))
 }
 
 func Test_Namespaces_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -292,8 +292,8 @@ func SBSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuNameBasic, SBSkuNamePremium, SBSkuNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuTierBasic, SBSkuTierPremium, SBSkuTierStandard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuName_Basic, SBSkuName_Premium, SBSkuName_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuTier_Basic, SBSkuTier_Premium, SBSkuTier_Standard))
 }
 
 func Test_EncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -362,7 +362,7 @@ func EncryptionARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionKeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionKeySource_MicrosoftKeyVault))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 

@@ -154,12 +154,12 @@ func DomainTopicPropertiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainTopicPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainTopicPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicPropertiesStatusProvisioningStateCanceled,
-		DomainTopicPropertiesStatusProvisioningStateCreating,
-		DomainTopicPropertiesStatusProvisioningStateDeleting,
-		DomainTopicPropertiesStatusProvisioningStateFailed,
-		DomainTopicPropertiesStatusProvisioningStateSucceeded,
-		DomainTopicPropertiesStatusProvisioningStateUpdating))
+		DomainTopicPropertiesStatusProvisioningState_Canceled,
+		DomainTopicPropertiesStatusProvisioningState_Creating,
+		DomainTopicPropertiesStatusProvisioningState_Deleting,
+		DomainTopicPropertiesStatusProvisioningState_Failed,
+		DomainTopicPropertiesStatusProvisioningState_Succeeded,
+		DomainTopicPropertiesStatusProvisioningState_Updating))
 }
 
 func Test_SystemData_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -223,15 +223,15 @@ func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopt
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }

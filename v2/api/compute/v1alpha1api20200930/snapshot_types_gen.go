@@ -112,7 +112,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1667,12 +1667,12 @@ func (snapshots *Snapshots_Spec) SetAzureName(azureName string) { snapshots.Azur
 type SnapshotPropertiesDiskState string
 
 const (
-	SnapshotPropertiesDiskStateActiveSAS     = SnapshotPropertiesDiskState("ActiveSAS")
-	SnapshotPropertiesDiskStateActiveUpload  = SnapshotPropertiesDiskState("ActiveUpload")
-	SnapshotPropertiesDiskStateAttached      = SnapshotPropertiesDiskState("Attached")
-	SnapshotPropertiesDiskStateReadyToUpload = SnapshotPropertiesDiskState("ReadyToUpload")
-	SnapshotPropertiesDiskStateReserved      = SnapshotPropertiesDiskState("Reserved")
-	SnapshotPropertiesDiskStateUnattached    = SnapshotPropertiesDiskState("Unattached")
+	SnapshotPropertiesDiskState_ActiveSAS     = SnapshotPropertiesDiskState("ActiveSAS")
+	SnapshotPropertiesDiskState_ActiveUpload  = SnapshotPropertiesDiskState("ActiveUpload")
+	SnapshotPropertiesDiskState_Attached      = SnapshotPropertiesDiskState("Attached")
+	SnapshotPropertiesDiskState_ReadyToUpload = SnapshotPropertiesDiskState("ReadyToUpload")
+	SnapshotPropertiesDiskState_Reserved      = SnapshotPropertiesDiskState("Reserved")
+	SnapshotPropertiesDiskState_Unattached    = SnapshotPropertiesDiskState("Unattached")
 )
 
 // Deprecated version of SnapshotPropertiesHyperVGeneration. Use v1beta20200930.SnapshotPropertiesHyperVGeneration instead
@@ -1680,8 +1680,8 @@ const (
 type SnapshotPropertiesHyperVGeneration string
 
 const (
-	SnapshotPropertiesHyperVGenerationV1 = SnapshotPropertiesHyperVGeneration("V1")
-	SnapshotPropertiesHyperVGenerationV2 = SnapshotPropertiesHyperVGeneration("V2")
+	SnapshotPropertiesHyperVGeneration_V1 = SnapshotPropertiesHyperVGeneration("V1")
+	SnapshotPropertiesHyperVGeneration_V2 = SnapshotPropertiesHyperVGeneration("V2")
 )
 
 // Deprecated version of SnapshotPropertiesNetworkAccessPolicy. Use v1beta20200930.SnapshotPropertiesNetworkAccessPolicy
@@ -1690,9 +1690,9 @@ const (
 type SnapshotPropertiesNetworkAccessPolicy string
 
 const (
-	SnapshotPropertiesNetworkAccessPolicyAllowAll     = SnapshotPropertiesNetworkAccessPolicy("AllowAll")
-	SnapshotPropertiesNetworkAccessPolicyAllowPrivate = SnapshotPropertiesNetworkAccessPolicy("AllowPrivate")
-	SnapshotPropertiesNetworkAccessPolicyDenyAll      = SnapshotPropertiesNetworkAccessPolicy("DenyAll")
+	SnapshotPropertiesNetworkAccessPolicy_AllowAll     = SnapshotPropertiesNetworkAccessPolicy("AllowAll")
+	SnapshotPropertiesNetworkAccessPolicy_AllowPrivate = SnapshotPropertiesNetworkAccessPolicy("AllowPrivate")
+	SnapshotPropertiesNetworkAccessPolicy_DenyAll      = SnapshotPropertiesNetworkAccessPolicy("DenyAll")
 )
 
 // Deprecated version of SnapshotPropertiesOsType. Use v1beta20200930.SnapshotPropertiesOsType instead
@@ -1700,8 +1700,8 @@ const (
 type SnapshotPropertiesOsType string
 
 const (
-	SnapshotPropertiesOsTypeLinux   = SnapshotPropertiesOsType("Linux")
-	SnapshotPropertiesOsTypeWindows = SnapshotPropertiesOsType("Windows")
+	SnapshotPropertiesOsType_Linux   = SnapshotPropertiesOsType("Linux")
+	SnapshotPropertiesOsType_Windows = SnapshotPropertiesOsType("Windows")
 )
 
 // Deprecated version of SnapshotPropertiesStatusHyperVGeneration. Use
@@ -1709,16 +1709,16 @@ const (
 type SnapshotPropertiesStatusHyperVGeneration string
 
 const (
-	SnapshotPropertiesStatusHyperVGenerationV1 = SnapshotPropertiesStatusHyperVGeneration("V1")
-	SnapshotPropertiesStatusHyperVGenerationV2 = SnapshotPropertiesStatusHyperVGeneration("V2")
+	SnapshotPropertiesStatusHyperVGeneration_V1 = SnapshotPropertiesStatusHyperVGeneration("V1")
+	SnapshotPropertiesStatusHyperVGeneration_V2 = SnapshotPropertiesStatusHyperVGeneration("V2")
 )
 
 // Deprecated version of SnapshotPropertiesStatusOsType. Use v1beta20200930.SnapshotPropertiesStatusOsType instead
 type SnapshotPropertiesStatusOsType string
 
 const (
-	SnapshotPropertiesStatusOsTypeLinux   = SnapshotPropertiesStatusOsType("Linux")
-	SnapshotPropertiesStatusOsTypeWindows = SnapshotPropertiesStatusOsType("Windows")
+	SnapshotPropertiesStatusOsType_Linux   = SnapshotPropertiesStatusOsType("Linux")
+	SnapshotPropertiesStatusOsType_Windows = SnapshotPropertiesStatusOsType("Windows")
 )
 
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead

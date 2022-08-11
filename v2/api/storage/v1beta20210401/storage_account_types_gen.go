@@ -98,7 +98,7 @@ func (account *StorageAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (account StorageAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -345,7 +345,7 @@ type StorageAccountList struct {
 // +kubebuilder:validation:Enum={"2021-04-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-04-01")
+const APIVersion_Value = APIVersion("2021-04-01")
 
 type StorageAccount_Status struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
@@ -6082,69 +6082,69 @@ func (operator *StorageAccountOperatorSpec) AssignPropertiesToStorageAccountOper
 type StorageAccountPropertiesCreateParametersAccessTier string
 
 const (
-	StorageAccountPropertiesCreateParametersAccessTierCool = StorageAccountPropertiesCreateParametersAccessTier("Cool")
-	StorageAccountPropertiesCreateParametersAccessTierHot  = StorageAccountPropertiesCreateParametersAccessTier("Hot")
+	StorageAccountPropertiesCreateParametersAccessTier_Cool = StorageAccountPropertiesCreateParametersAccessTier("Cool")
+	StorageAccountPropertiesCreateParametersAccessTier_Hot  = StorageAccountPropertiesCreateParametersAccessTier("Hot")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAccountPropertiesCreateParametersLargeFileSharesState string
 
 const (
-	StorageAccountPropertiesCreateParametersLargeFileSharesStateDisabled = StorageAccountPropertiesCreateParametersLargeFileSharesState("Disabled")
-	StorageAccountPropertiesCreateParametersLargeFileSharesStateEnabled  = StorageAccountPropertiesCreateParametersLargeFileSharesState("Enabled")
+	StorageAccountPropertiesCreateParametersLargeFileSharesState_Disabled = StorageAccountPropertiesCreateParametersLargeFileSharesState("Disabled")
+	StorageAccountPropertiesCreateParametersLargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParametersLargeFileSharesState("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2"}
 type StorageAccountPropertiesCreateParametersMinimumTlsVersion string
 
 const (
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS10 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS11 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS10 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_0")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS11 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_1")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
 )
 
 type StorageAccountPropertiesStatusAccessTier string
 
 const (
-	StorageAccountPropertiesStatusAccessTierCool = StorageAccountPropertiesStatusAccessTier("Cool")
-	StorageAccountPropertiesStatusAccessTierHot  = StorageAccountPropertiesStatusAccessTier("Hot")
+	StorageAccountPropertiesStatusAccessTier_Cool = StorageAccountPropertiesStatusAccessTier("Cool")
+	StorageAccountPropertiesStatusAccessTier_Hot  = StorageAccountPropertiesStatusAccessTier("Hot")
 )
 
 type StorageAccountPropertiesStatusLargeFileSharesState string
 
 const (
-	StorageAccountPropertiesStatusLargeFileSharesStateDisabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
-	StorageAccountPropertiesStatusLargeFileSharesStateEnabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
+	StorageAccountPropertiesStatusLargeFileSharesState_Disabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
+	StorageAccountPropertiesStatusLargeFileSharesState_Enabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
 )
 
 type StorageAccountPropertiesStatusMinimumTlsVersion string
 
 const (
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
 )
 
 type StorageAccountPropertiesStatusProvisioningState string
 
 const (
-	StorageAccountPropertiesStatusProvisioningStateCreating     = StorageAccountPropertiesStatusProvisioningState("Creating")
-	StorageAccountPropertiesStatusProvisioningStateResolvingDNS = StorageAccountPropertiesStatusProvisioningState("ResolvingDNS")
-	StorageAccountPropertiesStatusProvisioningStateSucceeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
+	StorageAccountPropertiesStatusProvisioningState_Creating     = StorageAccountPropertiesStatusProvisioningState("Creating")
+	StorageAccountPropertiesStatusProvisioningState_ResolvingDNS = StorageAccountPropertiesStatusProvisioningState("ResolvingDNS")
+	StorageAccountPropertiesStatusProvisioningState_Succeeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
 type StorageAccountPropertiesStatusStatusOfPrimary string
 
 const (
-	StorageAccountPropertiesStatusStatusOfPrimaryAvailable   = StorageAccountPropertiesStatusStatusOfPrimary("available")
-	StorageAccountPropertiesStatusStatusOfPrimaryUnavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
+	StorageAccountPropertiesStatusStatusOfPrimary_Available   = StorageAccountPropertiesStatusStatusOfPrimary("available")
+	StorageAccountPropertiesStatusStatusOfPrimary_Unavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
 )
 
 type StorageAccountPropertiesStatusStatusOfSecondary string
 
 const (
-	StorageAccountPropertiesStatusStatusOfSecondaryAvailable   = StorageAccountPropertiesStatusStatusOfSecondary("available")
-	StorageAccountPropertiesStatusStatusOfSecondaryUnavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
+	StorageAccountPropertiesStatusStatusOfSecondary_Available   = StorageAccountPropertiesStatusStatusOfSecondary("available")
+	StorageAccountPropertiesStatusStatusOfSecondary_Unavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
@@ -6469,38 +6469,38 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDire
 type AzureFilesIdentityBasedAuthenticationDefaultSharePermission string
 
 const (
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareReader")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("None")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
 // +kubebuilder:validation:Enum={"AADDS","AD","None"}
 type AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions string
 
 const (
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_AADDS = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AADDS")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_AD    = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AD")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_None  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
 )
 
 type AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission string
 
 const (
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
 type AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions string
 
 const (
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_AADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_AD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_None  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
 )
 
 type BlobRestoreParameters_Status struct {
@@ -6613,9 +6613,9 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesToBlobRestorePar
 type BlobRestoreStatusStatusStatus string
 
 const (
-	BlobRestoreStatusStatusStatusComplete   = BlobRestoreStatusStatusStatus("Complete")
-	BlobRestoreStatusStatusStatusFailed     = BlobRestoreStatusStatusStatus("Failed")
-	BlobRestoreStatusStatusStatusInProgress = BlobRestoreStatusStatusStatus("InProgress")
+	BlobRestoreStatusStatusStatus_Complete   = BlobRestoreStatusStatusStatus("Complete")
+	BlobRestoreStatusStatusStatus_Failed     = BlobRestoreStatusStatusStatus("Failed")
+	BlobRestoreStatusStatusStatus_InProgress = BlobRestoreStatusStatusStatus("InProgress")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity
@@ -6766,8 +6766,8 @@ func (identity *EncryptionIdentity_Status) AssignPropertiesToEncryptionIdentityS
 type EncryptionKeySource string
 
 const (
-	EncryptionKeySourceMicrosoftKeyvault = EncryptionKeySource("Microsoft.Keyvault")
-	EncryptionKeySourceMicrosoftStorage  = EncryptionKeySource("Microsoft.Storage")
+	EncryptionKeySource_MicrosoftKeyvault = EncryptionKeySource("Microsoft.Keyvault")
+	EncryptionKeySource_MicrosoftStorage  = EncryptionKeySource("Microsoft.Storage")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices
@@ -7213,16 +7213,16 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 type EncryptionStatusKeySource string
 
 const (
-	EncryptionStatusKeySourceMicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
-	EncryptionStatusKeySourceMicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
+	EncryptionStatusKeySource_MicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
+	EncryptionStatusKeySource_MicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
 )
 
 type GeoReplicationStatsStatusStatus string
 
 const (
-	GeoReplicationStatsStatusStatusBootstrap   = GeoReplicationStatsStatusStatus("Bootstrap")
-	GeoReplicationStatsStatusStatusLive        = GeoReplicationStatsStatusStatus("Live")
-	GeoReplicationStatsStatusStatusUnavailable = GeoReplicationStatsStatusStatus("Unavailable")
+	GeoReplicationStatsStatusStatus_Bootstrap   = GeoReplicationStatsStatusStatus("Bootstrap")
+	GeoReplicationStatsStatusStatus_Live        = GeoReplicationStatsStatusStatus("Live")
+	GeoReplicationStatsStatusStatus_Unavailable = GeoReplicationStatsStatusStatus("Unavailable")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule
@@ -7652,34 +7652,34 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 type NetworkRuleSetBypass string
 
 const (
-	NetworkRuleSetBypassAzureServices = NetworkRuleSetBypass("AzureServices")
-	NetworkRuleSetBypassLogging       = NetworkRuleSetBypass("Logging")
-	NetworkRuleSetBypassMetrics       = NetworkRuleSetBypass("Metrics")
-	NetworkRuleSetBypassNone          = NetworkRuleSetBypass("None")
+	NetworkRuleSetBypass_AzureServices = NetworkRuleSetBypass("AzureServices")
+	NetworkRuleSetBypass_Logging       = NetworkRuleSetBypass("Logging")
+	NetworkRuleSetBypass_Metrics       = NetworkRuleSetBypass("Metrics")
+	NetworkRuleSetBypass_None          = NetworkRuleSetBypass("None")
 )
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSetDefaultAction string
 
 const (
-	NetworkRuleSetDefaultActionAllow = NetworkRuleSetDefaultAction("Allow")
-	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
+	NetworkRuleSetDefaultAction_Allow = NetworkRuleSetDefaultAction("Allow")
+	NetworkRuleSetDefaultAction_Deny  = NetworkRuleSetDefaultAction("Deny")
 )
 
 type NetworkRuleSetStatusBypass string
 
 const (
-	NetworkRuleSetStatusBypassAzureServices = NetworkRuleSetStatusBypass("AzureServices")
-	NetworkRuleSetStatusBypassLogging       = NetworkRuleSetStatusBypass("Logging")
-	NetworkRuleSetStatusBypassMetrics       = NetworkRuleSetStatusBypass("Metrics")
-	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
+	NetworkRuleSetStatusBypass_AzureServices = NetworkRuleSetStatusBypass("AzureServices")
+	NetworkRuleSetStatusBypass_Logging       = NetworkRuleSetStatusBypass("Logging")
+	NetworkRuleSetStatusBypass_Metrics       = NetworkRuleSetStatusBypass("Metrics")
+	NetworkRuleSetStatusBypass_None          = NetworkRuleSetStatusBypass("None")
 )
 
 type NetworkRuleSetStatusDefaultAction string
 
 const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
+	NetworkRuleSetStatusDefaultAction_Allow = NetworkRuleSetStatusDefaultAction("Allow")
+	NetworkRuleSetStatusDefaultAction_Deny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule
@@ -7864,25 +7864,25 @@ func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRuleStatu
 type RoutingPreferenceRoutingChoice string
 
 const (
-	RoutingPreferenceRoutingChoiceInternetRouting  = RoutingPreferenceRoutingChoice("InternetRouting")
-	RoutingPreferenceRoutingChoiceMicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
+	RoutingPreferenceRoutingChoice_InternetRouting  = RoutingPreferenceRoutingChoice("InternetRouting")
+	RoutingPreferenceRoutingChoice_MicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
 )
 
 type RoutingPreferenceStatusRoutingChoice string
 
 const (
-	RoutingPreferenceStatusRoutingChoiceInternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
-	RoutingPreferenceStatusRoutingChoiceMicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
+	RoutingPreferenceStatusRoutingChoice_InternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
+	RoutingPreferenceStatusRoutingChoice_MicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
 )
 
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicyExpirationAction string
 
-const SasPolicyExpirationActionLog = SasPolicyExpirationAction("Log")
+const SasPolicyExpirationAction_Log = SasPolicyExpirationAction("Log")
 
 type SasPolicyStatusExpirationAction string
 
-const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
+const SasPolicyStatusExpirationAction_Log = SasPolicyStatusExpirationAction("Log")
 
 type StorageAccountInternetEndpoints_Status struct {
 	// Blob: Gets the blob endpoint.
@@ -8936,55 +8936,55 @@ func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStat
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
-const IPRuleActionAllow = IPRuleAction("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
 type IPRuleStatusAction string
 
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
+const IPRuleStatusAction_Allow = IPRuleStatusAction("Allow")
 
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRuleAction string
 
-const VirtualNetworkRuleActionAllow = VirtualNetworkRuleAction("Allow")
+const VirtualNetworkRuleAction_Allow = VirtualNetworkRuleAction("Allow")
 
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
 type VirtualNetworkRuleState string
 
 const (
-	VirtualNetworkRuleStateDeprovisioning       = VirtualNetworkRuleState("Deprovisioning")
-	VirtualNetworkRuleStateFailed               = VirtualNetworkRuleState("Failed")
-	VirtualNetworkRuleStateNetworkSourceDeleted = VirtualNetworkRuleState("NetworkSourceDeleted")
-	VirtualNetworkRuleStateProvisioning         = VirtualNetworkRuleState("Provisioning")
-	VirtualNetworkRuleStateSucceeded            = VirtualNetworkRuleState("Succeeded")
+	VirtualNetworkRuleState_Deprovisioning       = VirtualNetworkRuleState("Deprovisioning")
+	VirtualNetworkRuleState_Failed               = VirtualNetworkRuleState("Failed")
+	VirtualNetworkRuleState_NetworkSourceDeleted = VirtualNetworkRuleState("NetworkSourceDeleted")
+	VirtualNetworkRuleState_Provisioning         = VirtualNetworkRuleState("Provisioning")
+	VirtualNetworkRuleState_Succeeded            = VirtualNetworkRuleState("Succeeded")
 )
 
 type VirtualNetworkRuleStatusAction string
 
-const VirtualNetworkRuleStatusActionAllow = VirtualNetworkRuleStatusAction("Allow")
+const VirtualNetworkRuleStatusAction_Allow = VirtualNetworkRuleStatusAction("Allow")
 
 type VirtualNetworkRuleStatusState string
 
 const (
-	VirtualNetworkRuleStatusStateDeprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
-	VirtualNetworkRuleStatusStateFailed               = VirtualNetworkRuleStatusState("Failed")
-	VirtualNetworkRuleStatusStateNetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
-	VirtualNetworkRuleStatusStateProvisioning         = VirtualNetworkRuleStatusState("Provisioning")
-	VirtualNetworkRuleStatusStateSucceeded            = VirtualNetworkRuleStatusState("Succeeded")
+	VirtualNetworkRuleStatusState_Deprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
+	VirtualNetworkRuleStatusState_Failed               = VirtualNetworkRuleStatusState("Failed")
+	VirtualNetworkRuleStatusState_NetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
+	VirtualNetworkRuleStatusState_Provisioning         = VirtualNetworkRuleStatusState("Provisioning")
+	VirtualNetworkRuleStatusState_Succeeded            = VirtualNetworkRuleStatusState("Succeeded")
 )
 
 // +kubebuilder:validation:Enum={"Account","Service"}
 type EncryptionServiceKeyType string
 
 const (
-	EncryptionServiceKeyTypeAccount = EncryptionServiceKeyType("Account")
-	EncryptionServiceKeyTypeService = EncryptionServiceKeyType("Service")
+	EncryptionServiceKeyType_Account = EncryptionServiceKeyType("Account")
+	EncryptionServiceKeyType_Service = EncryptionServiceKeyType("Service")
 )
 
 type EncryptionServiceStatusKeyType string
 
 const (
-	EncryptionServiceStatusKeyTypeAccount = EncryptionServiceStatusKeyType("Account")
-	EncryptionServiceStatusKeyTypeService = EncryptionServiceStatusKeyType("Service")
+	EncryptionServiceStatusKeyType_Account = EncryptionServiceStatusKeyType("Account")
+	EncryptionServiceStatusKeyType_Service = EncryptionServiceStatusKeyType("Service")
 )
 
 func init() {

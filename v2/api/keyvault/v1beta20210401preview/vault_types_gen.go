@@ -98,7 +98,7 @@ func (vault *Vault) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
 func (vault Vault) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type VaultList struct {
 // +kubebuilder:validation:Enum={"2021-04-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-04-01-preview")
+const APIVersion_Value = APIVersion("2021-04-01-preview")
 
 type Vault_Status struct {
 	// Conditions: The observed state of the resource
@@ -3682,12 +3682,12 @@ func (permissions *Permissions_Status) AssignPropertiesToPermissionsStatus(desti
 type PrivateEndpointConnectionProvisioningState_Status string
 
 const (
-	PrivateEndpointConnectionProvisioningState_StatusCreating     = PrivateEndpointConnectionProvisioningState_Status("Creating")
-	PrivateEndpointConnectionProvisioningState_StatusDeleting     = PrivateEndpointConnectionProvisioningState_Status("Deleting")
-	PrivateEndpointConnectionProvisioningState_StatusDisconnected = PrivateEndpointConnectionProvisioningState_Status("Disconnected")
-	PrivateEndpointConnectionProvisioningState_StatusFailed       = PrivateEndpointConnectionProvisioningState_Status("Failed")
-	PrivateEndpointConnectionProvisioningState_StatusSucceeded    = PrivateEndpointConnectionProvisioningState_Status("Succeeded")
-	PrivateEndpointConnectionProvisioningState_StatusUpdating     = PrivateEndpointConnectionProvisioningState_Status("Updating")
+	PrivateEndpointConnectionProvisioningState_Status_Creating     = PrivateEndpointConnectionProvisioningState_Status("Creating")
+	PrivateEndpointConnectionProvisioningState_Status_Deleting     = PrivateEndpointConnectionProvisioningState_Status("Deleting")
+	PrivateEndpointConnectionProvisioningState_Status_Disconnected = PrivateEndpointConnectionProvisioningState_Status("Disconnected")
+	PrivateEndpointConnectionProvisioningState_Status_Failed       = PrivateEndpointConnectionProvisioningState_Status("Failed")
+	PrivateEndpointConnectionProvisioningState_Status_Succeeded    = PrivateEndpointConnectionProvisioningState_Status("Succeeded")
+	PrivateEndpointConnectionProvisioningState_Status_Updating     = PrivateEndpointConnectionProvisioningState_Status("Updating")
 )
 
 type PrivateEndpoint_Status struct {
@@ -4062,15 +4062,15 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 type PrivateEndpointServiceConnectionStatus_Status string
 
 const (
-	PrivateEndpointServiceConnectionStatus_StatusApproved     = PrivateEndpointServiceConnectionStatus_Status("Approved")
-	PrivateEndpointServiceConnectionStatus_StatusDisconnected = PrivateEndpointServiceConnectionStatus_Status("Disconnected")
-	PrivateEndpointServiceConnectionStatus_StatusPending      = PrivateEndpointServiceConnectionStatus_Status("Pending")
-	PrivateEndpointServiceConnectionStatus_StatusRejected     = PrivateEndpointServiceConnectionStatus_Status("Rejected")
+	PrivateEndpointServiceConnectionStatus_Status_Approved     = PrivateEndpointServiceConnectionStatus_Status("Approved")
+	PrivateEndpointServiceConnectionStatus_Status_Disconnected = PrivateEndpointServiceConnectionStatus_Status("Disconnected")
+	PrivateEndpointServiceConnectionStatus_Status_Pending      = PrivateEndpointServiceConnectionStatus_Status("Pending")
+	PrivateEndpointServiceConnectionStatus_Status_Rejected     = PrivateEndpointServiceConnectionStatus_Status("Rejected")
 )
 
 type PrivateLinkServiceConnectionStateStatusActionsRequired string
 
-const PrivateLinkServiceConnectionStateStatusActionsRequiredNone = PrivateLinkServiceConnectionStateStatusActionsRequired("None")
+const PrivateLinkServiceConnectionStateStatusActionsRequired_None = PrivateLinkServiceConnectionStateStatusActionsRequired("None")
 
 func init() {
 	SchemeBuilder.Register(&Vault{}, &VaultList{})

@@ -502,15 +502,15 @@ func ScheduleEntryGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleEntry is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntry(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
-		ScheduleEntryDayOfWeekEveryday,
-		ScheduleEntryDayOfWeekFriday,
-		ScheduleEntryDayOfWeekMonday,
-		ScheduleEntryDayOfWeekSaturday,
-		ScheduleEntryDayOfWeekSunday,
-		ScheduleEntryDayOfWeekThursday,
-		ScheduleEntryDayOfWeekTuesday,
-		ScheduleEntryDayOfWeekWednesday,
-		ScheduleEntryDayOfWeekWeekend))
+		ScheduleEntryDayOfWeek_Everyday,
+		ScheduleEntryDayOfWeek_Friday,
+		ScheduleEntryDayOfWeek_Monday,
+		ScheduleEntryDayOfWeek_Saturday,
+		ScheduleEntryDayOfWeek_Sunday,
+		ScheduleEntryDayOfWeek_Thursday,
+		ScheduleEntryDayOfWeek_Tuesday,
+		ScheduleEntryDayOfWeek_Wednesday,
+		ScheduleEntryDayOfWeek_Weekend))
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }
@@ -616,15 +616,15 @@ func ScheduleEntryStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleEntryStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntryStatus(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
-		ScheduleEntryStatusDayOfWeekEveryday,
-		ScheduleEntryStatusDayOfWeekFriday,
-		ScheduleEntryStatusDayOfWeekMonday,
-		ScheduleEntryStatusDayOfWeekSaturday,
-		ScheduleEntryStatusDayOfWeekSunday,
-		ScheduleEntryStatusDayOfWeekThursday,
-		ScheduleEntryStatusDayOfWeekTuesday,
-		ScheduleEntryStatusDayOfWeekWednesday,
-		ScheduleEntryStatusDayOfWeekWeekend))
+		ScheduleEntryStatusDayOfWeek_Everyday,
+		ScheduleEntryStatusDayOfWeek_Friday,
+		ScheduleEntryStatusDayOfWeek_Monday,
+		ScheduleEntryStatusDayOfWeek_Saturday,
+		ScheduleEntryStatusDayOfWeek_Sunday,
+		ScheduleEntryStatusDayOfWeek_Thursday,
+		ScheduleEntryStatusDayOfWeek_Tuesday,
+		ScheduleEntryStatusDayOfWeek_Wednesday,
+		ScheduleEntryStatusDayOfWeek_Weekend))
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }

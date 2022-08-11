@@ -98,7 +98,7 @@ func (image *Image) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
 func (image Image) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type ImageList struct {
 // +kubebuilder:validation:Enum={"2022-03-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2022-03-01")
+const APIVersion_Value = APIVersion("2022-03-01")
 
 type Image_Status struct {
 	// Conditions: The observed state of the resource
@@ -1251,16 +1251,16 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 type HyperVGenerationType_Status string
 
 const (
-	HyperVGenerationType_StatusV1 = HyperVGenerationType_Status("V1")
-	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
+	HyperVGenerationType_Status_V1 = HyperVGenerationType_Status("V1")
+	HyperVGenerationType_Status_V2 = HyperVGenerationType_Status("V2")
 )
 
 // +kubebuilder:validation:Enum={"V1","V2"}
 type ImagePropertiesHyperVGeneration string
 
 const (
-	ImagePropertiesHyperVGenerationV1 = ImagePropertiesHyperVGeneration("V1")
-	ImagePropertiesHyperVGenerationV2 = ImagePropertiesHyperVGeneration("V2")
+	ImagePropertiesHyperVGeneration_V1 = ImagePropertiesHyperVGeneration("V1")
+	ImagePropertiesHyperVGeneration_V2 = ImagePropertiesHyperVGeneration("V2")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ImageStorageProfile
@@ -3113,102 +3113,102 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionS
 type ImageDataDiskCaching string
 
 const (
-	ImageDataDiskCachingNone      = ImageDataDiskCaching("None")
-	ImageDataDiskCachingReadOnly  = ImageDataDiskCaching("ReadOnly")
-	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
+	ImageDataDiskCaching_None      = ImageDataDiskCaching("None")
+	ImageDataDiskCaching_ReadOnly  = ImageDataDiskCaching("ReadOnly")
+	ImageDataDiskCaching_ReadWrite = ImageDataDiskCaching("ReadWrite")
 )
 
 type ImageDataDiskStatusCaching string
 
 const (
-	ImageDataDiskStatusCachingNone      = ImageDataDiskStatusCaching("None")
-	ImageDataDiskStatusCachingReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
-	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
+	ImageDataDiskStatusCaching_None      = ImageDataDiskStatusCaching("None")
+	ImageDataDiskStatusCaching_ReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
+	ImageDataDiskStatusCaching_ReadWrite = ImageDataDiskStatusCaching("ReadWrite")
 )
 
 // +kubebuilder:validation:Enum={"Premium_LRS","PremiumV2_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageDataDiskStorageAccountType string
 
 const (
-	ImageDataDiskStorageAccountTypePremiumLRS     = ImageDataDiskStorageAccountType("Premium_LRS")
-	ImageDataDiskStorageAccountTypePremiumV2LRS   = ImageDataDiskStorageAccountType("PremiumV2_LRS")
-	ImageDataDiskStorageAccountTypePremiumZRS     = ImageDataDiskStorageAccountType("Premium_ZRS")
-	ImageDataDiskStorageAccountTypeStandardLRS    = ImageDataDiskStorageAccountType("Standard_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDLRS = ImageDataDiskStorageAccountType("StandardSSD_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDZRS = ImageDataDiskStorageAccountType("StandardSSD_ZRS")
-	ImageDataDiskStorageAccountTypeUltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
+	ImageDataDiskStorageAccountType_PremiumLRS     = ImageDataDiskStorageAccountType("Premium_LRS")
+	ImageDataDiskStorageAccountType_PremiumV2LRS   = ImageDataDiskStorageAccountType("PremiumV2_LRS")
+	ImageDataDiskStorageAccountType_PremiumZRS     = ImageDataDiskStorageAccountType("Premium_ZRS")
+	ImageDataDiskStorageAccountType_StandardLRS    = ImageDataDiskStorageAccountType("Standard_LRS")
+	ImageDataDiskStorageAccountType_StandardSSDLRS = ImageDataDiskStorageAccountType("StandardSSD_LRS")
+	ImageDataDiskStorageAccountType_StandardSSDZRS = ImageDataDiskStorageAccountType("StandardSSD_ZRS")
+	ImageDataDiskStorageAccountType_UltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
 )
 
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageOSDiskCaching string
 
 const (
-	ImageOSDiskCachingNone      = ImageOSDiskCaching("None")
-	ImageOSDiskCachingReadOnly  = ImageOSDiskCaching("ReadOnly")
-	ImageOSDiskCachingReadWrite = ImageOSDiskCaching("ReadWrite")
+	ImageOSDiskCaching_None      = ImageOSDiskCaching("None")
+	ImageOSDiskCaching_ReadOnly  = ImageOSDiskCaching("ReadOnly")
+	ImageOSDiskCaching_ReadWrite = ImageOSDiskCaching("ReadWrite")
 )
 
 // +kubebuilder:validation:Enum={"Generalized","Specialized"}
 type ImageOSDiskOsState string
 
 const (
-	ImageOSDiskOsStateGeneralized = ImageOSDiskOsState("Generalized")
-	ImageOSDiskOsStateSpecialized = ImageOSDiskOsState("Specialized")
+	ImageOSDiskOsState_Generalized = ImageOSDiskOsState("Generalized")
+	ImageOSDiskOsState_Specialized = ImageOSDiskOsState("Specialized")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ImageOSDiskOsType string
 
 const (
-	ImageOSDiskOsTypeLinux   = ImageOSDiskOsType("Linux")
-	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
+	ImageOSDiskOsType_Linux   = ImageOSDiskOsType("Linux")
+	ImageOSDiskOsType_Windows = ImageOSDiskOsType("Windows")
 )
 
 type ImageOSDiskStatusCaching string
 
 const (
-	ImageOSDiskStatusCachingNone      = ImageOSDiskStatusCaching("None")
-	ImageOSDiskStatusCachingReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
-	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
+	ImageOSDiskStatusCaching_None      = ImageOSDiskStatusCaching("None")
+	ImageOSDiskStatusCaching_ReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
+	ImageOSDiskStatusCaching_ReadWrite = ImageOSDiskStatusCaching("ReadWrite")
 )
 
 type ImageOSDiskStatusOsState string
 
 const (
-	ImageOSDiskStatusOsStateGeneralized = ImageOSDiskStatusOsState("Generalized")
-	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
+	ImageOSDiskStatusOsState_Generalized = ImageOSDiskStatusOsState("Generalized")
+	ImageOSDiskStatusOsState_Specialized = ImageOSDiskStatusOsState("Specialized")
 )
 
 type ImageOSDiskStatusOsType string
 
 const (
-	ImageOSDiskStatusOsTypeLinux   = ImageOSDiskStatusOsType("Linux")
-	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
+	ImageOSDiskStatusOsType_Linux   = ImageOSDiskStatusOsType("Linux")
+	ImageOSDiskStatusOsType_Windows = ImageOSDiskStatusOsType("Windows")
 )
 
 // +kubebuilder:validation:Enum={"Premium_LRS","PremiumV2_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageOSDiskStorageAccountType string
 
 const (
-	ImageOSDiskStorageAccountTypePremiumLRS     = ImageOSDiskStorageAccountType("Premium_LRS")
-	ImageOSDiskStorageAccountTypePremiumV2LRS   = ImageOSDiskStorageAccountType("PremiumV2_LRS")
-	ImageOSDiskStorageAccountTypePremiumZRS     = ImageOSDiskStorageAccountType("Premium_ZRS")
-	ImageOSDiskStorageAccountTypeStandardLRS    = ImageOSDiskStorageAccountType("Standard_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
-	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
+	ImageOSDiskStorageAccountType_PremiumLRS     = ImageOSDiskStorageAccountType("Premium_LRS")
+	ImageOSDiskStorageAccountType_PremiumV2LRS   = ImageOSDiskStorageAccountType("PremiumV2_LRS")
+	ImageOSDiskStorageAccountType_PremiumZRS     = ImageOSDiskStorageAccountType("Premium_ZRS")
+	ImageOSDiskStorageAccountType_StandardLRS    = ImageOSDiskStorageAccountType("Standard_LRS")
+	ImageOSDiskStorageAccountType_StandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
+	ImageOSDiskStorageAccountType_StandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
+	ImageOSDiskStorageAccountType_UltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
 )
 
 type StorageAccountType_Status string
 
 const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumV2LRS   = StorageAccountType_Status("PremiumV2_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
+	StorageAccountType_Status_PremiumLRS     = StorageAccountType_Status("Premium_LRS")
+	StorageAccountType_Status_PremiumV2LRS   = StorageAccountType_Status("PremiumV2_LRS")
+	StorageAccountType_Status_PremiumZRS     = StorageAccountType_Status("Premium_ZRS")
+	StorageAccountType_Status_StandardLRS    = StorageAccountType_Status("Standard_LRS")
+	StorageAccountType_Status_StandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
+	StorageAccountType_Status_StandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
+	StorageAccountType_Status_UltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
 )
 
 func init() {

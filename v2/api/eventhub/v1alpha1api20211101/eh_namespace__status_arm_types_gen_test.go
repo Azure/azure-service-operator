@@ -256,10 +256,10 @@ func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityStatusTypeNone,
-		IdentityStatusTypeSystemAssigned,
-		IdentityStatusTypeSystemAssignedUserAssigned,
-		IdentityStatusTypeUserAssigned))
+		IdentityStatusType_None,
+		IdentityStatusType_SystemAssigned,
+		IdentityStatusType_SystemAssignedUserAssigned,
+		IdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
@@ -325,8 +325,8 @@ func SkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBasic, SkuStatusTierPremium, SkuStatusTierStandard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusName_Basic, SkuStatusName_Premium, SkuStatusName_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTier_Basic, SkuStatusTier_Premium, SkuStatusTier_Standard))
 }
 
 func Test_Encryption_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -396,7 +396,7 @@ func EncryptionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionStatusARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionStatusKeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionStatusKeySource_MicrosoftKeyVault))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 

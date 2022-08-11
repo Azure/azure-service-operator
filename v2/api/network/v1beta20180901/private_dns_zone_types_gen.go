@@ -98,7 +98,7 @@ func (zone *PrivateDnsZone) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-09-01"
 func (zone PrivateDnsZone) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type PrivateDnsZoneList struct {
 // +kubebuilder:validation:Enum={"2018-09-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-09-01")
+const APIVersion_Value = APIVersion("2018-09-01")
 
 type PrivateDnsZones_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -811,12 +811,12 @@ func (zone *PrivateZone_Status) AssignPropertiesToPrivateZoneStatus(destination 
 type PrivateZonePropertiesStatusProvisioningState string
 
 const (
-	PrivateZonePropertiesStatusProvisioningStateCanceled  = PrivateZonePropertiesStatusProvisioningState("Canceled")
-	PrivateZonePropertiesStatusProvisioningStateCreating  = PrivateZonePropertiesStatusProvisioningState("Creating")
-	PrivateZonePropertiesStatusProvisioningStateDeleting  = PrivateZonePropertiesStatusProvisioningState("Deleting")
-	PrivateZonePropertiesStatusProvisioningStateFailed    = PrivateZonePropertiesStatusProvisioningState("Failed")
-	PrivateZonePropertiesStatusProvisioningStateSucceeded = PrivateZonePropertiesStatusProvisioningState("Succeeded")
-	PrivateZonePropertiesStatusProvisioningStateUpdating  = PrivateZonePropertiesStatusProvisioningState("Updating")
+	PrivateZonePropertiesStatusProvisioningState_Canceled  = PrivateZonePropertiesStatusProvisioningState("Canceled")
+	PrivateZonePropertiesStatusProvisioningState_Creating  = PrivateZonePropertiesStatusProvisioningState("Creating")
+	PrivateZonePropertiesStatusProvisioningState_Deleting  = PrivateZonePropertiesStatusProvisioningState("Deleting")
+	PrivateZonePropertiesStatusProvisioningState_Failed    = PrivateZonePropertiesStatusProvisioningState("Failed")
+	PrivateZonePropertiesStatusProvisioningState_Succeeded = PrivateZonePropertiesStatusProvisioningState("Succeeded")
+	PrivateZonePropertiesStatusProvisioningState_Updating  = PrivateZonePropertiesStatusProvisioningState("Updating")
 )
 
 func init() {

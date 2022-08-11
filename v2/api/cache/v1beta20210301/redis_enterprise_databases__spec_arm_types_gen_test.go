@@ -161,17 +161,17 @@ func DatabasePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabasePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabasePropertiesARM(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClientProtocolEncrypted, DatabasePropertiesClientProtocolPlaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClusteringPolicyEnterpriseCluster, DatabasePropertiesClusteringPolicyOSSCluster))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClientProtocol_Encrypted, DatabasePropertiesClientProtocol_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClusteringPolicy_EnterpriseCluster, DatabasePropertiesClusteringPolicy_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabasePropertiesEvictionPolicyAllKeysLFU,
-		DatabasePropertiesEvictionPolicyAllKeysLRU,
-		DatabasePropertiesEvictionPolicyAllKeysRandom,
-		DatabasePropertiesEvictionPolicyNoEviction,
-		DatabasePropertiesEvictionPolicyVolatileLFU,
-		DatabasePropertiesEvictionPolicyVolatileLRU,
-		DatabasePropertiesEvictionPolicyVolatileRandom,
-		DatabasePropertiesEvictionPolicyVolatileTTL))
+		DatabasePropertiesEvictionPolicy_AllKeysLFU,
+		DatabasePropertiesEvictionPolicy_AllKeysLRU,
+		DatabasePropertiesEvictionPolicy_AllKeysRandom,
+		DatabasePropertiesEvictionPolicy_NoEviction,
+		DatabasePropertiesEvictionPolicy_VolatileLFU,
+		DatabasePropertiesEvictionPolicy_VolatileLRU,
+		DatabasePropertiesEvictionPolicy_VolatileRandom,
+		DatabasePropertiesEvictionPolicy_VolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
 }
 
@@ -300,7 +300,7 @@ func PersistenceARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistenceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistenceARM(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceAofFrequency1S, PersistenceAofFrequencyAlways))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceAofFrequency_1S, PersistenceAofFrequency_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceRdbFrequency12H, PersistenceRdbFrequency1H, PersistenceRdbFrequency6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceRdbFrequency_12H, PersistenceRdbFrequency_1H, PersistenceRdbFrequency_6H))
 }

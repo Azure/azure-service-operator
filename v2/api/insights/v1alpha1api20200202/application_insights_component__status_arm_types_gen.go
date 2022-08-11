@@ -51,31 +51,31 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 type ApplicationInsightsComponentPropertiesStatusApplicationType string
 
 const (
-	ApplicationInsightsComponentPropertiesStatusApplicationTypeOther = ApplicationInsightsComponentPropertiesStatusApplicationType("other")
-	ApplicationInsightsComponentPropertiesStatusApplicationTypeWeb   = ApplicationInsightsComponentPropertiesStatusApplicationType("web")
+	ApplicationInsightsComponentPropertiesStatusApplicationType_Other = ApplicationInsightsComponentPropertiesStatusApplicationType("other")
+	ApplicationInsightsComponentPropertiesStatusApplicationType_Web   = ApplicationInsightsComponentPropertiesStatusApplicationType("web")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesStatusFlowType. Use
 // v1beta20200202.ApplicationInsightsComponentPropertiesStatusFlowType instead
 type ApplicationInsightsComponentPropertiesStatusFlowType string
 
-const ApplicationInsightsComponentPropertiesStatusFlowTypeBluefield = ApplicationInsightsComponentPropertiesStatusFlowType("Bluefield")
+const ApplicationInsightsComponentPropertiesStatusFlowType_Bluefield = ApplicationInsightsComponentPropertiesStatusFlowType("Bluefield")
 
 // Deprecated version of ApplicationInsightsComponentPropertiesStatusIngestionMode. Use
 // v1beta20200202.ApplicationInsightsComponentPropertiesStatusIngestionMode instead
 type ApplicationInsightsComponentPropertiesStatusIngestionMode string
 
 const (
-	ApplicationInsightsComponentPropertiesStatusIngestionModeApplicationInsights                       = ApplicationInsightsComponentPropertiesStatusIngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentPropertiesStatusIngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesStatusIngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentPropertiesStatusIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesStatusIngestionMode("LogAnalytics")
+	ApplicationInsightsComponentPropertiesStatusIngestionMode_ApplicationInsights                       = ApplicationInsightsComponentPropertiesStatusIngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentPropertiesStatusIngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesStatusIngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentPropertiesStatusIngestionMode_LogAnalytics                              = ApplicationInsightsComponentPropertiesStatusIngestionMode("LogAnalytics")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesStatusRequestSource. Use
 // v1beta20200202.ApplicationInsightsComponentPropertiesStatusRequestSource instead
 type ApplicationInsightsComponentPropertiesStatusRequestSource string
 
-const ApplicationInsightsComponentPropertiesStatusRequestSourceRest = ApplicationInsightsComponentPropertiesStatusRequestSource("rest")
+const ApplicationInsightsComponentPropertiesStatusRequestSource_Rest = ApplicationInsightsComponentPropertiesStatusRequestSource("rest")
 
 // Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_StatusARM struct {
@@ -87,6 +87,6 @@ type PrivateLinkScopedResource_StatusARM struct {
 type PublicNetworkAccessType_Status string
 
 const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
+	PublicNetworkAccessType_Status_Disabled = PublicNetworkAccessType_Status("Disabled")
+	PublicNetworkAccessType_Status_Enabled  = PublicNetworkAccessType_Status("Enabled")
 )

@@ -400,15 +400,15 @@ func AddIndependentPropertyGeneratorsForSBTopicStatus(gens map[string]gopter.Gen
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_StatusActive,
-		EntityStatus_StatusCreating,
-		EntityStatus_StatusDeleting,
-		EntityStatus_StatusDisabled,
-		EntityStatus_StatusReceiveDisabled,
-		EntityStatus_StatusRenaming,
-		EntityStatus_StatusRestoring,
-		EntityStatus_StatusSendDisabled,
-		EntityStatus_StatusUnknown))
+		EntityStatus_Status_Active,
+		EntityStatus_Status_Creating,
+		EntityStatus_Status_Deleting,
+		EntityStatus_Status_Disabled,
+		EntityStatus_Status_ReceiveDisabled,
+		EntityStatus_Status_Renaming,
+		EntityStatus_Status_Restoring,
+		EntityStatus_Status_SendDisabled,
+		EntityStatus_Status_Unknown))
 	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

@@ -167,29 +167,29 @@ func ComputeStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForComputeStatusARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(
-		ComputeType_StatusAKS,
-		ComputeType_StatusAmlCompute,
-		ComputeType_StatusComputeInstance,
-		ComputeType_StatusDataFactory,
-		ComputeType_StatusDataLakeAnalytics,
-		ComputeType_StatusDatabricks,
-		ComputeType_StatusHDInsight,
-		ComputeType_StatusKubernetes,
-		ComputeType_StatusSynapseSpark,
-		ComputeType_StatusVirtualMachine))
+		ComputeType_Status_AKS,
+		ComputeType_Status_AmlCompute,
+		ComputeType_Status_ComputeInstance,
+		ComputeType_Status_DataFactory,
+		ComputeType_Status_DataLakeAnalytics,
+		ComputeType_Status_Databricks,
+		ComputeType_Status_HDInsight,
+		ComputeType_Status_Kubernetes,
+		ComputeType_Status_SynapseSpark,
+		ComputeType_Status_VirtualMachine))
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ComputeStatusProvisioningStateCanceled,
-		ComputeStatusProvisioningStateCreating,
-		ComputeStatusProvisioningStateDeleting,
-		ComputeStatusProvisioningStateFailed,
-		ComputeStatusProvisioningStateSucceeded,
-		ComputeStatusProvisioningStateUnknown,
-		ComputeStatusProvisioningStateUpdating))
+		ComputeStatusProvisioningState_Canceled,
+		ComputeStatusProvisioningState_Creating,
+		ComputeStatusProvisioningState_Deleting,
+		ComputeStatusProvisioningState_Failed,
+		ComputeStatusProvisioningState_Succeeded,
+		ComputeStatusProvisioningState_Unknown,
+		ComputeStatusProvisioningState_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -267,10 +267,10 @@ func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityStatusTypeNone,
-		IdentityStatusTypeSystemAssigned,
-		IdentityStatusTypeSystemAssignedUserAssigned,
-		IdentityStatusTypeUserAssigned))
+		IdentityStatusType_None,
+		IdentityStatusType_SystemAssigned,
+		IdentityStatusType_SystemAssignedUserAssigned,
+		IdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
@@ -400,17 +400,17 @@ func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopt
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }
 
 func Test_ErrorResponse_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -52,7 +52,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -134,7 +134,7 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-02-02")
+const APIVersion_Value = APIVersion("2020-02-02")
 
 // Storage version of v1beta20200202.ApplicationInsightsComponent_Status
 type ApplicationInsightsComponent_Status struct {

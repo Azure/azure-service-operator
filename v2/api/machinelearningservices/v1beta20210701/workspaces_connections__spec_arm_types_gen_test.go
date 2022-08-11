@@ -156,5 +156,5 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionPropsARM(gens map[str
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormatJSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormat_JSON))
 }

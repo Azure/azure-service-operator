@@ -98,7 +98,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (account BatchAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type BatchAccountList struct {
 // +kubebuilder:validation:Enum={"2021-01-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-01-01")
+const APIVersion_Value = APIVersion("2021-01-01")
 
 type BatchAccount_Status struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
@@ -1608,16 +1608,16 @@ func (properties *AutoStorageProperties_Status) AssignPropertiesToAutoStoragePro
 type BatchAccountCreatePropertiesPoolAllocationMode string
 
 const (
-	BatchAccountCreatePropertiesPoolAllocationModeBatchService     = BatchAccountCreatePropertiesPoolAllocationMode("BatchService")
-	BatchAccountCreatePropertiesPoolAllocationModeUserSubscription = BatchAccountCreatePropertiesPoolAllocationMode("UserSubscription")
+	BatchAccountCreatePropertiesPoolAllocationMode_BatchService     = BatchAccountCreatePropertiesPoolAllocationMode("BatchService")
+	BatchAccountCreatePropertiesPoolAllocationMode_UserSubscription = BatchAccountCreatePropertiesPoolAllocationMode("UserSubscription")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type BatchAccountCreatePropertiesPublicNetworkAccess string
 
 const (
-	BatchAccountCreatePropertiesPublicNetworkAccessDisabled = BatchAccountCreatePropertiesPublicNetworkAccess("Disabled")
-	BatchAccountCreatePropertiesPublicNetworkAccessEnabled  = BatchAccountCreatePropertiesPublicNetworkAccess("Enabled")
+	BatchAccountCreatePropertiesPublicNetworkAccess_Disabled = BatchAccountCreatePropertiesPublicNetworkAccess("Disabled")
+	BatchAccountCreatePropertiesPublicNetworkAccess_Enabled  = BatchAccountCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity
@@ -1861,12 +1861,12 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 type BatchAccountPropertiesStatusProvisioningState string
 
 const (
-	BatchAccountPropertiesStatusProvisioningStateCancelled = BatchAccountPropertiesStatusProvisioningState("Cancelled")
-	BatchAccountPropertiesStatusProvisioningStateCreating  = BatchAccountPropertiesStatusProvisioningState("Creating")
-	BatchAccountPropertiesStatusProvisioningStateDeleting  = BatchAccountPropertiesStatusProvisioningState("Deleting")
-	BatchAccountPropertiesStatusProvisioningStateFailed    = BatchAccountPropertiesStatusProvisioningState("Failed")
-	BatchAccountPropertiesStatusProvisioningStateInvalid   = BatchAccountPropertiesStatusProvisioningState("Invalid")
-	BatchAccountPropertiesStatusProvisioningStateSucceeded = BatchAccountPropertiesStatusProvisioningState("Succeeded")
+	BatchAccountPropertiesStatusProvisioningState_Cancelled = BatchAccountPropertiesStatusProvisioningState("Cancelled")
+	BatchAccountPropertiesStatusProvisioningState_Creating  = BatchAccountPropertiesStatusProvisioningState("Creating")
+	BatchAccountPropertiesStatusProvisioningState_Deleting  = BatchAccountPropertiesStatusProvisioningState("Deleting")
+	BatchAccountPropertiesStatusProvisioningState_Failed    = BatchAccountPropertiesStatusProvisioningState("Failed")
+	BatchAccountPropertiesStatusProvisioningState_Invalid   = BatchAccountPropertiesStatusProvisioningState("Invalid")
+	BatchAccountPropertiesStatusProvisioningState_Succeeded = BatchAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties
@@ -2290,8 +2290,8 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 type PoolAllocationMode_Status string
 
 const (
-	PoolAllocationMode_StatusBatchService     = PoolAllocationMode_Status("BatchService")
-	PoolAllocationMode_StatusUserSubscription = PoolAllocationMode_Status("UserSubscription")
+	PoolAllocationMode_Status_BatchService     = PoolAllocationMode_Status("BatchService")
+	PoolAllocationMode_Status_UserSubscription = PoolAllocationMode_Status("UserSubscription")
 )
 
 type PrivateEndpointConnection_Status struct {
@@ -2504,8 +2504,8 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 type PublicNetworkAccessType_Status string
 
 const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
+	PublicNetworkAccessType_Status_Disabled = PublicNetworkAccessType_Status("Disabled")
+	PublicNetworkAccessType_Status_Enabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
 type VirtualMachineFamilyCoreQuota_Status struct {
@@ -2658,15 +2658,15 @@ func (identities *BatchAccountIdentity_Status_UserAssignedIdentities) AssignProp
 type EncryptionPropertiesKeySource string
 
 const (
-	EncryptionPropertiesKeySourceMicrosoftBatch    = EncryptionPropertiesKeySource("Microsoft.Batch")
-	EncryptionPropertiesKeySourceMicrosoftKeyVault = EncryptionPropertiesKeySource("Microsoft.KeyVault")
+	EncryptionPropertiesKeySource_MicrosoftBatch    = EncryptionPropertiesKeySource("Microsoft.Batch")
+	EncryptionPropertiesKeySource_MicrosoftKeyVault = EncryptionPropertiesKeySource("Microsoft.KeyVault")
 )
 
 type EncryptionPropertiesStatusKeySource string
 
 const (
-	EncryptionPropertiesStatusKeySourceMicrosoftBatch    = EncryptionPropertiesStatusKeySource("Microsoft.Batch")
-	EncryptionPropertiesStatusKeySourceMicrosoftKeyVault = EncryptionPropertiesStatusKeySource("Microsoft.KeyVault")
+	EncryptionPropertiesStatusKeySource_MicrosoftBatch    = EncryptionPropertiesStatusKeySource("Microsoft.Batch")
+	EncryptionPropertiesStatusKeySource_MicrosoftKeyVault = EncryptionPropertiesStatusKeySource("Microsoft.KeyVault")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties
@@ -2814,9 +2814,9 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 type PrivateEndpointConnectionPropertiesStatusProvisioningState string
 
 const (
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateFailed    = PrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateSucceeded = PrivateEndpointConnectionPropertiesStatusProvisioningState("Succeeded")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Failed    = PrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Succeeded = PrivateEndpointConnectionPropertiesStatusProvisioningState("Succeeded")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Updating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
 )
 
 type PrivateEndpoint_Status struct {
@@ -2972,10 +2972,10 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 type PrivateLinkServiceConnectionStatus_Status string
 
 const (
-	PrivateLinkServiceConnectionStatus_StatusApproved     = PrivateLinkServiceConnectionStatus_Status("Approved")
-	PrivateLinkServiceConnectionStatus_StatusDisconnected = PrivateLinkServiceConnectionStatus_Status("Disconnected")
-	PrivateLinkServiceConnectionStatus_StatusPending      = PrivateLinkServiceConnectionStatus_Status("Pending")
-	PrivateLinkServiceConnectionStatus_StatusRejected     = PrivateLinkServiceConnectionStatus_Status("Rejected")
+	PrivateLinkServiceConnectionStatus_Status_Approved     = PrivateLinkServiceConnectionStatus_Status("Approved")
+	PrivateLinkServiceConnectionStatus_Status_Disconnected = PrivateLinkServiceConnectionStatus_Status("Disconnected")
+	PrivateLinkServiceConnectionStatus_Status_Pending      = PrivateLinkServiceConnectionStatus_Status("Pending")
+	PrivateLinkServiceConnectionStatus_Status_Rejected     = PrivateLinkServiceConnectionStatus_Status("Rejected")
 )
 
 func init() {

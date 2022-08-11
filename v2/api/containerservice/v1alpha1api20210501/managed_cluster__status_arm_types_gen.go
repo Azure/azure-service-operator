@@ -93,7 +93,7 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 // Deprecated version of ExtendedLocationType_Status. Use v1beta20210501.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
+const ExtendedLocationType_Status_EdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of ManagedClusterAADProfile_Status. Use v1beta20210501.ManagedClusterAADProfile_Status instead
 type ManagedClusterAADProfile_StatusARM struct {
@@ -172,9 +172,9 @@ type ManagedClusterHTTPProxyConfig_StatusARM struct {
 type ManagedClusterIdentityStatusType string
 
 const (
-	ManagedClusterIdentityStatusTypeNone           = ManagedClusterIdentityStatusType("None")
-	ManagedClusterIdentityStatusTypeSystemAssigned = ManagedClusterIdentityStatusType("SystemAssigned")
-	ManagedClusterIdentityStatusTypeUserAssigned   = ManagedClusterIdentityStatusType("UserAssigned")
+	ManagedClusterIdentityStatusType_None           = ManagedClusterIdentityStatusType("None")
+	ManagedClusterIdentityStatusType_SystemAssigned = ManagedClusterIdentityStatusType("SystemAssigned")
+	ManagedClusterIdentityStatusType_UserAssigned   = ManagedClusterIdentityStatusType("UserAssigned")
 )
 
 // Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
@@ -215,14 +215,14 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 // Deprecated version of ManagedClusterSKUStatusName. Use v1beta20210501.ManagedClusterSKUStatusName instead
 type ManagedClusterSKUStatusName string
 
-const ManagedClusterSKUStatusNameBasic = ManagedClusterSKUStatusName("Basic")
+const ManagedClusterSKUStatusName_Basic = ManagedClusterSKUStatusName("Basic")
 
 // Deprecated version of ManagedClusterSKUStatusTier. Use v1beta20210501.ManagedClusterSKUStatusTier instead
 type ManagedClusterSKUStatusTier string
 
 const (
-	ManagedClusterSKUStatusTierFree = ManagedClusterSKUStatusTier("Free")
-	ManagedClusterSKUStatusTierPaid = ManagedClusterSKUStatusTier("Paid")
+	ManagedClusterSKUStatusTier_Free = ManagedClusterSKUStatusTier("Free")
+	ManagedClusterSKUStatusTier_Paid = ManagedClusterSKUStatusTier("Paid")
 )
 
 // Deprecated version of ManagedClusterServicePrincipalProfile_Status. Use v1beta20210501.ManagedClusterServicePrincipalProfile_Status instead

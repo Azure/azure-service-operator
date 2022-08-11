@@ -51,7 +51,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -132,7 +132,7 @@ type RoleAssignmentList struct {
 // +kubebuilder:validation:Enum={"2020-08-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-08-01-preview")
+const APIVersion_Value = APIVersion("2020-08-01-preview")
 
 // Storage version of v1beta20200801preview.RoleAssignment_Status
 type RoleAssignment_Status struct {

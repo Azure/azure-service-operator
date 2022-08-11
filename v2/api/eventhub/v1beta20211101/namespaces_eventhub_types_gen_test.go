@@ -280,15 +280,15 @@ func AddIndependentPropertyGeneratorsForEventhubStatus(gens map[string]gopter.Ge
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EventhubStatusPropertiesStatusActive,
-		EventhubStatusPropertiesStatusCreating,
-		EventhubStatusPropertiesStatusDeleting,
-		EventhubStatusPropertiesStatusDisabled,
-		EventhubStatusPropertiesStatusReceiveDisabled,
-		EventhubStatusPropertiesStatusRenaming,
-		EventhubStatusPropertiesStatusRestoring,
-		EventhubStatusPropertiesStatusSendDisabled,
-		EventhubStatusPropertiesStatusUnknown))
+		EventhubStatusPropertiesStatus_Active,
+		EventhubStatusPropertiesStatus_Creating,
+		EventhubStatusPropertiesStatus_Deleting,
+		EventhubStatusPropertiesStatus_Disabled,
+		EventhubStatusPropertiesStatus_ReceiveDisabled,
+		EventhubStatusPropertiesStatus_Renaming,
+		EventhubStatusPropertiesStatus_Restoring,
+		EventhubStatusPropertiesStatus_SendDisabled,
+		EventhubStatusPropertiesStatus_Unknown))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
@@ -530,7 +530,7 @@ func CaptureDescriptionStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescriptionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescriptionStatus(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescriptionStatusEncodingAvro, CaptureDescriptionStatusEncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescriptionStatusEncoding_Avro, CaptureDescriptionStatusEncoding_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())
@@ -651,7 +651,7 @@ func NamespacesEventhubsSpecPropertiesCaptureDescriptionGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescription is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescription(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_Avro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

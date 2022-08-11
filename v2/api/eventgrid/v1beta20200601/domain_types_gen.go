@@ -98,7 +98,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type DomainList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type Domain_Status struct {
 	// Conditions: The observed state of the resource
@@ -1200,43 +1200,43 @@ func (domains *Domains_Spec) SetAzureName(azureName string) { domains.AzureName 
 type DomainPropertiesInputSchema string
 
 const (
-	DomainPropertiesInputSchemaCloudEventSchemaV10 = DomainPropertiesInputSchema("CloudEventSchemaV1_0")
-	DomainPropertiesInputSchemaCustomEventSchema   = DomainPropertiesInputSchema("CustomEventSchema")
-	DomainPropertiesInputSchemaEventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
+	DomainPropertiesInputSchema_CloudEventSchemaV10 = DomainPropertiesInputSchema("CloudEventSchemaV1_0")
+	DomainPropertiesInputSchema_CustomEventSchema   = DomainPropertiesInputSchema("CustomEventSchema")
+	DomainPropertiesInputSchema_EventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DomainPropertiesPublicNetworkAccess string
 
 const (
-	DomainPropertiesPublicNetworkAccessDisabled = DomainPropertiesPublicNetworkAccess("Disabled")
-	DomainPropertiesPublicNetworkAccessEnabled  = DomainPropertiesPublicNetworkAccess("Enabled")
+	DomainPropertiesPublicNetworkAccess_Disabled = DomainPropertiesPublicNetworkAccess("Disabled")
+	DomainPropertiesPublicNetworkAccess_Enabled  = DomainPropertiesPublicNetworkAccess("Enabled")
 )
 
 type DomainPropertiesStatusInputSchema string
 
 const (
-	DomainPropertiesStatusInputSchemaCloudEventSchemaV10 = DomainPropertiesStatusInputSchema("CloudEventSchemaV1_0")
-	DomainPropertiesStatusInputSchemaCustomEventSchema   = DomainPropertiesStatusInputSchema("CustomEventSchema")
-	DomainPropertiesStatusInputSchemaEventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
+	DomainPropertiesStatusInputSchema_CloudEventSchemaV10 = DomainPropertiesStatusInputSchema("CloudEventSchemaV1_0")
+	DomainPropertiesStatusInputSchema_CustomEventSchema   = DomainPropertiesStatusInputSchema("CustomEventSchema")
+	DomainPropertiesStatusInputSchema_EventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
 )
 
 type DomainPropertiesStatusProvisioningState string
 
 const (
-	DomainPropertiesStatusProvisioningStateCanceled  = DomainPropertiesStatusProvisioningState("Canceled")
-	DomainPropertiesStatusProvisioningStateCreating  = DomainPropertiesStatusProvisioningState("Creating")
-	DomainPropertiesStatusProvisioningStateDeleting  = DomainPropertiesStatusProvisioningState("Deleting")
-	DomainPropertiesStatusProvisioningStateFailed    = DomainPropertiesStatusProvisioningState("Failed")
-	DomainPropertiesStatusProvisioningStateSucceeded = DomainPropertiesStatusProvisioningState("Succeeded")
-	DomainPropertiesStatusProvisioningStateUpdating  = DomainPropertiesStatusProvisioningState("Updating")
+	DomainPropertiesStatusProvisioningState_Canceled  = DomainPropertiesStatusProvisioningState("Canceled")
+	DomainPropertiesStatusProvisioningState_Creating  = DomainPropertiesStatusProvisioningState("Creating")
+	DomainPropertiesStatusProvisioningState_Deleting  = DomainPropertiesStatusProvisioningState("Deleting")
+	DomainPropertiesStatusProvisioningState_Failed    = DomainPropertiesStatusProvisioningState("Failed")
+	DomainPropertiesStatusProvisioningState_Succeeded = DomainPropertiesStatusProvisioningState("Succeeded")
+	DomainPropertiesStatusProvisioningState_Updating  = DomainPropertiesStatusProvisioningState("Updating")
 )
 
 type DomainPropertiesStatusPublicNetworkAccess string
 
 const (
-	DomainPropertiesStatusPublicNetworkAccessDisabled = DomainPropertiesStatusPublicNetworkAccess("Disabled")
-	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
+	DomainPropertiesStatusPublicNetworkAccess_Disabled = DomainPropertiesStatusPublicNetworkAccess("Disabled")
+	DomainPropertiesStatusPublicNetworkAccess_Enabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
@@ -1842,20 +1842,20 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 // +kubebuilder:validation:Enum={"Allow"}
 type InboundIpRuleAction string
 
-const InboundIpRuleActionAllow = InboundIpRuleAction("Allow")
+const InboundIpRuleAction_Allow = InboundIpRuleAction("Allow")
 
 type InboundIpRuleStatusAction string
 
-const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
+const InboundIpRuleStatusAction_Allow = InboundIpRuleStatusAction("Allow")
 
 type InputSchemaMappingStatusInputSchemaMappingType string
 
-const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
+const InputSchemaMappingStatusInputSchemaMappingType_Json = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
 // +kubebuilder:validation:Enum={"Json"}
 type JsonInputSchemaMappingInputSchemaMappingType string
 
-const JsonInputSchemaMappingInputSchemaMappingTypeJson = JsonInputSchemaMappingInputSchemaMappingType("Json")
+const JsonInputSchemaMappingInputSchemaMappingType_Json = JsonInputSchemaMappingInputSchemaMappingType("Json")
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
 type JsonInputSchemaMappingProperties struct {

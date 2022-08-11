@@ -98,7 +98,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type NamespaceList struct {
 // +kubebuilder:validation:Enum={"2021-11-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-11-01")
+const APIVersion_Value = APIVersion("2021-11-01")
 
 type EHNamespace_Status struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
@@ -2775,7 +2775,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
 type EncryptionKeySource string
 
-const EncryptionKeySourceMicrosoftKeyVault = EncryptionKeySource("Microsoft.KeyVault")
+const EncryptionKeySource_MicrosoftKeyVault = EncryptionKeySource("Microsoft.KeyVault")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {

@@ -157,10 +157,10 @@ func VirtualMachineIdentityARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineIdentityARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineIdentityTypeNone,
-		VirtualMachineIdentityTypeSystemAssigned,
-		VirtualMachineIdentityTypeSystemAssignedUserAssigned,
-		VirtualMachineIdentityTypeUserAssigned))
+		VirtualMachineIdentityType_None,
+		VirtualMachineIdentityType_SystemAssigned,
+		VirtualMachineIdentityType_SystemAssignedUserAssigned,
+		VirtualMachineIdentityType_UserAssigned))
 }
 
 func Test_VirtualMachines_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -230,11 +230,11 @@ func VirtualMachinesSpecPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesARM(gens map[string]gopter.Gen) {
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesEvictionPolicyDeallocate, VirtualMachinesSpecPropertiesEvictionPolicyDelete))
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesEvictionPolicy_Deallocate, VirtualMachinesSpecPropertiesEvictionPolicy_Delete))
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
-	gens["Priority"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesPriorityLow, VirtualMachinesSpecPropertiesPriorityRegular, VirtualMachinesSpecPropertiesPrioritySpot))
+	gens["Priority"] = gen.PtrOf(gen.OneConstOf(VirtualMachinesSpecPropertiesPriority_Low, VirtualMachinesSpecPropertiesPriority_Regular, VirtualMachinesSpecPropertiesPriority_Spot))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesARM is a factory method for creating gopter generators
@@ -433,172 +433,172 @@ func HardwareProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForHardwareProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHardwareProfileARM(gens map[string]gopter.Gen) {
 	gens["VmSize"] = gen.PtrOf(gen.OneConstOf(
-		HardwareProfileVmSizeBasicA0,
-		HardwareProfileVmSizeBasicA1,
-		HardwareProfileVmSizeBasicA2,
-		HardwareProfileVmSizeBasicA3,
-		HardwareProfileVmSizeBasicA4,
-		HardwareProfileVmSizeStandardA0,
-		HardwareProfileVmSizeStandardA1,
-		HardwareProfileVmSizeStandardA10,
-		HardwareProfileVmSizeStandardA11,
-		HardwareProfileVmSizeStandardA1V2,
-		HardwareProfileVmSizeStandardA2,
-		HardwareProfileVmSizeStandardA2MV2,
-		HardwareProfileVmSizeStandardA2V2,
-		HardwareProfileVmSizeStandardA3,
-		HardwareProfileVmSizeStandardA4,
-		HardwareProfileVmSizeStandardA4MV2,
-		HardwareProfileVmSizeStandardA4V2,
-		HardwareProfileVmSizeStandardA5,
-		HardwareProfileVmSizeStandardA6,
-		HardwareProfileVmSizeStandardA7,
-		HardwareProfileVmSizeStandardA8,
-		HardwareProfileVmSizeStandardA8MV2,
-		HardwareProfileVmSizeStandardA8V2,
-		HardwareProfileVmSizeStandardA9,
-		HardwareProfileVmSizeStandardB1Ms,
-		HardwareProfileVmSizeStandardB1S,
-		HardwareProfileVmSizeStandardB2Ms,
-		HardwareProfileVmSizeStandardB2S,
-		HardwareProfileVmSizeStandardB4Ms,
-		HardwareProfileVmSizeStandardB8Ms,
-		HardwareProfileVmSizeStandardD1,
-		HardwareProfileVmSizeStandardD11,
-		HardwareProfileVmSizeStandardD11V2,
-		HardwareProfileVmSizeStandardD12,
-		HardwareProfileVmSizeStandardD12V2,
-		HardwareProfileVmSizeStandardD13,
-		HardwareProfileVmSizeStandardD13V2,
-		HardwareProfileVmSizeStandardD14,
-		HardwareProfileVmSizeStandardD14V2,
-		HardwareProfileVmSizeStandardD15V2,
-		HardwareProfileVmSizeStandardD16SV3,
-		HardwareProfileVmSizeStandardD16V3,
-		HardwareProfileVmSizeStandardD1V2,
-		HardwareProfileVmSizeStandardD2,
-		HardwareProfileVmSizeStandardD2SV3,
-		HardwareProfileVmSizeStandardD2V2,
-		HardwareProfileVmSizeStandardD2V3,
-		HardwareProfileVmSizeStandardD3,
-		HardwareProfileVmSizeStandardD32SV3,
-		HardwareProfileVmSizeStandardD32V3,
-		HardwareProfileVmSizeStandardD3V2,
-		HardwareProfileVmSizeStandardD4,
-		HardwareProfileVmSizeStandardD4SV3,
-		HardwareProfileVmSizeStandardD4V2,
-		HardwareProfileVmSizeStandardD4V3,
-		HardwareProfileVmSizeStandardD5V2,
-		HardwareProfileVmSizeStandardD64SV3,
-		HardwareProfileVmSizeStandardD64V3,
-		HardwareProfileVmSizeStandardD8SV3,
-		HardwareProfileVmSizeStandardD8V3,
-		HardwareProfileVmSizeStandardDS1,
-		HardwareProfileVmSizeStandardDS11,
-		HardwareProfileVmSizeStandardDS11V2,
-		HardwareProfileVmSizeStandardDS12,
-		HardwareProfileVmSizeStandardDS12V2,
-		HardwareProfileVmSizeStandardDS13,
-		HardwareProfileVmSizeStandardDS132V2,
-		HardwareProfileVmSizeStandardDS134V2,
-		HardwareProfileVmSizeStandardDS13V2,
-		HardwareProfileVmSizeStandardDS14,
-		HardwareProfileVmSizeStandardDS144V2,
-		HardwareProfileVmSizeStandardDS148V2,
-		HardwareProfileVmSizeStandardDS14V2,
-		HardwareProfileVmSizeStandardDS15V2,
-		HardwareProfileVmSizeStandardDS1V2,
-		HardwareProfileVmSizeStandardDS2,
-		HardwareProfileVmSizeStandardDS2V2,
-		HardwareProfileVmSizeStandardDS3,
-		HardwareProfileVmSizeStandardDS3V2,
-		HardwareProfileVmSizeStandardDS4,
-		HardwareProfileVmSizeStandardDS4V2,
-		HardwareProfileVmSizeStandardDS5V2,
-		HardwareProfileVmSizeStandardE16SV3,
-		HardwareProfileVmSizeStandardE16V3,
-		HardwareProfileVmSizeStandardE2SV3,
-		HardwareProfileVmSizeStandardE2V3,
-		HardwareProfileVmSizeStandardE3216V3,
-		HardwareProfileVmSizeStandardE328SV3,
-		HardwareProfileVmSizeStandardE32SV3,
-		HardwareProfileVmSizeStandardE32V3,
-		HardwareProfileVmSizeStandardE4SV3,
-		HardwareProfileVmSizeStandardE4V3,
-		HardwareProfileVmSizeStandardE6416SV3,
-		HardwareProfileVmSizeStandardE6432SV3,
-		HardwareProfileVmSizeStandardE64SV3,
-		HardwareProfileVmSizeStandardE64V3,
-		HardwareProfileVmSizeStandardE8SV3,
-		HardwareProfileVmSizeStandardE8V3,
-		HardwareProfileVmSizeStandardF1,
-		HardwareProfileVmSizeStandardF16,
-		HardwareProfileVmSizeStandardF16S,
-		HardwareProfileVmSizeStandardF16SV2,
-		HardwareProfileVmSizeStandardF1S,
-		HardwareProfileVmSizeStandardF2,
-		HardwareProfileVmSizeStandardF2S,
-		HardwareProfileVmSizeStandardF2SV2,
-		HardwareProfileVmSizeStandardF32SV2,
-		HardwareProfileVmSizeStandardF4,
-		HardwareProfileVmSizeStandardF4S,
-		HardwareProfileVmSizeStandardF4SV2,
-		HardwareProfileVmSizeStandardF64SV2,
-		HardwareProfileVmSizeStandardF72SV2,
-		HardwareProfileVmSizeStandardF8,
-		HardwareProfileVmSizeStandardF8S,
-		HardwareProfileVmSizeStandardF8SV2,
-		HardwareProfileVmSizeStandardG1,
-		HardwareProfileVmSizeStandardG2,
-		HardwareProfileVmSizeStandardG3,
-		HardwareProfileVmSizeStandardG4,
-		HardwareProfileVmSizeStandardG5,
-		HardwareProfileVmSizeStandardGS1,
-		HardwareProfileVmSizeStandardGS2,
-		HardwareProfileVmSizeStandardGS3,
-		HardwareProfileVmSizeStandardGS4,
-		HardwareProfileVmSizeStandardGS44,
-		HardwareProfileVmSizeStandardGS48,
-		HardwareProfileVmSizeStandardGS5,
-		HardwareProfileVmSizeStandardGS516,
-		HardwareProfileVmSizeStandardGS58,
-		HardwareProfileVmSizeStandardH16,
-		HardwareProfileVmSizeStandardH16M,
-		HardwareProfileVmSizeStandardH16Mr,
-		HardwareProfileVmSizeStandardH16R,
-		HardwareProfileVmSizeStandardH8,
-		HardwareProfileVmSizeStandardH8M,
-		HardwareProfileVmSizeStandardL16S,
-		HardwareProfileVmSizeStandardL32S,
-		HardwareProfileVmSizeStandardL4S,
-		HardwareProfileVmSizeStandardL8S,
-		HardwareProfileVmSizeStandardM12832Ms,
-		HardwareProfileVmSizeStandardM12864Ms,
-		HardwareProfileVmSizeStandardM128Ms,
-		HardwareProfileVmSizeStandardM128S,
-		HardwareProfileVmSizeStandardM6416Ms,
-		HardwareProfileVmSizeStandardM6432Ms,
-		HardwareProfileVmSizeStandardM64Ms,
-		HardwareProfileVmSizeStandardM64S,
-		HardwareProfileVmSizeStandardNC12,
-		HardwareProfileVmSizeStandardNC12SV2,
-		HardwareProfileVmSizeStandardNC12SV3,
-		HardwareProfileVmSizeStandardNC24,
-		HardwareProfileVmSizeStandardNC24R,
-		HardwareProfileVmSizeStandardNC24RsV2,
-		HardwareProfileVmSizeStandardNC24RsV3,
-		HardwareProfileVmSizeStandardNC24SV2,
-		HardwareProfileVmSizeStandardNC24SV3,
-		HardwareProfileVmSizeStandardNC6,
-		HardwareProfileVmSizeStandardNC6SV2,
-		HardwareProfileVmSizeStandardNC6SV3,
-		HardwareProfileVmSizeStandardND12S,
-		HardwareProfileVmSizeStandardND24Rs,
-		HardwareProfileVmSizeStandardND24S,
-		HardwareProfileVmSizeStandardND6S,
-		HardwareProfileVmSizeStandardNV12,
-		HardwareProfileVmSizeStandardNV24,
-		HardwareProfileVmSizeStandardNV6))
+		HardwareProfileVmSize_BasicA0,
+		HardwareProfileVmSize_BasicA1,
+		HardwareProfileVmSize_BasicA2,
+		HardwareProfileVmSize_BasicA3,
+		HardwareProfileVmSize_BasicA4,
+		HardwareProfileVmSize_StandardA0,
+		HardwareProfileVmSize_StandardA1,
+		HardwareProfileVmSize_StandardA10,
+		HardwareProfileVmSize_StandardA11,
+		HardwareProfileVmSize_StandardA1V2,
+		HardwareProfileVmSize_StandardA2,
+		HardwareProfileVmSize_StandardA2MV2,
+		HardwareProfileVmSize_StandardA2V2,
+		HardwareProfileVmSize_StandardA3,
+		HardwareProfileVmSize_StandardA4,
+		HardwareProfileVmSize_StandardA4MV2,
+		HardwareProfileVmSize_StandardA4V2,
+		HardwareProfileVmSize_StandardA5,
+		HardwareProfileVmSize_StandardA6,
+		HardwareProfileVmSize_StandardA7,
+		HardwareProfileVmSize_StandardA8,
+		HardwareProfileVmSize_StandardA8MV2,
+		HardwareProfileVmSize_StandardA8V2,
+		HardwareProfileVmSize_StandardA9,
+		HardwareProfileVmSize_StandardB1Ms,
+		HardwareProfileVmSize_StandardB1S,
+		HardwareProfileVmSize_StandardB2Ms,
+		HardwareProfileVmSize_StandardB2S,
+		HardwareProfileVmSize_StandardB4Ms,
+		HardwareProfileVmSize_StandardB8Ms,
+		HardwareProfileVmSize_StandardD1,
+		HardwareProfileVmSize_StandardD11,
+		HardwareProfileVmSize_StandardD11V2,
+		HardwareProfileVmSize_StandardD12,
+		HardwareProfileVmSize_StandardD12V2,
+		HardwareProfileVmSize_StandardD13,
+		HardwareProfileVmSize_StandardD13V2,
+		HardwareProfileVmSize_StandardD14,
+		HardwareProfileVmSize_StandardD14V2,
+		HardwareProfileVmSize_StandardD15V2,
+		HardwareProfileVmSize_StandardD16SV3,
+		HardwareProfileVmSize_StandardD16V3,
+		HardwareProfileVmSize_StandardD1V2,
+		HardwareProfileVmSize_StandardD2,
+		HardwareProfileVmSize_StandardD2SV3,
+		HardwareProfileVmSize_StandardD2V2,
+		HardwareProfileVmSize_StandardD2V3,
+		HardwareProfileVmSize_StandardD3,
+		HardwareProfileVmSize_StandardD32SV3,
+		HardwareProfileVmSize_StandardD32V3,
+		HardwareProfileVmSize_StandardD3V2,
+		HardwareProfileVmSize_StandardD4,
+		HardwareProfileVmSize_StandardD4SV3,
+		HardwareProfileVmSize_StandardD4V2,
+		HardwareProfileVmSize_StandardD4V3,
+		HardwareProfileVmSize_StandardD5V2,
+		HardwareProfileVmSize_StandardD64SV3,
+		HardwareProfileVmSize_StandardD64V3,
+		HardwareProfileVmSize_StandardD8SV3,
+		HardwareProfileVmSize_StandardD8V3,
+		HardwareProfileVmSize_StandardDS1,
+		HardwareProfileVmSize_StandardDS11,
+		HardwareProfileVmSize_StandardDS11V2,
+		HardwareProfileVmSize_StandardDS12,
+		HardwareProfileVmSize_StandardDS12V2,
+		HardwareProfileVmSize_StandardDS13,
+		HardwareProfileVmSize_StandardDS132V2,
+		HardwareProfileVmSize_StandardDS134V2,
+		HardwareProfileVmSize_StandardDS13V2,
+		HardwareProfileVmSize_StandardDS14,
+		HardwareProfileVmSize_StandardDS144V2,
+		HardwareProfileVmSize_StandardDS148V2,
+		HardwareProfileVmSize_StandardDS14V2,
+		HardwareProfileVmSize_StandardDS15V2,
+		HardwareProfileVmSize_StandardDS1V2,
+		HardwareProfileVmSize_StandardDS2,
+		HardwareProfileVmSize_StandardDS2V2,
+		HardwareProfileVmSize_StandardDS3,
+		HardwareProfileVmSize_StandardDS3V2,
+		HardwareProfileVmSize_StandardDS4,
+		HardwareProfileVmSize_StandardDS4V2,
+		HardwareProfileVmSize_StandardDS5V2,
+		HardwareProfileVmSize_StandardE16SV3,
+		HardwareProfileVmSize_StandardE16V3,
+		HardwareProfileVmSize_StandardE2SV3,
+		HardwareProfileVmSize_StandardE2V3,
+		HardwareProfileVmSize_StandardE3216V3,
+		HardwareProfileVmSize_StandardE328SV3,
+		HardwareProfileVmSize_StandardE32SV3,
+		HardwareProfileVmSize_StandardE32V3,
+		HardwareProfileVmSize_StandardE4SV3,
+		HardwareProfileVmSize_StandardE4V3,
+		HardwareProfileVmSize_StandardE6416SV3,
+		HardwareProfileVmSize_StandardE6432SV3,
+		HardwareProfileVmSize_StandardE64SV3,
+		HardwareProfileVmSize_StandardE64V3,
+		HardwareProfileVmSize_StandardE8SV3,
+		HardwareProfileVmSize_StandardE8V3,
+		HardwareProfileVmSize_StandardF1,
+		HardwareProfileVmSize_StandardF16,
+		HardwareProfileVmSize_StandardF16S,
+		HardwareProfileVmSize_StandardF16SV2,
+		HardwareProfileVmSize_StandardF1S,
+		HardwareProfileVmSize_StandardF2,
+		HardwareProfileVmSize_StandardF2S,
+		HardwareProfileVmSize_StandardF2SV2,
+		HardwareProfileVmSize_StandardF32SV2,
+		HardwareProfileVmSize_StandardF4,
+		HardwareProfileVmSize_StandardF4S,
+		HardwareProfileVmSize_StandardF4SV2,
+		HardwareProfileVmSize_StandardF64SV2,
+		HardwareProfileVmSize_StandardF72SV2,
+		HardwareProfileVmSize_StandardF8,
+		HardwareProfileVmSize_StandardF8S,
+		HardwareProfileVmSize_StandardF8SV2,
+		HardwareProfileVmSize_StandardG1,
+		HardwareProfileVmSize_StandardG2,
+		HardwareProfileVmSize_StandardG3,
+		HardwareProfileVmSize_StandardG4,
+		HardwareProfileVmSize_StandardG5,
+		HardwareProfileVmSize_StandardGS1,
+		HardwareProfileVmSize_StandardGS2,
+		HardwareProfileVmSize_StandardGS3,
+		HardwareProfileVmSize_StandardGS4,
+		HardwareProfileVmSize_StandardGS44,
+		HardwareProfileVmSize_StandardGS48,
+		HardwareProfileVmSize_StandardGS5,
+		HardwareProfileVmSize_StandardGS516,
+		HardwareProfileVmSize_StandardGS58,
+		HardwareProfileVmSize_StandardH16,
+		HardwareProfileVmSize_StandardH16M,
+		HardwareProfileVmSize_StandardH16Mr,
+		HardwareProfileVmSize_StandardH16R,
+		HardwareProfileVmSize_StandardH8,
+		HardwareProfileVmSize_StandardH8M,
+		HardwareProfileVmSize_StandardL16S,
+		HardwareProfileVmSize_StandardL32S,
+		HardwareProfileVmSize_StandardL4S,
+		HardwareProfileVmSize_StandardL8S,
+		HardwareProfileVmSize_StandardM12832Ms,
+		HardwareProfileVmSize_StandardM12864Ms,
+		HardwareProfileVmSize_StandardM128Ms,
+		HardwareProfileVmSize_StandardM128S,
+		HardwareProfileVmSize_StandardM6416Ms,
+		HardwareProfileVmSize_StandardM6432Ms,
+		HardwareProfileVmSize_StandardM64Ms,
+		HardwareProfileVmSize_StandardM64S,
+		HardwareProfileVmSize_StandardNC12,
+		HardwareProfileVmSize_StandardNC12SV2,
+		HardwareProfileVmSize_StandardNC12SV3,
+		HardwareProfileVmSize_StandardNC24,
+		HardwareProfileVmSize_StandardNC24R,
+		HardwareProfileVmSize_StandardNC24RsV2,
+		HardwareProfileVmSize_StandardNC24RsV3,
+		HardwareProfileVmSize_StandardNC24SV2,
+		HardwareProfileVmSize_StandardNC24SV3,
+		HardwareProfileVmSize_StandardNC6,
+		HardwareProfileVmSize_StandardNC6SV2,
+		HardwareProfileVmSize_StandardNC6SV3,
+		HardwareProfileVmSize_StandardND12S,
+		HardwareProfileVmSize_StandardND24Rs,
+		HardwareProfileVmSize_StandardND24S,
+		HardwareProfileVmSize_StandardND6S,
+		HardwareProfileVmSize_StandardNV12,
+		HardwareProfileVmSize_StandardNV24,
+		HardwareProfileVmSize_StandardNV6))
 }
 
 func Test_SecurityProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -668,7 +668,7 @@ func SecurityProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSecurityProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityProfileARM(gens map[string]gopter.Gen) {
 	gens["EncryptionAtHost"] = gen.PtrOf(gen.Bool())
-	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(SecurityProfileSecurityTypeTrustedLaunch))
+	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(SecurityProfileSecurityType_TrustedLaunch))
 }
 
 // AddRelatedPropertyGeneratorsForSecurityProfileARM is a factory method for creating gopter generators
@@ -1008,9 +1008,9 @@ func DataDiskARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDiskARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(DataDiskCachingNone, DataDiskCachingReadOnly, DataDiskCachingReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(DataDiskCreateOptionAttach, DataDiskCreateOptionEmpty, DataDiskCreateOptionFromImage))
-	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DataDiskDetachOptionForceDetach))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(DataDiskCaching_None, DataDiskCaching_ReadOnly, DataDiskCaching_ReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(DataDiskCreateOption_Attach, DataDiskCreateOption_Empty, DataDiskCreateOption_FromImage))
+	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DataDiskDetachOption_ForceDetach))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -1232,11 +1232,11 @@ func OSDiskARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOSDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDiskARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(OSDiskCachingNone, OSDiskCachingReadOnly, OSDiskCachingReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(OSDiskCreateOptionAttach, OSDiskCreateOptionEmpty, OSDiskCreateOptionFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(OSDiskCaching_None, OSDiskCaching_ReadOnly, OSDiskCaching_ReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(OSDiskCreateOption_Attach, OSDiskCreateOption_Empty, OSDiskCreateOption_FromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskOsTypeLinux, OSDiskOsTypeWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDiskOsType_Linux, OSDiskOsType_Windows))
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1584,10 +1584,10 @@ func AdditionalUnattendContentARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdditionalUnattendContentARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdditionalUnattendContentARM(gens map[string]gopter.Gen) {
-	gens["ComponentName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentComponentNameMicrosoftWindowsShellSetup))
+	gens["ComponentName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentComponentName_MicrosoftWindowsShellSetup))
 	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["PassName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentPassNameOobeSystem))
-	gens["SettingName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentSettingNameAutoLogon, AdditionalUnattendContentSettingNameFirstLogonCommands))
+	gens["PassName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentPassName_OobeSystem))
+	gens["SettingName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContentSettingName_AutoLogon, AdditionalUnattendContentSettingName_FirstLogonCommands))
 }
 
 func Test_DiffDiskSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1648,8 +1648,8 @@ func DiffDiskSettingsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiffDiskSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiffDiskSettingsARM(gens map[string]gopter.Gen) {
-	gens["Option"] = gen.PtrOf(gen.OneConstOf(DiffDiskSettingsOptionLocal))
-	gens["Placement"] = gen.PtrOf(gen.OneConstOf(DiffDiskSettingsPlacementCacheDisk, DiffDiskSettingsPlacementResourceDisk))
+	gens["Option"] = gen.PtrOf(gen.OneConstOf(DiffDiskSettingsOption_Local))
+	gens["Placement"] = gen.PtrOf(gen.OneConstOf(DiffDiskSettingsPlacement_CacheDisk, DiffDiskSettingsPlacement_ResourceDisk))
 }
 
 func Test_DiskEncryptionSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1786,7 +1786,7 @@ func LinuxPatchSettingsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLinuxPatchSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLinuxPatchSettingsARM(gens map[string]gopter.Gen) {
-	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(LinuxPatchSettingsPatchModeAutomaticByPlatform, LinuxPatchSettingsPatchModeImageDefault))
+	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(LinuxPatchSettingsPatchMode_AutomaticByPlatform, LinuxPatchSettingsPatchMode_ImageDefault))
 }
 
 func Test_ManagedDiskParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1858,12 +1858,12 @@ func ManagedDiskParametersARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedDiskParametersARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ManagedDiskParametersStorageAccountTypePremiumLRS,
-		ManagedDiskParametersStorageAccountTypePremiumZRS,
-		ManagedDiskParametersStorageAccountTypeStandardLRS,
-		ManagedDiskParametersStorageAccountTypeStandardSSDLRS,
-		ManagedDiskParametersStorageAccountTypeStandardSSDZRS,
-		ManagedDiskParametersStorageAccountTypeUltraSSDLRS))
+		ManagedDiskParametersStorageAccountType_PremiumLRS,
+		ManagedDiskParametersStorageAccountType_PremiumZRS,
+		ManagedDiskParametersStorageAccountType_StandardLRS,
+		ManagedDiskParametersStorageAccountType_StandardSSDLRS,
+		ManagedDiskParametersStorageAccountType_StandardSSDZRS,
+		ManagedDiskParametersStorageAccountType_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForManagedDiskParametersARM is a factory method for creating gopter generators
@@ -1990,7 +1990,7 @@ func PatchSettingsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPatchSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPatchSettingsARM(gens map[string]gopter.Gen) {
 	gens["EnableHotpatching"] = gen.PtrOf(gen.Bool())
-	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(PatchSettingsPatchModeAutomaticByOS, PatchSettingsPatchModeAutomaticByPlatform, PatchSettingsPatchModeManual))
+	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(PatchSettingsPatchMode_AutomaticByOS, PatchSettingsPatchMode_AutomaticByPlatform, PatchSettingsPatchMode_Manual))
 }
 
 func Test_SshConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2567,5 +2567,5 @@ func WinRMListenerARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWinRMListenerARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWinRMListenerARM(gens map[string]gopter.Gen) {
 	gens["CertificateUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(WinRMListenerProtocolHttp, WinRMListenerProtocolHttps))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(WinRMListenerProtocol_Http, WinRMListenerProtocol_Https))
 }

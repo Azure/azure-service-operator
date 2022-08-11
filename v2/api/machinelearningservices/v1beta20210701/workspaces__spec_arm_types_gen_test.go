@@ -173,7 +173,7 @@ func AddIndependentPropertyGeneratorsForWorkspacesSpecPropertiesARM(gens map[str
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVault"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacesSpecPropertiesPublicNetworkAccessDisabled, WorkspacesSpecPropertiesPublicNetworkAccessEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacesSpecPropertiesPublicNetworkAccess_Disabled, WorkspacesSpecPropertiesPublicNetworkAccess_Enabled))
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -251,7 +251,7 @@ func EncryptionPropertyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionPropertyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionPropertyARM(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusDisabled, EncryptionPropertyStatusEnabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatus_Disabled, EncryptionPropertyStatus_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionPropertyARM is a factory method for creating gopter generators
@@ -642,9 +642,9 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourcePropertyARM(gen
 	gens["PrivateLinkResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourcePropertyStatusApproved,
-		SharedPrivateLinkResourcePropertyStatusDisconnected,
-		SharedPrivateLinkResourcePropertyStatusPending,
-		SharedPrivateLinkResourcePropertyStatusRejected,
-		SharedPrivateLinkResourcePropertyStatusTimeout))
+		SharedPrivateLinkResourcePropertyStatus_Approved,
+		SharedPrivateLinkResourcePropertyStatus_Disconnected,
+		SharedPrivateLinkResourcePropertyStatus_Pending,
+		SharedPrivateLinkResourcePropertyStatus_Rejected,
+		SharedPrivateLinkResourcePropertyStatus_Timeout))
 }

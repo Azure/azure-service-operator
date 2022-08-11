@@ -281,32 +281,32 @@ func AddIndependentPropertyGeneratorsForEndpointStatus(gens map[string]gopter.Ge
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OptimizationType"] = gen.PtrOf(gen.OneConstOf(
-		OptimizationType_StatusDynamicSiteAcceleration,
-		OptimizationType_StatusGeneralMediaStreaming,
-		OptimizationType_StatusGeneralWebDelivery,
-		OptimizationType_StatusLargeFileDownload,
-		OptimizationType_StatusVideoOnDemandMediaStreaming))
+		OptimizationType_Status_DynamicSiteAcceleration,
+		OptimizationType_Status_GeneralMediaStreaming,
+		OptimizationType_Status_GeneralWebDelivery,
+		OptimizationType_Status_LargeFileDownload,
+		OptimizationType_Status_VideoOnDemandMediaStreaming))
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointPropertiesStatusProvisioningStateCreating,
-		EndpointPropertiesStatusProvisioningStateDeleting,
-		EndpointPropertiesStatusProvisioningStateFailed,
-		EndpointPropertiesStatusProvisioningStateSucceeded,
-		EndpointPropertiesStatusProvisioningStateUpdating))
+		EndpointPropertiesStatusProvisioningState_Creating,
+		EndpointPropertiesStatusProvisioningState_Deleting,
+		EndpointPropertiesStatusProvisioningState_Failed,
+		EndpointPropertiesStatusProvisioningState_Succeeded,
+		EndpointPropertiesStatusProvisioningState_Updating))
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringCachingBehavior_StatusBypassCaching,
-		QueryStringCachingBehavior_StatusIgnoreQueryString,
-		QueryStringCachingBehavior_StatusNotSet,
-		QueryStringCachingBehavior_StatusUseQueryString))
+		QueryStringCachingBehavior_Status_BypassCaching,
+		QueryStringCachingBehavior_Status_IgnoreQueryString,
+		QueryStringCachingBehavior_Status_NotSet,
+		QueryStringCachingBehavior_Status_UseQueryString))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointPropertiesStatusResourceStateCreating,
-		EndpointPropertiesStatusResourceStateDeleting,
-		EndpointPropertiesStatusResourceStateRunning,
-		EndpointPropertiesStatusResourceStateStarting,
-		EndpointPropertiesStatusResourceStateStopped,
-		EndpointPropertiesStatusResourceStateStopping))
+		EndpointPropertiesStatusResourceState_Creating,
+		EndpointPropertiesStatusResourceState_Deleting,
+		EndpointPropertiesStatusResourceState_Running,
+		EndpointPropertiesStatusResourceState_Starting,
+		EndpointPropertiesStatusResourceState_Stopped,
+		EndpointPropertiesStatusResourceState_Stopping))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -440,19 +440,19 @@ func AddIndependentPropertyGeneratorsForProfilesEndpointsSpec(gens map[string]go
 	gens["IsHttpsAllowed"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OptimizationType"] = gen.PtrOf(gen.OneConstOf(
-		ProfilesEndpointsSpecPropertiesOptimizationTypeDynamicSiteAcceleration,
-		ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralMediaStreaming,
-		ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralWebDelivery,
-		ProfilesEndpointsSpecPropertiesOptimizationTypeLargeFileDownload,
-		ProfilesEndpointsSpecPropertiesOptimizationTypeVideoOnDemandMediaStreaming))
+		ProfilesEndpointsSpecPropertiesOptimizationType_DynamicSiteAcceleration,
+		ProfilesEndpointsSpecPropertiesOptimizationType_GeneralMediaStreaming,
+		ProfilesEndpointsSpecPropertiesOptimizationType_GeneralWebDelivery,
+		ProfilesEndpointsSpecPropertiesOptimizationType_LargeFileDownload,
+		ProfilesEndpointsSpecPropertiesOptimizationType_VideoOnDemandMediaStreaming))
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorBypassCaching,
-		ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorIgnoreQueryString,
-		ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorNotSet,
-		ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorUseQueryString))
+		ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_BypassCaching,
+		ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_IgnoreQueryString,
+		ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_NotSet,
+		ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_UseQueryString))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -812,11 +812,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginStatus(gens map[string]
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointStatus_StatusApproved,
-		PrivateEndpointStatus_StatusDisconnected,
-		PrivateEndpointStatus_StatusPending,
-		PrivateEndpointStatus_StatusRejected,
-		PrivateEndpointStatus_StatusTimeout))
+		PrivateEndpointStatus_Status_Approved,
+		PrivateEndpointStatus_Status_Disconnected,
+		PrivateEndpointStatus_Status_Pending,
+		PrivateEndpointStatus_Status_Rejected,
+		PrivateEndpointStatus_Status_Timeout))
 	gens["PrivateLinkAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkApprovalMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
@@ -1357,7 +1357,7 @@ func GeoFilterGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForGeoFilter is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGeoFilter(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilterActionAllow, GeoFilterActionBlock))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilterAction_Allow, GeoFilterAction_Block))
 	gens["CountryCodes"] = gen.SliceOf(gen.AlphaString())
 	gens["RelativePath"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1461,7 +1461,7 @@ func GeoFilterStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForGeoFilterStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGeoFilterStatus(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilterStatusActionAllow, GeoFilterStatusActionBlock))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilterStatusAction_Allow, GeoFilterStatusAction_Block))
 	gens["CountryCodes"] = gen.SliceOf(gen.AlphaString())
 	gens["RelativePath"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2468,8 +2468,8 @@ func HealthProbeParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParameters(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersProbeProtocolHttp, HealthProbeParametersProbeProtocolHttps, HealthProbeParametersProbeProtocolNotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersProbeRequestTypeGET, HealthProbeParametersProbeRequestTypeHEAD, HealthProbeParametersProbeRequestTypeNotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersProbeProtocol_Http, HealthProbeParametersProbeProtocol_Https, HealthProbeParametersProbeProtocol_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersProbeRequestType_GET, HealthProbeParametersProbeRequestType_HEAD, HealthProbeParametersProbeRequestType_NotSet))
 }
 
 func Test_HealthProbeParameters_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2574,8 +2574,8 @@ func HealthProbeParametersStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParametersStatus(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeProtocolHttp, HealthProbeParametersStatusProbeProtocolHttps, HealthProbeParametersStatusProbeProtocolNotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeRequestTypeGET, HealthProbeParametersStatusProbeRequestTypeHEAD, HealthProbeParametersStatusProbeRequestTypeNotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeProtocol_Http, HealthProbeParametersStatusProbeProtocol_Https, HealthProbeParametersStatusProbeProtocol_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeRequestType_GET, HealthProbeParametersStatusProbeRequestType_HEAD, HealthProbeParametersStatusProbeRequestType_NotSet))
 }
 
 func Test_KeyVaultSigningKeyParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2682,7 +2682,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParameters(gens map[st
 	gens["SecretName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParametersTypeNameKeyVaultSigningKeyParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParametersTypeName_KeyVaultSigningKeyParameters))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2790,7 +2790,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParametersStatus(gens 
 	gens["SecretName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParametersStatusTypeNameKeyVaultSigningKeyParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParametersStatusTypeName_KeyVaultSigningKeyParameters))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2903,7 +2903,7 @@ func ResponseBasedOriginErrorDetectionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParameters(gens map[string]gopter.Gen) {
-	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesNone, ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpAndHttpErrors, ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpErrorsOnly))
+	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_None, ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpAndHttpErrors, ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpErrorsOnly))
 	gens["ResponseBasedFailoverThresholdPercentage"] = gen.PtrOf(gen.Int())
 }
 
@@ -3021,7 +3021,7 @@ func ResponseBasedOriginErrorDetectionParametersStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersStatus(gens map[string]gopter.Gen) {
-	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesNone, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpAndHttpErrors, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpErrorsOnly))
+	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_None, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpAndHttpErrors, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpErrorsOnly))
 	gens["ResponseBasedFailoverThresholdPercentage"] = gen.PtrOf(gen.Int())
 }
 
@@ -3268,15 +3268,15 @@ func DeliveryRuleActionStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDeliveryRuleActionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleActionStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleActionStatusNameCacheExpiration,
-		DeliveryRuleActionStatusNameCacheKeyQueryString,
-		DeliveryRuleActionStatusNameModifyRequestHeader,
-		DeliveryRuleActionStatusNameModifyResponseHeader,
-		DeliveryRuleActionStatusNameOriginGroupOverride,
-		DeliveryRuleActionStatusNameRouteConfigurationOverride,
-		DeliveryRuleActionStatusNameUrlRedirect,
-		DeliveryRuleActionStatusNameUrlRewrite,
-		DeliveryRuleActionStatusNameUrlSigning))
+		DeliveryRuleActionStatusName_CacheExpiration,
+		DeliveryRuleActionStatusName_CacheKeyQueryString,
+		DeliveryRuleActionStatusName_ModifyRequestHeader,
+		DeliveryRuleActionStatusName_ModifyResponseHeader,
+		DeliveryRuleActionStatusName_OriginGroupOverride,
+		DeliveryRuleActionStatusName_RouteConfigurationOverride,
+		DeliveryRuleActionStatusName_UrlRedirect,
+		DeliveryRuleActionStatusName_UrlRewrite,
+		DeliveryRuleActionStatusName_UrlSigning))
 }
 
 func Test_DeliveryRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3547,25 +3547,25 @@ func DeliveryRuleConditionStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDeliveryRuleConditionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleConditionStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleConditionStatusNameClientPort,
-		DeliveryRuleConditionStatusNameCookies,
-		DeliveryRuleConditionStatusNameHostName,
-		DeliveryRuleConditionStatusNameHttpVersion,
-		DeliveryRuleConditionStatusNameIsDevice,
-		DeliveryRuleConditionStatusNamePostArgs,
-		DeliveryRuleConditionStatusNameQueryString,
-		DeliveryRuleConditionStatusNameRemoteAddress,
-		DeliveryRuleConditionStatusNameRequestBody,
-		DeliveryRuleConditionStatusNameRequestHeader,
-		DeliveryRuleConditionStatusNameRequestMethod,
-		DeliveryRuleConditionStatusNameRequestScheme,
-		DeliveryRuleConditionStatusNameRequestUri,
-		DeliveryRuleConditionStatusNameServerPort,
-		DeliveryRuleConditionStatusNameSocketAddr,
-		DeliveryRuleConditionStatusNameSslProtocol,
-		DeliveryRuleConditionStatusNameUrlFileExtension,
-		DeliveryRuleConditionStatusNameUrlFileName,
-		DeliveryRuleConditionStatusNameUrlPath))
+		DeliveryRuleConditionStatusName_ClientPort,
+		DeliveryRuleConditionStatusName_Cookies,
+		DeliveryRuleConditionStatusName_HostName,
+		DeliveryRuleConditionStatusName_HttpVersion,
+		DeliveryRuleConditionStatusName_IsDevice,
+		DeliveryRuleConditionStatusName_PostArgs,
+		DeliveryRuleConditionStatusName_QueryString,
+		DeliveryRuleConditionStatusName_RemoteAddress,
+		DeliveryRuleConditionStatusName_RequestBody,
+		DeliveryRuleConditionStatusName_RequestHeader,
+		DeliveryRuleConditionStatusName_RequestMethod,
+		DeliveryRuleConditionStatusName_RequestScheme,
+		DeliveryRuleConditionStatusName_RequestUri,
+		DeliveryRuleConditionStatusName_ServerPort,
+		DeliveryRuleConditionStatusName_SocketAddr,
+		DeliveryRuleConditionStatusName_SslProtocol,
+		DeliveryRuleConditionStatusName_UrlFileExtension,
+		DeliveryRuleConditionStatusName_UrlFileName,
+		DeliveryRuleConditionStatusName_UrlPath))
 }
 
 func Test_HttpErrorRangeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3885,7 +3885,7 @@ func DeliveryRuleCacheExpirationActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheExpirationActionNameCacheExpiration))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheExpirationActionName_CacheExpiration))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
@@ -4002,7 +4002,7 @@ func DeliveryRuleCacheKeyQueryStringActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheKeyQueryStringActionNameCacheKeyQueryString))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheKeyQueryStringActionName_CacheKeyQueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
@@ -4119,7 +4119,7 @@ func DeliveryRuleClientPortConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleClientPortConditionNameClientPort))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleClientPortConditionName_ClientPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
@@ -4236,7 +4236,7 @@ func DeliveryRuleCookiesConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCookiesConditionNameCookies))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCookiesConditionName_Cookies))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
@@ -4353,7 +4353,7 @@ func DeliveryRuleHostNameConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHostNameConditionNameHostName))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHostNameConditionName_HostName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
@@ -4470,7 +4470,7 @@ func DeliveryRuleHttpVersionConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHttpVersionConditionNameHttpVersion))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHttpVersionConditionName_HttpVersion))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
@@ -4587,7 +4587,7 @@ func DeliveryRuleIsDeviceConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleIsDeviceConditionNameIsDevice))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleIsDeviceConditionName_IsDevice))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
@@ -4704,7 +4704,7 @@ func DeliveryRulePostArgsConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRulePostArgsConditionNamePostArgs))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRulePostArgsConditionName_PostArgs))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
@@ -4821,7 +4821,7 @@ func DeliveryRuleQueryStringConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleQueryStringConditionNameQueryString))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleQueryStringConditionName_QueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
@@ -4938,7 +4938,7 @@ func DeliveryRuleRemoteAddressConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRemoteAddressConditionNameRemoteAddress))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRemoteAddressConditionName_RemoteAddress))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
@@ -5055,7 +5055,7 @@ func DeliveryRuleRequestBodyConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestBodyConditionNameRequestBody))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestBodyConditionName_RequestBody))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
@@ -5172,7 +5172,7 @@ func DeliveryRuleRequestHeaderActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderActionNameModifyRequestHeader))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderActionName_ModifyRequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
@@ -5289,7 +5289,7 @@ func DeliveryRuleRequestHeaderConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderConditionNameRequestHeader))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderConditionName_RequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
@@ -5406,7 +5406,7 @@ func DeliveryRuleRequestMethodConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestMethodConditionNameRequestMethod))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestMethodConditionName_RequestMethod))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
@@ -5523,7 +5523,7 @@ func DeliveryRuleRequestSchemeConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestSchemeConditionNameRequestScheme))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestSchemeConditionName_RequestScheme))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
@@ -5640,7 +5640,7 @@ func DeliveryRuleRequestUriConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestUriConditionNameRequestUri))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestUriConditionName_RequestUri))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
@@ -5757,7 +5757,7 @@ func DeliveryRuleResponseHeaderActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleResponseHeaderActionNameModifyResponseHeader))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleResponseHeaderActionName_ModifyResponseHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
@@ -5874,7 +5874,7 @@ func DeliveryRuleRouteConfigurationOverrideActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideActionNameRouteConfigurationOverride))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideActionName_RouteConfigurationOverride))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
@@ -5991,7 +5991,7 @@ func DeliveryRuleServerPortConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleServerPortConditionNameServerPort))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleServerPortConditionName_ServerPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
@@ -6108,7 +6108,7 @@ func DeliveryRuleSocketAddrConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSocketAddrConditionNameSocketAddr))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSocketAddrConditionName_SocketAddr))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
@@ -6225,7 +6225,7 @@ func DeliveryRuleSslProtocolConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSslProtocolConditionNameSslProtocol))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSslProtocolConditionName_SslProtocol))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
@@ -6342,7 +6342,7 @@ func DeliveryRuleUrlFileExtensionConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileExtensionConditionNameUrlFileExtension))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileExtensionConditionName_UrlFileExtension))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
@@ -6459,7 +6459,7 @@ func DeliveryRuleUrlFileNameConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileNameConditionNameUrlFileName))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileNameConditionName_UrlFileName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
@@ -6576,7 +6576,7 @@ func DeliveryRuleUrlPathConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlPathConditionNameUrlPath))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlPathConditionName_UrlPath))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
@@ -6693,7 +6693,7 @@ func OriginGroupOverrideActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionNameOriginGroupOverride))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionName_OriginGroupOverride))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
@@ -6809,7 +6809,7 @@ func UrlRedirectActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRedirectAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionNameUrlRedirect))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionName_UrlRedirect))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
@@ -6925,7 +6925,7 @@ func UrlRewriteActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRewriteAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionNameUrlRewrite))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionName_UrlRewrite))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
@@ -7041,7 +7041,7 @@ func UrlSigningActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionNameUrlSigning))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionName_UrlSigning))
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
@@ -7149,10 +7149,10 @@ func CacheExpirationActionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCacheExpirationActionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersCacheBehaviorBypassCache, CacheExpirationActionParametersCacheBehaviorOverride, CacheExpirationActionParametersCacheBehaviorSetIfMissing))
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersCacheBehavior_BypassCache, CacheExpirationActionParametersCacheBehavior_Override, CacheExpirationActionParametersCacheBehavior_SetIfMissing))
 	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersCacheTypeAll))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersTypeNameDeliveryRuleCacheExpirationActionParameters))
+	gens["CacheType"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersCacheType_All))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheExpirationActionParametersTypeName_DeliveryRuleCacheExpirationActionParameters))
 }
 
 func Test_CacheKeyQueryStringActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7257,11 +7257,11 @@ func CacheKeyQueryStringActionParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters(gens map[string]gopter.Gen) {
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheKeyQueryStringActionParametersQueryStringBehaviorExclude,
-		CacheKeyQueryStringActionParametersQueryStringBehaviorExcludeAll,
-		CacheKeyQueryStringActionParametersQueryStringBehaviorInclude,
-		CacheKeyQueryStringActionParametersQueryStringBehaviorIncludeAll))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParametersTypeNameDeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
+		CacheKeyQueryStringActionParametersQueryStringBehavior_Exclude,
+		CacheKeyQueryStringActionParametersQueryStringBehavior_ExcludeAll,
+		CacheKeyQueryStringActionParametersQueryStringBehavior_Include,
+		CacheKeyQueryStringActionParametersQueryStringBehavior_IncludeAll))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CacheKeyQueryStringActionParametersTypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters))
 }
 
 func Test_ClientPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7367,24 +7367,24 @@ func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters(gens 
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		ClientPortMatchConditionParametersOperatorAny,
-		ClientPortMatchConditionParametersOperatorBeginsWith,
-		ClientPortMatchConditionParametersOperatorContains,
-		ClientPortMatchConditionParametersOperatorEndsWith,
-		ClientPortMatchConditionParametersOperatorEqual,
-		ClientPortMatchConditionParametersOperatorGreaterThan,
-		ClientPortMatchConditionParametersOperatorGreaterThanOrEqual,
-		ClientPortMatchConditionParametersOperatorLessThan,
-		ClientPortMatchConditionParametersOperatorLessThanOrEqual,
-		ClientPortMatchConditionParametersOperatorRegEx))
+		ClientPortMatchConditionParametersOperator_Any,
+		ClientPortMatchConditionParametersOperator_BeginsWith,
+		ClientPortMatchConditionParametersOperator_Contains,
+		ClientPortMatchConditionParametersOperator_EndsWith,
+		ClientPortMatchConditionParametersOperator_Equal,
+		ClientPortMatchConditionParametersOperator_GreaterThan,
+		ClientPortMatchConditionParametersOperator_GreaterThanOrEqual,
+		ClientPortMatchConditionParametersOperator_LessThan,
+		ClientPortMatchConditionParametersOperator_LessThanOrEqual,
+		ClientPortMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		ClientPortMatchConditionParametersTransformsLowercase,
-		ClientPortMatchConditionParametersTransformsRemoveNulls,
-		ClientPortMatchConditionParametersTransformsTrim,
-		ClientPortMatchConditionParametersTransformsUppercase,
-		ClientPortMatchConditionParametersTransformsUrlDecode,
-		ClientPortMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParametersTypeNameDeliveryRuleClientPortConditionParameters))
+		ClientPortMatchConditionParametersTransforms_Lowercase,
+		ClientPortMatchConditionParametersTransforms_RemoveNulls,
+		ClientPortMatchConditionParametersTransforms_Trim,
+		ClientPortMatchConditionParametersTransforms_Uppercase,
+		ClientPortMatchConditionParametersTransforms_UrlDecode,
+		ClientPortMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ClientPortMatchConditionParametersTypeName_DeliveryRuleClientPortConditionParameters))
 }
 
 func Test_CookiesMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7490,25 +7490,25 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters(gens map
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		CookiesMatchConditionParametersOperatorAny,
-		CookiesMatchConditionParametersOperatorBeginsWith,
-		CookiesMatchConditionParametersOperatorContains,
-		CookiesMatchConditionParametersOperatorEndsWith,
-		CookiesMatchConditionParametersOperatorEqual,
-		CookiesMatchConditionParametersOperatorGreaterThan,
-		CookiesMatchConditionParametersOperatorGreaterThanOrEqual,
-		CookiesMatchConditionParametersOperatorLessThan,
-		CookiesMatchConditionParametersOperatorLessThanOrEqual,
-		CookiesMatchConditionParametersOperatorRegEx))
+		CookiesMatchConditionParametersOperator_Any,
+		CookiesMatchConditionParametersOperator_BeginsWith,
+		CookiesMatchConditionParametersOperator_Contains,
+		CookiesMatchConditionParametersOperator_EndsWith,
+		CookiesMatchConditionParametersOperator_Equal,
+		CookiesMatchConditionParametersOperator_GreaterThan,
+		CookiesMatchConditionParametersOperator_GreaterThanOrEqual,
+		CookiesMatchConditionParametersOperator_LessThan,
+		CookiesMatchConditionParametersOperator_LessThanOrEqual,
+		CookiesMatchConditionParametersOperator_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		CookiesMatchConditionParametersTransformsLowercase,
-		CookiesMatchConditionParametersTransformsRemoveNulls,
-		CookiesMatchConditionParametersTransformsTrim,
-		CookiesMatchConditionParametersTransformsUppercase,
-		CookiesMatchConditionParametersTransformsUrlDecode,
-		CookiesMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParametersTypeNameDeliveryRuleCookiesConditionParameters))
+		CookiesMatchConditionParametersTransforms_Lowercase,
+		CookiesMatchConditionParametersTransforms_RemoveNulls,
+		CookiesMatchConditionParametersTransforms_Trim,
+		CookiesMatchConditionParametersTransforms_Uppercase,
+		CookiesMatchConditionParametersTransforms_UrlDecode,
+		CookiesMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(CookiesMatchConditionParametersTypeName_DeliveryRuleCookiesConditionParameters))
 }
 
 func Test_HeaderActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7611,9 +7611,9 @@ func HeaderActionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHeaderActionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHeaderActionParameters(gens map[string]gopter.Gen) {
-	gens["HeaderAction"] = gen.PtrOf(gen.OneConstOf(HeaderActionParametersHeaderActionAppend, HeaderActionParametersHeaderActionDelete, HeaderActionParametersHeaderActionOverwrite))
+	gens["HeaderAction"] = gen.PtrOf(gen.OneConstOf(HeaderActionParametersHeaderAction_Append, HeaderActionParametersHeaderAction_Delete, HeaderActionParametersHeaderAction_Overwrite))
 	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HeaderActionParametersTypeNameDeliveryRuleHeaderActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HeaderActionParametersTypeName_DeliveryRuleHeaderActionParameters))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -7720,24 +7720,24 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters(gens ma
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		HostNameMatchConditionParametersOperatorAny,
-		HostNameMatchConditionParametersOperatorBeginsWith,
-		HostNameMatchConditionParametersOperatorContains,
-		HostNameMatchConditionParametersOperatorEndsWith,
-		HostNameMatchConditionParametersOperatorEqual,
-		HostNameMatchConditionParametersOperatorGreaterThan,
-		HostNameMatchConditionParametersOperatorGreaterThanOrEqual,
-		HostNameMatchConditionParametersOperatorLessThan,
-		HostNameMatchConditionParametersOperatorLessThanOrEqual,
-		HostNameMatchConditionParametersOperatorRegEx))
+		HostNameMatchConditionParametersOperator_Any,
+		HostNameMatchConditionParametersOperator_BeginsWith,
+		HostNameMatchConditionParametersOperator_Contains,
+		HostNameMatchConditionParametersOperator_EndsWith,
+		HostNameMatchConditionParametersOperator_Equal,
+		HostNameMatchConditionParametersOperator_GreaterThan,
+		HostNameMatchConditionParametersOperator_GreaterThanOrEqual,
+		HostNameMatchConditionParametersOperator_LessThan,
+		HostNameMatchConditionParametersOperator_LessThanOrEqual,
+		HostNameMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		HostNameMatchConditionParametersTransformsLowercase,
-		HostNameMatchConditionParametersTransformsRemoveNulls,
-		HostNameMatchConditionParametersTransformsTrim,
-		HostNameMatchConditionParametersTransformsUppercase,
-		HostNameMatchConditionParametersTransformsUrlDecode,
-		HostNameMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HostNameMatchConditionParametersTypeNameDeliveryRuleHostNameConditionParameters))
+		HostNameMatchConditionParametersTransforms_Lowercase,
+		HostNameMatchConditionParametersTransforms_RemoveNulls,
+		HostNameMatchConditionParametersTransforms_Trim,
+		HostNameMatchConditionParametersTransforms_Uppercase,
+		HostNameMatchConditionParametersTransforms_UrlDecode,
+		HostNameMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HostNameMatchConditionParametersTypeName_DeliveryRuleHostNameConditionParameters))
 }
 
 func Test_HttpVersionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7842,15 +7842,15 @@ func HttpVersionMatchConditionParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParametersOperatorEqual))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParametersOperator_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		HttpVersionMatchConditionParametersTransformsLowercase,
-		HttpVersionMatchConditionParametersTransformsRemoveNulls,
-		HttpVersionMatchConditionParametersTransformsTrim,
-		HttpVersionMatchConditionParametersTransformsUppercase,
-		HttpVersionMatchConditionParametersTransformsUrlDecode,
-		HttpVersionMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParametersTypeNameDeliveryRuleHttpVersionConditionParameters))
+		HttpVersionMatchConditionParametersTransforms_Lowercase,
+		HttpVersionMatchConditionParametersTransforms_RemoveNulls,
+		HttpVersionMatchConditionParametersTransforms_Trim,
+		HttpVersionMatchConditionParametersTransforms_Uppercase,
+		HttpVersionMatchConditionParametersTransforms_UrlDecode,
+		HttpVersionMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(HttpVersionMatchConditionParametersTypeName_DeliveryRuleHttpVersionConditionParameters))
 }
 
 func Test_IsDeviceMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -7953,17 +7953,17 @@ func IsDeviceMatchConditionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(IsDeviceMatchConditionParametersMatchValuesDesktop, IsDeviceMatchConditionParametersMatchValuesMobile))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(IsDeviceMatchConditionParametersMatchValues_Desktop, IsDeviceMatchConditionParametersMatchValues_Mobile))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParametersOperatorEqual))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParametersOperator_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		IsDeviceMatchConditionParametersTransformsLowercase,
-		IsDeviceMatchConditionParametersTransformsRemoveNulls,
-		IsDeviceMatchConditionParametersTransformsTrim,
-		IsDeviceMatchConditionParametersTransformsUppercase,
-		IsDeviceMatchConditionParametersTransformsUrlDecode,
-		IsDeviceMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParametersTypeNameDeliveryRuleIsDeviceConditionParameters))
+		IsDeviceMatchConditionParametersTransforms_Lowercase,
+		IsDeviceMatchConditionParametersTransforms_RemoveNulls,
+		IsDeviceMatchConditionParametersTransforms_Trim,
+		IsDeviceMatchConditionParametersTransforms_Uppercase,
+		IsDeviceMatchConditionParametersTransforms_UrlDecode,
+		IsDeviceMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(IsDeviceMatchConditionParametersTypeName_DeliveryRuleIsDeviceConditionParameters))
 }
 
 func Test_OriginGroupOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8075,7 +8075,7 @@ func OriginGroupOverrideActionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionParametersTypeNameDeliveryRuleOriginGroupOverrideActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideActionParametersTypeName_DeliveryRuleOriginGroupOverrideActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters is a factory method for creating gopter generators
@@ -8186,25 +8186,25 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters(gens ma
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		PostArgsMatchConditionParametersOperatorAny,
-		PostArgsMatchConditionParametersOperatorBeginsWith,
-		PostArgsMatchConditionParametersOperatorContains,
-		PostArgsMatchConditionParametersOperatorEndsWith,
-		PostArgsMatchConditionParametersOperatorEqual,
-		PostArgsMatchConditionParametersOperatorGreaterThan,
-		PostArgsMatchConditionParametersOperatorGreaterThanOrEqual,
-		PostArgsMatchConditionParametersOperatorLessThan,
-		PostArgsMatchConditionParametersOperatorLessThanOrEqual,
-		PostArgsMatchConditionParametersOperatorRegEx))
+		PostArgsMatchConditionParametersOperator_Any,
+		PostArgsMatchConditionParametersOperator_BeginsWith,
+		PostArgsMatchConditionParametersOperator_Contains,
+		PostArgsMatchConditionParametersOperator_EndsWith,
+		PostArgsMatchConditionParametersOperator_Equal,
+		PostArgsMatchConditionParametersOperator_GreaterThan,
+		PostArgsMatchConditionParametersOperator_GreaterThanOrEqual,
+		PostArgsMatchConditionParametersOperator_LessThan,
+		PostArgsMatchConditionParametersOperator_LessThanOrEqual,
+		PostArgsMatchConditionParametersOperator_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		PostArgsMatchConditionParametersTransformsLowercase,
-		PostArgsMatchConditionParametersTransformsRemoveNulls,
-		PostArgsMatchConditionParametersTransformsTrim,
-		PostArgsMatchConditionParametersTransformsUppercase,
-		PostArgsMatchConditionParametersTransformsUrlDecode,
-		PostArgsMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParametersTypeNameDeliveryRulePostArgsConditionParameters))
+		PostArgsMatchConditionParametersTransforms_Lowercase,
+		PostArgsMatchConditionParametersTransforms_RemoveNulls,
+		PostArgsMatchConditionParametersTransforms_Trim,
+		PostArgsMatchConditionParametersTransforms_Uppercase,
+		PostArgsMatchConditionParametersTransforms_UrlDecode,
+		PostArgsMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParametersTypeName_DeliveryRulePostArgsConditionParameters))
 }
 
 func Test_QueryStringMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8310,24 +8310,24 @@ func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters(gens
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringMatchConditionParametersOperatorAny,
-		QueryStringMatchConditionParametersOperatorBeginsWith,
-		QueryStringMatchConditionParametersOperatorContains,
-		QueryStringMatchConditionParametersOperatorEndsWith,
-		QueryStringMatchConditionParametersOperatorEqual,
-		QueryStringMatchConditionParametersOperatorGreaterThan,
-		QueryStringMatchConditionParametersOperatorGreaterThanOrEqual,
-		QueryStringMatchConditionParametersOperatorLessThan,
-		QueryStringMatchConditionParametersOperatorLessThanOrEqual,
-		QueryStringMatchConditionParametersOperatorRegEx))
+		QueryStringMatchConditionParametersOperator_Any,
+		QueryStringMatchConditionParametersOperator_BeginsWith,
+		QueryStringMatchConditionParametersOperator_Contains,
+		QueryStringMatchConditionParametersOperator_EndsWith,
+		QueryStringMatchConditionParametersOperator_Equal,
+		QueryStringMatchConditionParametersOperator_GreaterThan,
+		QueryStringMatchConditionParametersOperator_GreaterThanOrEqual,
+		QueryStringMatchConditionParametersOperator_LessThan,
+		QueryStringMatchConditionParametersOperator_LessThanOrEqual,
+		QueryStringMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		QueryStringMatchConditionParametersTransformsLowercase,
-		QueryStringMatchConditionParametersTransformsRemoveNulls,
-		QueryStringMatchConditionParametersTransformsTrim,
-		QueryStringMatchConditionParametersTransformsUppercase,
-		QueryStringMatchConditionParametersTransformsUrlDecode,
-		QueryStringMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(QueryStringMatchConditionParametersTypeNameDeliveryRuleQueryStringConditionParameters))
+		QueryStringMatchConditionParametersTransforms_Lowercase,
+		QueryStringMatchConditionParametersTransforms_RemoveNulls,
+		QueryStringMatchConditionParametersTransforms_Trim,
+		QueryStringMatchConditionParametersTransforms_Uppercase,
+		QueryStringMatchConditionParametersTransforms_UrlDecode,
+		QueryStringMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(QueryStringMatchConditionParametersTypeName_DeliveryRuleQueryStringConditionParameters))
 }
 
 func Test_RemoteAddressMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8432,15 +8432,15 @@ func RemoteAddressMatchConditionParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParametersOperatorAny, RemoteAddressMatchConditionParametersOperatorGeoMatch, RemoteAddressMatchConditionParametersOperatorIPMatch))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParametersOperator_Any, RemoteAddressMatchConditionParametersOperator_GeoMatch, RemoteAddressMatchConditionParametersOperator_IPMatch))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RemoteAddressMatchConditionParametersTransformsLowercase,
-		RemoteAddressMatchConditionParametersTransformsRemoveNulls,
-		RemoteAddressMatchConditionParametersTransformsTrim,
-		RemoteAddressMatchConditionParametersTransformsUppercase,
-		RemoteAddressMatchConditionParametersTransformsUrlDecode,
-		RemoteAddressMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParametersTypeNameDeliveryRuleRemoteAddressConditionParameters))
+		RemoteAddressMatchConditionParametersTransforms_Lowercase,
+		RemoteAddressMatchConditionParametersTransforms_RemoveNulls,
+		RemoteAddressMatchConditionParametersTransforms_Trim,
+		RemoteAddressMatchConditionParametersTransforms_Uppercase,
+		RemoteAddressMatchConditionParametersTransforms_UrlDecode,
+		RemoteAddressMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RemoteAddressMatchConditionParametersTypeName_DeliveryRuleRemoteAddressConditionParameters))
 }
 
 func Test_RequestBodyMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8546,24 +8546,24 @@ func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters(gens
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestBodyMatchConditionParametersOperatorAny,
-		RequestBodyMatchConditionParametersOperatorBeginsWith,
-		RequestBodyMatchConditionParametersOperatorContains,
-		RequestBodyMatchConditionParametersOperatorEndsWith,
-		RequestBodyMatchConditionParametersOperatorEqual,
-		RequestBodyMatchConditionParametersOperatorGreaterThan,
-		RequestBodyMatchConditionParametersOperatorGreaterThanOrEqual,
-		RequestBodyMatchConditionParametersOperatorLessThan,
-		RequestBodyMatchConditionParametersOperatorLessThanOrEqual,
-		RequestBodyMatchConditionParametersOperatorRegEx))
+		RequestBodyMatchConditionParametersOperator_Any,
+		RequestBodyMatchConditionParametersOperator_BeginsWith,
+		RequestBodyMatchConditionParametersOperator_Contains,
+		RequestBodyMatchConditionParametersOperator_EndsWith,
+		RequestBodyMatchConditionParametersOperator_Equal,
+		RequestBodyMatchConditionParametersOperator_GreaterThan,
+		RequestBodyMatchConditionParametersOperator_GreaterThanOrEqual,
+		RequestBodyMatchConditionParametersOperator_LessThan,
+		RequestBodyMatchConditionParametersOperator_LessThanOrEqual,
+		RequestBodyMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RequestBodyMatchConditionParametersTransformsLowercase,
-		RequestBodyMatchConditionParametersTransformsRemoveNulls,
-		RequestBodyMatchConditionParametersTransformsTrim,
-		RequestBodyMatchConditionParametersTransformsUppercase,
-		RequestBodyMatchConditionParametersTransformsUrlDecode,
-		RequestBodyMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestBodyMatchConditionParametersTypeNameDeliveryRuleRequestBodyConditionParameters))
+		RequestBodyMatchConditionParametersTransforms_Lowercase,
+		RequestBodyMatchConditionParametersTransforms_RemoveNulls,
+		RequestBodyMatchConditionParametersTransforms_Trim,
+		RequestBodyMatchConditionParametersTransforms_Uppercase,
+		RequestBodyMatchConditionParametersTransforms_UrlDecode,
+		RequestBodyMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestBodyMatchConditionParametersTypeName_DeliveryRuleRequestBodyConditionParameters))
 }
 
 func Test_RequestHeaderMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8669,25 +8669,25 @@ func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters(ge
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestHeaderMatchConditionParametersOperatorAny,
-		RequestHeaderMatchConditionParametersOperatorBeginsWith,
-		RequestHeaderMatchConditionParametersOperatorContains,
-		RequestHeaderMatchConditionParametersOperatorEndsWith,
-		RequestHeaderMatchConditionParametersOperatorEqual,
-		RequestHeaderMatchConditionParametersOperatorGreaterThan,
-		RequestHeaderMatchConditionParametersOperatorGreaterThanOrEqual,
-		RequestHeaderMatchConditionParametersOperatorLessThan,
-		RequestHeaderMatchConditionParametersOperatorLessThanOrEqual,
-		RequestHeaderMatchConditionParametersOperatorRegEx))
+		RequestHeaderMatchConditionParametersOperator_Any,
+		RequestHeaderMatchConditionParametersOperator_BeginsWith,
+		RequestHeaderMatchConditionParametersOperator_Contains,
+		RequestHeaderMatchConditionParametersOperator_EndsWith,
+		RequestHeaderMatchConditionParametersOperator_Equal,
+		RequestHeaderMatchConditionParametersOperator_GreaterThan,
+		RequestHeaderMatchConditionParametersOperator_GreaterThanOrEqual,
+		RequestHeaderMatchConditionParametersOperator_LessThan,
+		RequestHeaderMatchConditionParametersOperator_LessThanOrEqual,
+		RequestHeaderMatchConditionParametersOperator_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RequestHeaderMatchConditionParametersTransformsLowercase,
-		RequestHeaderMatchConditionParametersTransformsRemoveNulls,
-		RequestHeaderMatchConditionParametersTransformsTrim,
-		RequestHeaderMatchConditionParametersTransformsUppercase,
-		RequestHeaderMatchConditionParametersTransformsUrlDecode,
-		RequestHeaderMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestHeaderMatchConditionParametersTypeNameDeliveryRuleRequestHeaderConditionParameters))
+		RequestHeaderMatchConditionParametersTransforms_Lowercase,
+		RequestHeaderMatchConditionParametersTransforms_RemoveNulls,
+		RequestHeaderMatchConditionParametersTransforms_Trim,
+		RequestHeaderMatchConditionParametersTransforms_Uppercase,
+		RequestHeaderMatchConditionParametersTransforms_UrlDecode,
+		RequestHeaderMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestHeaderMatchConditionParametersTypeName_DeliveryRuleRequestHeaderConditionParameters))
 }
 
 func Test_RequestMethodMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8791,23 +8791,23 @@ func RequestMethodMatchConditionParametersGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(
-		RequestMethodMatchConditionParametersMatchValuesDELETE,
-		RequestMethodMatchConditionParametersMatchValuesGET,
-		RequestMethodMatchConditionParametersMatchValuesHEAD,
-		RequestMethodMatchConditionParametersMatchValuesOPTIONS,
-		RequestMethodMatchConditionParametersMatchValuesPOST,
-		RequestMethodMatchConditionParametersMatchValuesPUT,
-		RequestMethodMatchConditionParametersMatchValuesTRACE))
+		RequestMethodMatchConditionParametersMatchValues_DELETE,
+		RequestMethodMatchConditionParametersMatchValues_GET,
+		RequestMethodMatchConditionParametersMatchValues_HEAD,
+		RequestMethodMatchConditionParametersMatchValues_OPTIONS,
+		RequestMethodMatchConditionParametersMatchValues_POST,
+		RequestMethodMatchConditionParametersMatchValues_PUT,
+		RequestMethodMatchConditionParametersMatchValues_TRACE))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParametersOperatorEqual))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParametersOperator_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RequestMethodMatchConditionParametersTransformsLowercase,
-		RequestMethodMatchConditionParametersTransformsRemoveNulls,
-		RequestMethodMatchConditionParametersTransformsTrim,
-		RequestMethodMatchConditionParametersTransformsUppercase,
-		RequestMethodMatchConditionParametersTransformsUrlDecode,
-		RequestMethodMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParametersTypeNameDeliveryRuleRequestMethodConditionParameters))
+		RequestMethodMatchConditionParametersTransforms_Lowercase,
+		RequestMethodMatchConditionParametersTransforms_RemoveNulls,
+		RequestMethodMatchConditionParametersTransforms_Trim,
+		RequestMethodMatchConditionParametersTransforms_Uppercase,
+		RequestMethodMatchConditionParametersTransforms_UrlDecode,
+		RequestMethodMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestMethodMatchConditionParametersTypeName_DeliveryRuleRequestMethodConditionParameters))
 }
 
 func Test_RequestSchemeMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8910,17 +8910,17 @@ func RequestSchemeMatchConditionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(RequestSchemeMatchConditionParametersMatchValuesHTTP, RequestSchemeMatchConditionParametersMatchValuesHTTPS))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(RequestSchemeMatchConditionParametersMatchValues_HTTP, RequestSchemeMatchConditionParametersMatchValues_HTTPS))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParametersOperatorEqual))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParametersOperator_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RequestSchemeMatchConditionParametersTransformsLowercase,
-		RequestSchemeMatchConditionParametersTransformsRemoveNulls,
-		RequestSchemeMatchConditionParametersTransformsTrim,
-		RequestSchemeMatchConditionParametersTransformsUppercase,
-		RequestSchemeMatchConditionParametersTransformsUrlDecode,
-		RequestSchemeMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParametersTypeNameDeliveryRuleRequestSchemeConditionParameters))
+		RequestSchemeMatchConditionParametersTransforms_Lowercase,
+		RequestSchemeMatchConditionParametersTransforms_RemoveNulls,
+		RequestSchemeMatchConditionParametersTransforms_Trim,
+		RequestSchemeMatchConditionParametersTransforms_Uppercase,
+		RequestSchemeMatchConditionParametersTransforms_UrlDecode,
+		RequestSchemeMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestSchemeMatchConditionParametersTypeName_DeliveryRuleRequestSchemeConditionParameters))
 }
 
 func Test_RequestUriMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9026,24 +9026,24 @@ func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters(gens 
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		RequestUriMatchConditionParametersOperatorAny,
-		RequestUriMatchConditionParametersOperatorBeginsWith,
-		RequestUriMatchConditionParametersOperatorContains,
-		RequestUriMatchConditionParametersOperatorEndsWith,
-		RequestUriMatchConditionParametersOperatorEqual,
-		RequestUriMatchConditionParametersOperatorGreaterThan,
-		RequestUriMatchConditionParametersOperatorGreaterThanOrEqual,
-		RequestUriMatchConditionParametersOperatorLessThan,
-		RequestUriMatchConditionParametersOperatorLessThanOrEqual,
-		RequestUriMatchConditionParametersOperatorRegEx))
+		RequestUriMatchConditionParametersOperator_Any,
+		RequestUriMatchConditionParametersOperator_BeginsWith,
+		RequestUriMatchConditionParametersOperator_Contains,
+		RequestUriMatchConditionParametersOperator_EndsWith,
+		RequestUriMatchConditionParametersOperator_Equal,
+		RequestUriMatchConditionParametersOperator_GreaterThan,
+		RequestUriMatchConditionParametersOperator_GreaterThanOrEqual,
+		RequestUriMatchConditionParametersOperator_LessThan,
+		RequestUriMatchConditionParametersOperator_LessThanOrEqual,
+		RequestUriMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		RequestUriMatchConditionParametersTransformsLowercase,
-		RequestUriMatchConditionParametersTransformsRemoveNulls,
-		RequestUriMatchConditionParametersTransformsTrim,
-		RequestUriMatchConditionParametersTransformsUppercase,
-		RequestUriMatchConditionParametersTransformsUrlDecode,
-		RequestUriMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestUriMatchConditionParametersTypeNameDeliveryRuleRequestUriConditionParameters))
+		RequestUriMatchConditionParametersTransforms_Lowercase,
+		RequestUriMatchConditionParametersTransforms_RemoveNulls,
+		RequestUriMatchConditionParametersTransforms_Trim,
+		RequestUriMatchConditionParametersTransforms_Uppercase,
+		RequestUriMatchConditionParametersTransforms_UrlDecode,
+		RequestUriMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RequestUriMatchConditionParametersTypeName_DeliveryRuleRequestUriConditionParameters))
 }
 
 func Test_RouteConfigurationOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9155,7 +9155,7 @@ func RouteConfigurationOverrideActionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RouteConfigurationOverrideActionParametersTypeNameDeliveryRuleRouteConfigurationOverrideActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(RouteConfigurationOverrideActionParametersTypeName_DeliveryRuleRouteConfigurationOverrideActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters is a factory method for creating gopter generators
@@ -9267,24 +9267,24 @@ func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters(gens 
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		ServerPortMatchConditionParametersOperatorAny,
-		ServerPortMatchConditionParametersOperatorBeginsWith,
-		ServerPortMatchConditionParametersOperatorContains,
-		ServerPortMatchConditionParametersOperatorEndsWith,
-		ServerPortMatchConditionParametersOperatorEqual,
-		ServerPortMatchConditionParametersOperatorGreaterThan,
-		ServerPortMatchConditionParametersOperatorGreaterThanOrEqual,
-		ServerPortMatchConditionParametersOperatorLessThan,
-		ServerPortMatchConditionParametersOperatorLessThanOrEqual,
-		ServerPortMatchConditionParametersOperatorRegEx))
+		ServerPortMatchConditionParametersOperator_Any,
+		ServerPortMatchConditionParametersOperator_BeginsWith,
+		ServerPortMatchConditionParametersOperator_Contains,
+		ServerPortMatchConditionParametersOperator_EndsWith,
+		ServerPortMatchConditionParametersOperator_Equal,
+		ServerPortMatchConditionParametersOperator_GreaterThan,
+		ServerPortMatchConditionParametersOperator_GreaterThanOrEqual,
+		ServerPortMatchConditionParametersOperator_LessThan,
+		ServerPortMatchConditionParametersOperator_LessThanOrEqual,
+		ServerPortMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		ServerPortMatchConditionParametersTransformsLowercase,
-		ServerPortMatchConditionParametersTransformsRemoveNulls,
-		ServerPortMatchConditionParametersTransformsTrim,
-		ServerPortMatchConditionParametersTransformsUppercase,
-		ServerPortMatchConditionParametersTransformsUrlDecode,
-		ServerPortMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ServerPortMatchConditionParametersTypeNameDeliveryRuleServerPortConditionParameters))
+		ServerPortMatchConditionParametersTransforms_Lowercase,
+		ServerPortMatchConditionParametersTransforms_RemoveNulls,
+		ServerPortMatchConditionParametersTransforms_Trim,
+		ServerPortMatchConditionParametersTransforms_Uppercase,
+		ServerPortMatchConditionParametersTransforms_UrlDecode,
+		ServerPortMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(ServerPortMatchConditionParametersTypeName_DeliveryRuleServerPortConditionParameters))
 }
 
 func Test_SocketAddrMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9389,15 +9389,15 @@ func SocketAddrMatchConditionParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters(gens map[string]gopter.Gen) {
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParametersOperatorAny, SocketAddrMatchConditionParametersOperatorIPMatch))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParametersOperator_Any, SocketAddrMatchConditionParametersOperator_IPMatch))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		SocketAddrMatchConditionParametersTransformsLowercase,
-		SocketAddrMatchConditionParametersTransformsRemoveNulls,
-		SocketAddrMatchConditionParametersTransformsTrim,
-		SocketAddrMatchConditionParametersTransformsUppercase,
-		SocketAddrMatchConditionParametersTransformsUrlDecode,
-		SocketAddrMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParametersTypeNameDeliveryRuleSocketAddrConditionParameters))
+		SocketAddrMatchConditionParametersTransforms_Lowercase,
+		SocketAddrMatchConditionParametersTransforms_RemoveNulls,
+		SocketAddrMatchConditionParametersTransforms_Trim,
+		SocketAddrMatchConditionParametersTransforms_Uppercase,
+		SocketAddrMatchConditionParametersTransforms_UrlDecode,
+		SocketAddrMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SocketAddrMatchConditionParametersTypeName_DeliveryRuleSocketAddrConditionParameters))
 }
 
 func Test_SslProtocolMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9500,17 +9500,17 @@ func SslProtocolMatchConditionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(SslProtocolMatchConditionParametersMatchValuesTLSv1, SslProtocolMatchConditionParametersMatchValuesTLSv11, SslProtocolMatchConditionParametersMatchValuesTLSv12))
+	gens["MatchValues"] = gen.SliceOf(gen.OneConstOf(SslProtocolMatchConditionParametersMatchValues_TLSv1, SslProtocolMatchConditionParametersMatchValues_TLSv11, SslProtocolMatchConditionParametersMatchValues_TLSv12))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParametersOperatorEqual))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParametersOperator_Equal))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		SslProtocolMatchConditionParametersTransformsLowercase,
-		SslProtocolMatchConditionParametersTransformsRemoveNulls,
-		SslProtocolMatchConditionParametersTransformsTrim,
-		SslProtocolMatchConditionParametersTransformsUppercase,
-		SslProtocolMatchConditionParametersTransformsUrlDecode,
-		SslProtocolMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParametersTypeNameDeliveryRuleSslProtocolConditionParameters))
+		SslProtocolMatchConditionParametersTransforms_Lowercase,
+		SslProtocolMatchConditionParametersTransforms_RemoveNulls,
+		SslProtocolMatchConditionParametersTransforms_Trim,
+		SslProtocolMatchConditionParametersTransforms_Uppercase,
+		SslProtocolMatchConditionParametersTransforms_UrlDecode,
+		SslProtocolMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(SslProtocolMatchConditionParametersTypeName_DeliveryRuleSslProtocolConditionParameters))
 }
 
 func Test_UrlFileExtensionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9616,24 +9616,24 @@ func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlFileExtensionMatchConditionParametersOperatorAny,
-		UrlFileExtensionMatchConditionParametersOperatorBeginsWith,
-		UrlFileExtensionMatchConditionParametersOperatorContains,
-		UrlFileExtensionMatchConditionParametersOperatorEndsWith,
-		UrlFileExtensionMatchConditionParametersOperatorEqual,
-		UrlFileExtensionMatchConditionParametersOperatorGreaterThan,
-		UrlFileExtensionMatchConditionParametersOperatorGreaterThanOrEqual,
-		UrlFileExtensionMatchConditionParametersOperatorLessThan,
-		UrlFileExtensionMatchConditionParametersOperatorLessThanOrEqual,
-		UrlFileExtensionMatchConditionParametersOperatorRegEx))
+		UrlFileExtensionMatchConditionParametersOperator_Any,
+		UrlFileExtensionMatchConditionParametersOperator_BeginsWith,
+		UrlFileExtensionMatchConditionParametersOperator_Contains,
+		UrlFileExtensionMatchConditionParametersOperator_EndsWith,
+		UrlFileExtensionMatchConditionParametersOperator_Equal,
+		UrlFileExtensionMatchConditionParametersOperator_GreaterThan,
+		UrlFileExtensionMatchConditionParametersOperator_GreaterThanOrEqual,
+		UrlFileExtensionMatchConditionParametersOperator_LessThan,
+		UrlFileExtensionMatchConditionParametersOperator_LessThanOrEqual,
+		UrlFileExtensionMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		UrlFileExtensionMatchConditionParametersTransformsLowercase,
-		UrlFileExtensionMatchConditionParametersTransformsRemoveNulls,
-		UrlFileExtensionMatchConditionParametersTransformsTrim,
-		UrlFileExtensionMatchConditionParametersTransformsUppercase,
-		UrlFileExtensionMatchConditionParametersTransformsUrlDecode,
-		UrlFileExtensionMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileExtensionMatchConditionParametersTypeNameDeliveryRuleUrlFileExtensionMatchConditionParameters))
+		UrlFileExtensionMatchConditionParametersTransforms_Lowercase,
+		UrlFileExtensionMatchConditionParametersTransforms_RemoveNulls,
+		UrlFileExtensionMatchConditionParametersTransforms_Trim,
+		UrlFileExtensionMatchConditionParametersTransforms_Uppercase,
+		UrlFileExtensionMatchConditionParametersTransforms_UrlDecode,
+		UrlFileExtensionMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileExtensionMatchConditionParametersTypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters))
 }
 
 func Test_UrlFileNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9739,24 +9739,24 @@ func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters(gens
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlFileNameMatchConditionParametersOperatorAny,
-		UrlFileNameMatchConditionParametersOperatorBeginsWith,
-		UrlFileNameMatchConditionParametersOperatorContains,
-		UrlFileNameMatchConditionParametersOperatorEndsWith,
-		UrlFileNameMatchConditionParametersOperatorEqual,
-		UrlFileNameMatchConditionParametersOperatorGreaterThan,
-		UrlFileNameMatchConditionParametersOperatorGreaterThanOrEqual,
-		UrlFileNameMatchConditionParametersOperatorLessThan,
-		UrlFileNameMatchConditionParametersOperatorLessThanOrEqual,
-		UrlFileNameMatchConditionParametersOperatorRegEx))
+		UrlFileNameMatchConditionParametersOperator_Any,
+		UrlFileNameMatchConditionParametersOperator_BeginsWith,
+		UrlFileNameMatchConditionParametersOperator_Contains,
+		UrlFileNameMatchConditionParametersOperator_EndsWith,
+		UrlFileNameMatchConditionParametersOperator_Equal,
+		UrlFileNameMatchConditionParametersOperator_GreaterThan,
+		UrlFileNameMatchConditionParametersOperator_GreaterThanOrEqual,
+		UrlFileNameMatchConditionParametersOperator_LessThan,
+		UrlFileNameMatchConditionParametersOperator_LessThanOrEqual,
+		UrlFileNameMatchConditionParametersOperator_RegEx))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		UrlFileNameMatchConditionParametersTransformsLowercase,
-		UrlFileNameMatchConditionParametersTransformsRemoveNulls,
-		UrlFileNameMatchConditionParametersTransformsTrim,
-		UrlFileNameMatchConditionParametersTransformsUppercase,
-		UrlFileNameMatchConditionParametersTransformsUrlDecode,
-		UrlFileNameMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileNameMatchConditionParametersTypeNameDeliveryRuleUrlFilenameConditionParameters))
+		UrlFileNameMatchConditionParametersTransforms_Lowercase,
+		UrlFileNameMatchConditionParametersTransforms_RemoveNulls,
+		UrlFileNameMatchConditionParametersTransforms_Trim,
+		UrlFileNameMatchConditionParametersTransforms_Uppercase,
+		UrlFileNameMatchConditionParametersTransforms_UrlDecode,
+		UrlFileNameMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlFileNameMatchConditionParametersTypeName_DeliveryRuleUrlFilenameConditionParameters))
 }
 
 func Test_UrlPathMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9862,25 +9862,25 @@ func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters(gens map
 	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		UrlPathMatchConditionParametersOperatorAny,
-		UrlPathMatchConditionParametersOperatorBeginsWith,
-		UrlPathMatchConditionParametersOperatorContains,
-		UrlPathMatchConditionParametersOperatorEndsWith,
-		UrlPathMatchConditionParametersOperatorEqual,
-		UrlPathMatchConditionParametersOperatorGreaterThan,
-		UrlPathMatchConditionParametersOperatorGreaterThanOrEqual,
-		UrlPathMatchConditionParametersOperatorLessThan,
-		UrlPathMatchConditionParametersOperatorLessThanOrEqual,
-		UrlPathMatchConditionParametersOperatorRegEx,
-		UrlPathMatchConditionParametersOperatorWildcard))
+		UrlPathMatchConditionParametersOperator_Any,
+		UrlPathMatchConditionParametersOperator_BeginsWith,
+		UrlPathMatchConditionParametersOperator_Contains,
+		UrlPathMatchConditionParametersOperator_EndsWith,
+		UrlPathMatchConditionParametersOperator_Equal,
+		UrlPathMatchConditionParametersOperator_GreaterThan,
+		UrlPathMatchConditionParametersOperator_GreaterThanOrEqual,
+		UrlPathMatchConditionParametersOperator_LessThan,
+		UrlPathMatchConditionParametersOperator_LessThanOrEqual,
+		UrlPathMatchConditionParametersOperator_RegEx,
+		UrlPathMatchConditionParametersOperator_Wildcard))
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		UrlPathMatchConditionParametersTransformsLowercase,
-		UrlPathMatchConditionParametersTransformsRemoveNulls,
-		UrlPathMatchConditionParametersTransformsTrim,
-		UrlPathMatchConditionParametersTransformsUppercase,
-		UrlPathMatchConditionParametersTransformsUrlDecode,
-		UrlPathMatchConditionParametersTransformsUrlEncode))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlPathMatchConditionParametersTypeNameDeliveryRuleUrlPathMatchConditionParameters))
+		UrlPathMatchConditionParametersTransforms_Lowercase,
+		UrlPathMatchConditionParametersTransforms_RemoveNulls,
+		UrlPathMatchConditionParametersTransforms_Trim,
+		UrlPathMatchConditionParametersTransforms_Uppercase,
+		UrlPathMatchConditionParametersTransforms_UrlDecode,
+		UrlPathMatchConditionParametersTransforms_UrlEncode))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlPathMatchConditionParametersTypeName_DeliveryRuleUrlPathMatchConditionParameters))
 }
 
 func Test_UrlRedirectActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9987,13 +9987,13 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters(gens map[str
 	gens["CustomHostname"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomPath"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomQueryString"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationProtocol"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParametersDestinationProtocolHttp, UrlRedirectActionParametersDestinationProtocolHttps, UrlRedirectActionParametersDestinationProtocolMatchRequest))
+	gens["DestinationProtocol"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParametersDestinationProtocol_Http, UrlRedirectActionParametersDestinationProtocol_Https, UrlRedirectActionParametersDestinationProtocol_MatchRequest))
 	gens["RedirectType"] = gen.PtrOf(gen.OneConstOf(
-		UrlRedirectActionParametersRedirectTypeFound,
-		UrlRedirectActionParametersRedirectTypeMoved,
-		UrlRedirectActionParametersRedirectTypePermanentRedirect,
-		UrlRedirectActionParametersRedirectTypeTemporaryRedirect))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParametersTypeNameDeliveryRuleUrlRedirectActionParameters))
+		UrlRedirectActionParametersRedirectType_Found,
+		UrlRedirectActionParametersRedirectType_Moved,
+		UrlRedirectActionParametersRedirectType_PermanentRedirect,
+		UrlRedirectActionParametersRedirectType_TemporaryRedirect))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRedirectActionParametersTypeName_DeliveryRuleUrlRedirectActionParameters))
 }
 
 func Test_UrlRewriteActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -10099,7 +10099,7 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters(gens map[stri
 	gens["Destination"] = gen.PtrOf(gen.AlphaString())
 	gens["PreserveUnmatchedPath"] = gen.PtrOf(gen.Bool())
 	gens["SourcePattern"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionParametersTypeNameDeliveryRuleUrlRewriteActionParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlRewriteActionParametersTypeName_DeliveryRuleUrlRewriteActionParameters))
 }
 
 func Test_UrlSigningActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -10211,8 +10211,8 @@ func UrlSigningActionParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningActionParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningActionParameters(gens map[string]gopter.Gen) {
-	gens["Algorithm"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParametersAlgorithmSHA256))
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParametersTypeNameDeliveryRuleUrlSigningActionParameters))
+	gens["Algorithm"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParametersAlgorithm_SHA256))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(UrlSigningActionParametersTypeName_DeliveryRuleUrlSigningActionParameters))
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningActionParameters is a factory method for creating gopter generators
@@ -10319,15 +10319,15 @@ func CacheConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCacheConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCacheConfiguration(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfigurationCacheBehaviorHonorOrigin, CacheConfigurationCacheBehaviorOverrideAlways, CacheConfigurationCacheBehaviorOverrideIfOriginMissing))
+	gens["CacheBehavior"] = gen.PtrOf(gen.OneConstOf(CacheConfigurationCacheBehavior_HonorOrigin, CacheConfigurationCacheBehavior_OverrideAlways, CacheConfigurationCacheBehavior_OverrideIfOriginMissing))
 	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfigurationIsCompressionEnabledDisabled, CacheConfigurationIsCompressionEnabledEnabled))
+	gens["IsCompressionEnabled"] = gen.PtrOf(gen.OneConstOf(CacheConfigurationIsCompressionEnabled_Disabled, CacheConfigurationIsCompressionEnabled_Enabled))
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		CacheConfigurationQueryStringCachingBehaviorIgnoreQueryString,
-		CacheConfigurationQueryStringCachingBehaviorIgnoreSpecifiedQueryStrings,
-		CacheConfigurationQueryStringCachingBehaviorIncludeSpecifiedQueryStrings,
-		CacheConfigurationQueryStringCachingBehaviorUseQueryString))
+		CacheConfigurationQueryStringCachingBehavior_IgnoreQueryString,
+		CacheConfigurationQueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
+		CacheConfigurationQueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
+		CacheConfigurationQueryStringCachingBehavior_UseQueryString))
 }
 
 func Test_OriginGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -10439,7 +10439,7 @@ func OriginGroupOverrideGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverride is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverride(gens map[string]gopter.Gen) {
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideForwardingProtocolHttpOnly, OriginGroupOverrideForwardingProtocolHttpsOnly, OriginGroupOverrideForwardingProtocolMatchRequest))
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideForwardingProtocol_HttpOnly, OriginGroupOverrideForwardingProtocol_HttpsOnly, OriginGroupOverrideForwardingProtocol_MatchRequest))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverride is a factory method for creating gopter generators
@@ -10547,6 +10547,6 @@ func UrlSigningParamIdentifierGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier(gens map[string]gopter.Gen) {
-	gens["ParamIndicator"] = gen.PtrOf(gen.OneConstOf(UrlSigningParamIdentifierParamIndicatorExpires, UrlSigningParamIdentifierParamIndicatorKeyId, UrlSigningParamIdentifierParamIndicatorSignature))
+	gens["ParamIndicator"] = gen.PtrOf(gen.OneConstOf(UrlSigningParamIdentifierParamIndicator_Expires, UrlSigningParamIdentifierParamIndicator_KeyId, UrlSigningParamIdentifierParamIndicator_Signature))
 	gens["ParamName"] = gen.PtrOf(gen.AlphaString())
 }

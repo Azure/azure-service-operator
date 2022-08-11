@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &LoadBalancers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancers LoadBalancers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -87,22 +87,22 @@ type LoadBalancers_Spec_PropertiesARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type LoadBalancerSkuName string
 
 const (
-	LoadBalancerSkuNameBasic    = LoadBalancerSkuName("Basic")
-	LoadBalancerSkuNameStandard = LoadBalancerSkuName("Standard")
+	LoadBalancerSkuName_Basic    = LoadBalancerSkuName("Basic")
+	LoadBalancerSkuName_Standard = LoadBalancerSkuName("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type LoadBalancerSkuTier string
 
 const (
-	LoadBalancerSkuTierGlobal   = LoadBalancerSkuTier("Global")
-	LoadBalancerSkuTierRegional = LoadBalancerSkuTier("Regional")
+	LoadBalancerSkuTier_Global   = LoadBalancerSkuTier("Global")
+	LoadBalancerSkuTier_Regional = LoadBalancerSkuTier("Regional")
 )
 
 type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {

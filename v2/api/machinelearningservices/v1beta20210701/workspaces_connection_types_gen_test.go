@@ -272,7 +272,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionStatus(gens map[strin
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsStatusValueFormatJSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsStatusValueFormat_JSON))
 }
 
 func Test_WorkspacesConnections_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -382,5 +382,5 @@ func AddIndependentPropertyGeneratorsForWorkspacesConnectionsSpec(gens map[strin
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormatJSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormat_JSON))
 }

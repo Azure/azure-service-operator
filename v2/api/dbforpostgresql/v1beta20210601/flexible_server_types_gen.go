@@ -98,7 +98,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -338,7 +338,7 @@ type FlexibleServerList struct {
 // +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersion_Value = APIVersion("2021-06-01")
 
 type FlexibleServers_Spec struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -2666,48 +2666,48 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v202
 type ServerPropertiesCreateMode string
 
 const (
-	ServerPropertiesCreateModeCreate             = ServerPropertiesCreateMode("Create")
-	ServerPropertiesCreateModeDefault            = ServerPropertiesCreateMode("Default")
-	ServerPropertiesCreateModePointInTimeRestore = ServerPropertiesCreateMode("PointInTimeRestore")
-	ServerPropertiesCreateModeUpdate             = ServerPropertiesCreateMode("Update")
+	ServerPropertiesCreateMode_Create             = ServerPropertiesCreateMode("Create")
+	ServerPropertiesCreateMode_Default            = ServerPropertiesCreateMode("Default")
+	ServerPropertiesCreateMode_PointInTimeRestore = ServerPropertiesCreateMode("PointInTimeRestore")
+	ServerPropertiesCreateMode_Update             = ServerPropertiesCreateMode("Update")
 )
 
 type ServerPropertiesStatusCreateMode string
 
 const (
-	ServerPropertiesStatusCreateModeCreate             = ServerPropertiesStatusCreateMode("Create")
-	ServerPropertiesStatusCreateModeDefault            = ServerPropertiesStatusCreateMode("Default")
-	ServerPropertiesStatusCreateModePointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
-	ServerPropertiesStatusCreateModeUpdate             = ServerPropertiesStatusCreateMode("Update")
+	ServerPropertiesStatusCreateMode_Create             = ServerPropertiesStatusCreateMode("Create")
+	ServerPropertiesStatusCreateMode_Default            = ServerPropertiesStatusCreateMode("Default")
+	ServerPropertiesStatusCreateMode_PointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
+	ServerPropertiesStatusCreateMode_Update             = ServerPropertiesStatusCreateMode("Update")
 )
 
 type ServerPropertiesStatusState string
 
 const (
-	ServerPropertiesStatusStateDisabled = ServerPropertiesStatusState("Disabled")
-	ServerPropertiesStatusStateDropping = ServerPropertiesStatusState("Dropping")
-	ServerPropertiesStatusStateReady    = ServerPropertiesStatusState("Ready")
-	ServerPropertiesStatusStateStarting = ServerPropertiesStatusState("Starting")
-	ServerPropertiesStatusStateStopped  = ServerPropertiesStatusState("Stopped")
-	ServerPropertiesStatusStateStopping = ServerPropertiesStatusState("Stopping")
-	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
+	ServerPropertiesStatusState_Disabled = ServerPropertiesStatusState("Disabled")
+	ServerPropertiesStatusState_Dropping = ServerPropertiesStatusState("Dropping")
+	ServerPropertiesStatusState_Ready    = ServerPropertiesStatusState("Ready")
+	ServerPropertiesStatusState_Starting = ServerPropertiesStatusState("Starting")
+	ServerPropertiesStatusState_Stopped  = ServerPropertiesStatusState("Stopped")
+	ServerPropertiesStatusState_Stopping = ServerPropertiesStatusState("Stopping")
+	ServerPropertiesStatusState_Updating = ServerPropertiesStatusState("Updating")
 )
 
 // +kubebuilder:validation:Enum={"11","12","13"}
 type ServerPropertiesVersion string
 
 const (
-	ServerPropertiesVersion11 = ServerPropertiesVersion("11")
-	ServerPropertiesVersion12 = ServerPropertiesVersion("12")
-	ServerPropertiesVersion13 = ServerPropertiesVersion("13")
+	ServerPropertiesVersion_11 = ServerPropertiesVersion("11")
+	ServerPropertiesVersion_12 = ServerPropertiesVersion("12")
+	ServerPropertiesVersion_13 = ServerPropertiesVersion("13")
 )
 
 type ServerVersion_Status string
 
 const (
-	ServerVersion_Status11 = ServerVersion_Status("11")
-	ServerVersion_Status12 = ServerVersion_Status("12")
-	ServerVersion_Status13 = ServerVersion_Status("13")
+	ServerVersion_Status_11 = ServerVersion_Status("11")
+	ServerVersion_Status_12 = ServerVersion_Status("12")
+	ServerVersion_Status_13 = ServerVersion_Status("13")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
@@ -3189,15 +3189,15 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 type BackupGeoRedundantBackup string
 
 const (
-	BackupGeoRedundantBackupDisabled = BackupGeoRedundantBackup("Disabled")
-	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
+	BackupGeoRedundantBackup_Disabled = BackupGeoRedundantBackup("Disabled")
+	BackupGeoRedundantBackup_Enabled  = BackupGeoRedundantBackup("Enabled")
 )
 
 type BackupStatusGeoRedundantBackup string
 
 const (
-	BackupStatusGeoRedundantBackupDisabled = BackupStatusGeoRedundantBackup("Disabled")
-	BackupStatusGeoRedundantBackupEnabled  = BackupStatusGeoRedundantBackup("Enabled")
+	BackupStatusGeoRedundantBackup_Disabled = BackupStatusGeoRedundantBackup("Disabled")
+	BackupStatusGeoRedundantBackup_Enabled  = BackupStatusGeoRedundantBackup("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -3249,33 +3249,33 @@ func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOp
 type HighAvailabilityMode string
 
 const (
-	HighAvailabilityModeDisabled      = HighAvailabilityMode("Disabled")
-	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
+	HighAvailabilityMode_Disabled      = HighAvailabilityMode("Disabled")
+	HighAvailabilityMode_ZoneRedundant = HighAvailabilityMode("ZoneRedundant")
 )
 
 type HighAvailabilityStatusMode string
 
 const (
-	HighAvailabilityStatusModeDisabled      = HighAvailabilityStatusMode("Disabled")
-	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
+	HighAvailabilityStatusMode_Disabled      = HighAvailabilityStatusMode("Disabled")
+	HighAvailabilityStatusMode_ZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
 )
 
 type HighAvailabilityStatusState string
 
 const (
-	HighAvailabilityStatusStateCreatingStandby = HighAvailabilityStatusState("CreatingStandby")
-	HighAvailabilityStatusStateFailingOver     = HighAvailabilityStatusState("FailingOver")
-	HighAvailabilityStatusStateHealthy         = HighAvailabilityStatusState("Healthy")
-	HighAvailabilityStatusStateNotEnabled      = HighAvailabilityStatusState("NotEnabled")
-	HighAvailabilityStatusStateRemovingStandby = HighAvailabilityStatusState("RemovingStandby")
-	HighAvailabilityStatusStateReplicatingData = HighAvailabilityStatusState("ReplicatingData")
+	HighAvailabilityStatusState_CreatingStandby = HighAvailabilityStatusState("CreatingStandby")
+	HighAvailabilityStatusState_FailingOver     = HighAvailabilityStatusState("FailingOver")
+	HighAvailabilityStatusState_Healthy         = HighAvailabilityStatusState("Healthy")
+	HighAvailabilityStatusState_NotEnabled      = HighAvailabilityStatusState("NotEnabled")
+	HighAvailabilityStatusState_RemovingStandby = HighAvailabilityStatusState("RemovingStandby")
+	HighAvailabilityStatusState_ReplicatingData = HighAvailabilityStatusState("ReplicatingData")
 )
 
 type NetworkStatusPublicNetworkAccess string
 
 const (
-	NetworkStatusPublicNetworkAccessDisabled = NetworkStatusPublicNetworkAccess("Disabled")
-	NetworkStatusPublicNetworkAccessEnabled  = NetworkStatusPublicNetworkAccess("Enabled")
+	NetworkStatusPublicNetworkAccess_Disabled = NetworkStatusPublicNetworkAccess("Disabled")
+	NetworkStatusPublicNetworkAccess_Enabled  = NetworkStatusPublicNetworkAccess("Enabled")
 )
 
 func init() {

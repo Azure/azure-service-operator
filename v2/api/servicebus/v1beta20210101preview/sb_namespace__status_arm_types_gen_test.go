@@ -168,10 +168,10 @@ func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityStatusTypeNone,
-		IdentityStatusTypeSystemAssigned,
-		IdentityStatusTypeSystemAssignedUserAssigned,
-		IdentityStatusTypeUserAssigned))
+		IdentityStatusType_None,
+		IdentityStatusType_SystemAssigned,
+		IdentityStatusType_SystemAssignedUserAssigned,
+		IdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
@@ -319,8 +319,8 @@ func SBSkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSBSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusNameBasic, SBSkuStatusNamePremium, SBSkuStatusNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusTierBasic, SBSkuStatusTierPremium, SBSkuStatusTierStandard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusName_Basic, SBSkuStatusName_Premium, SBSkuStatusName_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SBSkuStatusTier_Basic, SBSkuStatusTier_Premium, SBSkuStatusTier_Standard))
 }
 
 func Test_SystemData_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -384,17 +384,17 @@ func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopt
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }
 
 func Test_DictionaryValue_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -526,7 +526,7 @@ func EncryptionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionStatusARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionStatusKeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionStatusKeySource_MicrosoftKeyVault))
 	gens["RequireInfrastructureEncryption"] = gen.PtrOf(gen.Bool())
 }
 

@@ -170,18 +170,18 @@ func AddIndependentPropertyGeneratorsForNetworkInterfacePropertiesFormatStatusAR
 	gens["HostedWorkloads"] = gen.SliceOf(gen.AlphaString())
 	gens["MacAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		NetworkInterfacePropertiesFormatStatusMigrationPhaseAbort,
-		NetworkInterfacePropertiesFormatStatusMigrationPhaseCommit,
-		NetworkInterfacePropertiesFormatStatusMigrationPhaseCommitted,
-		NetworkInterfacePropertiesFormatStatusMigrationPhaseNone,
-		NetworkInterfacePropertiesFormatStatusMigrationPhasePrepare))
-	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormatStatusNicTypeElastic, NetworkInterfacePropertiesFormatStatusNicTypeStandard))
+		NetworkInterfacePropertiesFormatStatusMigrationPhase_Abort,
+		NetworkInterfacePropertiesFormatStatusMigrationPhase_Commit,
+		NetworkInterfacePropertiesFormatStatusMigrationPhase_Committed,
+		NetworkInterfacePropertiesFormatStatusMigrationPhase_None,
+		NetworkInterfacePropertiesFormatStatusMigrationPhase_Prepare))
+	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormatStatusNicType_Elastic, NetworkInterfacePropertiesFormatStatusNicType_Standard))
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -743,13 +743,13 @@ func NetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubRes
 func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_StatusIPv4, IPVersion_StatusIPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_Status_IPv4, IPVersion_Status_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Status_Dynamic, IPAllocationMethod_Status_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARM is a factory method for creating gopter generators
@@ -1357,10 +1357,10 @@ func ApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceS
 // AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARM is a factory method for creating gopter generators

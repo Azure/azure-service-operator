@@ -157,10 +157,10 @@ func AddIndependentPropertyGeneratorsForPrivateZonePropertiesStatusARM(gens map[
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZonePropertiesStatusProvisioningStateCanceled,
-		PrivateZonePropertiesStatusProvisioningStateCreating,
-		PrivateZonePropertiesStatusProvisioningStateDeleting,
-		PrivateZonePropertiesStatusProvisioningStateFailed,
-		PrivateZonePropertiesStatusProvisioningStateSucceeded,
-		PrivateZonePropertiesStatusProvisioningStateUpdating))
+		PrivateZonePropertiesStatusProvisioningState_Canceled,
+		PrivateZonePropertiesStatusProvisioningState_Creating,
+		PrivateZonePropertiesStatusProvisioningState_Deleting,
+		PrivateZonePropertiesStatusProvisioningState_Failed,
+		PrivateZonePropertiesStatusProvisioningState_Succeeded,
+		PrivateZonePropertiesStatusProvisioningState_Updating))
 }

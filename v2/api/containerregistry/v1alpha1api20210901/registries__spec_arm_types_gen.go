@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &Registries_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registries Registries_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -68,10 +68,10 @@ type EncryptionPropertyARM struct {
 type IdentityPropertiesType string
 
 const (
-	IdentityPropertiesTypeNone                       = IdentityPropertiesType("None")
-	IdentityPropertiesTypeSystemAssigned             = IdentityPropertiesType("SystemAssigned")
-	IdentityPropertiesTypeSystemAssignedUserAssigned = IdentityPropertiesType("SystemAssigned, UserAssigned")
-	IdentityPropertiesTypeUserAssigned               = IdentityPropertiesType("UserAssigned")
+	IdentityPropertiesType_None                       = IdentityPropertiesType("None")
+	IdentityPropertiesType_SystemAssigned             = IdentityPropertiesType("SystemAssigned")
+	IdentityPropertiesType_SystemAssignedUserAssigned = IdentityPropertiesType("SystemAssigned, UserAssigned")
+	IdentityPropertiesType_UserAssigned               = IdentityPropertiesType("UserAssigned")
 )
 
 // Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
@@ -94,8 +94,8 @@ type PoliciesARM struct {
 type RegistryPropertiesNetworkRuleBypassOptions string
 
 const (
-	RegistryPropertiesNetworkRuleBypassOptionsAzureServices = RegistryPropertiesNetworkRuleBypassOptions("AzureServices")
-	RegistryPropertiesNetworkRuleBypassOptionsNone          = RegistryPropertiesNetworkRuleBypassOptions("None")
+	RegistryPropertiesNetworkRuleBypassOptions_AzureServices = RegistryPropertiesNetworkRuleBypassOptions("AzureServices")
+	RegistryPropertiesNetworkRuleBypassOptions_None          = RegistryPropertiesNetworkRuleBypassOptions("None")
 )
 
 // Deprecated version of RegistryPropertiesPublicNetworkAccess. Use v1beta20210901.RegistryPropertiesPublicNetworkAccess
@@ -104,8 +104,8 @@ const (
 type RegistryPropertiesPublicNetworkAccess string
 
 const (
-	RegistryPropertiesPublicNetworkAccessDisabled = RegistryPropertiesPublicNetworkAccess("Disabled")
-	RegistryPropertiesPublicNetworkAccessEnabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
+	RegistryPropertiesPublicNetworkAccess_Disabled = RegistryPropertiesPublicNetworkAccess("Disabled")
+	RegistryPropertiesPublicNetworkAccess_Enabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of RegistryPropertiesZoneRedundancy. Use v1beta20210901.RegistryPropertiesZoneRedundancy instead
@@ -113,8 +113,8 @@ const (
 type RegistryPropertiesZoneRedundancy string
 
 const (
-	RegistryPropertiesZoneRedundancyDisabled = RegistryPropertiesZoneRedundancy("Disabled")
-	RegistryPropertiesZoneRedundancyEnabled  = RegistryPropertiesZoneRedundancy("Enabled")
+	RegistryPropertiesZoneRedundancy_Disabled = RegistryPropertiesZoneRedundancy("Disabled")
+	RegistryPropertiesZoneRedundancy_Enabled  = RegistryPropertiesZoneRedundancy("Enabled")
 )
 
 // Deprecated version of SkuName. Use v1beta20210901.SkuName instead
@@ -122,10 +122,10 @@ const (
 type SkuName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNameClassic  = SkuName("Classic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Classic  = SkuName("Classic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
 )
 
 // Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
@@ -139,8 +139,8 @@ type UserIdentityPropertiesARM struct {
 type EncryptionPropertyStatus string
 
 const (
-	EncryptionPropertyStatusDisabled = EncryptionPropertyStatus("disabled")
-	EncryptionPropertyStatusEnabled  = EncryptionPropertyStatus("enabled")
+	EncryptionPropertyStatus_Disabled = EncryptionPropertyStatus("disabled")
+	EncryptionPropertyStatus_Enabled  = EncryptionPropertyStatus("enabled")
 )
 
 // Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
@@ -165,8 +165,8 @@ type KeyVaultPropertiesARM struct {
 type NetworkRuleSetDefaultAction string
 
 const (
-	NetworkRuleSetDefaultActionAllow = NetworkRuleSetDefaultAction("Allow")
-	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
+	NetworkRuleSetDefaultAction_Allow = NetworkRuleSetDefaultAction("Allow")
+	NetworkRuleSetDefaultAction_Deny  = NetworkRuleSetDefaultAction("Deny")
 )
 
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
@@ -191,23 +191,23 @@ type TrustPolicyARM struct {
 type ExportPolicyStatus string
 
 const (
-	ExportPolicyStatusDisabled = ExportPolicyStatus("disabled")
-	ExportPolicyStatusEnabled  = ExportPolicyStatus("enabled")
+	ExportPolicyStatus_Disabled = ExportPolicyStatus("disabled")
+	ExportPolicyStatus_Enabled  = ExportPolicyStatus("enabled")
 )
 
 // Deprecated version of IPRuleAction. Use v1beta20210901.IPRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
-const IPRuleActionAllow = IPRuleAction("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
 // Deprecated version of QuarantinePolicyStatus. Use v1beta20210901.QuarantinePolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicyStatus string
 
 const (
-	QuarantinePolicyStatusDisabled = QuarantinePolicyStatus("disabled")
-	QuarantinePolicyStatusEnabled  = QuarantinePolicyStatus("enabled")
+	QuarantinePolicyStatus_Disabled = QuarantinePolicyStatus("disabled")
+	QuarantinePolicyStatus_Enabled  = QuarantinePolicyStatus("enabled")
 )
 
 // Deprecated version of RetentionPolicyStatus. Use v1beta20210901.RetentionPolicyStatus instead
@@ -215,8 +215,8 @@ const (
 type RetentionPolicyStatus string
 
 const (
-	RetentionPolicyStatusDisabled = RetentionPolicyStatus("disabled")
-	RetentionPolicyStatusEnabled  = RetentionPolicyStatus("enabled")
+	RetentionPolicyStatus_Disabled = RetentionPolicyStatus("disabled")
+	RetentionPolicyStatus_Enabled  = RetentionPolicyStatus("enabled")
 )
 
 // Deprecated version of TrustPolicyStatus. Use v1beta20210901.TrustPolicyStatus instead
@@ -224,12 +224,12 @@ const (
 type TrustPolicyStatus string
 
 const (
-	TrustPolicyStatusDisabled = TrustPolicyStatus("disabled")
-	TrustPolicyStatusEnabled  = TrustPolicyStatus("enabled")
+	TrustPolicyStatus_Disabled = TrustPolicyStatus("disabled")
+	TrustPolicyStatus_Enabled  = TrustPolicyStatus("enabled")
 )
 
 // Deprecated version of TrustPolicyType. Use v1beta20210901.TrustPolicyType instead
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicyType string
 
-const TrustPolicyTypeNotary = TrustPolicyType("Notary")
+const TrustPolicyType_Notary = TrustPolicyType("Notary")
