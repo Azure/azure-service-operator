@@ -45,8 +45,8 @@ func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 }
 
 func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
-	publicIPAddressSku := network.PublicIPAddressSkuNameStandard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
+	publicIPAddressSku := network.PublicIPAddressSkuName_Standard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{
@@ -61,10 +61,10 @@ func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genrunt
 }
 
 func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddress) *network.LoadBalancer {
-	loadBalancerSku := network.LoadBalancerSkuNameStandard
+	loadBalancerSku := network.LoadBalancerSkuName_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+	protocol := network.InboundNatPoolPropertiesFormatProtocol_Tcp
 
 	// TODO: Getting this is SUPER awkward
 	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -122,7 +122,7 @@ func newVMSS20201201(
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	upgradePolicyMode := compute2020.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute2020.UpgradePolicyMode_Automatic
 	adminUsername := "adminUser"
 
 	inboundNATPoolRef := genruntime.ResourceReference{
@@ -253,7 +253,7 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

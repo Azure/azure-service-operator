@@ -26,7 +26,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
-	createOption := compute2020.CreationDataCreateOptionEmpty
+	createOption := compute2020.CreationDataCreateOption_Empty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute2020.Snapshots_Spec{
@@ -44,9 +44,9 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	snapshotARMId := *snapshot.Status.Id
 
 	tc.LogSection("Create Image")
-	v2 := compute2022.ImagePropertiesHyperVGenerationV2
-	linuxOS := compute2022.ImageOSDiskOsTypeLinux
-	linuxOSState := compute2022.ImageOSDiskOsStateGeneralized
+	v2 := compute2022.ImagePropertiesHyperVGeneration_V2
+	linuxOS := compute2022.ImageOSDiskOsType_Linux
+	linuxOSState := compute2022.ImageOSDiskOsState_Generalized
 	image := &compute2022.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
 		Spec: compute2022.Images_Spec{
@@ -82,7 +82,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(image)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2022.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2022.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

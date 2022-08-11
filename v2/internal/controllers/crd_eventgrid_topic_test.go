@@ -58,16 +58,16 @@ func Test_EventGrid_Topic(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.APIVersionValue))
+		string(eventgrid.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
-	kind := storage.StorageAccountsSpecKindStorageV2
-	sku := storage.SkuNameStandardLRS
+	kind := storage.StorageAccountsSpecKind_StorageV2
+	sku := storage.SkuName_StandardLRS
 	acctName := tc.NoSpaceNamer.GenerateName("stor")
-	tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	tier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
 		Spec: storage.StorageAccounts_Spec{
@@ -101,7 +101,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	acctReference := tc.MakeReferenceFromResource(acct)
 
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscriptions_Spec{

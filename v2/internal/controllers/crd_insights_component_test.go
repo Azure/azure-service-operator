@@ -26,7 +26,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a component
-	applicationType := insights.ApplicationInsightsComponentPropertiesApplicationTypeOther
+	applicationType := insights.ApplicationInsightsComponentPropertiesApplicationType_Other
 	component := &insights.Component{
 		ObjectMeta: tc.MakeObjectMeta("component"),
 		Spec: insights.Components_Spec{
@@ -65,7 +65,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersionValue))
+		string(insights.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -75,7 +75,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
-	kind := insightswebtest.WebTestPropertiesKindStandard
+	kind := insightswebtest.WebTestPropertiesKind_Standard
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
 		Spec: insightswebtest.Webtests_Spec{
@@ -108,7 +108,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-	expectedKind := insightswebtest.WebTestPropertiesStatusKindStandard
+	expectedKind := insightswebtest.WebTestPropertiesStatusKind_Standard
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())
@@ -126,7 +126,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(insightswebtest.APIVersionValue))
+		string(insightswebtest.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
