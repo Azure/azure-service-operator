@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"testing"
 
+	// Importing this for side effects is required as it initializes cloud.AzurePublic
+	_ "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	. "github.com/onsi/gomega"
 
