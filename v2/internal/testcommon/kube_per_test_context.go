@@ -631,19 +631,45 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 	}
 }
 
-func (tc *KubePerTestContext) ExportAsSample(resource runtime.Object) {
+func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {
 	tc.T.Helper()
 
 	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
 	filepath := path.Join(os.TempDir(), filename)
 
-	copy := resource.DeepCopyObject()
-	err := tc.exportAsYAML(copy, filepath)
+	rsrc := resource.DeepCopyObject()
+	tc.cleanSample(rsrc)
+
+	err := tc.exportAsYAML(rsrc, filepath)
 	if err != nil {
 		tc.T.Fatalf("failed to export resource: %s", err)
 	}
 
 	tc.T.Logf("Exported resource to %s", filepath)
+}
+
+func (tc *KubePerTestContext) cleanSample(resource any) {
+
+	if kr, ok := resource.(genruntime.KubernetesResource); ok {
+		// Remove Status
+		emptyStatus := kr.NewEmptyStatus()
+		_ = kr.SetStatus(emptyStatus) // Ignore errors
+	}
+
+	if oa, ok := resource.(metav1.ObjectMetaAccessor); ok {
+		// Remove runtime objectmeta information
+		om := oa.GetObjectMeta()
+		om.SetAnnotations(nil)
+		om.SetFinalizers(nil)
+		om.SetManagedFields(nil)
+		om.SetLabels(nil)
+		om.SetOwnerReferences(nil)
+		om.SetGeneration(0)
+		om.SetResourceVersion("")
+		om.SetUID("")
+		om.SetCreationTimestamp(metav1.Time{})
+		om.SetNamespace("default")
+	}
 }
 
 func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename string) error {
