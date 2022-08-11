@@ -66,7 +66,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			for _, def := range definitions {
 				// Skip Status types
 				// TODO: we need flags
-				if strings.Contains(def.Name().Name(), "_Status") {
+				if def.Name().IsStatus() {
 					result.Add(def)
 					continue
 				}

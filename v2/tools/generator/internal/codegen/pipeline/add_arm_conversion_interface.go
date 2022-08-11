@@ -8,8 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"strings"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
@@ -97,7 +95,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinit
 		_, ok := astmodel.AsObjectType(def.Type())
 		// TODO: We need labels
 		// Some status types are initially anonymous and then get named later (so end with a _Status_Xyz suffix)
-		return ok && strings.Contains(def.Name().Name(), "_Status") && !astmodel.ARMFlag.IsOn(def.Type())
+		return ok && def.Name().IsStatus() && !astmodel.ARMFlag.IsOn(def.Type())
 	})
 
 	for _, td := range statusDefs {
