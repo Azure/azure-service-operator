@@ -40,6 +40,11 @@ var randomNameExclusions = []string{
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
+
+	if *isLive {
+		t.Skip("skipping test in live mode")
+	}
+
 	g := NewGomegaWithT(t)
 
 	regex, err := regexp.Compile("^v1(alpha|beta)[a-z0-9]*$")
