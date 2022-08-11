@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
 // TODO: I think we will want to pull some of this back into the Generic Controller so that it happens
@@ -124,7 +125,8 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 		return err
 	}
 
-	err = r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, log, typedObj)
+	claimer := extensions.CreateClaimer(r.Extension, r.ARMOwnedResourceReconcilerCommon.ClaimResource)
+	err = claimer(ctx, log, typedObj)
 	if err != nil {
 		return err
 	}
