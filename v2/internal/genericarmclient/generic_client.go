@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
@@ -43,15 +44,23 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(endpoint string, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
-	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID, metrics)
+func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+	return NewGenericClientFromHTTPClient(cloudCfg, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
+	if !ok {
+		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
+	}
+	if rmConfig.Endpoint == "" {
+		return nil, errors.New("provided cloud missing resourceManager.Endpoint entry")
+	}
 
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
+			Cloud: cloudCfg,
 			Retry: policy.RetryOptions{
 				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
@@ -73,7 +82,7 @@ func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredentia
 	}
 
 	return &GenericClient{
-		endpoint:       endpoint,
+		endpoint:       rmConfig.Endpoint,
 		pl:             pipeline,
 		creds:          creds,
 		subscriptionID: subscriptionID,

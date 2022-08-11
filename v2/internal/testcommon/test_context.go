@@ -20,7 +20,6 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -30,6 +29,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 )
@@ -89,7 +89,7 @@ func NewTestContext(
 	}
 }
 
-func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
+func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
@@ -105,11 +105,11 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	httpClient := &http.Client{
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
+
 	var armClient *genericarmclient.GenericClient
-	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, azureIDs.subscriptionID, metrics.NewARMClientMetrics())
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), creds, httpClient, azureIDs.subscriptionID, metrics.NewARMClientMetrics())
 	if err != nil {
-		logger.Error(err, "failed to get new generic client")
-		t.Fail()
+		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}
 
 	t.Cleanup(func() {
