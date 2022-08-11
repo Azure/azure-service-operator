@@ -201,7 +201,10 @@ The samples are located in the [samples directory](https://github.com/Azure/azur
 
 ## Run test for added sample and commit the recording
 The added new sample needs to be tested and recorded. To perform that, follow the steps below:
-1. Check if recording for the `Test_<GROUP>_<VERSION_PREFIX>_CreationAndDeletion.yaml` exists in the [recordings directory](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/recordings/Test_Samples_CreationAndDeletion) already. For example,  If we're adding sample for NetworkSecurityGroup resource, we need look at `Test_Network_v1beta_CreationAndDeletion.yaml`
+1. If a recording for the test already exists, delete it.  
+   Look in the [recordings directory](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/recordings/Test_Samples_CreationAndDeletion) for a file with the same name as your new test.  
+   Typically these are named `Test_<GROUP>_<VERSION_PREFIX>_CreationAndDeletion.yaml`.
+   For example,  If we're adding sample for NetworkSecurityGroup resource, check for `Test_Network_v1beta_CreationAndDeletion.yaml`
 2. if recording exists, delete it. Else move to next step
 3. run `TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest` to re-record the test.
 
