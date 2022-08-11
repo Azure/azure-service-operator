@@ -31,7 +31,7 @@ type FakeResourceList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
@@ -58,9 +58,9 @@ type FakeResourceParameters struct {
 type Color string
 
 const (
-	ColorBlue  = Color("blue")
-	ColorGreen = Color("green")
-	ColorRed   = Color("red")
+	Color_Blue  = Color("blue")
+	Color_Green = Color("green")
+	Color_Red   = Color("red")
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
