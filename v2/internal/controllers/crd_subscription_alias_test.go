@@ -31,6 +31,10 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 		t.Fatalf("%q enviornment variable must be set", testcommon.TestBillingIDVar)
 	}
 
+	if *isLive == true {
+		t.Skip("Can't run in live mode as our tenant doesn't support subscription creation")
+	}
+
 	// TODO: Once ManagedIdentity is registered in our sub, we can use this instead of the hardcoded identity below
 	// TODO: There's an issue registering it right now though so for now using a hardcoded identity
 	//rg := tc.CreateTestResourceGroupAndWait()

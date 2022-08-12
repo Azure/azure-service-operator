@@ -45,9 +45,11 @@ func (extension *AliasExtension) Delete(ctx context.Context, resolver *resolver.
 		return ctrl.Result{}, errors.Wrapf(err, "failed to create new workspaceClient")
 	}
 
-	// Don't need to do anything with the response here so just ignore it
+	// Don't need to do anything with the response here so just ignore it.
+	// Note that this operation is not asynchronous. It completes synchronously.
 	_, err = subscriptionClient.Cancel(ctx, subscriptionID, nil)
 	if err != nil {
+		// TODO: May need to set condition error here
 		return ctrl.Result{}, errors.Wrapf(err, "failed to cancel subscription %q", subscriptionID)
 	}
 

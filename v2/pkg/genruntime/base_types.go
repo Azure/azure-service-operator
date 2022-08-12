@@ -35,7 +35,9 @@ const (
 	// to be owned by a different resource ID than it would normally. This is primarily used for
 	// resources like SubscriptionAlias + Subscription, where the create API doesn't use the same
 	// ResourceID as needed by child resources of the subscription.
-	// When present, this takes precedent over
+	// When present, this takes precedent over the resources AzureName() and Type.
+	// TODO: Currently this annotation can only be used on the root resource in a resource hierarchy.
+	// TODO: For example if A owns B owns C, this annotation can be used on A but not on B or C.
 	ChildResourceIDOverrideAnnotation = "serviceoperator.azure.com/child-resource-id-override"
 )
 
