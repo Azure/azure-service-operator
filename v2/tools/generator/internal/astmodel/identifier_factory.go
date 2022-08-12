@@ -269,7 +269,9 @@ func transformToSnakeCase(input string) string {
 	// my kingdom for LINQ
 	lowerWords := make([]string, 0, len(words))
 	for _, word := range words {
-		lowerWords = append(lowerWords, strings.ToLower(word))
+		if len(word) > 0 {
+			lowerWords = append(lowerWords, strings.ToLower(word))
+		}
 	}
 
 	return strings.Join(lowerWords, "_")
