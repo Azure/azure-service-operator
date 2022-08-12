@@ -97,7 +97,6 @@ func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
 }
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
-	//t.Skip("needs some work to pass consistently in recording mode")
 	t.Parallel()
 	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
