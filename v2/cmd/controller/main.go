@@ -10,7 +10,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
@@ -90,7 +89,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient, err := genericarmclient.NewGenericClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, cfg.SubscriptionID, armMetrics)
+	armClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)

@@ -147,7 +147,7 @@ func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, 
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
 
-	perTestContext, err := ctx.TestContext.ForTest(t)
+	perTestContext, err := ctx.TestContext.ForTest(t, cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
