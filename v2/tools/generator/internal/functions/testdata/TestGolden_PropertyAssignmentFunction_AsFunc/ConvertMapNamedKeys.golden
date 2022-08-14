@@ -12,8 +12,8 @@ type Person struct {
 	Keys map[string]Release `json:"keys,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// Keys
 	if source.Keys != nil {
@@ -22,9 +22,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 			// Shadow the loop variable to avoid aliasing
 			keyValue := keyValue
 			var keyLocal Release
-			err := keyLocal.AssignPropertiesFromRelease(&keyValue)
+			err := keyLocal.AssignProperties_From_Release(&keyValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Keys")
+				return errors.Wrap(err, "calling AssignProperties_From_Release() to populate field Keys")
 			}
 			keyMap[key] = keyLocal
 		}
@@ -37,8 +37,8 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// Keys
 	if person.Keys != nil {
@@ -47,9 +47,9 @@ func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error 
 			// Shadow the loop variable to avoid aliasing
 			keyValue := keyValue
 			var keyLocal vnext.Release
-			err := keyValue.AssignPropertiesToRelease(&keyLocal)
+			err := keyValue.AssignProperties_To_Release(&keyLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Keys")
+				return errors.Wrap(err, "calling AssignProperties_To_Release() to populate field Keys")
 			}
 			keyMap[key] = keyLocal
 		}
