@@ -287,7 +287,9 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 		// Hide the tenant ID
 		hideCassetteString(i, azureIDs.tenantID, uuid.Nil.String())
 		// Hide the billing ID
-		hideCassetteString(i, azureIDs.billingInvoiceID, DummyBillingId)
+		if azureIDs.billingInvoiceID != "" {
+			hideCassetteString(i, azureIDs.billingInvoiceID, DummyBillingId)
+		}
 
 		// Hiding other sensitive fields
 		i.Request.Body = hideRecordingData(i.Request.Body)
@@ -298,7 +300,9 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 			for i := range values {
 				values[i] = hide(values[i], azureIDs.subscriptionID, uuid.Nil.String())
 				values[i] = hide(values[i], azureIDs.tenantID, uuid.Nil.String())
-				values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				if azureIDs.billingInvoiceID != "" {
+					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				}
 			}
 		}
 
@@ -306,7 +310,9 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 			for i := range values {
 				values[i] = hide(values[i], azureIDs.subscriptionID, uuid.Nil.String())
 				values[i] = hide(values[i], azureIDs.tenantID, uuid.Nil.String())
-				values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				if azureIDs.billingInvoiceID != "" {
+					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				}
 			}
 		}
 
