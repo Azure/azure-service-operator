@@ -142,7 +142,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table, err := report.createTable(report.kinds[svc], svc)
+		table, err := report.createTable(report.kinds[svc])
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -157,7 +157,6 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
-	group string,
 ) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
@@ -210,8 +209,9 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		sample := report.generateSampleLink(group, rsrc, samplesMap)
-		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
+		var supportedFrom string
+		sample := report.generateSampleLink(rsrc, samplesMap)
+		supportedFrom, err = report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
 		result.AddRow(
@@ -230,7 +230,7 @@ func (report *ResourceVersionsReport) createTable(
 	return result, nil
 }
 
-func (report *ResourceVersionsReport) generateSampleLink(group string, rsrc astmodel.TypeDefinition, samplesMap map[string]string) string {
+func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, samplesMap map[string]string) string {
 
 	crdVersion := rsrc.Name().PackageReference.PackageName()
 	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
