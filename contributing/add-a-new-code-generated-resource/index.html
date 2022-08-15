@@ -34,7 +34,7 @@ What resources can be code generated? Any ARM resource can be generated. There a
 What resources can be code generated? Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:
  If the resource is defined in the ARM template JSON schema, or the auto-generated ARM template JSON schema it is an ARM resource.">
 
-<meta itemprop="wordCount" content="1430">
+<meta itemprop="wordCount" content="1517">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a new code generated resource to ASO v2"/>
 <meta name="twitter:description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
@@ -497,6 +497,7 @@ What resources can be code generated? Any ARM resource can be generated. There a
     <li><a href="#write-a-crud-test-for-the-resource">Write a CRUD test for the resource</a></li>
     <li><a href="#run-the-crud-test-for-the-resource-and-commit-the-recording">Run the CRUD test for the resource and commit the recording</a></li>
     <li><a href="#add-a-new-sample">Add a new sample</a></li>
+    <li><a href="#run-test-for-added-sample-and-commit-the-recording">Run test for added sample and commit the recording</a></li>
     <li><a href="#send-a-pr">Send a PR</a></li>
   </ul>
 </nav></div>
@@ -696,6 +697,16 @@ as a template for authoring an extension for your resource.</p>
 <p>See <a href="../#running-integration-tests">the code generator README</a> for how to run recording tests.</p>
 <h2 id="add-a-new-sample">Add a new sample</h2>
 <p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
+<h2 id="run-test-for-added-sample-and-commit-the-recording">Run test for added sample and commit the recording</h2>
+<p>The added new sample needs to be tested and recorded. To perform that, follow the steps below:</p>
+<ol>
+<li>If a recording for the test already exists, delete it.<br>
+Look in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/recordings/Test_Samples_CreationAndDeletion">recordings directory</a> for a file with the same name as your new test.<br>
+Typically these are named <code>Test_&lt;GROUP&gt;_&lt;VERSION_PREFIX&gt;_CreationAndDeletion.yaml</code>.
+For example,  If we&rsquo;re adding sample for NetworkSecurityGroup resource, check for <code>Test_Network_v1beta_CreationAndDeletion.yaml</code></li>
+<li>if recording exists, delete it. Else move to next step</li>
+<li>run <code>TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest</code> to re-record the test.</li>
+</ol>
 <h2 id="send-a-pr">Send a PR</h2>
 <p>You&rsquo;re all done!</p>
 
