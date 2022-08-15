@@ -56,8 +56,14 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 		test.CreateSpec(test.Pkg2021, "Address"),
 		test.CreateStatus(test.Pkg2021, "Address"))
 
+	batch2021 := test.CreateResource(
+		test.BatchPkgBeta2021,
+		"BatchAccount",
+		test.CreateSpec(test.BatchPkgBeta2021, "BatchAccount"),
+		test.CreateStatus(test.BatchPkgBeta2021, "BatchAccount"))
+
 	defs := make(astmodel.TypeDefinitionSet)
-	defs.AddAll(person2020, address2020, person2021, address2021)
+	defs.AddAll(person2020, address2020, person2021, address2021, batch2021)
 
 	// utility function used to configure a which ASO version from which a resource was supported
 	supportedFrom := func(from string) func(tc *config.TypeConfiguration) error {
@@ -69,8 +75,6 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 
 	cfg := config.NewConfiguration()
 	cfg.RootURL = "https://github.com/Azure/azure-service-operator/tree/main/v2"
-	// TODO: As these are the test resources, SampleLink would not render in the test as we're not constructing just a link anymore.
-	// TODO: We walk through the samples directory to look for actual present sample and then generate a link for them.
 	cfg.SamplesPath = "../../../../../config/samples"
 
 	omc := cfg.ObjectModelConfiguration
@@ -78,6 +82,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	g.Expect(omc.ModifyType(address2020.Name(), supportedFrom("beta.0"))).To(Succeed())
 	g.Expect(omc.ModifyType(person2021.Name(), supportedFrom("beta.2"))).To(Succeed())
 	g.Expect(omc.ModifyType(address2021.Name(), supportedFrom("beta.2"))).To(Succeed())
+	g.Expect(omc.ModifyType(batch2021.Name(), supportedFrom("beta.2"))).To(Succeed())
 
 	srr := cfg.SupportedResourcesReport
 	srr.Introduction = "These are the resources with Azure Service Operator support."

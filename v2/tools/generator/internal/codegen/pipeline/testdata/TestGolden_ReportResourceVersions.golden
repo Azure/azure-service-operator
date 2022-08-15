@@ -4,6 +4,12 @@ title: Supported Resources
 
 These are the resources with Azure Service Operator support.
 
+## Batch
+
+| Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                                 |
+|--------------|----------------|----------------|----------------|----------------------------------------------------------------------------------------|
+| BatchAccount | v1beta20210101 | v1beta20210101 | beta.2         | [View](https:/github.com/config/samples/batch/v1beta/v1beta20210101_batchaccount.yaml) |
+
 ## Person
 
 | Resource | ARM Version | CRD Version | Supported From | Sample |
