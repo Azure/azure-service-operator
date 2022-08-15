@@ -66,37 +66,37 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"samplepublicip","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"}}'
+    body: '{"location":"westcentralus","name":"samplevnet","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "129"
+      - "114"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
-      \ \"etag\": \"W/\\\"75c81ebf-a9f9-4602-9e45-5863d6eef2c2\\\"\",\r\n  \"location\":
-      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"7cc6f162-3593-4d91-82a4-29418ffd6a34\",\r\n    \"publicIPAddressVersion\":
-      \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
-      4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
-      \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
+    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
+      \ \"etag\": \"W/\\\"94f4892a-6f8d-4b69-8634-3e72b94ea7f6\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
+      \"2e16e1e8-9f98-4d12-b634-69d88f50b8e7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
+      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
       \ }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/29cd18c1-6652-4b67-bf45-1639ff9bced6?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/faa8c6a9-e4f4-4cf3-b89b-b4cd6b95245e?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "652"
+      - "622"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -104,7 +104,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "1"
+      - "3"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
@@ -131,13 +131,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"samplensg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg\",\r\n
-      \ \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westcentralus\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"6685ec81-0047-42cb-94a8-09e009bcecbd\",\r\n    \"securityRules\": [],\r\n
+      \"aa654989-b90d-4f21-a526-77188b2e1cfb\",\r\n    \"securityRules\": [],\r\n
       \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
@@ -149,7 +149,7 @@ interactions:
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
@@ -160,7 +160,7 @@ interactions:
       \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -171,7 +171,7 @@ interactions:
       [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
       []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
@@ -182,7 +182,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
@@ -193,7 +193,7 @@ interactions:
       [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
       [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
       \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"77c7cc99-cf12-45e9-af47-e40a2ecc62a8\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"68878fb6-9875-470e-857a-f5d2a8a64e43\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"description\":
       \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
@@ -207,61 +207,11 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/00b95856-280f-4551-94f7-44430bb4c8e8?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/3c61372d-b68d-4544-8bb4-20b473834860?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
       - "6566"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: '{"location":"westcentralus","name":"samplevnet","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "114"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
-    method: PUT
-  response:
-    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
-      \ \"etag\": \"W/\\\"33673683-4d5a-4abe-951c-c8fce5d6b4a4\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"b41cf657-ba6c-416d-8232-8d5018cf2b31\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
-      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
-      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
-      \ }\r\n}"
-    headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/8145d82d-292c-4990-b8b4-1cbee8c3bf5f?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "622"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -296,16 +246,16 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"sampleroutetable\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable\",\r\n
-      \ \"etag\": \"W/\\\"00b7af29-862a-4d96-b92f-d85173344b78\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"3973e835-760b-47eb-897b-570b7c2e4fb9\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westcentralus\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"d11ec8eb-d669-4ece-8387-28ef581e922c\",\r\n    \"disableBgpRoutePropagation\":
+      \"2e1529ab-34eb-4f81-b32f-8957c604f4b6\",\r\n    \"disableBgpRoutePropagation\":
       true,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/a40a69a4-3e61-4bf6-affc-3852fe8bfc9a?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/8a6a8c0c-1cb0-427f-b804-395063fdde02?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -329,611 +279,37 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/29cd18c1-6652-4b67-bf45-1639ff9bced6?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
-      \ \"etag\": \"W/\\\"3f0febf7-3835-4d44-b1c2-53d6d7f9ba52\\\"\",\r\n  \"location\":
-      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"7cc6f162-3593-4d91-82a4-29418ffd6a34\",\r\n    \"ipAddress\":
-      \"13.78.177.17\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
-      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
-      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
-      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"3f0febf7-3835-4d44-b1c2-53d6d7f9ba52"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/8145d82d-292c-4990-b8b4-1cbee8c3bf5f?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/00b95856-280f-4551-94f7-44430bb4c8e8?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/a40a69a4-3e61-4bf6-affc-3852fe8bfc9a?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplensg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg\",\r\n
-      \ \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"6685ec81-0047-42cb-94a8-09e009bcecbd\",\r\n    \"securityRules\": [],\r\n
-      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
-      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
-      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
-      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
-      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
-      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
-      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
-      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
-      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
-      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
-      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
-      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
-      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
-      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
-      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
-      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
-      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
-      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
-      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
-      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"becc578d-f73b-4c36-a645-6330afa8686d"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
-      \ \"etag\": \"W/\\\"46ba07e4-ce36-4842-b1cb-b166000fa895\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"b41cf657-ba6c-416d-8232-8d5018cf2b31\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
-      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
-      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"46ba07e4-ce36-4842-b1cb-b166000fa895"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
-      \ \"etag\": \"W/\\\"3f0febf7-3835-4d44-b1c2-53d6d7f9ba52\\\"\",\r\n  \"location\":
-      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"7cc6f162-3593-4d91-82a4-29418ffd6a34\",\r\n    \"ipAddress\":
-      \"13.78.177.17\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
-      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
-      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
-      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"3f0febf7-3835-4d44-b1c2-53d6d7f9ba52"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"sampleroutetable\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable\",\r\n
-      \ \"etag\": \"W/\\\"dad4f76d-afbf-478f-8550-4e4fab66ee22\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"d11ec8eb-d669-4ece-8387-28ef581e922c\",\r\n    \"disableBgpRoutePropagation\":
-      true,\r\n    \"routes\": []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"dad4f76d-afbf-478f-8550-4e4fab66ee22"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"sampleroutetable\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable\",\r\n
-      \ \"etag\": \"W/\\\"dad4f76d-afbf-478f-8550-4e4fab66ee22\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"d11ec8eb-d669-4ece-8387-28ef581e922c\",\r\n    \"disableBgpRoutePropagation\":
-      true,\r\n    \"routes\": []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"dad4f76d-afbf-478f-8550-4e4fab66ee22"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
-      \ \"etag\": \"W/\\\"46ba07e4-ce36-4842-b1cb-b166000fa895\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"b41cf657-ba6c-416d-8232-8d5018cf2b31\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
-      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
-      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"46ba07e4-ce36-4842-b1cb-b166000fa895"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplensg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg\",\r\n
-      \ \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westcentralus\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"6685ec81-0047-42cb-94a8-09e009bcecbd\",\r\n    \"securityRules\": [],\r\n
-      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
-      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
-      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
-      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
-      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
-      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllInBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
-      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
-      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
-      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
-      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
-      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
-      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
-      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowInternetOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
-      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
-      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
-      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
-      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
-      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
-      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
-      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllOutBound\",\r\n
-      \       \"etag\": \"W/\\\"becc578d-f73b-4c36-a645-6330afa8686d\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
-      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
-      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
-      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
-      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
-      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
-      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
-      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"becc578d-f73b-4c36-a645-6330afa8686d"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"samplesubnet","properties":{"addressPrefix":"10.0.0.0/24"}}'
+    body: '{"location":"westcentralus","name":"samplepublicip","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "68"
+      - "129"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
-      \ \"etag\": \"W/\\\"b7042462-916b-4027-b3b2-a2f423cbd19b\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
+      \ \"etag\": \"W/\\\"242ac975-26ad-4cce-809c-cd753838c9d0\\\"\",\r\n  \"location\":
+      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
+      \   \"resourceGuid\": \"83584460-d2e9-4524-a13a-acdf537b3274\",\r\n    \"publicIPAddressVersion\":
+      \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
+      4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
+      \ }\r\n}"
     headers:
+      Azure-Asyncnotification:
+      - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/4031498c-1515-444d-859e-438a84756258?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/1920d002-f96e-4d53-bc73-99665fb12ced?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "543"
+      - "652"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -941,7 +317,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "3"
+      - "1"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
@@ -951,6 +327,666 @@ interactions:
       - nosniff
     status: 201 Created
     code: 201
+    duration: ""
+- request:
+    body: '{"location":"global","name":"aso-sample-pdz.com"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
+    method: PUT
+  response:
+    body: '{}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "2"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/faa8c6a9-e4f4-4cf3-b89b-b4cd6b95245e?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/8a6a8c0c-1cb0-427f-b804-395063fdde02?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/1920d002-f96e-4d53-bc73-99665fb12ced?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/3c61372d-b68d-4544-8bb4-20b473834860?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
+      \ \"etag\": \"W/\\\"c314926f-7354-4cd6-b7d3-bdd4d6eb988a\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"2e16e1e8-9f98-4d12-b634-69d88f50b8e7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
+      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"c314926f-7354-4cd6-b7d3-bdd4d6eb988a"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"status":"InProgress"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "23"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"sampleroutetable\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable\",\r\n
+      \ \"etag\": \"W/\\\"2c2fa894-e823-4687-b86b-594d12abc598\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"2e1529ab-34eb-4f81-b32f-8957c604f4b6\",\r\n    \"disableBgpRoutePropagation\":
+      true,\r\n    \"routes\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"2c2fa894-e823-4687-b86b-594d12abc598"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
+      \ \"etag\": \"W/\\\"975a5904-bc0f-4737-98af-fbaddb243dcc\\\"\",\r\n  \"location\":
+      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"83584460-d2e9-4524-a13a-acdf537b3274\",\r\n    \"ipAddress\":
+      \"52.161.67.64\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"975a5904-bc0f-4737-98af-fbaddb243dcc"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplensg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg\",\r\n
+      \ \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"aa654989-b90d-4f21-a526-77188b2e1cfb\",\r\n    \"securityRules\": [],\r\n
+      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
+      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
+      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
+      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
+      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowInternetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
+      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplevnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet\",\r\n
+      \ \"etag\": \"W/\\\"c314926f-7354-4cd6-b7d3-bdd4d6eb988a\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"2e16e1e8-9f98-4d12-b634-69d88f50b8e7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
+      \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"c314926f-7354-4cd6-b7d3-bdd4d6eb988a"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"sampleroutetable\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable\",\r\n
+      \ \"etag\": \"W/\\\"2c2fa894-e823-4687-b86b-594d12abc598\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"2e1529ab-34eb-4f81-b32f-8957c604f4b6\",\r\n    \"disableBgpRoutePropagation\":
+      true,\r\n    \"routes\": []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"2c2fa894-e823-4687-b86b-594d12abc598"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplepublicip\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/publicIPAddresses/samplepublicip\",\r\n
+      \ \"etag\": \"W/\\\"975a5904-bc0f-4737-98af-fbaddb243dcc\\\"\",\r\n  \"location\":
+      \"westcentralus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"83584460-d2e9-4524-a13a-acdf537b3274\",\r\n    \"ipAddress\":
+      \"52.161.67.64\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"975a5904-bc0f-4737-98af-fbaddb243dcc"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplensg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg\",\r\n
+      \ \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups\",\r\n  \"location\": \"westcentralus\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"aa654989-b90d-4f21-a526-77188b2e1cfb\",\r\n    \"securityRules\": [],\r\n
+      \   \"defaultSecurityRules\": [\r\n      {\r\n        \"name\": \"AllowVnetInBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from all VMs in VNET\",\r\n          \"protocol\": \"*\",\r\n
+      \         \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowAzureLoadBalancerInBound\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowAzureLoadBalancerInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow inbound traffic from azure load balancer\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"AzureLoadBalancer\",\r\n          \"destinationAddressPrefix\":
+      \"*\",\r\n          \"access\": \"Allow\",\r\n          \"priority\": 65001,\r\n
+      \         \"direction\": \"Inbound\",\r\n          \"sourcePortRanges\": [],\r\n
+      \         \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllInBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllInBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all inbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Inbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      },\r\n      {\r\n        \"name\": \"AllowVnetOutBound\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowVnetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to all VMs in VNET\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"VirtualNetwork\",\r\n          \"destinationAddressPrefix\":
+      \"VirtualNetwork\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65000,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"AllowInternetOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/AllowInternetOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Allow outbound traffic from all VMs to Internet\",\r\n          \"protocol\":
+      \"*\",\r\n          \"sourcePortRange\": \"*\",\r\n          \"destinationPortRange\":
+      \"*\",\r\n          \"sourceAddressPrefix\": \"*\",\r\n          \"destinationAddressPrefix\":
+      \"Internet\",\r\n          \"access\": \"Allow\",\r\n          \"priority\":
+      65001,\r\n          \"direction\": \"Outbound\",\r\n          \"sourcePortRanges\":
+      [],\r\n          \"destinationPortRanges\": [],\r\n          \"sourceAddressPrefixes\":
+      [],\r\n          \"destinationAddressPrefixes\": []\r\n        }\r\n      },\r\n
+      \     {\r\n        \"name\": \"DenyAllOutBound\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/defaultSecurityRules/DenyAllOutBound\",\r\n
+      \       \"etag\": \"W/\\\"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/networkSecurityGroups/defaultSecurityRules\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"description\":
+      \"Deny all outbound traffic\",\r\n          \"protocol\": \"*\",\r\n          \"sourcePortRange\":
+      \"*\",\r\n          \"destinationPortRange\": \"*\",\r\n          \"sourceAddressPrefix\":
+      \"*\",\r\n          \"destinationAddressPrefix\": \"*\",\r\n          \"access\":
+      \"Deny\",\r\n          \"priority\": 65500,\r\n          \"direction\": \"Outbound\",\r\n
+      \         \"sourcePortRanges\": [],\r\n          \"destinationPortRanges\":
+      [],\r\n          \"sourceAddressPrefixes\": [],\r\n          \"destinationAddressPrefixes\":
+      []\r\n        }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6d5dc3ac-2eb3-461b-9d52-7c58a2eaddaa"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"location":"westcentralus","name":"samplerule","properties":{"access":"Allow","description":"Allow
@@ -969,7 +1005,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"samplerule\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule\",\r\n
-      \ \"etag\": \"W/\\\"de2425d0-bc0f-4b94-a9f2-647a39509d37\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"b200723f-baaa-4415-b183-69090ceec2f6\\\"\",\r\n  \"type\":
       \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"description\": \"Allow
       access to source port 23-45 and destination port 45-56\",\r\n    \"protocol\":
@@ -981,7 +1017,7 @@ interactions:
       []\r\n  }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/f856bd0c-eb03-4885-98ab-7843e24752ef?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/caaaac26-e55d-407c-8092-e95196d0b887?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -994,6 +1030,52 @@ interactions:
       - no-cache
       Retry-After:
       - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"samplesubnet","properties":{"addressPrefix":"10.0.0.0/24"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "68"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
+      \ \"etag\": \"W/\\\"efedafd0-43ee-4aad-bc28-ec647b90c32b\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/2b51cf95-2ef5-42a2-9d3b-910f9e668df7?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "543"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
@@ -1020,13 +1102,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"sampleroute\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute\",\r\n
-      \ \"etag\": \"W/\\\"1d22c44c-fe5d-400b-8836-32218b5d4230\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"2e223686-ee76-4baa-a0c9-9c8320babd4c\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/4023f96d-6dea-4f59-9b89-8b51ecb90da5?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/870e7f12-3c25-40ad-b27b-6924225ebcfa?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1050,6 +1132,218 @@ interactions:
     code: 201
     duration: ""
 - request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/caaaac26-e55d-407c-8092-e95196d0b887?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/2b51cf95-2ef5-42a2-9d3b-910f9e668df7?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/870e7f12-3c25-40ad-b27b-6924225ebcfa?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplerule\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule\",\r\n
+      \ \"etag\": \"W/\\\"46200b20-8f63-46aa-87dc-48ef43543f83\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"Allow
+      access to source port 23-45 and destination port 45-56\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"46200b20-8f63-46aa-87dc-48ef43543f83"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
+      \ \"etag\": \"W/\\\"f51a24bd-00be-4303-95ec-2170a3e7f61f\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"f51a24bd-00be-4303-95ec-2170a3e7f61f"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"sampleroute\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute\",\r\n
+      \ \"etag\": \"W/\\\"8501489c-b538-4791-8edb-4e4c71f16a5c\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
+      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
+      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"8501489c-b538-4791-8edb-4e4c71f16a5c"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
     body: '{"location":"westcentralus","name":"samplenic","properties":{"ipConfigurations":[{"name":"ipconfig1","properties":{"privateIPAllocationMethod":"Dynamic","subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet"}}}]}}'
     form: {}
     headers:
@@ -1065,11 +1359,11 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"samplenic\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic\",\r\n
-      \ \"etag\": \"W/\\\"177f38b0-de4e-472f-b2c3-bdff13c63aa3\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"88cc4c8e-500a-4c09-bb9b-051ef9e86176\",\r\n
+      \ \"etag\": \"W/\\\"575e08cb-aaab-4d85-acf4-3c626ec71478\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8975e1c0-b810-4555-b64f-9c3e6d895d47\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"name\": \"ipconfig1\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\",\r\n
-      \       \"etag\": \"W/\\\"177f38b0-de4e-472f-b2c3-bdff13c63aa3\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"575e08cb-aaab-4d85-acf4-3c626ec71478\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkInterfaces/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -1077,7 +1371,7 @@ interactions:
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"dnsSettings\": {\r\n      \"dnsServers\":
       [],\r\n      \"appliedDnsServers\": [],\r\n      \"internalDomainNameSuffix\":
-      \"k51bzndmxjwudarsrvibrtzlgb.yx.internal.cloudapp.net\"\r\n    },\r\n    \"vnetEncryptionSupported\":
+      \"3dqrmluyt2je1nrunhmi4ufy2h.yx.internal.cloudapp.net\"\r\n    },\r\n    \"vnetEncryptionSupported\":
       false,\r\n    \"enableIPForwarding\": false,\r\n    \"hostedWorkloads\": [],\r\n
       \   \"tapConfigurations\": [],\r\n    \"nicType\": \"Standard\"\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/networkInterfaces\",\r\n  \"location\": \"westcentralus\"\r\n}"
@@ -1085,7 +1379,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/eba2fd57-7809-4832-b8de-c8a87ef13ee9?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/7c0abccf-69e9-4e38-b0ac-78aef361218b?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1113,16 +1407,141 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplerule\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule\",\r\n
+      \ \"etag\": \"W/\\\"46200b20-8f63-46aa-87dc-48ef43543f83\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"Allow
+      access to source port 23-45 and destination port 45-56\",\r\n    \"protocol\":
+      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
+      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
+      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
+      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
+      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
+      []\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"46200b20-8f63-46aa-87dc-48ef43543f83"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
+      \ \"etag\": \"W/\\\"f51a24bd-00be-4303-95ec-2170a3e7f61f\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"f51a24bd-00be-4303-95ec-2170a3e7f61f"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"sampleroute\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute\",\r\n
+      \ \"etag\": \"W/\\\"8501489c-b538-4791-8edb-4e4c71f16a5c\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
+      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
+      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"8501489c-b538-4791-8edb-4e4c71f16a5c"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"samplenic\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic\",\r\n
-      \ \"etag\": \"W/\\\"177f38b0-de4e-472f-b2c3-bdff13c63aa3\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"88cc4c8e-500a-4c09-bb9b-051ef9e86176\",\r\n
+      \ \"etag\": \"W/\\\"575e08cb-aaab-4d85-acf4-3c626ec71478\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8975e1c0-b810-4555-b64f-9c3e6d895d47\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"name\": \"ipconfig1\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\",\r\n
-      \       \"etag\": \"W/\\\"177f38b0-de4e-472f-b2c3-bdff13c63aa3\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"575e08cb-aaab-4d85-acf4-3c626ec71478\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkInterfaces/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -1130,7 +1549,7 @@ interactions:
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"dnsSettings\": {\r\n      \"dnsServers\":
       [],\r\n      \"appliedDnsServers\": [],\r\n      \"internalDomainNameSuffix\":
-      \"k51bzndmxjwudarsrvibrtzlgb.yx.internal.cloudapp.net\"\r\n    },\r\n    \"vnetEncryptionSupported\":
+      \"3dqrmluyt2je1nrunhmi4ufy2h.yx.internal.cloudapp.net\"\r\n    },\r\n    \"vnetEncryptionSupported\":
       false,\r\n    \"enableIPForwarding\": false,\r\n    \"hostedWorkloads\": [],\r\n
       \   \"tapConfigurations\": [],\r\n    \"nicType\": \"Standard\"\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/networkInterfaces\",\r\n  \"location\": \"westcentralus\"\r\n}"
@@ -1140,7 +1559,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"177f38b0-de4e-472f-b2c3-bdff13c63aa3"
+      - W/"575e08cb-aaab-4d85-acf4-3c626ec71478"
       Expires:
       - "-1"
       Pragma:
@@ -1162,29 +1581,30 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/4031498c-1515-444d-859e-438a84756258?api-version=2020-11-01
+      - "1"
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs3OWM0YWYzMC01ZjY2LTRhYzAtODgyYi02M2RmMDJhNGMyNmY=?api-version=2018-09-01
     method: GET
   response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    body: '{"status":"Succeeded"}'
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
       Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
+      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
     status: 200 OK
     code: 200
     duration: ""
@@ -1194,178 +1614,31 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/f856bd0c-eb03-4885-98ab-7843e24752ef?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
     method: GET
   response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-anvzzc\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"414f3a85-40d0-47a9-b2c3-d9f008f8606e","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westcentralus/operations/4023f96d-6dea-4f59-9b89-8b51ecb90da5?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
-      \ \"etag\": \"W/\\\"e50143e8-c2bb-447a-a157-afa65026dc59\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
+      - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"e50143e8-c2bb-447a-a157-afa65026dc59"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
+      - 414f3a85-40d0-47a9-b2c3-d9f008f8606e
       Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
+      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplerule\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule\",\r\n
-      \ \"etag\": \"W/\\\"8ca591be-7153-40d8-8393-212a38b43832\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"Allow
-      access to source port 23-45 and destination port 45-56\",\r\n    \"protocol\":
-      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
-      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
-      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
-      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
-      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
-      []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"8ca591be-7153-40d8-8393-212a38b43832"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"sampleroute\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute\",\r\n
-      \ \"etag\": \"W/\\\"353a2d49-d25b-4079-8efe-5db762561e47\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
-      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
-      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"353a2d49-d25b-4079-8efe-5db762561e47"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
     status: 200 OK
     code: 200
     duration: ""
@@ -1377,120 +1650,31 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"samplerule\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkSecurityGroups/samplensg/securityRules/samplerule\",\r\n
-      \ \"etag\": \"W/\\\"8ca591be-7153-40d8-8393-212a38b43832\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/networkSecurityGroups/securityRules\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"description\": \"Allow
-      access to source port 23-45 and destination port 45-56\",\r\n    \"protocol\":
-      \"Tcp\",\r\n    \"sourcePortRange\": \"23-45\",\r\n    \"destinationPortRange\":
-      \"46-56\",\r\n    \"sourceAddressPrefix\": \"*\",\r\n    \"destinationAddressPrefix\":
-      \"*\",\r\n    \"access\": \"Allow\",\r\n    \"priority\": 123,\r\n    \"direction\":
-      \"Inbound\",\r\n    \"sourcePortRanges\": [],\r\n    \"destinationPortRanges\":
-      [],\r\n    \"sourceAddressPrefixes\": [],\r\n    \"destinationAddressPrefixes\":
-      []\r\n  }\r\n}"
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-anvzzc\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"414f3a85-40d0-47a9-b2c3-d9f008f8606e","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"8ca591be-7153-40d8-8393-212a38b43832"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
+      - 414f3a85-40d0-47a9-b2c3-d9f008f8606e
       Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
+      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"sampleroute\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/routeTables/sampleroutetable/routes/sampleroute\",\r\n
-      \ \"etag\": \"W/\\\"353a2d49-d25b-4079-8efe-5db762561e47\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
-      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
-      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"353a2d49-d25b-4079-8efe-5db762561e47"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplesubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/virtualNetworks/samplevnet/subnets/samplesubnet\",\r\n
-      \ \"etag\": \"W/\\\"e50143e8-c2bb-447a-a157-afa65026dc59\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-anvzzc/providers/Microsoft.Network/networkInterfaces/samplenic/ipConfigurations/ipconfig1\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"e50143e8-c2bb-447a-a157-afa65026dc59"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
     status: 200 OK
     code: 200
     duration: ""

@@ -51,7 +51,7 @@ type Configuration struct {
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
 	// RootURL is the root URL for ASOv2 repo, paths are appended to this to generate resource links.
-	RootURL string `yaml:"baseUrl"`
+	RootURL string `yaml:"rootUrl"`
 	// SamplesPath is the Path the samples are accessible at. This is used to walk through the samples directory and generate sample links.
 	SamplesPath string `yaml:"samplesPath"`
 	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.

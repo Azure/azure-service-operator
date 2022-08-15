@@ -68,6 +68,10 @@ typeFilters:
   - action: prune
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+  - action: include
+    group: network
+    version: v*2018*
+    name: private*
   - action: prune
     group: network
     version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
@@ -287,6 +291,12 @@ typeTransformers:
   - group: eventgrid
     version: "*"
     name: Topics_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
+  - group: network
+    version: "*"
+    name: PrivateDnsZones_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
@@ -1171,6 +1181,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
   network:
+    2018-09-01:
+      PrivateDnsZone:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
     2020-11-01:
       LoadBalancer:
         $export: true
