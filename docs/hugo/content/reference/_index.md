@@ -279,3 +279,9 @@ grouped by the originating ARM service.
 | StorageAccountsQueueServicesQueue    | 2021-04-01  | v1beta20210401      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsqueueservicesqueue.yaml)         |
 | StorageAccountsQueueServicesQueue    | 2021-04-01  | v1alpha1api20210401 | v2.0.0-alpha.5 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml)    |
 
+## Subscription
+
+| Resource | ARM Version | CRD Version    | Supported From | Sample                                                                                                                     |
+|----------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
+| Alias    | 2021-10-01  | v1beta20211001 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/subscription/v1beta20211001_alias.yaml) |
+

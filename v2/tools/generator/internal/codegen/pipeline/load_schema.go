@@ -141,32 +141,38 @@ func LoadSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
 	schemaLoader schemaLoader) *Stage {
-	source := configuration.SchemaURL
 
 	return NewLegacyStage(
 		LoadSchemaIntoTypesStageID,
 		"Load and walk schema",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			klog.V(0).Infof("Loading JSON schema %q", source)
+			result := make(astmodel.TypeDefinitionSet)
 
-			schema, err := schemaLoader(ctx, configuration.SchemaURLRewrite, source)
-			if err != nil {
-				return nil, err
-			}
+			for _, source := range configuration.SchemaURLs {
+				klog.V(0).Infof("Loading JSON schema %q", source)
 
-			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
+				schema, err := schemaLoader(ctx, configuration.SchemaURLRewrite, source)
+				if err != nil {
+					return nil, err
+				}
 
-			klog.V(0).Infof("Walking deployment template")
+				scanner := jsonast.NewSchemaScanner(idFactory, configuration)
 
-			schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
-			defs, err := scanner.GenerateDefinitionsFromDeploymentTemplate(ctx, schemaAbstraction)
-			if err != nil {
-				return nil, errors.Wrapf(err, "failed to walk JSON schema")
+				klog.V(0).Infof("Walking deployment template")
+
+				schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
+				defs, err := scanner.GenerateDefinitionsFromDeploymentTemplate(ctx, schemaAbstraction)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to walk JSON schema")
+				}
+
+				// Have to use OverlayWith because some types are defined in multiple specs
+				result = result.OverlayWith(defs)
 			}
 
 			// Ensure that the type filters/transformers that are applied during schema graph walking
 			// are checked for errors before proceeding. These are the TypeTransformers and TypeFilters
-			err = configuration.GetTypeFiltersError()
+			err := configuration.GetTypeFiltersError()
 			if err != nil {
 				return nil, err
 			}
@@ -175,6 +181,6 @@ func LoadSchemaIntoTypes(
 				return nil, err
 			}
 
-			return defs, nil
+			return result, nil
 		})
 }

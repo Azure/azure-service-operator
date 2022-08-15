@@ -33,3 +33,12 @@ func GetResourceIDOrDefault(obj ARMMetaObject) string {
 func SetResourceID(obj ARMMetaObject, id string) {
 	AddAnnotation(obj, ResourceIDAnnotation, id)
 }
+
+func SetChildResourceIDOverride(obj ARMMetaObject, id string) {
+	AddAnnotation(obj, ChildResourceIDOverrideAnnotation, id)
+}
+
+func GetChildResourceIDOverride(obj ARMMetaObject) (string, bool) {
+	result, ok := obj.GetAnnotations()[ChildResourceIDOverrideAnnotation]
+	return result, ok
+}
