@@ -11,8 +11,10 @@ typesOutputPath: api
 # containing the mod file above.
 typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 
-# samplesUrl is the base URL used for linking to samples when we generate a list of supported resources
-samplesUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples
+# rootUrl is the root URL for ASOv2 repo
+rootUrl: https://github.com/Azure/azure-service-operator/tree/main/v2
+# samplesPath is the base Path used for walking through to samples when we generate a list of supported resources
+samplesPath: config/samples
 
 # emitDocFiles bool is used as a signal to create doc.go files for packages
 emitDocFiles: true
