@@ -8,8 +8,10 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -48,7 +50,8 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 type ResourceVersionsReport struct {
 	reportConfiguration      *config.SupportedResourcesReport
 	objectModelConfiguration *config.ObjectModelConfiguration
-	samplesUrl               string
+	rootUrl                  string
+	samplesPath              string
 	groups                   set.Set[string]                       // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	frontMatter              string                                // Front matter to be inserted at the top of the report
@@ -63,7 +66,8 @@ func NewResourceVersionsReport(
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
-		samplesUrl:               cfg.SamplesURL,
+		rootUrl:                  cfg.RootURL,
+		samplesPath:              cfg.SamplesPath,
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
@@ -138,7 +142,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table, err := report.createTable(report.kinds[svc], svc, report.samplesUrl)
+		table, err := report.createTable(report.kinds[svc], svc)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -154,7 +158,6 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
 	group string,
-	samplesURL string,
 ) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
@@ -183,6 +186,20 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
+	samplesMap := make(map[string]string)
+	err := filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
+		if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
+			sampleLink := filepath.Join(report.rootUrl, filePath)
+			sampleFile := filepath.Base(filePath)
+			samplesMap[sampleFile] = sampleLink
+		}
+
+		return nil
+	})
+	if err != nil {
+		return nil, errors.Wrap(err, "walking through samples dir")
+	}
+
 	errs := make([]error, 0, len(toIterate))
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
@@ -193,7 +210,7 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		sample := report.generateSampleLink(samplesURL, group, rsrc)
+		sample := report.generateSampleLink(group, rsrc, samplesMap)
 		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
@@ -205,7 +222,7 @@ func (report *ResourceVersionsReport) createTable(
 			sample)
 	}
 
-	err := kerrors.NewAggregate(errs)
+	err = kerrors.NewAggregate(errs)
 	if err != nil {
 		return nil, errors.Wrap(err, "generating versions report")
 	}
@@ -213,20 +230,14 @@ func (report *ResourceVersionsReport) createTable(
 	return result, nil
 }
 
-func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
-	var versionPrefix string
+func (report *ResourceVersionsReport) generateSampleLink(group string, rsrc astmodel.TypeDefinition, samplesMap map[string]string) string {
+
 	crdVersion := rsrc.Name().PackageReference.PackageName()
+	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
+	sampleLink, ok := samplesMap[key]
 
-	if strings.Contains(crdVersion, v1alpha1apiVersionPrefix) {
-		versionPrefix = v1alpha1apiVersionPrefix
-	} else {
-		versionPrefix = v1betaVersionPrefix
-	}
-
-	if samplesURL != "" {
-		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-		samplePath := fmt.Sprintf("%s/%s/%s/%s_%s.yaml", samplesURL, group, versionPrefix, crdVersion, strings.ToLower(rsrc.Name().Name()))
-		return fmt.Sprintf("[View](%s)", samplePath)
+	if report.rootUrl != "" && ok {
+		return fmt.Sprintf("[View](%s)", sampleLink)
 	}
 
 	return "-"
