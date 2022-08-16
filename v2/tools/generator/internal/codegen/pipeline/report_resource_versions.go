@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"path/filepath"
 	"sort"
@@ -185,10 +186,16 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
+	parsedRootURL, err := url.Parse(report.rootUrl)
+	if err != nil {
+		return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
+	}
 	samplesMap := make(map[string]string)
-	err := filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
+	err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
 		if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
-			sampleLink := filepath.Join(report.rootUrl, filePath)
+			filePath = filepath.ToSlash(filePath)
+			filePathURL := url.URL{Path: filePath}
+			sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
 			sampleFile := filepath.Base(filePath)
 			samplesMap[sampleFile] = sampleLink
 		}
@@ -196,7 +203,7 @@ func (report *ResourceVersionsReport) createTable(
 		return nil
 	})
 	if err != nil {
-		return nil, errors.Wrap(err, "walking through samples dir")
+		return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
 	}
 
 	errs := make([]error, 0, len(toIterate))
@@ -237,6 +244,7 @@ func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefin
 	sampleLink, ok := samplesMap[key]
 
 	if report.rootUrl != "" && ok {
+		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
 		return fmt.Sprintf("[View](%s)", sampleLink)
 	}
 
