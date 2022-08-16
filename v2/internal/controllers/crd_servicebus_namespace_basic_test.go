@@ -23,7 +23,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	zoneRedundant := false
-	sku := servicebus.SBSkuName_Basic
+	sku := servicebus.SBSku_Name_Basic
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbnamespace")),
 		Spec: servicebus.Namespaces_Spec{
@@ -62,9 +62,8 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebus.NamespacesQueues_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbNamespace),
+		Spec: servicebus.Namespaces_Queues_Spec{
+			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
 

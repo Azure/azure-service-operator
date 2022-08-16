@@ -30,8 +30,8 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
-	sku := network.PublicIPAddressSkuName_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static
+	sku := network.PublicIPAddressSku_Name_Standard
+	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
@@ -50,10 +50,10 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(publicIPAddress)
 
 	// LoadBalancer
-	loadBalancerSku := network.LoadBalancerSkuName_Standard
+	loadBalancerSku := network.LoadBalancerSku_Name_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormatProtocol_Tcp
+	protocol := network.InboundNatPoolPropertiesFormat_Protocol_Tcp
 
 	// TODO: This is still really awkward
 	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(

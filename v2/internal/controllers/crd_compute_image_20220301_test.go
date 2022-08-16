@@ -26,7 +26,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
-	createOption := compute2020.CreationDataCreateOption_Empty
+	createOption := compute2020.CreationData_CreateOption_Empty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute2020.Snapshots_Spec{
@@ -44,9 +44,9 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	snapshotARMId := *snapshot.Status.Id
 
 	tc.LogSection("Create Image")
-	v2 := compute2022.ImagePropertiesHyperVGeneration_V2
-	linuxOS := compute2022.ImageOSDiskOsType_Linux
-	linuxOSState := compute2022.ImageOSDiskOsState_Generalized
+	v2 := compute2022.ImageProperties_HyperVGeneration_V2
+	linuxOS := compute2022.ImageOSDisk_OsType_Linux
+	linuxOSState := compute2022.ImageOSDisk_OsState_Generalized
 	image := &compute2022.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
 		Spec: compute2022.Images_Spec{
