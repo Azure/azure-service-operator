@@ -43,8 +43,16 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		// Case insensitive sort
-		return strings.ToLower(definitions[i].Name().name) < strings.ToLower(definitions[j].Name().name)
+		// Case insensitive sort, ignoring underscores
+		// TODO: Remove underscore sensitivity after we merge Swagger changes (@unrepentantgeek)
+
+		iName := definitions[i].Name().name
+		jName := definitions[j].Name().name
+
+		iKey := strings.ToLower(iName)
+		jKey := strings.ToLower(jName)
+
+		return iKey < jKey
 	})
 
 	// TODO: check that all definitions are from same package
