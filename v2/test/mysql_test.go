@@ -419,12 +419,12 @@ func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
 	location := to.StringPtr("West US")
 
-	version := mysql.ServerPropertiesVersion_8021
+	version := mysql.ServerProperties_Version_8021
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,
 	}
-	tier := mysql.SkuTier_GeneralPurpose
+	tier := mysql.Sku_Tier_GeneralPurpose
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
