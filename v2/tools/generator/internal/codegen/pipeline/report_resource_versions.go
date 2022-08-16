@@ -186,24 +186,26 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
-	parsedRootURL, err := url.Parse(report.rootUrl)
-	if err != nil {
-		return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
-	}
 	samplesMap := make(map[string]string)
-	err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
-		if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
-			filePath = filepath.ToSlash(filePath)
-			filePathURL := url.URL{Path: filePath}
-			sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
-			sampleFile := filepath.Base(filePath)
-			samplesMap[sampleFile] = sampleLink
+	if report.rootUrl != "" {
+		parsedRootURL, err := url.Parse(report.rootUrl)
+		if err != nil {
+			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
 		}
+		err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
+			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
+				filePath = filepath.ToSlash(filePath)
+				filePathURL := url.URL{Path: filePath}
+				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
+				sampleFile := filepath.Base(filePath)
+				samplesMap[sampleFile] = sampleLink
+			}
 
-		return nil
-	})
-	if err != nil {
-		return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
+			return nil
+		})
+		if err != nil {
+			return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
+		}
 	}
 
 	errs := make([]error, 0, len(toIterate))
@@ -216,9 +218,8 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		var supportedFrom string
 		sample := report.generateSampleLink(rsrc, samplesMap)
-		supportedFrom, err = report.generateSupportedFrom(rsrc.Name())
+		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
 		result.AddRow(
@@ -229,7 +230,7 @@ func (report *ResourceVersionsReport) createTable(
 			sample)
 	}
 
-	err = kerrors.NewAggregate(errs)
+	err := kerrors.NewAggregate(errs)
 	if err != nil {
 		return nil, errors.Wrap(err, "generating versions report")
 	}
@@ -238,12 +239,11 @@ func (report *ResourceVersionsReport) createTable(
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, samplesMap map[string]string) string {
-
 	crdVersion := rsrc.Name().PackageReference.PackageName()
 	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
 	sampleLink, ok := samplesMap[key]
 
-	if report.rootUrl != "" && ok {
+	if ok {
 		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
 		return fmt.Sprintf("[View](%s)", sampleLink)
 	}
