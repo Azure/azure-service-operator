@@ -222,7 +222,7 @@ func (in *WebTestPropertiesARM) DeepCopyInto(out *WebTestPropertiesARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestPropertiesKind)
+		*out = new(WebTestProperties_Kind)
 		**out = **in
 	}
 	if in.Locations != nil {
@@ -573,7 +573,7 @@ func (in *WebTestProperties_STATUSARM) DeepCopyInto(out *WebTestProperties_STATU
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestPropertiesSTATUSKind)
+		*out = new(WebTestProperties_STATUS_Kind)
 		**out = **in
 	}
 	if in.Locations != nil {
@@ -941,7 +941,7 @@ func (in *WebTest_STATUS) DeepCopyInto(out *WebTest_STATUS) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestPropertiesSTATUSKind)
+		*out = new(WebTestProperties_STATUS_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1147,7 +1147,7 @@ func (in *Webtests_Spec) DeepCopyInto(out *Webtests_Spec) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestPropertiesKind)
+		*out = new(WebTestProperties_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
