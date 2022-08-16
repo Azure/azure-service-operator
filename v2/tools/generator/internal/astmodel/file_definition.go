@@ -43,9 +43,7 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		// Case insensitive sort, ignoring underscores
-		// TODO: Remove underscore sensitivity after we merge Swagger changes (@unrepentantgeek)
-
+		// Case insensitive sort
 		iName := definitions[i].Name().name
 		jName := definitions[j].Name().name
 
