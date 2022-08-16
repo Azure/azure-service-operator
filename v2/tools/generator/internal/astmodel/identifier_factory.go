@@ -125,14 +125,18 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 
 	// Split into parts based on `_` and process each individually
 	parts := strings.Split(name, "_")
+	cleanParts := make([]string, 0, len(parts))
 	partVisibility := visibility
-	for ix, part := range parts {
+	for _, part := range parts {
 		clean := factory.cleanPart(part, partVisibility)
-		parts[ix] = clean
+		if len(clean) > 0 {
+			cleanParts = append(cleanParts, clean)
+		}
+
 		partVisibility = Exported
 	}
 
-	result := strings.Join(parts, "_")
+	result := strings.Join(cleanParts, "_")
 
 	if alternateWord, ok := factory.reservedWords[result]; ok {
 		// This is a reserved word, we need to use an alternate identifier
@@ -339,12 +343,12 @@ func sliceIntoWords(identifier string) []string {
 		preceedingLower := i > 0 && unicode.IsLower(chars[i-1])
 		preceedingDigit := i > 0 && unicode.IsDigit(chars[i-1])
 		succeedingLower := i+1 < len(chars) && unicode.IsLower(chars[i+1]) // This case is for handling acronyms like XMLDocument
-		isSpace := unicode.IsSpace(chars[i])
+		isSeparator := unicode.IsSpace(chars[i]) || chars[i] == '_'
 		foundUpper := unicode.IsUpper(chars[i])
 		foundDigit := unicode.IsDigit(chars[i])
 		caseTransition := foundUpper && (preceedingLower || succeedingLower)
 		digitTransition := (foundDigit && !preceedingDigit) || (!foundDigit && preceedingDigit)
-		if isSpace {
+		if isSeparator {
 			r := string(chars[lastStart:i])
 			r = strings.Trim(r, " ")
 			// If r is entirely spaces... just don't append anything

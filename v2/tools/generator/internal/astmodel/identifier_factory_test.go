@@ -79,6 +79,9 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 		// Correctly splits strings that already have spaces
 		{identifier: "AlreadyHas spaces", expected: []string{"Already", "Has", "spaces"}},
 		{identifier: "Already   Has  spaces    ", expected: []string{"Already", "Has", "spaces"}},
+		// Correctly splits strings that have underscores
+		{identifier: "AlreadyHas_underscore", expected: []string{"Already", "Has", "underscore"}},
+		{identifier: "Already_Has_underscores_", expected: []string{"Already", "Has", "underscores"}},
 	}
 
 	for _, c := range cases {
