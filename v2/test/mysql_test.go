@@ -451,7 +451,7 @@ func newMySQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleS
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServersFirewallRules_Spec{
+		Spec: mysql.FlexibleServers_FirewallRules_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("0.0.0.0"),
 			EndIpAddress:   to.StringPtr("255.255.255.255"),
