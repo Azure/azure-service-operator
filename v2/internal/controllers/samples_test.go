@@ -27,6 +27,7 @@ const samplesPath = "../../config/samples"
 var skipTests = []string{
 	// TODO: Will re-record test .. as resource was having some issues in creation.
 	"cache",
+	"subscription", // Can't easily be run/recorded in our standard subscription
 }
 
 // randomNameExclusions slice contains groups for which we don't want to use random names
@@ -40,6 +41,11 @@ var randomNameExclusions = []string{
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
+
+	if *isLive {
+		t.Skip("skipping test in live mode")
+	}
+
 	g := NewGomegaWithT(t)
 
 	regex, err := regexp.Compile("^v1(alpha|beta)[a-z0-9]*$")

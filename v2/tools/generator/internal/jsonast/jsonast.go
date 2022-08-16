@@ -925,8 +925,9 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
-	normal := astmodel.ResourceScopeResourceGroup
+	resourceGroup := astmodel.ResourceScopeResourceGroup
 	extension := astmodel.ResourceScopeExtension
+	tenant := astmodel.ResourceScopeTenant
 
 	for _, fragmentPart := range fragmentParts {
 		// resourceDefinitions are "normal" resources
@@ -934,7 +935,11 @@ func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 			// Treat all resourceBase things as resources so that "resourceness"
 			// is inherited:
 			strings.Contains(strings.ToLower(fragmentPart), "resourcebase") {
-			return &normal
+			return &resourceGroup
+		}
+
+		if fragmentPart == "tenant_resourceDefinitions" {
+			return &tenant
 		}
 
 		// unknown_ResourceDefinitions or extension_resourceDefinitions are extension resources, see

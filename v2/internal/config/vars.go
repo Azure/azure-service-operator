@@ -25,6 +25,13 @@ const (
 	podNamespaceVar            = "POD_NAMESPACE"
 )
 
+// These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
+// we don't import.
+
+var DefaultEndpoint = "https://management.azure.com"
+var DefaultAudience = "https://management.core.windows.net/"
+var DefaultAADAuthorityHost = "https://login.microsoftonline.com/"
+
 // Values stores configuration values that are set for the operator.
 type Values struct {
 	// SubscriptionID is the Azure subscription the operator will use
@@ -96,9 +103,9 @@ func (v Values) Cloud() cloud.Configuration {
 
 	// Special handling if we've got all the defaults just return the official public cloud
 	// configuration
-	hasDefaultAzureAuthorityHost := v.AzureAuthorityHost == "" || v.AzureAuthorityHost == cloud.AzurePublic.ActiveDirectoryAuthorityHost
-	hasDefaultResourceManagerEndpoint := v.ResourceManagerEndpoint == "" || v.ResourceManagerEndpoint == cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint
-	hasDefaultResourceManagerAudience := v.ResourceManagerAudience == "" || v.ResourceManagerAudience == cloud.AzurePublic.Services[cloud.ResourceManager].Audience
+	hasDefaultAzureAuthorityHost := v.AzureAuthorityHost == "" || v.AzureAuthorityHost == DefaultAADAuthorityHost
+	hasDefaultResourceManagerEndpoint := v.ResourceManagerEndpoint == "" || v.ResourceManagerEndpoint == DefaultEndpoint
+	hasDefaultResourceManagerAudience := v.ResourceManagerAudience == "" || v.ResourceManagerAudience == DefaultAudience
 
 	if hasDefaultResourceManagerEndpoint && hasDefaultResourceManagerAudience && hasDefaultAzureAuthorityHost {
 		return cloud.AzurePublic
@@ -109,13 +116,13 @@ func (v Values) Cloud() cloud.Configuration {
 	resourceManagerEndpoint := v.ResourceManagerEndpoint
 	resourceManagerAudience := v.ResourceManagerAudience
 	if azureAuthorityHost == "" {
-		azureAuthorityHost = cloud.AzurePublic.ActiveDirectoryAuthorityHost
+		azureAuthorityHost = DefaultAADAuthorityHost
 	}
 	if resourceManagerAudience == "" {
-		resourceManagerAudience = cloud.AzurePublic.Services[cloud.ResourceManager].Audience
+		resourceManagerAudience = DefaultAudience
 	}
 	if resourceManagerEndpoint == "" {
-		resourceManagerEndpoint = cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint
+		resourceManagerEndpoint = DefaultEndpoint
 	}
 
 	return cloud.Configuration{
@@ -150,9 +157,9 @@ func ReadFromEnvironment() (Values, error) {
 	result.PodNamespace = os.Getenv(podNamespaceVar)
 	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(targetNamespacesVar))
 	result.SyncPeriod, err = parseSyncPeriod()
-	result.ResourceManagerEndpoint = envOrDefault(resourceManagerEndpointVar, cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint)
-	result.ResourceManagerAudience = envOrDefault(resourceManagerAudienceVar, cloud.AzurePublic.Services[cloud.ResourceManager].Audience)
-	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, cloud.AzurePublic.ActiveDirectoryAuthorityHost)
+	result.ResourceManagerEndpoint = envOrDefault(resourceManagerEndpointVar, DefaultEndpoint)
+	result.ResourceManagerAudience = envOrDefault(resourceManagerAudienceVar, DefaultAudience)
+	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, DefaultAADAuthorityHost)
 
 	if err != nil {
 		return result, errors.Wrapf(err, "parsing %q", syncPeriodVar)

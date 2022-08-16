@@ -1,4 +1,5 @@
-schemaUrl: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
+schemaUrls:
+  - 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
 schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
   to: '../../v2/specs/azure-resource-manager-schemas/schemas/'
