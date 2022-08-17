@@ -97,6 +97,11 @@ typeFilters:
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
 
+  - action: include
+    group: network
+    version: v*2018*
+    name: private*
+
   - action: prune
     group: network
     version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
@@ -309,6 +314,37 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
+
+  # TODO(donotmerge)
+#  - name: NamespacesEventhubs_Spec_Properties
+#    group: eventhub
+#    property: Status
+#    remove: true
+#    because: This property should be marked readonly
+
+  # TODO(donotmerge)
+#  - group: eventgrid
+#    version: v*20190601
+#    name: Domains_Spec
+#    property: Properties
+#    remove: true
+#    because: it has no writable properties in swagger
+
+  # TODO(donotmerge)
+#  - group: eventgrid
+#    version: "*"
+#    name: Topics_Spec
+#    property: Properties
+#    remove: true
+#    because: it has no writable properties in swagger
+
+  # TODO(donotmerge)
+#  - group: network
+#    version: "*"
+#    name: PrivateDnsZones_Spec
+#    property: Properties
+#    remove: true
+#    because: it has no writable properties in swagger
 
   # TODO(donotmerge)
   # - name: NamespacesEventhubs_Spec_Properties
@@ -782,7 +818,7 @@ objectModelConfiguration:
       ImageReference:
         Id:
           $armReference: true
-        version:
+        Version:
           $armReference: false
       ManagedDiskParameters:
         Id:
@@ -1171,6 +1207,10 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
   network:
+    2018-09-01:
+      PrivateDnsZone:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
     2020-11-01:
       FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded:
         Id:
@@ -1315,3 +1355,8 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $armReference: true
+  subscription:
+    2021-10-01:
+      Alias:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2

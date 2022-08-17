@@ -216,6 +216,7 @@ grouped by the originating ARM service.
 | NetworkSecurityGroup                 | 2020-11-01  | v1alpha1api20201101 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_networksecuritygroup.yaml)                 |
 | NetworkSecurityGroupsSecurityRule    | 2020-11-01  | v1beta20201101      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_networksecuritygroupssecurityrule.yaml)         |
 | NetworkSecurityGroupsSecurityRule    | 2020-11-01  | v1alpha1api20201101 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_networksecuritygroupssecurityrule.yaml)    |
+| PrivateDnsZone                       | 2018-09-01  | v1beta20180901      | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20180901_privatednszone.yaml)                            |
 | PublicIPAddress                      | 2020-11-01  | v1beta20201101      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_publicipaddress.yaml)                           |
 | PublicIPAddress                      | 2020-11-01  | v1alpha1api20201101 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_publicipaddress.yaml)                      |
 | RouteTable                           | 2020-11-01  | v1beta20201101      | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1beta20201101_routetable.yaml)                                |
@@ -270,4 +271,10 @@ grouped by the originating ARM service.
 | StorageAccountsQueueService          | 2021-04-01  | v1alpha1api20210401 | v2.0.0-alpha.5 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservice.yaml)          |
 | StorageAccountsQueueServicesQueue    | 2021-04-01  | v1beta20210401      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1beta20210401_storageaccountsqueueservicesqueue.yaml)         |
 | StorageAccountsQueueServicesQueue    | 2021-04-01  | v1alpha1api20210401 | v2.0.0-alpha.5 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml)    |
+
+## Subscription
+
+| Resource | ARM Version | CRD Version    | Supported From | Sample                                                                                                                     |
+|----------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
+| Alias    | 2021-10-01  | v1beta20211001 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/subscription/v1beta20211001_alias.yaml) |
 

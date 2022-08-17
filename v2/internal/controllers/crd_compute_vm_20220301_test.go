@@ -25,17 +25,17 @@ func newVirtualMachine20220301(
 	secretRef genruntime.SecretReference,
 ) *compute2022.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute2022.HardwareProfileVmSizeStandardA1V2
+	size := compute2022.HardwareProfile_VmSize_Standard_A1_V2
 
 	return &compute2022.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute2022.VirtualMachines_Spec{
+		Spec: compute2022.VirtualMachine_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			HardwareProfile: &compute2022.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute2022.VirtualMachines_Spec_Properties_OsProfile{
+			OsProfile: &compute2022.OSProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.

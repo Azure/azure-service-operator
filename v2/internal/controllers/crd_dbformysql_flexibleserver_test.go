@@ -11,7 +11,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	core "k8s.io/api/core/v1"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -22,50 +23,12 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "westcentralus"
-
 	rg := tc.CreateTestResourceGroupAndWait()
-
+	secretName := "mysqlsecret"
 	adminPasswordKey := "adminPassword"
-	secret := &core.Secret{
-		ObjectMeta: tc.MakeObjectMeta("mysqlsecret"),
-		StringData: map[string]string{
-			adminPasswordKey: tc.Namer.GeneratePassword(),
-		},
-	}
+	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
 
-	tc.CreateResource(secret)
-
-	version := mysql.ServerVersion_8021
-	secretRef := genruntime.SecretReference{
-		Name: secret.Name,
-		Key:  adminPasswordKey,
-	}
-	tier := mysql.Sku_Tier_GeneralPurpose
-	fqdnSecret := "fqdnsecret"
-	flexibleServer := &mysql.FlexibleServer{
-		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServer_Spec{
-			Location: &location,
-			Owner:    testcommon.AsOwner(rg),
-			Version:  &version,
-			Sku: &mysql.Sku{
-				Name: to.StringPtr("Standard_D4ds_v4"),
-				Tier: &tier,
-			},
-			AdministratorLogin:         to.StringPtr("myadmin"),
-			AdministratorLoginPassword: &secretRef,
-			Storage: &mysql.Storage{
-				StorageSizeGB: to.IntPtr(128),
-			},
-			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
-				Secrets: &mysql.FlexibleServerOperatorSecrets{
-					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
-				},
-			},
-		},
-	}
+	flexibleServer, fqdnSecret := newFlexibleServer(tc, rg, adminPasswordSecretRef)
 
 	tc.CreateResourceAndWait(flexibleServer)
 
@@ -110,6 +73,38 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
+	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
+	location := "westcentralus"
+	version := mysql.ServerVersion_8021
+	tier := mysql.Sku_Tier_GeneralPurpose
+	fqdnSecret := "fqdnsecret"
+	flexibleServer := &mysql.FlexibleServer{
+		ObjectMeta: tc.MakeObjectMeta("mysql"),
+		Spec: mysql.FlexibleServer_Spec{
+			Location: &location,
+			Owner:    testcommon.AsOwner(rg),
+			Version:  &version,
+			Sku: &mysql.Sku{
+				Name: to.StringPtr("Standard_D4ds_v4"),
+				Tier: &tier,
+			},
+			AdministratorLogin:         to.StringPtr("myadmin"),
+			AdministratorLoginPassword: &adminPasswordSecretRef,
+			Storage: &mysql.Storage{
+				StorageSizeGB: to.IntPtr(128),
+			},
+			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
+				Secrets: &mysql.FlexibleServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
+				},
+			},
+		},
+	}
+
+	return flexibleServer, fqdnSecret
 }
 
 func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {

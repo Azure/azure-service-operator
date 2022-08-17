@@ -6,9 +6,6 @@ azureTenantID: ""
 # azureSubscriptionID is the Azure Subscription the operator will act against.
 azureSubscriptionID: ""
 
-# cloudEnvironment is the cloud environment. Possible values include: AzurePublicCloud, AzureUSGovernmentCloud, AzureChinaCloud, AzureGermanCloud
-cloudEnvironment: AzurePublicCloud
-
 # azureClientID is the client ID of the Azure Service Principal or Managed Identity to use to authenticate with Azure.
 azureClientID: ""
 
@@ -24,6 +21,25 @@ azureClientSecret: ""
 # If nil, no sync is performed. Durations are specified as "1h", "15m", or "60s". See
 # https://pkg.go.dev/time#ParseDuration for more details.
 azureSyncPeriod: ""
+
+# azureAuthorityHost is the URL of the AAD authority. If not specified, the default
+# is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
+# https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
+azureAuthorityHost: ""
+
+# azureResourceManagerEndpoint is the Azure Resource Manager endpoint.
+# If not specified, the default is the Public cloud resource manager endpoint.
+# See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+# about how to find available resource manager endpoints for your cloud. Note that the resource manager
+# endpoint is referred to as "resourceManager" in the Azure CLI.
+azureResourceManagerEndpoint: ""
+
+# azureResourceManagerAudience is the Azure Resource Manager AAD audience.
+# If not specified, the default is the Public cloud resource manager audience https://management.core.windows.net/.
+# See https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds for details
+# about how to find available resource manager audiences for your cloud. Note that the resource manager
+# audience is referred to as "activeDirectoryResourceId" in the Azure CLI.
+azureResourceManagerAudience: ""
 
 # azureTargetNamespaces lists the namespaces the operator will watch
 # for Azure resources (if the mode includes running watchers). If
@@ -42,7 +58,7 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.1
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.2
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
 # 'metrics' define settings for the metrics from controller.

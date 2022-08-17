@@ -199,36 +199,9 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	// If we have no resourceID to begin with, the Azure resource was never created
-	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
-	if resourceID == "" {
-		return ctrl.Result{}, nil
-	}
-
-	// Check that this objects owner still exists
-	// This is an optimization to avoid excess requests to Azure.
-	_, err := r.ResourceResolver.ResolveResourceHierarchy(ctx, r.Obj)
-	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			return ctrl.Result{}, nil
-		}
-		return ctrl.Result{}, err
-	}
-
-	apiVersion, verr := r.GetAPIVersion()
-	if verr != nil {
-		return ctrl.Result{}, errors.Wrapf(verr, "error getting api version for resource %s while starting deletion of resource", r.Obj.GetName())
-	}
-
-	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := r.ARMClient.DeleteByID(ctx, resourceID, apiVersion)
-	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
-	}
-
-	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
-	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
+	deleter := extensions.CreateDeleter(r.Extension, deleteResource, r.Log)
+	result, err := deleter(ctx, r.ResourceResolver, r.ARMClient, r.Obj)
+	return result, err
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
@@ -353,6 +326,12 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
 		}
 
+		return ctrl.Result{}, err
+	}
+
+	onSuccess := extensions.CreateSuccessfulCreationHandler(r.Extension, r.Log)
+	err = onSuccess(r.Obj)
+	if err != nil {
 		return ctrl.Result{}, err
 	}
 
@@ -575,4 +554,43 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 	scheme := r.ResourceResolver.Scheme()
 
 	return genruntime.GetAPIVersion(metaObject, scheme)
+}
+
+// deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
+// have its behavior modified by resources implementing the genruntime.Deleter extension
+func deleteResource(
+	ctx context.Context,
+	resourceResolver *resolver.Resolver,
+	armClient *genericarmclient.GenericClient,
+	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
+
+	// If we have no resourceID to begin with, the Azure resource was never created
+	resourceID := genruntime.GetResourceIDOrDefault(obj)
+	if resourceID == "" {
+		return ctrl.Result{}, nil
+	}
+
+	// Check that this objects owner still exists
+	// This is an optimization to avoid excess requests to Azure.
+	_, err := resourceResolver.ResolveResourceHierarchy(ctx, obj)
+	if err != nil {
+		var typedErr *resolver.ReferenceNotFound
+		if errors.As(err, &typedErr) {
+			return ctrl.Result{}, nil
+		}
+		return ctrl.Result{}, err
+	}
+
+	apiVersion, err := genruntime.GetAPIVersion(obj, resourceResolver.Scheme())
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "error getting api version for resource %s while starting deletion of resource", obj.GetName())
+	}
+
+	// retryAfter = ARM can tell us how long to wait for a DELETE
+	retryAfter, err := armClient.DeleteByID(ctx, resourceID, apiVersion)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
+	}
+
+	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }

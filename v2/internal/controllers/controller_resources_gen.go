@@ -102,6 +102,8 @@ import (
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_alpha20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	network_alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	network_v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
+	network_v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
@@ -124,6 +126,9 @@ import (
 	storage_alpha20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
 	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
+	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -362,6 +367,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(network_v20180901s.PrivateDnsZone),
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(network_v20201101s.LoadBalancer),
 	})
 	result = append(result, &registration.StorageType{
@@ -426,6 +434,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(subscription_v20211001s.Alias),
 	})
 	return result
 }
@@ -709,6 +720,8 @@ func getKnownTypes() []client.Object {
 		new(network_alpha20201101s.VirtualNetworkGateway),
 		new(network_alpha20201101s.VirtualNetworksSubnet),
 		new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
+	result = append(result, new(network_v20180901.PrivateDnsZone))
+	result = append(result, new(network_v20180901s.PrivateDnsZone))
 	result = append(
 		result,
 		new(network_v20201101.LoadBalancer),
@@ -795,6 +808,8 @@ func getKnownTypes() []client.Object {
 		new(storage_v20210401s.StorageAccountsManagementPolicy),
 		new(storage_v20210401s.StorageAccountsQueueService),
 		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
+	result = append(result, new(subscription_v20211001.Alias))
+	result = append(result, new(subscription_v20211001s.Alias))
 	return result
 }
 
@@ -882,6 +897,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = network_alpha20201101.AddToScheme(scheme)
 	_ = network_alpha20201101s.AddToScheme(scheme)
+	_ = network_v20180901.AddToScheme(scheme)
+	_ = network_v20180901s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
 	_ = operationalinsights_alpha20210601.AddToScheme(scheme)
@@ -900,6 +917,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_alpha20210401s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
+	_ = subscription_v20211001.AddToScheme(scheme)
+	_ = subscription_v20211001s.AddToScheme(scheme)
 	return scheme
 }
 
@@ -965,6 +984,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
+	result = append(result, &network_customizations.PrivateDnsZoneExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})
@@ -983,6 +1003,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsManagementPolicyExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
+	result = append(result, &subscription_customizations.AliasExtension{})
 	return result
 }
 

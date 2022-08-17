@@ -321,7 +321,7 @@ tasks:
     deps: [controller:run-kustomize-for-envtest, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
+    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
     env:
       RECORD_REPLAY: 0
 

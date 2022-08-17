@@ -17,7 +17,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -43,7 +42,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	// Create the resource group in-memory but don't submit it yet
 	rg := tc.NewTestResourceGroup()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 
 	// Create the storage account - initially this will not succeed, but it should keep trying
 	tc.CreateResource(acct)
@@ -98,7 +97,6 @@ func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
 }
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
-	t.Skip("needs some work to pass consistently in recording mode")
 	t.Parallel()
 	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
@@ -135,7 +133,7 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 
 	acctCopy := acct.DeepCopy()
 
@@ -160,7 +158,7 @@ func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 
 	acctCopy := acct.DeepCopy()
 
@@ -185,7 +183,7 @@ func Test_AzureName_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 	tc.CreateResourcesAndWait(acct)
 
 	// Patch the account to change AzureName
@@ -208,7 +206,7 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 	tc.CreateResourcesAndWait(acct)
 
 	rg2 := tc.CreateTestResourceGroupAndWait()
@@ -233,7 +231,7 @@ func Test_AzureName_IsImmutable_IfAzureHasBeenCommunicatedWith(t *testing.T) {
 
 	invalidAzureName := "==--039+"
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 	acct.Spec.AzureName = invalidAzureName
 	tc.CreateResourceAndWaitForFailure(acct)
 
@@ -258,35 +256,24 @@ func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 	actualOwnerName := rg.Name
 	rg.Name = invalidOwnerName
 
-	acct := createStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg)
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
-	// Patch the account to change Owner's name
+	// TODO: We have hack in here to skip re-reconcile here as to avoid race between requeue and patch,
+	// TODO: which ends up in duplicate PUTs while replaying.
+	// Patch the account to skip reconcile
 	old := acct.DeepCopy()
+	acct.Annotations = make(map[string]string)
+	acct.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	tc.Patch(old, acct)
+
+	// Patch the account to change Owner's name
+	old = acct.DeepCopy()
 	acct.Spec.Owner.Name = actualOwnerName
+	delete(acct.Annotations, "serviceoperator.azure.com/reconcile-policy")
 	tc.PatchResourceAndWait(old, acct)
 
 	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidOwnerName))
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
-}
-
-func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
-	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccount_Spec_Kind_BlobStorage
-	sku := storage.SkuName_Standard_LRS
-
-	// Create a storage account
-	return &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccount_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     &kind,
-			Sku: &storage.Sku{
-				Name: &sku,
-			},
-			AccessTier: &accessTier,
-		},
-	}
 }

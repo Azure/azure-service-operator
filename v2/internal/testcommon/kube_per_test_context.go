@@ -26,6 +26,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
@@ -52,10 +53,10 @@ type KubePerTestContext struct {
 	tracker *ResourceTracker
 }
 
-func (tc KubePerTestContext) createTestNamespace() error {
+func (tc KubePerTestContext) CreateTestNamespace(namespaceName string) error {
 	ns := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: tc.Namespace,
+			Name: namespaceName,
 		},
 	}
 	_, err := controllerutil.CreateOrUpdate(tc.Ctx, tc.kubeClient, ns, func() error {
@@ -67,6 +68,10 @@ func (tc KubePerTestContext) createTestNamespace() error {
 	}
 
 	return nil
+}
+
+func (tc KubePerTestContext) createTestNamespace() error {
+	return tc.CreateTestNamespace(tc.Namespace)
 }
 
 func (tc KubePerTestContext) MakeObjectMeta(prefix string) ctrl.ObjectMeta {
@@ -109,15 +114,21 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 }
 
 func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
-	cfg, err := config.ReadFromEnvironment()
+	cfg, err := ReadFromEnvironmentForTest()
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
+}
+
+func ReadFromEnvironmentForTest() (config.Values, error) {
+	cfg, err := config.ReadFromEnvironment()
+
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
 
-	return ctx.forTestWithConfig(t, cfg, bypassesParallelLimits)
+	return cfg, err
 }
 
 type testConfigParallelismLimit string
@@ -136,7 +147,7 @@ func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, 
 		Note: if you update this method you might also need to update TestContext.Subtest.
 	*/
 
-	perTestContext, err := ctx.TestContext.ForTest(t)
+	perTestContext, err := ctx.TestContext.ForTest(t, cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -548,6 +559,17 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	}
 }
 
+func (tc *KubePerTestContext) CreateTestNamespaces(names ...string) error {
+	var errs []error
+	for _, name := range names {
+		err := tc.CreateTestNamespace(name)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return kerrors.NewAggregate(errs)
+}
+
 type Subtest struct {
 	Name string
 	Test func(testContext *KubePerTestContext)
@@ -609,19 +631,45 @@ func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.Ar
 	}
 }
 
-func (tc *KubePerTestContext) ExportAsSample(resource runtime.Object) {
+func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {
 	tc.T.Helper()
 
 	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
 	filepath := path.Join(os.TempDir(), filename)
 
-	copy := resource.DeepCopyObject()
-	err := tc.exportAsYAML(copy, filepath)
+	rsrc := resource.DeepCopyObject()
+	tc.cleanSample(rsrc)
+
+	err := tc.exportAsYAML(rsrc, filepath)
 	if err != nil {
 		tc.T.Fatalf("failed to export resource: %s", err)
 	}
 
 	tc.T.Logf("Exported resource to %s", filepath)
+}
+
+func (tc *KubePerTestContext) cleanSample(resource any) {
+
+	if kr, ok := resource.(genruntime.KubernetesResource); ok {
+		// Remove Status
+		emptyStatus := kr.NewEmptyStatus()
+		_ = kr.SetStatus(emptyStatus) // Ignore errors
+	}
+
+	if oa, ok := resource.(metav1.ObjectMetaAccessor); ok {
+		// Remove runtime objectmeta information
+		om := oa.GetObjectMeta()
+		om.SetAnnotations(nil)
+		om.SetFinalizers(nil)
+		om.SetManagedFields(nil)
+		om.SetLabels(nil)
+		om.SetOwnerReferences(nil)
+		om.SetGeneration(0)
+		om.SetResourceVersion("")
+		om.SetUID("")
+		om.SetCreationTimestamp(metav1.Time{})
+		om.SetNamespace("default")
+	}
 }
 
 func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filename string) error {

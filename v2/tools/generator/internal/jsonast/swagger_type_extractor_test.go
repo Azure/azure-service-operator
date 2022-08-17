@@ -12,16 +12,26 @@ import (
 
 	"github.com/go-openapi/spec"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 func Example_inferNameFromURLPath() {
-	group, resource, name, _ := inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}")
+	extractor := &SwaggerTypeExtractor{
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
+
+	group, resource, name, _ := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}")
 	fmt.Printf("%s/%s: %s", group, resource, name)
 	// Output: Microsoft.GroupName/resourceName: ResourceName
 }
 
 func Example_inferNameFromURLPath_ChildResources() {
-	group, resource, name, _ := inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/someChild/{childId}")
+	extractor := &SwaggerTypeExtractor{
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
+
+	group, resource, name, _ := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/someChild/{childId}")
 	fmt.Printf("%s/%s: %s", group, resource, name)
 	// Output: Microsoft.GroupName/resourceName/someChild: ResourceNameSomeChild
 }
@@ -29,8 +39,11 @@ func Example_inferNameFromURLPath_ChildResources() {
 func Test_InferNameFromURLPath_FailsWithMultipleParametersInARow(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
+	extractor := &SwaggerTypeExtractor{
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
 
-	_, _, _, err := inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/{anotherParameter}")
+	_, _, _, err := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/{anotherParameter}")
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("multiple parameters"))
 }
@@ -39,7 +52,11 @@ func Test_InferNameFromURLPath_FailsWithNoGroupName(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	_, _, _, err := inferNameFromURLPath("/resourceName/{resourceId}/{anotherParameter}")
+	extractor := &SwaggerTypeExtractor{
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
+
+	_, _, _, err := extractor.inferNameFromURLPath("/resourceName/{resourceId}/{anotherParameter}")
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("no group name"))
 }
@@ -48,7 +65,11 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	group, resource, name, err := inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
+	extractor := &SwaggerTypeExtractor{
+		idFactory: astmodel.NewIdentifierFactory(),
+	}
+
+	group, resource, name, err := extractor.inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
 	g.Expect(err).To(BeNil())
 	g.Expect(group).To(Equal("Microsoft.Storage"))
 	g.Expect(resource).To(Equal("storageAccounts/blobServices/containers"))

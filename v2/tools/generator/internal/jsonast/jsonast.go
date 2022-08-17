@@ -703,6 +703,7 @@ func generateDefinitionsFor(
 		return nil, err
 	}
 
+	//TODO(donotmerge): This code and below does nothing. schema.url() is always empty?
 	resourceType := categorizeResourceType(url)
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
@@ -927,8 +928,13 @@ func GetPrimitiveType(name SchemaType) (*astmodel.PrimitiveType, error) {
 func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 
-	normal := astmodel.ResourceScopeResourceGroup
+	resourceGroup := astmodel.ResourceScopeResourceGroup
 	extension := astmodel.ResourceScopeExtension
+	tenant := astmodel.ResourceScopeTenant
+
+	if strings.Contains(url.String(), "aliases") {
+		print("here")
+	}
 
 	for _, fragmentPart := range fragmentParts {
 		// resourceDefinitions are "normal" resources
@@ -936,7 +942,11 @@ func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 			// Treat all resourceBase things as resources so that "resourceness"
 			// is inherited:
 			strings.Contains(strings.ToLower(fragmentPart), "resourcebase") {
-			return &normal
+			return &resourceGroup
+		}
+
+		if fragmentPart == "tenant_resourceDefinitions" {
+			return &tenant
 		}
 
 		// unknown_ResourceDefinitions or extension_resourceDefinitions are extension resources, see

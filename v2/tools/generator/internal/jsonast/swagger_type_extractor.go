@@ -471,7 +471,7 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 }
 
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
-	group, resource, name, err := inferNameFromURLPath(operationPath)
+	group, resource, name, err := extractor.inferNameFromURLPath(operationPath)
 	if err != nil {
 		return "", astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
@@ -484,7 +484,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 // in the name “ResourceType”. Child resources are treated by converting (e.g.)
 // “…/Microsoft.GroupName/resourceType/{parameterId}/differentType/{otherId}/something/{moreId}”
 // to “ResourceTypeDifferentTypeSomething”.
-func inferNameFromURLPath(operationPath string) (string, string, string, error) {
+func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string) (string, string, string, error) {
 	group := ""
 	nameParts := []string{}
 
@@ -537,7 +537,7 @@ func inferNameFromURLPath(operationPath string) (string, string, string, error) 
 	}
 
 	// Now singularize last part of name:
-	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1])
+	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1], extractor.idFactory)
 
 	name := strings.Join(nameParts, "")
 
