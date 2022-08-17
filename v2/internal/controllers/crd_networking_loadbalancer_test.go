@@ -79,7 +79,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.SubResource{
+					PublicIPAddress: &network.PublicIPAddressSpec{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},

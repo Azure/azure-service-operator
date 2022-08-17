@@ -28,7 +28,7 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 	subnet := &network.VirtualNetworksSubnet{
 		// Name should always be 'gatewaysubnet'
 		ObjectMeta: tc.MakeObjectMetaWithName("gatewaysubnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
@@ -44,17 +44,17 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 }
 
 func newVnetGateway(tc *testcommon.KubePerTestContext, publicIPAddress *network.PublicIPAddress, subnet *network.VirtualNetworksSubnet, rg *resources.ResourceGroup) *network.VirtualNetworkGateway {
-	gatewayType := network.VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn
-	skuName := network.VirtualNetworkGatewaySkuName_VpnGw2
-	skuTier := network.VirtualNetworkGatewaySkuTier_VpnGw2
-	vpnGatewayGen := network.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1
-	vpnType := network.VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased
+	gatewayType := network.VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn
+	skuName := network.VirtualNetworkGatewaySku_Name_VpnGw2
+	skuTier := network.VirtualNetworkGatewaySku_Tier_VpnGw2
+	vpnGatewayGen := network.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1
+	vpnType := network.VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased
 
 	return &network.VirtualNetworkGateway{
 		ObjectMeta: tc.MakeObjectMeta("gateway"),
-		Spec: network.VirtualNetworkGateways_Spec{
+		Spec: network.VirtualNetworkGateway_Spec{
 			GatewayType: &gatewayType,
-			IpConfigurations: []network.VirtualNetworkGateways_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.VirtualNetworkGatewayIPConfiguration{{
 				Name: to.StringPtr("config1"),
 				PublicIPAddress: &network.SubResource{
 					Reference: tc.MakeReferenceFromResource(publicIPAddress),

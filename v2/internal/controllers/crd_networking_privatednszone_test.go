@@ -11,7 +11,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 )
 
@@ -25,9 +24,10 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	name := tc.Namer.GenerateName("pdz") + ".com"
 	zone := &network.PrivateDnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: network.PrivateDnsZones_Spec{
-			Location: to.StringPtr("global"),
-			Owner:    testcommon.AsOwner(rg),
+		Spec: network.PrivateDnsZone_Spec{
+			//TODO: Location is missing (donotmerge) (bearps)
+			//Location: to.StringPtr("global"),
+			Owner: testcommon.AsOwner(rg),
 		},
 	}
 

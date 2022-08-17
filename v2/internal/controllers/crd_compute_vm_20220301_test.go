@@ -47,11 +47,12 @@ func newVirtualMachine20220301(
 					Offer:     to.StringPtr("UbuntuServer"),
 					Publisher: to.StringPtr("Canonical"),
 					Sku:       to.StringPtr("18.04-LTS"),
-					Version:   to.StringPtr("latest"),
+					//Todo: Property is missing, but it shouldn't be. (donotmerge) (bearps)
+					//Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2022.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute2022.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
+			NetworkProfile: &compute2022.NetworkProfile{
+				NetworkInterfaces: []compute2022.NetworkInterfaceReference{{
 					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},
