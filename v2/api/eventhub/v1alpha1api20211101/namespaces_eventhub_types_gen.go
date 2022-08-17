@@ -112,7 +112,7 @@ func (eventhub *NamespacesEventhub) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (eventhub NamespacesEventhub) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1550,8 +1550,8 @@ func (destination *Destination_Status) AssignPropertiesToDestinationStatus(targe
 type NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding string
 
 const (
-	NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvro        = NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding("Avro")
-	NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvroDeflate = NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding("AvroDeflate")
+	NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_Avro        = NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding("Avro")
+	NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_AvroDeflate = NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding("AvroDeflate")
 )
 
 // Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead

@@ -164,7 +164,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatARM
 	gens["AllowForwardedTraffic"] = gen.PtrOf(gen.Bool())
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatPeeringStateConnected, VirtualNetworkPeeringPropertiesFormatPeeringStateDisconnected, VirtualNetworkPeeringPropertiesFormatPeeringStateInitiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatPeeringState_Connected, VirtualNetworkPeeringPropertiesFormatPeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormatPeeringState_Initiated))
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 

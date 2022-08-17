@@ -98,7 +98,7 @@ func (endpoint *ProfilesEndpoint) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (endpoint ProfilesEndpoint) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -3301,21 +3301,21 @@ func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v
 type ProfilesEndpointsSpecPropertiesOptimizationType string
 
 const (
-	ProfilesEndpointsSpecPropertiesOptimizationTypeDynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeLargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeVideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
+	ProfilesEndpointsSpecPropertiesOptimizationType_DynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
+	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
+	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
+	ProfilesEndpointsSpecPropertiesOptimizationType_LargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
+	ProfilesEndpointsSpecPropertiesOptimizationType_VideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
 )
 
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
 type ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior string
 
 const (
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorBypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorIgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorNotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorUseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_BypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_IgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_NotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_UseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
 )
 
 type ProfilesEndpoints_Spec_Properties_OriginGroups struct {
@@ -4754,8 +4754,8 @@ func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destinatio
 type GeoFilterAction string
 
 const (
-	GeoFilterActionAllow = GeoFilterAction("Allow")
-	GeoFilterActionBlock = GeoFilterAction("Block")
+	GeoFilterAction_Allow = GeoFilterAction("Allow")
+	GeoFilterAction_Block = GeoFilterAction("Block")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HealthProbeParameters
@@ -5388,11 +5388,11 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaul
 type PrivateEndpointStatus_Status string
 
 const (
-	PrivateEndpointStatus_StatusApproved     = PrivateEndpointStatus_Status("Approved")
-	PrivateEndpointStatus_StatusDisconnected = PrivateEndpointStatus_Status("Disconnected")
-	PrivateEndpointStatus_StatusPending      = PrivateEndpointStatus_Status("Pending")
-	PrivateEndpointStatus_StatusRejected     = PrivateEndpointStatus_Status("Rejected")
-	PrivateEndpointStatus_StatusTimeout      = PrivateEndpointStatus_Status("Timeout")
+	PrivateEndpointStatus_Status_Approved     = PrivateEndpointStatus_Status("Approved")
+	PrivateEndpointStatus_Status_Disconnected = PrivateEndpointStatus_Status("Disconnected")
+	PrivateEndpointStatus_Status_Pending      = PrivateEndpointStatus_Status("Pending")
+	PrivateEndpointStatus_Status_Rejected     = PrivateEndpointStatus_Status("Rejected")
+	PrivateEndpointStatus_Status_Timeout      = PrivateEndpointStatus_Status("Timeout")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
@@ -7295,34 +7295,34 @@ func (condition *DeliveryRuleCondition_Status) AssignPropertiesToDeliveryRuleCon
 type HealthProbeParametersProbeProtocol string
 
 const (
-	HealthProbeParametersProbeProtocolHttp   = HealthProbeParametersProbeProtocol("Http")
-	HealthProbeParametersProbeProtocolHttps  = HealthProbeParametersProbeProtocol("Https")
-	HealthProbeParametersProbeProtocolNotSet = HealthProbeParametersProbeProtocol("NotSet")
+	HealthProbeParametersProbeProtocol_Http   = HealthProbeParametersProbeProtocol("Http")
+	HealthProbeParametersProbeProtocol_Https  = HealthProbeParametersProbeProtocol("Https")
+	HealthProbeParametersProbeProtocol_NotSet = HealthProbeParametersProbeProtocol("NotSet")
 )
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
 type HealthProbeParametersProbeRequestType string
 
 const (
-	HealthProbeParametersProbeRequestTypeGET    = HealthProbeParametersProbeRequestType("GET")
-	HealthProbeParametersProbeRequestTypeHEAD   = HealthProbeParametersProbeRequestType("HEAD")
-	HealthProbeParametersProbeRequestTypeNotSet = HealthProbeParametersProbeRequestType("NotSet")
+	HealthProbeParametersProbeRequestType_GET    = HealthProbeParametersProbeRequestType("GET")
+	HealthProbeParametersProbeRequestType_HEAD   = HealthProbeParametersProbeRequestType("HEAD")
+	HealthProbeParametersProbeRequestType_NotSet = HealthProbeParametersProbeRequestType("NotSet")
 )
 
 type HealthProbeParametersStatusProbeProtocol string
 
 const (
-	HealthProbeParametersStatusProbeProtocolHttp   = HealthProbeParametersStatusProbeProtocol("Http")
-	HealthProbeParametersStatusProbeProtocolHttps  = HealthProbeParametersStatusProbeProtocol("Https")
-	HealthProbeParametersStatusProbeProtocolNotSet = HealthProbeParametersStatusProbeProtocol("NotSet")
+	HealthProbeParametersStatusProbeProtocol_Http   = HealthProbeParametersStatusProbeProtocol("Http")
+	HealthProbeParametersStatusProbeProtocol_Https  = HealthProbeParametersStatusProbeProtocol("Https")
+	HealthProbeParametersStatusProbeProtocol_NotSet = HealthProbeParametersStatusProbeProtocol("NotSet")
 )
 
 type HealthProbeParametersStatusProbeRequestType string
 
 const (
-	HealthProbeParametersStatusProbeRequestTypeGET    = HealthProbeParametersStatusProbeRequestType("GET")
-	HealthProbeParametersStatusProbeRequestTypeHEAD   = HealthProbeParametersStatusProbeRequestType("HEAD")
-	HealthProbeParametersStatusProbeRequestTypeNotSet = HealthProbeParametersStatusProbeRequestType("NotSet")
+	HealthProbeParametersStatusProbeRequestType_GET    = HealthProbeParametersStatusProbeRequestType("GET")
+	HealthProbeParametersStatusProbeRequestType_HEAD   = HealthProbeParametersStatusProbeRequestType("HEAD")
+	HealthProbeParametersStatusProbeRequestType_NotSet = HealthProbeParametersStatusProbeRequestType("NotSet")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
@@ -7520,23 +7520,23 @@ func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesToHttpErrorRa
 // +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
 type KeyVaultSigningKeyParametersTypeName string
 
-const KeyVaultSigningKeyParametersTypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersTypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParametersTypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersTypeName("KeyVaultSigningKeyParameters")
 
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
 type ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 type ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction
@@ -11891,122 +11891,122 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesToCookiesMatc
 // +kubebuilder:validation:Enum={"CacheExpiration"}
 type DeliveryRuleCacheExpirationActionName string
 
-const DeliveryRuleCacheExpirationActionNameCacheExpiration = DeliveryRuleCacheExpirationActionName("CacheExpiration")
+const DeliveryRuleCacheExpirationActionName_CacheExpiration = DeliveryRuleCacheExpirationActionName("CacheExpiration")
 
 // +kubebuilder:validation:Enum={"CacheKeyQueryString"}
 type DeliveryRuleCacheKeyQueryStringActionName string
 
-const DeliveryRuleCacheKeyQueryStringActionNameCacheKeyQueryString = DeliveryRuleCacheKeyQueryStringActionName("CacheKeyQueryString")
+const DeliveryRuleCacheKeyQueryStringActionName_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringActionName("CacheKeyQueryString")
 
 // +kubebuilder:validation:Enum={"ClientPort"}
 type DeliveryRuleClientPortConditionName string
 
-const DeliveryRuleClientPortConditionNameClientPort = DeliveryRuleClientPortConditionName("ClientPort")
+const DeliveryRuleClientPortConditionName_ClientPort = DeliveryRuleClientPortConditionName("ClientPort")
 
 // +kubebuilder:validation:Enum={"Cookies"}
 type DeliveryRuleCookiesConditionName string
 
-const DeliveryRuleCookiesConditionNameCookies = DeliveryRuleCookiesConditionName("Cookies")
+const DeliveryRuleCookiesConditionName_Cookies = DeliveryRuleCookiesConditionName("Cookies")
 
 // +kubebuilder:validation:Enum={"HostName"}
 type DeliveryRuleHostNameConditionName string
 
-const DeliveryRuleHostNameConditionNameHostName = DeliveryRuleHostNameConditionName("HostName")
+const DeliveryRuleHostNameConditionName_HostName = DeliveryRuleHostNameConditionName("HostName")
 
 // +kubebuilder:validation:Enum={"HttpVersion"}
 type DeliveryRuleHttpVersionConditionName string
 
-const DeliveryRuleHttpVersionConditionNameHttpVersion = DeliveryRuleHttpVersionConditionName("HttpVersion")
+const DeliveryRuleHttpVersionConditionName_HttpVersion = DeliveryRuleHttpVersionConditionName("HttpVersion")
 
 // +kubebuilder:validation:Enum={"IsDevice"}
 type DeliveryRuleIsDeviceConditionName string
 
-const DeliveryRuleIsDeviceConditionNameIsDevice = DeliveryRuleIsDeviceConditionName("IsDevice")
+const DeliveryRuleIsDeviceConditionName_IsDevice = DeliveryRuleIsDeviceConditionName("IsDevice")
 
 // +kubebuilder:validation:Enum={"PostArgs"}
 type DeliveryRulePostArgsConditionName string
 
-const DeliveryRulePostArgsConditionNamePostArgs = DeliveryRulePostArgsConditionName("PostArgs")
+const DeliveryRulePostArgsConditionName_PostArgs = DeliveryRulePostArgsConditionName("PostArgs")
 
 // +kubebuilder:validation:Enum={"QueryString"}
 type DeliveryRuleQueryStringConditionName string
 
-const DeliveryRuleQueryStringConditionNameQueryString = DeliveryRuleQueryStringConditionName("QueryString")
+const DeliveryRuleQueryStringConditionName_QueryString = DeliveryRuleQueryStringConditionName("QueryString")
 
 // +kubebuilder:validation:Enum={"RemoteAddress"}
 type DeliveryRuleRemoteAddressConditionName string
 
-const DeliveryRuleRemoteAddressConditionNameRemoteAddress = DeliveryRuleRemoteAddressConditionName("RemoteAddress")
+const DeliveryRuleRemoteAddressConditionName_RemoteAddress = DeliveryRuleRemoteAddressConditionName("RemoteAddress")
 
 // +kubebuilder:validation:Enum={"RequestBody"}
 type DeliveryRuleRequestBodyConditionName string
 
-const DeliveryRuleRequestBodyConditionNameRequestBody = DeliveryRuleRequestBodyConditionName("RequestBody")
+const DeliveryRuleRequestBodyConditionName_RequestBody = DeliveryRuleRequestBodyConditionName("RequestBody")
 
 // +kubebuilder:validation:Enum={"ModifyRequestHeader"}
 type DeliveryRuleRequestHeaderActionName string
 
-const DeliveryRuleRequestHeaderActionNameModifyRequestHeader = DeliveryRuleRequestHeaderActionName("ModifyRequestHeader")
+const DeliveryRuleRequestHeaderActionName_ModifyRequestHeader = DeliveryRuleRequestHeaderActionName("ModifyRequestHeader")
 
 // +kubebuilder:validation:Enum={"RequestHeader"}
 type DeliveryRuleRequestHeaderConditionName string
 
-const DeliveryRuleRequestHeaderConditionNameRequestHeader = DeliveryRuleRequestHeaderConditionName("RequestHeader")
+const DeliveryRuleRequestHeaderConditionName_RequestHeader = DeliveryRuleRequestHeaderConditionName("RequestHeader")
 
 // +kubebuilder:validation:Enum={"RequestMethod"}
 type DeliveryRuleRequestMethodConditionName string
 
-const DeliveryRuleRequestMethodConditionNameRequestMethod = DeliveryRuleRequestMethodConditionName("RequestMethod")
+const DeliveryRuleRequestMethodConditionName_RequestMethod = DeliveryRuleRequestMethodConditionName("RequestMethod")
 
 // +kubebuilder:validation:Enum={"RequestScheme"}
 type DeliveryRuleRequestSchemeConditionName string
 
-const DeliveryRuleRequestSchemeConditionNameRequestScheme = DeliveryRuleRequestSchemeConditionName("RequestScheme")
+const DeliveryRuleRequestSchemeConditionName_RequestScheme = DeliveryRuleRequestSchemeConditionName("RequestScheme")
 
 // +kubebuilder:validation:Enum={"RequestUri"}
 type DeliveryRuleRequestUriConditionName string
 
-const DeliveryRuleRequestUriConditionNameRequestUri = DeliveryRuleRequestUriConditionName("RequestUri")
+const DeliveryRuleRequestUriConditionName_RequestUri = DeliveryRuleRequestUriConditionName("RequestUri")
 
 // +kubebuilder:validation:Enum={"ModifyResponseHeader"}
 type DeliveryRuleResponseHeaderActionName string
 
-const DeliveryRuleResponseHeaderActionNameModifyResponseHeader = DeliveryRuleResponseHeaderActionName("ModifyResponseHeader")
+const DeliveryRuleResponseHeaderActionName_ModifyResponseHeader = DeliveryRuleResponseHeaderActionName("ModifyResponseHeader")
 
 // +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
 type DeliveryRuleRouteConfigurationOverrideActionName string
 
-const DeliveryRuleRouteConfigurationOverrideActionNameRouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideActionName("RouteConfigurationOverride")
+const DeliveryRuleRouteConfigurationOverrideActionName_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideActionName("RouteConfigurationOverride")
 
 // +kubebuilder:validation:Enum={"ServerPort"}
 type DeliveryRuleServerPortConditionName string
 
-const DeliveryRuleServerPortConditionNameServerPort = DeliveryRuleServerPortConditionName("ServerPort")
+const DeliveryRuleServerPortConditionName_ServerPort = DeliveryRuleServerPortConditionName("ServerPort")
 
 // +kubebuilder:validation:Enum={"SocketAddr"}
 type DeliveryRuleSocketAddrConditionName string
 
-const DeliveryRuleSocketAddrConditionNameSocketAddr = DeliveryRuleSocketAddrConditionName("SocketAddr")
+const DeliveryRuleSocketAddrConditionName_SocketAddr = DeliveryRuleSocketAddrConditionName("SocketAddr")
 
 // +kubebuilder:validation:Enum={"SslProtocol"}
 type DeliveryRuleSslProtocolConditionName string
 
-const DeliveryRuleSslProtocolConditionNameSslProtocol = DeliveryRuleSslProtocolConditionName("SslProtocol")
+const DeliveryRuleSslProtocolConditionName_SslProtocol = DeliveryRuleSslProtocolConditionName("SslProtocol")
 
 // +kubebuilder:validation:Enum={"UrlFileExtension"}
 type DeliveryRuleUrlFileExtensionConditionName string
 
-const DeliveryRuleUrlFileExtensionConditionNameUrlFileExtension = DeliveryRuleUrlFileExtensionConditionName("UrlFileExtension")
+const DeliveryRuleUrlFileExtensionConditionName_UrlFileExtension = DeliveryRuleUrlFileExtensionConditionName("UrlFileExtension")
 
 // +kubebuilder:validation:Enum={"UrlFileName"}
 type DeliveryRuleUrlFileNameConditionName string
 
-const DeliveryRuleUrlFileNameConditionNameUrlFileName = DeliveryRuleUrlFileNameConditionName("UrlFileName")
+const DeliveryRuleUrlFileNameConditionName_UrlFileName = DeliveryRuleUrlFileNameConditionName("UrlFileName")
 
 // +kubebuilder:validation:Enum={"UrlPath"}
 type DeliveryRuleUrlPathConditionName string
 
-const DeliveryRuleUrlPathConditionNameUrlPath = DeliveryRuleUrlPathConditionName("UrlPath")
+const DeliveryRuleUrlPathConditionName_UrlPath = DeliveryRuleUrlPathConditionName("UrlPath")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HeaderActionParameters
 type HeaderActionParameters struct {
@@ -12805,7 +12805,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesToIsDeviceMa
 // +kubebuilder:validation:Enum={"OriginGroupOverride"}
 type OriginGroupOverrideActionName string
 
-const OriginGroupOverrideActionNameOriginGroupOverride = OriginGroupOverrideActionName("OriginGroupOverride")
+const OriginGroupOverrideActionName_OriginGroupOverride = OriginGroupOverrideActionName("OriginGroupOverride")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideActionParameters
 type OriginGroupOverrideActionParameters struct {
@@ -16097,7 +16097,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesToUrlPathMatc
 // +kubebuilder:validation:Enum={"UrlRedirect"}
 type UrlRedirectActionName string
 
-const UrlRedirectActionNameUrlRedirect = UrlRedirectActionName("UrlRedirect")
+const UrlRedirectActionName_UrlRedirect = UrlRedirectActionName("UrlRedirect")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectActionParameters
 type UrlRedirectActionParameters struct {
@@ -16337,7 +16337,7 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesToUrlRedirectActi
 // +kubebuilder:validation:Enum={"UrlRewrite"}
 type UrlRewriteActionName string
 
-const UrlRewriteActionNameUrlRewrite = UrlRewriteActionName("UrlRewrite")
+const UrlRewriteActionName_UrlRewrite = UrlRewriteActionName("UrlRewrite")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteActionParameters
 type UrlRewriteActionParameters struct {
@@ -16502,7 +16502,7 @@ func (parameters *UrlRewriteActionParameters) AssignPropertiesToUrlRewriteAction
 // +kubebuilder:validation:Enum={"UrlSigning"}
 type UrlSigningActionName string
 
-const UrlSigningActionNameUrlSigning = UrlSigningActionName("UrlSigning")
+const UrlSigningActionName_UrlSigning = UrlSigningActionName("UrlSigning")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningActionParameters
 type UrlSigningActionParameters struct {
@@ -16873,200 +16873,200 @@ func (configuration *CacheConfiguration) AssignPropertiesToCacheConfiguration(de
 type CacheExpirationActionParametersCacheBehavior string
 
 const (
-	CacheExpirationActionParametersCacheBehaviorBypassCache  = CacheExpirationActionParametersCacheBehavior("BypassCache")
-	CacheExpirationActionParametersCacheBehaviorOverride     = CacheExpirationActionParametersCacheBehavior("Override")
-	CacheExpirationActionParametersCacheBehaviorSetIfMissing = CacheExpirationActionParametersCacheBehavior("SetIfMissing")
+	CacheExpirationActionParametersCacheBehavior_BypassCache  = CacheExpirationActionParametersCacheBehavior("BypassCache")
+	CacheExpirationActionParametersCacheBehavior_Override     = CacheExpirationActionParametersCacheBehavior("Override")
+	CacheExpirationActionParametersCacheBehavior_SetIfMissing = CacheExpirationActionParametersCacheBehavior("SetIfMissing")
 )
 
 // +kubebuilder:validation:Enum={"All"}
 type CacheExpirationActionParametersCacheType string
 
-const CacheExpirationActionParametersCacheTypeAll = CacheExpirationActionParametersCacheType("All")
+const CacheExpirationActionParametersCacheType_All = CacheExpirationActionParametersCacheType("All")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
 type CacheExpirationActionParametersTypeName string
 
-const CacheExpirationActionParametersTypeNameDeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParametersTypeName("DeliveryRuleCacheExpirationActionParameters")
+const CacheExpirationActionParametersTypeName_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParametersTypeName("DeliveryRuleCacheExpirationActionParameters")
 
 // +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
 type CacheKeyQueryStringActionParametersQueryStringBehavior string
 
 const (
-	CacheKeyQueryStringActionParametersQueryStringBehaviorExclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Exclude")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorExcludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("ExcludeAll")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorInclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Include")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorIncludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("IncludeAll")
+	CacheKeyQueryStringActionParametersQueryStringBehavior_Exclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Exclude")
+	CacheKeyQueryStringActionParametersQueryStringBehavior_ExcludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("ExcludeAll")
+	CacheKeyQueryStringActionParametersQueryStringBehavior_Include    = CacheKeyQueryStringActionParametersQueryStringBehavior("Include")
+	CacheKeyQueryStringActionParametersQueryStringBehavior_IncludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("IncludeAll")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
 type CacheKeyQueryStringActionParametersTypeName string
 
-const CacheKeyQueryStringActionParametersTypeNameDeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParametersTypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
+const CacheKeyQueryStringActionParametersTypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParametersTypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ClientPortMatchConditionParametersOperator string
 
 const (
-	ClientPortMatchConditionParametersOperatorAny                = ClientPortMatchConditionParametersOperator("Any")
-	ClientPortMatchConditionParametersOperatorBeginsWith         = ClientPortMatchConditionParametersOperator("BeginsWith")
-	ClientPortMatchConditionParametersOperatorContains           = ClientPortMatchConditionParametersOperator("Contains")
-	ClientPortMatchConditionParametersOperatorEndsWith           = ClientPortMatchConditionParametersOperator("EndsWith")
-	ClientPortMatchConditionParametersOperatorEqual              = ClientPortMatchConditionParametersOperator("Equal")
-	ClientPortMatchConditionParametersOperatorGreaterThan        = ClientPortMatchConditionParametersOperator("GreaterThan")
-	ClientPortMatchConditionParametersOperatorGreaterThanOrEqual = ClientPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ClientPortMatchConditionParametersOperatorLessThan           = ClientPortMatchConditionParametersOperator("LessThan")
-	ClientPortMatchConditionParametersOperatorLessThanOrEqual    = ClientPortMatchConditionParametersOperator("LessThanOrEqual")
-	ClientPortMatchConditionParametersOperatorRegEx              = ClientPortMatchConditionParametersOperator("RegEx")
+	ClientPortMatchConditionParametersOperator_Any                = ClientPortMatchConditionParametersOperator("Any")
+	ClientPortMatchConditionParametersOperator_BeginsWith         = ClientPortMatchConditionParametersOperator("BeginsWith")
+	ClientPortMatchConditionParametersOperator_Contains           = ClientPortMatchConditionParametersOperator("Contains")
+	ClientPortMatchConditionParametersOperator_EndsWith           = ClientPortMatchConditionParametersOperator("EndsWith")
+	ClientPortMatchConditionParametersOperator_Equal              = ClientPortMatchConditionParametersOperator("Equal")
+	ClientPortMatchConditionParametersOperator_GreaterThan        = ClientPortMatchConditionParametersOperator("GreaterThan")
+	ClientPortMatchConditionParametersOperator_GreaterThanOrEqual = ClientPortMatchConditionParametersOperator("GreaterThanOrEqual")
+	ClientPortMatchConditionParametersOperator_LessThan           = ClientPortMatchConditionParametersOperator("LessThan")
+	ClientPortMatchConditionParametersOperator_LessThanOrEqual    = ClientPortMatchConditionParametersOperator("LessThanOrEqual")
+	ClientPortMatchConditionParametersOperator_RegEx              = ClientPortMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type ClientPortMatchConditionParametersTransforms string
 
 const (
-	ClientPortMatchConditionParametersTransformsLowercase   = ClientPortMatchConditionParametersTransforms("Lowercase")
-	ClientPortMatchConditionParametersTransformsRemoveNulls = ClientPortMatchConditionParametersTransforms("RemoveNulls")
-	ClientPortMatchConditionParametersTransformsTrim        = ClientPortMatchConditionParametersTransforms("Trim")
-	ClientPortMatchConditionParametersTransformsUppercase   = ClientPortMatchConditionParametersTransforms("Uppercase")
-	ClientPortMatchConditionParametersTransformsUrlDecode   = ClientPortMatchConditionParametersTransforms("UrlDecode")
-	ClientPortMatchConditionParametersTransformsUrlEncode   = ClientPortMatchConditionParametersTransforms("UrlEncode")
+	ClientPortMatchConditionParametersTransforms_Lowercase   = ClientPortMatchConditionParametersTransforms("Lowercase")
+	ClientPortMatchConditionParametersTransforms_RemoveNulls = ClientPortMatchConditionParametersTransforms("RemoveNulls")
+	ClientPortMatchConditionParametersTransforms_Trim        = ClientPortMatchConditionParametersTransforms("Trim")
+	ClientPortMatchConditionParametersTransforms_Uppercase   = ClientPortMatchConditionParametersTransforms("Uppercase")
+	ClientPortMatchConditionParametersTransforms_UrlDecode   = ClientPortMatchConditionParametersTransforms("UrlDecode")
+	ClientPortMatchConditionParametersTransforms_UrlEncode   = ClientPortMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
 type ClientPortMatchConditionParametersTypeName string
 
-const ClientPortMatchConditionParametersTypeNameDeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParametersTypeName("DeliveryRuleClientPortConditionParameters")
+const ClientPortMatchConditionParametersTypeName_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParametersTypeName("DeliveryRuleClientPortConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type CookiesMatchConditionParametersOperator string
 
 const (
-	CookiesMatchConditionParametersOperatorAny                = CookiesMatchConditionParametersOperator("Any")
-	CookiesMatchConditionParametersOperatorBeginsWith         = CookiesMatchConditionParametersOperator("BeginsWith")
-	CookiesMatchConditionParametersOperatorContains           = CookiesMatchConditionParametersOperator("Contains")
-	CookiesMatchConditionParametersOperatorEndsWith           = CookiesMatchConditionParametersOperator("EndsWith")
-	CookiesMatchConditionParametersOperatorEqual              = CookiesMatchConditionParametersOperator("Equal")
-	CookiesMatchConditionParametersOperatorGreaterThan        = CookiesMatchConditionParametersOperator("GreaterThan")
-	CookiesMatchConditionParametersOperatorGreaterThanOrEqual = CookiesMatchConditionParametersOperator("GreaterThanOrEqual")
-	CookiesMatchConditionParametersOperatorLessThan           = CookiesMatchConditionParametersOperator("LessThan")
-	CookiesMatchConditionParametersOperatorLessThanOrEqual    = CookiesMatchConditionParametersOperator("LessThanOrEqual")
-	CookiesMatchConditionParametersOperatorRegEx              = CookiesMatchConditionParametersOperator("RegEx")
+	CookiesMatchConditionParametersOperator_Any                = CookiesMatchConditionParametersOperator("Any")
+	CookiesMatchConditionParametersOperator_BeginsWith         = CookiesMatchConditionParametersOperator("BeginsWith")
+	CookiesMatchConditionParametersOperator_Contains           = CookiesMatchConditionParametersOperator("Contains")
+	CookiesMatchConditionParametersOperator_EndsWith           = CookiesMatchConditionParametersOperator("EndsWith")
+	CookiesMatchConditionParametersOperator_Equal              = CookiesMatchConditionParametersOperator("Equal")
+	CookiesMatchConditionParametersOperator_GreaterThan        = CookiesMatchConditionParametersOperator("GreaterThan")
+	CookiesMatchConditionParametersOperator_GreaterThanOrEqual = CookiesMatchConditionParametersOperator("GreaterThanOrEqual")
+	CookiesMatchConditionParametersOperator_LessThan           = CookiesMatchConditionParametersOperator("LessThan")
+	CookiesMatchConditionParametersOperator_LessThanOrEqual    = CookiesMatchConditionParametersOperator("LessThanOrEqual")
+	CookiesMatchConditionParametersOperator_RegEx              = CookiesMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type CookiesMatchConditionParametersTransforms string
 
 const (
-	CookiesMatchConditionParametersTransformsLowercase   = CookiesMatchConditionParametersTransforms("Lowercase")
-	CookiesMatchConditionParametersTransformsRemoveNulls = CookiesMatchConditionParametersTransforms("RemoveNulls")
-	CookiesMatchConditionParametersTransformsTrim        = CookiesMatchConditionParametersTransforms("Trim")
-	CookiesMatchConditionParametersTransformsUppercase   = CookiesMatchConditionParametersTransforms("Uppercase")
-	CookiesMatchConditionParametersTransformsUrlDecode   = CookiesMatchConditionParametersTransforms("UrlDecode")
-	CookiesMatchConditionParametersTransformsUrlEncode   = CookiesMatchConditionParametersTransforms("UrlEncode")
+	CookiesMatchConditionParametersTransforms_Lowercase   = CookiesMatchConditionParametersTransforms("Lowercase")
+	CookiesMatchConditionParametersTransforms_RemoveNulls = CookiesMatchConditionParametersTransforms("RemoveNulls")
+	CookiesMatchConditionParametersTransforms_Trim        = CookiesMatchConditionParametersTransforms("Trim")
+	CookiesMatchConditionParametersTransforms_Uppercase   = CookiesMatchConditionParametersTransforms("Uppercase")
+	CookiesMatchConditionParametersTransforms_UrlDecode   = CookiesMatchConditionParametersTransforms("UrlDecode")
+	CookiesMatchConditionParametersTransforms_UrlEncode   = CookiesMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
 type CookiesMatchConditionParametersTypeName string
 
-const CookiesMatchConditionParametersTypeNameDeliveryRuleCookiesConditionParameters = CookiesMatchConditionParametersTypeName("DeliveryRuleCookiesConditionParameters")
+const CookiesMatchConditionParametersTypeName_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParametersTypeName("DeliveryRuleCookiesConditionParameters")
 
 // +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
 type HeaderActionParametersHeaderAction string
 
 const (
-	HeaderActionParametersHeaderActionAppend    = HeaderActionParametersHeaderAction("Append")
-	HeaderActionParametersHeaderActionDelete    = HeaderActionParametersHeaderAction("Delete")
-	HeaderActionParametersHeaderActionOverwrite = HeaderActionParametersHeaderAction("Overwrite")
+	HeaderActionParametersHeaderAction_Append    = HeaderActionParametersHeaderAction("Append")
+	HeaderActionParametersHeaderAction_Delete    = HeaderActionParametersHeaderAction("Delete")
+	HeaderActionParametersHeaderAction_Overwrite = HeaderActionParametersHeaderAction("Overwrite")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
 type HeaderActionParametersTypeName string
 
-const HeaderActionParametersTypeNameDeliveryRuleHeaderActionParameters = HeaderActionParametersTypeName("DeliveryRuleHeaderActionParameters")
+const HeaderActionParametersTypeName_DeliveryRuleHeaderActionParameters = HeaderActionParametersTypeName("DeliveryRuleHeaderActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type HostNameMatchConditionParametersOperator string
 
 const (
-	HostNameMatchConditionParametersOperatorAny                = HostNameMatchConditionParametersOperator("Any")
-	HostNameMatchConditionParametersOperatorBeginsWith         = HostNameMatchConditionParametersOperator("BeginsWith")
-	HostNameMatchConditionParametersOperatorContains           = HostNameMatchConditionParametersOperator("Contains")
-	HostNameMatchConditionParametersOperatorEndsWith           = HostNameMatchConditionParametersOperator("EndsWith")
-	HostNameMatchConditionParametersOperatorEqual              = HostNameMatchConditionParametersOperator("Equal")
-	HostNameMatchConditionParametersOperatorGreaterThan        = HostNameMatchConditionParametersOperator("GreaterThan")
-	HostNameMatchConditionParametersOperatorGreaterThanOrEqual = HostNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	HostNameMatchConditionParametersOperatorLessThan           = HostNameMatchConditionParametersOperator("LessThan")
-	HostNameMatchConditionParametersOperatorLessThanOrEqual    = HostNameMatchConditionParametersOperator("LessThanOrEqual")
-	HostNameMatchConditionParametersOperatorRegEx              = HostNameMatchConditionParametersOperator("RegEx")
+	HostNameMatchConditionParametersOperator_Any                = HostNameMatchConditionParametersOperator("Any")
+	HostNameMatchConditionParametersOperator_BeginsWith         = HostNameMatchConditionParametersOperator("BeginsWith")
+	HostNameMatchConditionParametersOperator_Contains           = HostNameMatchConditionParametersOperator("Contains")
+	HostNameMatchConditionParametersOperator_EndsWith           = HostNameMatchConditionParametersOperator("EndsWith")
+	HostNameMatchConditionParametersOperator_Equal              = HostNameMatchConditionParametersOperator("Equal")
+	HostNameMatchConditionParametersOperator_GreaterThan        = HostNameMatchConditionParametersOperator("GreaterThan")
+	HostNameMatchConditionParametersOperator_GreaterThanOrEqual = HostNameMatchConditionParametersOperator("GreaterThanOrEqual")
+	HostNameMatchConditionParametersOperator_LessThan           = HostNameMatchConditionParametersOperator("LessThan")
+	HostNameMatchConditionParametersOperator_LessThanOrEqual    = HostNameMatchConditionParametersOperator("LessThanOrEqual")
+	HostNameMatchConditionParametersOperator_RegEx              = HostNameMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type HostNameMatchConditionParametersTransforms string
 
 const (
-	HostNameMatchConditionParametersTransformsLowercase   = HostNameMatchConditionParametersTransforms("Lowercase")
-	HostNameMatchConditionParametersTransformsRemoveNulls = HostNameMatchConditionParametersTransforms("RemoveNulls")
-	HostNameMatchConditionParametersTransformsTrim        = HostNameMatchConditionParametersTransforms("Trim")
-	HostNameMatchConditionParametersTransformsUppercase   = HostNameMatchConditionParametersTransforms("Uppercase")
-	HostNameMatchConditionParametersTransformsUrlDecode   = HostNameMatchConditionParametersTransforms("UrlDecode")
-	HostNameMatchConditionParametersTransformsUrlEncode   = HostNameMatchConditionParametersTransforms("UrlEncode")
+	HostNameMatchConditionParametersTransforms_Lowercase   = HostNameMatchConditionParametersTransforms("Lowercase")
+	HostNameMatchConditionParametersTransforms_RemoveNulls = HostNameMatchConditionParametersTransforms("RemoveNulls")
+	HostNameMatchConditionParametersTransforms_Trim        = HostNameMatchConditionParametersTransforms("Trim")
+	HostNameMatchConditionParametersTransforms_Uppercase   = HostNameMatchConditionParametersTransforms("Uppercase")
+	HostNameMatchConditionParametersTransforms_UrlDecode   = HostNameMatchConditionParametersTransforms("UrlDecode")
+	HostNameMatchConditionParametersTransforms_UrlEncode   = HostNameMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
 type HostNameMatchConditionParametersTypeName string
 
-const HostNameMatchConditionParametersTypeNameDeliveryRuleHostNameConditionParameters = HostNameMatchConditionParametersTypeName("DeliveryRuleHostNameConditionParameters")
+const HostNameMatchConditionParametersTypeName_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParametersTypeName("DeliveryRuleHostNameConditionParameters")
 
 // +kubebuilder:validation:Enum={"Equal"}
 type HttpVersionMatchConditionParametersOperator string
 
-const HttpVersionMatchConditionParametersOperatorEqual = HttpVersionMatchConditionParametersOperator("Equal")
+const HttpVersionMatchConditionParametersOperator_Equal = HttpVersionMatchConditionParametersOperator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type HttpVersionMatchConditionParametersTransforms string
 
 const (
-	HttpVersionMatchConditionParametersTransformsLowercase   = HttpVersionMatchConditionParametersTransforms("Lowercase")
-	HttpVersionMatchConditionParametersTransformsRemoveNulls = HttpVersionMatchConditionParametersTransforms("RemoveNulls")
-	HttpVersionMatchConditionParametersTransformsTrim        = HttpVersionMatchConditionParametersTransforms("Trim")
-	HttpVersionMatchConditionParametersTransformsUppercase   = HttpVersionMatchConditionParametersTransforms("Uppercase")
-	HttpVersionMatchConditionParametersTransformsUrlDecode   = HttpVersionMatchConditionParametersTransforms("UrlDecode")
-	HttpVersionMatchConditionParametersTransformsUrlEncode   = HttpVersionMatchConditionParametersTransforms("UrlEncode")
+	HttpVersionMatchConditionParametersTransforms_Lowercase   = HttpVersionMatchConditionParametersTransforms("Lowercase")
+	HttpVersionMatchConditionParametersTransforms_RemoveNulls = HttpVersionMatchConditionParametersTransforms("RemoveNulls")
+	HttpVersionMatchConditionParametersTransforms_Trim        = HttpVersionMatchConditionParametersTransforms("Trim")
+	HttpVersionMatchConditionParametersTransforms_Uppercase   = HttpVersionMatchConditionParametersTransforms("Uppercase")
+	HttpVersionMatchConditionParametersTransforms_UrlDecode   = HttpVersionMatchConditionParametersTransforms("UrlDecode")
+	HttpVersionMatchConditionParametersTransforms_UrlEncode   = HttpVersionMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
 type HttpVersionMatchConditionParametersTypeName string
 
-const HttpVersionMatchConditionParametersTypeNameDeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParametersTypeName("DeliveryRuleHttpVersionConditionParameters")
+const HttpVersionMatchConditionParametersTypeName_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParametersTypeName("DeliveryRuleHttpVersionConditionParameters")
 
 // +kubebuilder:validation:Enum={"Desktop","Mobile"}
 type IsDeviceMatchConditionParametersMatchValues string
 
 const (
-	IsDeviceMatchConditionParametersMatchValuesDesktop = IsDeviceMatchConditionParametersMatchValues("Desktop")
-	IsDeviceMatchConditionParametersMatchValuesMobile  = IsDeviceMatchConditionParametersMatchValues("Mobile")
+	IsDeviceMatchConditionParametersMatchValues_Desktop = IsDeviceMatchConditionParametersMatchValues("Desktop")
+	IsDeviceMatchConditionParametersMatchValues_Mobile  = IsDeviceMatchConditionParametersMatchValues("Mobile")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
 type IsDeviceMatchConditionParametersOperator string
 
-const IsDeviceMatchConditionParametersOperatorEqual = IsDeviceMatchConditionParametersOperator("Equal")
+const IsDeviceMatchConditionParametersOperator_Equal = IsDeviceMatchConditionParametersOperator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type IsDeviceMatchConditionParametersTransforms string
 
 const (
-	IsDeviceMatchConditionParametersTransformsLowercase   = IsDeviceMatchConditionParametersTransforms("Lowercase")
-	IsDeviceMatchConditionParametersTransformsRemoveNulls = IsDeviceMatchConditionParametersTransforms("RemoveNulls")
-	IsDeviceMatchConditionParametersTransformsTrim        = IsDeviceMatchConditionParametersTransforms("Trim")
-	IsDeviceMatchConditionParametersTransformsUppercase   = IsDeviceMatchConditionParametersTransforms("Uppercase")
-	IsDeviceMatchConditionParametersTransformsUrlDecode   = IsDeviceMatchConditionParametersTransforms("UrlDecode")
-	IsDeviceMatchConditionParametersTransformsUrlEncode   = IsDeviceMatchConditionParametersTransforms("UrlEncode")
+	IsDeviceMatchConditionParametersTransforms_Lowercase   = IsDeviceMatchConditionParametersTransforms("Lowercase")
+	IsDeviceMatchConditionParametersTransforms_RemoveNulls = IsDeviceMatchConditionParametersTransforms("RemoveNulls")
+	IsDeviceMatchConditionParametersTransforms_Trim        = IsDeviceMatchConditionParametersTransforms("Trim")
+	IsDeviceMatchConditionParametersTransforms_Uppercase   = IsDeviceMatchConditionParametersTransforms("Uppercase")
+	IsDeviceMatchConditionParametersTransforms_UrlDecode   = IsDeviceMatchConditionParametersTransforms("UrlDecode")
+	IsDeviceMatchConditionParametersTransforms_UrlEncode   = IsDeviceMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
 type IsDeviceMatchConditionParametersTypeName string
 
-const IsDeviceMatchConditionParametersTypeNameDeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParametersTypeName("DeliveryRuleIsDeviceConditionParameters")
+const IsDeviceMatchConditionParametersTypeName_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParametersTypeName("DeliveryRuleIsDeviceConditionParameters")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverride
 type OriginGroupOverride struct {
@@ -17203,496 +17203,496 @@ func (override *OriginGroupOverride) AssignPropertiesToOriginGroupOverride(desti
 // +kubebuilder:validation:Enum={"DeliveryRuleOriginGroupOverrideActionParameters"}
 type OriginGroupOverrideActionParametersTypeName string
 
-const OriginGroupOverrideActionParametersTypeNameDeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParametersTypeName("DeliveryRuleOriginGroupOverrideActionParameters")
+const OriginGroupOverrideActionParametersTypeName_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParametersTypeName("DeliveryRuleOriginGroupOverrideActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type PostArgsMatchConditionParametersOperator string
 
 const (
-	PostArgsMatchConditionParametersOperatorAny                = PostArgsMatchConditionParametersOperator("Any")
-	PostArgsMatchConditionParametersOperatorBeginsWith         = PostArgsMatchConditionParametersOperator("BeginsWith")
-	PostArgsMatchConditionParametersOperatorContains           = PostArgsMatchConditionParametersOperator("Contains")
-	PostArgsMatchConditionParametersOperatorEndsWith           = PostArgsMatchConditionParametersOperator("EndsWith")
-	PostArgsMatchConditionParametersOperatorEqual              = PostArgsMatchConditionParametersOperator("Equal")
-	PostArgsMatchConditionParametersOperatorGreaterThan        = PostArgsMatchConditionParametersOperator("GreaterThan")
-	PostArgsMatchConditionParametersOperatorGreaterThanOrEqual = PostArgsMatchConditionParametersOperator("GreaterThanOrEqual")
-	PostArgsMatchConditionParametersOperatorLessThan           = PostArgsMatchConditionParametersOperator("LessThan")
-	PostArgsMatchConditionParametersOperatorLessThanOrEqual    = PostArgsMatchConditionParametersOperator("LessThanOrEqual")
-	PostArgsMatchConditionParametersOperatorRegEx              = PostArgsMatchConditionParametersOperator("RegEx")
+	PostArgsMatchConditionParametersOperator_Any                = PostArgsMatchConditionParametersOperator("Any")
+	PostArgsMatchConditionParametersOperator_BeginsWith         = PostArgsMatchConditionParametersOperator("BeginsWith")
+	PostArgsMatchConditionParametersOperator_Contains           = PostArgsMatchConditionParametersOperator("Contains")
+	PostArgsMatchConditionParametersOperator_EndsWith           = PostArgsMatchConditionParametersOperator("EndsWith")
+	PostArgsMatchConditionParametersOperator_Equal              = PostArgsMatchConditionParametersOperator("Equal")
+	PostArgsMatchConditionParametersOperator_GreaterThan        = PostArgsMatchConditionParametersOperator("GreaterThan")
+	PostArgsMatchConditionParametersOperator_GreaterThanOrEqual = PostArgsMatchConditionParametersOperator("GreaterThanOrEqual")
+	PostArgsMatchConditionParametersOperator_LessThan           = PostArgsMatchConditionParametersOperator("LessThan")
+	PostArgsMatchConditionParametersOperator_LessThanOrEqual    = PostArgsMatchConditionParametersOperator("LessThanOrEqual")
+	PostArgsMatchConditionParametersOperator_RegEx              = PostArgsMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type PostArgsMatchConditionParametersTransforms string
 
 const (
-	PostArgsMatchConditionParametersTransformsLowercase   = PostArgsMatchConditionParametersTransforms("Lowercase")
-	PostArgsMatchConditionParametersTransformsRemoveNulls = PostArgsMatchConditionParametersTransforms("RemoveNulls")
-	PostArgsMatchConditionParametersTransformsTrim        = PostArgsMatchConditionParametersTransforms("Trim")
-	PostArgsMatchConditionParametersTransformsUppercase   = PostArgsMatchConditionParametersTransforms("Uppercase")
-	PostArgsMatchConditionParametersTransformsUrlDecode   = PostArgsMatchConditionParametersTransforms("UrlDecode")
-	PostArgsMatchConditionParametersTransformsUrlEncode   = PostArgsMatchConditionParametersTransforms("UrlEncode")
+	PostArgsMatchConditionParametersTransforms_Lowercase   = PostArgsMatchConditionParametersTransforms("Lowercase")
+	PostArgsMatchConditionParametersTransforms_RemoveNulls = PostArgsMatchConditionParametersTransforms("RemoveNulls")
+	PostArgsMatchConditionParametersTransforms_Trim        = PostArgsMatchConditionParametersTransforms("Trim")
+	PostArgsMatchConditionParametersTransforms_Uppercase   = PostArgsMatchConditionParametersTransforms("Uppercase")
+	PostArgsMatchConditionParametersTransforms_UrlDecode   = PostArgsMatchConditionParametersTransforms("UrlDecode")
+	PostArgsMatchConditionParametersTransforms_UrlEncode   = PostArgsMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
 type PostArgsMatchConditionParametersTypeName string
 
-const PostArgsMatchConditionParametersTypeNameDeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParametersTypeName("DeliveryRulePostArgsConditionParameters")
+const PostArgsMatchConditionParametersTypeName_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParametersTypeName("DeliveryRulePostArgsConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type QueryStringMatchConditionParametersOperator string
 
 const (
-	QueryStringMatchConditionParametersOperatorAny                = QueryStringMatchConditionParametersOperator("Any")
-	QueryStringMatchConditionParametersOperatorBeginsWith         = QueryStringMatchConditionParametersOperator("BeginsWith")
-	QueryStringMatchConditionParametersOperatorContains           = QueryStringMatchConditionParametersOperator("Contains")
-	QueryStringMatchConditionParametersOperatorEndsWith           = QueryStringMatchConditionParametersOperator("EndsWith")
-	QueryStringMatchConditionParametersOperatorEqual              = QueryStringMatchConditionParametersOperator("Equal")
-	QueryStringMatchConditionParametersOperatorGreaterThan        = QueryStringMatchConditionParametersOperator("GreaterThan")
-	QueryStringMatchConditionParametersOperatorGreaterThanOrEqual = QueryStringMatchConditionParametersOperator("GreaterThanOrEqual")
-	QueryStringMatchConditionParametersOperatorLessThan           = QueryStringMatchConditionParametersOperator("LessThan")
-	QueryStringMatchConditionParametersOperatorLessThanOrEqual    = QueryStringMatchConditionParametersOperator("LessThanOrEqual")
-	QueryStringMatchConditionParametersOperatorRegEx              = QueryStringMatchConditionParametersOperator("RegEx")
+	QueryStringMatchConditionParametersOperator_Any                = QueryStringMatchConditionParametersOperator("Any")
+	QueryStringMatchConditionParametersOperator_BeginsWith         = QueryStringMatchConditionParametersOperator("BeginsWith")
+	QueryStringMatchConditionParametersOperator_Contains           = QueryStringMatchConditionParametersOperator("Contains")
+	QueryStringMatchConditionParametersOperator_EndsWith           = QueryStringMatchConditionParametersOperator("EndsWith")
+	QueryStringMatchConditionParametersOperator_Equal              = QueryStringMatchConditionParametersOperator("Equal")
+	QueryStringMatchConditionParametersOperator_GreaterThan        = QueryStringMatchConditionParametersOperator("GreaterThan")
+	QueryStringMatchConditionParametersOperator_GreaterThanOrEqual = QueryStringMatchConditionParametersOperator("GreaterThanOrEqual")
+	QueryStringMatchConditionParametersOperator_LessThan           = QueryStringMatchConditionParametersOperator("LessThan")
+	QueryStringMatchConditionParametersOperator_LessThanOrEqual    = QueryStringMatchConditionParametersOperator("LessThanOrEqual")
+	QueryStringMatchConditionParametersOperator_RegEx              = QueryStringMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type QueryStringMatchConditionParametersTransforms string
 
 const (
-	QueryStringMatchConditionParametersTransformsLowercase   = QueryStringMatchConditionParametersTransforms("Lowercase")
-	QueryStringMatchConditionParametersTransformsRemoveNulls = QueryStringMatchConditionParametersTransforms("RemoveNulls")
-	QueryStringMatchConditionParametersTransformsTrim        = QueryStringMatchConditionParametersTransforms("Trim")
-	QueryStringMatchConditionParametersTransformsUppercase   = QueryStringMatchConditionParametersTransforms("Uppercase")
-	QueryStringMatchConditionParametersTransformsUrlDecode   = QueryStringMatchConditionParametersTransforms("UrlDecode")
-	QueryStringMatchConditionParametersTransformsUrlEncode   = QueryStringMatchConditionParametersTransforms("UrlEncode")
+	QueryStringMatchConditionParametersTransforms_Lowercase   = QueryStringMatchConditionParametersTransforms("Lowercase")
+	QueryStringMatchConditionParametersTransforms_RemoveNulls = QueryStringMatchConditionParametersTransforms("RemoveNulls")
+	QueryStringMatchConditionParametersTransforms_Trim        = QueryStringMatchConditionParametersTransforms("Trim")
+	QueryStringMatchConditionParametersTransforms_Uppercase   = QueryStringMatchConditionParametersTransforms("Uppercase")
+	QueryStringMatchConditionParametersTransforms_UrlDecode   = QueryStringMatchConditionParametersTransforms("UrlDecode")
+	QueryStringMatchConditionParametersTransforms_UrlEncode   = QueryStringMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
 type QueryStringMatchConditionParametersTypeName string
 
-const QueryStringMatchConditionParametersTypeNameDeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParametersTypeName("DeliveryRuleQueryStringConditionParameters")
+const QueryStringMatchConditionParametersTypeName_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParametersTypeName("DeliveryRuleQueryStringConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
 type RemoteAddressMatchConditionParametersOperator string
 
 const (
-	RemoteAddressMatchConditionParametersOperatorAny      = RemoteAddressMatchConditionParametersOperator("Any")
-	RemoteAddressMatchConditionParametersOperatorGeoMatch = RemoteAddressMatchConditionParametersOperator("GeoMatch")
-	RemoteAddressMatchConditionParametersOperatorIPMatch  = RemoteAddressMatchConditionParametersOperator("IPMatch")
+	RemoteAddressMatchConditionParametersOperator_Any      = RemoteAddressMatchConditionParametersOperator("Any")
+	RemoteAddressMatchConditionParametersOperator_GeoMatch = RemoteAddressMatchConditionParametersOperator("GeoMatch")
+	RemoteAddressMatchConditionParametersOperator_IPMatch  = RemoteAddressMatchConditionParametersOperator("IPMatch")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RemoteAddressMatchConditionParametersTransforms string
 
 const (
-	RemoteAddressMatchConditionParametersTransformsLowercase   = RemoteAddressMatchConditionParametersTransforms("Lowercase")
-	RemoteAddressMatchConditionParametersTransformsRemoveNulls = RemoteAddressMatchConditionParametersTransforms("RemoveNulls")
-	RemoteAddressMatchConditionParametersTransformsTrim        = RemoteAddressMatchConditionParametersTransforms("Trim")
-	RemoteAddressMatchConditionParametersTransformsUppercase   = RemoteAddressMatchConditionParametersTransforms("Uppercase")
-	RemoteAddressMatchConditionParametersTransformsUrlDecode   = RemoteAddressMatchConditionParametersTransforms("UrlDecode")
-	RemoteAddressMatchConditionParametersTransformsUrlEncode   = RemoteAddressMatchConditionParametersTransforms("UrlEncode")
+	RemoteAddressMatchConditionParametersTransforms_Lowercase   = RemoteAddressMatchConditionParametersTransforms("Lowercase")
+	RemoteAddressMatchConditionParametersTransforms_RemoveNulls = RemoteAddressMatchConditionParametersTransforms("RemoveNulls")
+	RemoteAddressMatchConditionParametersTransforms_Trim        = RemoteAddressMatchConditionParametersTransforms("Trim")
+	RemoteAddressMatchConditionParametersTransforms_Uppercase   = RemoteAddressMatchConditionParametersTransforms("Uppercase")
+	RemoteAddressMatchConditionParametersTransforms_UrlDecode   = RemoteAddressMatchConditionParametersTransforms("UrlDecode")
+	RemoteAddressMatchConditionParametersTransforms_UrlEncode   = RemoteAddressMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
 type RemoteAddressMatchConditionParametersTypeName string
 
-const RemoteAddressMatchConditionParametersTypeNameDeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParametersTypeName("DeliveryRuleRemoteAddressConditionParameters")
+const RemoteAddressMatchConditionParametersTypeName_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParametersTypeName("DeliveryRuleRemoteAddressConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestBodyMatchConditionParametersOperator string
 
 const (
-	RequestBodyMatchConditionParametersOperatorAny                = RequestBodyMatchConditionParametersOperator("Any")
-	RequestBodyMatchConditionParametersOperatorBeginsWith         = RequestBodyMatchConditionParametersOperator("BeginsWith")
-	RequestBodyMatchConditionParametersOperatorContains           = RequestBodyMatchConditionParametersOperator("Contains")
-	RequestBodyMatchConditionParametersOperatorEndsWith           = RequestBodyMatchConditionParametersOperator("EndsWith")
-	RequestBodyMatchConditionParametersOperatorEqual              = RequestBodyMatchConditionParametersOperator("Equal")
-	RequestBodyMatchConditionParametersOperatorGreaterThan        = RequestBodyMatchConditionParametersOperator("GreaterThan")
-	RequestBodyMatchConditionParametersOperatorGreaterThanOrEqual = RequestBodyMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestBodyMatchConditionParametersOperatorLessThan           = RequestBodyMatchConditionParametersOperator("LessThan")
-	RequestBodyMatchConditionParametersOperatorLessThanOrEqual    = RequestBodyMatchConditionParametersOperator("LessThanOrEqual")
-	RequestBodyMatchConditionParametersOperatorRegEx              = RequestBodyMatchConditionParametersOperator("RegEx")
+	RequestBodyMatchConditionParametersOperator_Any                = RequestBodyMatchConditionParametersOperator("Any")
+	RequestBodyMatchConditionParametersOperator_BeginsWith         = RequestBodyMatchConditionParametersOperator("BeginsWith")
+	RequestBodyMatchConditionParametersOperator_Contains           = RequestBodyMatchConditionParametersOperator("Contains")
+	RequestBodyMatchConditionParametersOperator_EndsWith           = RequestBodyMatchConditionParametersOperator("EndsWith")
+	RequestBodyMatchConditionParametersOperator_Equal              = RequestBodyMatchConditionParametersOperator("Equal")
+	RequestBodyMatchConditionParametersOperator_GreaterThan        = RequestBodyMatchConditionParametersOperator("GreaterThan")
+	RequestBodyMatchConditionParametersOperator_GreaterThanOrEqual = RequestBodyMatchConditionParametersOperator("GreaterThanOrEqual")
+	RequestBodyMatchConditionParametersOperator_LessThan           = RequestBodyMatchConditionParametersOperator("LessThan")
+	RequestBodyMatchConditionParametersOperator_LessThanOrEqual    = RequestBodyMatchConditionParametersOperator("LessThanOrEqual")
+	RequestBodyMatchConditionParametersOperator_RegEx              = RequestBodyMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RequestBodyMatchConditionParametersTransforms string
 
 const (
-	RequestBodyMatchConditionParametersTransformsLowercase   = RequestBodyMatchConditionParametersTransforms("Lowercase")
-	RequestBodyMatchConditionParametersTransformsRemoveNulls = RequestBodyMatchConditionParametersTransforms("RemoveNulls")
-	RequestBodyMatchConditionParametersTransformsTrim        = RequestBodyMatchConditionParametersTransforms("Trim")
-	RequestBodyMatchConditionParametersTransformsUppercase   = RequestBodyMatchConditionParametersTransforms("Uppercase")
-	RequestBodyMatchConditionParametersTransformsUrlDecode   = RequestBodyMatchConditionParametersTransforms("UrlDecode")
-	RequestBodyMatchConditionParametersTransformsUrlEncode   = RequestBodyMatchConditionParametersTransforms("UrlEncode")
+	RequestBodyMatchConditionParametersTransforms_Lowercase   = RequestBodyMatchConditionParametersTransforms("Lowercase")
+	RequestBodyMatchConditionParametersTransforms_RemoveNulls = RequestBodyMatchConditionParametersTransforms("RemoveNulls")
+	RequestBodyMatchConditionParametersTransforms_Trim        = RequestBodyMatchConditionParametersTransforms("Trim")
+	RequestBodyMatchConditionParametersTransforms_Uppercase   = RequestBodyMatchConditionParametersTransforms("Uppercase")
+	RequestBodyMatchConditionParametersTransforms_UrlDecode   = RequestBodyMatchConditionParametersTransforms("UrlDecode")
+	RequestBodyMatchConditionParametersTransforms_UrlEncode   = RequestBodyMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
 type RequestBodyMatchConditionParametersTypeName string
 
-const RequestBodyMatchConditionParametersTypeNameDeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParametersTypeName("DeliveryRuleRequestBodyConditionParameters")
+const RequestBodyMatchConditionParametersTypeName_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParametersTypeName("DeliveryRuleRequestBodyConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestHeaderMatchConditionParametersOperator string
 
 const (
-	RequestHeaderMatchConditionParametersOperatorAny                = RequestHeaderMatchConditionParametersOperator("Any")
-	RequestHeaderMatchConditionParametersOperatorBeginsWith         = RequestHeaderMatchConditionParametersOperator("BeginsWith")
-	RequestHeaderMatchConditionParametersOperatorContains           = RequestHeaderMatchConditionParametersOperator("Contains")
-	RequestHeaderMatchConditionParametersOperatorEndsWith           = RequestHeaderMatchConditionParametersOperator("EndsWith")
-	RequestHeaderMatchConditionParametersOperatorEqual              = RequestHeaderMatchConditionParametersOperator("Equal")
-	RequestHeaderMatchConditionParametersOperatorGreaterThan        = RequestHeaderMatchConditionParametersOperator("GreaterThan")
-	RequestHeaderMatchConditionParametersOperatorGreaterThanOrEqual = RequestHeaderMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestHeaderMatchConditionParametersOperatorLessThan           = RequestHeaderMatchConditionParametersOperator("LessThan")
-	RequestHeaderMatchConditionParametersOperatorLessThanOrEqual    = RequestHeaderMatchConditionParametersOperator("LessThanOrEqual")
-	RequestHeaderMatchConditionParametersOperatorRegEx              = RequestHeaderMatchConditionParametersOperator("RegEx")
+	RequestHeaderMatchConditionParametersOperator_Any                = RequestHeaderMatchConditionParametersOperator("Any")
+	RequestHeaderMatchConditionParametersOperator_BeginsWith         = RequestHeaderMatchConditionParametersOperator("BeginsWith")
+	RequestHeaderMatchConditionParametersOperator_Contains           = RequestHeaderMatchConditionParametersOperator("Contains")
+	RequestHeaderMatchConditionParametersOperator_EndsWith           = RequestHeaderMatchConditionParametersOperator("EndsWith")
+	RequestHeaderMatchConditionParametersOperator_Equal              = RequestHeaderMatchConditionParametersOperator("Equal")
+	RequestHeaderMatchConditionParametersOperator_GreaterThan        = RequestHeaderMatchConditionParametersOperator("GreaterThan")
+	RequestHeaderMatchConditionParametersOperator_GreaterThanOrEqual = RequestHeaderMatchConditionParametersOperator("GreaterThanOrEqual")
+	RequestHeaderMatchConditionParametersOperator_LessThan           = RequestHeaderMatchConditionParametersOperator("LessThan")
+	RequestHeaderMatchConditionParametersOperator_LessThanOrEqual    = RequestHeaderMatchConditionParametersOperator("LessThanOrEqual")
+	RequestHeaderMatchConditionParametersOperator_RegEx              = RequestHeaderMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RequestHeaderMatchConditionParametersTransforms string
 
 const (
-	RequestHeaderMatchConditionParametersTransformsLowercase   = RequestHeaderMatchConditionParametersTransforms("Lowercase")
-	RequestHeaderMatchConditionParametersTransformsRemoveNulls = RequestHeaderMatchConditionParametersTransforms("RemoveNulls")
-	RequestHeaderMatchConditionParametersTransformsTrim        = RequestHeaderMatchConditionParametersTransforms("Trim")
-	RequestHeaderMatchConditionParametersTransformsUppercase   = RequestHeaderMatchConditionParametersTransforms("Uppercase")
-	RequestHeaderMatchConditionParametersTransformsUrlDecode   = RequestHeaderMatchConditionParametersTransforms("UrlDecode")
-	RequestHeaderMatchConditionParametersTransformsUrlEncode   = RequestHeaderMatchConditionParametersTransforms("UrlEncode")
+	RequestHeaderMatchConditionParametersTransforms_Lowercase   = RequestHeaderMatchConditionParametersTransforms("Lowercase")
+	RequestHeaderMatchConditionParametersTransforms_RemoveNulls = RequestHeaderMatchConditionParametersTransforms("RemoveNulls")
+	RequestHeaderMatchConditionParametersTransforms_Trim        = RequestHeaderMatchConditionParametersTransforms("Trim")
+	RequestHeaderMatchConditionParametersTransforms_Uppercase   = RequestHeaderMatchConditionParametersTransforms("Uppercase")
+	RequestHeaderMatchConditionParametersTransforms_UrlDecode   = RequestHeaderMatchConditionParametersTransforms("UrlDecode")
+	RequestHeaderMatchConditionParametersTransforms_UrlEncode   = RequestHeaderMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
 type RequestHeaderMatchConditionParametersTypeName string
 
-const RequestHeaderMatchConditionParametersTypeNameDeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParametersTypeName("DeliveryRuleRequestHeaderConditionParameters")
+const RequestHeaderMatchConditionParametersTypeName_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParametersTypeName("DeliveryRuleRequestHeaderConditionParameters")
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
 type RequestMethodMatchConditionParametersMatchValues string
 
 const (
-	RequestMethodMatchConditionParametersMatchValuesDELETE  = RequestMethodMatchConditionParametersMatchValues("DELETE")
-	RequestMethodMatchConditionParametersMatchValuesGET     = RequestMethodMatchConditionParametersMatchValues("GET")
-	RequestMethodMatchConditionParametersMatchValuesHEAD    = RequestMethodMatchConditionParametersMatchValues("HEAD")
-	RequestMethodMatchConditionParametersMatchValuesOPTIONS = RequestMethodMatchConditionParametersMatchValues("OPTIONS")
-	RequestMethodMatchConditionParametersMatchValuesPOST    = RequestMethodMatchConditionParametersMatchValues("POST")
-	RequestMethodMatchConditionParametersMatchValuesPUT     = RequestMethodMatchConditionParametersMatchValues("PUT")
-	RequestMethodMatchConditionParametersMatchValuesTRACE   = RequestMethodMatchConditionParametersMatchValues("TRACE")
+	RequestMethodMatchConditionParametersMatchValues_DELETE  = RequestMethodMatchConditionParametersMatchValues("DELETE")
+	RequestMethodMatchConditionParametersMatchValues_GET     = RequestMethodMatchConditionParametersMatchValues("GET")
+	RequestMethodMatchConditionParametersMatchValues_HEAD    = RequestMethodMatchConditionParametersMatchValues("HEAD")
+	RequestMethodMatchConditionParametersMatchValues_OPTIONS = RequestMethodMatchConditionParametersMatchValues("OPTIONS")
+	RequestMethodMatchConditionParametersMatchValues_POST    = RequestMethodMatchConditionParametersMatchValues("POST")
+	RequestMethodMatchConditionParametersMatchValues_PUT     = RequestMethodMatchConditionParametersMatchValues("PUT")
+	RequestMethodMatchConditionParametersMatchValues_TRACE   = RequestMethodMatchConditionParametersMatchValues("TRACE")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestMethodMatchConditionParametersOperator string
 
-const RequestMethodMatchConditionParametersOperatorEqual = RequestMethodMatchConditionParametersOperator("Equal")
+const RequestMethodMatchConditionParametersOperator_Equal = RequestMethodMatchConditionParametersOperator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RequestMethodMatchConditionParametersTransforms string
 
 const (
-	RequestMethodMatchConditionParametersTransformsLowercase   = RequestMethodMatchConditionParametersTransforms("Lowercase")
-	RequestMethodMatchConditionParametersTransformsRemoveNulls = RequestMethodMatchConditionParametersTransforms("RemoveNulls")
-	RequestMethodMatchConditionParametersTransformsTrim        = RequestMethodMatchConditionParametersTransforms("Trim")
-	RequestMethodMatchConditionParametersTransformsUppercase   = RequestMethodMatchConditionParametersTransforms("Uppercase")
-	RequestMethodMatchConditionParametersTransformsUrlDecode   = RequestMethodMatchConditionParametersTransforms("UrlDecode")
-	RequestMethodMatchConditionParametersTransformsUrlEncode   = RequestMethodMatchConditionParametersTransforms("UrlEncode")
+	RequestMethodMatchConditionParametersTransforms_Lowercase   = RequestMethodMatchConditionParametersTransforms("Lowercase")
+	RequestMethodMatchConditionParametersTransforms_RemoveNulls = RequestMethodMatchConditionParametersTransforms("RemoveNulls")
+	RequestMethodMatchConditionParametersTransforms_Trim        = RequestMethodMatchConditionParametersTransforms("Trim")
+	RequestMethodMatchConditionParametersTransforms_Uppercase   = RequestMethodMatchConditionParametersTransforms("Uppercase")
+	RequestMethodMatchConditionParametersTransforms_UrlDecode   = RequestMethodMatchConditionParametersTransforms("UrlDecode")
+	RequestMethodMatchConditionParametersTransforms_UrlEncode   = RequestMethodMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
 type RequestMethodMatchConditionParametersTypeName string
 
-const RequestMethodMatchConditionParametersTypeNameDeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParametersTypeName("DeliveryRuleRequestMethodConditionParameters")
+const RequestMethodMatchConditionParametersTypeName_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParametersTypeName("DeliveryRuleRequestMethodConditionParameters")
 
 // +kubebuilder:validation:Enum={"HTTP","HTTPS"}
 type RequestSchemeMatchConditionParametersMatchValues string
 
 const (
-	RequestSchemeMatchConditionParametersMatchValuesHTTP  = RequestSchemeMatchConditionParametersMatchValues("HTTP")
-	RequestSchemeMatchConditionParametersMatchValuesHTTPS = RequestSchemeMatchConditionParametersMatchValues("HTTPS")
+	RequestSchemeMatchConditionParametersMatchValues_HTTP  = RequestSchemeMatchConditionParametersMatchValues("HTTP")
+	RequestSchemeMatchConditionParametersMatchValues_HTTPS = RequestSchemeMatchConditionParametersMatchValues("HTTPS")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestSchemeMatchConditionParametersOperator string
 
-const RequestSchemeMatchConditionParametersOperatorEqual = RequestSchemeMatchConditionParametersOperator("Equal")
+const RequestSchemeMatchConditionParametersOperator_Equal = RequestSchemeMatchConditionParametersOperator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RequestSchemeMatchConditionParametersTransforms string
 
 const (
-	RequestSchemeMatchConditionParametersTransformsLowercase   = RequestSchemeMatchConditionParametersTransforms("Lowercase")
-	RequestSchemeMatchConditionParametersTransformsRemoveNulls = RequestSchemeMatchConditionParametersTransforms("RemoveNulls")
-	RequestSchemeMatchConditionParametersTransformsTrim        = RequestSchemeMatchConditionParametersTransforms("Trim")
-	RequestSchemeMatchConditionParametersTransformsUppercase   = RequestSchemeMatchConditionParametersTransforms("Uppercase")
-	RequestSchemeMatchConditionParametersTransformsUrlDecode   = RequestSchemeMatchConditionParametersTransforms("UrlDecode")
-	RequestSchemeMatchConditionParametersTransformsUrlEncode   = RequestSchemeMatchConditionParametersTransforms("UrlEncode")
+	RequestSchemeMatchConditionParametersTransforms_Lowercase   = RequestSchemeMatchConditionParametersTransforms("Lowercase")
+	RequestSchemeMatchConditionParametersTransforms_RemoveNulls = RequestSchemeMatchConditionParametersTransforms("RemoveNulls")
+	RequestSchemeMatchConditionParametersTransforms_Trim        = RequestSchemeMatchConditionParametersTransforms("Trim")
+	RequestSchemeMatchConditionParametersTransforms_Uppercase   = RequestSchemeMatchConditionParametersTransforms("Uppercase")
+	RequestSchemeMatchConditionParametersTransforms_UrlDecode   = RequestSchemeMatchConditionParametersTransforms("UrlDecode")
+	RequestSchemeMatchConditionParametersTransforms_UrlEncode   = RequestSchemeMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
 type RequestSchemeMatchConditionParametersTypeName string
 
-const RequestSchemeMatchConditionParametersTypeNameDeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParametersTypeName("DeliveryRuleRequestSchemeConditionParameters")
+const RequestSchemeMatchConditionParametersTypeName_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParametersTypeName("DeliveryRuleRequestSchemeConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestUriMatchConditionParametersOperator string
 
 const (
-	RequestUriMatchConditionParametersOperatorAny                = RequestUriMatchConditionParametersOperator("Any")
-	RequestUriMatchConditionParametersOperatorBeginsWith         = RequestUriMatchConditionParametersOperator("BeginsWith")
-	RequestUriMatchConditionParametersOperatorContains           = RequestUriMatchConditionParametersOperator("Contains")
-	RequestUriMatchConditionParametersOperatorEndsWith           = RequestUriMatchConditionParametersOperator("EndsWith")
-	RequestUriMatchConditionParametersOperatorEqual              = RequestUriMatchConditionParametersOperator("Equal")
-	RequestUriMatchConditionParametersOperatorGreaterThan        = RequestUriMatchConditionParametersOperator("GreaterThan")
-	RequestUriMatchConditionParametersOperatorGreaterThanOrEqual = RequestUriMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestUriMatchConditionParametersOperatorLessThan           = RequestUriMatchConditionParametersOperator("LessThan")
-	RequestUriMatchConditionParametersOperatorLessThanOrEqual    = RequestUriMatchConditionParametersOperator("LessThanOrEqual")
-	RequestUriMatchConditionParametersOperatorRegEx              = RequestUriMatchConditionParametersOperator("RegEx")
+	RequestUriMatchConditionParametersOperator_Any                = RequestUriMatchConditionParametersOperator("Any")
+	RequestUriMatchConditionParametersOperator_BeginsWith         = RequestUriMatchConditionParametersOperator("BeginsWith")
+	RequestUriMatchConditionParametersOperator_Contains           = RequestUriMatchConditionParametersOperator("Contains")
+	RequestUriMatchConditionParametersOperator_EndsWith           = RequestUriMatchConditionParametersOperator("EndsWith")
+	RequestUriMatchConditionParametersOperator_Equal              = RequestUriMatchConditionParametersOperator("Equal")
+	RequestUriMatchConditionParametersOperator_GreaterThan        = RequestUriMatchConditionParametersOperator("GreaterThan")
+	RequestUriMatchConditionParametersOperator_GreaterThanOrEqual = RequestUriMatchConditionParametersOperator("GreaterThanOrEqual")
+	RequestUriMatchConditionParametersOperator_LessThan           = RequestUriMatchConditionParametersOperator("LessThan")
+	RequestUriMatchConditionParametersOperator_LessThanOrEqual    = RequestUriMatchConditionParametersOperator("LessThanOrEqual")
+	RequestUriMatchConditionParametersOperator_RegEx              = RequestUriMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type RequestUriMatchConditionParametersTransforms string
 
 const (
-	RequestUriMatchConditionParametersTransformsLowercase   = RequestUriMatchConditionParametersTransforms("Lowercase")
-	RequestUriMatchConditionParametersTransformsRemoveNulls = RequestUriMatchConditionParametersTransforms("RemoveNulls")
-	RequestUriMatchConditionParametersTransformsTrim        = RequestUriMatchConditionParametersTransforms("Trim")
-	RequestUriMatchConditionParametersTransformsUppercase   = RequestUriMatchConditionParametersTransforms("Uppercase")
-	RequestUriMatchConditionParametersTransformsUrlDecode   = RequestUriMatchConditionParametersTransforms("UrlDecode")
-	RequestUriMatchConditionParametersTransformsUrlEncode   = RequestUriMatchConditionParametersTransforms("UrlEncode")
+	RequestUriMatchConditionParametersTransforms_Lowercase   = RequestUriMatchConditionParametersTransforms("Lowercase")
+	RequestUriMatchConditionParametersTransforms_RemoveNulls = RequestUriMatchConditionParametersTransforms("RemoveNulls")
+	RequestUriMatchConditionParametersTransforms_Trim        = RequestUriMatchConditionParametersTransforms("Trim")
+	RequestUriMatchConditionParametersTransforms_Uppercase   = RequestUriMatchConditionParametersTransforms("Uppercase")
+	RequestUriMatchConditionParametersTransforms_UrlDecode   = RequestUriMatchConditionParametersTransforms("UrlDecode")
+	RequestUriMatchConditionParametersTransforms_UrlEncode   = RequestUriMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
 type RequestUriMatchConditionParametersTypeName string
 
-const RequestUriMatchConditionParametersTypeNameDeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParametersTypeName("DeliveryRuleRequestUriConditionParameters")
+const RequestUriMatchConditionParametersTypeName_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParametersTypeName("DeliveryRuleRequestUriConditionParameters")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
 type RouteConfigurationOverrideActionParametersTypeName string
 
-const RouteConfigurationOverrideActionParametersTypeNameDeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParametersTypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
+const RouteConfigurationOverrideActionParametersTypeName_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParametersTypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ServerPortMatchConditionParametersOperator string
 
 const (
-	ServerPortMatchConditionParametersOperatorAny                = ServerPortMatchConditionParametersOperator("Any")
-	ServerPortMatchConditionParametersOperatorBeginsWith         = ServerPortMatchConditionParametersOperator("BeginsWith")
-	ServerPortMatchConditionParametersOperatorContains           = ServerPortMatchConditionParametersOperator("Contains")
-	ServerPortMatchConditionParametersOperatorEndsWith           = ServerPortMatchConditionParametersOperator("EndsWith")
-	ServerPortMatchConditionParametersOperatorEqual              = ServerPortMatchConditionParametersOperator("Equal")
-	ServerPortMatchConditionParametersOperatorGreaterThan        = ServerPortMatchConditionParametersOperator("GreaterThan")
-	ServerPortMatchConditionParametersOperatorGreaterThanOrEqual = ServerPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ServerPortMatchConditionParametersOperatorLessThan           = ServerPortMatchConditionParametersOperator("LessThan")
-	ServerPortMatchConditionParametersOperatorLessThanOrEqual    = ServerPortMatchConditionParametersOperator("LessThanOrEqual")
-	ServerPortMatchConditionParametersOperatorRegEx              = ServerPortMatchConditionParametersOperator("RegEx")
+	ServerPortMatchConditionParametersOperator_Any                = ServerPortMatchConditionParametersOperator("Any")
+	ServerPortMatchConditionParametersOperator_BeginsWith         = ServerPortMatchConditionParametersOperator("BeginsWith")
+	ServerPortMatchConditionParametersOperator_Contains           = ServerPortMatchConditionParametersOperator("Contains")
+	ServerPortMatchConditionParametersOperator_EndsWith           = ServerPortMatchConditionParametersOperator("EndsWith")
+	ServerPortMatchConditionParametersOperator_Equal              = ServerPortMatchConditionParametersOperator("Equal")
+	ServerPortMatchConditionParametersOperator_GreaterThan        = ServerPortMatchConditionParametersOperator("GreaterThan")
+	ServerPortMatchConditionParametersOperator_GreaterThanOrEqual = ServerPortMatchConditionParametersOperator("GreaterThanOrEqual")
+	ServerPortMatchConditionParametersOperator_LessThan           = ServerPortMatchConditionParametersOperator("LessThan")
+	ServerPortMatchConditionParametersOperator_LessThanOrEqual    = ServerPortMatchConditionParametersOperator("LessThanOrEqual")
+	ServerPortMatchConditionParametersOperator_RegEx              = ServerPortMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type ServerPortMatchConditionParametersTransforms string
 
 const (
-	ServerPortMatchConditionParametersTransformsLowercase   = ServerPortMatchConditionParametersTransforms("Lowercase")
-	ServerPortMatchConditionParametersTransformsRemoveNulls = ServerPortMatchConditionParametersTransforms("RemoveNulls")
-	ServerPortMatchConditionParametersTransformsTrim        = ServerPortMatchConditionParametersTransforms("Trim")
-	ServerPortMatchConditionParametersTransformsUppercase   = ServerPortMatchConditionParametersTransforms("Uppercase")
-	ServerPortMatchConditionParametersTransformsUrlDecode   = ServerPortMatchConditionParametersTransforms("UrlDecode")
-	ServerPortMatchConditionParametersTransformsUrlEncode   = ServerPortMatchConditionParametersTransforms("UrlEncode")
+	ServerPortMatchConditionParametersTransforms_Lowercase   = ServerPortMatchConditionParametersTransforms("Lowercase")
+	ServerPortMatchConditionParametersTransforms_RemoveNulls = ServerPortMatchConditionParametersTransforms("RemoveNulls")
+	ServerPortMatchConditionParametersTransforms_Trim        = ServerPortMatchConditionParametersTransforms("Trim")
+	ServerPortMatchConditionParametersTransforms_Uppercase   = ServerPortMatchConditionParametersTransforms("Uppercase")
+	ServerPortMatchConditionParametersTransforms_UrlDecode   = ServerPortMatchConditionParametersTransforms("UrlDecode")
+	ServerPortMatchConditionParametersTransforms_UrlEncode   = ServerPortMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
 type ServerPortMatchConditionParametersTypeName string
 
-const ServerPortMatchConditionParametersTypeNameDeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParametersTypeName("DeliveryRuleServerPortConditionParameters")
+const ServerPortMatchConditionParametersTypeName_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParametersTypeName("DeliveryRuleServerPortConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","IPMatch"}
 type SocketAddrMatchConditionParametersOperator string
 
 const (
-	SocketAddrMatchConditionParametersOperatorAny     = SocketAddrMatchConditionParametersOperator("Any")
-	SocketAddrMatchConditionParametersOperatorIPMatch = SocketAddrMatchConditionParametersOperator("IPMatch")
+	SocketAddrMatchConditionParametersOperator_Any     = SocketAddrMatchConditionParametersOperator("Any")
+	SocketAddrMatchConditionParametersOperator_IPMatch = SocketAddrMatchConditionParametersOperator("IPMatch")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type SocketAddrMatchConditionParametersTransforms string
 
 const (
-	SocketAddrMatchConditionParametersTransformsLowercase   = SocketAddrMatchConditionParametersTransforms("Lowercase")
-	SocketAddrMatchConditionParametersTransformsRemoveNulls = SocketAddrMatchConditionParametersTransforms("RemoveNulls")
-	SocketAddrMatchConditionParametersTransformsTrim        = SocketAddrMatchConditionParametersTransforms("Trim")
-	SocketAddrMatchConditionParametersTransformsUppercase   = SocketAddrMatchConditionParametersTransforms("Uppercase")
-	SocketAddrMatchConditionParametersTransformsUrlDecode   = SocketAddrMatchConditionParametersTransforms("UrlDecode")
-	SocketAddrMatchConditionParametersTransformsUrlEncode   = SocketAddrMatchConditionParametersTransforms("UrlEncode")
+	SocketAddrMatchConditionParametersTransforms_Lowercase   = SocketAddrMatchConditionParametersTransforms("Lowercase")
+	SocketAddrMatchConditionParametersTransforms_RemoveNulls = SocketAddrMatchConditionParametersTransforms("RemoveNulls")
+	SocketAddrMatchConditionParametersTransforms_Trim        = SocketAddrMatchConditionParametersTransforms("Trim")
+	SocketAddrMatchConditionParametersTransforms_Uppercase   = SocketAddrMatchConditionParametersTransforms("Uppercase")
+	SocketAddrMatchConditionParametersTransforms_UrlDecode   = SocketAddrMatchConditionParametersTransforms("UrlDecode")
+	SocketAddrMatchConditionParametersTransforms_UrlEncode   = SocketAddrMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
 type SocketAddrMatchConditionParametersTypeName string
 
-const SocketAddrMatchConditionParametersTypeNameDeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParametersTypeName("DeliveryRuleSocketAddrConditionParameters")
+const SocketAddrMatchConditionParametersTypeName_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParametersTypeName("DeliveryRuleSocketAddrConditionParameters")
 
 // +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
 type SslProtocolMatchConditionParametersMatchValues string
 
 const (
-	SslProtocolMatchConditionParametersMatchValuesTLSv1  = SslProtocolMatchConditionParametersMatchValues("TLSv1")
-	SslProtocolMatchConditionParametersMatchValuesTLSv11 = SslProtocolMatchConditionParametersMatchValues("TLSv1.1")
-	SslProtocolMatchConditionParametersMatchValuesTLSv12 = SslProtocolMatchConditionParametersMatchValues("TLSv1.2")
+	SslProtocolMatchConditionParametersMatchValues_TLSv1  = SslProtocolMatchConditionParametersMatchValues("TLSv1")
+	SslProtocolMatchConditionParametersMatchValues_TLSv11 = SslProtocolMatchConditionParametersMatchValues("TLSv1.1")
+	SslProtocolMatchConditionParametersMatchValues_TLSv12 = SslProtocolMatchConditionParametersMatchValues("TLSv1.2")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
 type SslProtocolMatchConditionParametersOperator string
 
-const SslProtocolMatchConditionParametersOperatorEqual = SslProtocolMatchConditionParametersOperator("Equal")
+const SslProtocolMatchConditionParametersOperator_Equal = SslProtocolMatchConditionParametersOperator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type SslProtocolMatchConditionParametersTransforms string
 
 const (
-	SslProtocolMatchConditionParametersTransformsLowercase   = SslProtocolMatchConditionParametersTransforms("Lowercase")
-	SslProtocolMatchConditionParametersTransformsRemoveNulls = SslProtocolMatchConditionParametersTransforms("RemoveNulls")
-	SslProtocolMatchConditionParametersTransformsTrim        = SslProtocolMatchConditionParametersTransforms("Trim")
-	SslProtocolMatchConditionParametersTransformsUppercase   = SslProtocolMatchConditionParametersTransforms("Uppercase")
-	SslProtocolMatchConditionParametersTransformsUrlDecode   = SslProtocolMatchConditionParametersTransforms("UrlDecode")
-	SslProtocolMatchConditionParametersTransformsUrlEncode   = SslProtocolMatchConditionParametersTransforms("UrlEncode")
+	SslProtocolMatchConditionParametersTransforms_Lowercase   = SslProtocolMatchConditionParametersTransforms("Lowercase")
+	SslProtocolMatchConditionParametersTransforms_RemoveNulls = SslProtocolMatchConditionParametersTransforms("RemoveNulls")
+	SslProtocolMatchConditionParametersTransforms_Trim        = SslProtocolMatchConditionParametersTransforms("Trim")
+	SslProtocolMatchConditionParametersTransforms_Uppercase   = SslProtocolMatchConditionParametersTransforms("Uppercase")
+	SslProtocolMatchConditionParametersTransforms_UrlDecode   = SslProtocolMatchConditionParametersTransforms("UrlDecode")
+	SslProtocolMatchConditionParametersTransforms_UrlEncode   = SslProtocolMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
 type SslProtocolMatchConditionParametersTypeName string
 
-const SslProtocolMatchConditionParametersTypeNameDeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParametersTypeName("DeliveryRuleSslProtocolConditionParameters")
+const SslProtocolMatchConditionParametersTypeName_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParametersTypeName("DeliveryRuleSslProtocolConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileExtensionMatchConditionParametersOperator string
 
 const (
-	UrlFileExtensionMatchConditionParametersOperatorAny                = UrlFileExtensionMatchConditionParametersOperator("Any")
-	UrlFileExtensionMatchConditionParametersOperatorBeginsWith         = UrlFileExtensionMatchConditionParametersOperator("BeginsWith")
-	UrlFileExtensionMatchConditionParametersOperatorContains           = UrlFileExtensionMatchConditionParametersOperator("Contains")
-	UrlFileExtensionMatchConditionParametersOperatorEndsWith           = UrlFileExtensionMatchConditionParametersOperator("EndsWith")
-	UrlFileExtensionMatchConditionParametersOperatorEqual              = UrlFileExtensionMatchConditionParametersOperator("Equal")
-	UrlFileExtensionMatchConditionParametersOperatorGreaterThan        = UrlFileExtensionMatchConditionParametersOperator("GreaterThan")
-	UrlFileExtensionMatchConditionParametersOperatorGreaterThanOrEqual = UrlFileExtensionMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperatorLessThan           = UrlFileExtensionMatchConditionParametersOperator("LessThan")
-	UrlFileExtensionMatchConditionParametersOperatorLessThanOrEqual    = UrlFileExtensionMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperatorRegEx              = UrlFileExtensionMatchConditionParametersOperator("RegEx")
+	UrlFileExtensionMatchConditionParametersOperator_Any                = UrlFileExtensionMatchConditionParametersOperator("Any")
+	UrlFileExtensionMatchConditionParametersOperator_BeginsWith         = UrlFileExtensionMatchConditionParametersOperator("BeginsWith")
+	UrlFileExtensionMatchConditionParametersOperator_Contains           = UrlFileExtensionMatchConditionParametersOperator("Contains")
+	UrlFileExtensionMatchConditionParametersOperator_EndsWith           = UrlFileExtensionMatchConditionParametersOperator("EndsWith")
+	UrlFileExtensionMatchConditionParametersOperator_Equal              = UrlFileExtensionMatchConditionParametersOperator("Equal")
+	UrlFileExtensionMatchConditionParametersOperator_GreaterThan        = UrlFileExtensionMatchConditionParametersOperator("GreaterThan")
+	UrlFileExtensionMatchConditionParametersOperator_GreaterThanOrEqual = UrlFileExtensionMatchConditionParametersOperator("GreaterThanOrEqual")
+	UrlFileExtensionMatchConditionParametersOperator_LessThan           = UrlFileExtensionMatchConditionParametersOperator("LessThan")
+	UrlFileExtensionMatchConditionParametersOperator_LessThanOrEqual    = UrlFileExtensionMatchConditionParametersOperator("LessThanOrEqual")
+	UrlFileExtensionMatchConditionParametersOperator_RegEx              = UrlFileExtensionMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type UrlFileExtensionMatchConditionParametersTransforms string
 
 const (
-	UrlFileExtensionMatchConditionParametersTransformsLowercase   = UrlFileExtensionMatchConditionParametersTransforms("Lowercase")
-	UrlFileExtensionMatchConditionParametersTransformsRemoveNulls = UrlFileExtensionMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileExtensionMatchConditionParametersTransformsTrim        = UrlFileExtensionMatchConditionParametersTransforms("Trim")
-	UrlFileExtensionMatchConditionParametersTransformsUppercase   = UrlFileExtensionMatchConditionParametersTransforms("Uppercase")
-	UrlFileExtensionMatchConditionParametersTransformsUrlDecode   = UrlFileExtensionMatchConditionParametersTransforms("UrlDecode")
-	UrlFileExtensionMatchConditionParametersTransformsUrlEncode   = UrlFileExtensionMatchConditionParametersTransforms("UrlEncode")
+	UrlFileExtensionMatchConditionParametersTransforms_Lowercase   = UrlFileExtensionMatchConditionParametersTransforms("Lowercase")
+	UrlFileExtensionMatchConditionParametersTransforms_RemoveNulls = UrlFileExtensionMatchConditionParametersTransforms("RemoveNulls")
+	UrlFileExtensionMatchConditionParametersTransforms_Trim        = UrlFileExtensionMatchConditionParametersTransforms("Trim")
+	UrlFileExtensionMatchConditionParametersTransforms_Uppercase   = UrlFileExtensionMatchConditionParametersTransforms("Uppercase")
+	UrlFileExtensionMatchConditionParametersTransforms_UrlDecode   = UrlFileExtensionMatchConditionParametersTransforms("UrlDecode")
+	UrlFileExtensionMatchConditionParametersTransforms_UrlEncode   = UrlFileExtensionMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
 type UrlFileExtensionMatchConditionParametersTypeName string
 
-const UrlFileExtensionMatchConditionParametersTypeNameDeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParametersTypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
+const UrlFileExtensionMatchConditionParametersTypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParametersTypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileNameMatchConditionParametersOperator string
 
 const (
-	UrlFileNameMatchConditionParametersOperatorAny                = UrlFileNameMatchConditionParametersOperator("Any")
-	UrlFileNameMatchConditionParametersOperatorBeginsWith         = UrlFileNameMatchConditionParametersOperator("BeginsWith")
-	UrlFileNameMatchConditionParametersOperatorContains           = UrlFileNameMatchConditionParametersOperator("Contains")
-	UrlFileNameMatchConditionParametersOperatorEndsWith           = UrlFileNameMatchConditionParametersOperator("EndsWith")
-	UrlFileNameMatchConditionParametersOperatorEqual              = UrlFileNameMatchConditionParametersOperator("Equal")
-	UrlFileNameMatchConditionParametersOperatorGreaterThan        = UrlFileNameMatchConditionParametersOperator("GreaterThan")
-	UrlFileNameMatchConditionParametersOperatorGreaterThanOrEqual = UrlFileNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileNameMatchConditionParametersOperatorLessThan           = UrlFileNameMatchConditionParametersOperator("LessThan")
-	UrlFileNameMatchConditionParametersOperatorLessThanOrEqual    = UrlFileNameMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileNameMatchConditionParametersOperatorRegEx              = UrlFileNameMatchConditionParametersOperator("RegEx")
+	UrlFileNameMatchConditionParametersOperator_Any                = UrlFileNameMatchConditionParametersOperator("Any")
+	UrlFileNameMatchConditionParametersOperator_BeginsWith         = UrlFileNameMatchConditionParametersOperator("BeginsWith")
+	UrlFileNameMatchConditionParametersOperator_Contains           = UrlFileNameMatchConditionParametersOperator("Contains")
+	UrlFileNameMatchConditionParametersOperator_EndsWith           = UrlFileNameMatchConditionParametersOperator("EndsWith")
+	UrlFileNameMatchConditionParametersOperator_Equal              = UrlFileNameMatchConditionParametersOperator("Equal")
+	UrlFileNameMatchConditionParametersOperator_GreaterThan        = UrlFileNameMatchConditionParametersOperator("GreaterThan")
+	UrlFileNameMatchConditionParametersOperator_GreaterThanOrEqual = UrlFileNameMatchConditionParametersOperator("GreaterThanOrEqual")
+	UrlFileNameMatchConditionParametersOperator_LessThan           = UrlFileNameMatchConditionParametersOperator("LessThan")
+	UrlFileNameMatchConditionParametersOperator_LessThanOrEqual    = UrlFileNameMatchConditionParametersOperator("LessThanOrEqual")
+	UrlFileNameMatchConditionParametersOperator_RegEx              = UrlFileNameMatchConditionParametersOperator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type UrlFileNameMatchConditionParametersTransforms string
 
 const (
-	UrlFileNameMatchConditionParametersTransformsLowercase   = UrlFileNameMatchConditionParametersTransforms("Lowercase")
-	UrlFileNameMatchConditionParametersTransformsRemoveNulls = UrlFileNameMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileNameMatchConditionParametersTransformsTrim        = UrlFileNameMatchConditionParametersTransforms("Trim")
-	UrlFileNameMatchConditionParametersTransformsUppercase   = UrlFileNameMatchConditionParametersTransforms("Uppercase")
-	UrlFileNameMatchConditionParametersTransformsUrlDecode   = UrlFileNameMatchConditionParametersTransforms("UrlDecode")
-	UrlFileNameMatchConditionParametersTransformsUrlEncode   = UrlFileNameMatchConditionParametersTransforms("UrlEncode")
+	UrlFileNameMatchConditionParametersTransforms_Lowercase   = UrlFileNameMatchConditionParametersTransforms("Lowercase")
+	UrlFileNameMatchConditionParametersTransforms_RemoveNulls = UrlFileNameMatchConditionParametersTransforms("RemoveNulls")
+	UrlFileNameMatchConditionParametersTransforms_Trim        = UrlFileNameMatchConditionParametersTransforms("Trim")
+	UrlFileNameMatchConditionParametersTransforms_Uppercase   = UrlFileNameMatchConditionParametersTransforms("Uppercase")
+	UrlFileNameMatchConditionParametersTransforms_UrlDecode   = UrlFileNameMatchConditionParametersTransforms("UrlDecode")
+	UrlFileNameMatchConditionParametersTransforms_UrlEncode   = UrlFileNameMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
 type UrlFileNameMatchConditionParametersTypeName string
 
-const UrlFileNameMatchConditionParametersTypeNameDeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParametersTypeName("DeliveryRuleUrlFilenameConditionParameters")
+const UrlFileNameMatchConditionParametersTypeName_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParametersTypeName("DeliveryRuleUrlFilenameConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
 type UrlPathMatchConditionParametersOperator string
 
 const (
-	UrlPathMatchConditionParametersOperatorAny                = UrlPathMatchConditionParametersOperator("Any")
-	UrlPathMatchConditionParametersOperatorBeginsWith         = UrlPathMatchConditionParametersOperator("BeginsWith")
-	UrlPathMatchConditionParametersOperatorContains           = UrlPathMatchConditionParametersOperator("Contains")
-	UrlPathMatchConditionParametersOperatorEndsWith           = UrlPathMatchConditionParametersOperator("EndsWith")
-	UrlPathMatchConditionParametersOperatorEqual              = UrlPathMatchConditionParametersOperator("Equal")
-	UrlPathMatchConditionParametersOperatorGreaterThan        = UrlPathMatchConditionParametersOperator("GreaterThan")
-	UrlPathMatchConditionParametersOperatorGreaterThanOrEqual = UrlPathMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlPathMatchConditionParametersOperatorLessThan           = UrlPathMatchConditionParametersOperator("LessThan")
-	UrlPathMatchConditionParametersOperatorLessThanOrEqual    = UrlPathMatchConditionParametersOperator("LessThanOrEqual")
-	UrlPathMatchConditionParametersOperatorRegEx              = UrlPathMatchConditionParametersOperator("RegEx")
-	UrlPathMatchConditionParametersOperatorWildcard           = UrlPathMatchConditionParametersOperator("Wildcard")
+	UrlPathMatchConditionParametersOperator_Any                = UrlPathMatchConditionParametersOperator("Any")
+	UrlPathMatchConditionParametersOperator_BeginsWith         = UrlPathMatchConditionParametersOperator("BeginsWith")
+	UrlPathMatchConditionParametersOperator_Contains           = UrlPathMatchConditionParametersOperator("Contains")
+	UrlPathMatchConditionParametersOperator_EndsWith           = UrlPathMatchConditionParametersOperator("EndsWith")
+	UrlPathMatchConditionParametersOperator_Equal              = UrlPathMatchConditionParametersOperator("Equal")
+	UrlPathMatchConditionParametersOperator_GreaterThan        = UrlPathMatchConditionParametersOperator("GreaterThan")
+	UrlPathMatchConditionParametersOperator_GreaterThanOrEqual = UrlPathMatchConditionParametersOperator("GreaterThanOrEqual")
+	UrlPathMatchConditionParametersOperator_LessThan           = UrlPathMatchConditionParametersOperator("LessThan")
+	UrlPathMatchConditionParametersOperator_LessThanOrEqual    = UrlPathMatchConditionParametersOperator("LessThanOrEqual")
+	UrlPathMatchConditionParametersOperator_RegEx              = UrlPathMatchConditionParametersOperator("RegEx")
+	UrlPathMatchConditionParametersOperator_Wildcard           = UrlPathMatchConditionParametersOperator("Wildcard")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type UrlPathMatchConditionParametersTransforms string
 
 const (
-	UrlPathMatchConditionParametersTransformsLowercase   = UrlPathMatchConditionParametersTransforms("Lowercase")
-	UrlPathMatchConditionParametersTransformsRemoveNulls = UrlPathMatchConditionParametersTransforms("RemoveNulls")
-	UrlPathMatchConditionParametersTransformsTrim        = UrlPathMatchConditionParametersTransforms("Trim")
-	UrlPathMatchConditionParametersTransformsUppercase   = UrlPathMatchConditionParametersTransforms("Uppercase")
-	UrlPathMatchConditionParametersTransformsUrlDecode   = UrlPathMatchConditionParametersTransforms("UrlDecode")
-	UrlPathMatchConditionParametersTransformsUrlEncode   = UrlPathMatchConditionParametersTransforms("UrlEncode")
+	UrlPathMatchConditionParametersTransforms_Lowercase   = UrlPathMatchConditionParametersTransforms("Lowercase")
+	UrlPathMatchConditionParametersTransforms_RemoveNulls = UrlPathMatchConditionParametersTransforms("RemoveNulls")
+	UrlPathMatchConditionParametersTransforms_Trim        = UrlPathMatchConditionParametersTransforms("Trim")
+	UrlPathMatchConditionParametersTransforms_Uppercase   = UrlPathMatchConditionParametersTransforms("Uppercase")
+	UrlPathMatchConditionParametersTransforms_UrlDecode   = UrlPathMatchConditionParametersTransforms("UrlDecode")
+	UrlPathMatchConditionParametersTransforms_UrlEncode   = UrlPathMatchConditionParametersTransforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
 type UrlPathMatchConditionParametersTypeName string
 
-const UrlPathMatchConditionParametersTypeNameDeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParametersTypeName("DeliveryRuleUrlPathMatchConditionParameters")
+const UrlPathMatchConditionParametersTypeName_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParametersTypeName("DeliveryRuleUrlPathMatchConditionParameters")
 
 // +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
 type UrlRedirectActionParametersDestinationProtocol string
 
 const (
-	UrlRedirectActionParametersDestinationProtocolHttp         = UrlRedirectActionParametersDestinationProtocol("Http")
-	UrlRedirectActionParametersDestinationProtocolHttps        = UrlRedirectActionParametersDestinationProtocol("Https")
-	UrlRedirectActionParametersDestinationProtocolMatchRequest = UrlRedirectActionParametersDestinationProtocol("MatchRequest")
+	UrlRedirectActionParametersDestinationProtocol_Http         = UrlRedirectActionParametersDestinationProtocol("Http")
+	UrlRedirectActionParametersDestinationProtocol_Https        = UrlRedirectActionParametersDestinationProtocol("Https")
+	UrlRedirectActionParametersDestinationProtocol_MatchRequest = UrlRedirectActionParametersDestinationProtocol("MatchRequest")
 )
 
 // +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
 type UrlRedirectActionParametersRedirectType string
 
 const (
-	UrlRedirectActionParametersRedirectTypeFound             = UrlRedirectActionParametersRedirectType("Found")
-	UrlRedirectActionParametersRedirectTypeMoved             = UrlRedirectActionParametersRedirectType("Moved")
-	UrlRedirectActionParametersRedirectTypePermanentRedirect = UrlRedirectActionParametersRedirectType("PermanentRedirect")
-	UrlRedirectActionParametersRedirectTypeTemporaryRedirect = UrlRedirectActionParametersRedirectType("TemporaryRedirect")
+	UrlRedirectActionParametersRedirectType_Found             = UrlRedirectActionParametersRedirectType("Found")
+	UrlRedirectActionParametersRedirectType_Moved             = UrlRedirectActionParametersRedirectType("Moved")
+	UrlRedirectActionParametersRedirectType_PermanentRedirect = UrlRedirectActionParametersRedirectType("PermanentRedirect")
+	UrlRedirectActionParametersRedirectType_TemporaryRedirect = UrlRedirectActionParametersRedirectType("TemporaryRedirect")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
 type UrlRedirectActionParametersTypeName string
 
-const UrlRedirectActionParametersTypeNameDeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParametersTypeName("DeliveryRuleUrlRedirectActionParameters")
+const UrlRedirectActionParametersTypeName_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParametersTypeName("DeliveryRuleUrlRedirectActionParameters")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
 type UrlRewriteActionParametersTypeName string
 
-const UrlRewriteActionParametersTypeNameDeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParametersTypeName("DeliveryRuleUrlRewriteActionParameters")
+const UrlRewriteActionParametersTypeName_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParametersTypeName("DeliveryRuleUrlRewriteActionParameters")
 
 // +kubebuilder:validation:Enum={"SHA256"}
 type UrlSigningActionParametersAlgorithm string
 
-const UrlSigningActionParametersAlgorithmSHA256 = UrlSigningActionParametersAlgorithm("SHA256")
+const UrlSigningActionParametersAlgorithm_SHA256 = UrlSigningActionParametersAlgorithm("SHA256")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
 type UrlSigningActionParametersTypeName string
 
-const UrlSigningActionParametersTypeNameDeliveryRuleUrlSigningActionParameters = UrlSigningActionParametersTypeName("DeliveryRuleUrlSigningActionParameters")
+const UrlSigningActionParametersTypeName_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParametersTypeName("DeliveryRuleUrlSigningActionParameters")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningParamIdentifier
 type UrlSigningParamIdentifier struct {
@@ -17805,45 +17805,45 @@ func (identifier *UrlSigningParamIdentifier) AssignPropertiesToUrlSigningParamId
 type CacheConfigurationCacheBehavior string
 
 const (
-	CacheConfigurationCacheBehaviorHonorOrigin             = CacheConfigurationCacheBehavior("HonorOrigin")
-	CacheConfigurationCacheBehaviorOverrideAlways          = CacheConfigurationCacheBehavior("OverrideAlways")
-	CacheConfigurationCacheBehaviorOverrideIfOriginMissing = CacheConfigurationCacheBehavior("OverrideIfOriginMissing")
+	CacheConfigurationCacheBehavior_HonorOrigin             = CacheConfigurationCacheBehavior("HonorOrigin")
+	CacheConfigurationCacheBehavior_OverrideAlways          = CacheConfigurationCacheBehavior("OverrideAlways")
+	CacheConfigurationCacheBehavior_OverrideIfOriginMissing = CacheConfigurationCacheBehavior("OverrideIfOriginMissing")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type CacheConfigurationIsCompressionEnabled string
 
 const (
-	CacheConfigurationIsCompressionEnabledDisabled = CacheConfigurationIsCompressionEnabled("Disabled")
-	CacheConfigurationIsCompressionEnabledEnabled  = CacheConfigurationIsCompressionEnabled("Enabled")
+	CacheConfigurationIsCompressionEnabled_Disabled = CacheConfigurationIsCompressionEnabled("Disabled")
+	CacheConfigurationIsCompressionEnabled_Enabled  = CacheConfigurationIsCompressionEnabled("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
 type CacheConfigurationQueryStringCachingBehavior string
 
 const (
-	CacheConfigurationQueryStringCachingBehaviorIgnoreQueryString            = CacheConfigurationQueryStringCachingBehavior("IgnoreQueryString")
-	CacheConfigurationQueryStringCachingBehaviorIgnoreSpecifiedQueryStrings  = CacheConfigurationQueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehaviorIncludeSpecifiedQueryStrings = CacheConfigurationQueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehaviorUseQueryString               = CacheConfigurationQueryStringCachingBehavior("UseQueryString")
+	CacheConfigurationQueryStringCachingBehavior_IgnoreQueryString            = CacheConfigurationQueryStringCachingBehavior("IgnoreQueryString")
+	CacheConfigurationQueryStringCachingBehavior_IgnoreSpecifiedQueryStrings  = CacheConfigurationQueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
+	CacheConfigurationQueryStringCachingBehavior_IncludeSpecifiedQueryStrings = CacheConfigurationQueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
+	CacheConfigurationQueryStringCachingBehavior_UseQueryString               = CacheConfigurationQueryStringCachingBehavior("UseQueryString")
 )
 
 // +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
 type OriginGroupOverrideForwardingProtocol string
 
 const (
-	OriginGroupOverrideForwardingProtocolHttpOnly     = OriginGroupOverrideForwardingProtocol("HttpOnly")
-	OriginGroupOverrideForwardingProtocolHttpsOnly    = OriginGroupOverrideForwardingProtocol("HttpsOnly")
-	OriginGroupOverrideForwardingProtocolMatchRequest = OriginGroupOverrideForwardingProtocol("MatchRequest")
+	OriginGroupOverrideForwardingProtocol_HttpOnly     = OriginGroupOverrideForwardingProtocol("HttpOnly")
+	OriginGroupOverrideForwardingProtocol_HttpsOnly    = OriginGroupOverrideForwardingProtocol("HttpsOnly")
+	OriginGroupOverrideForwardingProtocol_MatchRequest = OriginGroupOverrideForwardingProtocol("MatchRequest")
 )
 
 // +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
 type UrlSigningParamIdentifierParamIndicator string
 
 const (
-	UrlSigningParamIdentifierParamIndicatorExpires   = UrlSigningParamIdentifierParamIndicator("Expires")
-	UrlSigningParamIdentifierParamIndicatorKeyId     = UrlSigningParamIdentifierParamIndicator("KeyId")
-	UrlSigningParamIdentifierParamIndicatorSignature = UrlSigningParamIdentifierParamIndicator("Signature")
+	UrlSigningParamIdentifierParamIndicator_Expires   = UrlSigningParamIdentifierParamIndicator("Expires")
+	UrlSigningParamIdentifierParamIndicator_KeyId     = UrlSigningParamIdentifierParamIndicator("KeyId")
+	UrlSigningParamIdentifierParamIndicator_Signature = UrlSigningParamIdentifierParamIndicator("Signature")
 )
 
 func init() {

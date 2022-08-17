@@ -223,10 +223,10 @@ type UpgradePolicy_StatusARM struct {
 type VirtualMachineScaleSetIdentityStatusType string
 
 const (
-	VirtualMachineScaleSetIdentityStatusTypeNone                       = VirtualMachineScaleSetIdentityStatusType("None")
-	VirtualMachineScaleSetIdentityStatusTypeSystemAssigned             = VirtualMachineScaleSetIdentityStatusType("SystemAssigned")
-	VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned = VirtualMachineScaleSetIdentityStatusType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentityStatusTypeUserAssigned               = VirtualMachineScaleSetIdentityStatusType("UserAssigned")
+	VirtualMachineScaleSetIdentityStatusType_None                       = VirtualMachineScaleSetIdentityStatusType("None")
+	VirtualMachineScaleSetIdentityStatusType_SystemAssigned             = VirtualMachineScaleSetIdentityStatusType("SystemAssigned")
+	VirtualMachineScaleSetIdentityStatusType_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentityStatusType("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentityStatusType_UserAssigned               = VirtualMachineScaleSetIdentityStatusType("UserAssigned")
 )
 
 type VirtualMachineScaleSetVMProfile_StatusARM struct {

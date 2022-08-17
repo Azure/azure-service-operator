@@ -73,7 +73,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -205,7 +205,7 @@ type SignalRList struct {
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-10-01")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 // Storage version of v1alpha1api20211001.SignalRResource_Status
 // Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead

@@ -32,8 +32,8 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
 func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
 
-	skuFamily := keyvault.SkuFamilyA
-	skuName := keyvault.SkuNameStandard
+	skuFamily := keyvault.SkuFamily_A
+	skuName := keyvault.SkuName_Standard
 
 	return &keyvault.Vault{
 		ObjectMeta: tc.MakeObjectMeta("keyvault"),
@@ -45,10 +45,10 @@ func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *k
 					ApplicationId: to.StringPtr(tc.AzureTenant),
 					ObjectId:      to.StringPtr(tc.AzureTenant),
 					Permissions: &keyvault.Permissions{
-						Certificates: []keyvault.PermissionsCertificates{keyvault.PermissionsCertificatesGet},
-						Keys:         []keyvault.PermissionsKeys{keyvault.PermissionsKeysGet},
-						Secrets:      []keyvault.PermissionsSecrets{keyvault.PermissionsSecretsGet},
-						Storage:      []keyvault.PermissionsStorage{keyvault.PermissionsStorageGet},
+						Certificates: []keyvault.PermissionsCertificates{keyvault.PermissionsCertificates_Get},
+						Keys:         []keyvault.PermissionsKeys{keyvault.PermissionsKeys_Get},
+						Secrets:      []keyvault.PermissionsSecrets{keyvault.PermissionsSecrets_Get},
+						Storage:      []keyvault.PermissionsStorage{keyvault.PermissionsStorage_Get},
 					},
 					TenantId: to.StringPtr(tc.AzureTenant),
 				}},

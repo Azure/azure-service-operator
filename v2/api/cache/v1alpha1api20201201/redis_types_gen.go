@@ -112,7 +112,7 @@ func (redis *Redis) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (redis Redis) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -357,7 +357,7 @@ type RedisList struct {
 // +kubebuilder:validation:Enum={"2020-12-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-12-01")
+const APIVersion_Value = APIVersion("2020-12-01")
 
 // Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead
 type RedisResource_Status struct {
@@ -1667,9 +1667,9 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 type RedisCreatePropertiesMinimumTlsVersion string
 
 const (
-	RedisCreatePropertiesMinimumTlsVersion10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
+	RedisCreatePropertiesMinimumTlsVersion_10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
+	RedisCreatePropertiesMinimumTlsVersion_11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
+	RedisCreatePropertiesMinimumTlsVersion_12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
 )
 
 // Deprecated version of RedisCreatePropertiesPublicNetworkAccess. Use
@@ -1678,8 +1678,8 @@ const (
 type RedisCreatePropertiesPublicNetworkAccess string
 
 const (
-	RedisCreatePropertiesPublicNetworkAccessDisabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
+	RedisCreatePropertiesPublicNetworkAccess_Disabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
+	RedisCreatePropertiesPublicNetworkAccess_Enabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead
@@ -1941,9 +1941,9 @@ func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destinati
 type RedisPropertiesStatusMinimumTlsVersion string
 
 const (
-	RedisPropertiesStatusMinimumTlsVersion10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
-	RedisPropertiesStatusMinimumTlsVersion11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
-	RedisPropertiesStatusMinimumTlsVersion12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
+	RedisPropertiesStatusMinimumTlsVersion_10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
+	RedisPropertiesStatusMinimumTlsVersion_11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
+	RedisPropertiesStatusMinimumTlsVersion_12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
 )
 
 // Deprecated version of RedisPropertiesStatusProvisioningState. Use v1beta20201201.RedisPropertiesStatusProvisioningState
@@ -1951,18 +1951,18 @@ const (
 type RedisPropertiesStatusProvisioningState string
 
 const (
-	RedisPropertiesStatusProvisioningStateCreating               = RedisPropertiesStatusProvisioningState("Creating")
-	RedisPropertiesStatusProvisioningStateDeleting               = RedisPropertiesStatusProvisioningState("Deleting")
-	RedisPropertiesStatusProvisioningStateDisabled               = RedisPropertiesStatusProvisioningState("Disabled")
-	RedisPropertiesStatusProvisioningStateFailed                 = RedisPropertiesStatusProvisioningState("Failed")
-	RedisPropertiesStatusProvisioningStateLinking                = RedisPropertiesStatusProvisioningState("Linking")
-	RedisPropertiesStatusProvisioningStateProvisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
-	RedisPropertiesStatusProvisioningStateRecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesStatusProvisioningStateScaling                = RedisPropertiesStatusProvisioningState("Scaling")
-	RedisPropertiesStatusProvisioningStateSucceeded              = RedisPropertiesStatusProvisioningState("Succeeded")
-	RedisPropertiesStatusProvisioningStateUnlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
-	RedisPropertiesStatusProvisioningStateUnprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
-	RedisPropertiesStatusProvisioningStateUpdating               = RedisPropertiesStatusProvisioningState("Updating")
+	RedisPropertiesStatusProvisioningState_Creating               = RedisPropertiesStatusProvisioningState("Creating")
+	RedisPropertiesStatusProvisioningState_Deleting               = RedisPropertiesStatusProvisioningState("Deleting")
+	RedisPropertiesStatusProvisioningState_Disabled               = RedisPropertiesStatusProvisioningState("Disabled")
+	RedisPropertiesStatusProvisioningState_Failed                 = RedisPropertiesStatusProvisioningState("Failed")
+	RedisPropertiesStatusProvisioningState_Linking                = RedisPropertiesStatusProvisioningState("Linking")
+	RedisPropertiesStatusProvisioningState_Provisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
+	RedisPropertiesStatusProvisioningState_RecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
+	RedisPropertiesStatusProvisioningState_Scaling                = RedisPropertiesStatusProvisioningState("Scaling")
+	RedisPropertiesStatusProvisioningState_Succeeded              = RedisPropertiesStatusProvisioningState("Succeeded")
+	RedisPropertiesStatusProvisioningState_Unlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
+	RedisPropertiesStatusProvisioningState_Unprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
+	RedisPropertiesStatusProvisioningState_Updating               = RedisPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of RedisPropertiesStatusPublicNetworkAccess. Use
@@ -1970,8 +1970,8 @@ const (
 type RedisPropertiesStatusPublicNetworkAccess string
 
 const (
-	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
-	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
+	RedisPropertiesStatusPublicNetworkAccess_Disabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
+	RedisPropertiesStatusPublicNetworkAccess_Enabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of Sku. Use v1beta20201201.Sku instead
@@ -2341,8 +2341,8 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(dest
 type SkuFamily string
 
 const (
-	SkuFamilyC = SkuFamily("C")
-	SkuFamilyP = SkuFamily("P")
+	SkuFamily_C = SkuFamily("C")
+	SkuFamily_P = SkuFamily("P")
 )
 
 // Deprecated version of SkuName. Use v1beta20201201.SkuName instead
@@ -2350,26 +2350,26 @@ const (
 type SkuName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
 )
 
 // Deprecated version of SkuStatusFamily. Use v1beta20201201.SkuStatusFamily instead
 type SkuStatusFamily string
 
 const (
-	SkuStatusFamilyC = SkuStatusFamily("C")
-	SkuStatusFamilyP = SkuStatusFamily("P")
+	SkuStatusFamily_C = SkuStatusFamily("C")
+	SkuStatusFamily_P = SkuStatusFamily("P")
 )
 
 // Deprecated version of SkuStatusName. Use v1beta20201201.SkuStatusName instead
 type SkuStatusName string
 
 const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	SkuStatusName_Basic    = SkuStatusName("Basic")
+	SkuStatusName_Premium  = SkuStatusName("Premium")
+	SkuStatusName_Standard = SkuStatusName("Standard")
 )
 
 func init() {

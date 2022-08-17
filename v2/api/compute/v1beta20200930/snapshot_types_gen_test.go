@@ -276,20 +276,20 @@ func AddIndependentPropertyGeneratorsForSnapshotStatus(gens map[string]gopter.Ge
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_StatusActiveSAS,
-		DiskState_StatusActiveUpload,
-		DiskState_StatusAttached,
-		DiskState_StatusReadyToUpload,
-		DiskState_StatusReserved,
-		DiskState_StatusUnattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesStatusHyperVGenerationV1, SnapshotPropertiesStatusHyperVGenerationV2))
+		DiskState_Status_ActiveSAS,
+		DiskState_Status_ActiveUpload,
+		DiskState_Status_Attached,
+		DiskState_Status_ReadyToUpload,
+		DiskState_Status_Reserved,
+		DiskState_Status_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesStatusHyperVGeneration_V1, SnapshotPropertiesStatusHyperVGeneration_V2))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_StatusAllowAll, NetworkAccessPolicy_StatusAllowPrivate, NetworkAccessPolicy_StatusDenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesStatusOsTypeLinux, SnapshotPropertiesStatusOsTypeWindows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_Status_AllowAll, NetworkAccessPolicy_Status_AllowPrivate, NetworkAccessPolicy_Status_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesStatusOsType_Linux, SnapshotPropertiesStatusOsType_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
@@ -418,17 +418,17 @@ func AddIndependentPropertyGeneratorsForSnapshotsSpec(gens map[string]gopter.Gen
 	gens["AzureName"] = gen.AlphaString()
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		SnapshotPropertiesDiskStateActiveSAS,
-		SnapshotPropertiesDiskStateActiveUpload,
-		SnapshotPropertiesDiskStateAttached,
-		SnapshotPropertiesDiskStateReadyToUpload,
-		SnapshotPropertiesDiskStateReserved,
-		SnapshotPropertiesDiskStateUnattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesHyperVGenerationV1, SnapshotPropertiesHyperVGenerationV2))
+		SnapshotPropertiesDiskState_ActiveSAS,
+		SnapshotPropertiesDiskState_ActiveUpload,
+		SnapshotPropertiesDiskState_Attached,
+		SnapshotPropertiesDiskState_ReadyToUpload,
+		SnapshotPropertiesDiskState_Reserved,
+		SnapshotPropertiesDiskState_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesHyperVGeneration_V1, SnapshotPropertiesHyperVGeneration_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesNetworkAccessPolicyAllowAll, SnapshotPropertiesNetworkAccessPolicyAllowPrivate, SnapshotPropertiesNetworkAccessPolicyDenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesOsTypeLinux, SnapshotPropertiesOsTypeWindows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesNetworkAccessPolicy_AllowAll, SnapshotPropertiesNetworkAccessPolicy_AllowPrivate, SnapshotPropertiesNetworkAccessPolicy_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotPropertiesOsType_Linux, SnapshotPropertiesOsType_Windows))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -541,7 +541,7 @@ func SnapshotSkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSkuNamePremiumLRS, SnapshotSkuNameStandardLRS, SnapshotSkuNameStandardZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSkuName_PremiumLRS, SnapshotSkuName_StandardLRS, SnapshotSkuName_StandardZRS))
 }
 
 func Test_SnapshotSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -643,6 +643,6 @@ func SnapshotSkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSkuStatusNamePremiumLRS, SnapshotSkuStatusNameStandardLRS, SnapshotSkuStatusNameStandardZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSkuStatusName_PremiumLRS, SnapshotSkuStatusName_StandardLRS, SnapshotSkuStatusName_StandardZRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }

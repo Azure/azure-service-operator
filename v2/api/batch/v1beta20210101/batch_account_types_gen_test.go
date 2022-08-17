@@ -280,16 +280,16 @@ func AddIndependentPropertyGeneratorsForBatchAccountStatus(gens map[string]gopte
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["LowPriorityCoreQuota"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_StatusBatchService, PoolAllocationMode_StatusUserSubscription))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_Status_BatchService, PoolAllocationMode_Status_UserSubscription))
 	gens["PoolQuota"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BatchAccountPropertiesStatusProvisioningStateCancelled,
-		BatchAccountPropertiesStatusProvisioningStateCreating,
-		BatchAccountPropertiesStatusProvisioningStateDeleting,
-		BatchAccountPropertiesStatusProvisioningStateFailed,
-		BatchAccountPropertiesStatusProvisioningStateInvalid,
-		BatchAccountPropertiesStatusProvisioningStateSucceeded))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
+		BatchAccountPropertiesStatusProvisioningState_Cancelled,
+		BatchAccountPropertiesStatusProvisioningState_Creating,
+		BatchAccountPropertiesStatusProvisioningState_Deleting,
+		BatchAccountPropertiesStatusProvisioningState_Failed,
+		BatchAccountPropertiesStatusProvisioningState_Invalid,
+		BatchAccountPropertiesStatusProvisioningState_Succeeded))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Status_Disabled, PublicNetworkAccessType_Status_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -414,8 +414,8 @@ func BatchAccountsSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountsSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPoolAllocationModeBatchService, BatchAccountCreatePropertiesPoolAllocationModeUserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPublicNetworkAccessDisabled, BatchAccountCreatePropertiesPublicNetworkAccessEnabled))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPoolAllocationMode_BatchService, BatchAccountCreatePropertiesPoolAllocationMode_UserSubscription))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreatePropertiesPublicNetworkAccess_Disabled, BatchAccountCreatePropertiesPublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -728,7 +728,7 @@ func BatchAccountIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityTypeNone, BatchAccountIdentityTypeSystemAssigned, BatchAccountIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityType_None, BatchAccountIdentityType_SystemAssigned, BatchAccountIdentityType_UserAssigned))
 }
 
 func Test_BatchAccountIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -842,7 +842,7 @@ func BatchAccountIdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityStatusTypeNone, BatchAccountIdentityStatusTypeSystemAssigned, BatchAccountIdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentityStatusType_None, BatchAccountIdentityStatusType_SystemAssigned, BatchAccountIdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentityStatus is a factory method for creating gopter generators
@@ -959,7 +959,7 @@ func EncryptionPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertiesKeySourceMicrosoftBatch, EncryptionPropertiesKeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertiesKeySource_MicrosoftBatch, EncryptionPropertiesKeySource_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties is a factory method for creating gopter generators
@@ -1076,7 +1076,7 @@ func EncryptionPropertiesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionPropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionPropertiesStatus(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertiesStatusKeySourceMicrosoftBatch, EncryptionPropertiesStatusKeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertiesStatusKeySource_MicrosoftBatch, EncryptionPropertiesStatusKeySource_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionPropertiesStatus is a factory method for creating gopter generators
@@ -1402,7 +1402,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatus(gens map
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointConnectionPropertiesStatusProvisioningStateFailed, PrivateEndpointConnectionPropertiesStatusProvisioningStateSucceeded, PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointConnectionPropertiesStatusProvisioningState_Failed, PrivateEndpointConnectionPropertiesStatusProvisioningState_Succeeded, PrivateEndpointConnectionPropertiesStatusProvisioningState_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2031,8 +2031,8 @@ func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatus(
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateLinkServiceConnectionStatus_StatusApproved,
-		PrivateLinkServiceConnectionStatus_StatusDisconnected,
-		PrivateLinkServiceConnectionStatus_StatusPending,
-		PrivateLinkServiceConnectionStatus_StatusRejected))
+		PrivateLinkServiceConnectionStatus_Status_Approved,
+		PrivateLinkServiceConnectionStatus_Status_Disconnected,
+		PrivateLinkServiceConnectionStatus_Status_Pending,
+		PrivateLinkServiceConnectionStatus_Status_Rejected))
 }

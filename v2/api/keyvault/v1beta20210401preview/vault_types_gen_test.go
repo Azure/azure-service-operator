@@ -505,17 +505,17 @@ func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+		IdentityType_Status_Application,
+		IdentityType_Status_Key,
+		IdentityType_Status_ManagedIdentity,
+		IdentityType_Status_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+		IdentityType_Status_Application,
+		IdentityType_Status_Key,
+		IdentityType_Status_ManagedIdentity,
+		IdentityType_Status_User))
 }
 
 func Test_VaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -626,14 +626,14 @@ func VaultPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesCreateModeDefault, VaultPropertiesCreateModeRecover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesCreateMode_Default, VaultPropertiesCreateMode_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDeployment"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesProvisioningStateRegisteringDns, VaultPropertiesProvisioningStateSucceeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesProvisioningState_RegisteringDns, VaultPropertiesProvisioningState_Succeeded))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
@@ -755,7 +755,7 @@ func VaultPropertiesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultPropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultPropertiesStatus(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesStatusCreateModeDefault, VaultPropertiesStatusCreateModeRecover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesStatusCreateMode_Default, VaultPropertiesStatusCreateMode_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
@@ -763,7 +763,7 @@ func AddIndependentPropertyGeneratorsForVaultPropertiesStatus(gens map[string]go
 	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
 	gens["HsmPoolResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesStatusProvisioningStateRegisteringDns, VaultPropertiesStatusProvisioningStateSucceeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesStatusProvisioningState_RegisteringDns, VaultPropertiesStatusProvisioningState_Succeeded))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
@@ -1122,8 +1122,8 @@ func NetworkRuleSetGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetBypassAzureServices, NetworkRuleSetBypassNone))
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetBypass_AzureServices, NetworkRuleSetBypass_None))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultAction_Allow, NetworkRuleSetDefaultAction_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
@@ -1241,8 +1241,8 @@ func NetworkRuleSetStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetStatus(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusBypassAzureServices, NetworkRuleSetStatusBypassNone))
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusBypass_AzureServices, NetworkRuleSetStatusBypass_None))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusDefaultAction_Allow, NetworkRuleSetStatusDefaultAction_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetStatus is a factory method for creating gopter generators
@@ -1363,12 +1363,12 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItemStatus(gens
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointConnectionProvisioningState_StatusCreating,
-		PrivateEndpointConnectionProvisioningState_StatusDeleting,
-		PrivateEndpointConnectionProvisioningState_StatusDisconnected,
-		PrivateEndpointConnectionProvisioningState_StatusFailed,
-		PrivateEndpointConnectionProvisioningState_StatusSucceeded,
-		PrivateEndpointConnectionProvisioningState_StatusUpdating))
+		PrivateEndpointConnectionProvisioningState_Status_Creating,
+		PrivateEndpointConnectionProvisioningState_Status_Deleting,
+		PrivateEndpointConnectionProvisioningState_Status_Disconnected,
+		PrivateEndpointConnectionProvisioningState_Status_Failed,
+		PrivateEndpointConnectionProvisioningState_Status_Succeeded,
+		PrivateEndpointConnectionProvisioningState_Status_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItemStatus is a factory method for creating gopter generators
@@ -1476,8 +1476,8 @@ func SkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamilyA))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNamePremium, SkuNameStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamily_A))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuName_Premium, SkuName_Standard))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1579,8 +1579,8 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuStatusFamilyA))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNamePremium, SkuStatusNameStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuStatusFamily_A))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusName_Premium, SkuStatusName_Standard))
 }
 
 func Test_IPRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1887,64 +1887,64 @@ func PermissionsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPermissions is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPermissions(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsCertificatesBackup,
-		PermissionsCertificatesCreate,
-		PermissionsCertificatesDelete,
-		PermissionsCertificatesDeleteissuers,
-		PermissionsCertificatesGet,
-		PermissionsCertificatesGetissuers,
-		PermissionsCertificatesImport,
-		PermissionsCertificatesList,
-		PermissionsCertificatesListissuers,
-		PermissionsCertificatesManagecontacts,
-		PermissionsCertificatesManageissuers,
-		PermissionsCertificatesPurge,
-		PermissionsCertificatesRecover,
-		PermissionsCertificatesRestore,
-		PermissionsCertificatesSetissuers,
-		PermissionsCertificatesUpdate))
+		PermissionsCertificates_Backup,
+		PermissionsCertificates_Create,
+		PermissionsCertificates_Delete,
+		PermissionsCertificates_Deleteissuers,
+		PermissionsCertificates_Get,
+		PermissionsCertificates_Getissuers,
+		PermissionsCertificates_Import,
+		PermissionsCertificates_List,
+		PermissionsCertificates_Listissuers,
+		PermissionsCertificates_Managecontacts,
+		PermissionsCertificates_Manageissuers,
+		PermissionsCertificates_Purge,
+		PermissionsCertificates_Recover,
+		PermissionsCertificates_Restore,
+		PermissionsCertificates_Setissuers,
+		PermissionsCertificates_Update))
 	gens["Keys"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsKeysBackup,
-		PermissionsKeysCreate,
-		PermissionsKeysDecrypt,
-		PermissionsKeysDelete,
-		PermissionsKeysEncrypt,
-		PermissionsKeysGet,
-		PermissionsKeysImport,
-		PermissionsKeysList,
-		PermissionsKeysPurge,
-		PermissionsKeysRecover,
-		PermissionsKeysRelease,
-		PermissionsKeysRestore,
-		PermissionsKeysSign,
-		PermissionsKeysUnwrapKey,
-		PermissionsKeysUpdate,
-		PermissionsKeysVerify,
-		PermissionsKeysWrapKey))
+		PermissionsKeys_Backup,
+		PermissionsKeys_Create,
+		PermissionsKeys_Decrypt,
+		PermissionsKeys_Delete,
+		PermissionsKeys_Encrypt,
+		PermissionsKeys_Get,
+		PermissionsKeys_Import,
+		PermissionsKeys_List,
+		PermissionsKeys_Purge,
+		PermissionsKeys_Recover,
+		PermissionsKeys_Release,
+		PermissionsKeys_Restore,
+		PermissionsKeys_Sign,
+		PermissionsKeys_UnwrapKey,
+		PermissionsKeys_Update,
+		PermissionsKeys_Verify,
+		PermissionsKeys_WrapKey))
 	gens["Secrets"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsSecretsBackup,
-		PermissionsSecretsDelete,
-		PermissionsSecretsGet,
-		PermissionsSecretsList,
-		PermissionsSecretsPurge,
-		PermissionsSecretsRecover,
-		PermissionsSecretsRestore,
-		PermissionsSecretsSet))
+		PermissionsSecrets_Backup,
+		PermissionsSecrets_Delete,
+		PermissionsSecrets_Get,
+		PermissionsSecrets_List,
+		PermissionsSecrets_Purge,
+		PermissionsSecrets_Recover,
+		PermissionsSecrets_Restore,
+		PermissionsSecrets_Set))
 	gens["Storage"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStorageBackup,
-		PermissionsStorageDelete,
-		PermissionsStorageDeletesas,
-		PermissionsStorageGet,
-		PermissionsStorageGetsas,
-		PermissionsStorageList,
-		PermissionsStorageListsas,
-		PermissionsStoragePurge,
-		PermissionsStorageRecover,
-		PermissionsStorageRegeneratekey,
-		PermissionsStorageRestore,
-		PermissionsStorageSet,
-		PermissionsStorageSetsas,
-		PermissionsStorageUpdate))
+		PermissionsStorage_Backup,
+		PermissionsStorage_Delete,
+		PermissionsStorage_Deletesas,
+		PermissionsStorage_Get,
+		PermissionsStorage_Getsas,
+		PermissionsStorage_List,
+		PermissionsStorage_Listsas,
+		PermissionsStorage_Purge,
+		PermissionsStorage_Recover,
+		PermissionsStorage_Regeneratekey,
+		PermissionsStorage_Restore,
+		PermissionsStorage_Set,
+		PermissionsStorage_Setsas,
+		PermissionsStorage_Update))
 }
 
 func Test_Permissions_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2047,64 +2047,64 @@ func PermissionsStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPermissionsStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPermissionsStatus(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStatusCertificatesBackup,
-		PermissionsStatusCertificatesCreate,
-		PermissionsStatusCertificatesDelete,
-		PermissionsStatusCertificatesDeleteissuers,
-		PermissionsStatusCertificatesGet,
-		PermissionsStatusCertificatesGetissuers,
-		PermissionsStatusCertificatesImport,
-		PermissionsStatusCertificatesList,
-		PermissionsStatusCertificatesListissuers,
-		PermissionsStatusCertificatesManagecontacts,
-		PermissionsStatusCertificatesManageissuers,
-		PermissionsStatusCertificatesPurge,
-		PermissionsStatusCertificatesRecover,
-		PermissionsStatusCertificatesRestore,
-		PermissionsStatusCertificatesSetissuers,
-		PermissionsStatusCertificatesUpdate))
+		PermissionsStatusCertificates_Backup,
+		PermissionsStatusCertificates_Create,
+		PermissionsStatusCertificates_Delete,
+		PermissionsStatusCertificates_Deleteissuers,
+		PermissionsStatusCertificates_Get,
+		PermissionsStatusCertificates_Getissuers,
+		PermissionsStatusCertificates_Import,
+		PermissionsStatusCertificates_List,
+		PermissionsStatusCertificates_Listissuers,
+		PermissionsStatusCertificates_Managecontacts,
+		PermissionsStatusCertificates_Manageissuers,
+		PermissionsStatusCertificates_Purge,
+		PermissionsStatusCertificates_Recover,
+		PermissionsStatusCertificates_Restore,
+		PermissionsStatusCertificates_Setissuers,
+		PermissionsStatusCertificates_Update))
 	gens["Keys"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStatusKeysBackup,
-		PermissionsStatusKeysCreate,
-		PermissionsStatusKeysDecrypt,
-		PermissionsStatusKeysDelete,
-		PermissionsStatusKeysEncrypt,
-		PermissionsStatusKeysGet,
-		PermissionsStatusKeysImport,
-		PermissionsStatusKeysList,
-		PermissionsStatusKeysPurge,
-		PermissionsStatusKeysRecover,
-		PermissionsStatusKeysRelease,
-		PermissionsStatusKeysRestore,
-		PermissionsStatusKeysSign,
-		PermissionsStatusKeysUnwrapKey,
-		PermissionsStatusKeysUpdate,
-		PermissionsStatusKeysVerify,
-		PermissionsStatusKeysWrapKey))
+		PermissionsStatusKeys_Backup,
+		PermissionsStatusKeys_Create,
+		PermissionsStatusKeys_Decrypt,
+		PermissionsStatusKeys_Delete,
+		PermissionsStatusKeys_Encrypt,
+		PermissionsStatusKeys_Get,
+		PermissionsStatusKeys_Import,
+		PermissionsStatusKeys_List,
+		PermissionsStatusKeys_Purge,
+		PermissionsStatusKeys_Recover,
+		PermissionsStatusKeys_Release,
+		PermissionsStatusKeys_Restore,
+		PermissionsStatusKeys_Sign,
+		PermissionsStatusKeys_UnwrapKey,
+		PermissionsStatusKeys_Update,
+		PermissionsStatusKeys_Verify,
+		PermissionsStatusKeys_WrapKey))
 	gens["Secrets"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStatusSecretsBackup,
-		PermissionsStatusSecretsDelete,
-		PermissionsStatusSecretsGet,
-		PermissionsStatusSecretsList,
-		PermissionsStatusSecretsPurge,
-		PermissionsStatusSecretsRecover,
-		PermissionsStatusSecretsRestore,
-		PermissionsStatusSecretsSet))
+		PermissionsStatusSecrets_Backup,
+		PermissionsStatusSecrets_Delete,
+		PermissionsStatusSecrets_Get,
+		PermissionsStatusSecrets_List,
+		PermissionsStatusSecrets_Purge,
+		PermissionsStatusSecrets_Recover,
+		PermissionsStatusSecrets_Restore,
+		PermissionsStatusSecrets_Set))
 	gens["Storage"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStatusStorageBackup,
-		PermissionsStatusStorageDelete,
-		PermissionsStatusStorageDeletesas,
-		PermissionsStatusStorageGet,
-		PermissionsStatusStorageGetsas,
-		PermissionsStatusStorageList,
-		PermissionsStatusStorageListsas,
-		PermissionsStatusStoragePurge,
-		PermissionsStatusStorageRecover,
-		PermissionsStatusStorageRegeneratekey,
-		PermissionsStatusStorageRestore,
-		PermissionsStatusStorageSet,
-		PermissionsStatusStorageSetsas,
-		PermissionsStatusStorageUpdate))
+		PermissionsStatusStorage_Backup,
+		PermissionsStatusStorage_Delete,
+		PermissionsStatusStorage_Deletesas,
+		PermissionsStatusStorage_Get,
+		PermissionsStatusStorage_Getsas,
+		PermissionsStatusStorage_List,
+		PermissionsStatusStorage_Listsas,
+		PermissionsStatusStorage_Purge,
+		PermissionsStatusStorage_Recover,
+		PermissionsStatusStorage_Regeneratekey,
+		PermissionsStatusStorage_Restore,
+		PermissionsStatusStorage_Set,
+		PermissionsStatusStorage_Setsas,
+		PermissionsStatusStorage_Update))
 }
 
 func Test_PrivateEndpoint_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2310,13 +2310,13 @@ func PrivateLinkServiceConnectionStateStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatus(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionStateStatusActionsRequiredNone))
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionStateStatusActionsRequired_None))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_StatusApproved,
-		PrivateEndpointServiceConnectionStatus_StatusDisconnected,
-		PrivateEndpointServiceConnectionStatus_StatusPending,
-		PrivateEndpointServiceConnectionStatus_StatusRejected))
+		PrivateEndpointServiceConnectionStatus_Status_Approved,
+		PrivateEndpointServiceConnectionStatus_Status_Disconnected,
+		PrivateEndpointServiceConnectionStatus_Status_Pending,
+		PrivateEndpointServiceConnectionStatus_Status_Rejected))
 }
 
 func Test_VirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

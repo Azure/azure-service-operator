@@ -164,16 +164,16 @@ func TopicPropertiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForTopicPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTopicPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusInputSchemaCloudEventSchemaV10, TopicPropertiesStatusInputSchemaCustomEventSchema, TopicPropertiesStatusInputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusInputSchema_CloudEventSchemaV10, TopicPropertiesStatusInputSchema_CustomEventSchema, TopicPropertiesStatusInputSchema_EventGridSchema))
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TopicPropertiesStatusProvisioningStateCanceled,
-		TopicPropertiesStatusProvisioningStateCreating,
-		TopicPropertiesStatusProvisioningStateDeleting,
-		TopicPropertiesStatusProvisioningStateFailed,
-		TopicPropertiesStatusProvisioningStateSucceeded,
-		TopicPropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusPublicNetworkAccessDisabled, TopicPropertiesStatusPublicNetworkAccessEnabled))
+		TopicPropertiesStatusProvisioningState_Canceled,
+		TopicPropertiesStatusProvisioningState_Creating,
+		TopicPropertiesStatusProvisioningState_Deleting,
+		TopicPropertiesStatusProvisioningState_Failed,
+		TopicPropertiesStatusProvisioningState_Succeeded,
+		TopicPropertiesStatusProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusPublicNetworkAccess_Disabled, TopicPropertiesStatusPublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForTopicPropertiesStatusARM is a factory method for creating gopter generators

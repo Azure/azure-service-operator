@@ -99,7 +99,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -321,7 +321,7 @@ type WorkspaceList struct {
 // +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersion_Value = APIVersion("2021-06-01")
 
 type Workspace_Status struct {
 	// Conditions: The observed state of the resource
@@ -1492,8 +1492,8 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 type PublicNetworkAccessType_Status string
 
 const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
+	PublicNetworkAccessType_Status_Disabled = PublicNetworkAccessType_Status("Disabled")
+	PublicNetworkAccessType_Status_Enabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
@@ -2103,41 +2103,41 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesSta
 type WorkspacePropertiesProvisioningState string
 
 const (
-	WorkspacePropertiesProvisioningStateCanceled            = WorkspacePropertiesProvisioningState("Canceled")
-	WorkspacePropertiesProvisioningStateCreating            = WorkspacePropertiesProvisioningState("Creating")
-	WorkspacePropertiesProvisioningStateDeleting            = WorkspacePropertiesProvisioningState("Deleting")
-	WorkspacePropertiesProvisioningStateFailed              = WorkspacePropertiesProvisioningState("Failed")
-	WorkspacePropertiesProvisioningStateProvisioningAccount = WorkspacePropertiesProvisioningState("ProvisioningAccount")
-	WorkspacePropertiesProvisioningStateSucceeded           = WorkspacePropertiesProvisioningState("Succeeded")
-	WorkspacePropertiesProvisioningStateUpdating            = WorkspacePropertiesProvisioningState("Updating")
+	WorkspacePropertiesProvisioningState_Canceled            = WorkspacePropertiesProvisioningState("Canceled")
+	WorkspacePropertiesProvisioningState_Creating            = WorkspacePropertiesProvisioningState("Creating")
+	WorkspacePropertiesProvisioningState_Deleting            = WorkspacePropertiesProvisioningState("Deleting")
+	WorkspacePropertiesProvisioningState_Failed              = WorkspacePropertiesProvisioningState("Failed")
+	WorkspacePropertiesProvisioningState_ProvisioningAccount = WorkspacePropertiesProvisioningState("ProvisioningAccount")
+	WorkspacePropertiesProvisioningState_Succeeded           = WorkspacePropertiesProvisioningState("Succeeded")
+	WorkspacePropertiesProvisioningState_Updating            = WorkspacePropertiesProvisioningState("Updating")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForIngestion string
 
 const (
-	WorkspacePropertiesPublicNetworkAccessForIngestionDisabled = WorkspacePropertiesPublicNetworkAccessForIngestion("Disabled")
-	WorkspacePropertiesPublicNetworkAccessForIngestionEnabled  = WorkspacePropertiesPublicNetworkAccessForIngestion("Enabled")
+	WorkspacePropertiesPublicNetworkAccessForIngestion_Disabled = WorkspacePropertiesPublicNetworkAccessForIngestion("Disabled")
+	WorkspacePropertiesPublicNetworkAccessForIngestion_Enabled  = WorkspacePropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForQuery string
 
 const (
-	WorkspacePropertiesPublicNetworkAccessForQueryDisabled = WorkspacePropertiesPublicNetworkAccessForQuery("Disabled")
-	WorkspacePropertiesPublicNetworkAccessForQueryEnabled  = WorkspacePropertiesPublicNetworkAccessForQuery("Enabled")
+	WorkspacePropertiesPublicNetworkAccessForQuery_Disabled = WorkspacePropertiesPublicNetworkAccessForQuery("Disabled")
+	WorkspacePropertiesPublicNetworkAccessForQuery_Enabled  = WorkspacePropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
 type WorkspacePropertiesStatusProvisioningState string
 
 const (
-	WorkspacePropertiesStatusProvisioningStateCanceled            = WorkspacePropertiesStatusProvisioningState("Canceled")
-	WorkspacePropertiesStatusProvisioningStateCreating            = WorkspacePropertiesStatusProvisioningState("Creating")
-	WorkspacePropertiesStatusProvisioningStateDeleting            = WorkspacePropertiesStatusProvisioningState("Deleting")
-	WorkspacePropertiesStatusProvisioningStateFailed              = WorkspacePropertiesStatusProvisioningState("Failed")
-	WorkspacePropertiesStatusProvisioningStateProvisioningAccount = WorkspacePropertiesStatusProvisioningState("ProvisioningAccount")
-	WorkspacePropertiesStatusProvisioningStateSucceeded           = WorkspacePropertiesStatusProvisioningState("Succeeded")
-	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
+	WorkspacePropertiesStatusProvisioningState_Canceled            = WorkspacePropertiesStatusProvisioningState("Canceled")
+	WorkspacePropertiesStatusProvisioningState_Creating            = WorkspacePropertiesStatusProvisioningState("Creating")
+	WorkspacePropertiesStatusProvisioningState_Deleting            = WorkspacePropertiesStatusProvisioningState("Deleting")
+	WorkspacePropertiesStatusProvisioningState_Failed              = WorkspacePropertiesStatusProvisioningState("Failed")
+	WorkspacePropertiesStatusProvisioningState_ProvisioningAccount = WorkspacePropertiesStatusProvisioningState("ProvisioningAccount")
+	WorkspacePropertiesStatusProvisioningState_Succeeded           = WorkspacePropertiesStatusProvisioningState("Succeeded")
+	WorkspacePropertiesStatusProvisioningState_Updating            = WorkspacePropertiesStatusProvisioningState("Updating")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
@@ -2359,52 +2359,52 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 type WorkspaceCappingStatusDataIngestionStatus string
 
 const (
-	WorkspaceCappingStatusDataIngestionStatusApproachingQuota      = WorkspaceCappingStatusDataIngestionStatus("ApproachingQuota")
-	WorkspaceCappingStatusDataIngestionStatusForceOff              = WorkspaceCappingStatusDataIngestionStatus("ForceOff")
-	WorkspaceCappingStatusDataIngestionStatusForceOn               = WorkspaceCappingStatusDataIngestionStatus("ForceOn")
-	WorkspaceCappingStatusDataIngestionStatusOverQuota             = WorkspaceCappingStatusDataIngestionStatus("OverQuota")
-	WorkspaceCappingStatusDataIngestionStatusRespectQuota          = WorkspaceCappingStatusDataIngestionStatus("RespectQuota")
-	WorkspaceCappingStatusDataIngestionStatusSubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
+	WorkspaceCappingStatusDataIngestionStatus_ApproachingQuota      = WorkspaceCappingStatusDataIngestionStatus("ApproachingQuota")
+	WorkspaceCappingStatusDataIngestionStatus_ForceOff              = WorkspaceCappingStatusDataIngestionStatus("ForceOff")
+	WorkspaceCappingStatusDataIngestionStatus_ForceOn               = WorkspaceCappingStatusDataIngestionStatus("ForceOn")
+	WorkspaceCappingStatusDataIngestionStatus_OverQuota             = WorkspaceCappingStatusDataIngestionStatus("OverQuota")
+	WorkspaceCappingStatusDataIngestionStatus_RespectQuota          = WorkspaceCappingStatusDataIngestionStatus("RespectQuota")
+	WorkspaceCappingStatusDataIngestionStatus_SubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
 )
 
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
 type WorkspaceSkuName string
 
 const (
-	WorkspaceSkuNameCapacityReservation = WorkspaceSkuName("CapacityReservation")
-	WorkspaceSkuNameFree                = WorkspaceSkuName("Free")
-	WorkspaceSkuNameLACluster           = WorkspaceSkuName("LACluster")
-	WorkspaceSkuNamePerGB2018           = WorkspaceSkuName("PerGB2018")
-	WorkspaceSkuNamePerNode             = WorkspaceSkuName("PerNode")
-	WorkspaceSkuNamePremium             = WorkspaceSkuName("Premium")
-	WorkspaceSkuNameStandalone          = WorkspaceSkuName("Standalone")
-	WorkspaceSkuNameStandard            = WorkspaceSkuName("Standard")
+	WorkspaceSkuName_CapacityReservation = WorkspaceSkuName("CapacityReservation")
+	WorkspaceSkuName_Free                = WorkspaceSkuName("Free")
+	WorkspaceSkuName_LACluster           = WorkspaceSkuName("LACluster")
+	WorkspaceSkuName_PerGB2018           = WorkspaceSkuName("PerGB2018")
+	WorkspaceSkuName_PerNode             = WorkspaceSkuName("PerNode")
+	WorkspaceSkuName_Premium             = WorkspaceSkuName("Premium")
+	WorkspaceSkuName_Standalone          = WorkspaceSkuName("Standalone")
+	WorkspaceSkuName_Standard            = WorkspaceSkuName("Standard")
 )
 
 type WorkspaceSkuStatusCapacityReservationLevel int
 
 const (
-	WorkspaceSkuStatusCapacityReservationLevel100  = WorkspaceSkuStatusCapacityReservationLevel(100)
-	WorkspaceSkuStatusCapacityReservationLevel1000 = WorkspaceSkuStatusCapacityReservationLevel(1000)
-	WorkspaceSkuStatusCapacityReservationLevel200  = WorkspaceSkuStatusCapacityReservationLevel(200)
-	WorkspaceSkuStatusCapacityReservationLevel2000 = WorkspaceSkuStatusCapacityReservationLevel(2000)
-	WorkspaceSkuStatusCapacityReservationLevel300  = WorkspaceSkuStatusCapacityReservationLevel(300)
-	WorkspaceSkuStatusCapacityReservationLevel400  = WorkspaceSkuStatusCapacityReservationLevel(400)
-	WorkspaceSkuStatusCapacityReservationLevel500  = WorkspaceSkuStatusCapacityReservationLevel(500)
-	WorkspaceSkuStatusCapacityReservationLevel5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
+	WorkspaceSkuStatusCapacityReservationLevel_100  = WorkspaceSkuStatusCapacityReservationLevel(100)
+	WorkspaceSkuStatusCapacityReservationLevel_1000 = WorkspaceSkuStatusCapacityReservationLevel(1000)
+	WorkspaceSkuStatusCapacityReservationLevel_200  = WorkspaceSkuStatusCapacityReservationLevel(200)
+	WorkspaceSkuStatusCapacityReservationLevel_2000 = WorkspaceSkuStatusCapacityReservationLevel(2000)
+	WorkspaceSkuStatusCapacityReservationLevel_300  = WorkspaceSkuStatusCapacityReservationLevel(300)
+	WorkspaceSkuStatusCapacityReservationLevel_400  = WorkspaceSkuStatusCapacityReservationLevel(400)
+	WorkspaceSkuStatusCapacityReservationLevel_500  = WorkspaceSkuStatusCapacityReservationLevel(500)
+	WorkspaceSkuStatusCapacityReservationLevel_5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
 )
 
 type WorkspaceSkuStatusName string
 
 const (
-	WorkspaceSkuStatusNameCapacityReservation = WorkspaceSkuStatusName("CapacityReservation")
-	WorkspaceSkuStatusNameFree                = WorkspaceSkuStatusName("Free")
-	WorkspaceSkuStatusNameLACluster           = WorkspaceSkuStatusName("LACluster")
-	WorkspaceSkuStatusNamePerGB2018           = WorkspaceSkuStatusName("PerGB2018")
-	WorkspaceSkuStatusNamePerNode             = WorkspaceSkuStatusName("PerNode")
-	WorkspaceSkuStatusNamePremium             = WorkspaceSkuStatusName("Premium")
-	WorkspaceSkuStatusNameStandalone          = WorkspaceSkuStatusName("Standalone")
-	WorkspaceSkuStatusNameStandard            = WorkspaceSkuStatusName("Standard")
+	WorkspaceSkuStatusName_CapacityReservation = WorkspaceSkuStatusName("CapacityReservation")
+	WorkspaceSkuStatusName_Free                = WorkspaceSkuStatusName("Free")
+	WorkspaceSkuStatusName_LACluster           = WorkspaceSkuStatusName("LACluster")
+	WorkspaceSkuStatusName_PerGB2018           = WorkspaceSkuStatusName("PerGB2018")
+	WorkspaceSkuStatusName_PerNode             = WorkspaceSkuStatusName("PerNode")
+	WorkspaceSkuStatusName_Premium             = WorkspaceSkuStatusName("Premium")
+	WorkspaceSkuStatusName_Standalone          = WorkspaceSkuStatusName("Standalone")
+	WorkspaceSkuStatusName_Standard            = WorkspaceSkuStatusName("Standard")
 )
 
 func init() {

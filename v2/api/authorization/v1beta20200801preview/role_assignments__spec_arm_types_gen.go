@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &RoleAssignments_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignments RoleAssignments_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

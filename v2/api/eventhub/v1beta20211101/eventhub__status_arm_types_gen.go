@@ -73,22 +73,22 @@ type CaptureDescription_StatusARM struct {
 type EventhubStatusPropertiesStatus string
 
 const (
-	EventhubStatusPropertiesStatusActive          = EventhubStatusPropertiesStatus("Active")
-	EventhubStatusPropertiesStatusCreating        = EventhubStatusPropertiesStatus("Creating")
-	EventhubStatusPropertiesStatusDeleting        = EventhubStatusPropertiesStatus("Deleting")
-	EventhubStatusPropertiesStatusDisabled        = EventhubStatusPropertiesStatus("Disabled")
-	EventhubStatusPropertiesStatusReceiveDisabled = EventhubStatusPropertiesStatus("ReceiveDisabled")
-	EventhubStatusPropertiesStatusRenaming        = EventhubStatusPropertiesStatus("Renaming")
-	EventhubStatusPropertiesStatusRestoring       = EventhubStatusPropertiesStatus("Restoring")
-	EventhubStatusPropertiesStatusSendDisabled    = EventhubStatusPropertiesStatus("SendDisabled")
-	EventhubStatusPropertiesStatusUnknown         = EventhubStatusPropertiesStatus("Unknown")
+	EventhubStatusPropertiesStatus_Active          = EventhubStatusPropertiesStatus("Active")
+	EventhubStatusPropertiesStatus_Creating        = EventhubStatusPropertiesStatus("Creating")
+	EventhubStatusPropertiesStatus_Deleting        = EventhubStatusPropertiesStatus("Deleting")
+	EventhubStatusPropertiesStatus_Disabled        = EventhubStatusPropertiesStatus("Disabled")
+	EventhubStatusPropertiesStatus_ReceiveDisabled = EventhubStatusPropertiesStatus("ReceiveDisabled")
+	EventhubStatusPropertiesStatus_Renaming        = EventhubStatusPropertiesStatus("Renaming")
+	EventhubStatusPropertiesStatus_Restoring       = EventhubStatusPropertiesStatus("Restoring")
+	EventhubStatusPropertiesStatus_SendDisabled    = EventhubStatusPropertiesStatus("SendDisabled")
+	EventhubStatusPropertiesStatus_Unknown         = EventhubStatusPropertiesStatus("Unknown")
 )
 
 type CaptureDescriptionStatusEncoding string
 
 const (
-	CaptureDescriptionStatusEncodingAvro        = CaptureDescriptionStatusEncoding("Avro")
-	CaptureDescriptionStatusEncodingAvroDeflate = CaptureDescriptionStatusEncoding("AvroDeflate")
+	CaptureDescriptionStatusEncoding_Avro        = CaptureDescriptionStatusEncoding("Avro")
+	CaptureDescriptionStatusEncoding_AvroDeflate = CaptureDescriptionStatusEncoding("AvroDeflate")
 )
 
 type Destination_StatusARM struct {

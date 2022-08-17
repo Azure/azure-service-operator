@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &RedisEnterprise_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -62,11 +62,11 @@ type SkuARM struct {
 type SkuName string
 
 const (
-	SkuNameEnterpriseE10        = SkuName("Enterprise_E10")
-	SkuNameEnterpriseE100       = SkuName("Enterprise_E100")
-	SkuNameEnterpriseE20        = SkuName("Enterprise_E20")
-	SkuNameEnterpriseE50        = SkuName("Enterprise_E50")
-	SkuNameEnterpriseFlashF1500 = SkuName("EnterpriseFlash_F1500")
-	SkuNameEnterpriseFlashF300  = SkuName("EnterpriseFlash_F300")
-	SkuNameEnterpriseFlashF700  = SkuName("EnterpriseFlash_F700")
+	SkuName_EnterpriseE10        = SkuName("Enterprise_E10")
+	SkuName_EnterpriseE100       = SkuName("Enterprise_E100")
+	SkuName_EnterpriseE20        = SkuName("Enterprise_E20")
+	SkuName_EnterpriseE50        = SkuName("Enterprise_E50")
+	SkuName_EnterpriseFlashF1500 = SkuName("EnterpriseFlash_F1500")
+	SkuName_EnterpriseFlashF300  = SkuName("EnterpriseFlash_F300")
+	SkuName_EnterpriseFlashF700  = SkuName("EnterpriseFlash_F700")
 )

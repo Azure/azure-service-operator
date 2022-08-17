@@ -275,23 +275,23 @@ func NetworkSecurityGroupsSecurityRulesSpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccessAllow, SecurityRulePropertiesFormatAccessDeny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccess_Allow, SecurityRulePropertiesFormatAccess_Deny))
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirection_Inbound, SecurityRulePropertiesFormatDirection_Outbound))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormatProtocolAh,
-		SecurityRulePropertiesFormatProtocolEsp,
-		SecurityRulePropertiesFormatProtocolIcmp,
-		SecurityRulePropertiesFormatProtocolStar,
-		SecurityRulePropertiesFormatProtocolTcp,
-		SecurityRulePropertiesFormatProtocolUdp))
+		SecurityRulePropertiesFormatProtocol_Ah,
+		SecurityRulePropertiesFormatProtocol_Esp,
+		SecurityRulePropertiesFormatProtocol_Icmp,
+		SecurityRulePropertiesFormatProtocol_Star,
+		SecurityRulePropertiesFormatProtocol_Tcp,
+		SecurityRulePropertiesFormatProtocol_Udp))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
@@ -414,29 +414,29 @@ func SecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGener
 
 // AddIndependentPropertyGeneratorsForSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_StatusAllow, SecurityRuleAccess_StatusDeny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Status_Allow, SecurityRuleAccess_Status_Deny))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_StatusInbound, SecurityRuleDirection_StatusOutbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Status_Inbound, SecurityRuleDirection_Status_Outbound))
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormatStatusProtocolAh,
-		SecurityRulePropertiesFormatStatusProtocolEsp,
-		SecurityRulePropertiesFormatStatusProtocolIcmp,
-		SecurityRulePropertiesFormatStatusProtocolStar,
-		SecurityRulePropertiesFormatStatusProtocolTcp,
-		SecurityRulePropertiesFormatStatusProtocolUdp))
+		SecurityRulePropertiesFormatStatusProtocol_Ah,
+		SecurityRulePropertiesFormatStatusProtocol_Esp,
+		SecurityRulePropertiesFormatStatusProtocol_Icmp,
+		SecurityRulePropertiesFormatStatusProtocol_Star,
+		SecurityRulePropertiesFormatStatusProtocol_Tcp,
+		SecurityRulePropertiesFormatStatusProtocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

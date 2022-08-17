@@ -79,26 +79,26 @@ type SystemData_StatusARM struct {
 type ConfigurationPropertiesStatusDataType string
 
 const (
-	ConfigurationPropertiesStatusDataTypeBoolean     = ConfigurationPropertiesStatusDataType("Boolean")
-	ConfigurationPropertiesStatusDataTypeEnumeration = ConfigurationPropertiesStatusDataType("Enumeration")
-	ConfigurationPropertiesStatusDataTypeInteger     = ConfigurationPropertiesStatusDataType("Integer")
-	ConfigurationPropertiesStatusDataTypeNumeric     = ConfigurationPropertiesStatusDataType("Numeric")
+	ConfigurationPropertiesStatusDataType_Boolean     = ConfigurationPropertiesStatusDataType("Boolean")
+	ConfigurationPropertiesStatusDataType_Enumeration = ConfigurationPropertiesStatusDataType("Enumeration")
+	ConfigurationPropertiesStatusDataType_Integer     = ConfigurationPropertiesStatusDataType("Integer")
+	ConfigurationPropertiesStatusDataType_Numeric     = ConfigurationPropertiesStatusDataType("Numeric")
 )
 
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )

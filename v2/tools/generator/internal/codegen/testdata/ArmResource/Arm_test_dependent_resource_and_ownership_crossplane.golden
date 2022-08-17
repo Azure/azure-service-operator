@@ -91,7 +91,7 @@ type DList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`

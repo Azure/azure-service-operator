@@ -132,10 +132,10 @@ type EncryptionProperty_StatusARM struct {
 type IdentityPropertiesStatusType string
 
 const (
-	IdentityPropertiesStatusTypeNone                       = IdentityPropertiesStatusType("None")
-	IdentityPropertiesStatusTypeSystemAssigned             = IdentityPropertiesStatusType("SystemAssigned")
-	IdentityPropertiesStatusTypeSystemAssignedUserAssigned = IdentityPropertiesStatusType("SystemAssigned, UserAssigned")
-	IdentityPropertiesStatusTypeUserAssigned               = IdentityPropertiesStatusType("UserAssigned")
+	IdentityPropertiesStatusType_None                       = IdentityPropertiesStatusType("None")
+	IdentityPropertiesStatusType_SystemAssigned             = IdentityPropertiesStatusType("SystemAssigned")
+	IdentityPropertiesStatusType_SystemAssignedUserAssigned = IdentityPropertiesStatusType("SystemAssigned, UserAssigned")
+	IdentityPropertiesStatusType_UserAssigned               = IdentityPropertiesStatusType("UserAssigned")
 )
 
 type NetworkRuleSet_StatusARM struct {
@@ -171,19 +171,19 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 type SkuStatusName string
 
 const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNameClassic  = SkuStatusName("Classic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	SkuStatusName_Basic    = SkuStatusName("Basic")
+	SkuStatusName_Classic  = SkuStatusName("Classic")
+	SkuStatusName_Premium  = SkuStatusName("Premium")
+	SkuStatusName_Standard = SkuStatusName("Standard")
 )
 
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBasic    = SkuStatusTier("Basic")
-	SkuStatusTierClassic  = SkuStatusTier("Classic")
-	SkuStatusTierPremium  = SkuStatusTier("Premium")
-	SkuStatusTierStandard = SkuStatusTier("Standard")
+	SkuStatusTier_Basic    = SkuStatusTier("Basic")
+	SkuStatusTier_Classic  = SkuStatusTier("Classic")
+	SkuStatusTier_Premium  = SkuStatusTier("Premium")
+	SkuStatusTier_Standard = SkuStatusTier("Standard")
 )
 
 type Status_StatusARM struct {
@@ -200,19 +200,19 @@ type Status_StatusARM struct {
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )
 
 type UserIdentityProperties_StatusARM struct {

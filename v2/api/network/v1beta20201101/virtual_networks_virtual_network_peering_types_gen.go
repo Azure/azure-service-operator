@@ -98,7 +98,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1360,9 +1360,9 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) SetAzureName(azureNa
 type VirtualNetworkPeeringPropertiesFormatPeeringState string
 
 const (
-	VirtualNetworkPeeringPropertiesFormatPeeringStateConnected    = VirtualNetworkPeeringPropertiesFormatPeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormatPeeringStateDisconnected = VirtualNetworkPeeringPropertiesFormatPeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormatPeeringStateInitiated    = VirtualNetworkPeeringPropertiesFormatPeeringState("Initiated")
+	VirtualNetworkPeeringPropertiesFormatPeeringState_Connected    = VirtualNetworkPeeringPropertiesFormatPeeringState("Connected")
+	VirtualNetworkPeeringPropertiesFormatPeeringState_Disconnected = VirtualNetworkPeeringPropertiesFormatPeeringState("Disconnected")
+	VirtualNetworkPeeringPropertiesFormatPeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormatPeeringState("Initiated")
 )
 
 func init() {

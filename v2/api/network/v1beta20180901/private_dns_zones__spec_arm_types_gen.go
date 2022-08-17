@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &PrivateDnsZones_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-09-01"
 func (zones PrivateDnsZones_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

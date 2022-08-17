@@ -98,7 +98,7 @@ func (trigger *SqlDatabaseContainerTrigger) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (trigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1187,18 +1187,18 @@ func (resource *SqlTriggerResource) AssignPropertiesToSqlTriggerResource(destina
 type SqlTriggerGetPropertiesStatusResourceTriggerOperation string
 
 const (
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationAll     = SqlTriggerGetPropertiesStatusResourceTriggerOperation("All")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Create")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Delete")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Replace")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Update")
+	SqlTriggerGetPropertiesStatusResourceTriggerOperation_All     = SqlTriggerGetPropertiesStatusResourceTriggerOperation("All")
+	SqlTriggerGetPropertiesStatusResourceTriggerOperation_Create  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Create")
+	SqlTriggerGetPropertiesStatusResourceTriggerOperation_Delete  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Delete")
+	SqlTriggerGetPropertiesStatusResourceTriggerOperation_Replace = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Replace")
+	SqlTriggerGetPropertiesStatusResourceTriggerOperation_Update  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Update")
 )
 
 type SqlTriggerGetPropertiesStatusResourceTriggerType string
 
 const (
-	SqlTriggerGetPropertiesStatusResourceTriggerTypePost = SqlTriggerGetPropertiesStatusResourceTriggerType("Post")
-	SqlTriggerGetPropertiesStatusResourceTriggerTypePre  = SqlTriggerGetPropertiesStatusResourceTriggerType("Pre")
+	SqlTriggerGetPropertiesStatusResourceTriggerType_Post = SqlTriggerGetPropertiesStatusResourceTriggerType("Post")
+	SqlTriggerGetPropertiesStatusResourceTriggerType_Pre  = SqlTriggerGetPropertiesStatusResourceTriggerType("Pre")
 )
 
 func init() {

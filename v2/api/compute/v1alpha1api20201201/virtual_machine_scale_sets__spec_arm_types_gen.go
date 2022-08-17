@@ -25,7 +25,7 @@ var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (sets VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -96,7 +96,7 @@ type AutomaticRepairsPolicyARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ScaleInPolicy. Use v1beta20201201.ScaleInPolicy instead
 type ScaleInPolicyARM struct {
@@ -120,10 +120,10 @@ type UpgradePolicyARM struct {
 type VirtualMachineScaleSetIdentityType string
 
 const (
-	VirtualMachineScaleSetIdentityTypeNone                       = VirtualMachineScaleSetIdentityType("None")
-	VirtualMachineScaleSetIdentityTypeSystemAssigned             = VirtualMachineScaleSetIdentityType("SystemAssigned")
-	VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned = VirtualMachineScaleSetIdentityType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentityTypeUserAssigned               = VirtualMachineScaleSetIdentityType("UserAssigned")
+	VirtualMachineScaleSetIdentityType_None                       = VirtualMachineScaleSetIdentityType("None")
+	VirtualMachineScaleSetIdentityType_SystemAssigned             = VirtualMachineScaleSetIdentityType("SystemAssigned")
+	VirtualMachineScaleSetIdentityType_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentityType("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentityType_UserAssigned               = VirtualMachineScaleSetIdentityType("UserAssigned")
 )
 
 // Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instead

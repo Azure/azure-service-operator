@@ -150,7 +150,7 @@ type HighAvailability_StatusARM struct {
 
 type IdentityStatusType string
 
-const IdentityStatusTypeUserAssigned = IdentityStatusType("UserAssigned")
+const IdentityStatusType_UserAssigned = IdentityStatusType("UserAssigned")
 
 type MaintenanceWindow_StatusARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -181,9 +181,9 @@ type Network_StatusARM struct {
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
+	SkuStatusTier_Burstable       = SkuStatusTier("Burstable")
+	SkuStatusTier_GeneralPurpose  = SkuStatusTier("GeneralPurpose")
+	SkuStatusTier_MemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
 type Storage_StatusARM struct {

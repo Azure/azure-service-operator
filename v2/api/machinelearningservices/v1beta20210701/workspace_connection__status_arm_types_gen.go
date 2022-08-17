@@ -36,4 +36,4 @@ type WorkspaceConnectionProps_StatusARM struct {
 
 type WorkspaceConnectionPropsStatusValueFormat string
 
-const WorkspaceConnectionPropsStatusValueFormatJSON = WorkspaceConnectionPropsStatusValueFormat("JSON")
+const WorkspaceConnectionPropsStatusValueFormat_JSON = WorkspaceConnectionPropsStatusValueFormat("JSON")

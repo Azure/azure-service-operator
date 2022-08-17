@@ -279,16 +279,16 @@ func AddIndependentPropertyGeneratorsForProfileStatus(gens map[string]gopter.Gen
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusProvisioningStateCreating,
-		ProfilePropertiesStatusProvisioningStateDeleting,
-		ProfilePropertiesStatusProvisioningStateFailed,
-		ProfilePropertiesStatusProvisioningStateSucceeded,
-		ProfilePropertiesStatusProvisioningStateUpdating))
+		ProfilePropertiesStatusProvisioningState_Creating,
+		ProfilePropertiesStatusProvisioningState_Deleting,
+		ProfilePropertiesStatusProvisioningState_Failed,
+		ProfilePropertiesStatusProvisioningState_Succeeded,
+		ProfilePropertiesStatusProvisioningState_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusResourceStateActive,
-		ProfilePropertiesStatusResourceStateCreating,
-		ProfilePropertiesStatusResourceStateDeleting,
-		ProfilePropertiesStatusResourceStateDisabled))
+		ProfilePropertiesStatusResourceState_Active,
+		ProfilePropertiesStatusResourceState_Creating,
+		ProfilePropertiesStatusResourceState_Deleting,
+		ProfilePropertiesStatusResourceState_Disabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -518,19 +518,19 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuNameCustomVerizon,
-		SkuNamePremiumAzureFrontDoor,
-		SkuNamePremiumVerizon,
-		SkuNameStandard955BandWidthChinaCdn,
-		SkuNameStandardAkamai,
-		SkuNameStandardAvgBandWidthChinaCdn,
-		SkuNameStandardAzureFrontDoor,
-		SkuNameStandardChinaCdn,
-		SkuNameStandardMicrosoft,
-		SkuNameStandardPlus955BandWidthChinaCdn,
-		SkuNameStandardPlusAvgBandWidthChinaCdn,
-		SkuNameStandardPlusChinaCdn,
-		SkuNameStandardVerizon))
+		SkuName_CustomVerizon,
+		SkuName_PremiumAzureFrontDoor,
+		SkuName_PremiumVerizon,
+		SkuName_Standard955BandWidthChinaCdn,
+		SkuName_StandardAkamai,
+		SkuName_StandardAvgBandWidthChinaCdn,
+		SkuName_StandardAzureFrontDoor,
+		SkuName_StandardChinaCdn,
+		SkuName_StandardMicrosoft,
+		SkuName_StandardPlus955BandWidthChinaCdn,
+		SkuName_StandardPlusAvgBandWidthChinaCdn,
+		SkuName_StandardPlusChinaCdn,
+		SkuName_StandardVerizon))
 }
 
 func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -633,19 +633,19 @@ func SkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuStatusNameCustomVerizon,
-		SkuStatusNamePremiumAzureFrontDoor,
-		SkuStatusNamePremiumVerizon,
-		SkuStatusNameStandard955BandWidthChinaCdn,
-		SkuStatusNameStandardAkamai,
-		SkuStatusNameStandardAvgBandWidthChinaCdn,
-		SkuStatusNameStandardAzureFrontDoor,
-		SkuStatusNameStandardChinaCdn,
-		SkuStatusNameStandardMicrosoft,
-		SkuStatusNameStandardPlus955BandWidthChinaCdn,
-		SkuStatusNameStandardPlusAvgBandWidthChinaCdn,
-		SkuStatusNameStandardPlusChinaCdn,
-		SkuStatusNameStandardVerizon))
+		SkuStatusName_CustomVerizon,
+		SkuStatusName_PremiumAzureFrontDoor,
+		SkuStatusName_PremiumVerizon,
+		SkuStatusName_Standard955BandWidthChinaCdn,
+		SkuStatusName_StandardAkamai,
+		SkuStatusName_StandardAvgBandWidthChinaCdn,
+		SkuStatusName_StandardAzureFrontDoor,
+		SkuStatusName_StandardChinaCdn,
+		SkuStatusName_StandardMicrosoft,
+		SkuStatusName_StandardPlus955BandWidthChinaCdn,
+		SkuStatusName_StandardPlusAvgBandWidthChinaCdn,
+		SkuStatusName_StandardPlusChinaCdn,
+		SkuStatusName_StandardVerizon))
 }
 
 func Test_SystemData_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -750,15 +750,15 @@ func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+		IdentityType_Status_Application,
+		IdentityType_Status_Key,
+		IdentityType_Status_ManagedIdentity,
+		IdentityType_Status_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+		IdentityType_Status_Application,
+		IdentityType_Status_Key,
+		IdentityType_Status_ManagedIdentity,
+		IdentityType_Status_User))
 }

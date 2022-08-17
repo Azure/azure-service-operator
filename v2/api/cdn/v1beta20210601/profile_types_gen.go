@@ -98,7 +98,7 @@ func (profile *Profile) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (profile Profile) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type ProfileList struct {
 // +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersion_Value = APIVersion("2021-06-01")
 
 type Profile_Status struct {
 	// Conditions: The observed state of the resource
@@ -996,20 +996,20 @@ func (profiles *Profiles_Spec) SetAzureName(azureName string) { profiles.AzureNa
 type ProfilePropertiesStatusProvisioningState string
 
 const (
-	ProfilePropertiesStatusProvisioningStateCreating  = ProfilePropertiesStatusProvisioningState("Creating")
-	ProfilePropertiesStatusProvisioningStateDeleting  = ProfilePropertiesStatusProvisioningState("Deleting")
-	ProfilePropertiesStatusProvisioningStateFailed    = ProfilePropertiesStatusProvisioningState("Failed")
-	ProfilePropertiesStatusProvisioningStateSucceeded = ProfilePropertiesStatusProvisioningState("Succeeded")
-	ProfilePropertiesStatusProvisioningStateUpdating  = ProfilePropertiesStatusProvisioningState("Updating")
+	ProfilePropertiesStatusProvisioningState_Creating  = ProfilePropertiesStatusProvisioningState("Creating")
+	ProfilePropertiesStatusProvisioningState_Deleting  = ProfilePropertiesStatusProvisioningState("Deleting")
+	ProfilePropertiesStatusProvisioningState_Failed    = ProfilePropertiesStatusProvisioningState("Failed")
+	ProfilePropertiesStatusProvisioningState_Succeeded = ProfilePropertiesStatusProvisioningState("Succeeded")
+	ProfilePropertiesStatusProvisioningState_Updating  = ProfilePropertiesStatusProvisioningState("Updating")
 )
 
 type ProfilePropertiesStatusResourceState string
 
 const (
-	ProfilePropertiesStatusResourceStateActive   = ProfilePropertiesStatusResourceState("Active")
-	ProfilePropertiesStatusResourceStateCreating = ProfilePropertiesStatusResourceState("Creating")
-	ProfilePropertiesStatusResourceStateDeleting = ProfilePropertiesStatusResourceState("Deleting")
-	ProfilePropertiesStatusResourceStateDisabled = ProfilePropertiesStatusResourceState("Disabled")
+	ProfilePropertiesStatusResourceState_Active   = ProfilePropertiesStatusResourceState("Active")
+	ProfilePropertiesStatusResourceState_Creating = ProfilePropertiesStatusResourceState("Creating")
+	ProfilePropertiesStatusResourceState_Deleting = ProfilePropertiesStatusResourceState("Deleting")
+	ProfilePropertiesStatusResourceState_Disabled = ProfilePropertiesStatusResourceState("Disabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku

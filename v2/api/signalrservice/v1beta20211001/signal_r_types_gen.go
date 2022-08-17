@@ -99,7 +99,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -321,7 +321,7 @@ type SignalRList struct {
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-10-01")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 type SignalRResource_Status struct {
 	// Conditions: The observed state of the resource
@@ -2319,15 +2319,15 @@ func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) As
 type ProvisioningState_Status string
 
 const (
-	ProvisioningState_StatusCanceled  = ProvisioningState_Status("Canceled")
-	ProvisioningState_StatusCreating  = ProvisioningState_Status("Creating")
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusMoving    = ProvisioningState_Status("Moving")
-	ProvisioningState_StatusRunning   = ProvisioningState_Status("Running")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUnknown   = ProvisioningState_Status("Unknown")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
+	ProvisioningState_Status_Canceled  = ProvisioningState_Status("Canceled")
+	ProvisioningState_Status_Creating  = ProvisioningState_Status("Creating")
+	ProvisioningState_Status_Deleting  = ProvisioningState_Status("Deleting")
+	ProvisioningState_Status_Failed    = ProvisioningState_Status("Failed")
+	ProvisioningState_Status_Moving    = ProvisioningState_Status("Moving")
+	ProvisioningState_Status_Running   = ProvisioningState_Status("Running")
+	ProvisioningState_Status_Succeeded = ProvisioningState_Status("Succeeded")
+	ProvisioningState_Status_Unknown   = ProvisioningState_Status("Unknown")
+	ProvisioningState_Status_Updating  = ProvisioningState_Status("Updating")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration
@@ -4113,17 +4113,17 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 type ACLAction_Status string
 
 const (
-	ACLAction_StatusAllow = ACLAction_Status("Allow")
-	ACLAction_StatusDeny  = ACLAction_Status("Deny")
+	ACLAction_Status_Allow = ACLAction_Status("Allow")
+	ACLAction_Status_Deny  = ACLAction_Status("Deny")
 )
 
 type FeatureFlags_Status string
 
 const (
-	FeatureFlags_StatusEnableConnectivityLogs = FeatureFlags_Status("EnableConnectivityLogs")
-	FeatureFlags_StatusEnableLiveTrace        = FeatureFlags_Status("EnableLiveTrace")
-	FeatureFlags_StatusEnableMessagingLogs    = FeatureFlags_Status("EnableMessagingLogs")
-	FeatureFlags_StatusServiceMode            = FeatureFlags_Status("ServiceMode")
+	FeatureFlags_Status_EnableConnectivityLogs = FeatureFlags_Status("EnableConnectivityLogs")
+	FeatureFlags_Status_EnableLiveTrace        = FeatureFlags_Status("EnableLiveTrace")
+	FeatureFlags_Status_EnableMessagingLogs    = FeatureFlags_Status("EnableMessagingLogs")
+	FeatureFlags_Status_ServiceMode            = FeatureFlags_Status("ServiceMode")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL
@@ -4827,18 +4827,18 @@ func (category *ResourceLogCategory_Status) AssignPropertiesToResourceLogCategor
 type SignalRFeatureFlag string
 
 const (
-	SignalRFeatureFlagEnableConnectivityLogs = SignalRFeatureFlag("EnableConnectivityLogs")
-	SignalRFeatureFlagEnableLiveTrace        = SignalRFeatureFlag("EnableLiveTrace")
-	SignalRFeatureFlagEnableMessagingLogs    = SignalRFeatureFlag("EnableMessagingLogs")
-	SignalRFeatureFlagServiceMode            = SignalRFeatureFlag("ServiceMode")
+	SignalRFeatureFlag_EnableConnectivityLogs = SignalRFeatureFlag("EnableConnectivityLogs")
+	SignalRFeatureFlag_EnableLiveTrace        = SignalRFeatureFlag("EnableLiveTrace")
+	SignalRFeatureFlag_EnableMessagingLogs    = SignalRFeatureFlag("EnableMessagingLogs")
+	SignalRFeatureFlag_ServiceMode            = SignalRFeatureFlag("ServiceMode")
 )
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SignalRNetworkACLsDefaultAction string
 
 const (
-	SignalRNetworkACLsDefaultActionAllow = SignalRNetworkACLsDefaultAction("Allow")
-	SignalRNetworkACLsDefaultActionDeny  = SignalRNetworkACLsDefaultAction("Deny")
+	SignalRNetworkACLsDefaultAction_Allow = SignalRNetworkACLsDefaultAction("Allow")
+	SignalRNetworkACLsDefaultAction_Deny  = SignalRNetworkACLsDefaultAction("Deny")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate
@@ -5276,49 +5276,49 @@ func (property *UserAssignedIdentityProperty_Status) AssignPropertiesToUserAssig
 type NetworkACLAllow string
 
 const (
-	NetworkACLAllowClientConnection = NetworkACLAllow("ClientConnection")
-	NetworkACLAllowRESTAPI          = NetworkACLAllow("RESTAPI")
-	NetworkACLAllowServerConnection = NetworkACLAllow("ServerConnection")
-	NetworkACLAllowTrace            = NetworkACLAllow("Trace")
+	NetworkACLAllow_ClientConnection = NetworkACLAllow("ClientConnection")
+	NetworkACLAllow_RESTAPI          = NetworkACLAllow("RESTAPI")
+	NetworkACLAllow_ServerConnection = NetworkACLAllow("ServerConnection")
+	NetworkACLAllow_Trace            = NetworkACLAllow("Trace")
 )
 
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type NetworkACLDeny string
 
 const (
-	NetworkACLDenyClientConnection = NetworkACLDeny("ClientConnection")
-	NetworkACLDenyRESTAPI          = NetworkACLDeny("RESTAPI")
-	NetworkACLDenyServerConnection = NetworkACLDeny("ServerConnection")
-	NetworkACLDenyTrace            = NetworkACLDeny("Trace")
+	NetworkACLDeny_ClientConnection = NetworkACLDeny("ClientConnection")
+	NetworkACLDeny_RESTAPI          = NetworkACLDeny("RESTAPI")
+	NetworkACLDeny_ServerConnection = NetworkACLDeny("ServerConnection")
+	NetworkACLDeny_Trace            = NetworkACLDeny("Trace")
 )
 
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type PrivateEndpointACLAllow string
 
 const (
-	PrivateEndpointACLAllowClientConnection = PrivateEndpointACLAllow("ClientConnection")
-	PrivateEndpointACLAllowRESTAPI          = PrivateEndpointACLAllow("RESTAPI")
-	PrivateEndpointACLAllowServerConnection = PrivateEndpointACLAllow("ServerConnection")
-	PrivateEndpointACLAllowTrace            = PrivateEndpointACLAllow("Trace")
+	PrivateEndpointACLAllow_ClientConnection = PrivateEndpointACLAllow("ClientConnection")
+	PrivateEndpointACLAllow_RESTAPI          = PrivateEndpointACLAllow("RESTAPI")
+	PrivateEndpointACLAllow_ServerConnection = PrivateEndpointACLAllow("ServerConnection")
+	PrivateEndpointACLAllow_Trace            = PrivateEndpointACLAllow("Trace")
 )
 
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type PrivateEndpointACLDeny string
 
 const (
-	PrivateEndpointACLDenyClientConnection = PrivateEndpointACLDeny("ClientConnection")
-	PrivateEndpointACLDenyRESTAPI          = PrivateEndpointACLDeny("RESTAPI")
-	PrivateEndpointACLDenyServerConnection = PrivateEndpointACLDeny("ServerConnection")
-	PrivateEndpointACLDenyTrace            = PrivateEndpointACLDeny("Trace")
+	PrivateEndpointACLDeny_ClientConnection = PrivateEndpointACLDeny("ClientConnection")
+	PrivateEndpointACLDeny_RESTAPI          = PrivateEndpointACLDeny("RESTAPI")
+	PrivateEndpointACLDeny_ServerConnection = PrivateEndpointACLDeny("ServerConnection")
+	PrivateEndpointACLDeny_Trace            = PrivateEndpointACLDeny("Trace")
 )
 
 type SignalRRequestType_Status string
 
 const (
-	SignalRRequestType_StatusClientConnection = SignalRRequestType_Status("ClientConnection")
-	SignalRRequestType_StatusRESTAPI          = SignalRRequestType_Status("RESTAPI")
-	SignalRRequestType_StatusServerConnection = SignalRRequestType_Status("ServerConnection")
-	SignalRRequestType_StatusTrace            = SignalRRequestType_Status("Trace")
+	SignalRRequestType_Status_ClientConnection = SignalRRequestType_Status("ClientConnection")
+	SignalRRequestType_Status_RESTAPI          = SignalRRequestType_Status("RESTAPI")
+	SignalRRequestType_Status_ServerConnection = SignalRRequestType_Status("ServerConnection")
+	SignalRRequestType_Status_Trace            = SignalRRequestType_Status("Trace")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings
@@ -5692,15 +5692,15 @@ func (settings *ManagedIdentitySettings_Status) AssignPropertiesToManagedIdentit
 type UpstreamAuthSettingsType string
 
 const (
-	UpstreamAuthSettingsTypeManagedIdentity = UpstreamAuthSettingsType("ManagedIdentity")
-	UpstreamAuthSettingsTypeNone            = UpstreamAuthSettingsType("None")
+	UpstreamAuthSettingsType_ManagedIdentity = UpstreamAuthSettingsType("ManagedIdentity")
+	UpstreamAuthSettingsType_None            = UpstreamAuthSettingsType("None")
 )
 
 type UpstreamAuthType_Status string
 
 const (
-	UpstreamAuthType_StatusManagedIdentity = UpstreamAuthType_Status("ManagedIdentity")
-	UpstreamAuthType_StatusNone            = UpstreamAuthType_Status("None")
+	UpstreamAuthType_Status_ManagedIdentity = UpstreamAuthType_Status("ManagedIdentity")
+	UpstreamAuthType_Status_None            = UpstreamAuthType_Status("None")
 )
 
 func init() {

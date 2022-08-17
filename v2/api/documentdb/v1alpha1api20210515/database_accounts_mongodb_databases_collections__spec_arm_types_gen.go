@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollections_
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

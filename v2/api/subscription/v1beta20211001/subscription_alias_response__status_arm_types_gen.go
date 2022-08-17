@@ -74,40 +74,40 @@ type SystemData_StatusARM struct {
 type AcceptOwnershipState_Status string
 
 const (
-	AcceptOwnershipState_StatusCompleted = AcceptOwnershipState_Status("Completed")
-	AcceptOwnershipState_StatusExpired   = AcceptOwnershipState_Status("Expired")
-	AcceptOwnershipState_StatusPending   = AcceptOwnershipState_Status("Pending")
+	AcceptOwnershipState_Status_Completed = AcceptOwnershipState_Status("Completed")
+	AcceptOwnershipState_Status_Expired   = AcceptOwnershipState_Status("Expired")
+	AcceptOwnershipState_Status_Pending   = AcceptOwnershipState_Status("Pending")
 )
 
 type SubscriptionAliasResponsePropertiesStatusProvisioningState string
 
 const (
-	SubscriptionAliasResponsePropertiesStatusProvisioningStateAccepted  = SubscriptionAliasResponsePropertiesStatusProvisioningState("Accepted")
-	SubscriptionAliasResponsePropertiesStatusProvisioningStateFailed    = SubscriptionAliasResponsePropertiesStatusProvisioningState("Failed")
-	SubscriptionAliasResponsePropertiesStatusProvisioningStateSucceeded = SubscriptionAliasResponsePropertiesStatusProvisioningState("Succeeded")
+	SubscriptionAliasResponsePropertiesStatusProvisioningState_Accepted  = SubscriptionAliasResponsePropertiesStatusProvisioningState("Accepted")
+	SubscriptionAliasResponsePropertiesStatusProvisioningState_Failed    = SubscriptionAliasResponsePropertiesStatusProvisioningState("Failed")
+	SubscriptionAliasResponsePropertiesStatusProvisioningState_Succeeded = SubscriptionAliasResponsePropertiesStatusProvisioningState("Succeeded")
 )
 
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )
 
 type Workload_Status string
 
 const (
-	Workload_StatusDevTest    = Workload_Status("DevTest")
-	Workload_StatusProduction = Workload_Status("Production")
+	Workload_Status_DevTest    = Workload_Status("DevTest")
+	Workload_Status_Production = Workload_Status("Production")
 )

@@ -112,7 +112,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -335,7 +335,7 @@ type DomainList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 // Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
@@ -1169,9 +1169,9 @@ func (domains *Domains_Spec) SetAzureName(azureName string) { domains.AzureName 
 type DomainPropertiesInputSchema string
 
 const (
-	DomainPropertiesInputSchemaCloudEventSchemaV10 = DomainPropertiesInputSchema("CloudEventSchemaV1_0")
-	DomainPropertiesInputSchemaCustomEventSchema   = DomainPropertiesInputSchema("CustomEventSchema")
-	DomainPropertiesInputSchemaEventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
+	DomainPropertiesInputSchema_CloudEventSchemaV10 = DomainPropertiesInputSchema("CloudEventSchemaV1_0")
+	DomainPropertiesInputSchema_CustomEventSchema   = DomainPropertiesInputSchema("CustomEventSchema")
+	DomainPropertiesInputSchema_EventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
 )
 
 // Deprecated version of DomainPropertiesPublicNetworkAccess. Use v1beta20200601.DomainPropertiesPublicNetworkAccess instead
@@ -1179,17 +1179,17 @@ const (
 type DomainPropertiesPublicNetworkAccess string
 
 const (
-	DomainPropertiesPublicNetworkAccessDisabled = DomainPropertiesPublicNetworkAccess("Disabled")
-	DomainPropertiesPublicNetworkAccessEnabled  = DomainPropertiesPublicNetworkAccess("Enabled")
+	DomainPropertiesPublicNetworkAccess_Disabled = DomainPropertiesPublicNetworkAccess("Disabled")
+	DomainPropertiesPublicNetworkAccess_Enabled  = DomainPropertiesPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead
 type DomainPropertiesStatusInputSchema string
 
 const (
-	DomainPropertiesStatusInputSchemaCloudEventSchemaV10 = DomainPropertiesStatusInputSchema("CloudEventSchemaV1_0")
-	DomainPropertiesStatusInputSchemaCustomEventSchema   = DomainPropertiesStatusInputSchema("CustomEventSchema")
-	DomainPropertiesStatusInputSchemaEventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
+	DomainPropertiesStatusInputSchema_CloudEventSchemaV10 = DomainPropertiesStatusInputSchema("CloudEventSchemaV1_0")
+	DomainPropertiesStatusInputSchema_CustomEventSchema   = DomainPropertiesStatusInputSchema("CustomEventSchema")
+	DomainPropertiesStatusInputSchema_EventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
 )
 
 // Deprecated version of DomainPropertiesStatusProvisioningState. Use
@@ -1197,12 +1197,12 @@ const (
 type DomainPropertiesStatusProvisioningState string
 
 const (
-	DomainPropertiesStatusProvisioningStateCanceled  = DomainPropertiesStatusProvisioningState("Canceled")
-	DomainPropertiesStatusProvisioningStateCreating  = DomainPropertiesStatusProvisioningState("Creating")
-	DomainPropertiesStatusProvisioningStateDeleting  = DomainPropertiesStatusProvisioningState("Deleting")
-	DomainPropertiesStatusProvisioningStateFailed    = DomainPropertiesStatusProvisioningState("Failed")
-	DomainPropertiesStatusProvisioningStateSucceeded = DomainPropertiesStatusProvisioningState("Succeeded")
-	DomainPropertiesStatusProvisioningStateUpdating  = DomainPropertiesStatusProvisioningState("Updating")
+	DomainPropertiesStatusProvisioningState_Canceled  = DomainPropertiesStatusProvisioningState("Canceled")
+	DomainPropertiesStatusProvisioningState_Creating  = DomainPropertiesStatusProvisioningState("Creating")
+	DomainPropertiesStatusProvisioningState_Deleting  = DomainPropertiesStatusProvisioningState("Deleting")
+	DomainPropertiesStatusProvisioningState_Failed    = DomainPropertiesStatusProvisioningState("Failed")
+	DomainPropertiesStatusProvisioningState_Succeeded = DomainPropertiesStatusProvisioningState("Succeeded")
+	DomainPropertiesStatusProvisioningState_Updating  = DomainPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
@@ -1210,8 +1210,8 @@ const (
 type DomainPropertiesStatusPublicNetworkAccess string
 
 const (
-	DomainPropertiesStatusPublicNetworkAccessDisabled = DomainPropertiesStatusPublicNetworkAccess("Disabled")
-	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
+	DomainPropertiesStatusPublicNetworkAccess_Disabled = DomainPropertiesStatusPublicNetworkAccess("Disabled")
+	DomainPropertiesStatusPublicNetworkAccess_Enabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
@@ -1800,25 +1800,25 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 // +kubebuilder:validation:Enum={"Allow"}
 type InboundIpRuleAction string
 
-const InboundIpRuleActionAllow = InboundIpRuleAction("Allow")
+const InboundIpRuleAction_Allow = InboundIpRuleAction("Allow")
 
 // Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead
 type InboundIpRuleStatusAction string
 
-const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
+const InboundIpRuleStatusAction_Allow = InboundIpRuleStatusAction("Allow")
 
 // Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
 // v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead
 type InputSchemaMappingStatusInputSchemaMappingType string
 
-const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
+const InputSchemaMappingStatusInputSchemaMappingType_Json = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
 // Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
 // v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead
 // +kubebuilder:validation:Enum={"Json"}
 type JsonInputSchemaMappingInputSchemaMappingType string
 
-const JsonInputSchemaMappingInputSchemaMappingTypeJson = JsonInputSchemaMappingInputSchemaMappingType("Json")
+const JsonInputSchemaMappingInputSchemaMappingType_Json = JsonInputSchemaMappingInputSchemaMappingType("Json")
 
 // Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingProperties struct {

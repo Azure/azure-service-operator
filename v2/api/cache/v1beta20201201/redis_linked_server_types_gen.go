@@ -98,7 +98,7 @@ func (server *RedisLinkedServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (server RedisLinkedServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -848,15 +848,15 @@ func (servers *RedisLinkedServers_Spec) SetAzureName(azureName string) { servers
 type RedisLinkedServerCreatePropertiesServerRole string
 
 const (
-	RedisLinkedServerCreatePropertiesServerRolePrimary   = RedisLinkedServerCreatePropertiesServerRole("Primary")
-	RedisLinkedServerCreatePropertiesServerRoleSecondary = RedisLinkedServerCreatePropertiesServerRole("Secondary")
+	RedisLinkedServerCreatePropertiesServerRole_Primary   = RedisLinkedServerCreatePropertiesServerRole("Primary")
+	RedisLinkedServerCreatePropertiesServerRole_Secondary = RedisLinkedServerCreatePropertiesServerRole("Secondary")
 )
 
 type RedisLinkedServerPropertiesStatusServerRole string
 
 const (
-	RedisLinkedServerPropertiesStatusServerRolePrimary   = RedisLinkedServerPropertiesStatusServerRole("Primary")
-	RedisLinkedServerPropertiesStatusServerRoleSecondary = RedisLinkedServerPropertiesStatusServerRole("Secondary")
+	RedisLinkedServerPropertiesStatusServerRole_Primary   = RedisLinkedServerPropertiesStatusServerRole("Primary")
+	RedisLinkedServerPropertiesStatusServerRole_Secondary = RedisLinkedServerPropertiesStatusServerRole("Secondary")
 )
 
 func init() {

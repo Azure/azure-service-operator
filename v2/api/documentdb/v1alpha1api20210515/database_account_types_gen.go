@@ -112,7 +112,7 @@ func (account *DatabaseAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (account DatabaseAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -357,7 +357,7 @@ type DatabaseAccountList struct {
 // +kubebuilder:validation:Enum={"2021-05-15"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-15")
+const APIVersion_Value = APIVersion("2021-05-15")
 
 // Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {
@@ -3411,7 +3411,7 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 // Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead
 type ConnectorOffer_Status string
 
-const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
+const ConnectorOffer_Status_Small = ConnectorOffer_Status("Small")
 
 // Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
@@ -3934,14 +3934,14 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 // +kubebuilder:validation:Enum={"Small"}
 type DatabaseAccountCreateUpdatePropertiesConnectorOffer string
 
-const DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
+const DatabaseAccountCreateUpdatePropertiesConnectorOffer_Small = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
 
 // Deprecated version of DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType. Use
 // v1beta20210515.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType instead
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType string
 
-const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
+const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType_Standard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
 
 // Deprecated version of DatabaseAccountCreateUpdatePropertiesNetworkAclBypass. Use
 // v1beta20210515.DatabaseAccountCreateUpdatePropertiesNetworkAclBypass instead
@@ -3949,8 +3949,8 @@ const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = Da
 type DatabaseAccountCreateUpdatePropertiesNetworkAclBypass string
 
 const (
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassAzureServices = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("AzureServices")
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
+	DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_AzureServices = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("AzureServices")
+	DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_None          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
 )
 
 // Deprecated version of DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess. Use
@@ -3959,14 +3959,14 @@ const (
 type DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess string
 
 const (
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessDisabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
+	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Disabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
+	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Enabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead
 type DatabaseAccountOfferType_Status string
 
-const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
+const DatabaseAccountOfferType_Status_Standard = DatabaseAccountOfferType_Status("Standard")
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -4732,8 +4732,8 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 type NetworkAclBypass_Status string
 
 const (
-	NetworkAclBypass_StatusAzureServices = NetworkAclBypass_Status("AzureServices")
-	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
+	NetworkAclBypass_Status_AzureServices = NetworkAclBypass_Status("AzureServices")
+	NetworkAclBypass_Status_None          = NetworkAclBypass_Status("None")
 )
 
 // Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
@@ -4798,8 +4798,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 type PublicNetworkAccess_Status string
 
 const (
-	PublicNetworkAccess_StatusDisabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
+	PublicNetworkAccess_Status_Disabled = PublicNetworkAccess_Status("Disabled")
+	PublicNetworkAccess_Status_Enabled  = PublicNetworkAccess_Status("Enabled")
 )
 
 // Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
@@ -5001,16 +5001,16 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 type AnalyticalStorageConfigurationSchemaType string
 
 const (
-	AnalyticalStorageConfigurationSchemaTypeFullFidelity = AnalyticalStorageConfigurationSchemaType("FullFidelity")
-	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
+	AnalyticalStorageConfigurationSchemaType_FullFidelity = AnalyticalStorageConfigurationSchemaType("FullFidelity")
+	AnalyticalStorageConfigurationSchemaType_WellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
 // Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead
 type AnalyticalStorageSchemaType_Status string
 
 const (
-	AnalyticalStorageSchemaType_StatusFullFidelity = AnalyticalStorageSchemaType_Status("FullFidelity")
-	AnalyticalStorageSchemaType_StatusWellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
+	AnalyticalStorageSchemaType_Status_FullFidelity = AnalyticalStorageSchemaType_Status("FullFidelity")
+	AnalyticalStorageSchemaType_Status_WellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
 )
 
 // Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead
@@ -5018,26 +5018,26 @@ const (
 type ApiPropertiesServerVersion string
 
 const (
-	ApiPropertiesServerVersion32 = ApiPropertiesServerVersion("3.2")
-	ApiPropertiesServerVersion36 = ApiPropertiesServerVersion("3.6")
-	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
+	ApiPropertiesServerVersion_32 = ApiPropertiesServerVersion("3.2")
+	ApiPropertiesServerVersion_36 = ApiPropertiesServerVersion("3.6")
+	ApiPropertiesServerVersion_40 = ApiPropertiesServerVersion("4.0")
 )
 
 // Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead
 type ApiPropertiesStatusServerVersion string
 
 const (
-	ApiPropertiesStatusServerVersion32 = ApiPropertiesStatusServerVersion("3.2")
-	ApiPropertiesStatusServerVersion36 = ApiPropertiesStatusServerVersion("3.6")
-	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
+	ApiPropertiesStatusServerVersion_32 = ApiPropertiesStatusServerVersion("3.2")
+	ApiPropertiesStatusServerVersion_36 = ApiPropertiesStatusServerVersion("3.6")
+	ApiPropertiesStatusServerVersion_40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
 // Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead
 type BackupPolicyType_Status string
 
 const (
-	BackupPolicyType_StatusContinuous = BackupPolicyType_Status("Continuous")
-	BackupPolicyType_StatusPeriodic   = BackupPolicyType_Status("Periodic")
+	BackupPolicyType_Status_Continuous = BackupPolicyType_Status("Continuous")
+	BackupPolicyType_Status_Periodic   = BackupPolicyType_Status("Periodic")
 )
 
 // Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
@@ -5046,11 +5046,11 @@ const (
 type ConsistencyPolicyDefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyDefaultConsistencyLevelEventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyDefaultConsistencyLevelSession          = ConsistencyPolicyDefaultConsistencyLevel("Session")
-	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
+	ConsistencyPolicyDefaultConsistencyLevel_BoundedStaleness = ConsistencyPolicyDefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicyDefaultConsistencyLevel_ConsistentPrefix = ConsistencyPolicyDefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicyDefaultConsistencyLevel_Eventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
+	ConsistencyPolicyDefaultConsistencyLevel_Session          = ConsistencyPolicyDefaultConsistencyLevel("Session")
+	ConsistencyPolicyDefaultConsistencyLevel_Strong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
 )
 
 // Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
@@ -5058,11 +5058,11 @@ const (
 type ConsistencyPolicyStatusDefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyStatusDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyStatusDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyStatusDefaultConsistencyLevelEventual         = ConsistencyPolicyStatusDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyStatusDefaultConsistencyLevelSession          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
-	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_BoundedStaleness = ConsistencyPolicyStatusDefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_ConsistentPrefix = ConsistencyPolicyStatusDefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Eventual         = ConsistencyPolicyStatusDefaultConsistencyLevel("Eventual")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Session          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Strong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
 
 // Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
@@ -5472,13 +5472,13 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 // +kubebuilder:validation:Enum={"Continuous"}
 type ContinuousModeBackupPolicyType string
 
-const ContinuousModeBackupPolicyTypeContinuous = ContinuousModeBackupPolicyType("Continuous")
+const ContinuousModeBackupPolicyType_Continuous = ContinuousModeBackupPolicyType("Continuous")
 
 // Deprecated version of PeriodicModeBackupPolicyType. Use v1beta20210515.PeriodicModeBackupPolicyType instead
 // +kubebuilder:validation:Enum={"Periodic"}
 type PeriodicModeBackupPolicyType string
 
-const PeriodicModeBackupPolicyTypePeriodic = PeriodicModeBackupPolicyType("Periodic")
+const PeriodicModeBackupPolicyType_Periodic = PeriodicModeBackupPolicyType("Periodic")
 
 // Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModeProperties struct {

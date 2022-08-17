@@ -44,11 +44,11 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 }
 
 func newVnetGateway(tc *testcommon.KubePerTestContext, publicIPAddress *network.PublicIPAddress, subnet *network.VirtualNetworksSubnet, rg *resources.ResourceGroup) *network.VirtualNetworkGateway {
-	gatewayType := network.VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn
-	skuName := network.VirtualNetworkGatewaySkuNameVpnGw2
-	skuTier := network.VirtualNetworkGatewaySkuTierVpnGw2
-	vpnGatewayGen := network.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration1
-	vpnType := network.VirtualNetworkGatewaysSpecPropertiesVpnTypeRouteBased
+	gatewayType := network.VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn
+	skuName := network.VirtualNetworkGatewaySkuName_VpnGw2
+	skuTier := network.VirtualNetworkGatewaySkuTier_VpnGw2
+	vpnGatewayGen := network.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1
+	vpnType := network.VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased
 
 	return &network.VirtualNetworkGateway{
 		ObjectMeta: tc.MakeObjectMeta("gateway"),

@@ -270,7 +270,7 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesStatus(ge
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerPropertiesStatusServerRolePrimary, RedisLinkedServerPropertiesStatusServerRoleSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerPropertiesStatusServerRole_Primary, RedisLinkedServerPropertiesStatusServerRole_Secondary))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -377,6 +377,6 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServersSpec(gens map[string]g
 	gens["AzureName"] = gen.AlphaString()
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRolePrimary, RedisLinkedServerCreatePropertiesServerRoleSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRole_Primary, RedisLinkedServerCreatePropertiesServerRole_Secondary))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

@@ -112,7 +112,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1278,9 +1278,9 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) SetAzureName(azure
 type ContainerPropertiesPublicAccess string
 
 const (
-	ContainerPropertiesPublicAccessBlob      = ContainerPropertiesPublicAccess("Blob")
-	ContainerPropertiesPublicAccessContainer = ContainerPropertiesPublicAccess("Container")
-	ContainerPropertiesPublicAccessNone      = ContainerPropertiesPublicAccess("None")
+	ContainerPropertiesPublicAccess_Blob      = ContainerPropertiesPublicAccess("Blob")
+	ContainerPropertiesPublicAccess_Container = ContainerPropertiesPublicAccess("Container")
+	ContainerPropertiesPublicAccess_None      = ContainerPropertiesPublicAccess("None")
 )
 
 // Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
@@ -1763,8 +1763,8 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 type ImmutabilityPolicyPropertyStatusState string
 
 const (
-	ImmutabilityPolicyPropertyStatusStateLocked   = ImmutabilityPolicyPropertyStatusState("Locked")
-	ImmutabilityPolicyPropertyStatusStateUnlocked = ImmutabilityPolicyPropertyStatusState("Unlocked")
+	ImmutabilityPolicyPropertyStatusState_Locked   = ImmutabilityPolicyPropertyStatusState("Locked")
+	ImmutabilityPolicyPropertyStatusState_Unlocked = ImmutabilityPolicyPropertyStatusState("Unlocked")
 )
 
 // Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead

@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &StorageAccountsManagementPolicies_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (policies StorageAccountsManagementPolicies_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -57,7 +57,7 @@ type ManagementPolicyDefinitionARM struct {
 // +kubebuilder:validation:Enum={"Lifecycle"}
 type ManagementPolicyRuleType string
 
-const ManagementPolicyRuleTypeLifecycle = ManagementPolicyRuleType("Lifecycle")
+const ManagementPolicyRuleType_Lifecycle = ManagementPolicyRuleType("Lifecycle")
 
 // Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
 type ManagementPolicyActionARM struct {

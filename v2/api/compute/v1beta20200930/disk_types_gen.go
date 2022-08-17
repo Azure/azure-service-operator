@@ -98,7 +98,7 @@ func (disk *Disk) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (disk Disk) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type DiskList struct {
 // +kubebuilder:validation:Enum={"2020-09-30"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-09-30")
+const APIVersion_Value = APIVersion("2020-09-30")
 
 type Disk_Status struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
@@ -2596,39 +2596,39 @@ func (data *CreationData_Status) AssignPropertiesToCreationDataStatus(destinatio
 type DiskPropertiesHyperVGeneration string
 
 const (
-	DiskPropertiesHyperVGenerationV1 = DiskPropertiesHyperVGeneration("V1")
-	DiskPropertiesHyperVGenerationV2 = DiskPropertiesHyperVGeneration("V2")
+	DiskPropertiesHyperVGeneration_V1 = DiskPropertiesHyperVGeneration("V1")
+	DiskPropertiesHyperVGeneration_V2 = DiskPropertiesHyperVGeneration("V2")
 )
 
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type DiskPropertiesNetworkAccessPolicy string
 
 const (
-	DiskPropertiesNetworkAccessPolicyAllowAll     = DiskPropertiesNetworkAccessPolicy("AllowAll")
-	DiskPropertiesNetworkAccessPolicyAllowPrivate = DiskPropertiesNetworkAccessPolicy("AllowPrivate")
-	DiskPropertiesNetworkAccessPolicyDenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
+	DiskPropertiesNetworkAccessPolicy_AllowAll     = DiskPropertiesNetworkAccessPolicy("AllowAll")
+	DiskPropertiesNetworkAccessPolicy_AllowPrivate = DiskPropertiesNetworkAccessPolicy("AllowPrivate")
+	DiskPropertiesNetworkAccessPolicy_DenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskPropertiesOsType string
 
 const (
-	DiskPropertiesOsTypeLinux   = DiskPropertiesOsType("Linux")
-	DiskPropertiesOsTypeWindows = DiskPropertiesOsType("Windows")
+	DiskPropertiesOsType_Linux   = DiskPropertiesOsType("Linux")
+	DiskPropertiesOsType_Windows = DiskPropertiesOsType("Windows")
 )
 
 type DiskPropertiesStatusHyperVGeneration string
 
 const (
-	DiskPropertiesStatusHyperVGenerationV1 = DiskPropertiesStatusHyperVGeneration("V1")
-	DiskPropertiesStatusHyperVGenerationV2 = DiskPropertiesStatusHyperVGeneration("V2")
+	DiskPropertiesStatusHyperVGeneration_V1 = DiskPropertiesStatusHyperVGeneration("V1")
+	DiskPropertiesStatusHyperVGeneration_V2 = DiskPropertiesStatusHyperVGeneration("V2")
 )
 
 type DiskPropertiesStatusOsType string
 
 const (
-	DiskPropertiesStatusOsTypeLinux   = DiskPropertiesStatusOsType("Linux")
-	DiskPropertiesStatusOsTypeWindows = DiskPropertiesStatusOsType("Windows")
+	DiskPropertiesStatusOsType_Linux   = DiskPropertiesStatusOsType("Linux")
+	DiskPropertiesStatusOsType_Windows = DiskPropertiesStatusOsType("Windows")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku
@@ -2801,12 +2801,12 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *v202
 type DiskState_Status string
 
 const (
-	DiskState_StatusActiveSAS     = DiskState_Status("ActiveSAS")
-	DiskState_StatusActiveUpload  = DiskState_Status("ActiveUpload")
-	DiskState_StatusAttached      = DiskState_Status("Attached")
-	DiskState_StatusReadyToUpload = DiskState_Status("ReadyToUpload")
-	DiskState_StatusReserved      = DiskState_Status("Reserved")
-	DiskState_StatusUnattached    = DiskState_Status("Unattached")
+	DiskState_Status_ActiveSAS     = DiskState_Status("ActiveSAS")
+	DiskState_Status_ActiveUpload  = DiskState_Status("ActiveUpload")
+	DiskState_Status_Attached      = DiskState_Status("Attached")
+	DiskState_Status_ReadyToUpload = DiskState_Status("ReadyToUpload")
+	DiskState_Status_Reserved      = DiskState_Status("Reserved")
+	DiskState_Status_Unattached    = DiskState_Status("Unattached")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
@@ -3496,9 +3496,9 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 type NetworkAccessPolicy_Status string
 
 const (
-	NetworkAccessPolicy_StatusAllowAll     = NetworkAccessPolicy_Status("AllowAll")
-	NetworkAccessPolicy_StatusAllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
-	NetworkAccessPolicy_StatusDenyAll      = NetworkAccessPolicy_Status("DenyAll")
+	NetworkAccessPolicy_Status_AllowAll     = NetworkAccessPolicy_Status("AllowAll")
+	NetworkAccessPolicy_Status_AllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
+	NetworkAccessPolicy_Status_DenyAll      = NetworkAccessPolicy_Status("DenyAll")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
@@ -3808,25 +3808,25 @@ func (element *ShareInfoElement_Status) AssignPropertiesToShareInfoElementStatus
 type CreationDataCreateOption string
 
 const (
-	CreationDataCreateOptionAttach    = CreationDataCreateOption("Attach")
-	CreationDataCreateOptionCopy      = CreationDataCreateOption("Copy")
-	CreationDataCreateOptionEmpty     = CreationDataCreateOption("Empty")
-	CreationDataCreateOptionFromImage = CreationDataCreateOption("FromImage")
-	CreationDataCreateOptionImport    = CreationDataCreateOption("Import")
-	CreationDataCreateOptionRestore   = CreationDataCreateOption("Restore")
-	CreationDataCreateOptionUpload    = CreationDataCreateOption("Upload")
+	CreationDataCreateOption_Attach    = CreationDataCreateOption("Attach")
+	CreationDataCreateOption_Copy      = CreationDataCreateOption("Copy")
+	CreationDataCreateOption_Empty     = CreationDataCreateOption("Empty")
+	CreationDataCreateOption_FromImage = CreationDataCreateOption("FromImage")
+	CreationDataCreateOption_Import    = CreationDataCreateOption("Import")
+	CreationDataCreateOption_Restore   = CreationDataCreateOption("Restore")
+	CreationDataCreateOption_Upload    = CreationDataCreateOption("Upload")
 )
 
 type CreationDataStatusCreateOption string
 
 const (
-	CreationDataStatusCreateOptionAttach    = CreationDataStatusCreateOption("Attach")
-	CreationDataStatusCreateOptionCopy      = CreationDataStatusCreateOption("Copy")
-	CreationDataStatusCreateOptionEmpty     = CreationDataStatusCreateOption("Empty")
-	CreationDataStatusCreateOptionFromImage = CreationDataStatusCreateOption("FromImage")
-	CreationDataStatusCreateOptionImport    = CreationDataStatusCreateOption("Import")
-	CreationDataStatusCreateOptionRestore   = CreationDataStatusCreateOption("Restore")
-	CreationDataStatusCreateOptionUpload    = CreationDataStatusCreateOption("Upload")
+	CreationDataStatusCreateOption_Attach    = CreationDataStatusCreateOption("Attach")
+	CreationDataStatusCreateOption_Copy      = CreationDataStatusCreateOption("Copy")
+	CreationDataStatusCreateOption_Empty     = CreationDataStatusCreateOption("Empty")
+	CreationDataStatusCreateOption_FromImage = CreationDataStatusCreateOption("FromImage")
+	CreationDataStatusCreateOption_Import    = CreationDataStatusCreateOption("Import")
+	CreationDataStatusCreateOption_Restore   = CreationDataStatusCreateOption("Restore")
+	CreationDataStatusCreateOption_Upload    = CreationDataStatusCreateOption("Upload")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
@@ -4103,17 +4103,17 @@ func (element *EncryptionSettingsElement_Status) AssignPropertiesToEncryptionSet
 type EncryptionType string
 
 const (
-	EncryptionTypeEncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
-	EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
+	EncryptionType_EncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
 type EncryptionType_Status string
 
 const (
-	EncryptionType_StatusEncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
-	EncryptionType_StatusEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionType_StatusEncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
+	EncryptionType_Status_EncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
+	EncryptionType_Status_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_Status_EncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference

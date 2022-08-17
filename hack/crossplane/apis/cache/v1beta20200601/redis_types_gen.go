@@ -33,7 +33,7 @@ type RedisList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type RedisResource_Status struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
@@ -257,17 +257,17 @@ type RedisCommonPropertiesRedisConfiguration struct {
 type RedisCreatePropertiesMinimumTlsVersion string
 
 const (
-	RedisCreatePropertiesMinimumTlsVersion10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
+	RedisCreatePropertiesMinimumTlsVersion_10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
+	RedisCreatePropertiesMinimumTlsVersion_11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
+	RedisCreatePropertiesMinimumTlsVersion_12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RedisCreatePropertiesPublicNetworkAccess string
 
 const (
-	RedisCreatePropertiesPublicNetworkAccessDisabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
+	RedisCreatePropertiesPublicNetworkAccess_Disabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
+	RedisCreatePropertiesPublicNetworkAccess_Enabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
 type RedisInstanceDetails_Status struct {
@@ -295,33 +295,33 @@ type RedisLinkedServer_Status struct {
 type RedisPropertiesStatusMinimumTlsVersion string
 
 const (
-	RedisPropertiesStatusMinimumTlsVersion10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
-	RedisPropertiesStatusMinimumTlsVersion11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
-	RedisPropertiesStatusMinimumTlsVersion12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
+	RedisPropertiesStatusMinimumTlsVersion_10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
+	RedisPropertiesStatusMinimumTlsVersion_11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
+	RedisPropertiesStatusMinimumTlsVersion_12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
 )
 
 type RedisPropertiesStatusProvisioningState string
 
 const (
-	RedisPropertiesStatusProvisioningStateCreating               = RedisPropertiesStatusProvisioningState("Creating")
-	RedisPropertiesStatusProvisioningStateDeleting               = RedisPropertiesStatusProvisioningState("Deleting")
-	RedisPropertiesStatusProvisioningStateDisabled               = RedisPropertiesStatusProvisioningState("Disabled")
-	RedisPropertiesStatusProvisioningStateFailed                 = RedisPropertiesStatusProvisioningState("Failed")
-	RedisPropertiesStatusProvisioningStateLinking                = RedisPropertiesStatusProvisioningState("Linking")
-	RedisPropertiesStatusProvisioningStateProvisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
-	RedisPropertiesStatusProvisioningStateRecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesStatusProvisioningStateScaling                = RedisPropertiesStatusProvisioningState("Scaling")
-	RedisPropertiesStatusProvisioningStateSucceeded              = RedisPropertiesStatusProvisioningState("Succeeded")
-	RedisPropertiesStatusProvisioningStateUnlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
-	RedisPropertiesStatusProvisioningStateUnprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
-	RedisPropertiesStatusProvisioningStateUpdating               = RedisPropertiesStatusProvisioningState("Updating")
+	RedisPropertiesStatusProvisioningState_Creating               = RedisPropertiesStatusProvisioningState("Creating")
+	RedisPropertiesStatusProvisioningState_Deleting               = RedisPropertiesStatusProvisioningState("Deleting")
+	RedisPropertiesStatusProvisioningState_Disabled               = RedisPropertiesStatusProvisioningState("Disabled")
+	RedisPropertiesStatusProvisioningState_Failed                 = RedisPropertiesStatusProvisioningState("Failed")
+	RedisPropertiesStatusProvisioningState_Linking                = RedisPropertiesStatusProvisioningState("Linking")
+	RedisPropertiesStatusProvisioningState_Provisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
+	RedisPropertiesStatusProvisioningState_RecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
+	RedisPropertiesStatusProvisioningState_Scaling                = RedisPropertiesStatusProvisioningState("Scaling")
+	RedisPropertiesStatusProvisioningState_Succeeded              = RedisPropertiesStatusProvisioningState("Succeeded")
+	RedisPropertiesStatusProvisioningState_Unlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
+	RedisPropertiesStatusProvisioningState_Unprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
+	RedisPropertiesStatusProvisioningState_Updating               = RedisPropertiesStatusProvisioningState("Updating")
 )
 
 type RedisPropertiesStatusPublicNetworkAccess string
 
 const (
-	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
-	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
+	RedisPropertiesStatusPublicNetworkAccess_Disabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
+	RedisPropertiesStatusPublicNetworkAccess_Enabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 type RedisProperties_Status_RedisConfiguration struct {
@@ -392,10 +392,10 @@ type Sku_Status struct {
 type PrivateEndpointConnectionProvisioningState_Status string
 
 const (
-	PrivateEndpointConnectionProvisioningState_StatusCreating  = PrivateEndpointConnectionProvisioningState_Status("Creating")
-	PrivateEndpointConnectionProvisioningState_StatusDeleting  = PrivateEndpointConnectionProvisioningState_Status("Deleting")
-	PrivateEndpointConnectionProvisioningState_StatusFailed    = PrivateEndpointConnectionProvisioningState_Status("Failed")
-	PrivateEndpointConnectionProvisioningState_StatusSucceeded = PrivateEndpointConnectionProvisioningState_Status("Succeeded")
+	PrivateEndpointConnectionProvisioningState_Status_Creating  = PrivateEndpointConnectionProvisioningState_Status("Creating")
+	PrivateEndpointConnectionProvisioningState_Status_Deleting  = PrivateEndpointConnectionProvisioningState_Status("Deleting")
+	PrivateEndpointConnectionProvisioningState_Status_Failed    = PrivateEndpointConnectionProvisioningState_Status("Failed")
+	PrivateEndpointConnectionProvisioningState_Status_Succeeded = PrivateEndpointConnectionProvisioningState_Status("Succeeded")
 )
 
 type PrivateEndpoint_Status struct {
@@ -418,40 +418,40 @@ type PrivateLinkServiceConnectionState_Status struct {
 type SkuFamily string
 
 const (
-	SkuFamilyC = SkuFamily("C")
-	SkuFamilyP = SkuFamily("P")
+	SkuFamily_C = SkuFamily("C")
+	SkuFamily_P = SkuFamily("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
 )
 
 type SkuStatusFamily string
 
 const (
-	SkuStatusFamilyC = SkuStatusFamily("C")
-	SkuStatusFamilyP = SkuStatusFamily("P")
+	SkuStatusFamily_C = SkuStatusFamily("C")
+	SkuStatusFamily_P = SkuStatusFamily("P")
 )
 
 type SkuStatusName string
 
 const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	SkuStatusName_Basic    = SkuStatusName("Basic")
+	SkuStatusName_Premium  = SkuStatusName("Premium")
+	SkuStatusName_Standard = SkuStatusName("Standard")
 )
 
 type PrivateEndpointServiceConnectionStatus_Status string
 
 const (
-	PrivateEndpointServiceConnectionStatus_StatusApproved = PrivateEndpointServiceConnectionStatus_Status("Approved")
-	PrivateEndpointServiceConnectionStatus_StatusPending  = PrivateEndpointServiceConnectionStatus_Status("Pending")
-	PrivateEndpointServiceConnectionStatus_StatusRejected = PrivateEndpointServiceConnectionStatus_Status("Rejected")
+	PrivateEndpointServiceConnectionStatus_Status_Approved = PrivateEndpointServiceConnectionStatus_Status("Approved")
+	PrivateEndpointServiceConnectionStatus_Status_Pending  = PrivateEndpointServiceConnectionStatus_Status("Pending")
+	PrivateEndpointServiceConnectionStatus_Status_Rejected = PrivateEndpointServiceConnectionStatus_Status("Rejected")
 )
 
 func init() {

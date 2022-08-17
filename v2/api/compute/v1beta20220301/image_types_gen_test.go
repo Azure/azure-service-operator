@@ -272,7 +272,7 @@ func ImageStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageStatus(gens map[string]gopter.Gen) {
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_StatusV1, HyperVGenerationType_StatusV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_Status_V1, HyperVGenerationType_Status_V2))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -397,7 +397,7 @@ func ImagesSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImagesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImagesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImagePropertiesHyperVGenerationV1, ImagePropertiesHyperVGenerationV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImagePropertiesHyperVGeneration_V1, ImagePropertiesHyperVGeneration_V2))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -509,7 +509,7 @@ func ExtendedLocationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -613,7 +613,7 @@ func ExtendedLocationStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_StatusEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_Status_EdgeZone))
 }
 
 func Test_ImageStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1159,17 +1159,17 @@ func ImageDataDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageDataDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDataDisk(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCachingNone, ImageDataDiskCachingReadOnly, ImageDataDiskCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCaching_None, ImageDataDiskCaching_ReadOnly, ImageDataDiskCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageDataDiskStorageAccountTypePremiumLRS,
-		ImageDataDiskStorageAccountTypePremiumV2LRS,
-		ImageDataDiskStorageAccountTypePremiumZRS,
-		ImageDataDiskStorageAccountTypeStandardLRS,
-		ImageDataDiskStorageAccountTypeStandardSSDLRS,
-		ImageDataDiskStorageAccountTypeStandardSSDZRS,
-		ImageDataDiskStorageAccountTypeUltraSSDLRS))
+		ImageDataDiskStorageAccountType_PremiumLRS,
+		ImageDataDiskStorageAccountType_PremiumV2LRS,
+		ImageDataDiskStorageAccountType_PremiumZRS,
+		ImageDataDiskStorageAccountType_StandardLRS,
+		ImageDataDiskStorageAccountType_StandardSSDLRS,
+		ImageDataDiskStorageAccountType_StandardSSDZRS,
+		ImageDataDiskStorageAccountType_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageDataDisk is a factory method for creating gopter generators
@@ -1289,17 +1289,17 @@ func ImageDataDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageDataDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDataDiskStatus(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskStatusCachingNone, ImageDataDiskStatusCachingReadOnly, ImageDataDiskStatusCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskStatusCaching_None, ImageDataDiskStatusCaching_ReadOnly, ImageDataDiskStatusCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_StatusPremiumLRS,
-		StorageAccountType_StatusPremiumV2LRS,
-		StorageAccountType_StatusPremiumZRS,
-		StorageAccountType_StatusStandardLRS,
-		StorageAccountType_StatusStandardSSDLRS,
-		StorageAccountType_StatusStandardSSDZRS,
-		StorageAccountType_StatusUltraSSDLRS))
+		StorageAccountType_Status_PremiumLRS,
+		StorageAccountType_Status_PremiumV2LRS,
+		StorageAccountType_Status_PremiumZRS,
+		StorageAccountType_Status_StandardLRS,
+		StorageAccountType_Status_StandardSSDLRS,
+		StorageAccountType_Status_StandardSSDZRS,
+		StorageAccountType_Status_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageDataDiskStatus is a factory method for creating gopter generators
@@ -1418,18 +1418,18 @@ func ImageOSDiskGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageOSDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageOSDisk(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCachingNone, ImageOSDiskCachingReadOnly, ImageOSDiskCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCaching_None, ImageOSDiskCaching_ReadOnly, ImageOSDiskCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows))
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsState_Generalized, ImageOSDiskOsState_Specialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsType_Linux, ImageOSDiskOsType_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageOSDiskStorageAccountTypePremiumLRS,
-		ImageOSDiskStorageAccountTypePremiumV2LRS,
-		ImageOSDiskStorageAccountTypePremiumZRS,
-		ImageOSDiskStorageAccountTypeStandardLRS,
-		ImageOSDiskStorageAccountTypeStandardSSDLRS,
-		ImageOSDiskStorageAccountTypeStandardSSDZRS,
-		ImageOSDiskStorageAccountTypeUltraSSDLRS))
+		ImageOSDiskStorageAccountType_PremiumLRS,
+		ImageOSDiskStorageAccountType_PremiumV2LRS,
+		ImageOSDiskStorageAccountType_PremiumZRS,
+		ImageOSDiskStorageAccountType_StandardLRS,
+		ImageOSDiskStorageAccountType_StandardSSDLRS,
+		ImageOSDiskStorageAccountType_StandardSSDZRS,
+		ImageOSDiskStorageAccountType_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageOSDisk is a factory method for creating gopter generators
@@ -1548,18 +1548,18 @@ func ImageOSDiskStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageOSDiskStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageOSDiskStatus(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusCachingNone, ImageOSDiskStatusCachingReadOnly, ImageOSDiskStatusCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusCaching_None, ImageOSDiskStatusCaching_ReadOnly, ImageOSDiskStatusCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsStateGeneralized, ImageOSDiskStatusOsStateSpecialized))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsTypeLinux, ImageOSDiskStatusOsTypeWindows))
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsState_Generalized, ImageOSDiskStatusOsState_Specialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskStatusOsType_Linux, ImageOSDiskStatusOsType_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_StatusPremiumLRS,
-		StorageAccountType_StatusPremiumV2LRS,
-		StorageAccountType_StatusPremiumZRS,
-		StorageAccountType_StatusStandardLRS,
-		StorageAccountType_StatusStandardSSDLRS,
-		StorageAccountType_StatusStandardSSDZRS,
-		StorageAccountType_StatusUltraSSDLRS))
+		StorageAccountType_Status_PremiumLRS,
+		StorageAccountType_Status_PremiumV2LRS,
+		StorageAccountType_Status_PremiumZRS,
+		StorageAccountType_Status_StandardLRS,
+		StorageAccountType_Status_StandardSSDLRS,
+		StorageAccountType_Status_StandardSSDZRS,
+		StorageAccountType_Status_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageOSDiskStatus is a factory method for creating gopter generators

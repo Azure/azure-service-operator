@@ -112,7 +112,7 @@ func (disk *Disk) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (disk Disk) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -335,7 +335,7 @@ type DiskList struct {
 // +kubebuilder:validation:Enum={"2020-09-30"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-09-30")
+const APIVersion_Value = APIVersion("2020-09-30")
 
 // Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
 type Disk_Status struct {
@@ -2455,8 +2455,8 @@ func (data *CreationData_Status) AssignPropertiesToCreationDataStatus(destinatio
 type DiskPropertiesHyperVGeneration string
 
 const (
-	DiskPropertiesHyperVGenerationV1 = DiskPropertiesHyperVGeneration("V1")
-	DiskPropertiesHyperVGenerationV2 = DiskPropertiesHyperVGeneration("V2")
+	DiskPropertiesHyperVGeneration_V1 = DiskPropertiesHyperVGeneration("V1")
+	DiskPropertiesHyperVGeneration_V2 = DiskPropertiesHyperVGeneration("V2")
 )
 
 // Deprecated version of DiskPropertiesNetworkAccessPolicy. Use v1beta20200930.DiskPropertiesNetworkAccessPolicy instead
@@ -2464,9 +2464,9 @@ const (
 type DiskPropertiesNetworkAccessPolicy string
 
 const (
-	DiskPropertiesNetworkAccessPolicyAllowAll     = DiskPropertiesNetworkAccessPolicy("AllowAll")
-	DiskPropertiesNetworkAccessPolicyAllowPrivate = DiskPropertiesNetworkAccessPolicy("AllowPrivate")
-	DiskPropertiesNetworkAccessPolicyDenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
+	DiskPropertiesNetworkAccessPolicy_AllowAll     = DiskPropertiesNetworkAccessPolicy("AllowAll")
+	DiskPropertiesNetworkAccessPolicy_AllowPrivate = DiskPropertiesNetworkAccessPolicy("AllowPrivate")
+	DiskPropertiesNetworkAccessPolicy_DenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
 )
 
 // Deprecated version of DiskPropertiesOsType. Use v1beta20200930.DiskPropertiesOsType instead
@@ -2474,8 +2474,8 @@ const (
 type DiskPropertiesOsType string
 
 const (
-	DiskPropertiesOsTypeLinux   = DiskPropertiesOsType("Linux")
-	DiskPropertiesOsTypeWindows = DiskPropertiesOsType("Windows")
+	DiskPropertiesOsType_Linux   = DiskPropertiesOsType("Linux")
+	DiskPropertiesOsType_Windows = DiskPropertiesOsType("Windows")
 )
 
 // Deprecated version of DiskPropertiesStatusHyperVGeneration. Use v1beta20200930.DiskPropertiesStatusHyperVGeneration
@@ -2483,16 +2483,16 @@ const (
 type DiskPropertiesStatusHyperVGeneration string
 
 const (
-	DiskPropertiesStatusHyperVGenerationV1 = DiskPropertiesStatusHyperVGeneration("V1")
-	DiskPropertiesStatusHyperVGenerationV2 = DiskPropertiesStatusHyperVGeneration("V2")
+	DiskPropertiesStatusHyperVGeneration_V1 = DiskPropertiesStatusHyperVGeneration("V1")
+	DiskPropertiesStatusHyperVGeneration_V2 = DiskPropertiesStatusHyperVGeneration("V2")
 )
 
 // Deprecated version of DiskPropertiesStatusOsType. Use v1beta20200930.DiskPropertiesStatusOsType instead
 type DiskPropertiesStatusOsType string
 
 const (
-	DiskPropertiesStatusOsTypeLinux   = DiskPropertiesStatusOsType("Linux")
-	DiskPropertiesStatusOsTypeWindows = DiskPropertiesStatusOsType("Windows")
+	DiskPropertiesStatusOsType_Linux   = DiskPropertiesStatusOsType("Linux")
+	DiskPropertiesStatusOsType_Windows = DiskPropertiesStatusOsType("Windows")
 )
 
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
@@ -2663,12 +2663,12 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *alph
 type DiskState_Status string
 
 const (
-	DiskState_StatusActiveSAS     = DiskState_Status("ActiveSAS")
-	DiskState_StatusActiveUpload  = DiskState_Status("ActiveUpload")
-	DiskState_StatusAttached      = DiskState_Status("Attached")
-	DiskState_StatusReadyToUpload = DiskState_Status("ReadyToUpload")
-	DiskState_StatusReserved      = DiskState_Status("Reserved")
-	DiskState_StatusUnattached    = DiskState_Status("Unattached")
+	DiskState_Status_ActiveSAS     = DiskState_Status("ActiveSAS")
+	DiskState_Status_ActiveUpload  = DiskState_Status("ActiveUpload")
+	DiskState_Status_Attached      = DiskState_Status("Attached")
+	DiskState_Status_ReadyToUpload = DiskState_Status("ReadyToUpload")
+	DiskState_Status_Reserved      = DiskState_Status("Reserved")
+	DiskState_Status_Unattached    = DiskState_Status("Unattached")
 )
 
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
@@ -3338,9 +3338,9 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 type NetworkAccessPolicy_Status string
 
 const (
-	NetworkAccessPolicy_StatusAllowAll     = NetworkAccessPolicy_Status("AllowAll")
-	NetworkAccessPolicy_StatusAllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
-	NetworkAccessPolicy_StatusDenyAll      = NetworkAccessPolicy_Status("DenyAll")
+	NetworkAccessPolicy_Status_AllowAll     = NetworkAccessPolicy_Status("AllowAll")
+	NetworkAccessPolicy_Status_AllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
+	NetworkAccessPolicy_Status_DenyAll      = NetworkAccessPolicy_Status("DenyAll")
 )
 
 // Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
@@ -3638,26 +3638,26 @@ func (element *ShareInfoElement_Status) AssignPropertiesToShareInfoElementStatus
 type CreationDataCreateOption string
 
 const (
-	CreationDataCreateOptionAttach    = CreationDataCreateOption("Attach")
-	CreationDataCreateOptionCopy      = CreationDataCreateOption("Copy")
-	CreationDataCreateOptionEmpty     = CreationDataCreateOption("Empty")
-	CreationDataCreateOptionFromImage = CreationDataCreateOption("FromImage")
-	CreationDataCreateOptionImport    = CreationDataCreateOption("Import")
-	CreationDataCreateOptionRestore   = CreationDataCreateOption("Restore")
-	CreationDataCreateOptionUpload    = CreationDataCreateOption("Upload")
+	CreationDataCreateOption_Attach    = CreationDataCreateOption("Attach")
+	CreationDataCreateOption_Copy      = CreationDataCreateOption("Copy")
+	CreationDataCreateOption_Empty     = CreationDataCreateOption("Empty")
+	CreationDataCreateOption_FromImage = CreationDataCreateOption("FromImage")
+	CreationDataCreateOption_Import    = CreationDataCreateOption("Import")
+	CreationDataCreateOption_Restore   = CreationDataCreateOption("Restore")
+	CreationDataCreateOption_Upload    = CreationDataCreateOption("Upload")
 )
 
 // Deprecated version of CreationDataStatusCreateOption. Use v1beta20200930.CreationDataStatusCreateOption instead
 type CreationDataStatusCreateOption string
 
 const (
-	CreationDataStatusCreateOptionAttach    = CreationDataStatusCreateOption("Attach")
-	CreationDataStatusCreateOptionCopy      = CreationDataStatusCreateOption("Copy")
-	CreationDataStatusCreateOptionEmpty     = CreationDataStatusCreateOption("Empty")
-	CreationDataStatusCreateOptionFromImage = CreationDataStatusCreateOption("FromImage")
-	CreationDataStatusCreateOptionImport    = CreationDataStatusCreateOption("Import")
-	CreationDataStatusCreateOptionRestore   = CreationDataStatusCreateOption("Restore")
-	CreationDataStatusCreateOptionUpload    = CreationDataStatusCreateOption("Upload")
+	CreationDataStatusCreateOption_Attach    = CreationDataStatusCreateOption("Attach")
+	CreationDataStatusCreateOption_Copy      = CreationDataStatusCreateOption("Copy")
+	CreationDataStatusCreateOption_Empty     = CreationDataStatusCreateOption("Empty")
+	CreationDataStatusCreateOption_FromImage = CreationDataStatusCreateOption("FromImage")
+	CreationDataStatusCreateOption_Import    = CreationDataStatusCreateOption("Import")
+	CreationDataStatusCreateOption_Restore   = CreationDataStatusCreateOption("Restore")
+	CreationDataStatusCreateOption_Upload    = CreationDataStatusCreateOption("Upload")
 )
 
 // Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
@@ -3928,18 +3928,18 @@ func (element *EncryptionSettingsElement_Status) AssignPropertiesToEncryptionSet
 type EncryptionType string
 
 const (
-	EncryptionTypeEncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
-	EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
+	EncryptionType_EncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
 // Deprecated version of EncryptionType_Status. Use v1beta20200930.EncryptionType_Status instead
 type EncryptionType_Status string
 
 const (
-	EncryptionType_StatusEncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
-	EncryptionType_StatusEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionType_StatusEncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
+	EncryptionType_Status_EncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
+	EncryptionType_Status_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_Status_EncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
 )
 
 // Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead

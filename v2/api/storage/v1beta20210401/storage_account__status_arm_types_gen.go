@@ -167,11 +167,11 @@ type StorageAccountProperties_StatusARM struct {
 type StorageAccountStatusKind string
 
 const (
-	StorageAccountStatusKindBlobStorage      = StorageAccountStatusKind("BlobStorage")
-	StorageAccountStatusKindBlockBlobStorage = StorageAccountStatusKind("BlockBlobStorage")
-	StorageAccountStatusKindFileStorage      = StorageAccountStatusKind("FileStorage")
-	StorageAccountStatusKindStorage          = StorageAccountStatusKind("Storage")
-	StorageAccountStatusKindStorageV2        = StorageAccountStatusKind("StorageV2")
+	StorageAccountStatusKind_BlobStorage      = StorageAccountStatusKind("BlobStorage")
+	StorageAccountStatusKind_BlockBlobStorage = StorageAccountStatusKind("BlockBlobStorage")
+	StorageAccountStatusKind_FileStorage      = StorageAccountStatusKind("FileStorage")
+	StorageAccountStatusKind_Storage          = StorageAccountStatusKind("Storage")
+	StorageAccountStatusKind_StorageV2        = StorageAccountStatusKind("StorageV2")
 )
 
 type AzureFilesIdentityBasedAuthentication_StatusARM struct {
@@ -256,7 +256,7 @@ type Endpoints_StatusARM struct {
 
 type ExtendedLocationType_Status string
 
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
+const ExtendedLocationType_Status_EdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type GeoReplicationStats_StatusARM struct {
 	// CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.
@@ -277,10 +277,10 @@ type GeoReplicationStats_StatusARM struct {
 type IdentityStatusType string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned,UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	IdentityStatusType_None                       = IdentityStatusType("None")
+	IdentityStatusType_SystemAssigned             = IdentityStatusType("SystemAssigned")
+	IdentityStatusType_SystemAssignedUserAssigned = IdentityStatusType("SystemAssigned,UserAssigned")
+	IdentityStatusType_UserAssigned               = IdentityStatusType("UserAssigned")
 )
 
 type KeyCreationTime_StatusARM struct {

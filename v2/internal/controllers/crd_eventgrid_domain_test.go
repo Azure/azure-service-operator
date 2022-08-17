@@ -23,7 +23,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	publicNetworkAccess := eventgrid.DomainPropertiesPublicNetworkAccessEnabled
+	publicNetworkAccess := eventgrid.DomainPropertiesPublicNetworkAccess_Enabled
 
 	// Create a domain
 	domain := &eventgrid.Domain{
@@ -36,9 +36,9 @@ func Test_EventGrid_Domain(t *testing.T) {
 	}
 
 	// Create a storage account to use as destination
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindStorageV2
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
+	kind := storage.StorageAccountsSpecKind_StorageV2
+	sku := storage.SkuName_StandardLRS
 	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
@@ -97,7 +97,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.APIVersionValue))
+		string(eventgrid.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -113,7 +113,7 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 	tc.CreateResourceAndWait(topic)
 	// don’t bother deleting; deleting domain will clean up
 
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscriptions_Spec{
@@ -135,7 +135,7 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 }
 
 func DomainSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.StorageAccountsQueueServicesQueue, domain *eventgrid.Domain, acctReference *genruntime.ResourceReference) {
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscriptions_Spec{

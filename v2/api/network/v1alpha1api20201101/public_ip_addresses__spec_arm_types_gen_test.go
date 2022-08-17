@@ -166,8 +166,8 @@ func PublicIPAddressPropertiesFormatARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv4, PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv6))
-	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAddressVersion_IPv4, PublicIPAddressPropertiesFormatPublicIPAddressVersion_IPv6))
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Dynamic, PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static))
 }
 
 // AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatARM is a factory method for creating gopter generators
@@ -236,8 +236,8 @@ func PublicIPAddressSkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuNameBasic, PublicIPAddressSkuNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuTierGlobal, PublicIPAddressSkuTierRegional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuName_Basic, PublicIPAddressSkuName_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuTier_Global, PublicIPAddressSkuTier_Regional))
 }
 
 func Test_DdosSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -307,7 +307,7 @@ func DdosSettingsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDdosSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDdosSettingsARM(gens map[string]gopter.Gen) {
 	gens["ProtectedIP"] = gen.PtrOf(gen.Bool())
-	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettingsProtectionCoverageBasic, DdosSettingsProtectionCoverageStandard))
+	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettingsProtectionCoverage_Basic, DdosSettingsProtectionCoverage_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForDdosSettingsARM is a factory method for creating gopter generators

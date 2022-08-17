@@ -38,7 +38,7 @@ type VirtualNetworkBgpCommunities_StatusARM struct {
 type VirtualNetworkPeeringPropertiesFormatStatusPeeringState string
 
 const (
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateConnected    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateDisconnected = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateInitiated    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Initiated")
+	VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Connected    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Connected")
+	VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Disconnected = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Disconnected")
+	VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Initiated")
 )
