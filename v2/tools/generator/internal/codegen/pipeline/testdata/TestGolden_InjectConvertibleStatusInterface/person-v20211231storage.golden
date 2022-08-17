@@ -16,7 +16,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -33,16 +33,16 @@ type Person_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20211231.Person_Status
-type Person_Status struct {
+// Storage version of v20211231.Person_STATUS
+type Person_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Person_Status{}
+var _ genruntime.ConvertibleStatus = &Person_STATUS{}
 
-// ConvertStatusFrom populates our Person_Status from the provided source
-func (person *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Person_STATUS from the provided source
+func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == person {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -50,8 +50,8 @@ func (person *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(person)
 }
 
-// ConvertStatusTo populates the provided destination from our Person_Status
-func (person *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Person_STATUS
+func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == person {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

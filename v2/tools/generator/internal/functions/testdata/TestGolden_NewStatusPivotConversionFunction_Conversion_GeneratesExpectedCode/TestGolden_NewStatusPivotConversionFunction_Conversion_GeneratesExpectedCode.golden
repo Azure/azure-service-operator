@@ -8,12 +8,12 @@
 +	"github.com/pkg/errors"
 +)
 +
- type Person_Status struct {
+ type Person_STATUS struct {
  	Status string `json:"status,omitempty"`
  }
  
-+// ConvertStatusFrom populates our Person_Status from the provided source
-+func (person *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
++// ConvertStatusFrom populates our Person_STATUS from the provided source
++func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 +	if source == person {
 +		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}
@@ -21,8 +21,8 @@
 +	return source.ConvertStatusTo(person)
 +}
 +
-+// ConvertStatusTo populates the provided destination from our Person_Status
-+func (person *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
++// ConvertStatusTo populates the provided destination from our Person_STATUS
++func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 +	if destination == person {
 +		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 +	}

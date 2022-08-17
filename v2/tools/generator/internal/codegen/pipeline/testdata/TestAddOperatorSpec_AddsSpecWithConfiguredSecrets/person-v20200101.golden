@@ -14,7 +14,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -39,7 +39,7 @@ type Person_Spec struct {
 	OperatorSpec *PersonOperatorSpec `json:"operatorSpec,omitempty"`
 }
 
-type Person_Status struct {
+type Person_STATUS struct {
 	Status string `json:"status,omitempty"`
 }
 

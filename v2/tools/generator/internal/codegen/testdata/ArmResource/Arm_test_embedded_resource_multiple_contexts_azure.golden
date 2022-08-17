@@ -290,17 +290,6 @@ func (a *A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-06-01")
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
-type APropertiesARM struct {
-	Left  *Left_SubResourceEmbeddedARM    `json:"left,omitempty"`
-	Right *Right_SubResourceEmbedded_1ARM `json:"right,omitempty"`
-}
-
 type A_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -503,6 +492,17 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2020-06-01")
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+type APropertiesARM struct {
+	Left  *Left_SubResourceEmbeddedARM    `json:"left,omitempty"`
+	Right *Right_SubResourceEmbedded_1ARM `json:"right,omitempty"`
+}
+
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
 	Left  *Left_SubResourceEmbedded    `json:"left,omitempty"`
@@ -664,20 +664,15 @@ type Right_SubResourceEmbedded_1ARM struct {
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
-type FakeResource_SubResourceEmbeddedARM struct {
-	Name       *string                                        `json:"name,omitempty"`
-	Properties *FakeResourceProperties_SubResourceEmbeddedARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbedded_1ARM struct {
 	Name       *string                                          `json:"name,omitempty"`
 	Properties *FakeResourceProperties_SubResourceEmbedded_1ARM `json:"properties,omitempty"`
 }
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
-type LeftPropertiesARM struct {
-	StrField *string `json:"strField,omitempty"`
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+type FakeResource_SubResourceEmbeddedARM struct {
+	Name       *string                                        `json:"name,omitempty"`
+	Properties *FakeResourceProperties_SubResourceEmbeddedARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
@@ -845,8 +840,8 @@ func (embedded *Left_SubResourceEmbedded) AssignPropertiesToLeftSubResourceEmbed
 	return nil
 }
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
-type RightPropertiesARM struct {
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
+type LeftPropertiesARM struct {
 	StrField *string `json:"strField,omitempty"`
 }
 
@@ -1015,14 +1010,9 @@ func (embedded1 *Right_SubResourceEmbedded_1) AssignPropertiesToRightSubResource
 	return nil
 }
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
-type FakeResourceProperties_SubResourceEmbeddedARM struct {
-	Loop2 *Right_SubResourceEmbeddedARM `json:"loop2,omitempty"`
-}
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
-type FakeResourceProperties_SubResourceEmbedded_1ARM struct {
-	Loop1 *Left_SubResourceEmbedded_1ARM `json:"loop1,omitempty"`
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
+type RightPropertiesARM struct {
+	StrField *string `json:"strField,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
@@ -1261,6 +1251,16 @@ func (embedded1 *FakeResource_SubResourceEmbedded_1) AssignPropertiesToFakeResou
 
 	// No error
 	return nil
+}
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+type FakeResourceProperties_SubResourceEmbedded_1ARM struct {
+	Loop1 *Left_SubResourceEmbedded_1ARM `json:"loop1,omitempty"`
+}
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+type FakeResourceProperties_SubResourceEmbeddedARM struct {
+	Loop2 *Right_SubResourceEmbeddedARM `json:"loop2,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties

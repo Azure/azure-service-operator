@@ -299,15 +299,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
-// +kubebuilder:validation:Enum={"blue","green","red"}
-type FakeResourceSpecColor string
-
-const (
-	FakeResourceSpecColor_Blue  = FakeResourceSpecColor("blue")
-	FakeResourceSpecColor_Green = FakeResourceSpecColor("green")
-	FakeResourceSpecColor_Red   = FakeResourceSpecColor("red")
-)
-
 type FakeResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -586,6 +577,15 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"blue","green","red"}
+type FakeResourceSpecColor string
+
+const (
+	FakeResourceSpecColor_Blue  = FakeResourceSpecColor("blue")
+	FakeResourceSpecColor_Green = FakeResourceSpecColor("green")
+	FakeResourceSpecColor_Red   = FakeResourceSpecColor("red")
+)
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
