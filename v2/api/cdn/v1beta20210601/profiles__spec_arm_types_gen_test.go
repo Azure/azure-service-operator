@@ -213,17 +213,17 @@ func SkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuNameCustomVerizon,
-		SkuNamePremiumAzureFrontDoor,
-		SkuNamePremiumVerizon,
-		SkuNameStandard955BandWidthChinaCdn,
-		SkuNameStandardAkamai,
-		SkuNameStandardAvgBandWidthChinaCdn,
-		SkuNameStandardAzureFrontDoor,
-		SkuNameStandardChinaCdn,
-		SkuNameStandardMicrosoft,
-		SkuNameStandardPlus955BandWidthChinaCdn,
-		SkuNameStandardPlusAvgBandWidthChinaCdn,
-		SkuNameStandardPlusChinaCdn,
-		SkuNameStandardVerizon))
+		SkuName_CustomVerizon,
+		SkuName_PremiumAzureFrontDoor,
+		SkuName_PremiumVerizon,
+		SkuName_Standard955BandWidthChinaCdn,
+		SkuName_StandardAkamai,
+		SkuName_StandardAvgBandWidthChinaCdn,
+		SkuName_StandardAzureFrontDoor,
+		SkuName_StandardChinaCdn,
+		SkuName_StandardMicrosoft,
+		SkuName_StandardPlus955BandWidthChinaCdn,
+		SkuName_StandardPlusAvgBandWidthChinaCdn,
+		SkuName_StandardPlusChinaCdn,
+		SkuName_StandardVerizon))
 }

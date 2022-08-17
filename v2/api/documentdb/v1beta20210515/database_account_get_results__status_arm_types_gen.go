@@ -117,9 +117,9 @@ type DatabaseAccountGetProperties_StatusARM struct {
 type DatabaseAccountGetResultsStatusKind string
 
 const (
-	DatabaseAccountGetResultsStatusKindGlobalDocumentDB = DatabaseAccountGetResultsStatusKind("GlobalDocumentDB")
-	DatabaseAccountGetResultsStatusKindMongoDB          = DatabaseAccountGetResultsStatusKind("MongoDB")
-	DatabaseAccountGetResultsStatusKindParse            = DatabaseAccountGetResultsStatusKind("Parse")
+	DatabaseAccountGetResultsStatusKind_GlobalDocumentDB = DatabaseAccountGetResultsStatusKind("GlobalDocumentDB")
+	DatabaseAccountGetResultsStatusKind_MongoDB          = DatabaseAccountGetResultsStatusKind("MongoDB")
+	DatabaseAccountGetResultsStatusKind_Parse            = DatabaseAccountGetResultsStatusKind("Parse")
 )
 
 type ManagedServiceIdentity_StatusARM struct {
@@ -239,10 +239,10 @@ type Location_StatusARM struct {
 type ManagedServiceIdentityStatusType string
 
 const (
-	ManagedServiceIdentityStatusTypeNone                       = ManagedServiceIdentityStatusType("None")
-	ManagedServiceIdentityStatusTypeSystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
-	ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityStatusTypeUserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
+	ManagedServiceIdentityStatusType_None                       = ManagedServiceIdentityStatusType("None")
+	ManagedServiceIdentityStatusType_SystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
+	ManagedServiceIdentityStatusType_SystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
+	ManagedServiceIdentityStatusType_UserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
 )
 
 type ManagedServiceIdentity_Status_UserAssignedIdentitiesARM struct {

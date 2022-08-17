@@ -139,22 +139,22 @@ type DeepCreatedOrigin_StatusARM struct {
 type EndpointPropertiesStatusProvisioningState string
 
 const (
-	EndpointPropertiesStatusProvisioningStateCreating  = EndpointPropertiesStatusProvisioningState("Creating")
-	EndpointPropertiesStatusProvisioningStateDeleting  = EndpointPropertiesStatusProvisioningState("Deleting")
-	EndpointPropertiesStatusProvisioningStateFailed    = EndpointPropertiesStatusProvisioningState("Failed")
-	EndpointPropertiesStatusProvisioningStateSucceeded = EndpointPropertiesStatusProvisioningState("Succeeded")
-	EndpointPropertiesStatusProvisioningStateUpdating  = EndpointPropertiesStatusProvisioningState("Updating")
+	EndpointPropertiesStatusProvisioningState_Creating  = EndpointPropertiesStatusProvisioningState("Creating")
+	EndpointPropertiesStatusProvisioningState_Deleting  = EndpointPropertiesStatusProvisioningState("Deleting")
+	EndpointPropertiesStatusProvisioningState_Failed    = EndpointPropertiesStatusProvisioningState("Failed")
+	EndpointPropertiesStatusProvisioningState_Succeeded = EndpointPropertiesStatusProvisioningState("Succeeded")
+	EndpointPropertiesStatusProvisioningState_Updating  = EndpointPropertiesStatusProvisioningState("Updating")
 )
 
 type EndpointPropertiesStatusResourceState string
 
 const (
-	EndpointPropertiesStatusResourceStateCreating = EndpointPropertiesStatusResourceState("Creating")
-	EndpointPropertiesStatusResourceStateDeleting = EndpointPropertiesStatusResourceState("Deleting")
-	EndpointPropertiesStatusResourceStateRunning  = EndpointPropertiesStatusResourceState("Running")
-	EndpointPropertiesStatusResourceStateStarting = EndpointPropertiesStatusResourceState("Starting")
-	EndpointPropertiesStatusResourceStateStopped  = EndpointPropertiesStatusResourceState("Stopped")
-	EndpointPropertiesStatusResourceStateStopping = EndpointPropertiesStatusResourceState("Stopping")
+	EndpointPropertiesStatusResourceState_Creating = EndpointPropertiesStatusResourceState("Creating")
+	EndpointPropertiesStatusResourceState_Deleting = EndpointPropertiesStatusResourceState("Deleting")
+	EndpointPropertiesStatusResourceState_Running  = EndpointPropertiesStatusResourceState("Running")
+	EndpointPropertiesStatusResourceState_Starting = EndpointPropertiesStatusResourceState("Starting")
+	EndpointPropertiesStatusResourceState_Stopped  = EndpointPropertiesStatusResourceState("Stopped")
+	EndpointPropertiesStatusResourceState_Stopping = EndpointPropertiesStatusResourceState("Stopping")
 )
 
 type EndpointProperties_Status_DeliveryPolicyARM struct {
@@ -184,29 +184,29 @@ type GeoFilter_StatusARM struct {
 type IdentityType_Status string
 
 const (
-	IdentityType_StatusApplication     = IdentityType_Status("application")
-	IdentityType_StatusKey             = IdentityType_Status("key")
-	IdentityType_StatusManagedIdentity = IdentityType_Status("managedIdentity")
-	IdentityType_StatusUser            = IdentityType_Status("user")
+	IdentityType_Status_Application     = IdentityType_Status("application")
+	IdentityType_Status_Key             = IdentityType_Status("key")
+	IdentityType_Status_ManagedIdentity = IdentityType_Status("managedIdentity")
+	IdentityType_Status_User            = IdentityType_Status("user")
 )
 
 type OptimizationType_Status string
 
 const (
-	OptimizationType_StatusDynamicSiteAcceleration     = OptimizationType_Status("DynamicSiteAcceleration")
-	OptimizationType_StatusGeneralMediaStreaming       = OptimizationType_Status("GeneralMediaStreaming")
-	OptimizationType_StatusGeneralWebDelivery          = OptimizationType_Status("GeneralWebDelivery")
-	OptimizationType_StatusLargeFileDownload           = OptimizationType_Status("LargeFileDownload")
-	OptimizationType_StatusVideoOnDemandMediaStreaming = OptimizationType_Status("VideoOnDemandMediaStreaming")
+	OptimizationType_Status_DynamicSiteAcceleration     = OptimizationType_Status("DynamicSiteAcceleration")
+	OptimizationType_Status_GeneralMediaStreaming       = OptimizationType_Status("GeneralMediaStreaming")
+	OptimizationType_Status_GeneralWebDelivery          = OptimizationType_Status("GeneralWebDelivery")
+	OptimizationType_Status_LargeFileDownload           = OptimizationType_Status("LargeFileDownload")
+	OptimizationType_Status_VideoOnDemandMediaStreaming = OptimizationType_Status("VideoOnDemandMediaStreaming")
 )
 
 type QueryStringCachingBehavior_Status string
 
 const (
-	QueryStringCachingBehavior_StatusBypassCaching     = QueryStringCachingBehavior_Status("BypassCaching")
-	QueryStringCachingBehavior_StatusIgnoreQueryString = QueryStringCachingBehavior_Status("IgnoreQueryString")
-	QueryStringCachingBehavior_StatusNotSet            = QueryStringCachingBehavior_Status("NotSet")
-	QueryStringCachingBehavior_StatusUseQueryString    = QueryStringCachingBehavior_Status("UseQueryString")
+	QueryStringCachingBehavior_Status_BypassCaching     = QueryStringCachingBehavior_Status("BypassCaching")
+	QueryStringCachingBehavior_Status_IgnoreQueryString = QueryStringCachingBehavior_Status("IgnoreQueryString")
+	QueryStringCachingBehavior_Status_NotSet            = QueryStringCachingBehavior_Status("NotSet")
+	QueryStringCachingBehavior_Status_UseQueryString    = QueryStringCachingBehavior_Status("UseQueryString")
 )
 
 type ResourceReference_StatusARM struct {
@@ -303,8 +303,8 @@ type DeliveryRule_StatusARM struct {
 type GeoFilterStatusAction string
 
 const (
-	GeoFilterStatusActionAllow = GeoFilterStatusAction("Allow")
-	GeoFilterStatusActionBlock = GeoFilterStatusAction("Block")
+	GeoFilterStatusAction_Allow = GeoFilterStatusAction("Allow")
+	GeoFilterStatusAction_Block = GeoFilterStatusAction("Block")
 )
 
 type KeyVaultSigningKeyParameters_StatusARM struct {
@@ -351,7 +351,7 @@ type HealthProbeParameters_StatusARM struct {
 
 type KeyVaultSigningKeyParametersStatusTypeName string
 
-const KeyVaultSigningKeyParametersStatusTypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersStatusTypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParametersStatusTypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersStatusTypeName("KeyVaultSigningKeyParameters")
 
 type ResponseBasedOriginErrorDetectionParameters_StatusARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
@@ -368,39 +368,39 @@ type ResponseBasedOriginErrorDetectionParameters_StatusARM struct {
 type DeliveryRuleActionStatusName string
 
 const (
-	DeliveryRuleActionStatusNameCacheExpiration            = DeliveryRuleActionStatusName("CacheExpiration")
-	DeliveryRuleActionStatusNameCacheKeyQueryString        = DeliveryRuleActionStatusName("CacheKeyQueryString")
-	DeliveryRuleActionStatusNameModifyRequestHeader        = DeliveryRuleActionStatusName("ModifyRequestHeader")
-	DeliveryRuleActionStatusNameModifyResponseHeader       = DeliveryRuleActionStatusName("ModifyResponseHeader")
-	DeliveryRuleActionStatusNameOriginGroupOverride        = DeliveryRuleActionStatusName("OriginGroupOverride")
-	DeliveryRuleActionStatusNameRouteConfigurationOverride = DeliveryRuleActionStatusName("RouteConfigurationOverride")
-	DeliveryRuleActionStatusNameUrlRedirect                = DeliveryRuleActionStatusName("UrlRedirect")
-	DeliveryRuleActionStatusNameUrlRewrite                 = DeliveryRuleActionStatusName("UrlRewrite")
-	DeliveryRuleActionStatusNameUrlSigning                 = DeliveryRuleActionStatusName("UrlSigning")
+	DeliveryRuleActionStatusName_CacheExpiration            = DeliveryRuleActionStatusName("CacheExpiration")
+	DeliveryRuleActionStatusName_CacheKeyQueryString        = DeliveryRuleActionStatusName("CacheKeyQueryString")
+	DeliveryRuleActionStatusName_ModifyRequestHeader        = DeliveryRuleActionStatusName("ModifyRequestHeader")
+	DeliveryRuleActionStatusName_ModifyResponseHeader       = DeliveryRuleActionStatusName("ModifyResponseHeader")
+	DeliveryRuleActionStatusName_OriginGroupOverride        = DeliveryRuleActionStatusName("OriginGroupOverride")
+	DeliveryRuleActionStatusName_RouteConfigurationOverride = DeliveryRuleActionStatusName("RouteConfigurationOverride")
+	DeliveryRuleActionStatusName_UrlRedirect                = DeliveryRuleActionStatusName("UrlRedirect")
+	DeliveryRuleActionStatusName_UrlRewrite                 = DeliveryRuleActionStatusName("UrlRewrite")
+	DeliveryRuleActionStatusName_UrlSigning                 = DeliveryRuleActionStatusName("UrlSigning")
 )
 
 type DeliveryRuleConditionStatusName string
 
 const (
-	DeliveryRuleConditionStatusNameClientPort       = DeliveryRuleConditionStatusName("ClientPort")
-	DeliveryRuleConditionStatusNameCookies          = DeliveryRuleConditionStatusName("Cookies")
-	DeliveryRuleConditionStatusNameHostName         = DeliveryRuleConditionStatusName("HostName")
-	DeliveryRuleConditionStatusNameHttpVersion      = DeliveryRuleConditionStatusName("HttpVersion")
-	DeliveryRuleConditionStatusNameIsDevice         = DeliveryRuleConditionStatusName("IsDevice")
-	DeliveryRuleConditionStatusNamePostArgs         = DeliveryRuleConditionStatusName("PostArgs")
-	DeliveryRuleConditionStatusNameQueryString      = DeliveryRuleConditionStatusName("QueryString")
-	DeliveryRuleConditionStatusNameRemoteAddress    = DeliveryRuleConditionStatusName("RemoteAddress")
-	DeliveryRuleConditionStatusNameRequestBody      = DeliveryRuleConditionStatusName("RequestBody")
-	DeliveryRuleConditionStatusNameRequestHeader    = DeliveryRuleConditionStatusName("RequestHeader")
-	DeliveryRuleConditionStatusNameRequestMethod    = DeliveryRuleConditionStatusName("RequestMethod")
-	DeliveryRuleConditionStatusNameRequestScheme    = DeliveryRuleConditionStatusName("RequestScheme")
-	DeliveryRuleConditionStatusNameRequestUri       = DeliveryRuleConditionStatusName("RequestUri")
-	DeliveryRuleConditionStatusNameServerPort       = DeliveryRuleConditionStatusName("ServerPort")
-	DeliveryRuleConditionStatusNameSocketAddr       = DeliveryRuleConditionStatusName("SocketAddr")
-	DeliveryRuleConditionStatusNameSslProtocol      = DeliveryRuleConditionStatusName("SslProtocol")
-	DeliveryRuleConditionStatusNameUrlFileExtension = DeliveryRuleConditionStatusName("UrlFileExtension")
-	DeliveryRuleConditionStatusNameUrlFileName      = DeliveryRuleConditionStatusName("UrlFileName")
-	DeliveryRuleConditionStatusNameUrlPath          = DeliveryRuleConditionStatusName("UrlPath")
+	DeliveryRuleConditionStatusName_ClientPort       = DeliveryRuleConditionStatusName("ClientPort")
+	DeliveryRuleConditionStatusName_Cookies          = DeliveryRuleConditionStatusName("Cookies")
+	DeliveryRuleConditionStatusName_HostName         = DeliveryRuleConditionStatusName("HostName")
+	DeliveryRuleConditionStatusName_HttpVersion      = DeliveryRuleConditionStatusName("HttpVersion")
+	DeliveryRuleConditionStatusName_IsDevice         = DeliveryRuleConditionStatusName("IsDevice")
+	DeliveryRuleConditionStatusName_PostArgs         = DeliveryRuleConditionStatusName("PostArgs")
+	DeliveryRuleConditionStatusName_QueryString      = DeliveryRuleConditionStatusName("QueryString")
+	DeliveryRuleConditionStatusName_RemoteAddress    = DeliveryRuleConditionStatusName("RemoteAddress")
+	DeliveryRuleConditionStatusName_RequestBody      = DeliveryRuleConditionStatusName("RequestBody")
+	DeliveryRuleConditionStatusName_RequestHeader    = DeliveryRuleConditionStatusName("RequestHeader")
+	DeliveryRuleConditionStatusName_RequestMethod    = DeliveryRuleConditionStatusName("RequestMethod")
+	DeliveryRuleConditionStatusName_RequestScheme    = DeliveryRuleConditionStatusName("RequestScheme")
+	DeliveryRuleConditionStatusName_RequestUri       = DeliveryRuleConditionStatusName("RequestUri")
+	DeliveryRuleConditionStatusName_ServerPort       = DeliveryRuleConditionStatusName("ServerPort")
+	DeliveryRuleConditionStatusName_SocketAddr       = DeliveryRuleConditionStatusName("SocketAddr")
+	DeliveryRuleConditionStatusName_SslProtocol      = DeliveryRuleConditionStatusName("SslProtocol")
+	DeliveryRuleConditionStatusName_UrlFileExtension = DeliveryRuleConditionStatusName("UrlFileExtension")
+	DeliveryRuleConditionStatusName_UrlFileName      = DeliveryRuleConditionStatusName("UrlFileName")
+	DeliveryRuleConditionStatusName_UrlPath          = DeliveryRuleConditionStatusName("UrlPath")
 )
 
 type HttpErrorRangeParameters_StatusARM struct {

@@ -281,17 +281,17 @@ func AddIndependentPropertyGeneratorsForAgentPoolStatus(gens map[string]gopter.G
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		GPUInstanceProfile_StatusMIG1G,
-		GPUInstanceProfile_StatusMIG2G,
-		GPUInstanceProfile_StatusMIG3G,
-		GPUInstanceProfile_StatusMIG4G,
-		GPUInstanceProfile_StatusMIG7G))
+		GPUInstanceProfile_Status_MIG1G,
+		GPUInstanceProfile_Status_MIG2G,
+		GPUInstanceProfile_Status_MIG3G,
+		GPUInstanceProfile_Status_MIG4G,
+		GPUInstanceProfile_Status_MIG7G))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_StatusOS, KubeletDiskType_StatusTemporary))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_Status_OS, KubeletDiskType_Status_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_StatusSystem, AgentPoolMode_StatusUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_Status_System, AgentPoolMode_Status_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -299,15 +299,15 @@ func AddIndependentPropertyGeneratorsForAgentPoolStatus(gens map[string]gopter.G
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_StatusEphemeral, OSDiskType_StatusManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_StatusCBLMariner, OSSKU_StatusUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_StatusLinux, OSType_StatusWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Status_Ephemeral, OSDiskType_Status_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_Status_CBLMariner, OSSKU_Status_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_Status_Linux, OSType_Status_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_StatusAvailabilitySet, AgentPoolType_StatusVirtualMachineScaleSets))
+	gens["PropertiesType"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_Status_AvailabilitySet, AgentPoolType_Status_VirtualMachineScaleSets))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_StatusDeallocate, ScaleSetEvictionPolicy_StatusDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_StatusRegular, ScaleSetPriority_StatusSpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Status_Deallocate, ScaleSetEvictionPolicy_Status_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Status_Regular, ScaleSetPriority_Status_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -441,30 +441,30 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[s
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary))
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG1G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG2G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG3G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG4G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_OS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_Temporary))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesModeSystem, ManagedClusterAgentPoolProfilePropertiesModeUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesMode_System, ManagedClusterAgentPoolProfilePropertiesMode_User))
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsDiskTypeEphemeral, ManagedClusterAgentPoolProfilePropertiesOsDiskTypeManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsSKUCBLMariner, ManagedClusterAgentPoolProfilePropertiesOsSKUUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsTypeLinux, ManagedClusterAgentPoolProfilePropertiesOsTypeWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsDiskType_Ephemeral, ManagedClusterAgentPoolProfilePropertiesOsDiskType_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsSKU_CBLMariner, ManagedClusterAgentPoolProfilePropertiesOsSKU_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsType_Linux, ManagedClusterAgentPoolProfilePropertiesOsType_Windows))
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDeallocate, ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetPriorityRegular, ManagedClusterAgentPoolProfilePropertiesScaleSetPrioritySpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Deallocate, ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Regular, ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesTypeAvailabilitySet, ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesType_AvailabilitySet, ManagedClusterAgentPoolProfilePropertiesType_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 

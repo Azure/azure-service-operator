@@ -115,28 +115,28 @@ type SystemData_StatusARM struct {
 type ComputeStatusProvisioningState string
 
 const (
-	ComputeStatusProvisioningStateCanceled  = ComputeStatusProvisioningState("Canceled")
-	ComputeStatusProvisioningStateCreating  = ComputeStatusProvisioningState("Creating")
-	ComputeStatusProvisioningStateDeleting  = ComputeStatusProvisioningState("Deleting")
-	ComputeStatusProvisioningStateFailed    = ComputeStatusProvisioningState("Failed")
-	ComputeStatusProvisioningStateSucceeded = ComputeStatusProvisioningState("Succeeded")
-	ComputeStatusProvisioningStateUnknown   = ComputeStatusProvisioningState("Unknown")
-	ComputeStatusProvisioningStateUpdating  = ComputeStatusProvisioningState("Updating")
+	ComputeStatusProvisioningState_Canceled  = ComputeStatusProvisioningState("Canceled")
+	ComputeStatusProvisioningState_Creating  = ComputeStatusProvisioningState("Creating")
+	ComputeStatusProvisioningState_Deleting  = ComputeStatusProvisioningState("Deleting")
+	ComputeStatusProvisioningState_Failed    = ComputeStatusProvisioningState("Failed")
+	ComputeStatusProvisioningState_Succeeded = ComputeStatusProvisioningState("Succeeded")
+	ComputeStatusProvisioningState_Unknown   = ComputeStatusProvisioningState("Unknown")
+	ComputeStatusProvisioningState_Updating  = ComputeStatusProvisioningState("Updating")
 )
 
 type ComputeType_Status string
 
 const (
-	ComputeType_StatusAKS               = ComputeType_Status("AKS")
-	ComputeType_StatusAmlCompute        = ComputeType_Status("AmlCompute")
-	ComputeType_StatusComputeInstance   = ComputeType_Status("ComputeInstance")
-	ComputeType_StatusDataFactory       = ComputeType_Status("DataFactory")
-	ComputeType_StatusDataLakeAnalytics = ComputeType_Status("DataLakeAnalytics")
-	ComputeType_StatusDatabricks        = ComputeType_Status("Databricks")
-	ComputeType_StatusHDInsight         = ComputeType_Status("HDInsight")
-	ComputeType_StatusKubernetes        = ComputeType_Status("Kubernetes")
-	ComputeType_StatusSynapseSpark      = ComputeType_Status("SynapseSpark")
-	ComputeType_StatusVirtualMachine    = ComputeType_Status("VirtualMachine")
+	ComputeType_Status_AKS               = ComputeType_Status("AKS")
+	ComputeType_Status_AmlCompute        = ComputeType_Status("AmlCompute")
+	ComputeType_Status_ComputeInstance   = ComputeType_Status("ComputeInstance")
+	ComputeType_Status_DataFactory       = ComputeType_Status("DataFactory")
+	ComputeType_Status_DataLakeAnalytics = ComputeType_Status("DataLakeAnalytics")
+	ComputeType_Status_Databricks        = ComputeType_Status("Databricks")
+	ComputeType_Status_HDInsight         = ComputeType_Status("HDInsight")
+	ComputeType_Status_Kubernetes        = ComputeType_Status("Kubernetes")
+	ComputeType_Status_SynapseSpark      = ComputeType_Status("SynapseSpark")
+	ComputeType_Status_VirtualMachine    = ComputeType_Status("VirtualMachine")
 )
 
 type ErrorResponse_StatusARM struct {
@@ -147,28 +147,28 @@ type ErrorResponse_StatusARM struct {
 type IdentityStatusType string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned,UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	IdentityStatusType_None                       = IdentityStatusType("None")
+	IdentityStatusType_SystemAssigned             = IdentityStatusType("SystemAssigned")
+	IdentityStatusType_SystemAssignedUserAssigned = IdentityStatusType("SystemAssigned,UserAssigned")
+	IdentityStatusType_UserAssigned               = IdentityStatusType("UserAssigned")
 )
 
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )
 
 type UserAssignedIdentity_StatusARM struct {

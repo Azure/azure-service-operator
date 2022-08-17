@@ -280,13 +280,13 @@ func AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworksSubnetSubReso
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormatStatusPrivateEndpointNetworkPoliciesDisabled, SubnetPropertiesFormatStatusPrivateEndpointNetworkPoliciesEnabled))
-	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPoliciesDisabled, SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPoliciesEnabled))
+	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies_Disabled, SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies_Enabled))
+	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies_Disabled, SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies_Enabled))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Purpose"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -548,10 +548,10 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfigurationStatus(
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -664,10 +664,10 @@ func AddIndependentPropertyGeneratorsForDelegationStatus(gens map[string]gopter.
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["ServiceName"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -776,10 +776,10 @@ func AddIndependentPropertyGeneratorsForIPConfigurationProfileStatusVirtualNetwo
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -896,12 +896,12 @@ func AddIndependentPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubn
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Status_Dynamic, IPAllocationMethod_Status_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForIPConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded is a factory method for creating gopter generators
@@ -1235,10 +1235,10 @@ func AddIndependentPropertyGeneratorsForResourceNavigationLinkStatus(gens map[st
 	gens["LinkedResourceType"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1453,10 +1453,10 @@ func AddIndependentPropertyGeneratorsForServiceAssociationLinkStatus(gens map[st
 	gens["Locations"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1770,10 +1770,10 @@ func ServiceEndpointPropertiesFormatStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForServiceEndpointPropertiesFormatStatus(gens map[string]gopter.Gen) {
 	gens["Locations"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Service"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -274,18 +274,18 @@ func DomainStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomainStatus(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusInputSchemaCloudEventSchemaV10, DomainPropertiesStatusInputSchemaCustomEventSchema, DomainPropertiesStatusInputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusInputSchema_CloudEventSchemaV10, DomainPropertiesStatusInputSchema_CustomEventSchema, DomainPropertiesStatusInputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainPropertiesStatusProvisioningStateCanceled,
-		DomainPropertiesStatusProvisioningStateCreating,
-		DomainPropertiesStatusProvisioningStateDeleting,
-		DomainPropertiesStatusProvisioningStateFailed,
-		DomainPropertiesStatusProvisioningStateSucceeded,
-		DomainPropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusPublicNetworkAccessDisabled, DomainPropertiesStatusPublicNetworkAccessEnabled))
+		DomainPropertiesStatusProvisioningState_Canceled,
+		DomainPropertiesStatusProvisioningState_Creating,
+		DomainPropertiesStatusProvisioningState_Deleting,
+		DomainPropertiesStatusProvisioningState_Failed,
+		DomainPropertiesStatusProvisioningState_Succeeded,
+		DomainPropertiesStatusProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusPublicNetworkAccess_Disabled, DomainPropertiesStatusPublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -407,9 +407,9 @@ func DomainsSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainsSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainsSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesInputSchemaCloudEventSchemaV10, DomainPropertiesInputSchemaCustomEventSchema, DomainPropertiesInputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesInputSchema_CloudEventSchemaV10, DomainPropertiesInputSchema_CustomEventSchema, DomainPropertiesInputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesPublicNetworkAccessDisabled, DomainPropertiesPublicNetworkAccessEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesPublicNetworkAccess_Disabled, DomainPropertiesPublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -518,7 +518,7 @@ func InboundIpRuleGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleActionAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleAction_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -622,7 +622,7 @@ func InboundIpRuleStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRuleStatus(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleStatusActionAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleStatusAction_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -726,7 +726,7 @@ func InputSchemaMappingStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMappingStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingStatus(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingType_Json))
 }
 
 func Test_JsonInputSchemaMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -838,7 +838,7 @@ func JsonInputSchemaMappingGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMapping is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingType_Json))
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMapping is a factory method for creating gopter generators
@@ -1051,17 +1051,17 @@ func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }
 
 func Test_JsonInputSchemaMappingProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

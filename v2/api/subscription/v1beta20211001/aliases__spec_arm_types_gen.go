@@ -18,7 +18,7 @@ var _ genruntime.ARMResourceSpec = &Aliases_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (aliases Aliases_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -73,6 +73,6 @@ type PutAliasRequestAdditionalPropertiesARM struct {
 type PutAliasRequestPropertiesWorkload string
 
 const (
-	PutAliasRequestPropertiesWorkloadDevTest    = PutAliasRequestPropertiesWorkload("DevTest")
-	PutAliasRequestPropertiesWorkloadProduction = PutAliasRequestPropertiesWorkload("Production")
+	PutAliasRequestPropertiesWorkload_DevTest    = PutAliasRequestPropertiesWorkload("DevTest")
+	PutAliasRequestPropertiesWorkload_Production = PutAliasRequestPropertiesWorkload("Production")
 )

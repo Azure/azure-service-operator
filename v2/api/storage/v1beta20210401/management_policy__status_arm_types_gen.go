@@ -58,7 +58,7 @@ type ManagementPolicyDefinition_StatusARM struct {
 
 type ManagementPolicyRuleStatusType string
 
-const ManagementPolicyRuleStatusTypeLifecycle = ManagementPolicyRuleStatusType("Lifecycle")
+const ManagementPolicyRuleStatusType_Lifecycle = ManagementPolicyRuleStatusType("Lifecycle")
 
 type ManagementPolicyAction_StatusARM struct {
 	// BaseBlob: The management policy action for base blob

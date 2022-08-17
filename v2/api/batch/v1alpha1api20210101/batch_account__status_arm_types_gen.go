@@ -50,9 +50,9 @@ type AutoStorageProperties_StatusARM struct {
 type BatchAccountIdentityStatusType string
 
 const (
-	BatchAccountIdentityStatusTypeNone           = BatchAccountIdentityStatusType("None")
-	BatchAccountIdentityStatusTypeSystemAssigned = BatchAccountIdentityStatusType("SystemAssigned")
-	BatchAccountIdentityStatusTypeUserAssigned   = BatchAccountIdentityStatusType("UserAssigned")
+	BatchAccountIdentityStatusType_None           = BatchAccountIdentityStatusType("None")
+	BatchAccountIdentityStatusType_SystemAssigned = BatchAccountIdentityStatusType("SystemAssigned")
+	BatchAccountIdentityStatusType_UserAssigned   = BatchAccountIdentityStatusType("UserAssigned")
 )
 
 // Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead

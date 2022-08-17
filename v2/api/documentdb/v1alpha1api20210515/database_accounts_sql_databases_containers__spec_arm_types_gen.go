@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainers_SpecA
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -87,8 +87,8 @@ type CompositePathARM struct {
 type ConflictResolutionPolicyMode string
 
 const (
-	ConflictResolutionPolicyModeCustom         = ConflictResolutionPolicyMode("Custom")
-	ConflictResolutionPolicyModeLastWriterWins = ConflictResolutionPolicyMode("LastWriterWins")
+	ConflictResolutionPolicyMode_Custom         = ConflictResolutionPolicyMode("Custom")
+	ConflictResolutionPolicyMode_LastWriterWins = ConflictResolutionPolicyMode("LastWriterWins")
 )
 
 // Deprecated version of ContainerPartitionKeyKind. Use v1beta20210515.ContainerPartitionKeyKind instead
@@ -96,9 +96,9 @@ const (
 type ContainerPartitionKeyKind string
 
 const (
-	ContainerPartitionKeyKindHash      = ContainerPartitionKeyKind("Hash")
-	ContainerPartitionKeyKindMultiHash = ContainerPartitionKeyKind("MultiHash")
-	ContainerPartitionKeyKindRange     = ContainerPartitionKeyKind("Range")
+	ContainerPartitionKeyKind_Hash      = ContainerPartitionKeyKind("Hash")
+	ContainerPartitionKeyKind_MultiHash = ContainerPartitionKeyKind("MultiHash")
+	ContainerPartitionKeyKind_Range     = ContainerPartitionKeyKind("Range")
 )
 
 // Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
@@ -117,9 +117,9 @@ type IncludedPathARM struct {
 type IndexingPolicyIndexingMode string
 
 const (
-	IndexingPolicyIndexingModeConsistent = IndexingPolicyIndexingMode("consistent")
-	IndexingPolicyIndexingModeLazy       = IndexingPolicyIndexingMode("lazy")
-	IndexingPolicyIndexingModeNone       = IndexingPolicyIndexingMode("none")
+	IndexingPolicyIndexingMode_Consistent = IndexingPolicyIndexingMode("consistent")
+	IndexingPolicyIndexingMode_Lazy       = IndexingPolicyIndexingMode("lazy")
+	IndexingPolicyIndexingMode_None       = IndexingPolicyIndexingMode("none")
 )
 
 // Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
@@ -138,8 +138,8 @@ type UniqueKeyARM struct {
 type CompositePathOrder string
 
 const (
-	CompositePathOrderAscending  = CompositePathOrder("ascending")
-	CompositePathOrderDescending = CompositePathOrder("descending")
+	CompositePathOrder_Ascending  = CompositePathOrder("ascending")
+	CompositePathOrder_Descending = CompositePathOrder("descending")
 )
 
 // Deprecated version of Indexes. Use v1beta20210515.Indexes instead
@@ -154,10 +154,10 @@ type IndexesARM struct {
 type SpatialSpecTypes string
 
 const (
-	SpatialSpecTypesLineString   = SpatialSpecTypes("LineString")
-	SpatialSpecTypesMultiPolygon = SpatialSpecTypes("MultiPolygon")
-	SpatialSpecTypesPoint        = SpatialSpecTypes("Point")
-	SpatialSpecTypesPolygon      = SpatialSpecTypes("Polygon")
+	SpatialSpecTypes_LineString   = SpatialSpecTypes("LineString")
+	SpatialSpecTypes_MultiPolygon = SpatialSpecTypes("MultiPolygon")
+	SpatialSpecTypes_Point        = SpatialSpecTypes("Point")
+	SpatialSpecTypes_Polygon      = SpatialSpecTypes("Polygon")
 )
 
 // Deprecated version of IndexesDataType. Use v1beta20210515.IndexesDataType instead
@@ -165,12 +165,12 @@ const (
 type IndexesDataType string
 
 const (
-	IndexesDataTypeLineString   = IndexesDataType("LineString")
-	IndexesDataTypeMultiPolygon = IndexesDataType("MultiPolygon")
-	IndexesDataTypeNumber       = IndexesDataType("Number")
-	IndexesDataTypePoint        = IndexesDataType("Point")
-	IndexesDataTypePolygon      = IndexesDataType("Polygon")
-	IndexesDataTypeString       = IndexesDataType("String")
+	IndexesDataType_LineString   = IndexesDataType("LineString")
+	IndexesDataType_MultiPolygon = IndexesDataType("MultiPolygon")
+	IndexesDataType_Number       = IndexesDataType("Number")
+	IndexesDataType_Point        = IndexesDataType("Point")
+	IndexesDataType_Polygon      = IndexesDataType("Polygon")
+	IndexesDataType_String       = IndexesDataType("String")
 )
 
 // Deprecated version of IndexesKind. Use v1beta20210515.IndexesKind instead
@@ -178,7 +178,7 @@ const (
 type IndexesKind string
 
 const (
-	IndexesKindHash    = IndexesKind("Hash")
-	IndexesKindRange   = IndexesKind("Range")
-	IndexesKindSpatial = IndexesKind("Spatial")
+	IndexesKind_Hash    = IndexesKind("Hash")
+	IndexesKind_Range   = IndexesKind("Range")
+	IndexesKind_Spatial = IndexesKind("Spatial")
 )

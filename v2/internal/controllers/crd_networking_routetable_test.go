@@ -50,14 +50,14 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(routeTable)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
 }
 
 func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTable) {
-	nextHopType := network.RoutePropertiesFormatNextHopTypeVirtualAppliance
+	nextHopType := network.RoutePropertiesFormatNextHopType_VirtualAppliance
 	ipv6Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
 		Spec: network.RouteTablesRoutes_Spec{
@@ -105,7 +105,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 	tc.DeleteResourcesAndWait(ipv4Route, ipv6Route)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -124,7 +124,7 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 		},
 	}
 
-	nextHopType := network.RoutePropertiesFormatNextHopTypeVirtualAppliance
+	nextHopType := network.RoutePropertiesFormatNextHopType_VirtualAppliance
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTablesRoutes_Spec{
@@ -150,7 +150,7 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 	tc.PatchResourceAndWait(old, routeTable)
 
 	// Now ensure that the Route still exists
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

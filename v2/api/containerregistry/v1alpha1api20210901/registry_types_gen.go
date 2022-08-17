@@ -112,7 +112,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -335,7 +335,7 @@ type RegistryList struct {
 // +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-09-01")
+const APIVersion_Value = APIVersion("2021-09-01")
 
 type Registries_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
@@ -2967,8 +2967,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 type RegistryPropertiesStatusNetworkRuleBypassOptions string
 
 const (
-	RegistryPropertiesStatusNetworkRuleBypassOptionsAzureServices = RegistryPropertiesStatusNetworkRuleBypassOptions("AzureServices")
-	RegistryPropertiesStatusNetworkRuleBypassOptionsNone          = RegistryPropertiesStatusNetworkRuleBypassOptions("None")
+	RegistryPropertiesStatusNetworkRuleBypassOptions_AzureServices = RegistryPropertiesStatusNetworkRuleBypassOptions("AzureServices")
+	RegistryPropertiesStatusNetworkRuleBypassOptions_None          = RegistryPropertiesStatusNetworkRuleBypassOptions("None")
 )
 
 // Deprecated version of RegistryPropertiesStatusProvisioningState. Use
@@ -2976,12 +2976,12 @@ const (
 type RegistryPropertiesStatusProvisioningState string
 
 const (
-	RegistryPropertiesStatusProvisioningStateCanceled  = RegistryPropertiesStatusProvisioningState("Canceled")
-	RegistryPropertiesStatusProvisioningStateCreating  = RegistryPropertiesStatusProvisioningState("Creating")
-	RegistryPropertiesStatusProvisioningStateDeleting  = RegistryPropertiesStatusProvisioningState("Deleting")
-	RegistryPropertiesStatusProvisioningStateFailed    = RegistryPropertiesStatusProvisioningState("Failed")
-	RegistryPropertiesStatusProvisioningStateSucceeded = RegistryPropertiesStatusProvisioningState("Succeeded")
-	RegistryPropertiesStatusProvisioningStateUpdating  = RegistryPropertiesStatusProvisioningState("Updating")
+	RegistryPropertiesStatusProvisioningState_Canceled  = RegistryPropertiesStatusProvisioningState("Canceled")
+	RegistryPropertiesStatusProvisioningState_Creating  = RegistryPropertiesStatusProvisioningState("Creating")
+	RegistryPropertiesStatusProvisioningState_Deleting  = RegistryPropertiesStatusProvisioningState("Deleting")
+	RegistryPropertiesStatusProvisioningState_Failed    = RegistryPropertiesStatusProvisioningState("Failed")
+	RegistryPropertiesStatusProvisioningState_Succeeded = RegistryPropertiesStatusProvisioningState("Succeeded")
+	RegistryPropertiesStatusProvisioningState_Updating  = RegistryPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
@@ -2989,8 +2989,8 @@ const (
 type RegistryPropertiesStatusPublicNetworkAccess string
 
 const (
-	RegistryPropertiesStatusPublicNetworkAccessDisabled = RegistryPropertiesStatusPublicNetworkAccess("Disabled")
-	RegistryPropertiesStatusPublicNetworkAccessEnabled  = RegistryPropertiesStatusPublicNetworkAccess("Enabled")
+	RegistryPropertiesStatusPublicNetworkAccess_Disabled = RegistryPropertiesStatusPublicNetworkAccess("Disabled")
+	RegistryPropertiesStatusPublicNetworkAccess_Enabled  = RegistryPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
@@ -2998,8 +2998,8 @@ const (
 type RegistryPropertiesStatusZoneRedundancy string
 
 const (
-	RegistryPropertiesStatusZoneRedundancyDisabled = RegistryPropertiesStatusZoneRedundancy("Disabled")
-	RegistryPropertiesStatusZoneRedundancyEnabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
+	RegistryPropertiesStatusZoneRedundancy_Disabled = RegistryPropertiesStatusZoneRedundancy("Disabled")
+	RegistryPropertiesStatusZoneRedundancy_Enabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
 )
 
 // Deprecated version of Sku. Use v1beta20210901.Sku instead
@@ -3408,8 +3408,8 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 type EncryptionPropertyStatusStatus string
 
 const (
-	EncryptionPropertyStatusStatusDisabled = EncryptionPropertyStatusStatus("disabled")
-	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("enabled")
+	EncryptionPropertyStatusStatus_Disabled = EncryptionPropertyStatusStatus("disabled")
+	EncryptionPropertyStatusStatus_Enabled  = EncryptionPropertyStatusStatus("enabled")
 )
 
 // Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
@@ -3964,8 +3964,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 type NetworkRuleSetStatusDefaultAction string
 
 const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
+	NetworkRuleSetStatusDefaultAction_Allow = NetworkRuleSetStatusDefaultAction("Allow")
+	NetworkRuleSetStatusDefaultAction_Deny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
@@ -4685,43 +4685,43 @@ func (properties *UserIdentityProperties_Status) AssignPropertiesToUserIdentityP
 type ExportPolicyStatusStatus string
 
 const (
-	ExportPolicyStatusStatusDisabled = ExportPolicyStatusStatus("disabled")
-	ExportPolicyStatusStatusEnabled  = ExportPolicyStatusStatus("enabled")
+	ExportPolicyStatusStatus_Disabled = ExportPolicyStatusStatus("disabled")
+	ExportPolicyStatusStatus_Enabled  = ExportPolicyStatusStatus("enabled")
 )
 
 // Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead
 type IPRuleStatusAction string
 
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
+const IPRuleStatusAction_Allow = IPRuleStatusAction("Allow")
 
 // Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead
 type QuarantinePolicyStatusStatus string
 
 const (
-	QuarantinePolicyStatusStatusDisabled = QuarantinePolicyStatusStatus("disabled")
-	QuarantinePolicyStatusStatusEnabled  = QuarantinePolicyStatusStatus("enabled")
+	QuarantinePolicyStatusStatus_Disabled = QuarantinePolicyStatusStatus("disabled")
+	QuarantinePolicyStatusStatus_Enabled  = QuarantinePolicyStatusStatus("enabled")
 )
 
 // Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead
 type RetentionPolicyStatusStatus string
 
 const (
-	RetentionPolicyStatusStatusDisabled = RetentionPolicyStatusStatus("disabled")
-	RetentionPolicyStatusStatusEnabled  = RetentionPolicyStatusStatus("enabled")
+	RetentionPolicyStatusStatus_Disabled = RetentionPolicyStatusStatus("disabled")
+	RetentionPolicyStatusStatus_Enabled  = RetentionPolicyStatusStatus("enabled")
 )
 
 // Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead
 type TrustPolicyStatusStatus string
 
 const (
-	TrustPolicyStatusStatusDisabled = TrustPolicyStatusStatus("disabled")
-	TrustPolicyStatusStatusEnabled  = TrustPolicyStatusStatus("enabled")
+	TrustPolicyStatusStatus_Disabled = TrustPolicyStatusStatus("disabled")
+	TrustPolicyStatusStatus_Enabled  = TrustPolicyStatusStatus("enabled")
 )
 
 // Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead
 type TrustPolicyStatusType string
 
-const TrustPolicyStatusTypeNotary = TrustPolicyStatusType("Notary")
+const TrustPolicyStatusType_Notary = TrustPolicyStatusType("Notary")
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

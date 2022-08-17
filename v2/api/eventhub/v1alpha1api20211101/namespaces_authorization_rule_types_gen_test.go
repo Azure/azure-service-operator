@@ -278,7 +278,7 @@ func AddIndependentPropertyGeneratorsForAuthorizationRuleStatus(gens map[string]
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRuleStatusPropertiesRightsListen, AuthorizationRuleStatusPropertiesRightsManage, AuthorizationRuleStatusPropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRuleStatusPropertiesRights_Listen, AuthorizationRuleStatusPropertiesRights_Manage, AuthorizationRuleStatusPropertiesRights_Send))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -389,6 +389,6 @@ func NamespacesAuthorizationRulesSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRulesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRightsListen, AuthorizationRulePropertiesRightsManage, AuthorizationRulePropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRights_Listen, AuthorizationRulePropertiesRights_Manage, AuthorizationRulePropertiesRights_Send))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

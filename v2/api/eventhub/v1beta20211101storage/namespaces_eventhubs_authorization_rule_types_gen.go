@@ -51,7 +51,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesEventhubsAuthorizationRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource

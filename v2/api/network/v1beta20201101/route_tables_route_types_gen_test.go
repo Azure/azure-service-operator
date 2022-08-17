@@ -269,11 +269,11 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoutesSpec(gens map[string]go
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RoutePropertiesFormatNextHopTypeInternet,
-		RoutePropertiesFormatNextHopTypeNone,
-		RoutePropertiesFormatNextHopTypeVirtualAppliance,
-		RoutePropertiesFormatNextHopTypeVirtualNetworkGateway,
-		RoutePropertiesFormatNextHopTypeVnetLocal))
+		RoutePropertiesFormatNextHopType_Internet,
+		RoutePropertiesFormatNextHopType_None,
+		RoutePropertiesFormatNextHopType_VirtualAppliance,
+		RoutePropertiesFormatNextHopType_VirtualNetworkGateway,
+		RoutePropertiesFormatNextHopType_VnetLocal))
 }
 
 func Test_Route_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -382,15 +382,15 @@ func AddIndependentPropertyGeneratorsForRouteStatus(gens map[string]gopter.Gen) 
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_StatusInternet,
-		RouteNextHopType_StatusNone,
-		RouteNextHopType_StatusVirtualAppliance,
-		RouteNextHopType_StatusVirtualNetworkGateway,
-		RouteNextHopType_StatusVnetLocal))
+		RouteNextHopType_Status_Internet,
+		RouteNextHopType_Status_None,
+		RouteNextHopType_Status_VirtualAppliance,
+		RouteNextHopType_Status_VirtualNetworkGateway,
+		RouteNextHopType_Status_VnetLocal))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

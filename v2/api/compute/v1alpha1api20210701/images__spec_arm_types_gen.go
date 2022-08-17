@@ -18,7 +18,7 @@ var _ genruntime.ARMResourceSpec = &Images_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (images Images_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -48,7 +48,7 @@ type ImagePropertiesARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfileARM struct {

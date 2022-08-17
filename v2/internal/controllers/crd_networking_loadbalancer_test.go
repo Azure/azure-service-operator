@@ -30,8 +30,8 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
-	sku := network.PublicIPAddressSkuNameStandard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
+	sku := network.PublicIPAddressSkuName_Standard
+	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
@@ -50,10 +50,10 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(publicIPAddress)
 
 	// LoadBalancer
-	loadBalancerSku := network.LoadBalancerSkuNameStandard
+	loadBalancerSku := network.LoadBalancerSkuName_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+	protocol := network.InboundNatPoolPropertiesFormatProtocol_Tcp
 
 	// TODO: This is still really awkward
 	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -111,7 +111,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(loadBalancer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(network.APIVersion_Value))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

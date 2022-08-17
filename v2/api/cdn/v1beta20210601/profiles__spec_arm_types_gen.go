@@ -44,7 +44,7 @@ var _ genruntime.ARMResourceSpec = &Profiles_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (profiles Profiles_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -74,17 +74,17 @@ type SkuARM struct {
 type SkuName string
 
 const (
-	SkuNameCustomVerizon                    = SkuName("Custom_Verizon")
-	SkuNamePremiumAzureFrontDoor            = SkuName("Premium_AzureFrontDoor")
-	SkuNamePremiumVerizon                   = SkuName("Premium_Verizon")
-	SkuNameStandard955BandWidthChinaCdn     = SkuName("Standard_955BandWidth_ChinaCdn")
-	SkuNameStandardAkamai                   = SkuName("Standard_Akamai")
-	SkuNameStandardAvgBandWidthChinaCdn     = SkuName("Standard_AvgBandWidth_ChinaCdn")
-	SkuNameStandardAzureFrontDoor           = SkuName("Standard_AzureFrontDoor")
-	SkuNameStandardChinaCdn                 = SkuName("Standard_ChinaCdn")
-	SkuNameStandardMicrosoft                = SkuName("Standard_Microsoft")
-	SkuNameStandardPlus955BandWidthChinaCdn = SkuName("StandardPlus_955BandWidth_ChinaCdn")
-	SkuNameStandardPlusAvgBandWidthChinaCdn = SkuName("StandardPlus_AvgBandWidth_ChinaCdn")
-	SkuNameStandardPlusChinaCdn             = SkuName("StandardPlus_ChinaCdn")
-	SkuNameStandardVerizon                  = SkuName("Standard_Verizon")
+	SkuName_CustomVerizon                    = SkuName("Custom_Verizon")
+	SkuName_PremiumAzureFrontDoor            = SkuName("Premium_AzureFrontDoor")
+	SkuName_PremiumVerizon                   = SkuName("Premium_Verizon")
+	SkuName_Standard955BandWidthChinaCdn     = SkuName("Standard_955BandWidth_ChinaCdn")
+	SkuName_StandardAkamai                   = SkuName("Standard_Akamai")
+	SkuName_StandardAvgBandWidthChinaCdn     = SkuName("Standard_AvgBandWidth_ChinaCdn")
+	SkuName_StandardAzureFrontDoor           = SkuName("Standard_AzureFrontDoor")
+	SkuName_StandardChinaCdn                 = SkuName("Standard_ChinaCdn")
+	SkuName_StandardMicrosoft                = SkuName("Standard_Microsoft")
+	SkuName_StandardPlus955BandWidthChinaCdn = SkuName("StandardPlus_955BandWidth_ChinaCdn")
+	SkuName_StandardPlusAvgBandWidthChinaCdn = SkuName("StandardPlus_AvgBandWidth_ChinaCdn")
+	SkuName_StandardPlusChinaCdn             = SkuName("StandardPlus_ChinaCdn")
+	SkuName_StandardVerizon                  = SkuName("Standard_Verizon")
 )

@@ -99,7 +99,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -321,7 +321,7 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-02-02")
+const APIVersion_Value = APIVersion("2020-02-02")
 
 type ApplicationInsightsComponent_Status struct {
 	// AppId: Application Insights Unique ID for your Application.
@@ -1845,44 +1845,44 @@ func (components *Components_Spec) SetAzureName(azureName string) { components.A
 type ApplicationInsightsComponentPropertiesApplicationType string
 
 const (
-	ApplicationInsightsComponentPropertiesApplicationTypeOther = ApplicationInsightsComponentPropertiesApplicationType("other")
-	ApplicationInsightsComponentPropertiesApplicationTypeWeb   = ApplicationInsightsComponentPropertiesApplicationType("web")
+	ApplicationInsightsComponentPropertiesApplicationType_Other = ApplicationInsightsComponentPropertiesApplicationType("other")
+	ApplicationInsightsComponentPropertiesApplicationType_Web   = ApplicationInsightsComponentPropertiesApplicationType("web")
 )
 
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentPropertiesFlowType string
 
-const ApplicationInsightsComponentPropertiesFlowTypeBluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
+const ApplicationInsightsComponentPropertiesFlowType_Bluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentPropertiesIngestionMode string
 
 const (
-	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights                       = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
+	ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsights                       = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentPropertiesIngestionMode_LogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion string
 
 const (
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionDisabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Disabled")
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Disabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Disabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Enabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery string
 
 const (
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryDisabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Disabled")
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Disabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Disabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Enabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentPropertiesRequestSource string
 
-const ApplicationInsightsComponentPropertiesRequestSourceRest = ApplicationInsightsComponentPropertiesRequestSource("rest")
+const ApplicationInsightsComponentPropertiesRequestSource_Rest = ApplicationInsightsComponentPropertiesRequestSource("rest")
 
 type PrivateLinkScopedResource_Status struct {
 	// ResourceId: The full resource Id of the private link scope resource.

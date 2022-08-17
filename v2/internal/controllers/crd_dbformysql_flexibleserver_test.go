@@ -40,7 +40,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
-	disabled := mysql.BackupGeoRedundantBackupDisabled
+	disabled := mysql.BackupGeoRedundantBackup_Disabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
 		BackupRetentionDays: to.IntPtr(5),
 		GeoRedundantBackup:  &disabled,
@@ -68,7 +68,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -77,8 +77,8 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
 	location := "westcentralus"
-	version := mysql.ServerPropertiesVersion8021
-	tier := mysql.SkuTierGeneralPurpose
+	version := mysql.ServerPropertiesVersion_8021
+	tier := mysql.SkuTier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),

@@ -23,7 +23,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	zoneRedundant := false
-	sku := servicebus.SBSkuNameBasic
+	sku := servicebus.SBSkuName_Basic
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sbnamespace")),
 		Spec: servicebus.Namespaces_Spec{
@@ -53,7 +53,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

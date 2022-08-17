@@ -99,7 +99,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -345,7 +345,7 @@ type WorkspaceList struct {
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-07-01")
+const APIVersion_Value = APIVersion("2021-07-01")
 
 type Workspace_Status struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
@@ -3953,28 +3953,28 @@ func (operator *WorkspaceOperatorSpec) AssignPropertiesToWorkspaceOperatorSpec(d
 type WorkspacePropertiesStatusProvisioningState string
 
 const (
-	WorkspacePropertiesStatusProvisioningStateCanceled  = WorkspacePropertiesStatusProvisioningState("Canceled")
-	WorkspacePropertiesStatusProvisioningStateCreating  = WorkspacePropertiesStatusProvisioningState("Creating")
-	WorkspacePropertiesStatusProvisioningStateDeleting  = WorkspacePropertiesStatusProvisioningState("Deleting")
-	WorkspacePropertiesStatusProvisioningStateFailed    = WorkspacePropertiesStatusProvisioningState("Failed")
-	WorkspacePropertiesStatusProvisioningStateSucceeded = WorkspacePropertiesStatusProvisioningState("Succeeded")
-	WorkspacePropertiesStatusProvisioningStateUnknown   = WorkspacePropertiesStatusProvisioningState("Unknown")
-	WorkspacePropertiesStatusProvisioningStateUpdating  = WorkspacePropertiesStatusProvisioningState("Updating")
+	WorkspacePropertiesStatusProvisioningState_Canceled  = WorkspacePropertiesStatusProvisioningState("Canceled")
+	WorkspacePropertiesStatusProvisioningState_Creating  = WorkspacePropertiesStatusProvisioningState("Creating")
+	WorkspacePropertiesStatusProvisioningState_Deleting  = WorkspacePropertiesStatusProvisioningState("Deleting")
+	WorkspacePropertiesStatusProvisioningState_Failed    = WorkspacePropertiesStatusProvisioningState("Failed")
+	WorkspacePropertiesStatusProvisioningState_Succeeded = WorkspacePropertiesStatusProvisioningState("Succeeded")
+	WorkspacePropertiesStatusProvisioningState_Unknown   = WorkspacePropertiesStatusProvisioningState("Unknown")
+	WorkspacePropertiesStatusProvisioningState_Updating  = WorkspacePropertiesStatusProvisioningState("Updating")
 )
 
 type WorkspacePropertiesStatusPublicNetworkAccess string
 
 const (
-	WorkspacePropertiesStatusPublicNetworkAccessDisabled = WorkspacePropertiesStatusPublicNetworkAccess("Disabled")
-	WorkspacePropertiesStatusPublicNetworkAccessEnabled  = WorkspacePropertiesStatusPublicNetworkAccess("Enabled")
+	WorkspacePropertiesStatusPublicNetworkAccess_Disabled = WorkspacePropertiesStatusPublicNetworkAccess("Disabled")
+	WorkspacePropertiesStatusPublicNetworkAccess_Enabled  = WorkspacePropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacesSpecPropertiesPublicNetworkAccess string
 
 const (
-	WorkspacesSpecPropertiesPublicNetworkAccessDisabled = WorkspacesSpecPropertiesPublicNetworkAccess("Disabled")
-	WorkspacesSpecPropertiesPublicNetworkAccessEnabled  = WorkspacesSpecPropertiesPublicNetworkAccess("Enabled")
+	WorkspacesSpecPropertiesPublicNetworkAccess_Disabled = WorkspacesSpecPropertiesPublicNetworkAccess("Disabled")
+	WorkspacesSpecPropertiesPublicNetworkAccess_Enabled  = WorkspacesSpecPropertiesPublicNetworkAccess("Enabled")
 )
 
 type Workspaces_Spec_Properties_SharedPrivateLinkResources struct {
@@ -4299,15 +4299,15 @@ func (settings *CosmosDbSettings_Status) AssignPropertiesToCosmosDbSettingsStatu
 type EncryptionPropertyStatus string
 
 const (
-	EncryptionPropertyStatusDisabled = EncryptionPropertyStatus("Disabled")
-	EncryptionPropertyStatusEnabled  = EncryptionPropertyStatus("Enabled")
+	EncryptionPropertyStatus_Disabled = EncryptionPropertyStatus("Disabled")
+	EncryptionPropertyStatus_Enabled  = EncryptionPropertyStatus("Enabled")
 )
 
 type EncryptionPropertyStatusStatus string
 
 const (
-	EncryptionPropertyStatusStatusDisabled = EncryptionPropertyStatusStatus("Disabled")
-	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("Enabled")
+	EncryptionPropertyStatusStatus_Disabled = EncryptionPropertyStatusStatus("Disabled")
+	EncryptionPropertyStatusStatus_Enabled  = EncryptionPropertyStatusStatus("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/IdentityForCmk
@@ -4721,22 +4721,22 @@ func (error *NotebookPreparationError_Status) AssignPropertiesToNotebookPreparat
 type PrivateEndpointServiceConnectionStatus_Status string
 
 const (
-	PrivateEndpointServiceConnectionStatus_StatusApproved     = PrivateEndpointServiceConnectionStatus_Status("Approved")
-	PrivateEndpointServiceConnectionStatus_StatusDisconnected = PrivateEndpointServiceConnectionStatus_Status("Disconnected")
-	PrivateEndpointServiceConnectionStatus_StatusPending      = PrivateEndpointServiceConnectionStatus_Status("Pending")
-	PrivateEndpointServiceConnectionStatus_StatusRejected     = PrivateEndpointServiceConnectionStatus_Status("Rejected")
-	PrivateEndpointServiceConnectionStatus_StatusTimeout      = PrivateEndpointServiceConnectionStatus_Status("Timeout")
+	PrivateEndpointServiceConnectionStatus_Status_Approved     = PrivateEndpointServiceConnectionStatus_Status("Approved")
+	PrivateEndpointServiceConnectionStatus_Status_Disconnected = PrivateEndpointServiceConnectionStatus_Status("Disconnected")
+	PrivateEndpointServiceConnectionStatus_Status_Pending      = PrivateEndpointServiceConnectionStatus_Status("Pending")
+	PrivateEndpointServiceConnectionStatus_Status_Rejected     = PrivateEndpointServiceConnectionStatus_Status("Rejected")
+	PrivateEndpointServiceConnectionStatus_Status_Timeout      = PrivateEndpointServiceConnectionStatus_Status("Timeout")
 )
 
 // +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
 type SharedPrivateLinkResourcePropertyStatus string
 
 const (
-	SharedPrivateLinkResourcePropertyStatusApproved     = SharedPrivateLinkResourcePropertyStatus("Approved")
-	SharedPrivateLinkResourcePropertyStatusDisconnected = SharedPrivateLinkResourcePropertyStatus("Disconnected")
-	SharedPrivateLinkResourcePropertyStatusPending      = SharedPrivateLinkResourcePropertyStatus("Pending")
-	SharedPrivateLinkResourcePropertyStatusRejected     = SharedPrivateLinkResourcePropertyStatus("Rejected")
-	SharedPrivateLinkResourcePropertyStatusTimeout      = SharedPrivateLinkResourcePropertyStatus("Timeout")
+	SharedPrivateLinkResourcePropertyStatus_Approved     = SharedPrivateLinkResourcePropertyStatus("Approved")
+	SharedPrivateLinkResourcePropertyStatus_Disconnected = SharedPrivateLinkResourcePropertyStatus("Disconnected")
+	SharedPrivateLinkResourcePropertyStatus_Pending      = SharedPrivateLinkResourcePropertyStatus("Pending")
+	SharedPrivateLinkResourcePropertyStatus_Rejected     = SharedPrivateLinkResourcePropertyStatus("Rejected")
+	SharedPrivateLinkResourcePropertyStatus_Timeout      = SharedPrivateLinkResourcePropertyStatus("Timeout")
 )
 
 type UserAssignedIdentity_Status struct {

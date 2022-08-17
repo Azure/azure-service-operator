@@ -52,7 +52,7 @@ func (group *ContainerGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (group ContainerGroup) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -134,7 +134,7 @@ type ContainerGroupList struct {
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-10-01")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 // Storage version of v1beta20211001.ContainerGroup_Status
 type ContainerGroup_Status struct {

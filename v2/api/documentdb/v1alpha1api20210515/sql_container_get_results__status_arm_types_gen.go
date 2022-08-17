@@ -73,17 +73,17 @@ type CompositePath_StatusARM struct {
 type ConflictResolutionPolicyStatusMode string
 
 const (
-	ConflictResolutionPolicyStatusModeCustom         = ConflictResolutionPolicyStatusMode("Custom")
-	ConflictResolutionPolicyStatusModeLastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
+	ConflictResolutionPolicyStatusMode_Custom         = ConflictResolutionPolicyStatusMode("Custom")
+	ConflictResolutionPolicyStatusMode_LastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
 )
 
 // Deprecated version of ContainerPartitionKeyStatusKind. Use v1beta20210515.ContainerPartitionKeyStatusKind instead
 type ContainerPartitionKeyStatusKind string
 
 const (
-	ContainerPartitionKeyStatusKindHash      = ContainerPartitionKeyStatusKind("Hash")
-	ContainerPartitionKeyStatusKindMultiHash = ContainerPartitionKeyStatusKind("MultiHash")
-	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
+	ContainerPartitionKeyStatusKind_Hash      = ContainerPartitionKeyStatusKind("Hash")
+	ContainerPartitionKeyStatusKind_MultiHash = ContainerPartitionKeyStatusKind("MultiHash")
+	ContainerPartitionKeyStatusKind_Range     = ContainerPartitionKeyStatusKind("Range")
 )
 
 // Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
@@ -101,9 +101,9 @@ type IncludedPath_StatusARM struct {
 type IndexingPolicyStatusIndexingMode string
 
 const (
-	IndexingPolicyStatusIndexingModeConsistent = IndexingPolicyStatusIndexingMode("consistent")
-	IndexingPolicyStatusIndexingModeLazy       = IndexingPolicyStatusIndexingMode("lazy")
-	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
+	IndexingPolicyStatusIndexingMode_Consistent = IndexingPolicyStatusIndexingMode("consistent")
+	IndexingPolicyStatusIndexingMode_Lazy       = IndexingPolicyStatusIndexingMode("lazy")
+	IndexingPolicyStatusIndexingMode_None       = IndexingPolicyStatusIndexingMode("none")
 )
 
 // Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
@@ -121,8 +121,8 @@ type UniqueKey_StatusARM struct {
 type CompositePathStatusOrder string
 
 const (
-	CompositePathStatusOrderAscending  = CompositePathStatusOrder("ascending")
-	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
+	CompositePathStatusOrder_Ascending  = CompositePathStatusOrder("ascending")
+	CompositePathStatusOrder_Descending = CompositePathStatusOrder("descending")
 )
 
 // Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
@@ -136,29 +136,29 @@ type Indexes_StatusARM struct {
 type SpatialType_Status string
 
 const (
-	SpatialType_StatusLineString   = SpatialType_Status("LineString")
-	SpatialType_StatusMultiPolygon = SpatialType_Status("MultiPolygon")
-	SpatialType_StatusPoint        = SpatialType_Status("Point")
-	SpatialType_StatusPolygon      = SpatialType_Status("Polygon")
+	SpatialType_Status_LineString   = SpatialType_Status("LineString")
+	SpatialType_Status_MultiPolygon = SpatialType_Status("MultiPolygon")
+	SpatialType_Status_Point        = SpatialType_Status("Point")
+	SpatialType_Status_Polygon      = SpatialType_Status("Polygon")
 )
 
 // Deprecated version of IndexesStatusDataType. Use v1beta20210515.IndexesStatusDataType instead
 type IndexesStatusDataType string
 
 const (
-	IndexesStatusDataTypeLineString   = IndexesStatusDataType("LineString")
-	IndexesStatusDataTypeMultiPolygon = IndexesStatusDataType("MultiPolygon")
-	IndexesStatusDataTypeNumber       = IndexesStatusDataType("Number")
-	IndexesStatusDataTypePoint        = IndexesStatusDataType("Point")
-	IndexesStatusDataTypePolygon      = IndexesStatusDataType("Polygon")
-	IndexesStatusDataTypeString       = IndexesStatusDataType("String")
+	IndexesStatusDataType_LineString   = IndexesStatusDataType("LineString")
+	IndexesStatusDataType_MultiPolygon = IndexesStatusDataType("MultiPolygon")
+	IndexesStatusDataType_Number       = IndexesStatusDataType("Number")
+	IndexesStatusDataType_Point        = IndexesStatusDataType("Point")
+	IndexesStatusDataType_Polygon      = IndexesStatusDataType("Polygon")
+	IndexesStatusDataType_String       = IndexesStatusDataType("String")
 )
 
 // Deprecated version of IndexesStatusKind. Use v1beta20210515.IndexesStatusKind instead
 type IndexesStatusKind string
 
 const (
-	IndexesStatusKindHash    = IndexesStatusKind("Hash")
-	IndexesStatusKindRange   = IndexesStatusKind("Range")
-	IndexesStatusKindSpatial = IndexesStatusKind("Spatial")
+	IndexesStatusKind_Hash    = IndexesStatusKind("Hash")
+	IndexesStatusKind_Range   = IndexesStatusKind("Range")
+	IndexesStatusKind_Spatial = IndexesStatusKind("Spatial")
 )

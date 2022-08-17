@@ -153,7 +153,7 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_ImagePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -222,7 +222,7 @@ func ImagePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImagePropertiesARM(gens map[string]gopter.Gen) {
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImagePropertiesHyperVGenerationV1, ImagePropertiesHyperVGenerationV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImagePropertiesHyperVGeneration_V1, ImagePropertiesHyperVGeneration_V2))
 }
 
 // AddRelatedPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators
@@ -434,16 +434,16 @@ func ImageDataDiskARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageDataDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDataDiskARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCachingNone, ImageDataDiskCachingReadOnly, ImageDataDiskCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDiskCaching_None, ImageDataDiskCaching_ReadOnly, ImageDataDiskCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageDataDiskStorageAccountTypePremiumLRS,
-		ImageDataDiskStorageAccountTypePremiumZRS,
-		ImageDataDiskStorageAccountTypeStandardLRS,
-		ImageDataDiskStorageAccountTypeStandardSSDLRS,
-		ImageDataDiskStorageAccountTypeStandardSSDZRS,
-		ImageDataDiskStorageAccountTypeUltraSSDLRS))
+		ImageDataDiskStorageAccountType_PremiumLRS,
+		ImageDataDiskStorageAccountType_PremiumZRS,
+		ImageDataDiskStorageAccountType_StandardLRS,
+		ImageDataDiskStorageAccountType_StandardSSDLRS,
+		ImageDataDiskStorageAccountType_StandardSSDZRS,
+		ImageDataDiskStorageAccountType_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageDataDiskARM is a factory method for creating gopter generators
@@ -520,17 +520,17 @@ func ImageOSDiskARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageOSDiskARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageOSDiskARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCachingNone, ImageOSDiskCachingReadOnly, ImageOSDiskCachingReadWrite))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskCaching_None, ImageOSDiskCaching_ReadOnly, ImageOSDiskCaching_ReadWrite))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsStateGeneralized, ImageOSDiskOsStateSpecialized))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsTypeLinux, ImageOSDiskOsTypeWindows))
+	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsState_Generalized, ImageOSDiskOsState_Specialized))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDiskOsType_Linux, ImageOSDiskOsType_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageOSDiskStorageAccountTypePremiumLRS,
-		ImageOSDiskStorageAccountTypePremiumZRS,
-		ImageOSDiskStorageAccountTypeStandardLRS,
-		ImageOSDiskStorageAccountTypeStandardSSDLRS,
-		ImageOSDiskStorageAccountTypeStandardSSDZRS,
-		ImageOSDiskStorageAccountTypeUltraSSDLRS))
+		ImageOSDiskStorageAccountType_PremiumLRS,
+		ImageOSDiskStorageAccountType_PremiumZRS,
+		ImageOSDiskStorageAccountType_StandardLRS,
+		ImageOSDiskStorageAccountType_StandardSSDLRS,
+		ImageOSDiskStorageAccountType_StandardSSDZRS,
+		ImageOSDiskStorageAccountType_UltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageOSDiskARM is a factory method for creating gopter generators

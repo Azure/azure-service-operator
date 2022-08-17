@@ -99,7 +99,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -339,7 +339,7 @@ type FlexibleServerList struct {
 // +kubebuilder:validation:Enum={"2021-05-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-01")
+const APIVersion_Value = APIVersion("2021-05-01")
 
 type FlexibleServers_Spec struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -3431,64 +3431,64 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v202
 type ReplicationRole_Status string
 
 const (
-	ReplicationRole_StatusNone    = ReplicationRole_Status("None")
-	ReplicationRole_StatusReplica = ReplicationRole_Status("Replica")
-	ReplicationRole_StatusSource  = ReplicationRole_Status("Source")
+	ReplicationRole_Status_None    = ReplicationRole_Status("None")
+	ReplicationRole_Status_Replica = ReplicationRole_Status("Replica")
+	ReplicationRole_Status_Source  = ReplicationRole_Status("Source")
 )
 
 // +kubebuilder:validation:Enum={"Default","GeoRestore","PointInTimeRestore","Replica"}
 type ServerPropertiesCreateMode string
 
 const (
-	ServerPropertiesCreateModeDefault            = ServerPropertiesCreateMode("Default")
-	ServerPropertiesCreateModeGeoRestore         = ServerPropertiesCreateMode("GeoRestore")
-	ServerPropertiesCreateModePointInTimeRestore = ServerPropertiesCreateMode("PointInTimeRestore")
-	ServerPropertiesCreateModeReplica            = ServerPropertiesCreateMode("Replica")
+	ServerPropertiesCreateMode_Default            = ServerPropertiesCreateMode("Default")
+	ServerPropertiesCreateMode_GeoRestore         = ServerPropertiesCreateMode("GeoRestore")
+	ServerPropertiesCreateMode_PointInTimeRestore = ServerPropertiesCreateMode("PointInTimeRestore")
+	ServerPropertiesCreateMode_Replica            = ServerPropertiesCreateMode("Replica")
 )
 
 // +kubebuilder:validation:Enum={"None","Replica","Source"}
 type ServerPropertiesReplicationRole string
 
 const (
-	ServerPropertiesReplicationRoleNone    = ServerPropertiesReplicationRole("None")
-	ServerPropertiesReplicationRoleReplica = ServerPropertiesReplicationRole("Replica")
-	ServerPropertiesReplicationRoleSource  = ServerPropertiesReplicationRole("Source")
+	ServerPropertiesReplicationRole_None    = ServerPropertiesReplicationRole("None")
+	ServerPropertiesReplicationRole_Replica = ServerPropertiesReplicationRole("Replica")
+	ServerPropertiesReplicationRole_Source  = ServerPropertiesReplicationRole("Source")
 )
 
 type ServerPropertiesStatusCreateMode string
 
 const (
-	ServerPropertiesStatusCreateModeDefault            = ServerPropertiesStatusCreateMode("Default")
-	ServerPropertiesStatusCreateModeGeoRestore         = ServerPropertiesStatusCreateMode("GeoRestore")
-	ServerPropertiesStatusCreateModePointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
-	ServerPropertiesStatusCreateModeReplica            = ServerPropertiesStatusCreateMode("Replica")
+	ServerPropertiesStatusCreateMode_Default            = ServerPropertiesStatusCreateMode("Default")
+	ServerPropertiesStatusCreateMode_GeoRestore         = ServerPropertiesStatusCreateMode("GeoRestore")
+	ServerPropertiesStatusCreateMode_PointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
+	ServerPropertiesStatusCreateMode_Replica            = ServerPropertiesStatusCreateMode("Replica")
 )
 
 type ServerPropertiesStatusState string
 
 const (
-	ServerPropertiesStatusStateDisabled = ServerPropertiesStatusState("Disabled")
-	ServerPropertiesStatusStateDropping = ServerPropertiesStatusState("Dropping")
-	ServerPropertiesStatusStateReady    = ServerPropertiesStatusState("Ready")
-	ServerPropertiesStatusStateStarting = ServerPropertiesStatusState("Starting")
-	ServerPropertiesStatusStateStopped  = ServerPropertiesStatusState("Stopped")
-	ServerPropertiesStatusStateStopping = ServerPropertiesStatusState("Stopping")
-	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
+	ServerPropertiesStatusState_Disabled = ServerPropertiesStatusState("Disabled")
+	ServerPropertiesStatusState_Dropping = ServerPropertiesStatusState("Dropping")
+	ServerPropertiesStatusState_Ready    = ServerPropertiesStatusState("Ready")
+	ServerPropertiesStatusState_Starting = ServerPropertiesStatusState("Starting")
+	ServerPropertiesStatusState_Stopped  = ServerPropertiesStatusState("Stopped")
+	ServerPropertiesStatusState_Stopping = ServerPropertiesStatusState("Stopping")
+	ServerPropertiesStatusState_Updating = ServerPropertiesStatusState("Updating")
 )
 
 // +kubebuilder:validation:Enum={"5.7","8.0.21"}
 type ServerPropertiesVersion string
 
 const (
-	ServerPropertiesVersion57   = ServerPropertiesVersion("5.7")
-	ServerPropertiesVersion8021 = ServerPropertiesVersion("8.0.21")
+	ServerPropertiesVersion_57   = ServerPropertiesVersion("5.7")
+	ServerPropertiesVersion_8021 = ServerPropertiesVersion("8.0.21")
 )
 
 type ServerVersion_Status string
 
 const (
-	ServerVersion_Status57   = ServerVersion_Status("5.7")
-	ServerVersion_Status8021 = ServerVersion_Status("8.0.21")
+	ServerVersion_Status_57   = ServerVersion_Status("5.7")
+	ServerVersion_Status_8021 = ServerVersion_Status("8.0.21")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
@@ -4077,30 +4077,30 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 type BackupGeoRedundantBackup string
 
 const (
-	BackupGeoRedundantBackupDisabled = BackupGeoRedundantBackup("Disabled")
-	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
+	BackupGeoRedundantBackup_Disabled = BackupGeoRedundantBackup("Disabled")
+	BackupGeoRedundantBackup_Enabled  = BackupGeoRedundantBackup("Enabled")
 )
 
 type DataEncryptionStatusType string
 
 const (
-	DataEncryptionStatusTypeAzureKeyVault = DataEncryptionStatusType("AzureKeyVault")
-	DataEncryptionStatusTypeSystemManaged = DataEncryptionStatusType("SystemManaged")
+	DataEncryptionStatusType_AzureKeyVault = DataEncryptionStatusType("AzureKeyVault")
+	DataEncryptionStatusType_SystemManaged = DataEncryptionStatusType("SystemManaged")
 )
 
 // +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
 type DataEncryptionType string
 
 const (
-	DataEncryptionTypeAzureKeyVault = DataEncryptionType("AzureKeyVault")
-	DataEncryptionTypeSystemManaged = DataEncryptionType("SystemManaged")
+	DataEncryptionType_AzureKeyVault = DataEncryptionType("AzureKeyVault")
+	DataEncryptionType_SystemManaged = DataEncryptionType("SystemManaged")
 )
 
 type EnableStatusEnum_Status string
 
 const (
-	EnableStatusEnum_StatusDisabled = EnableStatusEnum_Status("Disabled")
-	EnableStatusEnum_StatusEnabled  = EnableStatusEnum_Status("Enabled")
+	EnableStatusEnum_Status_Disabled = EnableStatusEnum_Status("Disabled")
+	EnableStatusEnum_Status_Enabled  = EnableStatusEnum_Status("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -4152,35 +4152,35 @@ func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOp
 type HighAvailabilityMode string
 
 const (
-	HighAvailabilityModeDisabled      = HighAvailabilityMode("Disabled")
-	HighAvailabilityModeSameZone      = HighAvailabilityMode("SameZone")
-	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
+	HighAvailabilityMode_Disabled      = HighAvailabilityMode("Disabled")
+	HighAvailabilityMode_SameZone      = HighAvailabilityMode("SameZone")
+	HighAvailabilityMode_ZoneRedundant = HighAvailabilityMode("ZoneRedundant")
 )
 
 type HighAvailabilityStatusMode string
 
 const (
-	HighAvailabilityStatusModeDisabled      = HighAvailabilityStatusMode("Disabled")
-	HighAvailabilityStatusModeSameZone      = HighAvailabilityStatusMode("SameZone")
-	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
+	HighAvailabilityStatusMode_Disabled      = HighAvailabilityStatusMode("Disabled")
+	HighAvailabilityStatusMode_SameZone      = HighAvailabilityStatusMode("SameZone")
+	HighAvailabilityStatusMode_ZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
 )
 
 type HighAvailabilityStatusState string
 
 const (
-	HighAvailabilityStatusStateCreatingStandby = HighAvailabilityStatusState("CreatingStandby")
-	HighAvailabilityStatusStateFailingOver     = HighAvailabilityStatusState("FailingOver")
-	HighAvailabilityStatusStateHealthy         = HighAvailabilityStatusState("Healthy")
-	HighAvailabilityStatusStateNotEnabled      = HighAvailabilityStatusState("NotEnabled")
-	HighAvailabilityStatusStateRemovingStandby = HighAvailabilityStatusState("RemovingStandby")
+	HighAvailabilityStatusState_CreatingStandby = HighAvailabilityStatusState("CreatingStandby")
+	HighAvailabilityStatusState_FailingOver     = HighAvailabilityStatusState("FailingOver")
+	HighAvailabilityStatusState_Healthy         = HighAvailabilityStatusState("Healthy")
+	HighAvailabilityStatusState_NotEnabled      = HighAvailabilityStatusState("NotEnabled")
+	HighAvailabilityStatusState_RemovingStandby = HighAvailabilityStatusState("RemovingStandby")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAutoGrow string
 
 const (
-	StorageAutoGrowDisabled = StorageAutoGrow("Disabled")
-	StorageAutoGrowEnabled  = StorageAutoGrow("Enabled")
+	StorageAutoGrow_Disabled = StorageAutoGrow("Disabled")
+	StorageAutoGrow_Enabled  = StorageAutoGrow("Enabled")
 )
 
 func init() {

@@ -112,7 +112,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (rule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1534,16 +1534,16 @@ func (embedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRul
 type SecurityRuleAccess_Status string
 
 const (
-	SecurityRuleAccess_StatusAllow = SecurityRuleAccess_Status("Allow")
-	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
+	SecurityRuleAccess_Status_Allow = SecurityRuleAccess_Status("Allow")
+	SecurityRuleAccess_Status_Deny  = SecurityRuleAccess_Status("Deny")
 )
 
 // Deprecated version of SecurityRuleDirection_Status. Use v1beta20201101.SecurityRuleDirection_Status instead
 type SecurityRuleDirection_Status string
 
 const (
-	SecurityRuleDirection_StatusInbound  = SecurityRuleDirection_Status("Inbound")
-	SecurityRuleDirection_StatusOutbound = SecurityRuleDirection_Status("Outbound")
+	SecurityRuleDirection_Status_Inbound  = SecurityRuleDirection_Status("Inbound")
+	SecurityRuleDirection_Status_Outbound = SecurityRuleDirection_Status("Outbound")
 )
 
 // Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead
@@ -1551,8 +1551,8 @@ const (
 type SecurityRulePropertiesFormatAccess string
 
 const (
-	SecurityRulePropertiesFormatAccessAllow = SecurityRulePropertiesFormatAccess("Allow")
-	SecurityRulePropertiesFormatAccessDeny  = SecurityRulePropertiesFormatAccess("Deny")
+	SecurityRulePropertiesFormatAccess_Allow = SecurityRulePropertiesFormatAccess("Allow")
+	SecurityRulePropertiesFormatAccess_Deny  = SecurityRulePropertiesFormatAccess("Deny")
 )
 
 // Deprecated version of SecurityRulePropertiesFormatDirection. Use v1beta20201101.SecurityRulePropertiesFormatDirection
@@ -1561,8 +1561,8 @@ const (
 type SecurityRulePropertiesFormatDirection string
 
 const (
-	SecurityRulePropertiesFormatDirectionInbound  = SecurityRulePropertiesFormatDirection("Inbound")
-	SecurityRulePropertiesFormatDirectionOutbound = SecurityRulePropertiesFormatDirection("Outbound")
+	SecurityRulePropertiesFormatDirection_Inbound  = SecurityRulePropertiesFormatDirection("Inbound")
+	SecurityRulePropertiesFormatDirection_Outbound = SecurityRulePropertiesFormatDirection("Outbound")
 )
 
 // Deprecated version of SecurityRulePropertiesFormatProtocol. Use v1beta20201101.SecurityRulePropertiesFormatProtocol
@@ -1571,12 +1571,12 @@ const (
 type SecurityRulePropertiesFormatProtocol string
 
 const (
-	SecurityRulePropertiesFormatProtocolAh   = SecurityRulePropertiesFormatProtocol("Ah")
-	SecurityRulePropertiesFormatProtocolEsp  = SecurityRulePropertiesFormatProtocol("Esp")
-	SecurityRulePropertiesFormatProtocolIcmp = SecurityRulePropertiesFormatProtocol("Icmp")
-	SecurityRulePropertiesFormatProtocolStar = SecurityRulePropertiesFormatProtocol("*")
-	SecurityRulePropertiesFormatProtocolTcp  = SecurityRulePropertiesFormatProtocol("Tcp")
-	SecurityRulePropertiesFormatProtocolUdp  = SecurityRulePropertiesFormatProtocol("Udp")
+	SecurityRulePropertiesFormatProtocol_Ah   = SecurityRulePropertiesFormatProtocol("Ah")
+	SecurityRulePropertiesFormatProtocol_Esp  = SecurityRulePropertiesFormatProtocol("Esp")
+	SecurityRulePropertiesFormatProtocol_Icmp = SecurityRulePropertiesFormatProtocol("Icmp")
+	SecurityRulePropertiesFormatProtocol_Star = SecurityRulePropertiesFormatProtocol("*")
+	SecurityRulePropertiesFormatProtocol_Tcp  = SecurityRulePropertiesFormatProtocol("Tcp")
+	SecurityRulePropertiesFormatProtocol_Udp  = SecurityRulePropertiesFormatProtocol("Udp")
 )
 
 // Deprecated version of SecurityRulePropertiesFormatStatusProtocol. Use
@@ -1584,12 +1584,12 @@ const (
 type SecurityRulePropertiesFormatStatusProtocol string
 
 const (
-	SecurityRulePropertiesFormatStatusProtocolAh   = SecurityRulePropertiesFormatStatusProtocol("Ah")
-	SecurityRulePropertiesFormatStatusProtocolEsp  = SecurityRulePropertiesFormatStatusProtocol("Esp")
-	SecurityRulePropertiesFormatStatusProtocolIcmp = SecurityRulePropertiesFormatStatusProtocol("Icmp")
-	SecurityRulePropertiesFormatStatusProtocolStar = SecurityRulePropertiesFormatStatusProtocol("*")
-	SecurityRulePropertiesFormatStatusProtocolTcp  = SecurityRulePropertiesFormatStatusProtocol("Tcp")
-	SecurityRulePropertiesFormatStatusProtocolUdp  = SecurityRulePropertiesFormatStatusProtocol("Udp")
+	SecurityRulePropertiesFormatStatusProtocol_Ah   = SecurityRulePropertiesFormatStatusProtocol("Ah")
+	SecurityRulePropertiesFormatStatusProtocol_Esp  = SecurityRulePropertiesFormatStatusProtocol("Esp")
+	SecurityRulePropertiesFormatStatusProtocol_Icmp = SecurityRulePropertiesFormatStatusProtocol("Icmp")
+	SecurityRulePropertiesFormatStatusProtocol_Star = SecurityRulePropertiesFormatStatusProtocol("*")
+	SecurityRulePropertiesFormatStatusProtocol_Tcp  = SecurityRulePropertiesFormatStatusProtocol("Tcp")
+	SecurityRulePropertiesFormatStatusProtocol_Udp  = SecurityRulePropertiesFormatStatusProtocol("Udp")
 )
 
 func init() {

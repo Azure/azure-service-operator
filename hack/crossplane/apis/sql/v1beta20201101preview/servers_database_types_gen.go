@@ -328,159 +328,159 @@ type ServersDatabasesParameters struct {
 type DatabasePropertiesCatalogCollation string
 
 const (
-	DatabasePropertiesCatalogCollationDATABASEDEFAULT         = DatabasePropertiesCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesCatalogCollationSQLLatin1GeneralCP1CIAS = DatabasePropertiesCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
+	DatabasePropertiesCatalogCollation_DATABASEDEFAULT         = DatabasePropertiesCatalogCollation("DATABASE_DEFAULT")
+	DatabasePropertiesCatalogCollation_SQLLatin1GeneralCP1CIAS = DatabasePropertiesCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
 // +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
 type DatabasePropertiesCreateMode string
 
 const (
-	DatabasePropertiesCreateModeCopy                           = DatabasePropertiesCreateMode("Copy")
-	DatabasePropertiesCreateModeDefault                        = DatabasePropertiesCreateMode("Default")
-	DatabasePropertiesCreateModeOnlineSecondary                = DatabasePropertiesCreateMode("OnlineSecondary")
-	DatabasePropertiesCreateModePointInTimeRestore             = DatabasePropertiesCreateMode("PointInTimeRestore")
-	DatabasePropertiesCreateModeRecovery                       = DatabasePropertiesCreateMode("Recovery")
-	DatabasePropertiesCreateModeRestore                        = DatabasePropertiesCreateMode("Restore")
-	DatabasePropertiesCreateModeRestoreExternalBackup          = DatabasePropertiesCreateMode("RestoreExternalBackup")
-	DatabasePropertiesCreateModeRestoreExternalBackupSecondary = DatabasePropertiesCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesCreateModeRestoreLongTermRetentionBackup = DatabasePropertiesCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesCreateModeSecondary                      = DatabasePropertiesCreateMode("Secondary")
+	DatabasePropertiesCreateMode_Copy                           = DatabasePropertiesCreateMode("Copy")
+	DatabasePropertiesCreateMode_Default                        = DatabasePropertiesCreateMode("Default")
+	DatabasePropertiesCreateMode_OnlineSecondary                = DatabasePropertiesCreateMode("OnlineSecondary")
+	DatabasePropertiesCreateMode_PointInTimeRestore             = DatabasePropertiesCreateMode("PointInTimeRestore")
+	DatabasePropertiesCreateMode_Recovery                       = DatabasePropertiesCreateMode("Recovery")
+	DatabasePropertiesCreateMode_Restore                        = DatabasePropertiesCreateMode("Restore")
+	DatabasePropertiesCreateMode_RestoreExternalBackup          = DatabasePropertiesCreateMode("RestoreExternalBackup")
+	DatabasePropertiesCreateMode_RestoreExternalBackupSecondary = DatabasePropertiesCreateMode("RestoreExternalBackupSecondary")
+	DatabasePropertiesCreateMode_RestoreLongTermRetentionBackup = DatabasePropertiesCreateMode("RestoreLongTermRetentionBackup")
+	DatabasePropertiesCreateMode_Secondary                      = DatabasePropertiesCreateMode("Secondary")
 )
 
 // +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
 type DatabasePropertiesLicenseType string
 
 const (
-	DatabasePropertiesLicenseTypeBasePrice       = DatabasePropertiesLicenseType("BasePrice")
-	DatabasePropertiesLicenseTypeLicenseIncluded = DatabasePropertiesLicenseType("LicenseIncluded")
+	DatabasePropertiesLicenseType_BasePrice       = DatabasePropertiesLicenseType("BasePrice")
+	DatabasePropertiesLicenseType_LicenseIncluded = DatabasePropertiesLicenseType("LicenseIncluded")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabasePropertiesReadScale string
 
 const (
-	DatabasePropertiesReadScaleDisabled = DatabasePropertiesReadScale("Disabled")
-	DatabasePropertiesReadScaleEnabled  = DatabasePropertiesReadScale("Enabled")
+	DatabasePropertiesReadScale_Disabled = DatabasePropertiesReadScale("Disabled")
+	DatabasePropertiesReadScale_Enabled  = DatabasePropertiesReadScale("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Local","Zone"}
 type DatabasePropertiesRequestedBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesRequestedBackupStorageRedundancyGeo   = DatabasePropertiesRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesRequestedBackupStorageRedundancyLocal = DatabasePropertiesRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesRequestedBackupStorageRedundancyZone  = DatabasePropertiesRequestedBackupStorageRedundancy("Zone")
+	DatabasePropertiesRequestedBackupStorageRedundancy_Geo   = DatabasePropertiesRequestedBackupStorageRedundancy("Geo")
+	DatabasePropertiesRequestedBackupStorageRedundancy_Local = DatabasePropertiesRequestedBackupStorageRedundancy("Local")
+	DatabasePropertiesRequestedBackupStorageRedundancy_Zone  = DatabasePropertiesRequestedBackupStorageRedundancy("Zone")
 )
 
 // +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
 type DatabasePropertiesSampleName string
 
 const (
-	DatabasePropertiesSampleNameAdventureWorksLT       = DatabasePropertiesSampleName("AdventureWorksLT")
-	DatabasePropertiesSampleNameWideWorldImportersFull = DatabasePropertiesSampleName("WideWorldImportersFull")
-	DatabasePropertiesSampleNameWideWorldImportersStd  = DatabasePropertiesSampleName("WideWorldImportersStd")
+	DatabasePropertiesSampleName_AdventureWorksLT       = DatabasePropertiesSampleName("AdventureWorksLT")
+	DatabasePropertiesSampleName_WideWorldImportersFull = DatabasePropertiesSampleName("WideWorldImportersFull")
+	DatabasePropertiesSampleName_WideWorldImportersStd  = DatabasePropertiesSampleName("WideWorldImportersStd")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Named"}
 type DatabasePropertiesSecondaryType string
 
 const (
-	DatabasePropertiesSecondaryTypeGeo   = DatabasePropertiesSecondaryType("Geo")
-	DatabasePropertiesSecondaryTypeNamed = DatabasePropertiesSecondaryType("Named")
+	DatabasePropertiesSecondaryType_Geo   = DatabasePropertiesSecondaryType("Geo")
+	DatabasePropertiesSecondaryType_Named = DatabasePropertiesSecondaryType("Named")
 )
 
 type DatabasePropertiesStatusCatalogCollation string
 
 const (
-	DatabasePropertiesStatusCatalogCollationDATABASEDEFAULT         = DatabasePropertiesStatusCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesStatusCatalogCollationSQLLatin1GeneralCP1CIAS = DatabasePropertiesStatusCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
+	DatabasePropertiesStatusCatalogCollation_DATABASEDEFAULT         = DatabasePropertiesStatusCatalogCollation("DATABASE_DEFAULT")
+	DatabasePropertiesStatusCatalogCollation_SQLLatin1GeneralCP1CIAS = DatabasePropertiesStatusCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
 type DatabasePropertiesStatusCreateMode string
 
 const (
-	DatabasePropertiesStatusCreateModeCopy                           = DatabasePropertiesStatusCreateMode("Copy")
-	DatabasePropertiesStatusCreateModeDefault                        = DatabasePropertiesStatusCreateMode("Default")
-	DatabasePropertiesStatusCreateModeOnlineSecondary                = DatabasePropertiesStatusCreateMode("OnlineSecondary")
-	DatabasePropertiesStatusCreateModePointInTimeRestore             = DatabasePropertiesStatusCreateMode("PointInTimeRestore")
-	DatabasePropertiesStatusCreateModeRecovery                       = DatabasePropertiesStatusCreateMode("Recovery")
-	DatabasePropertiesStatusCreateModeRestore                        = DatabasePropertiesStatusCreateMode("Restore")
-	DatabasePropertiesStatusCreateModeRestoreExternalBackup          = DatabasePropertiesStatusCreateMode("RestoreExternalBackup")
-	DatabasePropertiesStatusCreateModeRestoreExternalBackupSecondary = DatabasePropertiesStatusCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesStatusCreateModeRestoreLongTermRetentionBackup = DatabasePropertiesStatusCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesStatusCreateModeSecondary                      = DatabasePropertiesStatusCreateMode("Secondary")
+	DatabasePropertiesStatusCreateMode_Copy                           = DatabasePropertiesStatusCreateMode("Copy")
+	DatabasePropertiesStatusCreateMode_Default                        = DatabasePropertiesStatusCreateMode("Default")
+	DatabasePropertiesStatusCreateMode_OnlineSecondary                = DatabasePropertiesStatusCreateMode("OnlineSecondary")
+	DatabasePropertiesStatusCreateMode_PointInTimeRestore             = DatabasePropertiesStatusCreateMode("PointInTimeRestore")
+	DatabasePropertiesStatusCreateMode_Recovery                       = DatabasePropertiesStatusCreateMode("Recovery")
+	DatabasePropertiesStatusCreateMode_Restore                        = DatabasePropertiesStatusCreateMode("Restore")
+	DatabasePropertiesStatusCreateMode_RestoreExternalBackup          = DatabasePropertiesStatusCreateMode("RestoreExternalBackup")
+	DatabasePropertiesStatusCreateMode_RestoreExternalBackupSecondary = DatabasePropertiesStatusCreateMode("RestoreExternalBackupSecondary")
+	DatabasePropertiesStatusCreateMode_RestoreLongTermRetentionBackup = DatabasePropertiesStatusCreateMode("RestoreLongTermRetentionBackup")
+	DatabasePropertiesStatusCreateMode_Secondary                      = DatabasePropertiesStatusCreateMode("Secondary")
 )
 
 type DatabasePropertiesStatusCurrentBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyGeo   = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Geo")
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyLocal = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Local")
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyZone  = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Zone")
+	DatabasePropertiesStatusCurrentBackupStorageRedundancy_Geo   = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Geo")
+	DatabasePropertiesStatusCurrentBackupStorageRedundancy_Local = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Local")
+	DatabasePropertiesStatusCurrentBackupStorageRedundancy_Zone  = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Zone")
 )
 
 type DatabasePropertiesStatusLicenseType string
 
 const (
-	DatabasePropertiesStatusLicenseTypeBasePrice       = DatabasePropertiesStatusLicenseType("BasePrice")
-	DatabasePropertiesStatusLicenseTypeLicenseIncluded = DatabasePropertiesStatusLicenseType("LicenseIncluded")
+	DatabasePropertiesStatusLicenseType_BasePrice       = DatabasePropertiesStatusLicenseType("BasePrice")
+	DatabasePropertiesStatusLicenseType_LicenseIncluded = DatabasePropertiesStatusLicenseType("LicenseIncluded")
 )
 
 type DatabasePropertiesStatusReadScale string
 
 const (
-	DatabasePropertiesStatusReadScaleDisabled = DatabasePropertiesStatusReadScale("Disabled")
-	DatabasePropertiesStatusReadScaleEnabled  = DatabasePropertiesStatusReadScale("Enabled")
+	DatabasePropertiesStatusReadScale_Disabled = DatabasePropertiesStatusReadScale("Disabled")
+	DatabasePropertiesStatusReadScale_Enabled  = DatabasePropertiesStatusReadScale("Enabled")
 )
 
 type DatabasePropertiesStatusRequestedBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyGeo   = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyLocal = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyZone  = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Zone")
+	DatabasePropertiesStatusRequestedBackupStorageRedundancy_Geo   = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Geo")
+	DatabasePropertiesStatusRequestedBackupStorageRedundancy_Local = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Local")
+	DatabasePropertiesStatusRequestedBackupStorageRedundancy_Zone  = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Zone")
 )
 
 type DatabasePropertiesStatusSampleName string
 
 const (
-	DatabasePropertiesStatusSampleNameAdventureWorksLT       = DatabasePropertiesStatusSampleName("AdventureWorksLT")
-	DatabasePropertiesStatusSampleNameWideWorldImportersFull = DatabasePropertiesStatusSampleName("WideWorldImportersFull")
-	DatabasePropertiesStatusSampleNameWideWorldImportersStd  = DatabasePropertiesStatusSampleName("WideWorldImportersStd")
+	DatabasePropertiesStatusSampleName_AdventureWorksLT       = DatabasePropertiesStatusSampleName("AdventureWorksLT")
+	DatabasePropertiesStatusSampleName_WideWorldImportersFull = DatabasePropertiesStatusSampleName("WideWorldImportersFull")
+	DatabasePropertiesStatusSampleName_WideWorldImportersStd  = DatabasePropertiesStatusSampleName("WideWorldImportersStd")
 )
 
 type DatabasePropertiesStatusSecondaryType string
 
 const (
-	DatabasePropertiesStatusSecondaryTypeGeo   = DatabasePropertiesStatusSecondaryType("Geo")
-	DatabasePropertiesStatusSecondaryTypeNamed = DatabasePropertiesStatusSecondaryType("Named")
+	DatabasePropertiesStatusSecondaryType_Geo   = DatabasePropertiesStatusSecondaryType("Geo")
+	DatabasePropertiesStatusSecondaryType_Named = DatabasePropertiesStatusSecondaryType("Named")
 )
 
 type DatabasePropertiesStatusStatus string
 
 const (
-	DatabasePropertiesStatusStatusAutoClosed                        = DatabasePropertiesStatusStatus("AutoClosed")
-	DatabasePropertiesStatusStatusCopying                           = DatabasePropertiesStatusStatus("Copying")
-	DatabasePropertiesStatusStatusCreating                          = DatabasePropertiesStatusStatus("Creating")
-	DatabasePropertiesStatusStatusDisabled                          = DatabasePropertiesStatusStatus("Disabled")
-	DatabasePropertiesStatusStatusEmergencyMode                     = DatabasePropertiesStatusStatus("EmergencyMode")
-	DatabasePropertiesStatusStatusInaccessible                      = DatabasePropertiesStatusStatus("Inaccessible")
-	DatabasePropertiesStatusStatusOffline                           = DatabasePropertiesStatusStatus("Offline")
-	DatabasePropertiesStatusStatusOfflineChangingDwPerformanceTiers = DatabasePropertiesStatusStatus("OfflineChangingDwPerformanceTiers")
-	DatabasePropertiesStatusStatusOfflineSecondary                  = DatabasePropertiesStatusStatus("OfflineSecondary")
-	DatabasePropertiesStatusStatusOnline                            = DatabasePropertiesStatusStatus("Online")
-	DatabasePropertiesStatusStatusOnlineChangingDwPerformanceTiers  = DatabasePropertiesStatusStatus("OnlineChangingDwPerformanceTiers")
-	DatabasePropertiesStatusStatusPaused                            = DatabasePropertiesStatusStatus("Paused")
-	DatabasePropertiesStatusStatusPausing                           = DatabasePropertiesStatusStatus("Pausing")
-	DatabasePropertiesStatusStatusRecovering                        = DatabasePropertiesStatusStatus("Recovering")
-	DatabasePropertiesStatusStatusRecoveryPending                   = DatabasePropertiesStatusStatus("RecoveryPending")
-	DatabasePropertiesStatusStatusRestoring                         = DatabasePropertiesStatusStatus("Restoring")
-	DatabasePropertiesStatusStatusResuming                          = DatabasePropertiesStatusStatus("Resuming")
-	DatabasePropertiesStatusStatusScaling                           = DatabasePropertiesStatusStatus("Scaling")
-	DatabasePropertiesStatusStatusShutdown                          = DatabasePropertiesStatusStatus("Shutdown")
-	DatabasePropertiesStatusStatusStandby                           = DatabasePropertiesStatusStatus("Standby")
-	DatabasePropertiesStatusStatusSuspect                           = DatabasePropertiesStatusStatus("Suspect")
+	DatabasePropertiesStatusStatus_AutoClosed                        = DatabasePropertiesStatusStatus("AutoClosed")
+	DatabasePropertiesStatusStatus_Copying                           = DatabasePropertiesStatusStatus("Copying")
+	DatabasePropertiesStatusStatus_Creating                          = DatabasePropertiesStatusStatus("Creating")
+	DatabasePropertiesStatusStatus_Disabled                          = DatabasePropertiesStatusStatus("Disabled")
+	DatabasePropertiesStatusStatus_EmergencyMode                     = DatabasePropertiesStatusStatus("EmergencyMode")
+	DatabasePropertiesStatusStatus_Inaccessible                      = DatabasePropertiesStatusStatus("Inaccessible")
+	DatabasePropertiesStatusStatus_Offline                           = DatabasePropertiesStatusStatus("Offline")
+	DatabasePropertiesStatusStatus_OfflineChangingDwPerformanceTiers = DatabasePropertiesStatusStatus("OfflineChangingDwPerformanceTiers")
+	DatabasePropertiesStatusStatus_OfflineSecondary                  = DatabasePropertiesStatusStatus("OfflineSecondary")
+	DatabasePropertiesStatusStatus_Online                            = DatabasePropertiesStatusStatus("Online")
+	DatabasePropertiesStatusStatus_OnlineChangingDwPerformanceTiers  = DatabasePropertiesStatusStatus("OnlineChangingDwPerformanceTiers")
+	DatabasePropertiesStatusStatus_Paused                            = DatabasePropertiesStatusStatus("Paused")
+	DatabasePropertiesStatusStatus_Pausing                           = DatabasePropertiesStatusStatus("Pausing")
+	DatabasePropertiesStatusStatus_Recovering                        = DatabasePropertiesStatusStatus("Recovering")
+	DatabasePropertiesStatusStatus_RecoveryPending                   = DatabasePropertiesStatusStatus("RecoveryPending")
+	DatabasePropertiesStatusStatus_Restoring                         = DatabasePropertiesStatusStatus("Restoring")
+	DatabasePropertiesStatusStatus_Resuming                          = DatabasePropertiesStatusStatus("Resuming")
+	DatabasePropertiesStatusStatus_Scaling                           = DatabasePropertiesStatusStatus("Scaling")
+	DatabasePropertiesStatusStatus_Shutdown                          = DatabasePropertiesStatusStatus("Shutdown")
+	DatabasePropertiesStatusStatus_Standby                           = DatabasePropertiesStatusStatus("Standby")
+	DatabasePropertiesStatusStatus_Suspect                           = DatabasePropertiesStatusStatus("Suspect")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/Sku

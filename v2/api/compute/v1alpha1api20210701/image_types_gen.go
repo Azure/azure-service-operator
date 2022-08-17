@@ -112,7 +112,7 @@ func (image *Image) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (image Image) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -335,7 +335,7 @@ type ImageList struct {
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-07-01")
+const APIVersion_Value = APIVersion("2021-07-01")
 
 // Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {
@@ -1227,8 +1227,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 type HyperVGenerationType_Status string
 
 const (
-	HyperVGenerationType_StatusV1 = HyperVGenerationType_Status("V1")
-	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
+	HyperVGenerationType_Status_V1 = HyperVGenerationType_Status("V1")
+	HyperVGenerationType_Status_V2 = HyperVGenerationType_Status("V2")
 )
 
 // Deprecated version of ImagePropertiesHyperVGeneration. Use v1beta20210701.ImagePropertiesHyperVGeneration instead
@@ -1236,8 +1236,8 @@ const (
 type ImagePropertiesHyperVGeneration string
 
 const (
-	ImagePropertiesHyperVGenerationV1 = ImagePropertiesHyperVGeneration("V1")
-	ImagePropertiesHyperVGenerationV2 = ImagePropertiesHyperVGeneration("V2")
+	ImagePropertiesHyperVGeneration_V1 = ImagePropertiesHyperVGeneration("V1")
+	ImagePropertiesHyperVGeneration_V2 = ImagePropertiesHyperVGeneration("V2")
 )
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
@@ -2973,18 +2973,18 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionS
 type ImageDataDiskCaching string
 
 const (
-	ImageDataDiskCachingNone      = ImageDataDiskCaching("None")
-	ImageDataDiskCachingReadOnly  = ImageDataDiskCaching("ReadOnly")
-	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
+	ImageDataDiskCaching_None      = ImageDataDiskCaching("None")
+	ImageDataDiskCaching_ReadOnly  = ImageDataDiskCaching("ReadOnly")
+	ImageDataDiskCaching_ReadWrite = ImageDataDiskCaching("ReadWrite")
 )
 
 // Deprecated version of ImageDataDiskStatusCaching. Use v1beta20210701.ImageDataDiskStatusCaching instead
 type ImageDataDiskStatusCaching string
 
 const (
-	ImageDataDiskStatusCachingNone      = ImageDataDiskStatusCaching("None")
-	ImageDataDiskStatusCachingReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
-	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
+	ImageDataDiskStatusCaching_None      = ImageDataDiskStatusCaching("None")
+	ImageDataDiskStatusCaching_ReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
+	ImageDataDiskStatusCaching_ReadWrite = ImageDataDiskStatusCaching("ReadWrite")
 )
 
 // Deprecated version of ImageDataDiskStorageAccountType. Use v1beta20210701.ImageDataDiskStorageAccountType instead
@@ -2992,12 +2992,12 @@ const (
 type ImageDataDiskStorageAccountType string
 
 const (
-	ImageDataDiskStorageAccountTypePremiumLRS     = ImageDataDiskStorageAccountType("Premium_LRS")
-	ImageDataDiskStorageAccountTypePremiumZRS     = ImageDataDiskStorageAccountType("Premium_ZRS")
-	ImageDataDiskStorageAccountTypeStandardLRS    = ImageDataDiskStorageAccountType("Standard_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDLRS = ImageDataDiskStorageAccountType("StandardSSD_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDZRS = ImageDataDiskStorageAccountType("StandardSSD_ZRS")
-	ImageDataDiskStorageAccountTypeUltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
+	ImageDataDiskStorageAccountType_PremiumLRS     = ImageDataDiskStorageAccountType("Premium_LRS")
+	ImageDataDiskStorageAccountType_PremiumZRS     = ImageDataDiskStorageAccountType("Premium_ZRS")
+	ImageDataDiskStorageAccountType_StandardLRS    = ImageDataDiskStorageAccountType("Standard_LRS")
+	ImageDataDiskStorageAccountType_StandardSSDLRS = ImageDataDiskStorageAccountType("StandardSSD_LRS")
+	ImageDataDiskStorageAccountType_StandardSSDZRS = ImageDataDiskStorageAccountType("StandardSSD_ZRS")
+	ImageDataDiskStorageAccountType_UltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
 )
 
 // Deprecated version of ImageOSDiskCaching. Use v1beta20210701.ImageOSDiskCaching instead
@@ -3005,9 +3005,9 @@ const (
 type ImageOSDiskCaching string
 
 const (
-	ImageOSDiskCachingNone      = ImageOSDiskCaching("None")
-	ImageOSDiskCachingReadOnly  = ImageOSDiskCaching("ReadOnly")
-	ImageOSDiskCachingReadWrite = ImageOSDiskCaching("ReadWrite")
+	ImageOSDiskCaching_None      = ImageOSDiskCaching("None")
+	ImageOSDiskCaching_ReadOnly  = ImageOSDiskCaching("ReadOnly")
+	ImageOSDiskCaching_ReadWrite = ImageOSDiskCaching("ReadWrite")
 )
 
 // Deprecated version of ImageOSDiskOsState. Use v1beta20210701.ImageOSDiskOsState instead
@@ -3015,8 +3015,8 @@ const (
 type ImageOSDiskOsState string
 
 const (
-	ImageOSDiskOsStateGeneralized = ImageOSDiskOsState("Generalized")
-	ImageOSDiskOsStateSpecialized = ImageOSDiskOsState("Specialized")
+	ImageOSDiskOsState_Generalized = ImageOSDiskOsState("Generalized")
+	ImageOSDiskOsState_Specialized = ImageOSDiskOsState("Specialized")
 )
 
 // Deprecated version of ImageOSDiskOsType. Use v1beta20210701.ImageOSDiskOsType instead
@@ -3024,33 +3024,33 @@ const (
 type ImageOSDiskOsType string
 
 const (
-	ImageOSDiskOsTypeLinux   = ImageOSDiskOsType("Linux")
-	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
+	ImageOSDiskOsType_Linux   = ImageOSDiskOsType("Linux")
+	ImageOSDiskOsType_Windows = ImageOSDiskOsType("Windows")
 )
 
 // Deprecated version of ImageOSDiskStatusCaching. Use v1beta20210701.ImageOSDiskStatusCaching instead
 type ImageOSDiskStatusCaching string
 
 const (
-	ImageOSDiskStatusCachingNone      = ImageOSDiskStatusCaching("None")
-	ImageOSDiskStatusCachingReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
-	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
+	ImageOSDiskStatusCaching_None      = ImageOSDiskStatusCaching("None")
+	ImageOSDiskStatusCaching_ReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
+	ImageOSDiskStatusCaching_ReadWrite = ImageOSDiskStatusCaching("ReadWrite")
 )
 
 // Deprecated version of ImageOSDiskStatusOsState. Use v1beta20210701.ImageOSDiskStatusOsState instead
 type ImageOSDiskStatusOsState string
 
 const (
-	ImageOSDiskStatusOsStateGeneralized = ImageOSDiskStatusOsState("Generalized")
-	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
+	ImageOSDiskStatusOsState_Generalized = ImageOSDiskStatusOsState("Generalized")
+	ImageOSDiskStatusOsState_Specialized = ImageOSDiskStatusOsState("Specialized")
 )
 
 // Deprecated version of ImageOSDiskStatusOsType. Use v1beta20210701.ImageOSDiskStatusOsType instead
 type ImageOSDiskStatusOsType string
 
 const (
-	ImageOSDiskStatusOsTypeLinux   = ImageOSDiskStatusOsType("Linux")
-	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
+	ImageOSDiskStatusOsType_Linux   = ImageOSDiskStatusOsType("Linux")
+	ImageOSDiskStatusOsType_Windows = ImageOSDiskStatusOsType("Windows")
 )
 
 // Deprecated version of ImageOSDiskStorageAccountType. Use v1beta20210701.ImageOSDiskStorageAccountType instead
@@ -3058,24 +3058,24 @@ const (
 type ImageOSDiskStorageAccountType string
 
 const (
-	ImageOSDiskStorageAccountTypePremiumLRS     = ImageOSDiskStorageAccountType("Premium_LRS")
-	ImageOSDiskStorageAccountTypePremiumZRS     = ImageOSDiskStorageAccountType("Premium_ZRS")
-	ImageOSDiskStorageAccountTypeStandardLRS    = ImageOSDiskStorageAccountType("Standard_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
-	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
+	ImageOSDiskStorageAccountType_PremiumLRS     = ImageOSDiskStorageAccountType("Premium_LRS")
+	ImageOSDiskStorageAccountType_PremiumZRS     = ImageOSDiskStorageAccountType("Premium_ZRS")
+	ImageOSDiskStorageAccountType_StandardLRS    = ImageOSDiskStorageAccountType("Standard_LRS")
+	ImageOSDiskStorageAccountType_StandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
+	ImageOSDiskStorageAccountType_StandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
+	ImageOSDiskStorageAccountType_UltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
 )
 
 // Deprecated version of StorageAccountType_Status. Use v1beta20210701.StorageAccountType_Status instead
 type StorageAccountType_Status string
 
 const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
+	StorageAccountType_Status_PremiumLRS     = StorageAccountType_Status("Premium_LRS")
+	StorageAccountType_Status_PremiumZRS     = StorageAccountType_Status("Premium_ZRS")
+	StorageAccountType_Status_StandardLRS    = StorageAccountType_Status("Standard_LRS")
+	StorageAccountType_Status_StandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
+	StorageAccountType_Status_StandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
+	StorageAccountType_Status_UltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
 )
 
 func init() {

@@ -83,7 +83,7 @@ func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machi
 }
 
 func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault, location *string) *machinelearningservices.Workspace {
-	identityType := machinelearningservices.IdentityTypeSystemAssigned
+	identityType := machinelearningservices.IdentityType_SystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("work")),
@@ -108,7 +108,7 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *machinelearningservices.Workspace) {
 
 	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
-	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormatJSON
+	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormat_JSON
 
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
@@ -159,8 +159,8 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 }
 
 func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
-	identityType := machinelearningservices.IdentityTypeSystemAssigned
-	computeType := machinelearningservices.ComputeVirtualMachineComputeTypeVirtualMachine
+	identityType := machinelearningservices.IdentityType_SystemAssigned
+	computeType := machinelearningservices.ComputeVirtualMachineComputeType_VirtualMachine
 
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
@@ -197,7 +197,7 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 
 func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet, publicIP *network.PublicIPAddress, nsg *network.NetworkSecurityGroup) *network.NetworkInterface {
 
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic
+	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterfaces_Spec{
@@ -233,9 +233,9 @@ func newNetworkSecurityGroup(tc *testcommon.KubePerTestContext, owner *genruntim
 }
 
 func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.NetworkSecurityGroupsSecurityRule {
-	protocol := network.SecurityRulePropertiesFormatProtocolTcp
-	allow := network.SecurityRulePropertiesFormatAccessAllow
-	direction := network.SecurityRulePropertiesFormatDirectionInbound
+	protocol := network.SecurityRulePropertiesFormatProtocol_Tcp
+	allow := network.SecurityRulePropertiesFormatAccess_Allow
+	direction := network.SecurityRulePropertiesFormatDirection_Inbound
 
 	// Network Security Group rule
 	return &network.NetworkSecurityGroupsSecurityRule{

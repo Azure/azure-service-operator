@@ -98,7 +98,7 @@ func (topic *Topic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic Topic) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1066,27 +1066,27 @@ func (embedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) Assi
 type TopicPropertiesStatusInputSchema string
 
 const (
-	TopicPropertiesStatusInputSchemaCloudEventSchemaV10 = TopicPropertiesStatusInputSchema("CloudEventSchemaV1_0")
-	TopicPropertiesStatusInputSchemaCustomEventSchema   = TopicPropertiesStatusInputSchema("CustomEventSchema")
-	TopicPropertiesStatusInputSchemaEventGridSchema     = TopicPropertiesStatusInputSchema("EventGridSchema")
+	TopicPropertiesStatusInputSchema_CloudEventSchemaV10 = TopicPropertiesStatusInputSchema("CloudEventSchemaV1_0")
+	TopicPropertiesStatusInputSchema_CustomEventSchema   = TopicPropertiesStatusInputSchema("CustomEventSchema")
+	TopicPropertiesStatusInputSchema_EventGridSchema     = TopicPropertiesStatusInputSchema("EventGridSchema")
 )
 
 type TopicPropertiesStatusProvisioningState string
 
 const (
-	TopicPropertiesStatusProvisioningStateCanceled  = TopicPropertiesStatusProvisioningState("Canceled")
-	TopicPropertiesStatusProvisioningStateCreating  = TopicPropertiesStatusProvisioningState("Creating")
-	TopicPropertiesStatusProvisioningStateDeleting  = TopicPropertiesStatusProvisioningState("Deleting")
-	TopicPropertiesStatusProvisioningStateFailed    = TopicPropertiesStatusProvisioningState("Failed")
-	TopicPropertiesStatusProvisioningStateSucceeded = TopicPropertiesStatusProvisioningState("Succeeded")
-	TopicPropertiesStatusProvisioningStateUpdating  = TopicPropertiesStatusProvisioningState("Updating")
+	TopicPropertiesStatusProvisioningState_Canceled  = TopicPropertiesStatusProvisioningState("Canceled")
+	TopicPropertiesStatusProvisioningState_Creating  = TopicPropertiesStatusProvisioningState("Creating")
+	TopicPropertiesStatusProvisioningState_Deleting  = TopicPropertiesStatusProvisioningState("Deleting")
+	TopicPropertiesStatusProvisioningState_Failed    = TopicPropertiesStatusProvisioningState("Failed")
+	TopicPropertiesStatusProvisioningState_Succeeded = TopicPropertiesStatusProvisioningState("Succeeded")
+	TopicPropertiesStatusProvisioningState_Updating  = TopicPropertiesStatusProvisioningState("Updating")
 )
 
 type TopicPropertiesStatusPublicNetworkAccess string
 
 const (
-	TopicPropertiesStatusPublicNetworkAccessDisabled = TopicPropertiesStatusPublicNetworkAccess("Disabled")
-	TopicPropertiesStatusPublicNetworkAccessEnabled  = TopicPropertiesStatusPublicNetworkAccess("Enabled")
+	TopicPropertiesStatusPublicNetworkAccess_Disabled = TopicPropertiesStatusPublicNetworkAccess("Disabled")
+	TopicPropertiesStatusPublicNetworkAccess_Enabled  = TopicPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 func init() {

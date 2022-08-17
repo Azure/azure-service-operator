@@ -98,7 +98,7 @@ func (networkInterface *NetworkInterface) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (networkInterface NetworkInterface) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -2440,18 +2440,18 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 type NetworkInterfacePropertiesFormatStatusMigrationPhase string
 
 const (
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseAbort     = NetworkInterfacePropertiesFormatStatusMigrationPhase("Abort")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseCommit    = NetworkInterfacePropertiesFormatStatusMigrationPhase("Commit")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseCommitted = NetworkInterfacePropertiesFormatStatusMigrationPhase("Committed")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseNone      = NetworkInterfacePropertiesFormatStatusMigrationPhase("None")
-	NetworkInterfacePropertiesFormatStatusMigrationPhasePrepare   = NetworkInterfacePropertiesFormatStatusMigrationPhase("Prepare")
+	NetworkInterfacePropertiesFormatStatusMigrationPhase_Abort     = NetworkInterfacePropertiesFormatStatusMigrationPhase("Abort")
+	NetworkInterfacePropertiesFormatStatusMigrationPhase_Commit    = NetworkInterfacePropertiesFormatStatusMigrationPhase("Commit")
+	NetworkInterfacePropertiesFormatStatusMigrationPhase_Committed = NetworkInterfacePropertiesFormatStatusMigrationPhase("Committed")
+	NetworkInterfacePropertiesFormatStatusMigrationPhase_None      = NetworkInterfacePropertiesFormatStatusMigrationPhase("None")
+	NetworkInterfacePropertiesFormatStatusMigrationPhase_Prepare   = NetworkInterfacePropertiesFormatStatusMigrationPhase("Prepare")
 )
 
 type NetworkInterfacePropertiesFormatStatusNicType string
 
 const (
-	NetworkInterfacePropertiesFormatStatusNicTypeElastic  = NetworkInterfacePropertiesFormatStatusNicType("Elastic")
-	NetworkInterfacePropertiesFormatStatusNicTypeStandard = NetworkInterfacePropertiesFormatStatusNicType("Standard")
+	NetworkInterfacePropertiesFormatStatusNicType_Elastic  = NetworkInterfacePropertiesFormatStatusNicType("Elastic")
+	NetworkInterfacePropertiesFormatStatusNicType_Standard = NetworkInterfacePropertiesFormatStatusNicType("Standard")
 )
 
 type NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded struct {
@@ -3953,16 +3953,16 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 type NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion string
 
 const (
-	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv4 = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv4")
-	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6 = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv6")
+	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv4 = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv4")
+	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv6 = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv6")
 )
 
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
 
 const (
-	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
-	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic  = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
+	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
+	NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static  = NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
 )
 
 type PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded struct {

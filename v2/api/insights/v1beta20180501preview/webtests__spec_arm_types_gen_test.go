@@ -164,10 +164,10 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gop
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestPropertiesKindBasic,
-		WebTestPropertiesKindMultistep,
-		WebTestPropertiesKindPing,
-		WebTestPropertiesKindStandard))
+		WebTestPropertiesKind_Basic,
+		WebTestPropertiesKind_Multistep,
+		WebTestPropertiesKind_Ping,
+		WebTestPropertiesKind_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())

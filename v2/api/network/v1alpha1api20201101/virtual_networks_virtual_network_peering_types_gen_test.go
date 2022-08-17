@@ -282,12 +282,12 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus(gens map[str
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatStatusPeeringStateConnected, VirtualNetworkPeeringPropertiesFormatStatusPeeringStateDisconnected, VirtualNetworkPeeringPropertiesFormatStatusPeeringStateInitiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Connected, VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormatStatusPeeringState_Initiated))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+		ProvisioningState_Status_Deleting,
+		ProvisioningState_Status_Failed,
+		ProvisioningState_Status_Succeeded,
+		ProvisioningState_Status_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
@@ -414,7 +414,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpe
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatPeeringStateConnected, VirtualNetworkPeeringPropertiesFormatPeeringStateDisconnected, VirtualNetworkPeeringPropertiesFormatPeeringStateInitiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormatPeeringState_Connected, VirtualNetworkPeeringPropertiesFormatPeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormatPeeringState_Initiated))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }

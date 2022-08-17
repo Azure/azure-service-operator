@@ -98,7 +98,7 @@ func (server *Server) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
 func (server Server) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1230,17 +1230,17 @@ func (servers *Servers_Spec) SetAzureName(azureName string) { servers.AzureName 
 type MinimalTlsVersion_Status string
 
 const (
-	MinimalTlsVersion_StatusTLS10                  = MinimalTlsVersion_Status("TLS1_0")
-	MinimalTlsVersion_StatusTLS11                  = MinimalTlsVersion_Status("TLS1_1")
-	MinimalTlsVersion_StatusTLS12                  = MinimalTlsVersion_Status("TLS1_2")
-	MinimalTlsVersion_StatusTLSEnforcementDisabled = MinimalTlsVersion_Status("TLSEnforcementDisabled")
+	MinimalTlsVersion_Status_TLS10                  = MinimalTlsVersion_Status("TLS1_0")
+	MinimalTlsVersion_Status_TLS11                  = MinimalTlsVersion_Status("TLS1_1")
+	MinimalTlsVersion_Status_TLS12                  = MinimalTlsVersion_Status("TLS1_2")
+	MinimalTlsVersion_Status_TLSEnforcementDisabled = MinimalTlsVersion_Status("TLSEnforcementDisabled")
 )
 
 type PublicNetworkAccess_Status string
 
 const (
-	PublicNetworkAccess_StatusDisabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
+	PublicNetworkAccess_Status_Disabled = PublicNetworkAccess_Status("Disabled")
+	PublicNetworkAccess_Status_Enabled  = PublicNetworkAccess_Status("Enabled")
 )
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -1640,16 +1640,16 @@ func (create *ServerPropertiesForCreate) AssignPropertiesToServerPropertiesForCr
 type ServerPropertiesStatusUserVisibleState string
 
 const (
-	ServerPropertiesStatusUserVisibleStateDisabled = ServerPropertiesStatusUserVisibleState("Disabled")
-	ServerPropertiesStatusUserVisibleStateDropping = ServerPropertiesStatusUserVisibleState("Dropping")
-	ServerPropertiesStatusUserVisibleStateReady    = ServerPropertiesStatusUserVisibleState("Ready")
+	ServerPropertiesStatusUserVisibleState_Disabled = ServerPropertiesStatusUserVisibleState("Disabled")
+	ServerPropertiesStatusUserVisibleState_Dropping = ServerPropertiesStatusUserVisibleState("Dropping")
+	ServerPropertiesStatusUserVisibleState_Ready    = ServerPropertiesStatusUserVisibleState("Ready")
 )
 
 type ServerVersion_Status string
 
 const (
-	ServerVersion_Status102 = ServerVersion_Status("10.2")
-	ServerVersion_Status103 = ServerVersion_Status("10.3")
+	ServerVersion_Status_102 = ServerVersion_Status("10.2")
+	ServerVersion_Status_103 = ServerVersion_Status("10.3")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
@@ -1963,8 +1963,8 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20180601s.Sku_S
 type SslEnforcement_Status string
 
 const (
-	SslEnforcement_StatusDisabled = SslEnforcement_Status("Disabled")
-	SslEnforcement_StatusEnabled  = SslEnforcement_Status("Enabled")
+	SslEnforcement_Status_Disabled = SslEnforcement_Status("Disabled")
+	SslEnforcement_Status_Enabled  = SslEnforcement_Status("Enabled")
 )
 
 type StorageProfile_Status struct {
@@ -3435,15 +3435,15 @@ func (restore *ServerPropertiesForRestore) AssignPropertiesToServerPropertiesFor
 type StorageProfileStatusGeoRedundantBackup string
 
 const (
-	StorageProfileStatusGeoRedundantBackupDisabled = StorageProfileStatusGeoRedundantBackup("Disabled")
-	StorageProfileStatusGeoRedundantBackupEnabled  = StorageProfileStatusGeoRedundantBackup("Enabled")
+	StorageProfileStatusGeoRedundantBackup_Disabled = StorageProfileStatusGeoRedundantBackup("Disabled")
+	StorageProfileStatusGeoRedundantBackup_Enabled  = StorageProfileStatusGeoRedundantBackup("Enabled")
 )
 
 type StorageProfileStatusStorageAutogrow string
 
 const (
-	StorageProfileStatusStorageAutogrowDisabled = StorageProfileStatusStorageAutogrow("Disabled")
-	StorageProfileStatusStorageAutogrowEnabled  = StorageProfileStatusStorageAutogrow("Enabled")
+	StorageProfileStatusStorageAutogrow_Disabled = StorageProfileStatusStorageAutogrow("Disabled")
+	StorageProfileStatusStorageAutogrow_Enabled  = StorageProfileStatusStorageAutogrow("Enabled")
 )
 
 type PrivateEndpointProperty_Status struct {
@@ -3507,11 +3507,11 @@ func (property *PrivateEndpointProperty_Status) AssignPropertiesToPrivateEndpoin
 type ServerPrivateEndpointConnectionPropertiesStatusProvisioningState string
 
 const (
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateApproving = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateDropping  = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateFailed    = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateReady     = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
+	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Approving = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
+	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Dropping  = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
+	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Failed    = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
+	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Ready     = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
+	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Rejecting = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
 )
 
 type ServerPrivateLinkServiceConnectionStateProperty_Status struct {
@@ -3781,15 +3781,15 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *v20
 
 type ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired string
 
-const ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequiredNone = ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
+const ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired_None = ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
 
 type ServerPrivateLinkServiceConnectionStatePropertyStatusStatus string
 
 const (
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusApproved     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusDisconnected = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusPending      = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusRejected     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
+	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Approved     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
+	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Disconnected = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
+	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Pending      = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
+	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Rejected     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
 )
 
 func init() {

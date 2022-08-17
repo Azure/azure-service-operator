@@ -39,7 +39,7 @@ type ManagementPolicyDefinition_StatusARM struct {
 // Deprecated version of ManagementPolicyRuleStatusType. Use v1beta20210401.ManagementPolicyRuleStatusType instead
 type ManagementPolicyRuleStatusType string
 
-const ManagementPolicyRuleStatusTypeLifecycle = ManagementPolicyRuleStatusType("Lifecycle")
+const ManagementPolicyRuleStatusType_Lifecycle = ManagementPolicyRuleStatusType("Lifecycle")
 
 // Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead
 type ManagementPolicyAction_StatusARM struct {

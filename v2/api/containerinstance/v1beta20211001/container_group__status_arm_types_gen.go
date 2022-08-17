@@ -106,10 +106,10 @@ type ContainerGroupDiagnostics_StatusARM struct {
 type ContainerGroupIdentityStatusType string
 
 const (
-	ContainerGroupIdentityStatusTypeNone                       = ContainerGroupIdentityStatusType("None")
-	ContainerGroupIdentityStatusTypeSystemAssigned             = ContainerGroupIdentityStatusType("SystemAssigned")
-	ContainerGroupIdentityStatusTypeSystemAssignedUserAssigned = ContainerGroupIdentityStatusType("SystemAssigned, UserAssigned")
-	ContainerGroupIdentityStatusTypeUserAssigned               = ContainerGroupIdentityStatusType("UserAssigned")
+	ContainerGroupIdentityStatusType_None                       = ContainerGroupIdentityStatusType("None")
+	ContainerGroupIdentityStatusType_SystemAssigned             = ContainerGroupIdentityStatusType("SystemAssigned")
+	ContainerGroupIdentityStatusType_SystemAssignedUserAssigned = ContainerGroupIdentityStatusType("SystemAssigned, UserAssigned")
+	ContainerGroupIdentityStatusType_UserAssigned               = ContainerGroupIdentityStatusType("UserAssigned")
 )
 
 type ContainerGroupIdentity_Status_UserAssignedIdentitiesARM struct {

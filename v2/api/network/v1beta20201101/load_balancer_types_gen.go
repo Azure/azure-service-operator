@@ -98,7 +98,7 @@ func (balancer *LoadBalancer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancer LoadBalancer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type LoadBalancerList struct {
 // +kubebuilder:validation:Enum={"2020-11-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-11-01")
+const APIVersion_Value = APIVersion("2020-11-01")
 
 type LoadBalancer_Status struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
@@ -5970,35 +5970,35 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *v20201101s
 type ProvisioningState_Status string
 
 const (
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
+	ProvisioningState_Status_Deleting  = ProvisioningState_Status("Deleting")
+	ProvisioningState_Status_Failed    = ProvisioningState_Status("Failed")
+	ProvisioningState_Status_Succeeded = ProvisioningState_Status("Succeeded")
+	ProvisioningState_Status_Updating  = ProvisioningState_Status("Updating")
 )
 
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion string
 
 const (
-	FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv4 = FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv4")
-	FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6 = FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv6")
+	FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv4 = FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv4")
+	FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv6 = FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv6")
 )
 
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
 
 const (
-	FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic = FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
-	FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic  = FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
+	FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic = FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
+	FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static  = FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
 )
 
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type InboundNatPoolPropertiesFormatProtocol string
 
 const (
-	InboundNatPoolPropertiesFormatProtocolAll = InboundNatPoolPropertiesFormatProtocol("All")
-	InboundNatPoolPropertiesFormatProtocolTcp = InboundNatPoolPropertiesFormatProtocol("Tcp")
-	InboundNatPoolPropertiesFormatProtocolUdp = InboundNatPoolPropertiesFormatProtocol("Udp")
+	InboundNatPoolPropertiesFormatProtocol_All = InboundNatPoolPropertiesFormatProtocol("All")
+	InboundNatPoolPropertiesFormatProtocol_Tcp = InboundNatPoolPropertiesFormatProtocol("Tcp")
+	InboundNatPoolPropertiesFormatProtocol_Udp = InboundNatPoolPropertiesFormatProtocol("Udp")
 )
 
 type LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses struct {
@@ -6255,60 +6255,60 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 type LoadBalancingRulePropertiesFormatLoadDistribution string
 
 const (
-	LoadBalancingRulePropertiesFormatLoadDistributionDefault          = LoadBalancingRulePropertiesFormatLoadDistribution("Default")
-	LoadBalancingRulePropertiesFormatLoadDistributionSourceIP         = LoadBalancingRulePropertiesFormatLoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormatLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatLoadDistribution("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormatLoadDistribution_Default          = LoadBalancingRulePropertiesFormatLoadDistribution("Default")
+	LoadBalancingRulePropertiesFormatLoadDistribution_SourceIP         = LoadBalancingRulePropertiesFormatLoadDistribution("SourceIP")
+	LoadBalancingRulePropertiesFormatLoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormatLoadDistribution("SourceIPProtocol")
 )
 
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type LoadBalancingRulePropertiesFormatProtocol string
 
 const (
-	LoadBalancingRulePropertiesFormatProtocolAll = LoadBalancingRulePropertiesFormatProtocol("All")
-	LoadBalancingRulePropertiesFormatProtocolTcp = LoadBalancingRulePropertiesFormatProtocol("Tcp")
-	LoadBalancingRulePropertiesFormatProtocolUdp = LoadBalancingRulePropertiesFormatProtocol("Udp")
+	LoadBalancingRulePropertiesFormatProtocol_All = LoadBalancingRulePropertiesFormatProtocol("All")
+	LoadBalancingRulePropertiesFormatProtocol_Tcp = LoadBalancingRulePropertiesFormatProtocol("Tcp")
+	LoadBalancingRulePropertiesFormatProtocol_Udp = LoadBalancingRulePropertiesFormatProtocol("Udp")
 )
 
 type LoadBalancingRulePropertiesFormatStatusLoadDistribution string
 
 const (
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionDefault          = LoadBalancingRulePropertiesFormatStatusLoadDistribution("Default")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIP         = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormatStatusLoadDistribution_Default          = LoadBalancingRulePropertiesFormatStatusLoadDistribution("Default")
+	LoadBalancingRulePropertiesFormatStatusLoadDistribution_SourceIP         = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIP")
+	LoadBalancingRulePropertiesFormatStatusLoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIPProtocol")
 )
 
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type OutboundRulePropertiesFormatProtocol string
 
 const (
-	OutboundRulePropertiesFormatProtocolAll = OutboundRulePropertiesFormatProtocol("All")
-	OutboundRulePropertiesFormatProtocolTcp = OutboundRulePropertiesFormatProtocol("Tcp")
-	OutboundRulePropertiesFormatProtocolUdp = OutboundRulePropertiesFormatProtocol("Udp")
+	OutboundRulePropertiesFormatProtocol_All = OutboundRulePropertiesFormatProtocol("All")
+	OutboundRulePropertiesFormatProtocol_Tcp = OutboundRulePropertiesFormatProtocol("Tcp")
+	OutboundRulePropertiesFormatProtocol_Udp = OutboundRulePropertiesFormatProtocol("Udp")
 )
 
 type OutboundRulePropertiesFormatStatusProtocol string
 
 const (
-	OutboundRulePropertiesFormatStatusProtocolAll = OutboundRulePropertiesFormatStatusProtocol("All")
-	OutboundRulePropertiesFormatStatusProtocolTcp = OutboundRulePropertiesFormatStatusProtocol("Tcp")
-	OutboundRulePropertiesFormatStatusProtocolUdp = OutboundRulePropertiesFormatStatusProtocol("Udp")
+	OutboundRulePropertiesFormatStatusProtocol_All = OutboundRulePropertiesFormatStatusProtocol("All")
+	OutboundRulePropertiesFormatStatusProtocol_Tcp = OutboundRulePropertiesFormatStatusProtocol("Tcp")
+	OutboundRulePropertiesFormatStatusProtocol_Udp = OutboundRulePropertiesFormatStatusProtocol("Udp")
 )
 
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormatProtocol string
 
 const (
-	ProbePropertiesFormatProtocolHttp  = ProbePropertiesFormatProtocol("Http")
-	ProbePropertiesFormatProtocolHttps = ProbePropertiesFormatProtocol("Https")
-	ProbePropertiesFormatProtocolTcp   = ProbePropertiesFormatProtocol("Tcp")
+	ProbePropertiesFormatProtocol_Http  = ProbePropertiesFormatProtocol("Http")
+	ProbePropertiesFormatProtocol_Https = ProbePropertiesFormatProtocol("Https")
+	ProbePropertiesFormatProtocol_Tcp   = ProbePropertiesFormatProtocol("Tcp")
 )
 
 type ProbePropertiesFormatStatusProtocol string
 
 const (
-	ProbePropertiesFormatStatusProtocolHttp  = ProbePropertiesFormatStatusProtocol("Http")
-	ProbePropertiesFormatStatusProtocolHttps = ProbePropertiesFormatStatusProtocol("Https")
-	ProbePropertiesFormatStatusProtocolTcp   = ProbePropertiesFormatStatusProtocol("Tcp")
+	ProbePropertiesFormatStatusProtocol_Http  = ProbePropertiesFormatStatusProtocol("Http")
+	ProbePropertiesFormatStatusProtocol_Https = ProbePropertiesFormatStatusProtocol("Https")
+	ProbePropertiesFormatStatusProtocol_Tcp   = ProbePropertiesFormatStatusProtocol("Tcp")
 )
 
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
@@ -6520,9 +6520,9 @@ func (embedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) AssignProperties
 type TransportProtocol_Status string
 
 const (
-	TransportProtocol_StatusAll = TransportProtocol_Status("All")
-	TransportProtocol_StatusTcp = TransportProtocol_Status("Tcp")
-	TransportProtocol_StatusUdp = TransportProtocol_Status("Udp")
+	TransportProtocol_Status_All = TransportProtocol_Status("All")
+	TransportProtocol_Status_Tcp = TransportProtocol_Status("Tcp")
+	TransportProtocol_Status_Udp = TransportProtocol_Status("Udp")
 )
 
 func init() {

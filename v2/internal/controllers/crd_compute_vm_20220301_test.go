@@ -25,7 +25,7 @@ func newVirtualMachine20220301(
 	secretRef genruntime.SecretReference,
 ) *compute2022.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute2022.HardwareProfileVmSizeStandardA1V2
+	size := compute2022.HardwareProfileVmSize_StandardA1V2
 
 	return &compute2022.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
@@ -97,7 +97,7 @@ func Test_Compute_VM_20220301_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vm)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2022.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

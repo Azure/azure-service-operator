@@ -72,7 +72,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -204,7 +204,7 @@ type DomainList struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 // Storage version of v1alpha1api20200601.Domain_Status
 // Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead

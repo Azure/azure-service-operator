@@ -161,7 +161,7 @@ func EventSubscriptionPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionPropertiesARM(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesEventDeliverySchemaCloudEventSchemaV10, EventSubscriptionPropertiesEventDeliverySchemaCustomInputSchema, EventSubscriptionPropertiesEventDeliverySchemaEventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesEventDeliverySchema_CloudEventSchemaV10, EventSubscriptionPropertiesEventDeliverySchema_CustomInputSchema, EventSubscriptionPropertiesEventDeliverySchema_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 }
@@ -469,7 +469,7 @@ func StorageBlobDeadLetterDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointTypeStorageBlob))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointType_StorageBlob))
 }
 
 // AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestinationARM is a factory method for creating gopter generators
@@ -647,7 +647,7 @@ func AzureFunctionEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(AzureFunctionEventSubscriptionDestinationEndpointTypeAzureFunction)
+	gens["EndpointType"] = gen.OneConstOf(AzureFunctionEventSubscriptionDestinationEndpointType_AzureFunction)
 }
 
 // AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -722,7 +722,7 @@ func EventHubEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(EventHubEventSubscriptionDestinationEndpointTypeEventHub)
+	gens["EndpointType"] = gen.OneConstOf(EventHubEventSubscriptionDestinationEndpointType_EventHub)
 }
 
 // AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -797,7 +797,7 @@ func HybridConnectionEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(HybridConnectionEventSubscriptionDestinationEndpointTypeHybridConnection)
+	gens["EndpointType"] = gen.OneConstOf(HybridConnectionEventSubscriptionDestinationEndpointType_HybridConnection)
 }
 
 // AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -872,7 +872,7 @@ func ServiceBusQueueEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(ServiceBusQueueEventSubscriptionDestinationEndpointTypeServiceBusQueue)
+	gens["EndpointType"] = gen.OneConstOf(ServiceBusQueueEventSubscriptionDestinationEndpointType_ServiceBusQueue)
 }
 
 // AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -947,7 +947,7 @@ func ServiceBusTopicEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(ServiceBusTopicEventSubscriptionDestinationEndpointTypeServiceBusTopic)
+	gens["EndpointType"] = gen.OneConstOf(ServiceBusTopicEventSubscriptionDestinationEndpointType_ServiceBusTopic)
 }
 
 // AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -1084,7 +1084,7 @@ func StorageQueueEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue)
+	gens["EndpointType"] = gen.OneConstOf(StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue)
 }
 
 // AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -1159,7 +1159,7 @@ func WebHookEventSubscriptionDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(WebHookEventSubscriptionDestinationEndpointTypeWebHook)
+	gens["EndpointType"] = gen.OneConstOf(WebHookEventSubscriptionDestinationEndpointType_WebHook)
 }
 
 // AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestinationARM is a factory method for creating gopter generators
@@ -1226,7 +1226,7 @@ func AdvancedFilterBoolEqualsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterBoolEqualsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterBoolEqualsARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterBoolEqualsOperatorTypeBoolEquals)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterBoolEqualsOperatorType_BoolEquals)
 	gens["Value"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1289,7 +1289,7 @@ func AdvancedFilterNumberGreaterThanARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOperatorTypeNumberGreaterThan)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOperatorType_NumberGreaterThan)
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -1352,7 +1352,7 @@ func AdvancedFilterNumberGreaterThanOrEqualsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEqualsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEqualsARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOrEqualsOperatorTypeNumberGreaterThanOrEquals)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOrEqualsOperatorType_NumberGreaterThanOrEquals)
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -1415,7 +1415,7 @@ func AdvancedFilterNumberInARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberInARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberInARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberInOperatorTypeNumberIn)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberInOperatorType_NumberIn)
 	gens["Values"] = gen.SliceOf(gen.Float64())
 }
 
@@ -1478,7 +1478,7 @@ func AdvancedFilterNumberLessThanARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOperatorTypeNumberLessThan)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOperatorType_NumberLessThan)
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -1541,7 +1541,7 @@ func AdvancedFilterNumberLessThanOrEqualsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEqualsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEqualsARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOrEqualsOperatorTypeNumberLessThanOrEquals)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOrEqualsOperatorType_NumberLessThanOrEquals)
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -1604,7 +1604,7 @@ func AdvancedFilterNumberNotInARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotInARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotInARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberNotInOperatorTypeNumberNotIn)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberNotInOperatorType_NumberNotIn)
 	gens["Values"] = gen.SliceOf(gen.Float64())
 }
 
@@ -1667,7 +1667,7 @@ func AdvancedFilterStringBeginsWithARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWithARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWithARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringBeginsWithOperatorTypeStringBeginsWith)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringBeginsWithOperatorType_StringBeginsWith)
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1730,7 +1730,7 @@ func AdvancedFilterStringContainsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStringContainsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStringContainsARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringContainsOperatorTypeStringContains)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringContainsOperatorType_StringContains)
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1793,7 +1793,7 @@ func AdvancedFilterStringEndsWithARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWithARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWithARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringEndsWithOperatorTypeStringEndsWith)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringEndsWithOperatorType_StringEndsWith)
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1856,7 +1856,7 @@ func AdvancedFilterStringInARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStringInARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStringInARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringInOperatorTypeStringIn)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringInOperatorType_StringIn)
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1919,7 +1919,7 @@ func AdvancedFilterStringNotInARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStringNotInARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStringNotInARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringNotInOperatorTypeStringNotIn)
+	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringNotInOperatorType_StringNotIn)
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 

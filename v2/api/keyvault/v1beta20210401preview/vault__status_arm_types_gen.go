@@ -128,10 +128,10 @@ type AccessPolicyEntry_StatusARM struct {
 type IdentityType_Status string
 
 const (
-	IdentityType_StatusApplication     = IdentityType_Status("Application")
-	IdentityType_StatusKey             = IdentityType_Status("Key")
-	IdentityType_StatusManagedIdentity = IdentityType_Status("ManagedIdentity")
-	IdentityType_StatusUser            = IdentityType_Status("User")
+	IdentityType_Status_Application     = IdentityType_Status("Application")
+	IdentityType_Status_Key             = IdentityType_Status("Key")
+	IdentityType_Status_ManagedIdentity = IdentityType_Status("ManagedIdentity")
+	IdentityType_Status_User            = IdentityType_Status("User")
 )
 
 type NetworkRuleSet_StatusARM struct {
@@ -172,15 +172,15 @@ type Sku_StatusARM struct {
 type VaultPropertiesStatusCreateMode string
 
 const (
-	VaultPropertiesStatusCreateModeDefault = VaultPropertiesStatusCreateMode("default")
-	VaultPropertiesStatusCreateModeRecover = VaultPropertiesStatusCreateMode("recover")
+	VaultPropertiesStatusCreateMode_Default = VaultPropertiesStatusCreateMode("default")
+	VaultPropertiesStatusCreateMode_Recover = VaultPropertiesStatusCreateMode("recover")
 )
 
 type VaultPropertiesStatusProvisioningState string
 
 const (
-	VaultPropertiesStatusProvisioningStateRegisteringDns = VaultPropertiesStatusProvisioningState("RegisteringDns")
-	VaultPropertiesStatusProvisioningStateSucceeded      = VaultPropertiesStatusProvisioningState("Succeeded")
+	VaultPropertiesStatusProvisioningState_RegisteringDns = VaultPropertiesStatusProvisioningState("RegisteringDns")
+	VaultPropertiesStatusProvisioningState_Succeeded      = VaultPropertiesStatusProvisioningState("Succeeded")
 )
 
 type IPRule_StatusARM struct {
@@ -192,15 +192,15 @@ type IPRule_StatusARM struct {
 type NetworkRuleSetStatusBypass string
 
 const (
-	NetworkRuleSetStatusBypassAzureServices = NetworkRuleSetStatusBypass("AzureServices")
-	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
+	NetworkRuleSetStatusBypass_AzureServices = NetworkRuleSetStatusBypass("AzureServices")
+	NetworkRuleSetStatusBypass_None          = NetworkRuleSetStatusBypass("None")
 )
 
 type NetworkRuleSetStatusDefaultAction string
 
 const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
+	NetworkRuleSetStatusDefaultAction_Allow = NetworkRuleSetStatusDefaultAction("Allow")
+	NetworkRuleSetStatusDefaultAction_Deny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
 type Permissions_StatusARM struct {
@@ -230,13 +230,13 @@ type PrivateEndpointConnectionProperties_StatusARM struct {
 
 type SkuStatusFamily string
 
-const SkuStatusFamilyA = SkuStatusFamily("A")
+const SkuStatusFamily_A = SkuStatusFamily("A")
 
 type SkuStatusName string
 
 const (
-	SkuStatusNamePremium  = SkuStatusName("premium")
-	SkuStatusNameStandard = SkuStatusName("standard")
+	SkuStatusName_Premium  = SkuStatusName("premium")
+	SkuStatusName_Standard = SkuStatusName("standard")
 )
 
 type VirtualNetworkRule_StatusARM struct {
@@ -252,76 +252,76 @@ type VirtualNetworkRule_StatusARM struct {
 type PermissionsStatusCertificates string
 
 const (
-	PermissionsStatusCertificatesBackup         = PermissionsStatusCertificates("backup")
-	PermissionsStatusCertificatesCreate         = PermissionsStatusCertificates("create")
-	PermissionsStatusCertificatesDelete         = PermissionsStatusCertificates("delete")
-	PermissionsStatusCertificatesDeleteissuers  = PermissionsStatusCertificates("deleteissuers")
-	PermissionsStatusCertificatesGet            = PermissionsStatusCertificates("get")
-	PermissionsStatusCertificatesGetissuers     = PermissionsStatusCertificates("getissuers")
-	PermissionsStatusCertificatesImport         = PermissionsStatusCertificates("import")
-	PermissionsStatusCertificatesList           = PermissionsStatusCertificates("list")
-	PermissionsStatusCertificatesListissuers    = PermissionsStatusCertificates("listissuers")
-	PermissionsStatusCertificatesManagecontacts = PermissionsStatusCertificates("managecontacts")
-	PermissionsStatusCertificatesManageissuers  = PermissionsStatusCertificates("manageissuers")
-	PermissionsStatusCertificatesPurge          = PermissionsStatusCertificates("purge")
-	PermissionsStatusCertificatesRecover        = PermissionsStatusCertificates("recover")
-	PermissionsStatusCertificatesRestore        = PermissionsStatusCertificates("restore")
-	PermissionsStatusCertificatesSetissuers     = PermissionsStatusCertificates("setissuers")
-	PermissionsStatusCertificatesUpdate         = PermissionsStatusCertificates("update")
+	PermissionsStatusCertificates_Backup         = PermissionsStatusCertificates("backup")
+	PermissionsStatusCertificates_Create         = PermissionsStatusCertificates("create")
+	PermissionsStatusCertificates_Delete         = PermissionsStatusCertificates("delete")
+	PermissionsStatusCertificates_Deleteissuers  = PermissionsStatusCertificates("deleteissuers")
+	PermissionsStatusCertificates_Get            = PermissionsStatusCertificates("get")
+	PermissionsStatusCertificates_Getissuers     = PermissionsStatusCertificates("getissuers")
+	PermissionsStatusCertificates_Import         = PermissionsStatusCertificates("import")
+	PermissionsStatusCertificates_List           = PermissionsStatusCertificates("list")
+	PermissionsStatusCertificates_Listissuers    = PermissionsStatusCertificates("listissuers")
+	PermissionsStatusCertificates_Managecontacts = PermissionsStatusCertificates("managecontacts")
+	PermissionsStatusCertificates_Manageissuers  = PermissionsStatusCertificates("manageissuers")
+	PermissionsStatusCertificates_Purge          = PermissionsStatusCertificates("purge")
+	PermissionsStatusCertificates_Recover        = PermissionsStatusCertificates("recover")
+	PermissionsStatusCertificates_Restore        = PermissionsStatusCertificates("restore")
+	PermissionsStatusCertificates_Setissuers     = PermissionsStatusCertificates("setissuers")
+	PermissionsStatusCertificates_Update         = PermissionsStatusCertificates("update")
 )
 
 type PermissionsStatusKeys string
 
 const (
-	PermissionsStatusKeysBackup    = PermissionsStatusKeys("backup")
-	PermissionsStatusKeysCreate    = PermissionsStatusKeys("create")
-	PermissionsStatusKeysDecrypt   = PermissionsStatusKeys("decrypt")
-	PermissionsStatusKeysDelete    = PermissionsStatusKeys("delete")
-	PermissionsStatusKeysEncrypt   = PermissionsStatusKeys("encrypt")
-	PermissionsStatusKeysGet       = PermissionsStatusKeys("get")
-	PermissionsStatusKeysImport    = PermissionsStatusKeys("import")
-	PermissionsStatusKeysList      = PermissionsStatusKeys("list")
-	PermissionsStatusKeysPurge     = PermissionsStatusKeys("purge")
-	PermissionsStatusKeysRecover   = PermissionsStatusKeys("recover")
-	PermissionsStatusKeysRelease   = PermissionsStatusKeys("release")
-	PermissionsStatusKeysRestore   = PermissionsStatusKeys("restore")
-	PermissionsStatusKeysSign      = PermissionsStatusKeys("sign")
-	PermissionsStatusKeysUnwrapKey = PermissionsStatusKeys("unwrapKey")
-	PermissionsStatusKeysUpdate    = PermissionsStatusKeys("update")
-	PermissionsStatusKeysVerify    = PermissionsStatusKeys("verify")
-	PermissionsStatusKeysWrapKey   = PermissionsStatusKeys("wrapKey")
+	PermissionsStatusKeys_Backup    = PermissionsStatusKeys("backup")
+	PermissionsStatusKeys_Create    = PermissionsStatusKeys("create")
+	PermissionsStatusKeys_Decrypt   = PermissionsStatusKeys("decrypt")
+	PermissionsStatusKeys_Delete    = PermissionsStatusKeys("delete")
+	PermissionsStatusKeys_Encrypt   = PermissionsStatusKeys("encrypt")
+	PermissionsStatusKeys_Get       = PermissionsStatusKeys("get")
+	PermissionsStatusKeys_Import    = PermissionsStatusKeys("import")
+	PermissionsStatusKeys_List      = PermissionsStatusKeys("list")
+	PermissionsStatusKeys_Purge     = PermissionsStatusKeys("purge")
+	PermissionsStatusKeys_Recover   = PermissionsStatusKeys("recover")
+	PermissionsStatusKeys_Release   = PermissionsStatusKeys("release")
+	PermissionsStatusKeys_Restore   = PermissionsStatusKeys("restore")
+	PermissionsStatusKeys_Sign      = PermissionsStatusKeys("sign")
+	PermissionsStatusKeys_UnwrapKey = PermissionsStatusKeys("unwrapKey")
+	PermissionsStatusKeys_Update    = PermissionsStatusKeys("update")
+	PermissionsStatusKeys_Verify    = PermissionsStatusKeys("verify")
+	PermissionsStatusKeys_WrapKey   = PermissionsStatusKeys("wrapKey")
 )
 
 type PermissionsStatusSecrets string
 
 const (
-	PermissionsStatusSecretsBackup  = PermissionsStatusSecrets("backup")
-	PermissionsStatusSecretsDelete  = PermissionsStatusSecrets("delete")
-	PermissionsStatusSecretsGet     = PermissionsStatusSecrets("get")
-	PermissionsStatusSecretsList    = PermissionsStatusSecrets("list")
-	PermissionsStatusSecretsPurge   = PermissionsStatusSecrets("purge")
-	PermissionsStatusSecretsRecover = PermissionsStatusSecrets("recover")
-	PermissionsStatusSecretsRestore = PermissionsStatusSecrets("restore")
-	PermissionsStatusSecretsSet     = PermissionsStatusSecrets("set")
+	PermissionsStatusSecrets_Backup  = PermissionsStatusSecrets("backup")
+	PermissionsStatusSecrets_Delete  = PermissionsStatusSecrets("delete")
+	PermissionsStatusSecrets_Get     = PermissionsStatusSecrets("get")
+	PermissionsStatusSecrets_List    = PermissionsStatusSecrets("list")
+	PermissionsStatusSecrets_Purge   = PermissionsStatusSecrets("purge")
+	PermissionsStatusSecrets_Recover = PermissionsStatusSecrets("recover")
+	PermissionsStatusSecrets_Restore = PermissionsStatusSecrets("restore")
+	PermissionsStatusSecrets_Set     = PermissionsStatusSecrets("set")
 )
 
 type PermissionsStatusStorage string
 
 const (
-	PermissionsStatusStorageBackup        = PermissionsStatusStorage("backup")
-	PermissionsStatusStorageDelete        = PermissionsStatusStorage("delete")
-	PermissionsStatusStorageDeletesas     = PermissionsStatusStorage("deletesas")
-	PermissionsStatusStorageGet           = PermissionsStatusStorage("get")
-	PermissionsStatusStorageGetsas        = PermissionsStatusStorage("getsas")
-	PermissionsStatusStorageList          = PermissionsStatusStorage("list")
-	PermissionsStatusStorageListsas       = PermissionsStatusStorage("listsas")
-	PermissionsStatusStoragePurge         = PermissionsStatusStorage("purge")
-	PermissionsStatusStorageRecover       = PermissionsStatusStorage("recover")
-	PermissionsStatusStorageRegeneratekey = PermissionsStatusStorage("regeneratekey")
-	PermissionsStatusStorageRestore       = PermissionsStatusStorage("restore")
-	PermissionsStatusStorageSet           = PermissionsStatusStorage("set")
-	PermissionsStatusStorageSetsas        = PermissionsStatusStorage("setsas")
-	PermissionsStatusStorageUpdate        = PermissionsStatusStorage("update")
+	PermissionsStatusStorage_Backup        = PermissionsStatusStorage("backup")
+	PermissionsStatusStorage_Delete        = PermissionsStatusStorage("delete")
+	PermissionsStatusStorage_Deletesas     = PermissionsStatusStorage("deletesas")
+	PermissionsStatusStorage_Get           = PermissionsStatusStorage("get")
+	PermissionsStatusStorage_Getsas        = PermissionsStatusStorage("getsas")
+	PermissionsStatusStorage_List          = PermissionsStatusStorage("list")
+	PermissionsStatusStorage_Listsas       = PermissionsStatusStorage("listsas")
+	PermissionsStatusStorage_Purge         = PermissionsStatusStorage("purge")
+	PermissionsStatusStorage_Recover       = PermissionsStatusStorage("recover")
+	PermissionsStatusStorage_Regeneratekey = PermissionsStatusStorage("regeneratekey")
+	PermissionsStatusStorage_Restore       = PermissionsStatusStorage("restore")
+	PermissionsStatusStorage_Set           = PermissionsStatusStorage("set")
+	PermissionsStatusStorage_Setsas        = PermissionsStatusStorage("setsas")
+	PermissionsStatusStorage_Update        = PermissionsStatusStorage("update")
 )
 
 type PrivateEndpoint_StatusARM struct {

@@ -98,7 +98,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1728,51 +1728,51 @@ func (snapshots *Snapshots_Spec) SetAzureName(azureName string) { snapshots.Azur
 type SnapshotPropertiesDiskState string
 
 const (
-	SnapshotPropertiesDiskStateActiveSAS     = SnapshotPropertiesDiskState("ActiveSAS")
-	SnapshotPropertiesDiskStateActiveUpload  = SnapshotPropertiesDiskState("ActiveUpload")
-	SnapshotPropertiesDiskStateAttached      = SnapshotPropertiesDiskState("Attached")
-	SnapshotPropertiesDiskStateReadyToUpload = SnapshotPropertiesDiskState("ReadyToUpload")
-	SnapshotPropertiesDiskStateReserved      = SnapshotPropertiesDiskState("Reserved")
-	SnapshotPropertiesDiskStateUnattached    = SnapshotPropertiesDiskState("Unattached")
+	SnapshotPropertiesDiskState_ActiveSAS     = SnapshotPropertiesDiskState("ActiveSAS")
+	SnapshotPropertiesDiskState_ActiveUpload  = SnapshotPropertiesDiskState("ActiveUpload")
+	SnapshotPropertiesDiskState_Attached      = SnapshotPropertiesDiskState("Attached")
+	SnapshotPropertiesDiskState_ReadyToUpload = SnapshotPropertiesDiskState("ReadyToUpload")
+	SnapshotPropertiesDiskState_Reserved      = SnapshotPropertiesDiskState("Reserved")
+	SnapshotPropertiesDiskState_Unattached    = SnapshotPropertiesDiskState("Unattached")
 )
 
 // +kubebuilder:validation:Enum={"V1","V2"}
 type SnapshotPropertiesHyperVGeneration string
 
 const (
-	SnapshotPropertiesHyperVGenerationV1 = SnapshotPropertiesHyperVGeneration("V1")
-	SnapshotPropertiesHyperVGenerationV2 = SnapshotPropertiesHyperVGeneration("V2")
+	SnapshotPropertiesHyperVGeneration_V1 = SnapshotPropertiesHyperVGeneration("V1")
+	SnapshotPropertiesHyperVGeneration_V2 = SnapshotPropertiesHyperVGeneration("V2")
 )
 
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type SnapshotPropertiesNetworkAccessPolicy string
 
 const (
-	SnapshotPropertiesNetworkAccessPolicyAllowAll     = SnapshotPropertiesNetworkAccessPolicy("AllowAll")
-	SnapshotPropertiesNetworkAccessPolicyAllowPrivate = SnapshotPropertiesNetworkAccessPolicy("AllowPrivate")
-	SnapshotPropertiesNetworkAccessPolicyDenyAll      = SnapshotPropertiesNetworkAccessPolicy("DenyAll")
+	SnapshotPropertiesNetworkAccessPolicy_AllowAll     = SnapshotPropertiesNetworkAccessPolicy("AllowAll")
+	SnapshotPropertiesNetworkAccessPolicy_AllowPrivate = SnapshotPropertiesNetworkAccessPolicy("AllowPrivate")
+	SnapshotPropertiesNetworkAccessPolicy_DenyAll      = SnapshotPropertiesNetworkAccessPolicy("DenyAll")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type SnapshotPropertiesOsType string
 
 const (
-	SnapshotPropertiesOsTypeLinux   = SnapshotPropertiesOsType("Linux")
-	SnapshotPropertiesOsTypeWindows = SnapshotPropertiesOsType("Windows")
+	SnapshotPropertiesOsType_Linux   = SnapshotPropertiesOsType("Linux")
+	SnapshotPropertiesOsType_Windows = SnapshotPropertiesOsType("Windows")
 )
 
 type SnapshotPropertiesStatusHyperVGeneration string
 
 const (
-	SnapshotPropertiesStatusHyperVGenerationV1 = SnapshotPropertiesStatusHyperVGeneration("V1")
-	SnapshotPropertiesStatusHyperVGenerationV2 = SnapshotPropertiesStatusHyperVGeneration("V2")
+	SnapshotPropertiesStatusHyperVGeneration_V1 = SnapshotPropertiesStatusHyperVGeneration("V1")
+	SnapshotPropertiesStatusHyperVGeneration_V2 = SnapshotPropertiesStatusHyperVGeneration("V2")
 )
 
 type SnapshotPropertiesStatusOsType string
 
 const (
-	SnapshotPropertiesStatusOsTypeLinux   = SnapshotPropertiesStatusOsType("Linux")
-	SnapshotPropertiesStatusOsTypeWindows = SnapshotPropertiesStatusOsType("Windows")
+	SnapshotPropertiesStatusOsType_Linux   = SnapshotPropertiesStatusOsType("Linux")
+	SnapshotPropertiesStatusOsType_Windows = SnapshotPropertiesStatusOsType("Windows")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku

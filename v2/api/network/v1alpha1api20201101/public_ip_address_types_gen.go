@@ -112,7 +112,7 @@ func (address *PublicIPAddress) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (address PublicIPAddress) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1907,8 +1907,8 @@ func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destin
 type IPAllocationMethod_Status string
 
 const (
-	IPAllocationMethod_StatusDynamic = IPAllocationMethod_Status("Dynamic")
-	IPAllocationMethod_StatusStatic  = IPAllocationMethod_Status("Static")
+	IPAllocationMethod_Status_Dynamic = IPAllocationMethod_Status("Dynamic")
+	IPAllocationMethod_Status_Static  = IPAllocationMethod_Status("Static")
 )
 
 // Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
@@ -2106,8 +2106,8 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 type IPVersion_Status string
 
 const (
-	IPVersion_StatusIPv4 = IPVersion_Status("IPv4")
-	IPVersion_StatusIPv6 = IPVersion_Status("IPv6")
+	IPVersion_Status_IPv4 = IPVersion_Status("IPv4")
+	IPVersion_Status_IPv6 = IPVersion_Status("IPv6")
 )
 
 // Deprecated version of IpTag. Use v1beta20201101.IpTag instead
@@ -2581,8 +2581,8 @@ func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesToPublicIPAdd
 type PublicIPAddressPropertiesFormatPublicIPAddressVersion string
 
 const (
-	PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv4 = PublicIPAddressPropertiesFormatPublicIPAddressVersion("IPv4")
-	PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv6 = PublicIPAddressPropertiesFormatPublicIPAddressVersion("IPv6")
+	PublicIPAddressPropertiesFormatPublicIPAddressVersion_IPv4 = PublicIPAddressPropertiesFormatPublicIPAddressVersion("IPv4")
+	PublicIPAddressPropertiesFormatPublicIPAddressVersion_IPv6 = PublicIPAddressPropertiesFormatPublicIPAddressVersion("IPv6")
 )
 
 // Deprecated version of PublicIPAddressPropertiesFormatPublicIPAllocationMethod. Use
@@ -2591,8 +2591,8 @@ const (
 type PublicIPAddressPropertiesFormatPublicIPAllocationMethod string
 
 const (
-	PublicIPAddressPropertiesFormatPublicIPAllocationMethodDynamic = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Dynamic")
-	PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic  = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Static")
+	PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Dynamic = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Dynamic")
+	PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static  = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Static")
 )
 
 // Deprecated version of PublicIPAddressPropertiesFormatStatusMigrationPhase. Use
@@ -2600,11 +2600,11 @@ const (
 type PublicIPAddressPropertiesFormatStatusMigrationPhase string
 
 const (
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort     = PublicIPAddressPropertiesFormatStatusMigrationPhase("Abort")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit    = PublicIPAddressPropertiesFormatStatusMigrationPhase("Commit")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted = PublicIPAddressPropertiesFormatStatusMigrationPhase("Committed")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseNone      = PublicIPAddressPropertiesFormatStatusMigrationPhase("None")
-	PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare   = PublicIPAddressPropertiesFormatStatusMigrationPhase("Prepare")
+	PublicIPAddressPropertiesFormatStatusMigrationPhase_Abort     = PublicIPAddressPropertiesFormatStatusMigrationPhase("Abort")
+	PublicIPAddressPropertiesFormatStatusMigrationPhase_Commit    = PublicIPAddressPropertiesFormatStatusMigrationPhase("Commit")
+	PublicIPAddressPropertiesFormatStatusMigrationPhase_Committed = PublicIPAddressPropertiesFormatStatusMigrationPhase("Committed")
+	PublicIPAddressPropertiesFormatStatusMigrationPhase_None      = PublicIPAddressPropertiesFormatStatusMigrationPhase("None")
+	PublicIPAddressPropertiesFormatStatusMigrationPhase_Prepare   = PublicIPAddressPropertiesFormatStatusMigrationPhase("Prepare")
 )
 
 // Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
@@ -2815,8 +2815,8 @@ func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSk
 type DdosSettingsProtectionCoverage string
 
 const (
-	DdosSettingsProtectionCoverageBasic    = DdosSettingsProtectionCoverage("Basic")
-	DdosSettingsProtectionCoverageStandard = DdosSettingsProtectionCoverage("Standard")
+	DdosSettingsProtectionCoverage_Basic    = DdosSettingsProtectionCoverage("Basic")
+	DdosSettingsProtectionCoverage_Standard = DdosSettingsProtectionCoverage("Standard")
 )
 
 // Deprecated version of DdosSettingsStatusProtectionCoverage. Use v1beta20201101.DdosSettingsStatusProtectionCoverage
@@ -2824,8 +2824,8 @@ const (
 type DdosSettingsStatusProtectionCoverage string
 
 const (
-	DdosSettingsStatusProtectionCoverageBasic    = DdosSettingsStatusProtectionCoverage("Basic")
-	DdosSettingsStatusProtectionCoverageStandard = DdosSettingsStatusProtectionCoverage("Standard")
+	DdosSettingsStatusProtectionCoverage_Basic    = DdosSettingsStatusProtectionCoverage("Basic")
+	DdosSettingsStatusProtectionCoverage_Standard = DdosSettingsStatusProtectionCoverage("Standard")
 )
 
 // Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
@@ -2957,7 +2957,7 @@ func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropert
 // Deprecated version of NatGatewaySkuStatusName. Use v1beta20201101.NatGatewaySkuStatusName instead
 type NatGatewaySkuStatusName string
 
-const NatGatewaySkuStatusNameStandard = NatGatewaySkuStatusName("Standard")
+const NatGatewaySkuStatusName_Standard = NatGatewaySkuStatusName("Standard")
 
 func init() {
 	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})

@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (servers FlexibleServers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -86,7 +86,7 @@ type HighAvailabilityARM struct {
 // +kubebuilder:validation:Enum={"UserAssigned"}
 type IdentityType string
 
-const IdentityTypeUserAssigned = IdentityType("UserAssigned")
+const IdentityType_UserAssigned = IdentityType("UserAssigned")
 
 // Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
 type MaintenanceWindowARM struct {
@@ -107,9 +107,9 @@ type NetworkARM struct {
 type SkuTier string
 
 const (
-	SkuTierBurstable       = SkuTier("Burstable")
-	SkuTierGeneralPurpose  = SkuTier("GeneralPurpose")
-	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
+	SkuTier_Burstable       = SkuTier("Burstable")
+	SkuTier_GeneralPurpose  = SkuTier("GeneralPurpose")
+	SkuTier_MemoryOptimized = SkuTier("MemoryOptimized")
 )
 
 // Deprecated version of Storage. Use v1beta20210501.Storage instead

@@ -83,33 +83,33 @@ type ContainerProperties_StatusARM struct {
 type ContainerPropertiesStatusLeaseDuration string
 
 const (
-	ContainerPropertiesStatusLeaseDurationFixed    = ContainerPropertiesStatusLeaseDuration("Fixed")
-	ContainerPropertiesStatusLeaseDurationInfinite = ContainerPropertiesStatusLeaseDuration("Infinite")
+	ContainerPropertiesStatusLeaseDuration_Fixed    = ContainerPropertiesStatusLeaseDuration("Fixed")
+	ContainerPropertiesStatusLeaseDuration_Infinite = ContainerPropertiesStatusLeaseDuration("Infinite")
 )
 
 type ContainerPropertiesStatusLeaseState string
 
 const (
-	ContainerPropertiesStatusLeaseStateAvailable = ContainerPropertiesStatusLeaseState("Available")
-	ContainerPropertiesStatusLeaseStateBreaking  = ContainerPropertiesStatusLeaseState("Breaking")
-	ContainerPropertiesStatusLeaseStateBroken    = ContainerPropertiesStatusLeaseState("Broken")
-	ContainerPropertiesStatusLeaseStateExpired   = ContainerPropertiesStatusLeaseState("Expired")
-	ContainerPropertiesStatusLeaseStateLeased    = ContainerPropertiesStatusLeaseState("Leased")
+	ContainerPropertiesStatusLeaseState_Available = ContainerPropertiesStatusLeaseState("Available")
+	ContainerPropertiesStatusLeaseState_Breaking  = ContainerPropertiesStatusLeaseState("Breaking")
+	ContainerPropertiesStatusLeaseState_Broken    = ContainerPropertiesStatusLeaseState("Broken")
+	ContainerPropertiesStatusLeaseState_Expired   = ContainerPropertiesStatusLeaseState("Expired")
+	ContainerPropertiesStatusLeaseState_Leased    = ContainerPropertiesStatusLeaseState("Leased")
 )
 
 type ContainerPropertiesStatusLeaseStatus string
 
 const (
-	ContainerPropertiesStatusLeaseStatusLocked   = ContainerPropertiesStatusLeaseStatus("Locked")
-	ContainerPropertiesStatusLeaseStatusUnlocked = ContainerPropertiesStatusLeaseStatus("Unlocked")
+	ContainerPropertiesStatusLeaseStatus_Locked   = ContainerPropertiesStatusLeaseStatus("Locked")
+	ContainerPropertiesStatusLeaseStatus_Unlocked = ContainerPropertiesStatusLeaseStatus("Unlocked")
 )
 
 type ContainerPropertiesStatusPublicAccess string
 
 const (
-	ContainerPropertiesStatusPublicAccessBlob      = ContainerPropertiesStatusPublicAccess("Blob")
-	ContainerPropertiesStatusPublicAccessContainer = ContainerPropertiesStatusPublicAccess("Container")
-	ContainerPropertiesStatusPublicAccessNone      = ContainerPropertiesStatusPublicAccess("None")
+	ContainerPropertiesStatusPublicAccess_Blob      = ContainerPropertiesStatusPublicAccess("Blob")
+	ContainerPropertiesStatusPublicAccess_Container = ContainerPropertiesStatusPublicAccess("Container")
+	ContainerPropertiesStatusPublicAccess_None      = ContainerPropertiesStatusPublicAccess("None")
 )
 
 type ImmutabilityPolicyProperties_StatusARM struct {
@@ -162,8 +162,8 @@ type ImmutabilityPolicyProperty_StatusARM struct {
 type ImmutableStorageWithVersioningStatusMigrationState string
 
 const (
-	ImmutableStorageWithVersioningStatusMigrationStateCompleted  = ImmutableStorageWithVersioningStatusMigrationState("Completed")
-	ImmutableStorageWithVersioningStatusMigrationStateInProgress = ImmutableStorageWithVersioningStatusMigrationState("InProgress")
+	ImmutableStorageWithVersioningStatusMigrationState_Completed  = ImmutableStorageWithVersioningStatusMigrationState("Completed")
+	ImmutableStorageWithVersioningStatusMigrationState_InProgress = ImmutableStorageWithVersioningStatusMigrationState("InProgress")
 )
 
 type TagProperty_StatusARM struct {
@@ -207,7 +207,7 @@ type UpdateHistoryProperty_StatusARM struct {
 type UpdateHistoryPropertyStatusUpdate string
 
 const (
-	UpdateHistoryPropertyStatusUpdateExtend = UpdateHistoryPropertyStatusUpdate("extend")
-	UpdateHistoryPropertyStatusUpdateLock   = UpdateHistoryPropertyStatusUpdate("lock")
-	UpdateHistoryPropertyStatusUpdatePut    = UpdateHistoryPropertyStatusUpdate("put")
+	UpdateHistoryPropertyStatusUpdate_Extend = UpdateHistoryPropertyStatusUpdate("extend")
+	UpdateHistoryPropertyStatusUpdate_Lock   = UpdateHistoryPropertyStatusUpdate("lock")
+	UpdateHistoryPropertyStatusUpdate_Put    = UpdateHistoryPropertyStatusUpdate("put")
 )

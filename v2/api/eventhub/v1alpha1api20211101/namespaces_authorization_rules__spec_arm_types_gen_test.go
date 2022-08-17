@@ -152,5 +152,5 @@ func AuthorizationRulePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthorizationRulePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthorizationRulePropertiesARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRightsListen, AuthorizationRulePropertiesRightsManage, AuthorizationRulePropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRights_Listen, AuthorizationRulePropertiesRights_Manage, AuthorizationRulePropertiesRights_Send))
 }

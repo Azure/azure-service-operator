@@ -217,15 +217,15 @@ func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopt
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }
