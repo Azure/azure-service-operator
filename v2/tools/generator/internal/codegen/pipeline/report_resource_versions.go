@@ -8,8 +8,11 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
+	"net/url"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -48,7 +51,8 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 type ResourceVersionsReport struct {
 	reportConfiguration      *config.SupportedResourcesReport
 	objectModelConfiguration *config.ObjectModelConfiguration
-	samplesUrl               string
+	rootUrl                  string
+	samplesPath              string
 	groups                   set.Set[string]                       // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	frontMatter              string                                // Front matter to be inserted at the top of the report
@@ -63,7 +67,8 @@ func NewResourceVersionsReport(
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
-		samplesUrl:               cfg.SamplesURL,
+		rootUrl:                  cfg.RootURL,
+		samplesPath:              cfg.SamplesPath,
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
@@ -138,7 +143,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table, err := report.createTable(report.kinds[svc], svc, report.samplesUrl)
+		table, err := report.createTable(report.kinds[svc])
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -153,8 +158,6 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
-	group string,
-	samplesURL string,
 ) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
@@ -183,6 +186,30 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
+	sampleLinks := make(map[string]string)
+	if report.rootUrl != "" {
+		parsedRootURL, err := url.Parse(report.rootUrl)
+		if err != nil {
+			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
+		}
+		err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
+			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
+			// samples testing.
+			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
+				filePath = filepath.ToSlash(filePath)
+				filePathURL := url.URL{Path: filePath}
+				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
+				sampleFile := filepath.Base(filePath)
+				sampleLinks[sampleFile] = sampleLink
+			}
+
+			return nil
+		})
+		if err != nil {
+			return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
+		}
+	}
+
 	errs := make([]error, 0, len(toIterate))
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
@@ -193,7 +220,7 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		sample := report.generateSampleLink(samplesURL, group, rsrc)
+		sample := report.generateSampleLink(rsrc, sampleLinks)
 		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
@@ -213,12 +240,14 @@ func (report *ResourceVersionsReport) createTable(
 	return result, nil
 }
 
-func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
+func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {
 	crdVersion := rsrc.Name().PackageReference.PackageName()
-	if samplesURL != "" {
+	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
+	sampleLink, ok := sampleLinks[key]
+
+	if ok {
 		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-		samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
-		return fmt.Sprintf("[View](%s)", samplePath)
+		return fmt.Sprintf("[View](%s)", sampleLink)
 	}
 
 	return "-"
@@ -234,7 +263,7 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
-	if strings.Contains(ver, "v1beta") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+	if strings.Contains(ver, v1betaVersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
 		return "v2.0.0-beta.0", nil
 	}
 

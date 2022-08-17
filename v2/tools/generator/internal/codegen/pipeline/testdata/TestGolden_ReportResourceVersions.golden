@@ -4,12 +4,18 @@ title: Supported Resources
 
 These are the resources with Azure Service Operator support.
 
+## Batch
+
+| Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                                  |
+|--------------|----------------|----------------|----------------|-----------------------------------------------------------------------------------------|
+| BatchAccount | v1beta20210101 | v1beta20210101 | beta.2         | [View](https://github.com/config/samples/batch/v1beta/v1beta20210101_batchaccount.yaml) |
+
 ## Person
 
-| Resource | ARM Version | CRD Version | Supported From | Sample                                                                                                            |
-|----------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------|
-| Address  | v20211231   | v20211231   | beta.2         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_address.yaml) |
-| Address  | v20200101   | v20200101   | beta.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_address.yaml) |
-| Person   | v20211231   | v20211231   | beta.2         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20211231_person.yaml)  |
-| Person   | v20200101   | v20200101   | beta.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/person/v20200101_person.yaml)  |
+| Resource | ARM Version | CRD Version | Supported From | Sample |
+|----------|-------------|-------------|----------------|--------|
+| Address  | v20211231   | v20211231   | beta.2         | -      |
+| Address  | v20200101   | v20200101   | beta.0         | -      |
+| Person   | v20211231   | v20211231   | beta.2         | -      |
+| Person   | v20200101   | v20200101   | beta.0         | -      |
 
