@@ -27,7 +27,7 @@ type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesQueues_Spec `json:"spec,omitempty"`
-	Status            SBQueue_Status        `json:"status,omitempty"`
+	Status            SBQueue_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -76,7 +76,7 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBQueue_Status{}
+	return &SBQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBQueue_Status); ok {
+	if st, ok := status.(*SBQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBQueue_Status
+	var st SBQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -182,12 +182,12 @@ func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(queues)
 }
 
-// Storage version of v1beta20210101preview.SBQueue_Status
-type SBQueue_Status struct {
+// Storage version of v1beta20210101preview.SBQueue_STATUS
+type SBQueue_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_Status `json:"countDetails,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
 	CreatedAt                           *string                     `json:"createdAt,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
@@ -208,15 +208,15 @@ type SBQueue_Status struct {
 	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
 	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
 	Status                              *string                     `json:"status,omitempty"`
-	SystemData                          *SystemData_Status          `json:"systemData,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
 	Type                                *string                     `json:"type,omitempty"`
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBQueue_Status{}
+var _ genruntime.ConvertibleStatus = &SBQueue_STATUS{}
 
-// ConvertStatusFrom populates our SBQueue_Status from the provided source
-func (queue *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SBQueue_STATUS from the provided source
+func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -224,8 +224,8 @@ func (queue *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(queue)
 }
 
-// ConvertStatusTo populates the provided destination from our SBQueue_Status
-func (queue *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SBQueue_STATUS
+func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -233,8 +233,8 @@ func (queue *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(queue)
 }
 
-// Storage version of v1beta20210101preview.MessageCountDetails_Status
-type MessageCountDetails_Status struct {
+// Storage version of v1beta20210101preview.MessageCountDetails_STATUS
+type MessageCountDetails_STATUS struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`
 	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`

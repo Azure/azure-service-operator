@@ -27,7 +27,7 @@ type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_Status       `json:"status,omitempty"`
+	Status            Database_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -76,7 +76,7 @@ func (database *Database) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *Database) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Database_Status{}
+	return &Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (database *Database) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Database_Status); ok {
+	if st, ok := status.(*Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Database_Status
+	var st Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,8 +129,8 @@ type DatabaseList struct {
 	Items           []Database `json:"items"`
 }
 
-// Storage version of v1beta20180601.Database_Status
-type Database_Status struct {
+// Storage version of v1beta20180601.Database_STATUS
+type Database_STATUS struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -140,10 +140,10 @@ type Database_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Database_Status{}
+var _ genruntime.ConvertibleStatus = &Database_STATUS{}
 
-// ConvertStatusFrom populates our Database_Status from the provided source
-func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Database_STATUS from the provided source
+func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -151,8 +151,8 @@ func (database *Database_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our Database_Status
-func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Database_STATUS
+func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

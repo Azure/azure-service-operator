@@ -27,7 +27,7 @@ type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              ProfilesEndpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_Status        `json:"status,omitempty"`
+	Status            Endpoint_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -76,7 +76,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_Status{}
+	return &Endpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_Status); ok {
+	if st, ok := status.(*Endpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_Status
+	var st Endpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,14 +129,14 @@ type ProfilesEndpointList struct {
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-// Storage version of v1beta20210601.Endpoint_Status
-type Endpoint_Status struct {
+// Storage version of v1beta20210601.Endpoint_STATUS
+type Endpoint_STATUS struct {
 	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
 	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
-	CustomDomains                    []CustomDomain_Status_SubResourceEmbedded                   `json:"customDomains,omitempty"`
-	DefaultOriginGroup               *ResourceReference_Status                                   `json:"defaultOriginGroup,omitempty"`
-	DeliveryPolicy                   *EndpointProperties_Status_DeliveryPolicy                   `json:"deliveryPolicy,omitempty"`
-	GeoFilters                       []GeoFilter_Status                                          `json:"geoFilters,omitempty"`
+	CustomDomains                    []CustomDomain_STATUS_SubResourceEmbedded                   `json:"customDomains,omitempty"`
+	DefaultOriginGroup               *ResourceReference_STATUS                                   `json:"defaultOriginGroup,omitempty"`
+	DeliveryPolicy                   *EndpointProperties_STATUS_DeliveryPolicy                   `json:"deliveryPolicy,omitempty"`
+	GeoFilters                       []GeoFilter_STATUS                                          `json:"geoFilters,omitempty"`
 	HostName                         *string                                                     `json:"hostName,omitempty"`
 	Id                               *string                                                     `json:"id,omitempty"`
 	IsCompressionEnabled             *bool                                                       `json:"isCompressionEnabled,omitempty"`
@@ -145,26 +145,26 @@ type Endpoint_Status struct {
 	Location                         *string                                                     `json:"location,omitempty"`
 	Name                             *string                                                     `json:"name,omitempty"`
 	OptimizationType                 *string                                                     `json:"optimizationType,omitempty"`
-	OriginGroups                     []DeepCreatedOriginGroup_Status                             `json:"originGroups,omitempty"`
+	OriginGroups                     []DeepCreatedOriginGroup_STATUS                             `json:"originGroups,omitempty"`
 	OriginHostHeader                 *string                                                     `json:"originHostHeader,omitempty"`
 	OriginPath                       *string                                                     `json:"originPath,omitempty"`
-	Origins                          []DeepCreatedOrigin_Status                                  `json:"origins,omitempty"`
+	Origins                          []DeepCreatedOrigin_STATUS                                  `json:"origins,omitempty"`
 	ProbePath                        *string                                                     `json:"probePath,omitempty"`
 	PropertyBag                      genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
 	ProvisioningState                *string                                                     `json:"provisioningState,omitempty"`
 	QueryStringCachingBehavior       *string                                                     `json:"queryStringCachingBehavior,omitempty"`
 	ResourceState                    *string                                                     `json:"resourceState,omitempty"`
-	SystemData                       *SystemData_Status                                          `json:"systemData,omitempty"`
+	SystemData                       *SystemData_STATUS                                          `json:"systemData,omitempty"`
 	Tags                             map[string]string                                           `json:"tags,omitempty"`
 	Type                             *string                                                     `json:"type,omitempty"`
-	UrlSigningKeys                   []UrlSigningKey_Status                                      `json:"urlSigningKeys,omitempty"`
-	WebApplicationFirewallPolicyLink *EndpointProperties_Status_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+	UrlSigningKeys                   []UrlSigningKey_STATUS                                      `json:"urlSigningKeys,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_Status{}
+var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_Status from the provided source
-func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
+func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -172,8 +172,8 @@ func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_Status
-func (endpoint *Endpoint_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -234,25 +234,15 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(endpoints)
 }
 
-// Storage version of v1beta20210601.CustomDomain_Status_SubResourceEmbedded
-type CustomDomain_Status_SubResourceEmbedded struct {
+// Storage version of v1beta20210601.CustomDomain_STATUS_SubResourceEmbedded
+type CustomDomain_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeepCreatedOriginGroup_Status
-type DeepCreatedOriginGroup_Status struct {
-	HealthProbeSettings                                   *HealthProbeParameters_Status                       `json:"healthProbeSettings,omitempty"`
-	Name                                                  *string                                             `json:"name,omitempty"`
-	Origins                                               []ResourceReference_Status                          `json:"origins,omitempty"`
-	PropertyBag                                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_Status `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
-}
-
-// Storage version of v1beta20210601.DeepCreatedOrigin_Status
-type DeepCreatedOrigin_Status struct {
+// Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
+type DeepCreatedOrigin_STATUS struct {
 	Enabled                    *bool                  `json:"enabled,omitempty"`
 	HostName                   *string                `json:"hostName,omitempty"`
 	HttpPort                   *int                   `json:"httpPort,omitempty"`
@@ -267,6 +257,29 @@ type DeepCreatedOrigin_Status struct {
 	PrivateLinkResourceId      *string                `json:"privateLinkResourceId,omitempty"`
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Weight                     *int                   `json:"weight,omitempty"`
+}
+
+// Storage version of v1beta20210601.DeepCreatedOriginGroup_STATUS
+type DeepCreatedOriginGroup_STATUS struct {
+	HealthProbeSettings                                   *HealthProbeParameters_STATUS                       `json:"healthProbeSettings,omitempty"`
+	Name                                                  *string                                             `json:"name,omitempty"`
+	Origins                                               []ResourceReference_STATUS                          `json:"origins,omitempty"`
+	PropertyBag                                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_STATUS_DeliveryPolicy
+type EndpointProperties_STATUS_DeliveryPolicy struct {
+	Description *string                `json:"description,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rules       []DeliveryRule_STATUS  `json:"rules,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+type EndpointProperties_STATUS_WebApplicationFirewallPolicyLink struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.EndpointPropertiesUpdateParametersDeliveryPolicy
@@ -286,19 +299,6 @@ type EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20210601.EndpointProperties_Status_DeliveryPolicy
-type EndpointProperties_Status_DeliveryPolicy struct {
-	Description *string                `json:"description,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rules       []DeliveryRule_Status  `json:"rules,omitempty"`
-}
-
-// Storage version of v1beta20210601.EndpointProperties_Status_WebApplicationFirewallPolicyLink
-type EndpointProperties_Status_WebApplicationFirewallPolicyLink struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210601.GeoFilter
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/GeoFilter
 type GeoFilter struct {
@@ -308,8 +308,8 @@ type GeoFilter struct {
 	RelativePath *string                `json:"relativePath,omitempty"`
 }
 
-// Storage version of v1beta20210601.GeoFilter_Status
-type GeoFilter_Status struct {
+// Storage version of v1beta20210601.GeoFilter_STATUS
+type GeoFilter_STATUS struct {
 	Action       *string                `json:"action,omitempty"`
 	CountryCodes []string               `json:"countryCodes,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -358,8 +358,8 @@ type ResourceReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20210601.ResourceReference_Status
-type ResourceReference_Status struct {
+// Storage version of v1beta20210601.ResourceReference_STATUS
+type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -372,10 +372,10 @@ type UrlSigningKey struct {
 	PropertyBag         genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.UrlSigningKey_Status
-type UrlSigningKey_Status struct {
+// Storage version of v1beta20210601.UrlSigningKey_STATUS
+type UrlSigningKey_STATUS struct {
 	KeyId               *string                              `json:"keyId,omitempty"`
-	KeySourceParameters *KeyVaultSigningKeyParameters_Status `json:"keySourceParameters,omitempty"`
+	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 	PropertyBag         genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
@@ -389,10 +389,10 @@ type DeliveryRule struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeliveryRule_Status
-type DeliveryRule_Status struct {
-	Actions     []DeliveryRuleAction_Status    `json:"actions,omitempty"`
-	Conditions  []DeliveryRuleCondition_Status `json:"conditions,omitempty"`
+// Storage version of v1beta20210601.DeliveryRule_STATUS
+type DeliveryRule_STATUS struct {
+	Actions     []DeliveryRuleAction_STATUS    `json:"actions,omitempty"`
+	Conditions  []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
 	Name        *string                        `json:"name,omitempty"`
 	Order       *int                           `json:"order,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
@@ -408,8 +408,8 @@ type HealthProbeParameters struct {
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.HealthProbeParameters_Status
-type HealthProbeParameters_Status struct {
+// Storage version of v1beta20210601.HealthProbeParameters_STATUS
+type HealthProbeParameters_STATUS struct {
 	ProbeIntervalInSeconds *int                   `json:"probeIntervalInSeconds,omitempty"`
 	ProbePath              *string                `json:"probePath,omitempty"`
 	ProbeProtocol          *string                `json:"probeProtocol,omitempty"`
@@ -429,8 +429,8 @@ type KeyVaultSigningKeyParameters struct {
 	VaultName         *string                `json:"vaultName,omitempty"`
 }
 
-// Storage version of v1beta20210601.KeyVaultSigningKeyParameters_Status
-type KeyVaultSigningKeyParameters_Status struct {
+// Storage version of v1beta20210601.KeyVaultSigningKeyParameters_STATUS
+type KeyVaultSigningKeyParameters_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceGroupName *string                `json:"resourceGroupName,omitempty"`
 	SecretName        *string                `json:"secretName,omitempty"`
@@ -449,9 +449,9 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 	ResponseBasedFailoverThresholdPercentage *int                       `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-// Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters_Status
-type ResponseBasedOriginErrorDetectionParameters_Status struct {
-	HttpErrorRanges                          []HttpErrorRangeParameters_Status `json:"httpErrorRanges,omitempty"`
+// Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters_STATUS
+type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
+	HttpErrorRanges                          []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 	PropertyBag                              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	ResponseBasedDetectedErrorTypes          *string                           `json:"responseBasedDetectedErrorTypes,omitempty"`
 	ResponseBasedFailoverThresholdPercentage *int                              `json:"responseBasedFailoverThresholdPercentage,omitempty"`
@@ -472,8 +472,8 @@ type DeliveryRuleAction1 struct {
 	UrlSigning                             *UrlSigningAction                             `json:"urlSigningAction,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeliveryRuleAction_Status
-type DeliveryRuleAction_Status struct {
+// Storage version of v1beta20210601.DeliveryRuleAction_STATUS
+type DeliveryRuleAction_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -503,8 +503,8 @@ type DeliveryRuleCondition struct {
 	PropertyBag                  genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeliveryRuleCondition_Status
-type DeliveryRuleCondition_Status struct {
+// Storage version of v1beta20210601.DeliveryRuleCondition_STATUS
+type DeliveryRuleCondition_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -517,8 +517,8 @@ type HttpErrorRangeParameters struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.HttpErrorRangeParameters_Status
-type HttpErrorRangeParameters_Status struct {
+// Storage version of v1beta20210601.HttpErrorRangeParameters_STATUS
+type HttpErrorRangeParameters_STATUS struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

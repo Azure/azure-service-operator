@@ -27,7 +27,7 @@ type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              WorkspacesConnections_Spec `json:"spec,omitempty"`
-	Status            WorkspaceConnection_Status `json:"status,omitempty"`
+	Status            WorkspaceConnection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -76,7 +76,7 @@ func (connection *WorkspacesConnection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &WorkspaceConnection_Status{}
+	return &WorkspaceConnection_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*WorkspaceConnection_Status); ok {
+	if st, ok := status.(*WorkspaceConnection_STATUS); ok {
 		connection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st WorkspaceConnection_Status
+	var st WorkspaceConnection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,8 +129,8 @@ type WorkspacesConnectionList struct {
 	Items           []WorkspacesConnection `json:"items"`
 }
 
-// Storage version of v1beta20210701.WorkspaceConnection_Status
-type WorkspaceConnection_Status struct {
+// Storage version of v1beta20210701.WorkspaceConnection_STATUS
+type WorkspaceConnection_STATUS struct {
 	AuthType    *string                `json:"authType,omitempty"`
 	Category    *string                `json:"category,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -143,10 +143,10 @@ type WorkspaceConnection_Status struct {
 	ValueFormat *string                `json:"valueFormat,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &WorkspaceConnection_Status{}
+var _ genruntime.ConvertibleStatus = &WorkspaceConnection_STATUS{}
 
-// ConvertStatusFrom populates our WorkspaceConnection_Status from the provided source
-func (connection *WorkspaceConnection_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our WorkspaceConnection_STATUS from the provided source
+func (connection *WorkspaceConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == connection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -154,8 +154,8 @@ func (connection *WorkspaceConnection_Status) ConvertStatusFrom(source genruntim
 	return source.ConvertStatusTo(connection)
 }
 
-// ConvertStatusTo populates the provided destination from our WorkspaceConnection_Status
-func (connection *WorkspaceConnection_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our WorkspaceConnection_STATUS
+func (connection *WorkspaceConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == connection {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

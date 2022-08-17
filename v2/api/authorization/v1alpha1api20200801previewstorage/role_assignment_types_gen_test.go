@@ -161,35 +161,35 @@ func RoleAssignmentGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRoleAssignment is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
 	gens["Spec"] = RoleAssignmentsSpecGenerator()
-	gens["Status"] = RoleAssignmentStatusGenerator()
+	gens["Status"] = RoleAssignmentSTATUSGenerator()
 }
 
-func Test_RoleAssignment_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RoleAssignment_Status to RoleAssignment_Status via AssignPropertiesToRoleAssignmentStatus & AssignPropertiesFromRoleAssignmentStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentStatus, RoleAssignmentStatusGenerator()))
+		"Round trip from RoleAssignment_STATUS to RoleAssignment_STATUS via AssignPropertiesToRoleAssignmentSTATUS & AssignPropertiesFromRoleAssignmentSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentSTATUS, RoleAssignmentSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignmentStatus tests if a specific instance of RoleAssignment_Status can be assigned to v1beta20200801previewstorage and back losslessly
-func RunPropertyAssignmentTestForRoleAssignmentStatus(subject RoleAssignment_Status) string {
+// RunPropertyAssignmentTestForRoleAssignmentSTATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to v1beta20200801previewstorage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignmentSTATUS(subject RoleAssignment_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200801ps.RoleAssignment_Status
-	err := copied.AssignPropertiesToRoleAssignmentStatus(&other)
+	var other v20200801ps.RoleAssignment_STATUS
+	err := copied.AssignPropertiesToRoleAssignmentSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RoleAssignment_Status
-	err = actual.AssignPropertiesFromRoleAssignmentStatus(&other)
+	var actual RoleAssignment_STATUS
+	err = actual.AssignPropertiesFromRoleAssignmentSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForRoleAssignmentStatus(subject RoleAssignment_Sta
 	return ""
 }
 
-func Test_RoleAssignment_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RoleAssignment_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentStatus, RoleAssignmentStatusGenerator()))
+		"Round trip of RoleAssignment_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoleAssignmentSTATUS, RoleAssignmentSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentStatus runs a test to see if a specific instance of RoleAssignment_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentStatus(subject RoleAssignment_Status) string {
+// RunJSONSerializationTestForRoleAssignmentSTATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignmentSTATUS(subject RoleAssignment_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForRoleAssignmentStatus(subject RoleAssignment_Stat
 	}
 
 	// Deserialize back into memory
-	var actual RoleAssignment_Status
+	var actual RoleAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,25 +245,25 @@ func RunJSONSerializationTestForRoleAssignmentStatus(subject RoleAssignment_Stat
 	return ""
 }
 
-// Generator of RoleAssignment_Status instances for property testing - lazily instantiated by
-// RoleAssignmentStatusGenerator()
-var roleAssignmentStatusGenerator gopter.Gen
+// Generator of RoleAssignment_STATUS instances for property testing - lazily instantiated by
+// RoleAssignmentSTATUSGenerator()
+var roleAssignmentSTATUSGenerator gopter.Gen
 
-// RoleAssignmentStatusGenerator returns a generator of RoleAssignment_Status instances for property testing.
-func RoleAssignmentStatusGenerator() gopter.Gen {
-	if roleAssignmentStatusGenerator != nil {
-		return roleAssignmentStatusGenerator
+// RoleAssignmentSTATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
+func RoleAssignmentSTATUSGenerator() gopter.Gen {
+	if roleAssignmentSTATUSGenerator != nil {
+		return roleAssignmentSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentStatus(generators)
-	roleAssignmentStatusGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_Status{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(generators)
+	roleAssignmentSTATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
 
-	return roleAssignmentStatusGenerator
+	return roleAssignmentSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignmentStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(gens map[string]gopter.Gen) {
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())

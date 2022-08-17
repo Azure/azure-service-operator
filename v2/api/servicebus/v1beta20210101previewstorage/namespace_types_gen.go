@@ -27,7 +27,7 @@ type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Namespaces_Spec    `json:"spec,omitempty"`
-	Status            SBNamespace_Status `json:"status,omitempty"`
+	Status            SBNamespace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -76,7 +76,7 @@ func (namespace *Namespace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBNamespace_Status{}
+	return &SBNamespace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBNamespace_Status); ok {
+	if st, ok := status.(*SBNamespace_STATUS); ok {
 		namespace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBNamespace_Status
+	var st SBNamespace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -176,33 +176,33 @@ func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(namespaces)
 }
 
-// Storage version of v1beta20210101preview.SBNamespace_Status
-type SBNamespace_Status struct {
+// Storage version of v1beta20210101preview.SBNamespace_STATUS
+type SBNamespace_STATUS struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
-	Encryption                 *Encryption_Status                                     `json:"encryption,omitempty"`
+	Encryption                 *Encryption_STATUS                                     `json:"encryption,omitempty"`
 	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *Identity_Status                                       `json:"identity,omitempty"`
+	Identity                   *Identity_STATUS                                       `json:"identity,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
 	MetricId                   *string                                                `json:"metricId,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
 	ServiceBusEndpoint         *string                                                `json:"serviceBusEndpoint,omitempty"`
-	Sku                        *SBSku_Status                                          `json:"sku,omitempty"`
+	Sku                        *SBSku_STATUS                                          `json:"sku,omitempty"`
 	Status                     *string                                                `json:"status,omitempty"`
-	SystemData                 *SystemData_Status                                     `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
 	UpdatedAt                  *string                                                `json:"updatedAt,omitempty"`
 	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBNamespace_Status{}
+var _ genruntime.ConvertibleStatus = &SBNamespace_STATUS{}
 
-// ConvertStatusFrom populates our SBNamespace_Status from the provided source
-func (namespace *SBNamespace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SBNamespace_STATUS from the provided source
+func (namespace *SBNamespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -210,8 +210,8 @@ func (namespace *SBNamespace_Status) ConvertStatusFrom(source genruntime.Convert
 	return source.ConvertStatusTo(namespace)
 }
 
-// ConvertStatusTo populates the provided destination from our SBNamespace_Status
-func (namespace *SBNamespace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SBNamespace_STATUS
+func (namespace *SBNamespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -228,10 +228,10 @@ type Encryption struct {
 	RequireInfrastructureEncryption *bool                  `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.Encryption_Status
-type Encryption_Status struct {
+// Storage version of v1beta20210101preview.Encryption_STATUS
+type Encryption_STATUS struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag                     genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	RequireInfrastructureEncryption *bool                       `json:"requireInfrastructureEncryption,omitempty"`
 }
@@ -243,20 +243,20 @@ type Identity struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.Identity_Status
-type Identity_Status struct {
+// Storage version of v1beta20210101preview.Identity_STATUS
+type Identity_STATUS struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	TenantId               *string                           `json:"tenantId,omitempty"`
 	Type                   *string                           `json:"type,omitempty"`
-	UserAssignedIdentities map[string]DictionaryValue_Status `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]DictionaryValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+// Storage version of v1beta20210101preview.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.SBSku
@@ -268,16 +268,16 @@ type SBSku struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.SBSku_Status
-type SBSku_Status struct {
+// Storage version of v1beta20210101preview.SBSku_STATUS
+type SBSku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20210101preview.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -287,8 +287,8 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.DictionaryValue_Status
-type DictionaryValue_Status struct {
+// Storage version of v1beta20210101preview.DictionaryValue_STATUS
+type DictionaryValue_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -304,9 +304,9 @@ type KeyVaultProperties struct {
 	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.KeyVaultProperties_Status
-type KeyVaultProperties_Status struct {
-	Identity    *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
+// Storage version of v1beta20210101preview.KeyVaultProperties_STATUS
+type KeyVaultProperties_STATUS struct {
+	Identity    *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
@@ -322,8 +322,8 @@ type UserAssignedIdentityProperties struct {
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.UserAssignedIdentityProperties_Status
-type UserAssignedIdentityProperties_Status struct {
+// Storage version of v1beta20210101preview.UserAssignedIdentityProperties_STATUS
+type UserAssignedIdentityProperties_STATUS struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }

@@ -27,7 +27,7 @@ type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RouteTables_Spec  `json:"spec,omitempty"`
-	Status            RouteTable_Status `json:"status,omitempty"`
+	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTable{}
@@ -76,7 +76,7 @@ func (table *RouteTable) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RouteTable_Status{}
+	return &RouteTable_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (table *RouteTable) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RouteTable_Status); ok {
+	if st, ok := status.(*RouteTable_STATUS); ok {
 		table.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RouteTable_Status
+	var st RouteTable_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,8 +129,8 @@ type RouteTableList struct {
 	Items           []RouteTable `json:"items"`
 }
 
-// Storage version of v1beta20201101.RouteTable_Status
-type RouteTable_Status struct {
+// Storage version of v1beta20201101.RouteTable_STATUS
+type RouteTable_STATUS struct {
 	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
 	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`
 	Etag                       *string                `json:"etag,omitempty"`
@@ -144,10 +144,10 @@ type RouteTable_Status struct {
 	Type                       *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RouteTable_Status{}
+var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
 
-// ConvertStatusFrom populates our RouteTable_Status from the provided source
-func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
+func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -155,8 +155,8 @@ func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleS
 	return source.ConvertStatusTo(table)
 }
 
-// ConvertStatusTo populates the provided destination from our RouteTable_Status
-func (table *RouteTable_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
+func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

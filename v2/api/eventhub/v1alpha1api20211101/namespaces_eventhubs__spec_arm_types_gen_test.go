@@ -20,7 +20,7 @@ import (
 func Test_NamespacesEventhubs_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -97,7 +97,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecARM(gens map[string]g
 func Test_NamespacesEventhubs_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -173,7 +173,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecPropertiesARM(gens ma
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -252,7 +252,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDesc
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

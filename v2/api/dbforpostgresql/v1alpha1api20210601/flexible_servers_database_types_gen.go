@@ -29,7 +29,7 @@ type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FlexibleServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_Status               `json:"status,omitempty"`
+	Status            Database_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
@@ -137,7 +137,7 @@ func (database *FlexibleServersDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Database_Status{}
+	return &Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Database_Status); ok {
+	if st, ok := status.(*Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Database_Status
+	var st Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (database *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersData
 	database.Spec = spec
 
 	// Status
-	var status Database_Status
-	err = status.AssignPropertiesFromDatabaseStatus(&source.Status)
+	var status Database_STATUS
+	err = status.AssignPropertiesFromDatabaseSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseSTATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -303,10 +303,10 @@ func (database *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDataba
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210601s.Database_Status
-	err = database.Status.AssignPropertiesToDatabaseStatus(&status)
+	var status alpha20210601s.Database_STATUS
+	err = database.Status.AssignPropertiesToDatabaseSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,8 +331,8 @@ type FlexibleServersDatabaseList struct {
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-// Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
-type Database_Status struct {
+// Deprecated version of Database_STATUS. Use v1beta20210601.Database_STATUS instead
+type Database_STATUS struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
@@ -340,29 +340,29 @@ type Database_Status struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 	Id         *string                `json:"id,omitempty"`
 	Name       *string                `json:"name,omitempty"`
-	SystemData *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type       *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Database_Status{}
+var _ genruntime.ConvertibleStatus = &Database_STATUS{}
 
-// ConvertStatusFrom populates our Database_Status from the provided source
-func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210601s.Database_Status)
+// ConvertStatusFrom populates our Database_STATUS from the provided source
+func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210601s.Database_STATUS)
 	if ok {
 		// Populate our instance from source
-		return database.AssignPropertiesFromDatabaseStatus(src)
+		return database.AssignPropertiesFromDatabaseSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210601s.Database_Status{}
+	src = &alpha20210601s.Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignPropertiesFromDatabaseStatus(src)
+	err = database.AssignPropertiesFromDatabaseSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -370,17 +370,17 @@ func (database *Database_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Database_Status
-func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210601s.Database_Status)
+// ConvertStatusTo populates the provided destination from our Database_STATUS
+func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210601s.Database_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignPropertiesToDatabaseStatus(dst)
+		return database.AssignPropertiesToDatabaseSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210601s.Database_Status{}
-	err := database.AssignPropertiesToDatabaseStatus(dst)
+	dst = &alpha20210601s.Database_STATUS{}
+	err := database.AssignPropertiesToDatabaseSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -394,18 +394,18 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Database_Status{}
+var _ genruntime.FromARMConverter = &Database_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (database *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Database_StatusARM{}
+func (database *Database_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Database_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (database *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Database_StatusARM)
+func (database *Database_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Database_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Charset’:
@@ -442,7 +442,7 @@ func (database *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -461,8 +461,8 @@ func (database *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromDatabaseStatus populates our Database_Status from the provided source Database_Status
-func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *alpha20210601s.Database_Status) error {
+// AssignPropertiesFromDatabaseSTATUS populates our Database_STATUS from the provided source Database_STATUS
+func (database *Database_STATUS) AssignPropertiesFromDatabaseSTATUS(source *alpha20210601s.Database_STATUS) error {
 
 	// Charset
 	database.Charset = genruntime.ClonePointerToString(source.Charset)
@@ -481,10 +481,10 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *alph
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		database.SystemData = &systemDatum
 	} else {
@@ -498,8 +498,8 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *alph
 	return nil
 }
 
-// AssignPropertiesToDatabaseStatus populates the provided destination Database_Status from our Database_Status
-func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *alpha20210601s.Database_Status) error {
+// AssignPropertiesToDatabaseSTATUS populates the provided destination Database_STATUS from our Database_STATUS
+func (database *Database_STATUS) AssignPropertiesToDatabaseSTATUS(destination *alpha20210601s.Database_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -520,10 +520,10 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *a
 
 	// SystemData
 	if database.SystemData != nil {
-		var systemDatum alpha20210601s.SystemData_Status
-		err := database.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum alpha20210601s.SystemData_STATUS
+		err := database.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

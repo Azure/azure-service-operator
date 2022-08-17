@@ -28,7 +28,7 @@ type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Components_Spec                     `json:"spec,omitempty"`
-	Status            ApplicationInsightsComponent_Status `json:"status,omitempty"`
+	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Component{}
@@ -77,7 +77,7 @@ func (component *Component) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationInsightsComponent_Status{}
+	return &ApplicationInsightsComponent_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (component *Component) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationInsightsComponent_Status); ok {
+	if st, ok := status.(*ApplicationInsightsComponent_STATUS); ok {
 		component.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationInsightsComponent_Status
+	var st ApplicationInsightsComponent_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,8 +136,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-02-02")
 
-// Storage version of v1beta20200202.ApplicationInsightsComponent_Status
-type ApplicationInsightsComponent_Status struct {
+// Storage version of v1beta20200202.ApplicationInsightsComponent_STATUS
+type ApplicationInsightsComponent_STATUS struct {
 	AppId                           *string                            `json:"AppId,omitempty"`
 	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
 	ApplicationType                 *string                            `json:"Application_Type,omitempty"`
@@ -159,7 +159,7 @@ type ApplicationInsightsComponent_Status struct {
 	LaMigrationDate                 *string                            `json:"LaMigrationDate,omitempty"`
 	Location                        *string                            `json:"location,omitempty"`
 	Name                            *string                            `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status `json:"PrivateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"PrivateLinkScopedResources,omitempty"`
 	PropertiesName                  *string                            `json:"properties_name,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
@@ -174,10 +174,10 @@ type ApplicationInsightsComponent_Status struct {
 	WorkspaceResourceId             *string                            `json:"WorkspaceResourceId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_Status{}
+var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_STATUS{}
 
-// ConvertStatusFrom populates our ApplicationInsightsComponent_Status from the provided source
-func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ApplicationInsightsComponent_STATUS from the provided source
+func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -185,8 +185,8 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source g
 	return source.ConvertStatusTo(component)
 }
 
-// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -251,8 +251,8 @@ func (components *Components_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(components)
 }
 
-// Storage version of v1beta20200202.PrivateLinkScopedResource_Status
-type PrivateLinkScopedResource_Status struct {
+// Storage version of v1beta20200202.PrivateLinkScopedResource_STATUS
+type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`
 	ScopeId     *string                `json:"ScopeId,omitempty"`

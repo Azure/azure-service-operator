@@ -26,7 +26,7 @@ type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              VirtualNetworksVirtualNetworkPeerings_Spec `json:"spec,omitempty"`
-	Status            VirtualNetworkPeering_Status               `json:"status,omitempty"`
+	Status            VirtualNetworkPeering_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
@@ -97,7 +97,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (peering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworkPeering_Status{}
+	return &VirtualNetworkPeering_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (peering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.Resourc
 // SetStatus sets the status of this resource
 func (peering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworkPeering_Status); ok {
+	if st, ok := status.(*VirtualNetworkPeering_STATUS); ok {
 		peering.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworkPeering_Status
+	var st VirtualNetworkPeering_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignPropertiesFromVirtual
 	peering.Spec = spec
 
 	// Status
-	var status VirtualNetworkPeering_Status
-	err = status.AssignPropertiesFromVirtualNetworkPeeringStatus(&source.Status)
+	var status VirtualNetworkPeering_STATUS
+	err = status.AssignPropertiesFromVirtualNetworkPeeringSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkPeeringStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkPeeringSTATUS() to populate field Status")
 	}
 	peering.Status = status
 
@@ -170,10 +170,10 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignPropertiesToVirtualNe
 	destination.Spec = spec
 
 	// Status
-	var status v20201101s.VirtualNetworkPeering_Status
-	err = peering.Status.AssignPropertiesToVirtualNetworkPeeringStatus(&status)
+	var status v20201101s.VirtualNetworkPeering_STATUS
+	err = peering.Status.AssignPropertiesToVirtualNetworkPeeringSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkPeeringStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkPeeringSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,9 +199,9 @@ type VirtualNetworksVirtualNetworkPeeringList struct {
 	Items           []VirtualNetworksVirtualNetworkPeering `json:"items"`
 }
 
-// Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status
-// Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead
-type VirtualNetworkPeering_Status struct {
+// Storage version of v1alpha1api20201101.VirtualNetworkPeering_STATUS
+// Deprecated version of VirtualNetworkPeering_STATUS. Use v1beta20201101.VirtualNetworkPeering_STATUS instead
+type VirtualNetworkPeering_STATUS struct {
 	AllowForwardedTraffic     *bool                                `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool                                `json:"allowVirtualNetworkAccess,omitempty"`
@@ -213,33 +213,33 @@ type VirtualNetworkPeering_Status struct {
 	PeeringState              *string                              `json:"peeringState,omitempty"`
 	PropertyBag               genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState         *string                              `json:"provisioningState,omitempty"`
-	RemoteAddressSpace        *AddressSpace_Status                 `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_Status `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork      *SubResource_Status                  `json:"remoteVirtualNetwork,omitempty"`
+	RemoteAddressSpace        *AddressSpace_STATUS                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_STATUS `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_STATUS                  `json:"remoteVirtualNetwork,omitempty"`
 	ResourceGuid              *string                              `json:"resourceGuid,omitempty"`
 	Type                      *string                              `json:"type,omitempty"`
 	UseRemoteGateways         *bool                                `json:"useRemoteGateways,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_Status{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworkPeering_Status from the provided source
-func (peering *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.VirtualNetworkPeering_Status)
+// ConvertStatusFrom populates our VirtualNetworkPeering_STATUS from the provided source
+func (peering *VirtualNetworkPeering_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.VirtualNetworkPeering_STATUS)
 	if ok {
 		// Populate our instance from source
-		return peering.AssignPropertiesFromVirtualNetworkPeeringStatus(src)
+		return peering.AssignPropertiesFromVirtualNetworkPeeringSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.VirtualNetworkPeering_Status{}
+	src = &v20201101s.VirtualNetworkPeering_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = peering.AssignPropertiesFromVirtualNetworkPeeringStatus(src)
+	err = peering.AssignPropertiesFromVirtualNetworkPeeringSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -247,17 +247,17 @@ func (peering *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_Status
-func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.VirtualNetworkPeering_Status)
+// ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_STATUS
+func (peering *VirtualNetworkPeering_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.VirtualNetworkPeering_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return peering.AssignPropertiesToVirtualNetworkPeeringStatus(dst)
+		return peering.AssignPropertiesToVirtualNetworkPeeringSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.VirtualNetworkPeering_Status{}
-	err := peering.AssignPropertiesToVirtualNetworkPeeringStatus(dst)
+	dst = &v20201101s.VirtualNetworkPeering_STATUS{}
+	err := peering.AssignPropertiesToVirtualNetworkPeeringSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -271,8 +271,8 @@ func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genrunt
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkPeeringStatus populates our VirtualNetworkPeering_Status from the provided source VirtualNetworkPeering_Status
-func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkPeeringStatus(source *v20201101s.VirtualNetworkPeering_Status) error {
+// AssignPropertiesFromVirtualNetworkPeeringSTATUS populates our VirtualNetworkPeering_STATUS from the provided source VirtualNetworkPeering_STATUS
+func (peering *VirtualNetworkPeering_STATUS) AssignPropertiesFromVirtualNetworkPeeringSTATUS(source *v20201101s.VirtualNetworkPeering_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -328,10 +328,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkP
 
 	// RemoteAddressSpace
 	if source.RemoteAddressSpace != nil {
-		var remoteAddressSpace AddressSpace_Status
-		err := remoteAddressSpace.AssignPropertiesFromAddressSpaceStatus(source.RemoteAddressSpace)
+		var remoteAddressSpace AddressSpace_STATUS
+		err := remoteAddressSpace.AssignPropertiesFromAddressSpaceSTATUS(source.RemoteAddressSpace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceStatus() to populate field RemoteAddressSpace")
+			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceSTATUS() to populate field RemoteAddressSpace")
 		}
 		peering.RemoteAddressSpace = &remoteAddressSpace
 	} else {
@@ -340,10 +340,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkP
 
 	// RemoteBgpCommunities
 	if source.RemoteBgpCommunities != nil {
-		var remoteBgpCommunity VirtualNetworkBgpCommunities_Status
-		err := remoteBgpCommunity.AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus(source.RemoteBgpCommunities)
+		var remoteBgpCommunity VirtualNetworkBgpCommunities_STATUS
+		err := remoteBgpCommunity.AssignPropertiesFromVirtualNetworkBgpCommunitiesSTATUS(source.RemoteBgpCommunities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus() to populate field RemoteBgpCommunities")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkBgpCommunitiesSTATUS() to populate field RemoteBgpCommunities")
 		}
 		peering.RemoteBgpCommunities = &remoteBgpCommunity
 	} else {
@@ -352,10 +352,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkP
 
 	// RemoteVirtualNetwork
 	if source.RemoteVirtualNetwork != nil {
-		var remoteVirtualNetwork SubResource_Status
-		err := remoteVirtualNetwork.AssignPropertiesFromSubResourceStatus(source.RemoteVirtualNetwork)
+		var remoteVirtualNetwork SubResource_STATUS
+		err := remoteVirtualNetwork.AssignPropertiesFromSubResourceSTATUS(source.RemoteVirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field RemoteVirtualNetwork")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field RemoteVirtualNetwork")
 		}
 		peering.RemoteVirtualNetwork = &remoteVirtualNetwork
 	} else {
@@ -387,8 +387,8 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkP
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkPeeringStatus populates the provided destination VirtualNetworkPeering_Status from our VirtualNetworkPeering_Status
-func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPeeringStatus(destination *v20201101s.VirtualNetworkPeering_Status) error {
+// AssignPropertiesToVirtualNetworkPeeringSTATUS populates the provided destination VirtualNetworkPeering_STATUS from our VirtualNetworkPeering_STATUS
+func (peering *VirtualNetworkPeering_STATUS) AssignPropertiesToVirtualNetworkPeeringSTATUS(destination *v20201101s.VirtualNetworkPeering_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(peering.PropertyBag)
 
@@ -444,10 +444,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 
 	// RemoteAddressSpace
 	if peering.RemoteAddressSpace != nil {
-		var remoteAddressSpace v20201101s.AddressSpace_Status
-		err := peering.RemoteAddressSpace.AssignPropertiesToAddressSpaceStatus(&remoteAddressSpace)
+		var remoteAddressSpace v20201101s.AddressSpace_STATUS
+		err := peering.RemoteAddressSpace.AssignPropertiesToAddressSpaceSTATUS(&remoteAddressSpace)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceStatus() to populate field RemoteAddressSpace")
+			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceSTATUS() to populate field RemoteAddressSpace")
 		}
 		destination.RemoteAddressSpace = &remoteAddressSpace
 	} else {
@@ -456,10 +456,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 
 	// RemoteBgpCommunities
 	if peering.RemoteBgpCommunities != nil {
-		var remoteBgpCommunity v20201101s.VirtualNetworkBgpCommunities_Status
-		err := peering.RemoteBgpCommunities.AssignPropertiesToVirtualNetworkBgpCommunitiesStatus(&remoteBgpCommunity)
+		var remoteBgpCommunity v20201101s.VirtualNetworkBgpCommunities_STATUS
+		err := peering.RemoteBgpCommunities.AssignPropertiesToVirtualNetworkBgpCommunitiesSTATUS(&remoteBgpCommunity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkBgpCommunitiesStatus() to populate field RemoteBgpCommunities")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkBgpCommunitiesSTATUS() to populate field RemoteBgpCommunities")
 		}
 		destination.RemoteBgpCommunities = &remoteBgpCommunity
 	} else {
@@ -468,10 +468,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 
 	// RemoteVirtualNetwork
 	if peering.RemoteVirtualNetwork != nil {
-		var remoteVirtualNetwork v20201101s.SubResource_Status
-		err := peering.RemoteVirtualNetwork.AssignPropertiesToSubResourceStatus(&remoteVirtualNetwork)
+		var remoteVirtualNetwork v20201101s.SubResource_STATUS
+		err := peering.RemoteVirtualNetwork.AssignPropertiesToSubResourceSTATUS(&remoteVirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field RemoteVirtualNetwork")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field RemoteVirtualNetwork")
 		}
 		destination.RemoteVirtualNetwork = &remoteVirtualNetwork
 	} else {

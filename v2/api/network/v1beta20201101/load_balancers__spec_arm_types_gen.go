@@ -51,15 +51,6 @@ type ExtendedLocationARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku
-type LoadBalancerSkuARM struct {
-	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSkuName `json:"name,omitempty"`
-
-	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
-}
-
 type LoadBalancers_Spec_PropertiesARM struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []LoadBalancers_Spec_Properties_BackendAddressPoolsARM `json:"backendAddressPools,omitempty"`
@@ -84,26 +75,19 @@ type LoadBalancers_Spec_PropertiesARM struct {
 	Probes []LoadBalancers_Spec_Properties_ProbesARM `json:"probes,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku
+type LoadBalancerSkuARM struct {
+	// Name: Name of a load balancer SKU.
+	Name *LoadBalancerSkuName `json:"name,omitempty"`
+
+	// Tier: Tier of a load balancer SKU.
+	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
-
-// +kubebuilder:validation:Enum={"Basic","Standard"}
-type LoadBalancerSkuName string
-
-const (
-	LoadBalancerSkuName_Basic    = LoadBalancerSkuName("Basic")
-	LoadBalancerSkuName_Standard = LoadBalancerSkuName("Standard")
-)
-
-// +kubebuilder:validation:Enum={"Global","Regional"}
-type LoadBalancerSkuTier string
-
-const (
-	LoadBalancerSkuTier_Global   = LoadBalancerSkuTier("Global")
-	LoadBalancerSkuTier_Regional = LoadBalancerSkuTier("Regional")
-)
 
 type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
 	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
@@ -161,6 +145,22 @@ type LoadBalancers_Spec_Properties_ProbesARM struct {
 	// Properties: Properties of load balancer probe.
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type LoadBalancerSkuName string
+
+const (
+	LoadBalancerSkuName_Basic    = LoadBalancerSkuName("Basic")
+	LoadBalancerSkuName_Standard = LoadBalancerSkuName("Standard")
+)
+
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type LoadBalancerSkuTier string
+
+const (
+	LoadBalancerSkuTier_Global   = LoadBalancerSkuTier("Global")
+	LoadBalancerSkuTier_Regional = LoadBalancerSkuTier("Regional")
+)
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/FrontendIPConfigurationPropertiesFormat
 type FrontendIPConfigurationPropertiesFormatARM struct {

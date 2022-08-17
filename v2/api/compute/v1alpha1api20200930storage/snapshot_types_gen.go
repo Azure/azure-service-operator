@@ -28,7 +28,7 @@ type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Snapshots_Spec  `json:"spec,omitempty"`
-	Status            Snapshot_Status `json:"status,omitempty"`
+	Status            Snapshot_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Snapshot{}
@@ -99,7 +99,7 @@ func (snapshot *Snapshot) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Snapshot_Status{}
+	return &Snapshot_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -115,13 +115,13 @@ func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Snapshot_Status); ok {
+	if st, ok := status.(*Snapshot_STATUS); ok {
 		snapshot.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Snapshot_Status
+	var st Snapshot_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -146,10 +146,10 @@ func (snapshot *Snapshot) AssignPropertiesFromSnapshot(source *v20200930s.Snapsh
 	snapshot.Spec = spec
 
 	// Status
-	var status Snapshot_Status
-	err = status.AssignPropertiesFromSnapshotStatus(&source.Status)
+	var status Snapshot_STATUS
+	err = status.AssignPropertiesFromSnapshotSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSnapshotStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSnapshotSTATUS() to populate field Status")
 	}
 	snapshot.Status = status
 
@@ -172,10 +172,10 @@ func (snapshot *Snapshot) AssignPropertiesToSnapshot(destination *v20200930s.Sna
 	destination.Spec = spec
 
 	// Status
-	var status v20200930s.Snapshot_Status
-	err = snapshot.Status.AssignPropertiesToSnapshotStatus(&status)
+	var status v20200930s.Snapshot_STATUS
+	err = snapshot.Status.AssignPropertiesToSnapshotSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSnapshotStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSnapshotSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -201,18 +201,18 @@ type SnapshotList struct {
 	Items           []Snapshot `json:"items"`
 }
 
-// Storage version of v1alpha1api20200930.Snapshot_Status
-// Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
-type Snapshot_Status struct {
+// Storage version of v1alpha1api20200930.Snapshot_STATUS
+// Deprecated version of Snapshot_STATUS. Use v1beta20200930.Snapshot_STATUS instead
+type Snapshot_STATUS struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
 	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                              `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
 	Id                           *string                              `json:"id,omitempty"`
 	Incremental                  *bool                                `json:"incremental,omitempty"`
@@ -223,33 +223,33 @@ type Snapshot_Status struct {
 	OsType                       *string                              `json:"osType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
-	Sku                          *SnapshotSku_Status                  `json:"sku,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	Sku                          *SnapshotSku_STATUS                  `json:"sku,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
 	Type                         *string                              `json:"type,omitempty"`
 	UniqueId                     *string                              `json:"uniqueId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Snapshot_Status{}
+var _ genruntime.ConvertibleStatus = &Snapshot_STATUS{}
 
-// ConvertStatusFrom populates our Snapshot_Status from the provided source
-func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200930s.Snapshot_Status)
+// ConvertStatusFrom populates our Snapshot_STATUS from the provided source
+func (snapshot *Snapshot_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200930s.Snapshot_STATUS)
 	if ok {
 		// Populate our instance from source
-		return snapshot.AssignPropertiesFromSnapshotStatus(src)
+		return snapshot.AssignPropertiesFromSnapshotSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200930s.Snapshot_Status{}
+	src = &v20200930s.Snapshot_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = snapshot.AssignPropertiesFromSnapshotStatus(src)
+	err = snapshot.AssignPropertiesFromSnapshotSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -257,17 +257,17 @@ func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Snapshot_Status
-func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200930s.Snapshot_Status)
+// ConvertStatusTo populates the provided destination from our Snapshot_STATUS
+func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200930s.Snapshot_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return snapshot.AssignPropertiesToSnapshotStatus(dst)
+		return snapshot.AssignPropertiesToSnapshotSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200930s.Snapshot_Status{}
-	err := snapshot.AssignPropertiesToSnapshotStatus(dst)
+	dst = &v20200930s.Snapshot_STATUS{}
+	err := snapshot.AssignPropertiesToSnapshotSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -281,8 +281,8 @@ func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromSnapshotStatus populates our Snapshot_Status from the provided source Snapshot_Status
-func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v20200930s.Snapshot_Status) error {
+// AssignPropertiesFromSnapshotSTATUS populates our Snapshot_STATUS from the provided source Snapshot_STATUS
+func (snapshot *Snapshot_STATUS) AssignPropertiesFromSnapshotSTATUS(source *v20200930s.Snapshot_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -291,10 +291,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// CreationData
 	if source.CreationData != nil {
-		var creationDatum CreationData_Status
-		err := creationDatum.AssignPropertiesFromCreationDataStatus(source.CreationData)
+		var creationDatum CreationData_STATUS
+		err := creationDatum.AssignPropertiesFromCreationDataSTATUS(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreationDataStatus() to populate field CreationData")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreationDataSTATUS() to populate field CreationData")
 		}
 		snapshot.CreationData = &creationDatum
 	} else {
@@ -315,10 +315,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// Encryption
 	if source.Encryption != nil {
-		var encryption Encryption_Status
-		err := encryption.AssignPropertiesFromEncryptionStatus(source.Encryption)
+		var encryption Encryption_STATUS
+		err := encryption.AssignPropertiesFromEncryptionSTATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSTATUS() to populate field Encryption")
 		}
 		snapshot.Encryption = &encryption
 	} else {
@@ -327,10 +327,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// EncryptionSettingsCollection
 	if source.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection EncryptionSettingsCollection_Status
-		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollectionStatus(source.EncryptionSettingsCollection)
+		var encryptionSettingsCollection EncryptionSettingsCollection_STATUS
+		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollectionSTATUS(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollectionStatus() to populate field EncryptionSettingsCollection")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollectionSTATUS() to populate field EncryptionSettingsCollection")
 		}
 		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -339,20 +339,20 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocationStatusStash alpha20210701s.ExtendedLocation_Status
-		err := extendedLocationStatusStash.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		var extendedLocationSTATUSStash alpha20210701s.ExtendedLocation_STATUS
+		err := extendedLocationSTATUSStash.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal alpha20201201s.ExtendedLocation_Status
-		err = extendedLocationStatusStashLocal.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStash)
+		var extendedLocationSTATUSStashLocal alpha20201201s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStashLocal.AssignPropertiesFromExtendedLocationSTATUS(&extendedLocationSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation_STATUSStash")
 		}
-		var extendedLocation ExtendedLocation_Status
-		err = extendedLocation.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		var extendedLocation ExtendedLocation_STATUS
+		err = extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		snapshot.ExtendedLocation = &extendedLocation
 	} else {
@@ -393,10 +393,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
-		var purchasePlan PurchasePlan_Status
-		err := purchasePlan.AssignPropertiesFromPurchasePlanStatus(source.PurchasePlan)
+		var purchasePlan PurchasePlan_STATUS
+		err := purchasePlan.AssignPropertiesFromPurchasePlanSTATUS(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlanStatus() to populate field PurchasePlan")
+			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlanSTATUS() to populate field PurchasePlan")
 		}
 		snapshot.PurchasePlan = &purchasePlan
 	} else {
@@ -405,10 +405,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 
 	// Sku
 	if source.Sku != nil {
-		var sku SnapshotSku_Status
-		err := sku.AssignPropertiesFromSnapshotSkuStatus(source.Sku)
+		var sku SnapshotSku_STATUS
+		err := sku.AssignPropertiesFromSnapshotSkuSTATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSnapshotSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSnapshotSkuSTATUS() to populate field Sku")
 		}
 		snapshot.Sku = &sku
 	} else {
@@ -438,8 +438,8 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToSnapshotStatus populates the provided destination Snapshot_Status from our Snapshot_Status
-func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v20200930s.Snapshot_Status) error {
+// AssignPropertiesToSnapshotSTATUS populates the provided destination Snapshot_STATUS from our Snapshot_STATUS
+func (snapshot *Snapshot_STATUS) AssignPropertiesToSnapshotSTATUS(destination *v20200930s.Snapshot_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(snapshot.PropertyBag)
 
@@ -448,10 +448,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// CreationData
 	if snapshot.CreationData != nil {
-		var creationDatum v20200930s.CreationData_Status
-		err := snapshot.CreationData.AssignPropertiesToCreationDataStatus(&creationDatum)
+		var creationDatum v20200930s.CreationData_STATUS
+		err := snapshot.CreationData.AssignPropertiesToCreationDataSTATUS(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreationDataStatus() to populate field CreationData")
+			return errors.Wrap(err, "calling AssignPropertiesToCreationDataSTATUS() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -472,10 +472,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// Encryption
 	if snapshot.Encryption != nil {
-		var encryption v20200930s.Encryption_Status
-		err := snapshot.Encryption.AssignPropertiesToEncryptionStatus(&encryption)
+		var encryption v20200930s.Encryption_STATUS
+		err := snapshot.Encryption.AssignPropertiesToEncryptionSTATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSTATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -484,10 +484,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// EncryptionSettingsCollection
 	if snapshot.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection v20200930s.EncryptionSettingsCollection_Status
-		err := snapshot.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollectionStatus(&encryptionSettingsCollection)
+		var encryptionSettingsCollection v20200930s.EncryptionSettingsCollection_STATUS
+		err := snapshot.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollectionSTATUS(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollectionStatus() to populate field EncryptionSettingsCollection")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollectionSTATUS() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -496,20 +496,20 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// ExtendedLocation
 	if snapshot.ExtendedLocation != nil {
-		var extendedLocationStatusStash alpha20201201s.ExtendedLocation_Status
-		err := snapshot.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStash)
+		var extendedLocationSTATUSStash alpha20201201s.ExtendedLocation_STATUS
+		err := snapshot.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocationSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal alpha20210701s.ExtendedLocation_Status
-		err = extendedLocationStatusStash.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		var extendedLocationSTATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStash.AssignPropertiesToExtendedLocationSTATUS(&extendedLocationSTATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation_STATUSStash")
 		}
-		var extendedLocation v20200930s.ExtendedLocation_Status
-		err = extendedLocationStatusStashLocal.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		var extendedLocation v20200930s.ExtendedLocation_STATUS
+		err = extendedLocationSTATUSStashLocal.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -550,10 +550,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// PurchasePlan
 	if snapshot.PurchasePlan != nil {
-		var purchasePlan v20200930s.PurchasePlan_Status
-		err := snapshot.PurchasePlan.AssignPropertiesToPurchasePlanStatus(&purchasePlan)
+		var purchasePlan v20200930s.PurchasePlan_STATUS
+		err := snapshot.PurchasePlan.AssignPropertiesToPurchasePlanSTATUS(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlanStatus() to populate field PurchasePlan")
+			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlanSTATUS() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -562,10 +562,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 
 	// Sku
 	if snapshot.Sku != nil {
-		var sku v20200930s.SnapshotSku_Status
-		err := snapshot.Sku.AssignPropertiesToSnapshotSkuStatus(&sku)
+		var sku v20200930s.SnapshotSku_STATUS
+		err := snapshot.Sku.AssignPropertiesToSnapshotSkuSTATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSnapshotSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSnapshotSkuSTATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1018,16 +1018,16 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *v2020
 	return nil
 }
 
-// Storage version of v1alpha1api20200930.SnapshotSku_Status
-// Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
-type SnapshotSku_Status struct {
+// Storage version of v1alpha1api20200930.SnapshotSku_STATUS
+// Deprecated version of SnapshotSku_STATUS. Use v1beta20200930.SnapshotSku_STATUS instead
+type SnapshotSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// AssignPropertiesFromSnapshotSkuStatus populates our SnapshotSku_Status from the provided source SnapshotSku_Status
-func (snapshotSku *SnapshotSku_Status) AssignPropertiesFromSnapshotSkuStatus(source *v20200930s.SnapshotSku_Status) error {
+// AssignPropertiesFromSnapshotSkuSTATUS populates our SnapshotSku_STATUS from the provided source SnapshotSku_STATUS
+func (snapshotSku *SnapshotSku_STATUS) AssignPropertiesFromSnapshotSkuSTATUS(source *v20200930s.SnapshotSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1048,8 +1048,8 @@ func (snapshotSku *SnapshotSku_Status) AssignPropertiesFromSnapshotSkuStatus(sou
 	return nil
 }
 
-// AssignPropertiesToSnapshotSkuStatus populates the provided destination SnapshotSku_Status from our SnapshotSku_Status
-func (snapshotSku *SnapshotSku_Status) AssignPropertiesToSnapshotSkuStatus(destination *v20200930s.SnapshotSku_Status) error {
+// AssignPropertiesToSnapshotSkuSTATUS populates the provided destination SnapshotSku_STATUS from our SnapshotSku_STATUS
+func (snapshotSku *SnapshotSku_STATUS) AssignPropertiesToSnapshotSkuSTATUS(destination *v20200930s.SnapshotSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(snapshotSku.PropertyBag)
 

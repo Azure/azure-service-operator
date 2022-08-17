@@ -124,14 +124,6 @@ type ManagedClusterAADProfileARM struct {
 	TenantID            *string  `json:"tenantID,omitempty"`
 }
 
-// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
-type ManagedClusterAPIServerAccessProfileARM struct {
-	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
-	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
-	EnablePrivateClusterPublicFQDN *bool    `json:"enablePrivateClusterPublicFQDN,omitempty"`
-	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
-}
-
 // Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
 type ManagedClusterAddonProfileARM struct {
 	Config  map[string]string `json:"config,omitempty"`
@@ -174,6 +166,14 @@ type ManagedClusterAgentPoolProfileARM struct {
 	UpgradeSettings           *AgentPoolUpgradeSettingsARM                          `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                                               `json:"vmSize,omitempty"`
 	VnetSubnetID              *string                                               `json:"vnetSubnetID,omitempty"`
+}
+
+// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
+type ManagedClusterAPIServerAccessProfileARM struct {
+	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
+	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
+	EnablePrivateClusterPublicFQDN *bool    `json:"enablePrivateClusterPublicFQDN,omitempty"`
+	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
@@ -228,6 +228,12 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 	SkipNodesWithSystemPods       *string                                            `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
+type ManagedClusterServicePrincipalProfileARM struct {
+	ClientId *string `json:"clientId,omitempty"`
+	Secret   *string `json:"secret,omitempty"`
+}
+
 // Deprecated version of ManagedClusterSKUName. Use v1beta20210501.ManagedClusterSKUName instead
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKUName string
@@ -242,12 +248,6 @@ const (
 	ManagedClusterSKUTier_Free = ManagedClusterSKUTier("Free")
 	ManagedClusterSKUTier_Paid = ManagedClusterSKUTier("Paid")
 )
-
-// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
-type ManagedClusterServicePrincipalProfileARM struct {
-	ClientId *string `json:"clientId,omitempty"`
-	Secret   *string `json:"secret,omitempty"`
-}
 
 // Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
 type ManagedClusterWindowsProfileARM struct {

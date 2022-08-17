@@ -27,7 +27,7 @@ type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RouteTablesRoutes_Spec `json:"spec,omitempty"`
-	Status            Route_Status           `json:"status,omitempty"`
+	Status            Route_STATUS           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -76,7 +76,7 @@ func (route *RouteTablesRoute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (route *RouteTablesRoute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Route_Status{}
+	return &Route_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (route *RouteTablesRoute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Route_Status); ok {
+	if st, ok := status.(*Route_STATUS); ok {
 		route.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Route_Status
+	var st Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -127,6 +127,41 @@ type RouteTablesRouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTablesRoute `json:"items"`
+}
+
+// Storage version of v1beta20201101.Route_STATUS
+type Route_STATUS struct {
+	AddressPrefix     *string                `json:"addressPrefix,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	Etag              *string                `json:"etag,omitempty"`
+	HasBgpOverride    *bool                  `json:"hasBgpOverride,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	NextHopIpAddress  *string                `json:"nextHopIpAddress,omitempty"`
+	NextHopType       *string                `json:"nextHopType,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Route_STATUS{}
+
+// ConvertStatusFrom populates our Route_STATUS from the provided source
+func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == route {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(route)
+}
+
+// ConvertStatusTo populates the provided destination from our Route_STATUS
+func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == route {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(route)
 }
 
 // Storage version of v1beta20201101.RouteTablesRoutes_Spec
@@ -167,41 +202,6 @@ func (routes *RouteTablesRoutes_Spec) ConvertSpecTo(destination genruntime.Conve
 	}
 
 	return destination.ConvertSpecFrom(routes)
-}
-
-// Storage version of v1beta20201101.Route_Status
-type Route_Status struct {
-	AddressPrefix     *string                `json:"addressPrefix,omitempty"`
-	Conditions        []conditions.Condition `json:"conditions,omitempty"`
-	Etag              *string                `json:"etag,omitempty"`
-	HasBgpOverride    *bool                  `json:"hasBgpOverride,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	NextHopIpAddress  *string                `json:"nextHopIpAddress,omitempty"`
-	NextHopType       *string                `json:"nextHopType,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Route_Status{}
-
-// ConvertStatusFrom populates our Route_Status from the provided source
-func (route *Route_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(route)
-}
-
-// ConvertStatusTo populates the provided destination from our Route_Status
-func (route *Route_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(route)
 }
 
 func init() {

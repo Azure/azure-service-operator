@@ -27,7 +27,7 @@ type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FlexibleServersFirewallRules_Spec `json:"spec,omitempty"`
-	Status            FirewallRule_Status               `json:"status,omitempty"`
+	Status            FirewallRule_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersFirewallRule{}
@@ -76,7 +76,7 @@ func (rule *FlexibleServersFirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *FlexibleServersFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FirewallRule_Status{}
+	return &FirewallRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (rule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FirewallRule_Status); ok {
+	if st, ok := status.(*FirewallRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FirewallRule_Status
+	var st FirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,22 +129,22 @@ type FlexibleServersFirewallRuleList struct {
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
-// Storage version of v1beta20210601.FirewallRule_Status
-type FirewallRule_Status struct {
+// Storage version of v1beta20210601.FirewallRule_STATUS
+type FirewallRule_STATUS struct {
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
 	Id             *string                `json:"id,omitempty"`
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StartIpAddress *string                `json:"startIpAddress,omitempty"`
-	SystemData     *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData     *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type           *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FirewallRule_Status{}
+var _ genruntime.ConvertibleStatus = &FirewallRule_STATUS{}
 
-// ConvertStatusFrom populates our FirewallRule_Status from the provided source
-func (rule *FirewallRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FirewallRule_STATUS from the provided source
+func (rule *FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -152,8 +152,8 @@ func (rule *FirewallRule_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our FirewallRule_Status
-func (rule *FirewallRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FirewallRule_STATUS
+func (rule *FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

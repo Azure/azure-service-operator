@@ -75,23 +75,23 @@ func RedisFirewallRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisFirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisFirewallRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = RedisFirewallRulesSpecGenerator()
-	gens["Status"] = RedisFirewallRuleStatusGenerator()
+	gens["Status"] = RedisFirewallRuleSTATUSGenerator()
 }
 
-func Test_RedisFirewallRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisFirewallRule_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisFirewallRuleStatus, RedisFirewallRuleStatusGenerator()))
+		"Round trip of RedisFirewallRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisFirewallRuleSTATUS, RedisFirewallRuleSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisFirewallRuleStatus runs a test to see if a specific instance of RedisFirewallRule_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisFirewallRuleStatus(subject RedisFirewallRule_Status) string {
+// RunJSONSerializationTestForRedisFirewallRuleSTATUS runs a test to see if a specific instance of RedisFirewallRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisFirewallRuleSTATUS(subject RedisFirewallRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForRedisFirewallRuleStatus(subject RedisFirewallRul
 	}
 
 	// Deserialize back into memory
-	var actual RedisFirewallRule_Status
+	var actual RedisFirewallRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForRedisFirewallRuleStatus(subject RedisFirewallRul
 	return ""
 }
 
-// Generator of RedisFirewallRule_Status instances for property testing - lazily instantiated by
-// RedisFirewallRuleStatusGenerator()
-var redisFirewallRuleStatusGenerator gopter.Gen
+// Generator of RedisFirewallRule_STATUS instances for property testing - lazily instantiated by
+// RedisFirewallRuleSTATUSGenerator()
+var redisFirewallRuleSTATUSGenerator gopter.Gen
 
-// RedisFirewallRuleStatusGenerator returns a generator of RedisFirewallRule_Status instances for property testing.
-func RedisFirewallRuleStatusGenerator() gopter.Gen {
-	if redisFirewallRuleStatusGenerator != nil {
-		return redisFirewallRuleStatusGenerator
+// RedisFirewallRuleSTATUSGenerator returns a generator of RedisFirewallRule_STATUS instances for property testing.
+func RedisFirewallRuleSTATUSGenerator() gopter.Gen {
+	if redisFirewallRuleSTATUSGenerator != nil {
+		return redisFirewallRuleSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRuleStatus(generators)
-	redisFirewallRuleStatusGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_Status{}), generators)
+	AddIndependentPropertyGeneratorsForRedisFirewallRuleSTATUS(generators)
+	redisFirewallRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_STATUS{}), generators)
 
-	return redisFirewallRuleStatusGenerator
+	return redisFirewallRuleSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisFirewallRuleStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisFirewallRuleStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisFirewallRuleSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisFirewallRuleSTATUS(gens map[string]gopter.Gen) {
 	gens["EndIP"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())

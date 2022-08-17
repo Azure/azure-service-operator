@@ -76,23 +76,23 @@ func VirtualNetworksVirtualNetworkPeeringGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeering(gens map[string]gopter.Gen) {
 	gens["Spec"] = VirtualNetworksVirtualNetworkPeeringsSpecGenerator()
-	gens["Status"] = VirtualNetworkPeeringStatusGenerator()
+	gens["Status"] = VirtualNetworkPeeringSTATUSGenerator()
 }
 
-func Test_VirtualNetworkPeering_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworkPeering_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualNetworkPeering_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringStatus, VirtualNetworkPeeringStatusGenerator()))
+		"Round trip of VirtualNetworkPeering_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeeringSTATUS, VirtualNetworkPeeringSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkPeeringStatus runs a test to see if a specific instance of VirtualNetworkPeering_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetworkPeering_Status) string {
+// RunJSONSerializationTestForVirtualNetworkPeeringSTATUS runs a test to see if a specific instance of VirtualNetworkPeering_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkPeeringSTATUS(subject VirtualNetworkPeering_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetwo
 	}
 
 	// Deserialize back into memory
-	var actual VirtualNetworkPeering_Status
+	var actual VirtualNetworkPeering_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,34 +118,34 @@ func RunJSONSerializationTestForVirtualNetworkPeeringStatus(subject VirtualNetwo
 	return ""
 }
 
-// Generator of VirtualNetworkPeering_Status instances for property testing - lazily instantiated by
-// VirtualNetworkPeeringStatusGenerator()
-var virtualNetworkPeeringStatusGenerator gopter.Gen
+// Generator of VirtualNetworkPeering_STATUS instances for property testing - lazily instantiated by
+// VirtualNetworkPeeringSTATUSGenerator()
+var virtualNetworkPeeringSTATUSGenerator gopter.Gen
 
-// VirtualNetworkPeeringStatusGenerator returns a generator of VirtualNetworkPeering_Status instances for property testing.
-// We first initialize virtualNetworkPeeringStatusGenerator with a simplified generator based on the
+// VirtualNetworkPeeringSTATUSGenerator returns a generator of VirtualNetworkPeering_STATUS instances for property testing.
+// We first initialize virtualNetworkPeeringSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkPeeringStatusGenerator() gopter.Gen {
-	if virtualNetworkPeeringStatusGenerator != nil {
-		return virtualNetworkPeeringStatusGenerator
+func VirtualNetworkPeeringSTATUSGenerator() gopter.Gen {
+	if virtualNetworkPeeringSTATUSGenerator != nil {
+		return virtualNetworkPeeringSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus(generators)
-	virtualNetworkPeeringStatusGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringSTATUS(generators)
+	virtualNetworkPeeringSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatus(generators)
-	virtualNetworkPeeringStatusGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkPeeringSTATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkPeeringSTATUS(generators)
+	virtualNetworkPeeringSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering_STATUS{}), generators)
 
-	return virtualNetworkPeeringStatusGenerator
+	return virtualNetworkPeeringSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkPeeringSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringSTATUS(gens map[string]gopter.Gen) {
 	gens["AllowForwardedTraffic"] = gen.PtrOf(gen.Bool())
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
@@ -160,11 +160,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringStatus(gens map[str
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringStatus(gens map[string]gopter.Gen) {
-	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceStatusGenerator())
-	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesStatusGenerator())
-	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkPeeringSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringSTATUS(gens map[string]gopter.Gen) {
+	gens["RemoteAddressSpace"] = gen.PtrOf(AddressSpaceSTATUSGenerator())
+	gens["RemoteBgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesSTATUSGenerator())
+	gens["RemoteVirtualNetwork"] = gen.PtrOf(SubResourceSTATUSGenerator())
 }
 
 func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

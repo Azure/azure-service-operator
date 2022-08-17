@@ -537,6 +537,29 @@ type UefiSettingsARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
+type VaultSecretGroupARM struct {
+	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
+
+	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
+	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
+	// Name: The network interface configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes a virtual machine network profile's IP configuration.
+	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Properties: Describes a network interface reference properties.
+	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMGalleryApplication
 type VMGalleryApplicationARM struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
@@ -573,29 +596,6 @@ type VMSizePropertiesARM struct {
 	// region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list)
 	// Setting this property to 1 also means that hyper-threading is disabled.
 	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
-type VaultSecretGroupARM struct {
-	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
-
-	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
-	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
-}
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
-	// Name: The network interface configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine network profile's IP configuration.
-	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
-}
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Describes a network interface reference properties.
-	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
@@ -850,6 +850,20 @@ type SshPublicKeyARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
+	// DnsServers: List of DNS servers IP addresses
+	DnsServers []string `json:"dnsServers,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
+	// Name: The IP configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes a virtual machine network interface IP configuration properties.
+	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMDiskSecurityProfile
 type VMDiskSecurityProfileARM struct {
 	// DiskEncryptionSet: Describes the parameter of customer managed disk encryption set resource id that can be specified for
@@ -865,18 +879,10 @@ type VMDiskSecurityProfileARM struct {
 	SecurityEncryptionType *VMDiskSecurityProfileSecurityEncryptionType `json:"securityEncryptionType,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
-type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
-	// DnsServers: List of DNS servers IP addresses
-	DnsServers []string `json:"dnsServers,omitempty"`
-}
-
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine network interface IP configuration properties.
-	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsVMGuestPatchAutomaticByPlatformSettings
+type WindowsVMGuestPatchAutomaticByPlatformSettingsARM struct {
+	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettingsRebootSetting `json:"rebootSetting,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WinRMListener
@@ -900,12 +906,6 @@ type WinRMListenerARM struct {
 	// http
 	// https.
 	Protocol *WinRMListenerProtocol `json:"protocol,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsVMGuestPatchAutomaticByPlatformSettings
-type WindowsVMGuestPatchAutomaticByPlatformSettingsARM struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettingsRebootSetting `json:"rebootSetting,omitempty"`
 }
 
 type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM struct {

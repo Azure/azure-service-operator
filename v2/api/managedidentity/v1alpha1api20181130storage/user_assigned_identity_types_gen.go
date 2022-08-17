@@ -26,7 +26,7 @@ type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              UserAssignedIdentities_Spec `json:"spec,omitempty"`
-	Status            Identity_Status             `json:"status,omitempty"`
+	Status            Identity_STATUS             `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -97,7 +97,7 @@ func (identity *UserAssignedIdentity) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Identity_Status{}
+	return &Identity_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Identity_Status); ok {
+	if st, ok := status.(*Identity_STATUS); ok {
 		identity.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Identity_Status
+	var st Identity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(s
 	identity.Spec = spec
 
 	// Status
-	var status Identity_Status
-	err = status.AssignPropertiesFromIdentityStatus(&source.Status)
+	var status Identity_STATUS
+	err = status.AssignPropertiesFromIdentitySTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Status")
 	}
 	identity.Status = status
 
@@ -170,10 +170,10 @@ func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(des
 	destination.Spec = spec
 
 	// Status
-	var status v20181130s.Identity_Status
-	err = identity.Status.AssignPropertiesToIdentityStatus(&status)
+	var status v20181130s.Identity_STATUS
+	err = identity.Status.AssignPropertiesToIdentitySTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -206,9 +206,9 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
 
-// Storage version of v1alpha1api20181130.Identity_Status
-// Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
-type Identity_Status struct {
+// Storage version of v1alpha1api20181130.Identity_STATUS
+// Deprecated version of Identity_STATUS. Use v1beta20181130.Identity_STATUS instead
+type Identity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -221,25 +221,25 @@ type Identity_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Identity_Status{}
+var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
 
-// ConvertStatusFrom populates our Identity_Status from the provided source
-func (identity *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20181130s.Identity_Status)
+// ConvertStatusFrom populates our Identity_STATUS from the provided source
+func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20181130s.Identity_STATUS)
 	if ok {
 		// Populate our instance from source
-		return identity.AssignPropertiesFromIdentityStatus(src)
+		return identity.AssignPropertiesFromIdentitySTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20181130s.Identity_Status{}
+	src = &v20181130s.Identity_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = identity.AssignPropertiesFromIdentityStatus(src)
+	err = identity.AssignPropertiesFromIdentitySTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -247,17 +247,17 @@ func (identity *Identity_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Identity_Status
-func (identity *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20181130s.Identity_Status)
+// ConvertStatusTo populates the provided destination from our Identity_STATUS
+func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20181130s.Identity_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return identity.AssignPropertiesToIdentityStatus(dst)
+		return identity.AssignPropertiesToIdentitySTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20181130s.Identity_Status{}
-	err := identity.AssignPropertiesToIdentityStatus(dst)
+	dst = &v20181130s.Identity_STATUS{}
+	err := identity.AssignPropertiesToIdentitySTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -271,8 +271,8 @@ func (identity *Identity_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v20181130s.Identity_Status) error {
+// AssignPropertiesFromIdentitySTATUS populates our Identity_STATUS from the provided source Identity_STATUS
+func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v20181130s.Identity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -314,8 +314,8 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v201
 	return nil
 }
 
-// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v20181130s.Identity_Status) error {
+// AssignPropertiesToIdentitySTATUS populates the provided destination Identity_STATUS from our Identity_STATUS
+func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *v20181130s.Identity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 

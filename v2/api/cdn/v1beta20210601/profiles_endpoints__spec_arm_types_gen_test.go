@@ -20,7 +20,7 @@ import (
 func Test_ProfilesEndpoints_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -97,7 +97,7 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecARM(gens map[string]gop
 func Test_ProfilesEndpoints_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -393,7 +393,7 @@ func AddIndependentPropertyGeneratorsForGeoFilterARM(gens map[string]gopter.Gen)
 func Test_ProfilesEndpoints_Spec_Properties_OriginGroupsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -468,7 +468,7 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecPropertiesOriginGroupsA
 func Test_ProfilesEndpoints_Spec_Properties_OriginsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

@@ -29,7 +29,7 @@ type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              ProfilesEndpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_Status        `json:"status,omitempty"`
+	Status            Endpoint_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -123,7 +123,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_Status{}
+	return &Endpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +139,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_Status); ok {
+	if st, ok := status.(*Endpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_Status
+	var st Endpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +263,10 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesFromProfilesEndpoint(source *v
 	endpoint.Spec = spec
 
 	// Status
-	var status Endpoint_Status
-	err = status.AssignPropertiesFromEndpointStatus(&source.Status)
+	var status Endpoint_STATUS
+	err = status.AssignPropertiesFromEndpointSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEndpointStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEndpointSTATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -289,10 +289,10 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesToProfilesEndpoint(destination
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Endpoint_Status
-	err = endpoint.Status.AssignPropertiesToEndpointStatus(&status)
+	var status v20210601s.Endpoint_STATUS
+	err = endpoint.Status.AssignPropertiesToEndpointSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEndpointStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEndpointSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,7 +317,7 @@ type ProfilesEndpointList struct {
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-type Endpoint_Status struct {
+type Endpoint_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -325,17 +325,17 @@ type Endpoint_Status struct {
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
 	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []CustomDomain_Status_SubResourceEmbedded `json:"customDomains,omitempty"`
+	CustomDomains []CustomDomain_STATUS_SubResourceEmbedded `json:"customDomains,omitempty"`
 
 	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference_Status `json:"defaultOriginGroup,omitempty"`
+	DefaultOriginGroup *ResourceReference_STATUS `json:"defaultOriginGroup,omitempty"`
 
 	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_Status_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy *EndpointProperties_STATUS_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
 
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter_Status `json:"geoFilters,omitempty"`
+	GeoFilters []GeoFilter_STATUS `json:"geoFilters,omitempty"`
 
 	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
 	HostName *string `json:"hostName,omitempty"`
@@ -364,10 +364,10 @@ type Endpoint_Status struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_Status `json:"optimizationType,omitempty"`
+	OptimizationType *OptimizationType_STATUS `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup_Status `json:"originGroups,omitempty"`
+	OriginGroups []DeepCreatedOriginGroup_STATUS `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -380,7 +380,7 @@ type Endpoint_Status struct {
 	OriginPath *string `json:"originPath,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN.
-	Origins []DeepCreatedOrigin_Status `json:"origins,omitempty"`
+	Origins []DeepCreatedOrigin_STATUS `json:"origins,omitempty"`
 
 	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
 	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
@@ -388,16 +388,16 @@ type Endpoint_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EndpointPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_Status `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesStatusResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData_Status                     `json:"systemData,omitempty"`
+	ResourceState *EndpointPropertiesSTATUSResourceState `json:"resourceState,omitempty"`
+	SystemData    *SystemData_STATUS                     `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -406,31 +406,31 @@ type Endpoint_Status struct {
 	Type *string `json:"type,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey_Status `json:"urlSigningKeys,omitempty"`
+	UrlSigningKeys []UrlSigningKey_STATUS `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
-	WebApplicationFirewallPolicyLink *EndpointProperties_Status_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_Status{}
+var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_Status from the provided source
-func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Endpoint_Status)
+// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
+func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignPropertiesFromEndpointStatus(src)
+		return endpoint.AssignPropertiesFromEndpointSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Endpoint_Status{}
+	src = &v20210601s.Endpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignPropertiesFromEndpointStatus(src)
+	err = endpoint.AssignPropertiesFromEndpointSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -438,17 +438,17 @@ func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_Status
-func (endpoint *Endpoint_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Endpoint_Status)
+// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignPropertiesToEndpointStatus(dst)
+		return endpoint.AssignPropertiesToEndpointSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Endpoint_Status{}
-	err := endpoint.AssignPropertiesToEndpointStatus(dst)
+	dst = &v20210601s.Endpoint_STATUS{}
+	err := endpoint.AssignPropertiesToEndpointSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -462,18 +462,18 @@ func (endpoint *Endpoint_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Endpoint_Status{}
+var _ genruntime.FromARMConverter = &Endpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Endpoint_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Endpoint_StatusARM{}
+func (endpoint *Endpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Endpoint_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Endpoint_StatusARM)
+func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Endpoint_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -490,7 +490,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomDomains {
-			var item1 CustomDomain_Status_SubResourceEmbedded
+			var item1 CustomDomain_STATUS_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -503,7 +503,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultOriginGroup != nil {
-			var defaultOriginGroup1 ResourceReference_Status
+			var defaultOriginGroup1 ResourceReference_STATUS
 			err := defaultOriginGroup1.PopulateFromARM(owner, *typedInput.Properties.DefaultOriginGroup)
 			if err != nil {
 				return err
@@ -517,7 +517,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeliveryPolicy != nil {
-			var deliveryPolicy1 EndpointProperties_Status_DeliveryPolicy
+			var deliveryPolicy1 EndpointProperties_STATUS_DeliveryPolicy
 			err := deliveryPolicy1.PopulateFromARM(owner, *typedInput.Properties.DeliveryPolicy)
 			if err != nil {
 				return err
@@ -531,7 +531,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GeoFilters {
-			var item1 GeoFilter_Status
+			var item1 GeoFilter_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -607,7 +607,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
-			var item1 DeepCreatedOriginGroup_Status
+			var item1 DeepCreatedOriginGroup_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -638,7 +638,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 DeepCreatedOrigin_Status
+			var item1 DeepCreatedOrigin_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -685,7 +685,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -712,7 +712,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.UrlSigningKeys {
-			var item1 UrlSigningKey_Status
+			var item1 UrlSigningKey_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -725,7 +725,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WebApplicationFirewallPolicyLink != nil {
-			var webApplicationFirewallPolicyLink1 EndpointProperties_Status_WebApplicationFirewallPolicyLink
+			var webApplicationFirewallPolicyLink1 EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
 			err := webApplicationFirewallPolicyLink1.PopulateFromARM(owner, *typedInput.Properties.WebApplicationFirewallPolicyLink)
 			if err != nil {
 				return err
@@ -739,8 +739,8 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromEndpointStatus populates our Endpoint_Status from the provided source Endpoint_Status
-func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v20210601s.Endpoint_Status) error {
+// AssignPropertiesFromEndpointSTATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v20210601s.Endpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -750,14 +750,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// CustomDomains
 	if source.CustomDomains != nil {
-		customDomainList := make([]CustomDomain_Status_SubResourceEmbedded, len(source.CustomDomains))
+		customDomainList := make([]CustomDomain_STATUS_SubResourceEmbedded, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain CustomDomain_Status_SubResourceEmbedded
-			err := customDomain.AssignPropertiesFromCustomDomainStatusSubResourceEmbedded(&customDomainItem)
+			var customDomain CustomDomain_STATUS_SubResourceEmbedded
+			err := customDomain.AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainStatusSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -768,10 +768,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
-		var defaultOriginGroup ResourceReference_Status
-		err := defaultOriginGroup.AssignPropertiesFromResourceReferenceStatus(source.DefaultOriginGroup)
+		var defaultOriginGroup ResourceReference_STATUS
+		err := defaultOriginGroup.AssignPropertiesFromResourceReferenceSTATUS(source.DefaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceStatus() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceSTATUS() to populate field DefaultOriginGroup")
 		}
 		endpoint.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -780,10 +780,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// DeliveryPolicy
 	if source.DeliveryPolicy != nil {
-		var deliveryPolicy EndpointProperties_Status_DeliveryPolicy
-		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy(source.DeliveryPolicy)
+		var deliveryPolicy EndpointProperties_STATUS_DeliveryPolicy
+		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy(source.DeliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		endpoint.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -792,14 +792,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// GeoFilters
 	if source.GeoFilters != nil {
-		geoFilterList := make([]GeoFilter_Status, len(source.GeoFilters))
+		geoFilterList := make([]GeoFilter_STATUS, len(source.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter GeoFilter_Status
-			err := geoFilter.AssignPropertiesFromGeoFilterStatus(&geoFilterItem)
+			var geoFilter GeoFilter_STATUS
+			err := geoFilter.AssignPropertiesFromGeoFilterSTATUS(&geoFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilterStatus() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilterSTATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -846,7 +846,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := OptimizationType_Status(*source.OptimizationType)
+		optimizationType := OptimizationType_STATUS(*source.OptimizationType)
 		endpoint.OptimizationType = &optimizationType
 	} else {
 		endpoint.OptimizationType = nil
@@ -854,14 +854,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// OriginGroups
 	if source.OriginGroups != nil {
-		originGroupList := make([]DeepCreatedOriginGroup_Status, len(source.OriginGroups))
+		originGroupList := make([]DeepCreatedOriginGroup_STATUS, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup DeepCreatedOriginGroup_Status
-			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroupStatus(&originGroupItem)
+			var originGroup DeepCreatedOriginGroup_STATUS
+			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroupSTATUS(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroupStatus() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroupSTATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -878,14 +878,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]DeepCreatedOrigin_Status, len(source.Origins))
+		originList := make([]DeepCreatedOrigin_STATUS, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin DeepCreatedOrigin_Status
-			err := origin.AssignPropertiesFromDeepCreatedOriginStatus(&originItem)
+			var origin DeepCreatedOrigin_STATUS
+			err := origin.AssignPropertiesFromDeepCreatedOriginSTATUS(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginSTATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -899,7 +899,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EndpointPropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := EndpointPropertiesSTATUSProvisioningState(*source.ProvisioningState)
 		endpoint.ProvisioningState = &provisioningState
 	} else {
 		endpoint.ProvisioningState = nil
@@ -907,7 +907,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior_Status(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := QueryStringCachingBehavior_STATUS(*source.QueryStringCachingBehavior)
 		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		endpoint.QueryStringCachingBehavior = nil
@@ -915,7 +915,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := EndpointPropertiesStatusResourceState(*source.ResourceState)
+		resourceState := EndpointPropertiesSTATUSResourceState(*source.ResourceState)
 		endpoint.ResourceState = &resourceState
 	} else {
 		endpoint.ResourceState = nil
@@ -923,10 +923,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		endpoint.SystemData = &systemDatum
 	} else {
@@ -941,14 +941,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// UrlSigningKeys
 	if source.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]UrlSigningKey_Status, len(source.UrlSigningKeys))
+		urlSigningKeyList := make([]UrlSigningKey_STATUS, len(source.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey UrlSigningKey_Status
-			err := urlSigningKey.AssignPropertiesFromUrlSigningKeyStatus(&urlSigningKeyItem)
+			var urlSigningKey UrlSigningKey_STATUS
+			err := urlSigningKey.AssignPropertiesFromUrlSigningKeySTATUS(&urlSigningKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKeyStatus() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKeySTATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -959,10 +959,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// WebApplicationFirewallPolicyLink
 	if source.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink EndpointProperties_Status_WebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		var webApplicationFirewallPolicyLink EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -973,8 +973,8 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToEndpointStatus populates the provided destination Endpoint_Status from our Endpoint_Status
-func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v20210601s.Endpoint_Status) error {
+// AssignPropertiesToEndpointSTATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v20210601s.Endpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -986,14 +986,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// CustomDomains
 	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v20210601s.CustomDomain_Status_SubResourceEmbedded, len(endpoint.CustomDomains))
+		customDomainList := make([]v20210601s.CustomDomain_STATUS_SubResourceEmbedded, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain v20210601s.CustomDomain_Status_SubResourceEmbedded
-			err := customDomainItem.AssignPropertiesToCustomDomainStatusSubResourceEmbedded(&customDomain)
+			var customDomain v20210601s.CustomDomain_STATUS_SubResourceEmbedded
+			err := customDomainItem.AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCustomDomainStatusSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1004,10 +1004,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v20210601s.ResourceReference_Status
-		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReferenceStatus(&defaultOriginGroup)
+		var defaultOriginGroup v20210601s.ResourceReference_STATUS
+		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReferenceSTATUS(&defaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceSTATUS() to populate field DefaultOriginGroup")
 		}
 		destination.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -1016,10 +1016,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v20210601s.EndpointProperties_Status_DeliveryPolicy
-		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy(&deliveryPolicy)
+		var deliveryPolicy v20210601s.EndpointProperties_STATUS_DeliveryPolicy
+		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy(&deliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		destination.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1028,14 +1028,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter_Status, len(endpoint.GeoFilters))
+		geoFilterList := make([]v20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v20210601s.GeoFilter_Status
-			err := geoFilterItem.AssignPropertiesToGeoFilterStatus(&geoFilter)
+			var geoFilter v20210601s.GeoFilter_STATUS
+			err := geoFilterItem.AssignPropertiesToGeoFilterSTATUS(&geoFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToGeoFilterStatus() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignPropertiesToGeoFilterSTATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -1090,14 +1090,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_Status, len(endpoint.OriginGroups))
+		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.DeepCreatedOriginGroup_Status
-			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroupStatus(&originGroup)
+			var originGroup v20210601s.DeepCreatedOriginGroup_STATUS
+			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroupSTATUS(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroupStatus() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroupSTATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1114,14 +1114,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v20210601s.DeepCreatedOrigin_Status, len(endpoint.Origins))
+		originList := make([]v20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.DeepCreatedOrigin_Status
-			err := originItem.AssignPropertiesToDeepCreatedOriginStatus(&origin)
+			var origin v20210601s.DeepCreatedOrigin_STATUS
+			err := originItem.AssignPropertiesToDeepCreatedOriginSTATUS(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginSTATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -1159,10 +1159,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// SystemData
 	if endpoint.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := endpoint.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210601s.SystemData_STATUS
+		err := endpoint.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1177,14 +1177,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey_Status, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v20210601s.UrlSigningKey_Status
-			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKeyStatus(&urlSigningKey)
+			var urlSigningKey v20210601s.UrlSigningKey_STATUS
+			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKeySTATUS(&urlSigningKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKeyStatus() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKeySTATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -1195,10 +1195,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink
-		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -2084,24 +2084,24 @@ func (endpoints *ProfilesEndpoints_Spec) SetAzureName(azureName string) {
 	endpoints.AzureName = azureName
 }
 
-type CustomDomain_Status_SubResourceEmbedded struct {
+type CustomDomain_STATUS_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id         *string            `json:"id,omitempty"`
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &CustomDomain_Status_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &CustomDomain_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *CustomDomain_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDomain_Status_SubResourceEmbeddedARM{}
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomain_STATUS_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *CustomDomain_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDomain_Status_SubResourceEmbeddedARM)
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomain_STATUS_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_Status_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_STATUS_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -2112,7 +2112,7 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) PopulateFromARM(owner g
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -2125,18 +2125,18 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromCustomDomainStatusSubResourceEmbedded populates our CustomDomain_Status_SubResourceEmbedded from the provided source CustomDomain_Status_SubResourceEmbedded
-func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesFromCustomDomainStatusSubResourceEmbedded(source *v20210601s.CustomDomain_Status_SubResourceEmbedded) error {
+// AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded populates our CustomDomain_STATUS_SubResourceEmbedded from the provided source CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded(source *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		embedded.SystemData = &systemDatum
 	} else {
@@ -2147,8 +2147,8 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesFromCus
 	return nil
 }
 
-// AssignPropertiesToCustomDomainStatusSubResourceEmbedded populates the provided destination CustomDomain_Status_SubResourceEmbedded from our CustomDomain_Status_SubResourceEmbedded
-func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesToCustomDomainStatusSubResourceEmbedded(destination *v20210601s.CustomDomain_Status_SubResourceEmbedded) error {
+// AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded populates the provided destination CustomDomain_STATUS_SubResourceEmbedded from our CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded(destination *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2157,10 +2157,10 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesToCusto
 
 	// SystemData
 	if embedded.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := embedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210601s.SystemData_STATUS
+		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2178,220 +2178,7 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesToCusto
 	return nil
 }
 
-type DeepCreatedOriginGroup_Status struct {
-	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
-	HealthProbeSettings *HealthProbeParameters_Status `json:"healthProbeSettings,omitempty"`
-
-	// Name: Origin group name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference_Status `json:"origins,omitempty"`
-
-	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.This property is currently not supported.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_Status `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
-	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
-	// supported.
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &DeepCreatedOriginGroup_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (group *DeepCreatedOriginGroup_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeepCreatedOriginGroup_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (group *DeepCreatedOriginGroup_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeepCreatedOriginGroup_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘HealthProbeSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HealthProbeSettings != nil {
-			var healthProbeSettings1 HealthProbeParameters_Status
-			err := healthProbeSettings1.PopulateFromARM(owner, *typedInput.Properties.HealthProbeSettings)
-			if err != nil {
-				return err
-			}
-			healthProbeSettings := healthProbeSettings1
-			group.HealthProbeSettings = &healthProbeSettings
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		group.Name = &name
-	}
-
-	// Set property ‘Origins’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Origins {
-			var item1 ResourceReference_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			group.Origins = append(group.Origins, item1)
-		}
-	}
-
-	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
-			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters_Status
-			err := responseBasedOriginErrorDetectionSettings1.PopulateFromARM(owner, *typedInput.Properties.ResponseBasedOriginErrorDetectionSettings)
-			if err != nil {
-				return err
-			}
-			responseBasedOriginErrorDetectionSettings := responseBasedOriginErrorDetectionSettings1
-			group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
-		}
-	}
-
-	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-			trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-			group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeepCreatedOriginGroupStatus populates our DeepCreatedOriginGroup_Status from the provided source DeepCreatedOriginGroup_Status
-func (group *DeepCreatedOriginGroup_Status) AssignPropertiesFromDeepCreatedOriginGroupStatus(source *v20210601s.DeepCreatedOriginGroup_Status) error {
-
-	// HealthProbeSettings
-	if source.HealthProbeSettings != nil {
-		var healthProbeSetting HealthProbeParameters_Status
-		err := healthProbeSetting.AssignPropertiesFromHealthProbeParametersStatus(source.HealthProbeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParametersStatus() to populate field HealthProbeSettings")
-		}
-		group.HealthProbeSettings = &healthProbeSetting
-	} else {
-		group.HealthProbeSettings = nil
-	}
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Origins
-	if source.Origins != nil {
-		originList := make([]ResourceReference_Status, len(source.Origins))
-		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
-			var origin ResourceReference_Status
-			err := origin.AssignPropertiesFromResourceReferenceStatus(&originItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceStatus() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		group.Origins = originList
-	} else {
-		group.Origins = nil
-	}
-
-	// ResponseBasedOriginErrorDetectionSettings
-	if source.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_Status
-		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus(source.ResponseBasedOriginErrorDetectionSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus() to populate field ResponseBasedOriginErrorDetectionSettings")
-		}
-		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
-	} else {
-		group.ResponseBasedOriginErrorDetectionSettings = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeepCreatedOriginGroupStatus populates the provided destination DeepCreatedOriginGroup_Status from our DeepCreatedOriginGroup_Status
-func (group *DeepCreatedOriginGroup_Status) AssignPropertiesToDeepCreatedOriginGroupStatus(destination *v20210601s.DeepCreatedOriginGroup_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// HealthProbeSettings
-	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20210601s.HealthProbeParameters_Status
-		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParametersStatus(&healthProbeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParametersStatus() to populate field HealthProbeSettings")
-		}
-		destination.HealthProbeSettings = &healthProbeSetting
-	} else {
-		destination.HealthProbeSettings = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(group.Name)
-
-	// Origins
-	if group.Origins != nil {
-		originList := make([]v20210601s.ResourceReference_Status, len(group.Origins))
-		for originIndex, originItem := range group.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
-			var origin v20210601s.ResourceReference_Status
-			err := originItem.AssignPropertiesToResourceReferenceStatus(&origin)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		destination.Origins = originList
-	} else {
-		destination.Origins = nil
-	}
-
-	// ResponseBasedOriginErrorDetectionSettings
-	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_Status
-		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus(&responseBasedOriginErrorDetectionSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus() to populate field ResponseBasedOriginErrorDetectionSettings")
-		}
-		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
-	} else {
-		destination.ResponseBasedOriginErrorDetectionSettings = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type DeepCreatedOrigin_Status struct {
+type DeepCreatedOrigin_STATUS struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -2418,7 +2205,7 @@ type DeepCreatedOrigin_Status struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_Status `json:"privateEndpointStatus,omitempty"`
+	PrivateEndpointStatus *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
 
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
@@ -2438,18 +2225,18 @@ type DeepCreatedOrigin_Status struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeepCreatedOrigin_Status{}
+var _ genruntime.FromARMConverter = &DeepCreatedOrigin_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origin *DeepCreatedOrigin_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeepCreatedOrigin_StatusARM{}
+func (origin *DeepCreatedOrigin_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOrigin_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origin *DeepCreatedOrigin_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeepCreatedOrigin_StatusARM)
+func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOrigin_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -2570,8 +2357,8 @@ func (origin *DeepCreatedOrigin_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDeepCreatedOriginStatus populates our DeepCreatedOrigin_Status from the provided source DeepCreatedOrigin_Status
-func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginStatus(source *v20210601s.DeepCreatedOrigin_Status) error {
+// AssignPropertiesFromDeepCreatedOriginSTATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesFromDeepCreatedOriginSTATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2601,7 +2388,7 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginSta
 
 	// PrivateEndpointStatus
 	if source.PrivateEndpointStatus != nil {
-		privateEndpointStatus := PrivateEndpointStatus_Status(*source.PrivateEndpointStatus)
+		privateEndpointStatus := PrivateEndpointStatus_STATUS(*source.PrivateEndpointStatus)
 		origin.PrivateEndpointStatus = &privateEndpointStatus
 	} else {
 		origin.PrivateEndpointStatus = nil
@@ -2626,8 +2413,8 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginSta
 	return nil
 }
 
-// AssignPropertiesToDeepCreatedOriginStatus populates the provided destination DeepCreatedOrigin_Status from our DeepCreatedOrigin_Status
-func (origin *DeepCreatedOrigin_Status) AssignPropertiesToDeepCreatedOriginStatus(destination *v20210601s.DeepCreatedOrigin_Status) error {
+// AssignPropertiesToDeepCreatedOriginSTATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesToDeepCreatedOriginSTATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2679,6 +2466,384 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesToDeepCreatedOriginStatu
 
 	// Weight
 	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type DeepCreatedOriginGroup_STATUS struct {
+	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
+	HealthProbeSettings *HealthProbeParameters_STATUS `json:"healthProbeSettings,omitempty"`
+
+	// Name: Origin group name which must be unique within the endpoint.
+	Name *string `json:"name,omitempty"`
+
+	// Origins: The source of the content being delivered via CDN within given origin group.
+	Origins []ResourceReference_STATUS `json:"origins,omitempty"`
+
+	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
+	// real requests/responses.This property is currently not supported.
+	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
+	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
+	// supported.
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &DeepCreatedOriginGroup_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (group *DeepCreatedOriginGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOriginGroup_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOriginGroup_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘HealthProbeSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HealthProbeSettings != nil {
+			var healthProbeSettings1 HealthProbeParameters_STATUS
+			err := healthProbeSettings1.PopulateFromARM(owner, *typedInput.Properties.HealthProbeSettings)
+			if err != nil {
+				return err
+			}
+			healthProbeSettings := healthProbeSettings1
+			group.HealthProbeSettings = &healthProbeSettings
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		group.Name = &name
+	}
+
+	// Set property ‘Origins’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Origins {
+			var item1 ResourceReference_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			group.Origins = append(group.Origins, item1)
+		}
+	}
+
+	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
+			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters_STATUS
+			err := responseBasedOriginErrorDetectionSettings1.PopulateFromARM(owner, *typedInput.Properties.ResponseBasedOriginErrorDetectionSettings)
+			if err != nil {
+				return err
+			}
+			responseBasedOriginErrorDetectionSettings := responseBasedOriginErrorDetectionSettings1
+			group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
+		}
+	}
+
+	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+			trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+			group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDeepCreatedOriginGroupSTATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOriginGroupSTATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters_STATUS
+		err := healthProbeSetting.AssignPropertiesFromHealthProbeParametersSTATUS(source.HealthProbeSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParametersSTATUS() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]ResourceReference_STATUS, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			// Shadow the loop variable to avoid aliasing
+			originItem := originItem
+			var origin ResourceReference_STATUS
+			err := origin.AssignPropertiesFromResourceReferenceSTATUS(&originItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceSTATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		group.Origins = originList
+	} else {
+		group.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if source.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS(source.ResponseBasedOriginErrorDetectionSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		group.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeepCreatedOriginGroupSTATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesToDeepCreatedOriginGroupSTATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting v20210601s.HealthProbeParameters_STATUS
+		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParametersSTATUS(&healthProbeSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParametersSTATUS() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// Origins
+	if group.Origins != nil {
+		originList := make([]v20210601s.ResourceReference_STATUS, len(group.Origins))
+		for originIndex, originItem := range group.Origins {
+			// Shadow the loop variable to avoid aliasing
+			originItem := originItem
+			var origin v20210601s.ResourceReference_STATUS
+			err := originItem.AssignPropertiesToResourceReferenceSTATUS(&origin)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceSTATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if group.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS(&responseBasedOriginErrorDetectionSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		destination.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type EndpointProperties_STATUS_DeliveryPolicy struct {
+	// Description: User-friendly description of the policy.
+	Description *string `json:"description,omitempty"`
+
+	// Rules: A list of the delivery rules.
+	Rules []DeliveryRule_STATUS `json:"rules,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &EndpointProperties_STATUS_DeliveryPolicy{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_STATUS_DeliveryPolicyARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_STATUS_DeliveryPolicyARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_STATUS_DeliveryPolicyARM, got %T", armInput)
+	}
+
+	// Set property ‘Description’:
+	if typedInput.Description != nil {
+		description := *typedInput.Description
+		policy.Description = &description
+	}
+
+	// Set property ‘Rules’:
+	for _, item := range typedInput.Rules {
+		var item1 DeliveryRule_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		policy.Rules = append(policy.Rules, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy populates our EndpointProperties_STATUS_DeliveryPolicy from the provided source EndpointProperties_STATUS_DeliveryPolicy
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy(source *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
+
+	// Description
+	policy.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]DeliveryRule_STATUS, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule DeliveryRule_STATUS
+			err := rule.AssignPropertiesFromDeliveryRuleSTATUS(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSTATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		policy.Rules = ruleList
+	} else {
+		policy.Rules = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy populates the provided destination EndpointProperties_STATUS_DeliveryPolicy from our EndpointProperties_STATUS_DeliveryPolicy
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy(destination *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(policy.Description)
+
+	// Rules
+	if policy.Rules != nil {
+		ruleList := make([]v20210601s.DeliveryRule_STATUS, len(policy.Rules))
+		for ruleIndex, ruleItem := range policy.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v20210601s.DeliveryRule_STATUS
+			err := ruleItem.AssignPropertiesToDeliveryRuleSTATUS(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSTATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type EndpointProperties_STATUS_WebApplicationFirewallPolicyLink struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &EndpointProperties_STATUS_WebApplicationFirewallPolicyLink{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM, got %T", armInput)
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		link.Id = &id
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink populates our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
+
+	// Id
+	link.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(link.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2908,171 +3073,6 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 	return nil
 }
 
-type EndpointProperties_Status_DeliveryPolicy struct {
-	// Description: User-friendly description of the policy.
-	Description *string `json:"description,omitempty"`
-
-	// Rules: A list of the delivery rules.
-	Rules []DeliveryRule_Status `json:"rules,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &EndpointProperties_Status_DeliveryPolicy{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *EndpointProperties_Status_DeliveryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointProperties_Status_DeliveryPolicyARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *EndpointProperties_Status_DeliveryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointProperties_Status_DeliveryPolicyARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_Status_DeliveryPolicyARM, got %T", armInput)
-	}
-
-	// Set property ‘Description’:
-	if typedInput.Description != nil {
-		description := *typedInput.Description
-		policy.Description = &description
-	}
-
-	// Set property ‘Rules’:
-	for _, item := range typedInput.Rules {
-		var item1 DeliveryRule_Status
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		policy.Rules = append(policy.Rules, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy populates our EndpointProperties_Status_DeliveryPolicy from the provided source EndpointProperties_Status_DeliveryPolicy
-func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy(source *v20210601s.EndpointProperties_Status_DeliveryPolicy) error {
-
-	// Description
-	policy.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]DeliveryRule_Status, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule DeliveryRule_Status
-			err := rule.AssignPropertiesFromDeliveryRuleStatus(&ruleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleStatus() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		policy.Rules = ruleList
-	} else {
-		policy.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy populates the provided destination EndpointProperties_Status_DeliveryPolicy from our EndpointProperties_Status_DeliveryPolicy
-func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy(destination *v20210601s.EndpointProperties_Status_DeliveryPolicy) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(policy.Description)
-
-	// Rules
-	if policy.Rules != nil {
-		ruleList := make([]v20210601s.DeliveryRule_Status, len(policy.Rules))
-		for ruleIndex, ruleItem := range policy.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule v20210601s.DeliveryRule_Status
-			err := ruleItem.AssignPropertiesToDeliveryRuleStatus(&rule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleStatus() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		destination.Rules = ruleList
-	} else {
-		destination.Rules = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type EndpointProperties_Status_WebApplicationFirewallPolicyLink struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &EndpointProperties_Status_WebApplicationFirewallPolicyLink{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		link.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink populates our EndpointProperties_Status_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_Status_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink) error {
-
-	// Id
-	link.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_Status_WebApplicationFirewallPolicyLink from our EndpointProperties_Status_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(link.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/GeoFilter
 type GeoFilter struct {
 	// +kubebuilder:validation:Required
@@ -3200,9 +3200,9 @@ func (filter *GeoFilter) AssignPropertiesToGeoFilter(destination *v20210601s.Geo
 	return nil
 }
 
-type GeoFilter_Status struct {
+type GeoFilter_STATUS struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterStatusAction `json:"action,omitempty"`
+	Action *GeoFilterSTATUSAction `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -3211,18 +3211,18 @@ type GeoFilter_Status struct {
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &GeoFilter_Status{}
+var _ genruntime.FromARMConverter = &GeoFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (filter *GeoFilter_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GeoFilter_StatusARM{}
+func (filter *GeoFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &GeoFilter_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (filter *GeoFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GeoFilter_StatusARM)
+func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(GeoFilter_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -3246,12 +3246,12 @@ func (filter *GeoFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromGeoFilterStatus populates our GeoFilter_Status from the provided source GeoFilter_Status
-func (filter *GeoFilter_Status) AssignPropertiesFromGeoFilterStatus(source *v20210601s.GeoFilter_Status) error {
+// AssignPropertiesFromGeoFilterSTATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignPropertiesFromGeoFilterSTATUS(source *v20210601s.GeoFilter_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilterStatusAction(*source.Action)
+		action := GeoFilterSTATUSAction(*source.Action)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -3267,8 +3267,8 @@ func (filter *GeoFilter_Status) AssignPropertiesFromGeoFilterStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToGeoFilterStatus populates the provided destination GeoFilter_Status from our GeoFilter_Status
-func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v20210601s.GeoFilter_Status) error {
+// AssignPropertiesToGeoFilterSTATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignPropertiesToGeoFilterSTATUS(destination *v20210601s.GeoFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3296,27 +3296,6 @@ func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
-type ProfilesEndpointsSpecPropertiesOptimizationType string
-
-const (
-	ProfilesEndpointsSpecPropertiesOptimizationType_DynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
-	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
-	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
-	ProfilesEndpointsSpecPropertiesOptimizationType_LargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
-	ProfilesEndpointsSpecPropertiesOptimizationType_VideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
-)
-
-// +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
-type ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior string
-
-const (
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_BypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_IgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_NotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_UseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
-)
 
 type ProfilesEndpoints_Spec_Properties_OriginGroups struct {
 	// HealthProbeSettings: The JSON object that contains the properties to send health probes to origin.
@@ -4006,6 +3985,27 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesToProf
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
+type ProfilesEndpointsSpecPropertiesOptimizationType string
+
+const (
+	ProfilesEndpointsSpecPropertiesOptimizationType_DynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
+	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
+	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
+	ProfilesEndpointsSpecPropertiesOptimizationType_LargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
+	ProfilesEndpointsSpecPropertiesOptimizationType_VideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
+)
+
+// +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
+type ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior string
+
+const (
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_BypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_IgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_NotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
+	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_UseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
+)
+
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference
 type ResourceReference struct {
 	// Reference: Resource ID.
@@ -4090,23 +4090,23 @@ func (reference *ResourceReference) AssignPropertiesToResourceReference(destinat
 	return nil
 }
 
-type ResourceReference_Status struct {
+type ResourceReference_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResourceReference_Status{}
+var _ genruntime.FromARMConverter = &ResourceReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (reference *ResourceReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_StatusARM{}
+func (reference *ResourceReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceReference_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (reference *ResourceReference_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceReference_StatusARM)
+func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ResourceReference_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -4119,8 +4119,8 @@ func (reference *ResourceReference_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromResourceReferenceStatus populates our ResourceReference_Status from the provided source ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *v20210601s.ResourceReference_Status) error {
+// AssignPropertiesFromResourceReferenceSTATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignPropertiesFromResourceReferenceSTATUS(source *v20210601s.ResourceReference_STATUS) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -4129,8 +4129,8 @@ func (reference *ResourceReference_Status) AssignPropertiesFromResourceReference
 	return nil
 }
 
-// AssignPropertiesToResourceReferenceStatus populates the provided destination ResourceReference_Status from our ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceStatus(destination *v20210601s.ResourceReference_Status) error {
+// AssignPropertiesToResourceReferenceSTATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignPropertiesToResourceReferenceSTATUS(destination *v20210601s.ResourceReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4273,27 +4273,27 @@ func (signingKey *UrlSigningKey) AssignPropertiesToUrlSigningKey(destination *v2
 	return nil
 }
 
-type UrlSigningKey_Status struct {
+type UrlSigningKey_STATUS struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
 	KeyId *string `json:"keyId,omitempty"`
 
 	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
-	KeySourceParameters *KeyVaultSigningKeyParameters_Status `json:"keySourceParameters,omitempty"`
+	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &UrlSigningKey_Status{}
+var _ genruntime.FromARMConverter = &UrlSigningKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (signingKey *UrlSigningKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningKey_StatusARM{}
+func (signingKey *UrlSigningKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UrlSigningKey_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningKey_StatusARM)
+func (signingKey *UrlSigningKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UrlSigningKey_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyId’:
@@ -4304,7 +4304,7 @@ func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘KeySourceParameters’:
 	if typedInput.KeySourceParameters != nil {
-		var keySourceParameters1 KeyVaultSigningKeyParameters_Status
+		var keySourceParameters1 KeyVaultSigningKeyParameters_STATUS
 		err := keySourceParameters1.PopulateFromARM(owner, *typedInput.KeySourceParameters)
 		if err != nil {
 			return err
@@ -4317,18 +4317,18 @@ func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningKeyStatus populates our UrlSigningKey_Status from the provided source UrlSigningKey_Status
-func (signingKey *UrlSigningKey_Status) AssignPropertiesFromUrlSigningKeyStatus(source *v20210601s.UrlSigningKey_Status) error {
+// AssignPropertiesFromUrlSigningKeySTATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignPropertiesFromUrlSigningKeySTATUS(source *v20210601s.UrlSigningKey_STATUS) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
 
 	// KeySourceParameters
 	if source.KeySourceParameters != nil {
-		var keySourceParameter KeyVaultSigningKeyParameters_Status
-		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParametersStatus(source.KeySourceParameters)
+		var keySourceParameter KeyVaultSigningKeyParameters_STATUS
+		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS(source.KeySourceParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParametersStatus() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS() to populate field KeySourceParameters")
 		}
 		signingKey.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4339,8 +4339,8 @@ func (signingKey *UrlSigningKey_Status) AssignPropertiesFromUrlSigningKeyStatus(
 	return nil
 }
 
-// AssignPropertiesToUrlSigningKeyStatus populates the provided destination UrlSigningKey_Status from our UrlSigningKey_Status
-func (signingKey *UrlSigningKey_Status) AssignPropertiesToUrlSigningKeyStatus(destination *v20210601s.UrlSigningKey_Status) error {
+// AssignPropertiesToUrlSigningKeySTATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignPropertiesToUrlSigningKeySTATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4349,10 +4349,10 @@ func (signingKey *UrlSigningKey_Status) AssignPropertiesToUrlSigningKeyStatus(de
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_Status
-		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParametersStatus(&keySourceParameter)
+		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_STATUS
+		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParametersSTATUS(&keySourceParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParametersStatus() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParametersSTATUS() to populate field KeySourceParameters")
 		}
 		destination.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4585,12 +4585,12 @@ func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s
 	return nil
 }
 
-type DeliveryRule_Status struct {
+type DeliveryRule_STATUS struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction_Status `json:"actions,omitempty"`
+	Actions []DeliveryRuleAction_STATUS `json:"actions,omitempty"`
 
 	// Conditions: A list of conditions that must be matched for the actions to be executed
-	Conditions []DeliveryRuleCondition_Status `json:"conditions,omitempty"`
+	Conditions []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
 
 	// Name: Name of the rule
 	Name *string `json:"name,omitempty"`
@@ -4601,23 +4601,23 @@ type DeliveryRule_Status struct {
 	Order *int `json:"order,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeliveryRule_Status{}
+var _ genruntime.FromARMConverter = &DeliveryRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *DeliveryRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRule_StatusARM{}
+func (rule *DeliveryRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRule_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *DeliveryRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRule_StatusARM)
+func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRule_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
 	for _, item := range typedInput.Actions {
-		var item1 DeliveryRuleAction_Status
+		var item1 DeliveryRuleAction_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -4643,19 +4643,19 @@ func (rule *DeliveryRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleStatus populates our DeliveryRule_Status from the provided source DeliveryRule_Status
-func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *v20210601s.DeliveryRule_Status) error {
+// AssignPropertiesFromDeliveryRuleSTATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRuleSTATUS(source *v20210601s.DeliveryRule_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
-		actionList := make([]DeliveryRuleAction_Status, len(source.Actions))
+		actionList := make([]DeliveryRuleAction_STATUS, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action DeliveryRuleAction_Status
-			err := action.AssignPropertiesFromDeliveryRuleActionStatus(&actionItem)
+			var action DeliveryRuleAction_STATUS
+			err := action.AssignPropertiesFromDeliveryRuleActionSTATUS(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleActionStatus() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleActionSTATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4666,14 +4666,14 @@ func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *
 
 	// Conditions
 	if source.Conditions != nil {
-		conditionList := make([]DeliveryRuleCondition_Status, len(source.Conditions))
+		conditionList := make([]DeliveryRuleCondition_STATUS, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition DeliveryRuleCondition_Status
-			err := condition.AssignPropertiesFromDeliveryRuleConditionStatus(&conditionItem)
+			var condition DeliveryRuleCondition_STATUS
+			err := condition.AssignPropertiesFromDeliveryRuleConditionSTATUS(&conditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleConditionStatus() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleConditionSTATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4692,21 +4692,21 @@ func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleStatus populates the provided destination DeliveryRule_Status from our DeliveryRule_Status
-func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destination *v20210601s.DeliveryRule_Status) error {
+// AssignPropertiesToDeliveryRuleSTATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRuleSTATUS(destination *v20210601s.DeliveryRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v20210601s.DeliveryRuleAction_Status, len(rule.Actions))
+		actionList := make([]v20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20210601s.DeliveryRuleAction_Status
-			err := actionItem.AssignPropertiesToDeliveryRuleActionStatus(&action)
+			var action v20210601s.DeliveryRuleAction_STATUS
+			err := actionItem.AssignPropertiesToDeliveryRuleActionSTATUS(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleActionStatus() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleActionSTATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4717,14 +4717,14 @@ func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destinatio
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v20210601s.DeliveryRuleCondition_Status, len(rule.Conditions))
+		conditionList := make([]v20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v20210601s.DeliveryRuleCondition_Status
-			err := conditionItem.AssignPropertiesToDeliveryRuleConditionStatus(&condition)
+			var condition v20210601s.DeliveryRuleCondition_STATUS
+			err := conditionItem.AssignPropertiesToDeliveryRuleConditionSTATUS(&condition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleConditionStatus() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleConditionSTATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4927,7 +4927,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesToHealthProbeParameters
 	return nil
 }
 
-type HealthProbeParameters_Status struct {
+type HealthProbeParameters_STATUS struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
 
@@ -4935,24 +4935,24 @@ type HealthProbeParameters_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersStatusProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParametersSTATUSProbeProtocol `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersStatusProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParametersSTATUSProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &HealthProbeParameters_Status{}
+var _ genruntime.FromARMConverter = &HealthProbeParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HealthProbeParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HealthProbeParameters_StatusARM{}
+func (parameters *HealthProbeParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &HealthProbeParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HealthProbeParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HealthProbeParameters_StatusARM)
+func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(HealthProbeParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ProbeIntervalInSeconds’:
@@ -4983,8 +4983,8 @@ func (parameters *HealthProbeParameters_Status) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromHealthProbeParametersStatus populates our HealthProbeParameters_Status from the provided source HealthProbeParameters_Status
-func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeParametersStatus(source *v20210601s.HealthProbeParameters_Status) error {
+// AssignPropertiesFromHealthProbeParametersSTATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeParametersSTATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
 	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
@@ -4994,7 +4994,7 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersStatusProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := HealthProbeParametersSTATUSProbeProtocol(*source.ProbeProtocol)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -5002,7 +5002,7 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersStatusProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := HealthProbeParametersSTATUSProbeRequestType(*source.ProbeRequestType)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -5012,8 +5012,8 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 	return nil
 }
 
-// AssignPropertiesToHealthProbeParametersStatus populates the provided destination HealthProbeParameters_Status from our HealthProbeParameters_Status
-func (parameters *HealthProbeParameters_Status) AssignPropertiesToHealthProbeParametersStatus(destination *v20210601s.HealthProbeParameters_Status) error {
+// AssignPropertiesToHealthProbeParametersSTATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignPropertiesToHealthProbeParametersSTATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5244,7 +5244,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesToKeyVaultSignin
 	return nil
 }
 
-type KeyVaultSigningKeyParameters_Status struct {
+type KeyVaultSigningKeyParameters_STATUS struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
 
@@ -5256,24 +5256,24 @@ type KeyVaultSigningKeyParameters_Status struct {
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
 	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersStatusTypeName `json:"typeName,omitempty"`
+	TypeName       *KeyVaultSigningKeyParametersSTATUSTypeName `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &KeyVaultSigningKeyParameters_Status{}
+var _ genruntime.FromARMConverter = &KeyVaultSigningKeyParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *KeyVaultSigningKeyParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSigningKeyParameters_StatusARM{}
+func (parameters *KeyVaultSigningKeyParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultSigningKeyParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *KeyVaultSigningKeyParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSigningKeyParameters_StatusARM)
+func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(KeyVaultSigningKeyParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ResourceGroupName’:
@@ -5316,8 +5316,8 @@ func (parameters *KeyVaultSigningKeyParameters_Status) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSigningKeyParametersStatus populates our KeyVaultSigningKeyParameters_Status from the provided source KeyVaultSigningKeyParameters_Status
-func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVaultSigningKeyParametersStatus(source *v20210601s.KeyVaultSigningKeyParameters_Status) error {
+// AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5333,7 +5333,7 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersStatusTypeName(*source.TypeName)
+		typeName := KeyVaultSigningKeyParametersSTATUSTypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -5346,8 +5346,8 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVa
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSigningKeyParametersStatus populates the provided destination KeyVaultSigningKeyParameters_Status from our KeyVaultSigningKeyParameters_Status
-func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaultSigningKeyParametersStatus(destination *v20210601s.KeyVaultSigningKeyParameters_Status) error {
+// AssignPropertiesToKeyVaultSigningKeyParametersSTATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesToKeyVaultSigningKeyParametersSTATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5385,14 +5385,14 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaul
 	return nil
 }
 
-type PrivateEndpointStatus_Status string
+type PrivateEndpointStatus_STATUS string
 
 const (
-	PrivateEndpointStatus_Status_Approved     = PrivateEndpointStatus_Status("Approved")
-	PrivateEndpointStatus_Status_Disconnected = PrivateEndpointStatus_Status("Disconnected")
-	PrivateEndpointStatus_Status_Pending      = PrivateEndpointStatus_Status("Pending")
-	PrivateEndpointStatus_Status_Rejected     = PrivateEndpointStatus_Status("Rejected")
-	PrivateEndpointStatus_Status_Timeout      = PrivateEndpointStatus_Status("Timeout")
+	PrivateEndpointStatus_STATUS_Approved     = PrivateEndpointStatus_STATUS("Approved")
+	PrivateEndpointStatus_STATUS_Disconnected = PrivateEndpointStatus_STATUS("Disconnected")
+	PrivateEndpointStatus_STATUS_Pending      = PrivateEndpointStatus_STATUS("Pending")
+	PrivateEndpointStatus_STATUS_Rejected     = PrivateEndpointStatus_STATUS("Rejected")
+	PrivateEndpointStatus_STATUS_Timeout      = PrivateEndpointStatus_STATUS("Timeout")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
@@ -5572,35 +5572,35 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesT
 	return nil
 }
 
-type ResponseBasedOriginErrorDetectionParameters_Status struct {
+type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters_Status `json:"httpErrorRanges,omitempty"`
+	HttpErrorRanges []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResponseBasedOriginErrorDetectionParameters_Status{}
+var _ genruntime.FromARMConverter = &ResponseBasedOriginErrorDetectionParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResponseBasedOriginErrorDetectionParameters_StatusARM{}
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResponseBasedOriginErrorDetectionParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResponseBasedOriginErrorDetectionParameters_StatusARM)
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ResponseBasedOriginErrorDetectionParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘HttpErrorRanges’:
 	for _, item := range typedInput.HttpErrorRanges {
-		var item1 HttpErrorRangeParameters_Status
+		var item1 HttpErrorRangeParameters_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -5624,19 +5624,19 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus populates our ResponseBasedOriginErrorDetectionParameters_Status from the provided source ResponseBasedOriginErrorDetectionParameters_Status
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_Status) error {
+// AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]HttpErrorRangeParameters_Status, len(source.HttpErrorRanges))
+		httpErrorRangeList := make([]HttpErrorRangeParameters_STATUS, len(source.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange HttpErrorRangeParameters_Status
-			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParametersStatus(&httpErrorRangeItem)
+			var httpErrorRange HttpErrorRangeParameters_STATUS
+			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParametersSTATUS(&httpErrorRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParametersStatus() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParametersSTATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5647,7 +5647,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -5660,21 +5660,21 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 	return nil
 }
 
-// AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus populates the provided destination ResponseBasedOriginErrorDetectionParameters_Status from our ResponseBasedOriginErrorDetectionParameters_Status
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_Status) error {
+// AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_Status, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v20210601s.HttpErrorRangeParameters_Status
-			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParametersStatus(&httpErrorRange)
+			var httpErrorRange v20210601s.HttpErrorRangeParameters_STATUS
+			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParametersSTATUS(&httpErrorRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParametersStatus() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParametersSTATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -6190,23 +6190,23 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	return nil
 }
 
-type DeliveryRuleAction_Status struct {
+type DeliveryRuleAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionStatusName `json:"name,omitempty"`
+	Name *DeliveryRuleActionSTATUSName `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeliveryRuleAction_Status{}
+var _ genruntime.FromARMConverter = &DeliveryRuleAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleAction_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleAction_StatusARM{}
+func (action *DeliveryRuleAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRuleAction_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleAction_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleAction_StatusARM)
+func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRuleAction_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -6219,12 +6219,12 @@ func (action *DeliveryRuleAction_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleActionStatus populates our DeliveryRuleAction_Status from the provided source DeliveryRuleAction_Status
-func (action *DeliveryRuleAction_Status) AssignPropertiesFromDeliveryRuleActionStatus(source *v20210601s.DeliveryRuleAction_Status) error {
+// AssignPropertiesFromDeliveryRuleActionSTATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignPropertiesFromDeliveryRuleActionSTATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleActionStatusName(*source.Name)
+		name := DeliveryRuleActionSTATUSName(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -6234,8 +6234,8 @@ func (action *DeliveryRuleAction_Status) AssignPropertiesFromDeliveryRuleActionS
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleActionStatus populates the provided destination DeliveryRuleAction_Status from our DeliveryRuleAction_Status
-func (action *DeliveryRuleAction_Status) AssignPropertiesToDeliveryRuleActionStatus(destination *v20210601s.DeliveryRuleAction_Status) error {
+// AssignPropertiesToDeliveryRuleActionSTATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignPropertiesToDeliveryRuleActionSTATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7223,23 +7223,23 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	return nil
 }
 
-type DeliveryRuleCondition_Status struct {
+type DeliveryRuleCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionStatusName `json:"name,omitempty"`
+	Name *DeliveryRuleConditionSTATUSName `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeliveryRuleCondition_Status{}
+var _ genruntime.FromARMConverter = &DeliveryRuleCondition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleCondition_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleCondition_StatusARM{}
+func (condition *DeliveryRuleCondition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRuleCondition_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleCondition_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleCondition_StatusARM)
+func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRuleCondition_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -7252,12 +7252,12 @@ func (condition *DeliveryRuleCondition_Status) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleConditionStatus populates our DeliveryRuleCondition_Status from the provided source DeliveryRuleCondition_Status
-func (condition *DeliveryRuleCondition_Status) AssignPropertiesFromDeliveryRuleConditionStatus(source *v20210601s.DeliveryRuleCondition_Status) error {
+// AssignPropertiesFromDeliveryRuleConditionSTATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesFromDeliveryRuleConditionSTATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleConditionStatusName(*source.Name)
+		name := DeliveryRuleConditionSTATUSName(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -7267,8 +7267,8 @@ func (condition *DeliveryRuleCondition_Status) AssignPropertiesFromDeliveryRuleC
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleConditionStatus populates the provided destination DeliveryRuleCondition_Status from our DeliveryRuleCondition_Status
-func (condition *DeliveryRuleCondition_Status) AssignPropertiesToDeliveryRuleConditionStatus(destination *v20210601s.DeliveryRuleCondition_Status) error {
+// AssignPropertiesToDeliveryRuleConditionSTATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesToDeliveryRuleConditionSTATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7309,20 +7309,20 @@ const (
 	HealthProbeParametersProbeRequestType_NotSet = HealthProbeParametersProbeRequestType("NotSet")
 )
 
-type HealthProbeParametersStatusProbeProtocol string
+type HealthProbeParametersSTATUSProbeProtocol string
 
 const (
-	HealthProbeParametersStatusProbeProtocol_Http   = HealthProbeParametersStatusProbeProtocol("Http")
-	HealthProbeParametersStatusProbeProtocol_Https  = HealthProbeParametersStatusProbeProtocol("Https")
-	HealthProbeParametersStatusProbeProtocol_NotSet = HealthProbeParametersStatusProbeProtocol("NotSet")
+	HealthProbeParametersSTATUSProbeProtocol_Http   = HealthProbeParametersSTATUSProbeProtocol("Http")
+	HealthProbeParametersSTATUSProbeProtocol_Https  = HealthProbeParametersSTATUSProbeProtocol("Https")
+	HealthProbeParametersSTATUSProbeProtocol_NotSet = HealthProbeParametersSTATUSProbeProtocol("NotSet")
 )
 
-type HealthProbeParametersStatusProbeRequestType string
+type HealthProbeParametersSTATUSProbeRequestType string
 
 const (
-	HealthProbeParametersStatusProbeRequestType_GET    = HealthProbeParametersStatusProbeRequestType("GET")
-	HealthProbeParametersStatusProbeRequestType_HEAD   = HealthProbeParametersStatusProbeRequestType("HEAD")
-	HealthProbeParametersStatusProbeRequestType_NotSet = HealthProbeParametersStatusProbeRequestType("NotSet")
+	HealthProbeParametersSTATUSProbeRequestType_GET    = HealthProbeParametersSTATUSProbeRequestType("GET")
+	HealthProbeParametersSTATUSProbeRequestType_HEAD   = HealthProbeParametersSTATUSProbeRequestType("HEAD")
+	HealthProbeParametersSTATUSProbeRequestType_NotSet = HealthProbeParametersSTATUSProbeRequestType("NotSet")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
@@ -7444,7 +7444,7 @@ func (parameters *HttpErrorRangeParameters) AssignPropertiesToHttpErrorRangePara
 	return nil
 }
 
-type HttpErrorRangeParameters_Status struct {
+type HttpErrorRangeParameters_STATUS struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
 
@@ -7452,18 +7452,18 @@ type HttpErrorRangeParameters_Status struct {
 	End *int `json:"end,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &HttpErrorRangeParameters_Status{}
+var _ genruntime.FromARMConverter = &HttpErrorRangeParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HttpErrorRangeParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HttpErrorRangeParameters_StatusARM{}
+func (parameters *HttpErrorRangeParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &HttpErrorRangeParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HttpErrorRangeParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HttpErrorRangeParameters_StatusARM)
+func (parameters *HttpErrorRangeParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(HttpErrorRangeParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Begin’:
@@ -7482,8 +7482,8 @@ func (parameters *HttpErrorRangeParameters_Status) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromHttpErrorRangeParametersStatus populates our HttpErrorRangeParameters_Status from the provided source HttpErrorRangeParameters_Status
-func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesFromHttpErrorRangeParametersStatus(source *v20210601s.HttpErrorRangeParameters_Status) error {
+// AssignPropertiesFromHttpErrorRangeParametersSTATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesFromHttpErrorRangeParametersSTATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
 
 	// Begin
 	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
@@ -7495,8 +7495,8 @@ func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesFromHttpError
 	return nil
 }
 
-// AssignPropertiesToHttpErrorRangeParametersStatus populates the provided destination HttpErrorRangeParameters_Status from our HttpErrorRangeParameters_Status
-func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesToHttpErrorRangeParametersStatus(destination *v20210601s.HttpErrorRangeParameters_Status) error {
+// AssignPropertiesToHttpErrorRangeParametersSTATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesToHttpErrorRangeParametersSTATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7531,12 +7531,12 @@ const (
 	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
-type ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes string
+type ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction

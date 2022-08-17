@@ -20,7 +20,7 @@ import (
 func Test_VirtualMachines_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -166,7 +166,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentityARM(gens map[strin
 func Test_VirtualMachines_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -741,7 +741,7 @@ func AddRelatedPropertyGeneratorsForStorageProfileARM(gens map[string]gopter.Gen
 func Test_VirtualMachines_Spec_Properties_NetworkProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -802,7 +802,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesNetworkProfileA
 func Test_VirtualMachines_Spec_Properties_OsProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1375,7 +1375,7 @@ func AddRelatedPropertyGeneratorsForVaultSecretGroupARM(gens map[string]gopter.G
 func Test_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

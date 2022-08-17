@@ -27,7 +27,7 @@ type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                                `json:"status,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -76,7 +76,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsGetResults_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsGetResults_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -164,22 +164,22 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	return destination.ConvertSpecFrom(settings)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetResults_Status
-type ThroughputSettingsGetResults_Status struct {
+// Storage version of v1beta20210515.ThroughputSettingsGetResults_STATUS
+type ThroughputSettingsGetResults_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
 	Name        *string                                          `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsGetProperties_STATUS_Resource `json:"resource,omitempty"`
 	Tags        map[string]string                                `json:"tags,omitempty"`
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_STATUS{}
 
-// ConvertStatusFrom populates our ThroughputSettingsGetResults_Status from the provided source
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ThroughputSettingsGetResults_STATUS from the provided source
+func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -187,8 +187,8 @@ func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source gen
 	return source.ConvertStatusTo(results)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_Status
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_STATUS
+func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -196,9 +196,9 @@ func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination 
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Status_Resource
-type ThroughputSettingsGetProperties_Status_Resource struct {
-	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
+// Storage version of v1beta20210515.ThroughputSettingsGetProperties_STATUS_Resource
+type ThroughputSettingsGetProperties_STATUS_Resource struct {
+	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
 	Etag                *string                           `json:"_etag,omitempty"`
 	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
 	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
@@ -224,9 +224,9 @@ type AutoscaleSettingsResource struct {
 	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.AutoscaleSettingsResource_Status
-type AutoscaleSettingsResource_Status struct {
-	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
+// Storage version of v1beta20210515.AutoscaleSettingsResource_STATUS
+type AutoscaleSettingsResource_STATUS struct {
+	AutoUpgradePolicy   *AutoUpgradePolicyResource_STATUS `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
 	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	TargetMaxThroughput *int                              `json:"targetMaxThroughput,omitempty"`
@@ -239,10 +239,10 @@ type AutoUpgradePolicyResource struct {
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210515.AutoUpgradePolicyResource_Status
-type AutoUpgradePolicyResource_Status struct {
+// Storage version of v1beta20210515.AutoUpgradePolicyResource_STATUS
+type AutoUpgradePolicyResource_STATUS struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
+	ThroughputPolicy *ThroughputPolicyResource_STATUS `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource
@@ -253,8 +253,8 @@ type ThroughputPolicyResource struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.ThroughputPolicyResource_Status
-type ThroughputPolicyResource_Status struct {
+// Storage version of v1beta20210515.ThroughputPolicyResource_STATUS
+type ThroughputPolicyResource_STATUS struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

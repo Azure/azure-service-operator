@@ -20,7 +20,7 @@ import (
 func Test_VirtualNetworkGateways_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -97,7 +97,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecARM(gens map[strin
 func Test_VirtualNetworkGateways_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -322,6 +322,166 @@ func AddRelatedPropertyGeneratorsForBgpSettingsARM(gens map[string]gopter.Gen) {
 	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddressARMGenerator())
 }
 
+func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM, VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(subject VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing - lazily
+// instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()
+var virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator gopter.Gen
+
+// VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing.
+// We first initialize virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator() gopter.Gen {
+	if virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator != nil {
+		return virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
+	virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
+	virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}), generators)
+
+	return virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator())
+}
+
+func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing - lazily
+// instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()
+var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator gopter.Gen
+
+// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing.
+// We first initialize virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator() gopter.Gen {
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator != nil {
+		return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
+	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
+	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}), generators)
+
+	return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(gens map[string]gopter.Gen) {
+	gens["AadAudience"] = gen.PtrOf(gen.AlphaString())
+	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
+	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
+	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
+	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius))
+	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(gens map[string]gopter.Gen) {
+	gens["RadiusServers"] = gen.SliceOf(RadiusServerARMGenerator())
+	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpaceARMGenerator())
+	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicyARMGenerator())
+	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator())
+	gens["VpnClientRootCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator())
+}
+
 func Test_VirtualNetworkGatewaySkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -416,166 +576,6 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(gens map[str
 		VirtualNetworkGatewaySkuTier_VpnGw4AZ,
 		VirtualNetworkGatewaySkuTier_VpnGw5,
 		VirtualNetworkGatewaySkuTier_VpnGw5AZ))
-}
-
-func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM, VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(subject VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing - lazily
-// instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()
-var virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator gopter.Gen
-
-// VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing.
-// We first initialize virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
-	virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(generators)
-	virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}), generators)
-
-	return virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurationsARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator())
-}
-
-func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing - lazily
-// instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()
-var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator gopter.Gen
-
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing.
-// We first initialize virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}), generators)
-
-	return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(gens map[string]gopter.Gen) {
-	gens["AadAudience"] = gen.PtrOf(gen.AlphaString())
-	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
-	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
-	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius))
-	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM(gens map[string]gopter.Gen) {
-	gens["RadiusServers"] = gen.SliceOf(RadiusServerARMGenerator())
-	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpaceARMGenerator())
-	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicyARMGenerator())
-	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator())
-	gens["VpnClientRootCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator())
 }
 
 func Test_IPConfigurationBgpPeeringAddressARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -893,7 +893,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationProperti
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -969,7 +969,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClien
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
