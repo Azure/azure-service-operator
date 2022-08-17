@@ -90,7 +90,7 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 				resourceDefinition = resourceDefinition.
 					WithDescription(([]string{
 						"Generator information:",
-						fmt.Sprintf(" - Generated from: %s", sourceFile),
+						fmt.Sprintf(" - Generated from: %s", filepath.ToSlash(sourceFile)),
 						fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI),
 					}))
 

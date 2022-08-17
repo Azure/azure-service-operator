@@ -114,7 +114,7 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 	tc.CreateResourceAndWait(topic)
 	// don’t bother deleting; deleting domain will clean up
 
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscriptions_Spec{
@@ -136,7 +136,7 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 }
 
 func DomainSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.StorageAccountsQueueServicesQueue, domain *eventgrid.Domain, acctReference *genruntime.ResourceReference) {
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscriptions_Spec{

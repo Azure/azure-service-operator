@@ -23,7 +23,8 @@ func NewGetAPIVersionFunction(
 	idFactory astmodel.IdentifierFactory,
 ) astmodel.Function {
 	comment := fmt.Sprintf("returns the ARM API version of the resource. This is always %s", apiVersionEnumValue.Value)
-	value := dst.NewIdent(astmodel.GetEnumValueId(apiVersionTypeName.Name(), apiVersionEnumValue))
+	value := dst.NewIdent(
+		astmodel.GetEnumValueId(apiVersionTypeName.Name(), apiVersionEnumValue))
 
 	result := NewObjectFunction(GetAPIVersionFunctionName, idFactory,
 		createBodyReturningValue(
