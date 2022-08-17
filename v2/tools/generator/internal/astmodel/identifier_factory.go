@@ -149,8 +149,9 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 // cleanPart cleans up a part of an identifier
 func (factory *identifierFactory) cleanPart(part string, visibility Visibility) string {
 	clean := filterRegex.ReplaceAllLiteralString(part, " ")
-	var caseCorrectedWords []string
-	for ix, word := range sliceIntoWords(clean) {
+	cleanWords := sliceIntoWords(clean)
+	caseCorrectedWords := make([]string, 0, len(cleanWords))
+	for ix, word := range cleanWords {
 		var w string
 		if ix == 0 && visibility == NotExported {
 			w = strings.ToLower(word)
