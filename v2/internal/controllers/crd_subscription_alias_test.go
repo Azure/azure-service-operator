@@ -51,7 +51,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	//tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	//tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	workload := subscription.PutAliasRequestPropertiesWorkloadProduction
+	workload := subscription.PutAliasRequestPropertiesWorkload_Production
 	sub := &subscription.Alias{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: subscription.Aliases_Spec{
@@ -87,7 +87,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(sub)
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(subscription.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(subscription.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
