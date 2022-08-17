@@ -186,19 +186,21 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
-	samplesMap := make(map[string]string)
+	sampleLinks := make(map[string]string)
 	if report.rootUrl != "" {
 		parsedRootURL, err := url.Parse(report.rootUrl)
 		if err != nil {
 			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
 		}
 		err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
+			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
+			// samples testing.
 			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
 				filePath = filepath.ToSlash(filePath)
 				filePathURL := url.URL{Path: filePath}
 				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
 				sampleFile := filepath.Base(filePath)
-				samplesMap[sampleFile] = sampleLink
+				sampleLinks[sampleFile] = sampleLink
 			}
 
 			return nil
@@ -218,7 +220,7 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		sample := report.generateSampleLink(rsrc, samplesMap)
+		sample := report.generateSampleLink(rsrc, sampleLinks)
 		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
 		errs = append(errs, err)
 
@@ -238,10 +240,10 @@ func (report *ResourceVersionsReport) createTable(
 	return result, nil
 }
 
-func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, samplesMap map[string]string) string {
+func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {
 	crdVersion := rsrc.Name().PackageReference.PackageName()
 	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
-	sampleLink, ok := samplesMap[key]
+	sampleLink, ok := sampleLinks[key]
 
 	if ok {
 		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
