@@ -52,7 +52,7 @@ func (scaleSet *VirtualMachineScaleSet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
 func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource

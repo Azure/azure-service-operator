@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &Webtests_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtests Webtests_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

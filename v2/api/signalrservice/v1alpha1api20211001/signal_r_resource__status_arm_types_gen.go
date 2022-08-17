@@ -38,8 +38,8 @@ type ResourceSku_StatusARM struct {
 type ServiceKind_Status string
 
 const (
-	ServiceKind_StatusRawWebSockets = ServiceKind_Status("RawWebSockets")
-	ServiceKind_StatusSignalR       = ServiceKind_Status("SignalR")
+	ServiceKind_Status_RawWebSockets = ServiceKind_Status("RawWebSockets")
+	ServiceKind_Status_SignalR       = ServiceKind_Status("SignalR")
 )
 
 // Deprecated version of SignalRProperties_Status. Use v1beta20211001.SignalRProperties_Status instead
@@ -78,9 +78,9 @@ type SystemData_StatusARM struct {
 type ManagedIdentityType_Status string
 
 const (
-	ManagedIdentityType_StatusNone           = ManagedIdentityType_Status("None")
-	ManagedIdentityType_StatusSystemAssigned = ManagedIdentityType_Status("SystemAssigned")
-	ManagedIdentityType_StatusUserAssigned   = ManagedIdentityType_Status("UserAssigned")
+	ManagedIdentityType_Status_None           = ManagedIdentityType_Status("None")
+	ManagedIdentityType_Status_SystemAssigned = ManagedIdentityType_Status("SystemAssigned")
+	ManagedIdentityType_Status_UserAssigned   = ManagedIdentityType_Status("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead
@@ -128,10 +128,10 @@ type SignalRNetworkACLs_StatusARM struct {
 type SignalRSkuTier_Status string
 
 const (
-	SignalRSkuTier_StatusBasic    = SignalRSkuTier_Status("Basic")
-	SignalRSkuTier_StatusFree     = SignalRSkuTier_Status("Free")
-	SignalRSkuTier_StatusPremium  = SignalRSkuTier_Status("Premium")
-	SignalRSkuTier_StatusStandard = SignalRSkuTier_Status("Standard")
+	SignalRSkuTier_Status_Basic    = SignalRSkuTier_Status("Basic")
+	SignalRSkuTier_Status_Free     = SignalRSkuTier_Status("Free")
+	SignalRSkuTier_Status_Premium  = SignalRSkuTier_Status("Premium")
+	SignalRSkuTier_Status_Standard = SignalRSkuTier_Status("Standard")
 )
 
 // Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead
@@ -143,20 +143,20 @@ type SignalRTlsSettings_StatusARM struct {
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 // Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211001.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )
 
 // Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead

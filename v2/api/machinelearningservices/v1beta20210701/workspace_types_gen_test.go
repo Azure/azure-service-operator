@@ -288,14 +288,14 @@ func AddIndependentPropertyGeneratorsForWorkspaceStatus(gens map[string]gopter.G
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspacePropertiesStatusProvisioningStateCanceled,
-		WorkspacePropertiesStatusProvisioningStateCreating,
-		WorkspacePropertiesStatusProvisioningStateDeleting,
-		WorkspacePropertiesStatusProvisioningStateFailed,
-		WorkspacePropertiesStatusProvisioningStateSucceeded,
-		WorkspacePropertiesStatusProvisioningStateUnknown,
-		WorkspacePropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesStatusPublicNetworkAccessDisabled, WorkspacePropertiesStatusPublicNetworkAccessEnabled))
+		WorkspacePropertiesStatusProvisioningState_Canceled,
+		WorkspacePropertiesStatusProvisioningState_Creating,
+		WorkspacePropertiesStatusProvisioningState_Deleting,
+		WorkspacePropertiesStatusProvisioningState_Failed,
+		WorkspacePropertiesStatusProvisioningState_Succeeded,
+		WorkspacePropertiesStatusProvisioningState_Unknown,
+		WorkspacePropertiesStatusProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesStatusPublicNetworkAccess_Disabled, WorkspacePropertiesStatusPublicNetworkAccess_Enabled))
 	gens["ServiceProvisionedResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageHnsEnabled"] = gen.PtrOf(gen.Bool())
@@ -433,7 +433,7 @@ func AddIndependentPropertyGeneratorsForWorkspacesSpec(gens map[string]gopter.Ge
 	gens["HbiWorkspace"] = gen.PtrOf(gen.Bool())
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacesSpecPropertiesPublicNetworkAccessDisabled, WorkspacesSpecPropertiesPublicNetworkAccessEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacesSpecPropertiesPublicNetworkAccess_Disabled, WorkspacesSpecPropertiesPublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
@@ -556,7 +556,7 @@ func EncryptionPropertyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusDisabled, EncryptionPropertyStatusEnabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatus_Disabled, EncryptionPropertyStatus_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty is a factory method for creating gopter generators
@@ -674,7 +674,7 @@ func EncryptionPropertyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionPropertyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionPropertyStatus(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusStatusDisabled, EncryptionPropertyStatusStatusEnabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusStatus_Disabled, EncryptionPropertyStatusStatus_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionPropertyStatus is a factory method for creating gopter generators
@@ -783,10 +783,10 @@ func IdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeNone,
-		IdentityTypeSystemAssigned,
-		IdentityTypeSystemAssignedUserAssigned,
-		IdentityTypeUserAssigned))
+		IdentityType_None,
+		IdentityType_SystemAssigned,
+		IdentityType_SystemAssignedUserAssigned,
+		IdentityType_UserAssigned))
 }
 
 func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -900,10 +900,10 @@ func AddIndependentPropertyGeneratorsForIdentityStatus(gens map[string]gopter.Ge
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		IdentityStatusTypeNone,
-		IdentityStatusTypeSystemAssigned,
-		IdentityStatusTypeSystemAssignedUserAssigned,
-		IdentityStatusTypeUserAssigned))
+		IdentityStatusType_None,
+		IdentityStatusType_SystemAssigned,
+		IdentityStatusType_SystemAssignedUserAssigned,
+		IdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatus is a factory method for creating gopter generators
@@ -1459,11 +1459,11 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceStatus(gens map
 	gens["PrivateLinkResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_StatusApproved,
-		PrivateEndpointServiceConnectionStatus_StatusDisconnected,
-		PrivateEndpointServiceConnectionStatus_StatusPending,
-		PrivateEndpointServiceConnectionStatus_StatusRejected,
-		PrivateEndpointServiceConnectionStatus_StatusTimeout))
+		PrivateEndpointServiceConnectionStatus_Status_Approved,
+		PrivateEndpointServiceConnectionStatus_Status_Disconnected,
+		PrivateEndpointServiceConnectionStatus_Status_Pending,
+		PrivateEndpointServiceConnectionStatus_Status_Rejected,
+		PrivateEndpointServiceConnectionStatus_Status_Timeout))
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1774,17 +1774,17 @@ func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataCreatedByTypeApplication,
-		SystemDataCreatedByTypeKey,
-		SystemDataCreatedByTypeManagedIdentity,
-		SystemDataCreatedByTypeUser))
+		SystemDataCreatedByType_Application,
+		SystemDataCreatedByType_Key,
+		SystemDataCreatedByType_ManagedIdentity,
+		SystemDataCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataLastModifiedByTypeApplication,
-		SystemDataLastModifiedByTypeKey,
-		SystemDataLastModifiedByTypeManagedIdentity,
-		SystemDataLastModifiedByTypeUser))
+		SystemDataLastModifiedByType_Application,
+		SystemDataLastModifiedByType_Key,
+		SystemDataLastModifiedByType_ManagedIdentity,
+		SystemDataLastModifiedByType_User))
 }
 
 func Test_SystemData_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1889,17 +1889,17 @@ func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusCreatedByTypeApplication,
-		SystemDataStatusCreatedByTypeKey,
-		SystemDataStatusCreatedByTypeManagedIdentity,
-		SystemDataStatusCreatedByTypeUser))
+		SystemDataStatusCreatedByType_Application,
+		SystemDataStatusCreatedByType_Key,
+		SystemDataStatusCreatedByType_ManagedIdentity,
+		SystemDataStatusCreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataStatusLastModifiedByTypeApplication,
-		SystemDataStatusLastModifiedByTypeKey,
-		SystemDataStatusLastModifiedByTypeManagedIdentity,
-		SystemDataStatusLastModifiedByTypeUser))
+		SystemDataStatusLastModifiedByType_Application,
+		SystemDataStatusLastModifiedByType_Key,
+		SystemDataStatusLastModifiedByType_ManagedIdentity,
+		SystemDataStatusLastModifiedByType_User))
 }
 
 func Test_WorkspaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2109,11 +2109,11 @@ func AddIndependentPropertyGeneratorsForWorkspacesSpecPropertiesSharedPrivateLin
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourcePropertyStatusApproved,
-		SharedPrivateLinkResourcePropertyStatusDisconnected,
-		SharedPrivateLinkResourcePropertyStatusPending,
-		SharedPrivateLinkResourcePropertyStatusRejected,
-		SharedPrivateLinkResourcePropertyStatusTimeout))
+		SharedPrivateLinkResourcePropertyStatus_Approved,
+		SharedPrivateLinkResourcePropertyStatus_Disconnected,
+		SharedPrivateLinkResourcePropertyStatus_Pending,
+		SharedPrivateLinkResourcePropertyStatus_Rejected,
+		SharedPrivateLinkResourcePropertyStatus_Timeout))
 }
 
 func Test_CosmosDbSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

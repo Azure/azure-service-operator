@@ -168,31 +168,31 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G,
-		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary))
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG1G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG2G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG3G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG4G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_OS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesModeSystem, ManagedClusterAgentPoolProfilePropertiesModeUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesMode_System, ManagedClusterAgentPoolProfilePropertiesMode_User))
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsDiskTypeEphemeral, ManagedClusterAgentPoolProfilePropertiesOsDiskTypeManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsSKUCBLMariner, ManagedClusterAgentPoolProfilePropertiesOsSKUUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsTypeLinux, ManagedClusterAgentPoolProfilePropertiesOsTypeWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsDiskType_Ephemeral, ManagedClusterAgentPoolProfilePropertiesOsDiskType_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsSKU_CBLMariner, ManagedClusterAgentPoolProfilePropertiesOsSKU_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesOsType_Linux, ManagedClusterAgentPoolProfilePropertiesOsType_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDeallocate, ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetPriorityRegular, ManagedClusterAgentPoolProfilePropertiesScaleSetPrioritySpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Deallocate, ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Regular, ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesTypeAvailabilitySet, ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesType_AvailabilitySet, ManagedClusterAgentPoolProfilePropertiesType_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }

@@ -238,7 +238,7 @@ func NamespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator() gopter.Ge
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescriptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescriptionARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_Avro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

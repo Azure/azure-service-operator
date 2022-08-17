@@ -98,7 +98,7 @@ func (route *RouteTablesRoute) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (route RouteTablesRoute) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -880,22 +880,22 @@ func (route *Route_Status) AssignPropertiesToRouteStatus(destination *v20201101s
 type RouteNextHopType_Status string
 
 const (
-	RouteNextHopType_StatusInternet              = RouteNextHopType_Status("Internet")
-	RouteNextHopType_StatusNone                  = RouteNextHopType_Status("None")
-	RouteNextHopType_StatusVirtualAppliance      = RouteNextHopType_Status("VirtualAppliance")
-	RouteNextHopType_StatusVirtualNetworkGateway = RouteNextHopType_Status("VirtualNetworkGateway")
-	RouteNextHopType_StatusVnetLocal             = RouteNextHopType_Status("VnetLocal")
+	RouteNextHopType_Status_Internet              = RouteNextHopType_Status("Internet")
+	RouteNextHopType_Status_None                  = RouteNextHopType_Status("None")
+	RouteNextHopType_Status_VirtualAppliance      = RouteNextHopType_Status("VirtualAppliance")
+	RouteNextHopType_Status_VirtualNetworkGateway = RouteNextHopType_Status("VirtualNetworkGateway")
+	RouteNextHopType_Status_VnetLocal             = RouteNextHopType_Status("VnetLocal")
 )
 
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
 type RoutePropertiesFormatNextHopType string
 
 const (
-	RoutePropertiesFormatNextHopTypeInternet              = RoutePropertiesFormatNextHopType("Internet")
-	RoutePropertiesFormatNextHopTypeNone                  = RoutePropertiesFormatNextHopType("None")
-	RoutePropertiesFormatNextHopTypeVirtualAppliance      = RoutePropertiesFormatNextHopType("VirtualAppliance")
-	RoutePropertiesFormatNextHopTypeVirtualNetworkGateway = RoutePropertiesFormatNextHopType("VirtualNetworkGateway")
-	RoutePropertiesFormatNextHopTypeVnetLocal             = RoutePropertiesFormatNextHopType("VnetLocal")
+	RoutePropertiesFormatNextHopType_Internet              = RoutePropertiesFormatNextHopType("Internet")
+	RoutePropertiesFormatNextHopType_None                  = RoutePropertiesFormatNextHopType("None")
+	RoutePropertiesFormatNextHopType_VirtualAppliance      = RoutePropertiesFormatNextHopType("VirtualAppliance")
+	RoutePropertiesFormatNextHopType_VirtualNetworkGateway = RoutePropertiesFormatNextHopType("VirtualNetworkGateway")
+	RoutePropertiesFormatNextHopType_VnetLocal             = RoutePropertiesFormatNextHopType("VnetLocal")
 )
 
 func init() {

@@ -113,7 +113,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -355,7 +355,7 @@ type ManagedClusterList struct {
 // +kubebuilder:validation:Enum={"2021-05-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-01")
+const APIVersion_Value = APIVersion("2021-05-01")
 
 // Deprecated version of ManagedCluster_Status. Use v1beta20210501.ManagedCluster_Status instead
 type ManagedCluster_Status struct {
@@ -9159,8 +9159,8 @@ func (resource *PrivateLinkResource_Status) AssignPropertiesToPrivateLinkResourc
 type ContainerServiceNetworkProfileLoadBalancerSku string
 
 const (
-	ContainerServiceNetworkProfileLoadBalancerSkuBasic    = ContainerServiceNetworkProfileLoadBalancerSku("basic")
-	ContainerServiceNetworkProfileLoadBalancerSkuStandard = ContainerServiceNetworkProfileLoadBalancerSku("standard")
+	ContainerServiceNetworkProfileLoadBalancerSku_Basic    = ContainerServiceNetworkProfileLoadBalancerSku("basic")
+	ContainerServiceNetworkProfileLoadBalancerSku_Standard = ContainerServiceNetworkProfileLoadBalancerSku("standard")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileNetworkMode. Use
@@ -9169,8 +9169,8 @@ const (
 type ContainerServiceNetworkProfileNetworkMode string
 
 const (
-	ContainerServiceNetworkProfileNetworkModeBridge      = ContainerServiceNetworkProfileNetworkMode("bridge")
-	ContainerServiceNetworkProfileNetworkModeTransparent = ContainerServiceNetworkProfileNetworkMode("transparent")
+	ContainerServiceNetworkProfileNetworkMode_Bridge      = ContainerServiceNetworkProfileNetworkMode("bridge")
+	ContainerServiceNetworkProfileNetworkMode_Transparent = ContainerServiceNetworkProfileNetworkMode("transparent")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileNetworkPlugin. Use
@@ -9179,8 +9179,8 @@ const (
 type ContainerServiceNetworkProfileNetworkPlugin string
 
 const (
-	ContainerServiceNetworkProfileNetworkPluginAzure   = ContainerServiceNetworkProfileNetworkPlugin("azure")
-	ContainerServiceNetworkProfileNetworkPluginKubenet = ContainerServiceNetworkProfileNetworkPlugin("kubenet")
+	ContainerServiceNetworkProfileNetworkPlugin_Azure   = ContainerServiceNetworkProfileNetworkPlugin("azure")
+	ContainerServiceNetworkProfileNetworkPlugin_Kubenet = ContainerServiceNetworkProfileNetworkPlugin("kubenet")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileNetworkPolicy. Use
@@ -9189,8 +9189,8 @@ const (
 type ContainerServiceNetworkProfileNetworkPolicy string
 
 const (
-	ContainerServiceNetworkProfileNetworkPolicyAzure  = ContainerServiceNetworkProfileNetworkPolicy("azure")
-	ContainerServiceNetworkProfileNetworkPolicyCalico = ContainerServiceNetworkProfileNetworkPolicy("calico")
+	ContainerServiceNetworkProfileNetworkPolicy_Azure  = ContainerServiceNetworkProfileNetworkPolicy("azure")
+	ContainerServiceNetworkProfileNetworkPolicy_Calico = ContainerServiceNetworkProfileNetworkPolicy("calico")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileOutboundType. Use
@@ -9199,8 +9199,8 @@ const (
 type ContainerServiceNetworkProfileOutboundType string
 
 const (
-	ContainerServiceNetworkProfileOutboundTypeLoadBalancer       = ContainerServiceNetworkProfileOutboundType("loadBalancer")
-	ContainerServiceNetworkProfileOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileOutboundType("userDefinedRouting")
+	ContainerServiceNetworkProfileOutboundType_LoadBalancer       = ContainerServiceNetworkProfileOutboundType("loadBalancer")
+	ContainerServiceNetworkProfileOutboundType_UserDefinedRouting = ContainerServiceNetworkProfileOutboundType("userDefinedRouting")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileStatusLoadBalancerSku. Use
@@ -9208,8 +9208,8 @@ const (
 type ContainerServiceNetworkProfileStatusLoadBalancerSku string
 
 const (
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuBasic    = ContainerServiceNetworkProfileStatusLoadBalancerSku("basic")
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuStandard = ContainerServiceNetworkProfileStatusLoadBalancerSku("standard")
+	ContainerServiceNetworkProfileStatusLoadBalancerSku_Basic    = ContainerServiceNetworkProfileStatusLoadBalancerSku("basic")
+	ContainerServiceNetworkProfileStatusLoadBalancerSku_Standard = ContainerServiceNetworkProfileStatusLoadBalancerSku("standard")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileStatusNetworkMode. Use
@@ -9217,8 +9217,8 @@ const (
 type ContainerServiceNetworkProfileStatusNetworkMode string
 
 const (
-	ContainerServiceNetworkProfileStatusNetworkModeBridge      = ContainerServiceNetworkProfileStatusNetworkMode("bridge")
-	ContainerServiceNetworkProfileStatusNetworkModeTransparent = ContainerServiceNetworkProfileStatusNetworkMode("transparent")
+	ContainerServiceNetworkProfileStatusNetworkMode_Bridge      = ContainerServiceNetworkProfileStatusNetworkMode("bridge")
+	ContainerServiceNetworkProfileStatusNetworkMode_Transparent = ContainerServiceNetworkProfileStatusNetworkMode("transparent")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileStatusNetworkPlugin. Use
@@ -9226,8 +9226,8 @@ const (
 type ContainerServiceNetworkProfileStatusNetworkPlugin string
 
 const (
-	ContainerServiceNetworkProfileStatusNetworkPluginAzure   = ContainerServiceNetworkProfileStatusNetworkPlugin("azure")
-	ContainerServiceNetworkProfileStatusNetworkPluginKubenet = ContainerServiceNetworkProfileStatusNetworkPlugin("kubenet")
+	ContainerServiceNetworkProfileStatusNetworkPlugin_Azure   = ContainerServiceNetworkProfileStatusNetworkPlugin("azure")
+	ContainerServiceNetworkProfileStatusNetworkPlugin_Kubenet = ContainerServiceNetworkProfileStatusNetworkPlugin("kubenet")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileStatusNetworkPolicy. Use
@@ -9235,8 +9235,8 @@ const (
 type ContainerServiceNetworkProfileStatusNetworkPolicy string
 
 const (
-	ContainerServiceNetworkProfileStatusNetworkPolicyAzure  = ContainerServiceNetworkProfileStatusNetworkPolicy("azure")
-	ContainerServiceNetworkProfileStatusNetworkPolicyCalico = ContainerServiceNetworkProfileStatusNetworkPolicy("calico")
+	ContainerServiceNetworkProfileStatusNetworkPolicy_Azure  = ContainerServiceNetworkProfileStatusNetworkPolicy("azure")
+	ContainerServiceNetworkProfileStatusNetworkPolicy_Calico = ContainerServiceNetworkProfileStatusNetworkPolicy("calico")
 )
 
 // Deprecated version of ContainerServiceNetworkProfileStatusOutboundType. Use
@@ -9244,8 +9244,8 @@ const (
 type ContainerServiceNetworkProfileStatusOutboundType string
 
 const (
-	ContainerServiceNetworkProfileStatusOutboundTypeLoadBalancer       = ContainerServiceNetworkProfileStatusOutboundType("loadBalancer")
-	ContainerServiceNetworkProfileStatusOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileStatusOutboundType("userDefinedRouting")
+	ContainerServiceNetworkProfileStatusOutboundType_LoadBalancer       = ContainerServiceNetworkProfileStatusOutboundType("loadBalancer")
+	ContainerServiceNetworkProfileStatusOutboundType_UserDefinedRouting = ContainerServiceNetworkProfileStatusOutboundType("userDefinedRouting")
 )
 
 // Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
@@ -9457,11 +9457,11 @@ func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesTo
 type ManagedClusterAgentPoolProfileGpuInstanceProfile string
 
 const (
-	ManagedClusterAgentPoolProfileGpuInstanceProfileMIG1G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG1g")
-	ManagedClusterAgentPoolProfileGpuInstanceProfileMIG2G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG2g")
-	ManagedClusterAgentPoolProfileGpuInstanceProfileMIG3G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG3g")
-	ManagedClusterAgentPoolProfileGpuInstanceProfileMIG4G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG4g")
-	ManagedClusterAgentPoolProfileGpuInstanceProfileMIG7G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG7g")
+	ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG1G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG1g")
+	ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG2G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG2g")
+	ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG3G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG3g")
+	ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG4G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG4g")
+	ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG7G = ManagedClusterAgentPoolProfileGpuInstanceProfile("MIG7g")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileKubeletDiskType. Use
@@ -9470,8 +9470,8 @@ const (
 type ManagedClusterAgentPoolProfileKubeletDiskType string
 
 const (
-	ManagedClusterAgentPoolProfileKubeletDiskTypeOS        = ManagedClusterAgentPoolProfileKubeletDiskType("OS")
-	ManagedClusterAgentPoolProfileKubeletDiskTypeTemporary = ManagedClusterAgentPoolProfileKubeletDiskType("Temporary")
+	ManagedClusterAgentPoolProfileKubeletDiskType_OS        = ManagedClusterAgentPoolProfileKubeletDiskType("OS")
+	ManagedClusterAgentPoolProfileKubeletDiskType_Temporary = ManagedClusterAgentPoolProfileKubeletDiskType("Temporary")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileMode. Use v1beta20210501.ManagedClusterAgentPoolProfileMode instead
@@ -9479,8 +9479,8 @@ const (
 type ManagedClusterAgentPoolProfileMode string
 
 const (
-	ManagedClusterAgentPoolProfileModeSystem = ManagedClusterAgentPoolProfileMode("System")
-	ManagedClusterAgentPoolProfileModeUser   = ManagedClusterAgentPoolProfileMode("User")
+	ManagedClusterAgentPoolProfileMode_System = ManagedClusterAgentPoolProfileMode("System")
+	ManagedClusterAgentPoolProfileMode_User   = ManagedClusterAgentPoolProfileMode("User")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileOsDiskType. Use
@@ -9489,8 +9489,8 @@ const (
 type ManagedClusterAgentPoolProfileOsDiskType string
 
 const (
-	ManagedClusterAgentPoolProfileOsDiskTypeEphemeral = ManagedClusterAgentPoolProfileOsDiskType("Ephemeral")
-	ManagedClusterAgentPoolProfileOsDiskTypeManaged   = ManagedClusterAgentPoolProfileOsDiskType("Managed")
+	ManagedClusterAgentPoolProfileOsDiskType_Ephemeral = ManagedClusterAgentPoolProfileOsDiskType("Ephemeral")
+	ManagedClusterAgentPoolProfileOsDiskType_Managed   = ManagedClusterAgentPoolProfileOsDiskType("Managed")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileOsSKU. Use v1beta20210501.ManagedClusterAgentPoolProfileOsSKU instead
@@ -9498,8 +9498,8 @@ const (
 type ManagedClusterAgentPoolProfileOsSKU string
 
 const (
-	ManagedClusterAgentPoolProfileOsSKUCBLMariner = ManagedClusterAgentPoolProfileOsSKU("CBLMariner")
-	ManagedClusterAgentPoolProfileOsSKUUbuntu     = ManagedClusterAgentPoolProfileOsSKU("Ubuntu")
+	ManagedClusterAgentPoolProfileOsSKU_CBLMariner = ManagedClusterAgentPoolProfileOsSKU("CBLMariner")
+	ManagedClusterAgentPoolProfileOsSKU_Ubuntu     = ManagedClusterAgentPoolProfileOsSKU("Ubuntu")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileOsType. Use v1beta20210501.ManagedClusterAgentPoolProfileOsType
@@ -9508,8 +9508,8 @@ const (
 type ManagedClusterAgentPoolProfileOsType string
 
 const (
-	ManagedClusterAgentPoolProfileOsTypeLinux   = ManagedClusterAgentPoolProfileOsType("Linux")
-	ManagedClusterAgentPoolProfileOsTypeWindows = ManagedClusterAgentPoolProfileOsType("Windows")
+	ManagedClusterAgentPoolProfileOsType_Linux   = ManagedClusterAgentPoolProfileOsType("Linux")
+	ManagedClusterAgentPoolProfileOsType_Windows = ManagedClusterAgentPoolProfileOsType("Windows")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileScaleSetEvictionPolicy. Use
@@ -9518,8 +9518,8 @@ const (
 type ManagedClusterAgentPoolProfileScaleSetEvictionPolicy string
 
 const (
-	ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDeallocate = ManagedClusterAgentPoolProfileScaleSetEvictionPolicy("Deallocate")
-	ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDelete     = ManagedClusterAgentPoolProfileScaleSetEvictionPolicy("Delete")
+	ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Deallocate = ManagedClusterAgentPoolProfileScaleSetEvictionPolicy("Deallocate")
+	ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Delete     = ManagedClusterAgentPoolProfileScaleSetEvictionPolicy("Delete")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileScaleSetPriority. Use
@@ -9528,8 +9528,8 @@ const (
 type ManagedClusterAgentPoolProfileScaleSetPriority string
 
 const (
-	ManagedClusterAgentPoolProfileScaleSetPriorityRegular = ManagedClusterAgentPoolProfileScaleSetPriority("Regular")
-	ManagedClusterAgentPoolProfileScaleSetPrioritySpot    = ManagedClusterAgentPoolProfileScaleSetPriority("Spot")
+	ManagedClusterAgentPoolProfileScaleSetPriority_Regular = ManagedClusterAgentPoolProfileScaleSetPriority("Regular")
+	ManagedClusterAgentPoolProfileScaleSetPriority_Spot    = ManagedClusterAgentPoolProfileScaleSetPriority("Spot")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfileType. Use v1beta20210501.ManagedClusterAgentPoolProfileType instead
@@ -9537,8 +9537,8 @@ const (
 type ManagedClusterAgentPoolProfileType string
 
 const (
-	ManagedClusterAgentPoolProfileTypeAvailabilitySet         = ManagedClusterAgentPoolProfileType("AvailabilitySet")
-	ManagedClusterAgentPoolProfileTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfileType("VirtualMachineScaleSets")
+	ManagedClusterAgentPoolProfileType_AvailabilitySet         = ManagedClusterAgentPoolProfileType("AvailabilitySet")
+	ManagedClusterAgentPoolProfileType_VirtualMachineScaleSets = ManagedClusterAgentPoolProfileType("VirtualMachineScaleSets")
 )
 
 // Deprecated version of ManagedClusterAutoUpgradeProfileStatusUpgradeChannel. Use
@@ -9546,11 +9546,11 @@ const (
 type ManagedClusterAutoUpgradeProfileStatusUpgradeChannel string
 
 const (
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("node-image")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone      = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("none")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("patch")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("rapid")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable    = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("stable")
+	ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_NodeImage = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("node-image")
+	ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_None      = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("none")
+	ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Patch     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("patch")
+	ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Rapid     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("rapid")
+	ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Stable    = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("stable")
 )
 
 // Deprecated version of ManagedClusterAutoUpgradeProfileUpgradeChannel. Use
@@ -9559,11 +9559,11 @@ const (
 type ManagedClusterAutoUpgradeProfileUpgradeChannel string
 
 const (
-	ManagedClusterAutoUpgradeProfileUpgradeChannelNodeImage = ManagedClusterAutoUpgradeProfileUpgradeChannel("node-image")
-	ManagedClusterAutoUpgradeProfileUpgradeChannelNone      = ManagedClusterAutoUpgradeProfileUpgradeChannel("none")
-	ManagedClusterAutoUpgradeProfileUpgradeChannelPatch     = ManagedClusterAutoUpgradeProfileUpgradeChannel("patch")
-	ManagedClusterAutoUpgradeProfileUpgradeChannelRapid     = ManagedClusterAutoUpgradeProfileUpgradeChannel("rapid")
-	ManagedClusterAutoUpgradeProfileUpgradeChannelStable    = ManagedClusterAutoUpgradeProfileUpgradeChannel("stable")
+	ManagedClusterAutoUpgradeProfileUpgradeChannel_NodeImage = ManagedClusterAutoUpgradeProfileUpgradeChannel("node-image")
+	ManagedClusterAutoUpgradeProfileUpgradeChannel_None      = ManagedClusterAutoUpgradeProfileUpgradeChannel("none")
+	ManagedClusterAutoUpgradeProfileUpgradeChannel_Patch     = ManagedClusterAutoUpgradeProfileUpgradeChannel("patch")
+	ManagedClusterAutoUpgradeProfileUpgradeChannel_Rapid     = ManagedClusterAutoUpgradeProfileUpgradeChannel("rapid")
+	ManagedClusterAutoUpgradeProfileUpgradeChannel_Stable    = ManagedClusterAutoUpgradeProfileUpgradeChannel("stable")
 )
 
 // Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
@@ -10793,10 +10793,10 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 type ManagedClusterPropertiesAutoScalerProfileExpander string
 
 const (
-	ManagedClusterPropertiesAutoScalerProfileExpanderLeastWaste = ManagedClusterPropertiesAutoScalerProfileExpander("least-waste")
-	ManagedClusterPropertiesAutoScalerProfileExpanderMostPods   = ManagedClusterPropertiesAutoScalerProfileExpander("most-pods")
-	ManagedClusterPropertiesAutoScalerProfileExpanderPriority   = ManagedClusterPropertiesAutoScalerProfileExpander("priority")
-	ManagedClusterPropertiesAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesAutoScalerProfileExpander("random")
+	ManagedClusterPropertiesAutoScalerProfileExpander_LeastWaste = ManagedClusterPropertiesAutoScalerProfileExpander("least-waste")
+	ManagedClusterPropertiesAutoScalerProfileExpander_MostPods   = ManagedClusterPropertiesAutoScalerProfileExpander("most-pods")
+	ManagedClusterPropertiesAutoScalerProfileExpander_Priority   = ManagedClusterPropertiesAutoScalerProfileExpander("priority")
+	ManagedClusterPropertiesAutoScalerProfileExpander_Random     = ManagedClusterPropertiesAutoScalerProfileExpander("random")
 )
 
 // Deprecated version of ManagedClusterPropertiesStatusAutoScalerProfileExpander. Use
@@ -10804,10 +10804,10 @@ const (
 type ManagedClusterPropertiesStatusAutoScalerProfileExpander string
 
 const (
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste = ManagedClusterPropertiesStatusAutoScalerProfileExpander("least-waste")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("most-pods")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("priority")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesStatusAutoScalerProfileExpander("random")
+	ManagedClusterPropertiesStatusAutoScalerProfileExpander_LeastWaste = ManagedClusterPropertiesStatusAutoScalerProfileExpander("least-waste")
+	ManagedClusterPropertiesStatusAutoScalerProfileExpander_MostPods   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("most-pods")
+	ManagedClusterPropertiesStatusAutoScalerProfileExpander_Priority   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("priority")
+	ManagedClusterPropertiesStatusAutoScalerProfileExpander_Random     = ManagedClusterPropertiesStatusAutoScalerProfileExpander("random")
 )
 
 // Deprecated version of ManagedClusterWindowsProfileLicenseType. Use
@@ -10816,8 +10816,8 @@ const (
 type ManagedClusterWindowsProfileLicenseType string
 
 const (
-	ManagedClusterWindowsProfileLicenseTypeNone          = ManagedClusterWindowsProfileLicenseType("None")
-	ManagedClusterWindowsProfileLicenseTypeWindowsServer = ManagedClusterWindowsProfileLicenseType("Windows_Server")
+	ManagedClusterWindowsProfileLicenseType_None          = ManagedClusterWindowsProfileLicenseType("None")
+	ManagedClusterWindowsProfileLicenseType_WindowsServer = ManagedClusterWindowsProfileLicenseType("Windows_Server")
 )
 
 // Deprecated version of ManagedClusterWindowsProfileStatusLicenseType. Use
@@ -10825,8 +10825,8 @@ const (
 type ManagedClusterWindowsProfileStatusLicenseType string
 
 const (
-	ManagedClusterWindowsProfileStatusLicenseTypeNone          = ManagedClusterWindowsProfileStatusLicenseType("None")
-	ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer = ManagedClusterWindowsProfileStatusLicenseType("Windows_Server")
+	ManagedClusterWindowsProfileStatusLicenseType_None          = ManagedClusterWindowsProfileStatusLicenseType("None")
+	ManagedClusterWindowsProfileStatusLicenseType_WindowsServer = ManagedClusterWindowsProfileStatusLicenseType("Windows_Server")
 )
 
 // Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
@@ -11513,10 +11513,10 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertie
 type ManagedClusterPodIdentityStatusProvisioningState string
 
 const (
-	ManagedClusterPodIdentityStatusProvisioningStateAssigned = ManagedClusterPodIdentityStatusProvisioningState("Assigned")
-	ManagedClusterPodIdentityStatusProvisioningStateDeleting = ManagedClusterPodIdentityStatusProvisioningState("Deleting")
-	ManagedClusterPodIdentityStatusProvisioningStateFailed   = ManagedClusterPodIdentityStatusProvisioningState("Failed")
-	ManagedClusterPodIdentityStatusProvisioningStateUpdating = ManagedClusterPodIdentityStatusProvisioningState("Updating")
+	ManagedClusterPodIdentityStatusProvisioningState_Assigned = ManagedClusterPodIdentityStatusProvisioningState("Assigned")
+	ManagedClusterPodIdentityStatusProvisioningState_Deleting = ManagedClusterPodIdentityStatusProvisioningState("Deleting")
+	ManagedClusterPodIdentityStatusProvisioningState_Failed   = ManagedClusterPodIdentityStatusProvisioningState("Failed")
+	ManagedClusterPodIdentityStatusProvisioningState_Updating = ManagedClusterPodIdentityStatusProvisioningState("Updating")
 )
 
 // Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead

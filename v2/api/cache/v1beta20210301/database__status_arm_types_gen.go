@@ -48,28 +48,28 @@ type DatabaseProperties_StatusARM struct {
 type DatabasePropertiesStatusClientProtocol string
 
 const (
-	DatabasePropertiesStatusClientProtocolEncrypted = DatabasePropertiesStatusClientProtocol("Encrypted")
-	DatabasePropertiesStatusClientProtocolPlaintext = DatabasePropertiesStatusClientProtocol("Plaintext")
+	DatabasePropertiesStatusClientProtocol_Encrypted = DatabasePropertiesStatusClientProtocol("Encrypted")
+	DatabasePropertiesStatusClientProtocol_Plaintext = DatabasePropertiesStatusClientProtocol("Plaintext")
 )
 
 type DatabasePropertiesStatusClusteringPolicy string
 
 const (
-	DatabasePropertiesStatusClusteringPolicyEnterpriseCluster = DatabasePropertiesStatusClusteringPolicy("EnterpriseCluster")
-	DatabasePropertiesStatusClusteringPolicyOSSCluster        = DatabasePropertiesStatusClusteringPolicy("OSSCluster")
+	DatabasePropertiesStatusClusteringPolicy_EnterpriseCluster = DatabasePropertiesStatusClusteringPolicy("EnterpriseCluster")
+	DatabasePropertiesStatusClusteringPolicy_OSSCluster        = DatabasePropertiesStatusClusteringPolicy("OSSCluster")
 )
 
 type DatabasePropertiesStatusEvictionPolicy string
 
 const (
-	DatabasePropertiesStatusEvictionPolicyAllKeysLFU     = DatabasePropertiesStatusEvictionPolicy("AllKeysLFU")
-	DatabasePropertiesStatusEvictionPolicyAllKeysLRU     = DatabasePropertiesStatusEvictionPolicy("AllKeysLRU")
-	DatabasePropertiesStatusEvictionPolicyAllKeysRandom  = DatabasePropertiesStatusEvictionPolicy("AllKeysRandom")
-	DatabasePropertiesStatusEvictionPolicyNoEviction     = DatabasePropertiesStatusEvictionPolicy("NoEviction")
-	DatabasePropertiesStatusEvictionPolicyVolatileLFU    = DatabasePropertiesStatusEvictionPolicy("VolatileLFU")
-	DatabasePropertiesStatusEvictionPolicyVolatileLRU    = DatabasePropertiesStatusEvictionPolicy("VolatileLRU")
-	DatabasePropertiesStatusEvictionPolicyVolatileRandom = DatabasePropertiesStatusEvictionPolicy("VolatileRandom")
-	DatabasePropertiesStatusEvictionPolicyVolatileTTL    = DatabasePropertiesStatusEvictionPolicy("VolatileTTL")
+	DatabasePropertiesStatusEvictionPolicy_AllKeysLFU     = DatabasePropertiesStatusEvictionPolicy("AllKeysLFU")
+	DatabasePropertiesStatusEvictionPolicy_AllKeysLRU     = DatabasePropertiesStatusEvictionPolicy("AllKeysLRU")
+	DatabasePropertiesStatusEvictionPolicy_AllKeysRandom  = DatabasePropertiesStatusEvictionPolicy("AllKeysRandom")
+	DatabasePropertiesStatusEvictionPolicy_NoEviction     = DatabasePropertiesStatusEvictionPolicy("NoEviction")
+	DatabasePropertiesStatusEvictionPolicy_VolatileLFU    = DatabasePropertiesStatusEvictionPolicy("VolatileLFU")
+	DatabasePropertiesStatusEvictionPolicy_VolatileLRU    = DatabasePropertiesStatusEvictionPolicy("VolatileLRU")
+	DatabasePropertiesStatusEvictionPolicy_VolatileRandom = DatabasePropertiesStatusEvictionPolicy("VolatileRandom")
+	DatabasePropertiesStatusEvictionPolicy_VolatileTTL    = DatabasePropertiesStatusEvictionPolicy("VolatileTTL")
 )
 
 type Module_StatusARM struct {
@@ -100,14 +100,14 @@ type Persistence_StatusARM struct {
 type PersistenceStatusAofFrequency string
 
 const (
-	PersistenceStatusAofFrequency1S     = PersistenceStatusAofFrequency("1s")
-	PersistenceStatusAofFrequencyAlways = PersistenceStatusAofFrequency("always")
+	PersistenceStatusAofFrequency_1S     = PersistenceStatusAofFrequency("1s")
+	PersistenceStatusAofFrequency_Always = PersistenceStatusAofFrequency("always")
 )
 
 type PersistenceStatusRdbFrequency string
 
 const (
-	PersistenceStatusRdbFrequency12H = PersistenceStatusRdbFrequency("12h")
-	PersistenceStatusRdbFrequency1H  = PersistenceStatusRdbFrequency("1h")
-	PersistenceStatusRdbFrequency6H  = PersistenceStatusRdbFrequency("6h")
+	PersistenceStatusRdbFrequency_12H = PersistenceStatusRdbFrequency("12h")
+	PersistenceStatusRdbFrequency_1H  = PersistenceStatusRdbFrequency("1h")
+	PersistenceStatusRdbFrequency_6H  = PersistenceStatusRdbFrequency("6h")
 )

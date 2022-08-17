@@ -112,7 +112,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -3354,11 +3354,11 @@ func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destin
 type ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG1g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG2g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG3g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG4g")
-	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG7g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG1G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG1g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG2G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG2g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG3G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG3g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG4G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG4g")
+	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile_MIG7G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG7g")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesKubeletDiskType. Use
@@ -3367,8 +3367,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesKubeletDiskType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS        = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("OS")
-	ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("Temporary")
+	ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_OS        = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("OS")
+	ManagedClusterAgentPoolProfilePropertiesKubeletDiskType_Temporary = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("Temporary")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesMode. Use
@@ -3377,8 +3377,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesMode string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesModeSystem = ManagedClusterAgentPoolProfilePropertiesMode("System")
-	ManagedClusterAgentPoolProfilePropertiesModeUser   = ManagedClusterAgentPoolProfilePropertiesMode("User")
+	ManagedClusterAgentPoolProfilePropertiesMode_System = ManagedClusterAgentPoolProfilePropertiesMode("System")
+	ManagedClusterAgentPoolProfilePropertiesMode_User   = ManagedClusterAgentPoolProfilePropertiesMode("User")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsDiskType. Use
@@ -3387,8 +3387,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesOsDiskType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsDiskTypeEphemeral = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Ephemeral")
-	ManagedClusterAgentPoolProfilePropertiesOsDiskTypeManaged   = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Managed")
+	ManagedClusterAgentPoolProfilePropertiesOsDiskType_Ephemeral = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Ephemeral")
+	ManagedClusterAgentPoolProfilePropertiesOsDiskType_Managed   = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Managed")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsSKU. Use
@@ -3397,8 +3397,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesOsSKU string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsSKUCBLMariner = ManagedClusterAgentPoolProfilePropertiesOsSKU("CBLMariner")
-	ManagedClusterAgentPoolProfilePropertiesOsSKUUbuntu     = ManagedClusterAgentPoolProfilePropertiesOsSKU("Ubuntu")
+	ManagedClusterAgentPoolProfilePropertiesOsSKU_CBLMariner = ManagedClusterAgentPoolProfilePropertiesOsSKU("CBLMariner")
+	ManagedClusterAgentPoolProfilePropertiesOsSKU_Ubuntu     = ManagedClusterAgentPoolProfilePropertiesOsSKU("Ubuntu")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsType. Use
@@ -3407,8 +3407,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesOsType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesOsTypeLinux   = ManagedClusterAgentPoolProfilePropertiesOsType("Linux")
-	ManagedClusterAgentPoolProfilePropertiesOsTypeWindows = ManagedClusterAgentPoolProfilePropertiesOsType("Windows")
+	ManagedClusterAgentPoolProfilePropertiesOsType_Linux   = ManagedClusterAgentPoolProfilePropertiesOsType("Linux")
+	ManagedClusterAgentPoolProfilePropertiesOsType_Windows = ManagedClusterAgentPoolProfilePropertiesOsType("Windows")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy. Use
@@ -3417,8 +3417,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDeallocate = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Deallocate")
-	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDelete     = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Delete")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Deallocate = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Deallocate")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy_Delete     = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Delete")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetPriority. Use
@@ -3427,8 +3427,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesScaleSetPriority string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesScaleSetPriorityRegular = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Regular")
-	ManagedClusterAgentPoolProfilePropertiesScaleSetPrioritySpot    = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Spot")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Regular = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Regular")
+	ManagedClusterAgentPoolProfilePropertiesScaleSetPriority_Spot    = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Spot")
 )
 
 // Deprecated version of ManagedClusterAgentPoolProfilePropertiesType. Use
@@ -3437,8 +3437,8 @@ const (
 type ManagedClusterAgentPoolProfilePropertiesType string
 
 const (
-	ManagedClusterAgentPoolProfilePropertiesTypeAvailabilitySet         = ManagedClusterAgentPoolProfilePropertiesType("AvailabilitySet")
-	ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
+	ManagedClusterAgentPoolProfilePropertiesType_AvailabilitySet         = ManagedClusterAgentPoolProfilePropertiesType("AvailabilitySet")
+	ManagedClusterAgentPoolProfilePropertiesType_VirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
 )
 
 // Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead

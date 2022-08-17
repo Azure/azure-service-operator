@@ -98,7 +98,7 @@ func (alias *Alias) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (alias Alias) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -315,7 +315,7 @@ type AliasList struct {
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-10-01")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 type Aliases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

@@ -235,15 +235,15 @@ func SkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuName_StatusPremiumLRS,
-		SkuName_StatusPremiumZRS,
-		SkuName_StatusStandardGRS,
-		SkuName_StatusStandardGZRS,
-		SkuName_StatusStandardLRS,
-		SkuName_StatusStandardRAGRS,
-		SkuName_StatusStandardRAGZRS,
-		SkuName_StatusStandardZRS))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_StatusPremium, Tier_StatusStandard))
+		SkuName_Status_PremiumLRS,
+		SkuName_Status_PremiumZRS,
+		SkuName_Status_StandardGRS,
+		SkuName_Status_StandardGZRS,
+		SkuName_Status_StandardLRS,
+		SkuName_Status_StandardRAGRS,
+		SkuName_Status_StandardRAGZRS,
+		SkuName_Status_StandardZRS))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_Status_Premium, Tier_Status_Standard))
 }
 
 func Test_ChangeFeed_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -490,7 +490,7 @@ func LastAccessTimeTrackingPolicyStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatusARM(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
 	gens["Enable"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyStatusName_AccessTimeTracking))
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -617,13 +617,13 @@ func CorsRuleStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCorsRuleStatusARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
-		CorsRuleStatusAllowedMethodsDELETE,
-		CorsRuleStatusAllowedMethodsGET,
-		CorsRuleStatusAllowedMethodsHEAD,
-		CorsRuleStatusAllowedMethodsMERGE,
-		CorsRuleStatusAllowedMethodsOPTIONS,
-		CorsRuleStatusAllowedMethodsPOST,
-		CorsRuleStatusAllowedMethodsPUT))
+		CorsRuleStatusAllowedMethods_DELETE,
+		CorsRuleStatusAllowedMethods_GET,
+		CorsRuleStatusAllowedMethods_HEAD,
+		CorsRuleStatusAllowedMethods_MERGE,
+		CorsRuleStatusAllowedMethods_OPTIONS,
+		CorsRuleStatusAllowedMethods_POST,
+		CorsRuleStatusAllowedMethods_PUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())

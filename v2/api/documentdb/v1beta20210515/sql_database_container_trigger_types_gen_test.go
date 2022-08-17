@@ -511,12 +511,12 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResource(ge
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationAll,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetPropertiesStatusResourceTriggerTypePost, SqlTriggerGetPropertiesStatusResourceTriggerTypePre))
+		SqlTriggerGetPropertiesStatusResourceTriggerOperation_All,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperation_Create,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperation_Delete,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperation_Replace,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperation_Update))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetPropertiesStatusResourceTriggerType_Post, SqlTriggerGetPropertiesStatusResourceTriggerType_Pre))
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
@@ -622,10 +622,10 @@ func AddIndependentPropertyGeneratorsForSqlTriggerResource(gens map[string]gopte
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResourceTriggerOperationAll,
-		SqlTriggerResourceTriggerOperationCreate,
-		SqlTriggerResourceTriggerOperationDelete,
-		SqlTriggerResourceTriggerOperationReplace,
-		SqlTriggerResourceTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerTypePost, SqlTriggerResourceTriggerTypePre))
+		SqlTriggerResourceTriggerOperation_All,
+		SqlTriggerResourceTriggerOperation_Create,
+		SqlTriggerResourceTriggerOperation_Delete,
+		SqlTriggerResourceTriggerOperation_Replace,
+		SqlTriggerResourceTriggerOperation_Update))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerType_Post, SqlTriggerResourceTriggerType_Pre))
 }

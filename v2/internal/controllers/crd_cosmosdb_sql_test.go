@@ -25,8 +25,8 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// requirements - no hyphens allowed.
 
 	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard
-	kind := documentdb.DatabaseAccountsSpecKindGlobalDocumentDB
+	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType_Standard
+	kind := documentdb.DatabaseAccountsSpecKind_GlobalDocumentDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccounts_Spec{
@@ -82,9 +82,9 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 
 func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("container")
-	lastWriterWins := documentdb.ConflictResolutionPolicyModeLastWriterWins
-	consistent := documentdb.IndexingPolicyIndexingModeConsistent
-	hash := documentdb.ContainerPartitionKeyKindHash
+	lastWriterWins := documentdb.ConflictResolutionPolicyMode_LastWriterWins
+	consistent := documentdb.IndexingPolicyIndexingMode_Consistent
+	hash := documentdb.ContainerPartitionKeyKind_Hash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainers_Spec{
@@ -159,8 +159,8 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 
 func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("trigger")
-	pre := documentdb.SqlTriggerResourceTriggerTypePre
-	create := documentdb.SqlTriggerResourceTriggerOperationCreate
+	pre := documentdb.SqlTriggerResourceTriggerType_Pre
+	create := documentdb.SqlTriggerResourceTriggerOperation_Create
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersTriggers_Spec{
@@ -179,7 +179,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	defer tc.DeleteResourceAndWait(&trigger)
 
 	tc.T.Logf("Updating the trigger type on trigger %q", name)
-	post := documentdb.SqlTriggerResourceTriggerTypePost
+	post := documentdb.SqlTriggerResourceTriggerType_Post
 	old := trigger.DeepCopy()
 	trigger.Spec.Resource.TriggerType = &post
 	tc.PatchResourceAndWait(old, &trigger)

@@ -439,8 +439,8 @@ func NetworkInterfaceIPConfigurationPropertiesFormatARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv4, NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic, NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv4, NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic, NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormatARM is a factory method for creating gopter generators

@@ -52,25 +52,25 @@ type SystemData_StatusARM struct {
 type AuthorizationRuleStatusPropertiesRights string
 
 const (
-	AuthorizationRuleStatusPropertiesRightsListen = AuthorizationRuleStatusPropertiesRights("Listen")
-	AuthorizationRuleStatusPropertiesRightsManage = AuthorizationRuleStatusPropertiesRights("Manage")
-	AuthorizationRuleStatusPropertiesRightsSend   = AuthorizationRuleStatusPropertiesRights("Send")
+	AuthorizationRuleStatusPropertiesRights_Listen = AuthorizationRuleStatusPropertiesRights("Listen")
+	AuthorizationRuleStatusPropertiesRights_Manage = AuthorizationRuleStatusPropertiesRights("Manage")
+	AuthorizationRuleStatusPropertiesRights_Send   = AuthorizationRuleStatusPropertiesRights("Send")
 )
 
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )

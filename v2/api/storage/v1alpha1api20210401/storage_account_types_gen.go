@@ -112,7 +112,7 @@ func (account *StorageAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (account StorageAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -360,7 +360,7 @@ type StorageAccountList struct {
 // +kubebuilder:validation:Enum={"2021-04-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-04-01")
+const APIVersion_Value = APIVersion("2021-04-01")
 
 // Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead
 type StorageAccount_Status struct {
@@ -5848,8 +5848,8 @@ func (operator *StorageAccountOperatorSpec) AssignPropertiesToStorageAccountOper
 type StorageAccountPropertiesCreateParametersAccessTier string
 
 const (
-	StorageAccountPropertiesCreateParametersAccessTierCool = StorageAccountPropertiesCreateParametersAccessTier("Cool")
-	StorageAccountPropertiesCreateParametersAccessTierHot  = StorageAccountPropertiesCreateParametersAccessTier("Hot")
+	StorageAccountPropertiesCreateParametersAccessTier_Cool = StorageAccountPropertiesCreateParametersAccessTier("Cool")
+	StorageAccountPropertiesCreateParametersAccessTier_Hot  = StorageAccountPropertiesCreateParametersAccessTier("Hot")
 )
 
 // Deprecated version of StorageAccountPropertiesCreateParametersLargeFileSharesState. Use
@@ -5858,8 +5858,8 @@ const (
 type StorageAccountPropertiesCreateParametersLargeFileSharesState string
 
 const (
-	StorageAccountPropertiesCreateParametersLargeFileSharesStateDisabled = StorageAccountPropertiesCreateParametersLargeFileSharesState("Disabled")
-	StorageAccountPropertiesCreateParametersLargeFileSharesStateEnabled  = StorageAccountPropertiesCreateParametersLargeFileSharesState("Enabled")
+	StorageAccountPropertiesCreateParametersLargeFileSharesState_Disabled = StorageAccountPropertiesCreateParametersLargeFileSharesState("Disabled")
+	StorageAccountPropertiesCreateParametersLargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParametersLargeFileSharesState("Enabled")
 )
 
 // Deprecated version of StorageAccountPropertiesCreateParametersMinimumTlsVersion. Use
@@ -5868,9 +5868,9 @@ const (
 type StorageAccountPropertiesCreateParametersMinimumTlsVersion string
 
 const (
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS10 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS11 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS10 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_0")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS11 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_1")
+	StorageAccountPropertiesCreateParametersMinimumTlsVersion_TLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusAccessTier. Use
@@ -5878,8 +5878,8 @@ const (
 type StorageAccountPropertiesStatusAccessTier string
 
 const (
-	StorageAccountPropertiesStatusAccessTierCool = StorageAccountPropertiesStatusAccessTier("Cool")
-	StorageAccountPropertiesStatusAccessTierHot  = StorageAccountPropertiesStatusAccessTier("Hot")
+	StorageAccountPropertiesStatusAccessTier_Cool = StorageAccountPropertiesStatusAccessTier("Cool")
+	StorageAccountPropertiesStatusAccessTier_Hot  = StorageAccountPropertiesStatusAccessTier("Hot")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusLargeFileSharesState. Use
@@ -5887,8 +5887,8 @@ const (
 type StorageAccountPropertiesStatusLargeFileSharesState string
 
 const (
-	StorageAccountPropertiesStatusLargeFileSharesStateDisabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
-	StorageAccountPropertiesStatusLargeFileSharesStateEnabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
+	StorageAccountPropertiesStatusLargeFileSharesState_Disabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
+	StorageAccountPropertiesStatusLargeFileSharesState_Enabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusMinimumTlsVersion. Use
@@ -5896,9 +5896,9 @@ const (
 type StorageAccountPropertiesStatusMinimumTlsVersion string
 
 const (
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
+	StorageAccountPropertiesStatusMinimumTlsVersion_TLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusProvisioningState. Use
@@ -5906,9 +5906,9 @@ const (
 type StorageAccountPropertiesStatusProvisioningState string
 
 const (
-	StorageAccountPropertiesStatusProvisioningStateCreating     = StorageAccountPropertiesStatusProvisioningState("Creating")
-	StorageAccountPropertiesStatusProvisioningStateResolvingDNS = StorageAccountPropertiesStatusProvisioningState("ResolvingDNS")
-	StorageAccountPropertiesStatusProvisioningStateSucceeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
+	StorageAccountPropertiesStatusProvisioningState_Creating     = StorageAccountPropertiesStatusProvisioningState("Creating")
+	StorageAccountPropertiesStatusProvisioningState_ResolvingDNS = StorageAccountPropertiesStatusProvisioningState("ResolvingDNS")
+	StorageAccountPropertiesStatusProvisioningState_Succeeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusStatusOfPrimary. Use
@@ -5916,8 +5916,8 @@ const (
 type StorageAccountPropertiesStatusStatusOfPrimary string
 
 const (
-	StorageAccountPropertiesStatusStatusOfPrimaryAvailable   = StorageAccountPropertiesStatusStatusOfPrimary("available")
-	StorageAccountPropertiesStatusStatusOfPrimaryUnavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
+	StorageAccountPropertiesStatusStatusOfPrimary_Available   = StorageAccountPropertiesStatusStatusOfPrimary("available")
+	StorageAccountPropertiesStatusStatusOfPrimary_Unavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
 )
 
 // Deprecated version of StorageAccountPropertiesStatusStatusOfSecondary. Use
@@ -5925,8 +5925,8 @@ const (
 type StorageAccountPropertiesStatusStatusOfSecondary string
 
 const (
-	StorageAccountPropertiesStatusStatusOfSecondaryAvailable   = StorageAccountPropertiesStatusStatusOfSecondary("available")
-	StorageAccountPropertiesStatusStatusOfSecondaryUnavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
+	StorageAccountPropertiesStatusStatusOfSecondary_Available   = StorageAccountPropertiesStatusStatusOfSecondary("available")
+	StorageAccountPropertiesStatusStatusOfSecondary_Unavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
 )
 
 // Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
@@ -6237,11 +6237,11 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDire
 type AzureFilesIdentityBasedAuthenticationDefaultSharePermission string
 
 const (
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareReader")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("None")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthenticationDefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
 // Deprecated version of AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions. Use
@@ -6250,9 +6250,9 @@ const (
 type AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions string
 
 const (
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_AADDS = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AADDS")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_AD    = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("AD")
+	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions_None  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
 )
 
 // Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission. Use
@@ -6260,11 +6260,11 @@ const (
 type AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission string
 
 const (
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_None                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
+	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
 // Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions. Use
@@ -6272,9 +6272,9 @@ const (
 type AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions string
 
 const (
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_AADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_AD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
+	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions_None  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
 )
 
 // Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead
@@ -6386,9 +6386,9 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesToBlobRestorePar
 type BlobRestoreStatusStatusStatus string
 
 const (
-	BlobRestoreStatusStatusStatusComplete   = BlobRestoreStatusStatusStatus("Complete")
-	BlobRestoreStatusStatusStatusFailed     = BlobRestoreStatusStatusStatus("Failed")
-	BlobRestoreStatusStatusStatusInProgress = BlobRestoreStatusStatusStatus("InProgress")
+	BlobRestoreStatusStatusStatus_Complete   = BlobRestoreStatusStatusStatus("Complete")
+	BlobRestoreStatusStatusStatus_Failed     = BlobRestoreStatusStatusStatus("Failed")
+	BlobRestoreStatusStatusStatus_InProgress = BlobRestoreStatusStatusStatus("InProgress")
 )
 
 // Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
@@ -6537,8 +6537,8 @@ func (identity *EncryptionIdentity_Status) AssignPropertiesToEncryptionIdentityS
 type EncryptionKeySource string
 
 const (
-	EncryptionKeySourceMicrosoftKeyvault = EncryptionKeySource("Microsoft.Keyvault")
-	EncryptionKeySourceMicrosoftStorage  = EncryptionKeySource("Microsoft.Storage")
+	EncryptionKeySource_MicrosoftKeyvault = EncryptionKeySource("Microsoft.Keyvault")
+	EncryptionKeySource_MicrosoftStorage  = EncryptionKeySource("Microsoft.Storage")
 )
 
 // Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
@@ -6972,17 +6972,17 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 type EncryptionStatusKeySource string
 
 const (
-	EncryptionStatusKeySourceMicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
-	EncryptionStatusKeySourceMicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
+	EncryptionStatusKeySource_MicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
+	EncryptionStatusKeySource_MicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
 )
 
 // Deprecated version of GeoReplicationStatsStatusStatus. Use v1beta20210401.GeoReplicationStatsStatusStatus instead
 type GeoReplicationStatsStatusStatus string
 
 const (
-	GeoReplicationStatsStatusStatusBootstrap   = GeoReplicationStatsStatusStatus("Bootstrap")
-	GeoReplicationStatsStatusStatusLive        = GeoReplicationStatsStatusStatus("Live")
-	GeoReplicationStatsStatusStatusUnavailable = GeoReplicationStatsStatusStatus("Unavailable")
+	GeoReplicationStatsStatusStatus_Bootstrap   = GeoReplicationStatsStatusStatus("Bootstrap")
+	GeoReplicationStatsStatusStatus_Live        = GeoReplicationStatsStatusStatus("Live")
+	GeoReplicationStatsStatusStatus_Unavailable = GeoReplicationStatsStatusStatus("Unavailable")
 )
 
 // Deprecated version of IPRule. Use v1beta20210401.IPRule instead
@@ -7396,10 +7396,10 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 type NetworkRuleSetBypass string
 
 const (
-	NetworkRuleSetBypassAzureServices = NetworkRuleSetBypass("AzureServices")
-	NetworkRuleSetBypassLogging       = NetworkRuleSetBypass("Logging")
-	NetworkRuleSetBypassMetrics       = NetworkRuleSetBypass("Metrics")
-	NetworkRuleSetBypassNone          = NetworkRuleSetBypass("None")
+	NetworkRuleSetBypass_AzureServices = NetworkRuleSetBypass("AzureServices")
+	NetworkRuleSetBypass_Logging       = NetworkRuleSetBypass("Logging")
+	NetworkRuleSetBypass_Metrics       = NetworkRuleSetBypass("Metrics")
+	NetworkRuleSetBypass_None          = NetworkRuleSetBypass("None")
 )
 
 // Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210401.NetworkRuleSetDefaultAction instead
@@ -7407,26 +7407,26 @@ const (
 type NetworkRuleSetDefaultAction string
 
 const (
-	NetworkRuleSetDefaultActionAllow = NetworkRuleSetDefaultAction("Allow")
-	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
+	NetworkRuleSetDefaultAction_Allow = NetworkRuleSetDefaultAction("Allow")
+	NetworkRuleSetDefaultAction_Deny  = NetworkRuleSetDefaultAction("Deny")
 )
 
 // Deprecated version of NetworkRuleSetStatusBypass. Use v1beta20210401.NetworkRuleSetStatusBypass instead
 type NetworkRuleSetStatusBypass string
 
 const (
-	NetworkRuleSetStatusBypassAzureServices = NetworkRuleSetStatusBypass("AzureServices")
-	NetworkRuleSetStatusBypassLogging       = NetworkRuleSetStatusBypass("Logging")
-	NetworkRuleSetStatusBypassMetrics       = NetworkRuleSetStatusBypass("Metrics")
-	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
+	NetworkRuleSetStatusBypass_AzureServices = NetworkRuleSetStatusBypass("AzureServices")
+	NetworkRuleSetStatusBypass_Logging       = NetworkRuleSetStatusBypass("Logging")
+	NetworkRuleSetStatusBypass_Metrics       = NetworkRuleSetStatusBypass("Metrics")
+	NetworkRuleSetStatusBypass_None          = NetworkRuleSetStatusBypass("None")
 )
 
 // Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210401.NetworkRuleSetStatusDefaultAction instead
 type NetworkRuleSetStatusDefaultAction string
 
 const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
+	NetworkRuleSetStatusDefaultAction_Allow = NetworkRuleSetStatusDefaultAction("Allow")
+	NetworkRuleSetStatusDefaultAction_Deny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
 // Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
@@ -7607,8 +7607,8 @@ func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRuleStatu
 type RoutingPreferenceRoutingChoice string
 
 const (
-	RoutingPreferenceRoutingChoiceInternetRouting  = RoutingPreferenceRoutingChoice("InternetRouting")
-	RoutingPreferenceRoutingChoiceMicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
+	RoutingPreferenceRoutingChoice_InternetRouting  = RoutingPreferenceRoutingChoice("InternetRouting")
+	RoutingPreferenceRoutingChoice_MicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
 )
 
 // Deprecated version of RoutingPreferenceStatusRoutingChoice. Use v1beta20210401.RoutingPreferenceStatusRoutingChoice
@@ -7616,20 +7616,20 @@ const (
 type RoutingPreferenceStatusRoutingChoice string
 
 const (
-	RoutingPreferenceStatusRoutingChoiceInternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
-	RoutingPreferenceStatusRoutingChoiceMicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
+	RoutingPreferenceStatusRoutingChoice_InternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
+	RoutingPreferenceStatusRoutingChoice_MicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
 )
 
 // Deprecated version of SasPolicyExpirationAction. Use v1beta20210401.SasPolicyExpirationAction instead
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicyExpirationAction string
 
-const SasPolicyExpirationActionLog = SasPolicyExpirationAction("Log")
+const SasPolicyExpirationAction_Log = SasPolicyExpirationAction("Log")
 
 // Deprecated version of SasPolicyStatusExpirationAction. Use v1beta20210401.SasPolicyStatusExpirationAction instead
 type SasPolicyStatusExpirationAction string
 
-const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
+const SasPolicyStatusExpirationAction_Log = SasPolicyStatusExpirationAction("Log")
 
 // Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead
 type StorageAccountInternetEndpoints_Status struct {
@@ -8643,45 +8643,45 @@ func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStat
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
-const IPRuleActionAllow = IPRuleAction("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
 // Deprecated version of IPRuleStatusAction. Use v1beta20210401.IPRuleStatusAction instead
 type IPRuleStatusAction string
 
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
+const IPRuleStatusAction_Allow = IPRuleStatusAction("Allow")
 
 // Deprecated version of VirtualNetworkRuleAction. Use v1beta20210401.VirtualNetworkRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRuleAction string
 
-const VirtualNetworkRuleActionAllow = VirtualNetworkRuleAction("Allow")
+const VirtualNetworkRuleAction_Allow = VirtualNetworkRuleAction("Allow")
 
 // Deprecated version of VirtualNetworkRuleState. Use v1beta20210401.VirtualNetworkRuleState instead
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
 type VirtualNetworkRuleState string
 
 const (
-	VirtualNetworkRuleStateDeprovisioning       = VirtualNetworkRuleState("Deprovisioning")
-	VirtualNetworkRuleStateFailed               = VirtualNetworkRuleState("Failed")
-	VirtualNetworkRuleStateNetworkSourceDeleted = VirtualNetworkRuleState("NetworkSourceDeleted")
-	VirtualNetworkRuleStateProvisioning         = VirtualNetworkRuleState("Provisioning")
-	VirtualNetworkRuleStateSucceeded            = VirtualNetworkRuleState("Succeeded")
+	VirtualNetworkRuleState_Deprovisioning       = VirtualNetworkRuleState("Deprovisioning")
+	VirtualNetworkRuleState_Failed               = VirtualNetworkRuleState("Failed")
+	VirtualNetworkRuleState_NetworkSourceDeleted = VirtualNetworkRuleState("NetworkSourceDeleted")
+	VirtualNetworkRuleState_Provisioning         = VirtualNetworkRuleState("Provisioning")
+	VirtualNetworkRuleState_Succeeded            = VirtualNetworkRuleState("Succeeded")
 )
 
 // Deprecated version of VirtualNetworkRuleStatusAction. Use v1beta20210401.VirtualNetworkRuleStatusAction instead
 type VirtualNetworkRuleStatusAction string
 
-const VirtualNetworkRuleStatusActionAllow = VirtualNetworkRuleStatusAction("Allow")
+const VirtualNetworkRuleStatusAction_Allow = VirtualNetworkRuleStatusAction("Allow")
 
 // Deprecated version of VirtualNetworkRuleStatusState. Use v1beta20210401.VirtualNetworkRuleStatusState instead
 type VirtualNetworkRuleStatusState string
 
 const (
-	VirtualNetworkRuleStatusStateDeprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
-	VirtualNetworkRuleStatusStateFailed               = VirtualNetworkRuleStatusState("Failed")
-	VirtualNetworkRuleStatusStateNetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
-	VirtualNetworkRuleStatusStateProvisioning         = VirtualNetworkRuleStatusState("Provisioning")
-	VirtualNetworkRuleStatusStateSucceeded            = VirtualNetworkRuleStatusState("Succeeded")
+	VirtualNetworkRuleStatusState_Deprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
+	VirtualNetworkRuleStatusState_Failed               = VirtualNetworkRuleStatusState("Failed")
+	VirtualNetworkRuleStatusState_NetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
+	VirtualNetworkRuleStatusState_Provisioning         = VirtualNetworkRuleStatusState("Provisioning")
+	VirtualNetworkRuleStatusState_Succeeded            = VirtualNetworkRuleStatusState("Succeeded")
 )
 
 // Deprecated version of EncryptionServiceKeyType. Use v1beta20210401.EncryptionServiceKeyType instead
@@ -8689,16 +8689,16 @@ const (
 type EncryptionServiceKeyType string
 
 const (
-	EncryptionServiceKeyTypeAccount = EncryptionServiceKeyType("Account")
-	EncryptionServiceKeyTypeService = EncryptionServiceKeyType("Service")
+	EncryptionServiceKeyType_Account = EncryptionServiceKeyType("Account")
+	EncryptionServiceKeyType_Service = EncryptionServiceKeyType("Service")
 )
 
 // Deprecated version of EncryptionServiceStatusKeyType. Use v1beta20210401.EncryptionServiceStatusKeyType instead
 type EncryptionServiceStatusKeyType string
 
 const (
-	EncryptionServiceStatusKeyTypeAccount = EncryptionServiceStatusKeyType("Account")
-	EncryptionServiceStatusKeyTypeService = EncryptionServiceStatusKeyType("Service")
+	EncryptionServiceStatusKeyType_Account = EncryptionServiceStatusKeyType("Account")
+	EncryptionServiceStatusKeyType_Service = EncryptionServiceStatusKeyType("Service")
 )
 
 func init() {

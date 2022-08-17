@@ -126,10 +126,10 @@ type VirtualMachineExtensionProperties_StatusARM struct {
 type VirtualMachineIdentityStatusType string
 
 const (
-	VirtualMachineIdentityStatusTypeNone                       = VirtualMachineIdentityStatusType("None")
-	VirtualMachineIdentityStatusTypeSystemAssigned             = VirtualMachineIdentityStatusType("SystemAssigned")
-	VirtualMachineIdentityStatusTypeSystemAssignedUserAssigned = VirtualMachineIdentityStatusType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentityStatusTypeUserAssigned               = VirtualMachineIdentityStatusType("UserAssigned")
+	VirtualMachineIdentityStatusType_None                       = VirtualMachineIdentityStatusType("None")
+	VirtualMachineIdentityStatusType_SystemAssigned             = VirtualMachineIdentityStatusType("SystemAssigned")
+	VirtualMachineIdentityStatusType_SystemAssignedUserAssigned = VirtualMachineIdentityStatusType("SystemAssigned, UserAssigned")
+	VirtualMachineIdentityStatusType_UserAssigned               = VirtualMachineIdentityStatusType("UserAssigned")
 )
 
 // Deprecated version of VirtualMachineInstanceView_Status. Use v1beta20201201.VirtualMachineInstanceView_Status instead

@@ -62,9 +62,9 @@ type Sku_StatusARM struct {
 type ClusterPropertiesStatusMinimumTlsVersion string
 
 const (
-	ClusterPropertiesStatusMinimumTlsVersion10 = ClusterPropertiesStatusMinimumTlsVersion("1.0")
-	ClusterPropertiesStatusMinimumTlsVersion11 = ClusterPropertiesStatusMinimumTlsVersion("1.1")
-	ClusterPropertiesStatusMinimumTlsVersion12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
+	ClusterPropertiesStatusMinimumTlsVersion_10 = ClusterPropertiesStatusMinimumTlsVersion("1.0")
+	ClusterPropertiesStatusMinimumTlsVersion_11 = ClusterPropertiesStatusMinimumTlsVersion("1.1")
+	ClusterPropertiesStatusMinimumTlsVersion_12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -76,39 +76,39 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 type ProvisioningState_Status string
 
 const (
-	ProvisioningState_StatusCanceled  = ProvisioningState_Status("Canceled")
-	ProvisioningState_StatusCreating  = ProvisioningState_Status("Creating")
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
+	ProvisioningState_Status_Canceled  = ProvisioningState_Status("Canceled")
+	ProvisioningState_Status_Creating  = ProvisioningState_Status("Creating")
+	ProvisioningState_Status_Deleting  = ProvisioningState_Status("Deleting")
+	ProvisioningState_Status_Failed    = ProvisioningState_Status("Failed")
+	ProvisioningState_Status_Succeeded = ProvisioningState_Status("Succeeded")
+	ProvisioningState_Status_Updating  = ProvisioningState_Status("Updating")
 )
 
 type ResourceState_Status string
 
 const (
-	ResourceState_StatusCreateFailed  = ResourceState_Status("CreateFailed")
-	ResourceState_StatusCreating      = ResourceState_Status("Creating")
-	ResourceState_StatusDeleteFailed  = ResourceState_Status("DeleteFailed")
-	ResourceState_StatusDeleting      = ResourceState_Status("Deleting")
-	ResourceState_StatusDisableFailed = ResourceState_Status("DisableFailed")
-	ResourceState_StatusDisabled      = ResourceState_Status("Disabled")
-	ResourceState_StatusDisabling     = ResourceState_Status("Disabling")
-	ResourceState_StatusEnableFailed  = ResourceState_Status("EnableFailed")
-	ResourceState_StatusEnabling      = ResourceState_Status("Enabling")
-	ResourceState_StatusRunning       = ResourceState_Status("Running")
-	ResourceState_StatusUpdateFailed  = ResourceState_Status("UpdateFailed")
-	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
+	ResourceState_Status_CreateFailed  = ResourceState_Status("CreateFailed")
+	ResourceState_Status_Creating      = ResourceState_Status("Creating")
+	ResourceState_Status_DeleteFailed  = ResourceState_Status("DeleteFailed")
+	ResourceState_Status_Deleting      = ResourceState_Status("Deleting")
+	ResourceState_Status_DisableFailed = ResourceState_Status("DisableFailed")
+	ResourceState_Status_Disabled      = ResourceState_Status("Disabled")
+	ResourceState_Status_Disabling     = ResourceState_Status("Disabling")
+	ResourceState_Status_EnableFailed  = ResourceState_Status("EnableFailed")
+	ResourceState_Status_Enabling      = ResourceState_Status("Enabling")
+	ResourceState_Status_Running       = ResourceState_Status("Running")
+	ResourceState_Status_UpdateFailed  = ResourceState_Status("UpdateFailed")
+	ResourceState_Status_Updating      = ResourceState_Status("Updating")
 )
 
 type SkuStatusName string
 
 const (
-	SkuStatusNameEnterpriseE10        = SkuStatusName("Enterprise_E10")
-	SkuStatusNameEnterpriseE100       = SkuStatusName("Enterprise_E100")
-	SkuStatusNameEnterpriseE20        = SkuStatusName("Enterprise_E20")
-	SkuStatusNameEnterpriseE50        = SkuStatusName("Enterprise_E50")
-	SkuStatusNameEnterpriseFlashF1500 = SkuStatusName("EnterpriseFlash_F1500")
-	SkuStatusNameEnterpriseFlashF300  = SkuStatusName("EnterpriseFlash_F300")
-	SkuStatusNameEnterpriseFlashF700  = SkuStatusName("EnterpriseFlash_F700")
+	SkuStatusName_EnterpriseE10        = SkuStatusName("Enterprise_E10")
+	SkuStatusName_EnterpriseE100       = SkuStatusName("Enterprise_E100")
+	SkuStatusName_EnterpriseE20        = SkuStatusName("Enterprise_E20")
+	SkuStatusName_EnterpriseE50        = SkuStatusName("Enterprise_E50")
+	SkuStatusName_EnterpriseFlashF1500 = SkuStatusName("EnterpriseFlash_F1500")
+	SkuStatusName_EnterpriseFlashF300  = SkuStatusName("EnterpriseFlash_F300")
+	SkuStatusName_EnterpriseFlashF700  = SkuStatusName("EnterpriseFlash_F700")
 )

@@ -91,7 +91,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -2841,19 +2841,19 @@ func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *v2021
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
 type LastAccessTimeTrackingPolicyName string
 
-const LastAccessTimeTrackingPolicyNameAccessTimeTracking = LastAccessTimeTrackingPolicyName("AccessTimeTracking")
+const LastAccessTimeTrackingPolicyName_AccessTimeTracking = LastAccessTimeTrackingPolicyName("AccessTimeTracking")
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","MERGE","OPTIONS","POST","PUT"}
 type CorsRuleAllowedMethods string
 
 const (
-	CorsRuleAllowedMethodsDELETE  = CorsRuleAllowedMethods("DELETE")
-	CorsRuleAllowedMethodsGET     = CorsRuleAllowedMethods("GET")
-	CorsRuleAllowedMethodsHEAD    = CorsRuleAllowedMethods("HEAD")
-	CorsRuleAllowedMethodsMERGE   = CorsRuleAllowedMethods("MERGE")
-	CorsRuleAllowedMethodsOPTIONS = CorsRuleAllowedMethods("OPTIONS")
-	CorsRuleAllowedMethodsPOST    = CorsRuleAllowedMethods("POST")
-	CorsRuleAllowedMethodsPUT     = CorsRuleAllowedMethods("PUT")
+	CorsRuleAllowedMethods_DELETE  = CorsRuleAllowedMethods("DELETE")
+	CorsRuleAllowedMethods_GET     = CorsRuleAllowedMethods("GET")
+	CorsRuleAllowedMethods_HEAD    = CorsRuleAllowedMethods("HEAD")
+	CorsRuleAllowedMethods_MERGE   = CorsRuleAllowedMethods("MERGE")
+	CorsRuleAllowedMethods_OPTIONS = CorsRuleAllowedMethods("OPTIONS")
+	CorsRuleAllowedMethods_POST    = CorsRuleAllowedMethods("POST")
+	CorsRuleAllowedMethods_PUT     = CorsRuleAllowedMethods("PUT")
 )
 
 func init() {

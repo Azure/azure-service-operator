@@ -112,7 +112,7 @@ func (subscription *EventSubscription) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -2105,9 +2105,9 @@ func (filter *EventSubscriptionFilter_Status) AssignPropertiesToEventSubscriptio
 type EventSubscriptionPropertiesEventDeliverySchema string
 
 const (
-	EventSubscriptionPropertiesEventDeliverySchemaCloudEventSchemaV10 = EventSubscriptionPropertiesEventDeliverySchema("CloudEventSchemaV1_0")
-	EventSubscriptionPropertiesEventDeliverySchemaCustomInputSchema   = EventSubscriptionPropertiesEventDeliverySchema("CustomInputSchema")
-	EventSubscriptionPropertiesEventDeliverySchemaEventGridSchema     = EventSubscriptionPropertiesEventDeliverySchema("EventGridSchema")
+	EventSubscriptionPropertiesEventDeliverySchema_CloudEventSchemaV10 = EventSubscriptionPropertiesEventDeliverySchema("CloudEventSchemaV1_0")
+	EventSubscriptionPropertiesEventDeliverySchema_CustomInputSchema   = EventSubscriptionPropertiesEventDeliverySchema("CustomInputSchema")
+	EventSubscriptionPropertiesEventDeliverySchema_EventGridSchema     = EventSubscriptionPropertiesEventDeliverySchema("EventGridSchema")
 )
 
 // Deprecated version of EventSubscriptionPropertiesStatusEventDeliverySchema. Use
@@ -2115,9 +2115,9 @@ const (
 type EventSubscriptionPropertiesStatusEventDeliverySchema string
 
 const (
-	EventSubscriptionPropertiesStatusEventDeliverySchemaCloudEventSchemaV10 = EventSubscriptionPropertiesStatusEventDeliverySchema("CloudEventSchemaV1_0")
-	EventSubscriptionPropertiesStatusEventDeliverySchemaCustomInputSchema   = EventSubscriptionPropertiesStatusEventDeliverySchema("CustomInputSchema")
-	EventSubscriptionPropertiesStatusEventDeliverySchemaEventGridSchema     = EventSubscriptionPropertiesStatusEventDeliverySchema("EventGridSchema")
+	EventSubscriptionPropertiesStatusEventDeliverySchema_CloudEventSchemaV10 = EventSubscriptionPropertiesStatusEventDeliverySchema("CloudEventSchemaV1_0")
+	EventSubscriptionPropertiesStatusEventDeliverySchema_CustomInputSchema   = EventSubscriptionPropertiesStatusEventDeliverySchema("CustomInputSchema")
+	EventSubscriptionPropertiesStatusEventDeliverySchema_EventGridSchema     = EventSubscriptionPropertiesStatusEventDeliverySchema("EventGridSchema")
 )
 
 // Deprecated version of EventSubscriptionPropertiesStatusProvisioningState. Use
@@ -2125,13 +2125,13 @@ const (
 type EventSubscriptionPropertiesStatusProvisioningState string
 
 const (
-	EventSubscriptionPropertiesStatusProvisioningStateAwaitingManualAction = EventSubscriptionPropertiesStatusProvisioningState("AwaitingManualAction")
-	EventSubscriptionPropertiesStatusProvisioningStateCanceled             = EventSubscriptionPropertiesStatusProvisioningState("Canceled")
-	EventSubscriptionPropertiesStatusProvisioningStateCreating             = EventSubscriptionPropertiesStatusProvisioningState("Creating")
-	EventSubscriptionPropertiesStatusProvisioningStateDeleting             = EventSubscriptionPropertiesStatusProvisioningState("Deleting")
-	EventSubscriptionPropertiesStatusProvisioningStateFailed               = EventSubscriptionPropertiesStatusProvisioningState("Failed")
-	EventSubscriptionPropertiesStatusProvisioningStateSucceeded            = EventSubscriptionPropertiesStatusProvisioningState("Succeeded")
-	EventSubscriptionPropertiesStatusProvisioningStateUpdating             = EventSubscriptionPropertiesStatusProvisioningState("Updating")
+	EventSubscriptionPropertiesStatusProvisioningState_AwaitingManualAction = EventSubscriptionPropertiesStatusProvisioningState("AwaitingManualAction")
+	EventSubscriptionPropertiesStatusProvisioningState_Canceled             = EventSubscriptionPropertiesStatusProvisioningState("Canceled")
+	EventSubscriptionPropertiesStatusProvisioningState_Creating             = EventSubscriptionPropertiesStatusProvisioningState("Creating")
+	EventSubscriptionPropertiesStatusProvisioningState_Deleting             = EventSubscriptionPropertiesStatusProvisioningState("Deleting")
+	EventSubscriptionPropertiesStatusProvisioningState_Failed               = EventSubscriptionPropertiesStatusProvisioningState("Failed")
+	EventSubscriptionPropertiesStatusProvisioningState_Succeeded            = EventSubscriptionPropertiesStatusProvisioningState("Succeeded")
+	EventSubscriptionPropertiesStatusProvisioningState_Updating             = EventSubscriptionPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
@@ -3244,7 +3244,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesTo
 // v1beta20200601.DeadLetterDestinationStatusEndpointType instead
 type DeadLetterDestinationStatusEndpointType string
 
-const DeadLetterDestinationStatusEndpointTypeStorageBlob = DeadLetterDestinationStatusEndpointType("StorageBlob")
+const DeadLetterDestinationStatusEndpointType_StorageBlob = DeadLetterDestinationStatusEndpointType("StorageBlob")
 
 // Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination struct {
@@ -3377,13 +3377,13 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEvent
 type EventSubscriptionDestinationStatusEndpointType string
 
 const (
-	EventSubscriptionDestinationStatusEndpointTypeAzureFunction    = EventSubscriptionDestinationStatusEndpointType("AzureFunction")
-	EventSubscriptionDestinationStatusEndpointTypeEventHub         = EventSubscriptionDestinationStatusEndpointType("EventHub")
-	EventSubscriptionDestinationStatusEndpointTypeHybridConnection = EventSubscriptionDestinationStatusEndpointType("HybridConnection")
-	EventSubscriptionDestinationStatusEndpointTypeServiceBusQueue  = EventSubscriptionDestinationStatusEndpointType("ServiceBusQueue")
-	EventSubscriptionDestinationStatusEndpointTypeServiceBusTopic  = EventSubscriptionDestinationStatusEndpointType("ServiceBusTopic")
-	EventSubscriptionDestinationStatusEndpointTypeStorageQueue     = EventSubscriptionDestinationStatusEndpointType("StorageQueue")
-	EventSubscriptionDestinationStatusEndpointTypeWebHook          = EventSubscriptionDestinationStatusEndpointType("WebHook")
+	EventSubscriptionDestinationStatusEndpointType_AzureFunction    = EventSubscriptionDestinationStatusEndpointType("AzureFunction")
+	EventSubscriptionDestinationStatusEndpointType_EventHub         = EventSubscriptionDestinationStatusEndpointType("EventHub")
+	EventSubscriptionDestinationStatusEndpointType_HybridConnection = EventSubscriptionDestinationStatusEndpointType("HybridConnection")
+	EventSubscriptionDestinationStatusEndpointType_ServiceBusQueue  = EventSubscriptionDestinationStatusEndpointType("ServiceBusQueue")
+	EventSubscriptionDestinationStatusEndpointType_ServiceBusTopic  = EventSubscriptionDestinationStatusEndpointType("ServiceBusTopic")
+	EventSubscriptionDestinationStatusEndpointType_StorageQueue     = EventSubscriptionDestinationStatusEndpointType("StorageQueue")
+	EventSubscriptionDestinationStatusEndpointType_WebHook          = EventSubscriptionDestinationStatusEndpointType("WebHook")
 )
 
 // Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
@@ -3769,7 +3769,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 // +kubebuilder:validation:Enum={"StorageBlob"}
 type StorageBlobDeadLetterDestinationEndpointType string
 
-const StorageBlobDeadLetterDestinationEndpointTypeStorageBlob = StorageBlobDeadLetterDestinationEndpointType("StorageBlob")
+const StorageBlobDeadLetterDestinationEndpointType_StorageBlob = StorageBlobDeadLetterDestinationEndpointType("StorageBlob")
 
 // Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead
 type StorageBlobDeadLetterDestinationProperties struct {
@@ -4129,18 +4129,18 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHoo
 type AdvancedFilterStatusOperatorType string
 
 const (
-	AdvancedFilterStatusOperatorTypeBoolEquals                = AdvancedFilterStatusOperatorType("BoolEquals")
-	AdvancedFilterStatusOperatorTypeNumberGreaterThan         = AdvancedFilterStatusOperatorType("NumberGreaterThan")
-	AdvancedFilterStatusOperatorTypeNumberGreaterThanOrEquals = AdvancedFilterStatusOperatorType("NumberGreaterThanOrEquals")
-	AdvancedFilterStatusOperatorTypeNumberIn                  = AdvancedFilterStatusOperatorType("NumberIn")
-	AdvancedFilterStatusOperatorTypeNumberLessThan            = AdvancedFilterStatusOperatorType("NumberLessThan")
-	AdvancedFilterStatusOperatorTypeNumberLessThanOrEquals    = AdvancedFilterStatusOperatorType("NumberLessThanOrEquals")
-	AdvancedFilterStatusOperatorTypeNumberNotIn               = AdvancedFilterStatusOperatorType("NumberNotIn")
-	AdvancedFilterStatusOperatorTypeStringBeginsWith          = AdvancedFilterStatusOperatorType("StringBeginsWith")
-	AdvancedFilterStatusOperatorTypeStringContains            = AdvancedFilterStatusOperatorType("StringContains")
-	AdvancedFilterStatusOperatorTypeStringEndsWith            = AdvancedFilterStatusOperatorType("StringEndsWith")
-	AdvancedFilterStatusOperatorTypeStringIn                  = AdvancedFilterStatusOperatorType("StringIn")
-	AdvancedFilterStatusOperatorTypeStringNotIn               = AdvancedFilterStatusOperatorType("StringNotIn")
+	AdvancedFilterStatusOperatorType_BoolEquals                = AdvancedFilterStatusOperatorType("BoolEquals")
+	AdvancedFilterStatusOperatorType_NumberGreaterThan         = AdvancedFilterStatusOperatorType("NumberGreaterThan")
+	AdvancedFilterStatusOperatorType_NumberGreaterThanOrEquals = AdvancedFilterStatusOperatorType("NumberGreaterThanOrEquals")
+	AdvancedFilterStatusOperatorType_NumberIn                  = AdvancedFilterStatusOperatorType("NumberIn")
+	AdvancedFilterStatusOperatorType_NumberLessThan            = AdvancedFilterStatusOperatorType("NumberLessThan")
+	AdvancedFilterStatusOperatorType_NumberLessThanOrEquals    = AdvancedFilterStatusOperatorType("NumberLessThanOrEquals")
+	AdvancedFilterStatusOperatorType_NumberNotIn               = AdvancedFilterStatusOperatorType("NumberNotIn")
+	AdvancedFilterStatusOperatorType_StringBeginsWith          = AdvancedFilterStatusOperatorType("StringBeginsWith")
+	AdvancedFilterStatusOperatorType_StringContains            = AdvancedFilterStatusOperatorType("StringContains")
+	AdvancedFilterStatusOperatorType_StringEndsWith            = AdvancedFilterStatusOperatorType("StringEndsWith")
+	AdvancedFilterStatusOperatorType_StringIn                  = AdvancedFilterStatusOperatorType("StringIn")
+	AdvancedFilterStatusOperatorType_StringNotIn               = AdvancedFilterStatusOperatorType("StringNotIn")
 )
 
 // Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
@@ -5652,7 +5652,7 @@ func (notIn *AdvancedFilter_StringNotIn) AssignPropertiesToAdvancedFilterStringN
 // +kubebuilder:validation:Enum={"AzureFunction"}
 type AzureFunctionEventSubscriptionDestinationEndpointType string
 
-const AzureFunctionEventSubscriptionDestinationEndpointTypeAzureFunction = AzureFunctionEventSubscriptionDestinationEndpointType("AzureFunction")
+const AzureFunctionEventSubscriptionDestinationEndpointType_AzureFunction = AzureFunctionEventSubscriptionDestinationEndpointType("AzureFunction")
 
 // Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead
 type AzureFunctionEventSubscriptionDestinationProperties struct {
@@ -5780,7 +5780,7 @@ func (properties *AzureFunctionEventSubscriptionDestinationProperties) AssignPro
 // +kubebuilder:validation:Enum={"EventHub"}
 type EventHubEventSubscriptionDestinationEndpointType string
 
-const EventHubEventSubscriptionDestinationEndpointTypeEventHub = EventHubEventSubscriptionDestinationEndpointType("EventHub")
+const EventHubEventSubscriptionDestinationEndpointType_EventHub = EventHubEventSubscriptionDestinationEndpointType("EventHub")
 
 // Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead
 type EventHubEventSubscriptionDestinationProperties struct {
@@ -5870,7 +5870,7 @@ func (properties *EventHubEventSubscriptionDestinationProperties) AssignProperti
 // +kubebuilder:validation:Enum={"HybridConnection"}
 type HybridConnectionEventSubscriptionDestinationEndpointType string
 
-const HybridConnectionEventSubscriptionDestinationEndpointTypeHybridConnection = HybridConnectionEventSubscriptionDestinationEndpointType("HybridConnection")
+const HybridConnectionEventSubscriptionDestinationEndpointType_HybridConnection = HybridConnectionEventSubscriptionDestinationEndpointType("HybridConnection")
 
 // Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead
 type HybridConnectionEventSubscriptionDestinationProperties struct {
@@ -5960,7 +5960,7 @@ func (properties *HybridConnectionEventSubscriptionDestinationProperties) Assign
 // +kubebuilder:validation:Enum={"ServiceBusQueue"}
 type ServiceBusQueueEventSubscriptionDestinationEndpointType string
 
-const ServiceBusQueueEventSubscriptionDestinationEndpointTypeServiceBusQueue = ServiceBusQueueEventSubscriptionDestinationEndpointType("ServiceBusQueue")
+const ServiceBusQueueEventSubscriptionDestinationEndpointType_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestinationEndpointType("ServiceBusQueue")
 
 // Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
 type ServiceBusQueueEventSubscriptionDestinationProperties struct {
@@ -6050,7 +6050,7 @@ func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) AssignP
 // +kubebuilder:validation:Enum={"ServiceBusTopic"}
 type ServiceBusTopicEventSubscriptionDestinationEndpointType string
 
-const ServiceBusTopicEventSubscriptionDestinationEndpointTypeServiceBusTopic = ServiceBusTopicEventSubscriptionDestinationEndpointType("ServiceBusTopic")
+const ServiceBusTopicEventSubscriptionDestinationEndpointType_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestinationEndpointType("ServiceBusTopic")
 
 // Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
 type ServiceBusTopicEventSubscriptionDestinationProperties struct {
@@ -6140,7 +6140,7 @@ func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) AssignP
 // +kubebuilder:validation:Enum={"StorageQueue"}
 type StorageQueueEventSubscriptionDestinationEndpointType string
 
-const StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue = StorageQueueEventSubscriptionDestinationEndpointType("StorageQueue")
+const StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue = StorageQueueEventSubscriptionDestinationEndpointType("StorageQueue")
 
 // Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead
 type StorageQueueEventSubscriptionDestinationProperties struct {
@@ -6249,7 +6249,7 @@ func (properties *StorageQueueEventSubscriptionDestinationProperties) AssignProp
 // +kubebuilder:validation:Enum={"WebHook"}
 type WebHookEventSubscriptionDestinationEndpointType string
 
-const WebHookEventSubscriptionDestinationEndpointTypeWebHook = WebHookEventSubscriptionDestinationEndpointType("WebHook")
+const WebHookEventSubscriptionDestinationEndpointType_WebHook = WebHookEventSubscriptionDestinationEndpointType("WebHook")
 
 // Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead
 type WebHookEventSubscriptionDestinationProperties struct {
@@ -6405,82 +6405,82 @@ func (properties *WebHookEventSubscriptionDestinationProperties) AssignPropertie
 // +kubebuilder:validation:Enum={"BoolEquals"}
 type AdvancedFilterBoolEqualsOperatorType string
 
-const AdvancedFilterBoolEqualsOperatorTypeBoolEquals = AdvancedFilterBoolEqualsOperatorType("BoolEquals")
+const AdvancedFilterBoolEqualsOperatorType_BoolEquals = AdvancedFilterBoolEqualsOperatorType("BoolEquals")
 
 // Deprecated version of AdvancedFilterNumberGreaterThanOperatorType. Use
 // v1beta20200601.AdvancedFilterNumberGreaterThanOperatorType instead
 // +kubebuilder:validation:Enum={"NumberGreaterThan"}
 type AdvancedFilterNumberGreaterThanOperatorType string
 
-const AdvancedFilterNumberGreaterThanOperatorTypeNumberGreaterThan = AdvancedFilterNumberGreaterThanOperatorType("NumberGreaterThan")
+const AdvancedFilterNumberGreaterThanOperatorType_NumberGreaterThan = AdvancedFilterNumberGreaterThanOperatorType("NumberGreaterThan")
 
 // Deprecated version of AdvancedFilterNumberGreaterThanOrEqualsOperatorType. Use
 // v1beta20200601.AdvancedFilterNumberGreaterThanOrEqualsOperatorType instead
 // +kubebuilder:validation:Enum={"NumberGreaterThanOrEquals"}
 type AdvancedFilterNumberGreaterThanOrEqualsOperatorType string
 
-const AdvancedFilterNumberGreaterThanOrEqualsOperatorTypeNumberGreaterThanOrEquals = AdvancedFilterNumberGreaterThanOrEqualsOperatorType("NumberGreaterThanOrEquals")
+const AdvancedFilterNumberGreaterThanOrEqualsOperatorType_NumberGreaterThanOrEquals = AdvancedFilterNumberGreaterThanOrEqualsOperatorType("NumberGreaterThanOrEquals")
 
 // Deprecated version of AdvancedFilterNumberInOperatorType. Use v1beta20200601.AdvancedFilterNumberInOperatorType instead
 // +kubebuilder:validation:Enum={"NumberIn"}
 type AdvancedFilterNumberInOperatorType string
 
-const AdvancedFilterNumberInOperatorTypeNumberIn = AdvancedFilterNumberInOperatorType("NumberIn")
+const AdvancedFilterNumberInOperatorType_NumberIn = AdvancedFilterNumberInOperatorType("NumberIn")
 
 // Deprecated version of AdvancedFilterNumberLessThanOperatorType. Use
 // v1beta20200601.AdvancedFilterNumberLessThanOperatorType instead
 // +kubebuilder:validation:Enum={"NumberLessThan"}
 type AdvancedFilterNumberLessThanOperatorType string
 
-const AdvancedFilterNumberLessThanOperatorTypeNumberLessThan = AdvancedFilterNumberLessThanOperatorType("NumberLessThan")
+const AdvancedFilterNumberLessThanOperatorType_NumberLessThan = AdvancedFilterNumberLessThanOperatorType("NumberLessThan")
 
 // Deprecated version of AdvancedFilterNumberLessThanOrEqualsOperatorType. Use
 // v1beta20200601.AdvancedFilterNumberLessThanOrEqualsOperatorType instead
 // +kubebuilder:validation:Enum={"NumberLessThanOrEquals"}
 type AdvancedFilterNumberLessThanOrEqualsOperatorType string
 
-const AdvancedFilterNumberLessThanOrEqualsOperatorTypeNumberLessThanOrEquals = AdvancedFilterNumberLessThanOrEqualsOperatorType("NumberLessThanOrEquals")
+const AdvancedFilterNumberLessThanOrEqualsOperatorType_NumberLessThanOrEquals = AdvancedFilterNumberLessThanOrEqualsOperatorType("NumberLessThanOrEquals")
 
 // Deprecated version of AdvancedFilterNumberNotInOperatorType. Use v1beta20200601.AdvancedFilterNumberNotInOperatorType
 // instead
 // +kubebuilder:validation:Enum={"NumberNotIn"}
 type AdvancedFilterNumberNotInOperatorType string
 
-const AdvancedFilterNumberNotInOperatorTypeNumberNotIn = AdvancedFilterNumberNotInOperatorType("NumberNotIn")
+const AdvancedFilterNumberNotInOperatorType_NumberNotIn = AdvancedFilterNumberNotInOperatorType("NumberNotIn")
 
 // Deprecated version of AdvancedFilterStringBeginsWithOperatorType. Use
 // v1beta20200601.AdvancedFilterStringBeginsWithOperatorType instead
 // +kubebuilder:validation:Enum={"StringBeginsWith"}
 type AdvancedFilterStringBeginsWithOperatorType string
 
-const AdvancedFilterStringBeginsWithOperatorTypeStringBeginsWith = AdvancedFilterStringBeginsWithOperatorType("StringBeginsWith")
+const AdvancedFilterStringBeginsWithOperatorType_StringBeginsWith = AdvancedFilterStringBeginsWithOperatorType("StringBeginsWith")
 
 // Deprecated version of AdvancedFilterStringContainsOperatorType. Use
 // v1beta20200601.AdvancedFilterStringContainsOperatorType instead
 // +kubebuilder:validation:Enum={"StringContains"}
 type AdvancedFilterStringContainsOperatorType string
 
-const AdvancedFilterStringContainsOperatorTypeStringContains = AdvancedFilterStringContainsOperatorType("StringContains")
+const AdvancedFilterStringContainsOperatorType_StringContains = AdvancedFilterStringContainsOperatorType("StringContains")
 
 // Deprecated version of AdvancedFilterStringEndsWithOperatorType. Use
 // v1beta20200601.AdvancedFilterStringEndsWithOperatorType instead
 // +kubebuilder:validation:Enum={"StringEndsWith"}
 type AdvancedFilterStringEndsWithOperatorType string
 
-const AdvancedFilterStringEndsWithOperatorTypeStringEndsWith = AdvancedFilterStringEndsWithOperatorType("StringEndsWith")
+const AdvancedFilterStringEndsWithOperatorType_StringEndsWith = AdvancedFilterStringEndsWithOperatorType("StringEndsWith")
 
 // Deprecated version of AdvancedFilterStringInOperatorType. Use v1beta20200601.AdvancedFilterStringInOperatorType instead
 // +kubebuilder:validation:Enum={"StringIn"}
 type AdvancedFilterStringInOperatorType string
 
-const AdvancedFilterStringInOperatorTypeStringIn = AdvancedFilterStringInOperatorType("StringIn")
+const AdvancedFilterStringInOperatorType_StringIn = AdvancedFilterStringInOperatorType("StringIn")
 
 // Deprecated version of AdvancedFilterStringNotInOperatorType. Use v1beta20200601.AdvancedFilterStringNotInOperatorType
 // instead
 // +kubebuilder:validation:Enum={"StringNotIn"}
 type AdvancedFilterStringNotInOperatorType string
 
-const AdvancedFilterStringNotInOperatorTypeStringNotIn = AdvancedFilterStringNotInOperatorType("StringNotIn")
+const AdvancedFilterStringNotInOperatorType_StringNotIn = AdvancedFilterStringNotInOperatorType("StringNotIn")
 
 func init() {
 	SchemeBuilder.Register(&EventSubscription{}, &EventSubscriptionList{})

@@ -99,7 +99,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -321,7 +321,7 @@ type WebtestList struct {
 // +kubebuilder:validation:Enum={"2018-05-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-05-01-preview")
+const APIVersion_Value = APIVersion("2018-05-01-preview")
 
 type WebTest_Status struct {
 	// Conditions: The observed state of the resource
@@ -1727,10 +1727,10 @@ func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPr
 type WebTestPropertiesKind string
 
 const (
-	WebTestPropertiesKindBasic     = WebTestPropertiesKind("basic")
-	WebTestPropertiesKindMultistep = WebTestPropertiesKind("multistep")
-	WebTestPropertiesKindPing      = WebTestPropertiesKind("ping")
-	WebTestPropertiesKindStandard  = WebTestPropertiesKind("standard")
+	WebTestPropertiesKind_Basic     = WebTestPropertiesKind("basic")
+	WebTestPropertiesKind_Multistep = WebTestPropertiesKind("multistep")
+	WebTestPropertiesKind_Ping      = WebTestPropertiesKind("ping")
+	WebTestPropertiesKind_Standard  = WebTestPropertiesKind("standard")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest

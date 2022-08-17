@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &VirtualNetworksVirtualNetworkPeerings_SpecAR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

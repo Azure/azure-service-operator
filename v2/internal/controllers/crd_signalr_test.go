@@ -20,14 +20,14 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	deny := signalrservice.SignalRNetworkACLsDefaultActionDeny
-	systemAssigned := signalrservice.ManagedIdentityTypeSystemAssigned
+	deny := signalrservice.SignalRNetworkACLsDefaultAction_Deny
+	systemAssigned := signalrservice.ManagedIdentityType_SystemAssigned
 	// Adapted from the quickstart example:
 	// https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-signalr-service-arm-template
-	serviceModeFlag := signalrservice.SignalRFeatureFlagServiceMode
-	connectivityLogsFlag := signalrservice.SignalRFeatureFlagEnableConnectivityLogs
-	enableMessagingLogsFlag := signalrservice.SignalRFeatureFlagEnableMessagingLogs
-	enableliveTraceFlag := signalrservice.SignalRFeatureFlagEnableLiveTrace
+	serviceModeFlag := signalrservice.SignalRFeatureFlag_ServiceMode
+	connectivityLogsFlag := signalrservice.SignalRFeatureFlag_EnableConnectivityLogs
+	enableMessagingLogsFlag := signalrservice.SignalRFeatureFlag_EnableMessagingLogs
+	enableliveTraceFlag := signalrservice.SignalRFeatureFlag_EnableLiveTrace
 	signalR := signalrservice.SignalR{
 		ObjectMeta: tc.MakeObjectMeta("signalr"),
 		Spec: signalrservice.SignalR_Spec{
@@ -63,13 +63,13 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 				DefaultAction: &deny,
 				PublicNetwork: &signalrservice.NetworkACL{
 					Allow: []signalrservice.NetworkACLAllow{
-						signalrservice.NetworkACLAllowClientConnection,
+						signalrservice.NetworkACLAllow_ClientConnection,
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
 					Name: to.StringPtr("privateendpointname"),
 					Allow: []signalrservice.PrivateEndpointACLAllow{
-						signalrservice.PrivateEndpointACLAllowServerConnection,
+						signalrservice.PrivateEndpointACLAllow_ServerConnection,
 					},
 				}},
 			},
@@ -100,7 +100,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(&signalR)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

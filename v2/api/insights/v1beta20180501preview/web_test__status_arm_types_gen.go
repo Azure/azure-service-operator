@@ -77,10 +77,10 @@ type WebTestGeolocation_StatusARM struct {
 type WebTestPropertiesStatusKind string
 
 const (
-	WebTestPropertiesStatusKindBasic     = WebTestPropertiesStatusKind("basic")
-	WebTestPropertiesStatusKindMultistep = WebTestPropertiesStatusKind("multistep")
-	WebTestPropertiesStatusKindPing      = WebTestPropertiesStatusKind("ping")
-	WebTestPropertiesStatusKindStandard  = WebTestPropertiesStatusKind("standard")
+	WebTestPropertiesStatusKind_Basic     = WebTestPropertiesStatusKind("basic")
+	WebTestPropertiesStatusKind_Multistep = WebTestPropertiesStatusKind("multistep")
+	WebTestPropertiesStatusKind_Ping      = WebTestPropertiesStatusKind("ping")
+	WebTestPropertiesStatusKind_Standard  = WebTestPropertiesStatusKind("standard")
 )
 
 type WebTestProperties_Status_ConfigurationARM struct {

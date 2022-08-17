@@ -72,7 +72,7 @@ func (account *DatabaseAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (account DatabaseAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -204,7 +204,7 @@ type DatabaseAccountList struct {
 // +kubebuilder:validation:Enum={"2021-05-15"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-15")
+const APIVersion_Value = APIVersion("2021-05-15")
 
 // Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
 // Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead

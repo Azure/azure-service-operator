@@ -36,7 +36,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (accounts DatabaseAccounts_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -127,9 +127,9 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 type DatabaseAccountsSpecKind string
 
 const (
-	DatabaseAccountsSpecKindGlobalDocumentDB = DatabaseAccountsSpecKind("GlobalDocumentDB")
-	DatabaseAccountsSpecKindMongoDB          = DatabaseAccountsSpecKind("MongoDB")
-	DatabaseAccountsSpecKindParse            = DatabaseAccountsSpecKind("Parse")
+	DatabaseAccountsSpecKind_GlobalDocumentDB = DatabaseAccountsSpecKind("GlobalDocumentDB")
+	DatabaseAccountsSpecKind_MongoDB          = DatabaseAccountsSpecKind("MongoDB")
+	DatabaseAccountsSpecKind_Parse            = DatabaseAccountsSpecKind("Parse")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
@@ -260,10 +260,10 @@ type LocationARM struct {
 type ManagedServiceIdentityType string
 
 const (
-	ManagedServiceIdentityTypeNone                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityTypeSystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityTypeSystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityTypeUserAssigned               = ManagedServiceIdentityType("UserAssigned")
+	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
+	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
+	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned,UserAssigned")
+	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule

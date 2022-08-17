@@ -57,7 +57,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 type TestColor string
 
 const (
-	TestColorBlue  = TestColor("blue")
-	TestColorGreen = TestColor("green")
-	TestColorRed   = TestColor("red")
+	TestColor_Blue  = TestColor("blue")
+	TestColor_Green = TestColor("green")
+	TestColor_Red   = TestColor("red")
 )

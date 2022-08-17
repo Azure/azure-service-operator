@@ -72,9 +72,9 @@ type Network_StatusARM struct {
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
+	SkuStatusTier_Burstable       = SkuStatusTier("Burstable")
+	SkuStatusTier_GeneralPurpose  = SkuStatusTier("GeneralPurpose")
+	SkuStatusTier_MemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
 // Deprecated version of Storage_Status. Use v1beta20210601.Storage_Status instead

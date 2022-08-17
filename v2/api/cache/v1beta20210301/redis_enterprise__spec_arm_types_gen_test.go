@@ -154,7 +154,7 @@ func ClusterPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForClusterPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterPropertiesARM(gens map[string]gopter.Gen) {
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterPropertiesMinimumTlsVersion10, ClusterPropertiesMinimumTlsVersion11, ClusterPropertiesMinimumTlsVersion12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterPropertiesMinimumTlsVersion_10, ClusterPropertiesMinimumTlsVersion_11, ClusterPropertiesMinimumTlsVersion_12))
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -216,11 +216,11 @@ func SkuARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuNameEnterpriseE10,
-		SkuNameEnterpriseE100,
-		SkuNameEnterpriseE20,
-		SkuNameEnterpriseE50,
-		SkuNameEnterpriseFlashF1500,
-		SkuNameEnterpriseFlashF300,
-		SkuNameEnterpriseFlashF700))
+		SkuName_EnterpriseE10,
+		SkuName_EnterpriseE100,
+		SkuName_EnterpriseE20,
+		SkuName_EnterpriseE50,
+		SkuName_EnterpriseFlashF1500,
+		SkuName_EnterpriseFlashF300,
+		SkuName_EnterpriseFlashF700))
 }

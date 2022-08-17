@@ -213,7 +213,7 @@ func (enum *EnumType) clone() *EnumType {
 }
 
 func GetEnumValueId(name string, value EnumValue) string {
-	return name + value.Identifier
+	return name + "_" + value.Identifier
 }
 
 // String implements fmt.Stringer

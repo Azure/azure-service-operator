@@ -99,7 +99,7 @@ func (group *ContainerGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (group ContainerGroup) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -321,7 +321,7 @@ type ContainerGroupList struct {
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-10-01")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 type ContainerGroup_Status struct {
 	// Conditions: The observed state of the resource
@@ -2431,23 +2431,23 @@ func (identity *ContainerGroupIdentity_Status) AssignPropertiesToContainerGroupI
 type ContainerGroupSku_Status string
 
 const (
-	ContainerGroupSku_StatusDedicated = ContainerGroupSku_Status("Dedicated")
-	ContainerGroupSku_StatusStandard  = ContainerGroupSku_Status("Standard")
+	ContainerGroupSku_Status_Dedicated = ContainerGroupSku_Status("Dedicated")
+	ContainerGroupSku_Status_Standard  = ContainerGroupSku_Status("Standard")
 )
 
 type ContainerGroupStatusPropertiesOsType string
 
 const (
-	ContainerGroupStatusPropertiesOsTypeLinux   = ContainerGroupStatusPropertiesOsType("Linux")
-	ContainerGroupStatusPropertiesOsTypeWindows = ContainerGroupStatusPropertiesOsType("Windows")
+	ContainerGroupStatusPropertiesOsType_Linux   = ContainerGroupStatusPropertiesOsType("Linux")
+	ContainerGroupStatusPropertiesOsType_Windows = ContainerGroupStatusPropertiesOsType("Windows")
 )
 
 type ContainerGroupStatusPropertiesRestartPolicy string
 
 const (
-	ContainerGroupStatusPropertiesRestartPolicyAlways    = ContainerGroupStatusPropertiesRestartPolicy("Always")
-	ContainerGroupStatusPropertiesRestartPolicyNever     = ContainerGroupStatusPropertiesRestartPolicy("Never")
-	ContainerGroupStatusPropertiesRestartPolicyOnFailure = ContainerGroupStatusPropertiesRestartPolicy("OnFailure")
+	ContainerGroupStatusPropertiesRestartPolicy_Always    = ContainerGroupStatusPropertiesRestartPolicy("Always")
+	ContainerGroupStatusPropertiesRestartPolicy_Never     = ContainerGroupStatusPropertiesRestartPolicy("Never")
+	ContainerGroupStatusPropertiesRestartPolicy_OnFailure = ContainerGroupStatusPropertiesRestartPolicy("OnFailure")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
@@ -2740,25 +2740,25 @@ func (view *ContainerGroup_Status_Properties_InstanceView) AssignPropertiesToCon
 type ContainerGroupsSpecPropertiesOsType string
 
 const (
-	ContainerGroupsSpecPropertiesOsTypeLinux   = ContainerGroupsSpecPropertiesOsType("Linux")
-	ContainerGroupsSpecPropertiesOsTypeWindows = ContainerGroupsSpecPropertiesOsType("Windows")
+	ContainerGroupsSpecPropertiesOsType_Linux   = ContainerGroupsSpecPropertiesOsType("Linux")
+	ContainerGroupsSpecPropertiesOsType_Windows = ContainerGroupsSpecPropertiesOsType("Windows")
 )
 
 // +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
 type ContainerGroupsSpecPropertiesRestartPolicy string
 
 const (
-	ContainerGroupsSpecPropertiesRestartPolicyAlways    = ContainerGroupsSpecPropertiesRestartPolicy("Always")
-	ContainerGroupsSpecPropertiesRestartPolicyNever     = ContainerGroupsSpecPropertiesRestartPolicy("Never")
-	ContainerGroupsSpecPropertiesRestartPolicyOnFailure = ContainerGroupsSpecPropertiesRestartPolicy("OnFailure")
+	ContainerGroupsSpecPropertiesRestartPolicy_Always    = ContainerGroupsSpecPropertiesRestartPolicy("Always")
+	ContainerGroupsSpecPropertiesRestartPolicy_Never     = ContainerGroupsSpecPropertiesRestartPolicy("Never")
+	ContainerGroupsSpecPropertiesRestartPolicy_OnFailure = ContainerGroupsSpecPropertiesRestartPolicy("OnFailure")
 )
 
 // +kubebuilder:validation:Enum={"Dedicated","Standard"}
 type ContainerGroupsSpecPropertiesSku string
 
 const (
-	ContainerGroupsSpecPropertiesSkuDedicated = ContainerGroupsSpecPropertiesSku("Dedicated")
-	ContainerGroupsSpecPropertiesSkuStandard  = ContainerGroupsSpecPropertiesSku("Standard")
+	ContainerGroupsSpecPropertiesSku_Dedicated = ContainerGroupsSpecPropertiesSku("Dedicated")
+	ContainerGroupsSpecPropertiesSku_Standard  = ContainerGroupsSpecPropertiesSku("Standard")
 )
 
 type ContainerGroups_Spec_Properties_Containers struct {
@@ -7510,36 +7510,36 @@ func (view *InitContainerPropertiesDefinition_Status_InstanceView) AssignPropert
 type IpAddressDnsNameLabelReusePolicy string
 
 const (
-	IpAddressDnsNameLabelReusePolicyNoreuse            = IpAddressDnsNameLabelReusePolicy("Noreuse")
-	IpAddressDnsNameLabelReusePolicyResourceGroupReuse = IpAddressDnsNameLabelReusePolicy("ResourceGroupReuse")
-	IpAddressDnsNameLabelReusePolicySubscriptionReuse  = IpAddressDnsNameLabelReusePolicy("SubscriptionReuse")
-	IpAddressDnsNameLabelReusePolicyTenantReuse        = IpAddressDnsNameLabelReusePolicy("TenantReuse")
-	IpAddressDnsNameLabelReusePolicyUnsecure           = IpAddressDnsNameLabelReusePolicy("Unsecure")
+	IpAddressDnsNameLabelReusePolicy_Noreuse            = IpAddressDnsNameLabelReusePolicy("Noreuse")
+	IpAddressDnsNameLabelReusePolicy_ResourceGroupReuse = IpAddressDnsNameLabelReusePolicy("ResourceGroupReuse")
+	IpAddressDnsNameLabelReusePolicy_SubscriptionReuse  = IpAddressDnsNameLabelReusePolicy("SubscriptionReuse")
+	IpAddressDnsNameLabelReusePolicy_TenantReuse        = IpAddressDnsNameLabelReusePolicy("TenantReuse")
+	IpAddressDnsNameLabelReusePolicy_Unsecure           = IpAddressDnsNameLabelReusePolicy("Unsecure")
 )
 
 type IpAddressStatusDnsNameLabelReusePolicy string
 
 const (
-	IpAddressStatusDnsNameLabelReusePolicyNoreuse            = IpAddressStatusDnsNameLabelReusePolicy("Noreuse")
-	IpAddressStatusDnsNameLabelReusePolicyResourceGroupReuse = IpAddressStatusDnsNameLabelReusePolicy("ResourceGroupReuse")
-	IpAddressStatusDnsNameLabelReusePolicySubscriptionReuse  = IpAddressStatusDnsNameLabelReusePolicy("SubscriptionReuse")
-	IpAddressStatusDnsNameLabelReusePolicyTenantReuse        = IpAddressStatusDnsNameLabelReusePolicy("TenantReuse")
-	IpAddressStatusDnsNameLabelReusePolicyUnsecure           = IpAddressStatusDnsNameLabelReusePolicy("Unsecure")
+	IpAddressStatusDnsNameLabelReusePolicy_Noreuse            = IpAddressStatusDnsNameLabelReusePolicy("Noreuse")
+	IpAddressStatusDnsNameLabelReusePolicy_ResourceGroupReuse = IpAddressStatusDnsNameLabelReusePolicy("ResourceGroupReuse")
+	IpAddressStatusDnsNameLabelReusePolicy_SubscriptionReuse  = IpAddressStatusDnsNameLabelReusePolicy("SubscriptionReuse")
+	IpAddressStatusDnsNameLabelReusePolicy_TenantReuse        = IpAddressStatusDnsNameLabelReusePolicy("TenantReuse")
+	IpAddressStatusDnsNameLabelReusePolicy_Unsecure           = IpAddressStatusDnsNameLabelReusePolicy("Unsecure")
 )
 
 type IpAddressStatusType string
 
 const (
-	IpAddressStatusTypePrivate = IpAddressStatusType("Private")
-	IpAddressStatusTypePublic  = IpAddressStatusType("Public")
+	IpAddressStatusType_Private = IpAddressStatusType("Private")
+	IpAddressStatusType_Public  = IpAddressStatusType("Public")
 )
 
 // +kubebuilder:validation:Enum={"Private","Public"}
 type IpAddressType string
 
 const (
-	IpAddressTypePrivate = IpAddressType("Private")
-	IpAddressTypePublic  = IpAddressType("Public")
+	IpAddressType_Private = IpAddressType("Private")
+	IpAddressType_Public  = IpAddressType("Public")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/LogAnalytics
@@ -9005,15 +9005,15 @@ func (httpGet *ContainerHttpGet_Status) AssignPropertiesToContainerHttpGetStatus
 type ContainerPortProtocol string
 
 const (
-	ContainerPortProtocolTCP = ContainerPortProtocol("TCP")
-	ContainerPortProtocolUDP = ContainerPortProtocol("UDP")
+	ContainerPortProtocol_TCP = ContainerPortProtocol("TCP")
+	ContainerPortProtocol_UDP = ContainerPortProtocol("UDP")
 )
 
 type ContainerPortStatusProtocol string
 
 const (
-	ContainerPortStatusProtocolTCP = ContainerPortStatusProtocol("TCP")
-	ContainerPortStatusProtocolUDP = ContainerPortStatusProtocol("UDP")
+	ContainerPortStatusProtocol_TCP = ContainerPortStatusProtocol("TCP")
+	ContainerPortStatusProtocol_UDP = ContainerPortStatusProtocol("UDP")
 )
 
 type ContainerState_Status struct {
@@ -9138,30 +9138,30 @@ func (state *ContainerState_Status) AssignPropertiesToContainerStateStatus(desti
 type LogAnalyticsLogType string
 
 const (
-	LogAnalyticsLogTypeContainerInsights     = LogAnalyticsLogType("ContainerInsights")
-	LogAnalyticsLogTypeContainerInstanceLogs = LogAnalyticsLogType("ContainerInstanceLogs")
+	LogAnalyticsLogType_ContainerInsights     = LogAnalyticsLogType("ContainerInsights")
+	LogAnalyticsLogType_ContainerInstanceLogs = LogAnalyticsLogType("ContainerInstanceLogs")
 )
 
 type LogAnalyticsStatusLogType string
 
 const (
-	LogAnalyticsStatusLogTypeContainerInsights     = LogAnalyticsStatusLogType("ContainerInsights")
-	LogAnalyticsStatusLogTypeContainerInstanceLogs = LogAnalyticsStatusLogType("ContainerInstanceLogs")
+	LogAnalyticsStatusLogType_ContainerInsights     = LogAnalyticsStatusLogType("ContainerInsights")
+	LogAnalyticsStatusLogType_ContainerInstanceLogs = LogAnalyticsStatusLogType("ContainerInstanceLogs")
 )
 
 // +kubebuilder:validation:Enum={"TCP","UDP"}
 type PortProtocol string
 
 const (
-	PortProtocolTCP = PortProtocol("TCP")
-	PortProtocolUDP = PortProtocol("UDP")
+	PortProtocol_TCP = PortProtocol("TCP")
+	PortProtocol_UDP = PortProtocol("UDP")
 )
 
 type PortStatusProtocol string
 
 const (
-	PortStatusProtocolTCP = PortStatusProtocol("TCP")
-	PortStatusProtocolUDP = PortStatusProtocol("UDP")
+	PortStatusProtocol_TCP = PortStatusProtocol("TCP")
+	PortStatusProtocol_UDP = PortStatusProtocol("UDP")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceLimits
@@ -9758,15 +9758,15 @@ func (requests *ResourceRequests_Status) AssignPropertiesToResourceRequestsStatu
 type ContainerHttpGetScheme string
 
 const (
-	ContainerHttpGetSchemeHttp  = ContainerHttpGetScheme("http")
-	ContainerHttpGetSchemeHttps = ContainerHttpGetScheme("https")
+	ContainerHttpGetScheme_Http  = ContainerHttpGetScheme("http")
+	ContainerHttpGetScheme_Https = ContainerHttpGetScheme("https")
 )
 
 type ContainerHttpGetStatusScheme string
 
 const (
-	ContainerHttpGetStatusSchemeHttp  = ContainerHttpGetStatusScheme("http")
-	ContainerHttpGetStatusSchemeHttps = ContainerHttpGetStatusScheme("https")
+	ContainerHttpGetStatusScheme_Http  = ContainerHttpGetStatusScheme("http")
+	ContainerHttpGetStatusScheme_Https = ContainerHttpGetStatusScheme("https")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GpuResource
@@ -10131,17 +10131,17 @@ func (header *HttpHeader_Status) AssignPropertiesToHttpHeaderStatus(destination 
 type GpuResourceSku string
 
 const (
-	GpuResourceSkuK80  = GpuResourceSku("K80")
-	GpuResourceSkuP100 = GpuResourceSku("P100")
-	GpuResourceSkuV100 = GpuResourceSku("V100")
+	GpuResourceSku_K80  = GpuResourceSku("K80")
+	GpuResourceSku_P100 = GpuResourceSku("P100")
+	GpuResourceSku_V100 = GpuResourceSku("V100")
 )
 
 type GpuResourceStatusSku string
 
 const (
-	GpuResourceStatusSkuK80  = GpuResourceStatusSku("K80")
-	GpuResourceStatusSkuP100 = GpuResourceStatusSku("P100")
-	GpuResourceStatusSkuV100 = GpuResourceStatusSku("V100")
+	GpuResourceStatusSku_K80  = GpuResourceStatusSku("K80")
+	GpuResourceStatusSku_P100 = GpuResourceStatusSku("P100")
+	GpuResourceStatusSku_V100 = GpuResourceStatusSku("V100")
 )
 
 func init() {

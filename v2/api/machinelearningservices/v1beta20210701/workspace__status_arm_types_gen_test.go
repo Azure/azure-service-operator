@@ -178,14 +178,14 @@ func AddIndependentPropertyGeneratorsForWorkspacePropertiesStatusARM(gens map[st
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspacePropertiesStatusProvisioningStateCanceled,
-		WorkspacePropertiesStatusProvisioningStateCreating,
-		WorkspacePropertiesStatusProvisioningStateDeleting,
-		WorkspacePropertiesStatusProvisioningStateFailed,
-		WorkspacePropertiesStatusProvisioningStateSucceeded,
-		WorkspacePropertiesStatusProvisioningStateUnknown,
-		WorkspacePropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesStatusPublicNetworkAccessDisabled, WorkspacePropertiesStatusPublicNetworkAccessEnabled))
+		WorkspacePropertiesStatusProvisioningState_Canceled,
+		WorkspacePropertiesStatusProvisioningState_Creating,
+		WorkspacePropertiesStatusProvisioningState_Deleting,
+		WorkspacePropertiesStatusProvisioningState_Failed,
+		WorkspacePropertiesStatusProvisioningState_Succeeded,
+		WorkspacePropertiesStatusProvisioningState_Unknown,
+		WorkspacePropertiesStatusProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesStatusPublicNetworkAccess_Disabled, WorkspacePropertiesStatusPublicNetworkAccess_Enabled))
 	gens["ServiceProvisionedResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageHnsEnabled"] = gen.PtrOf(gen.Bool())
@@ -269,7 +269,7 @@ func EncryptionPropertyStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionPropertyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionPropertyStatusARM(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusStatusDisabled, EncryptionPropertyStatusStatusEnabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionPropertyStatusStatus_Disabled, EncryptionPropertyStatusStatus_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionPropertyStatusARM is a factory method for creating gopter generators
@@ -876,9 +876,9 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourcePropertyStatusA
 	gens["PrivateLinkResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_StatusApproved,
-		PrivateEndpointServiceConnectionStatus_StatusDisconnected,
-		PrivateEndpointServiceConnectionStatus_StatusPending,
-		PrivateEndpointServiceConnectionStatus_StatusRejected,
-		PrivateEndpointServiceConnectionStatus_StatusTimeout))
+		PrivateEndpointServiceConnectionStatus_Status_Approved,
+		PrivateEndpointServiceConnectionStatus_Status_Disconnected,
+		PrivateEndpointServiceConnectionStatus_Status_Pending,
+		PrivateEndpointServiceConnectionStatus_Status_Rejected,
+		PrivateEndpointServiceConnectionStatus_Status_Timeout))
 }

@@ -121,10 +121,10 @@ type Encryption_StatusARM struct {
 type IdentityStatusType string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	IdentityStatusType_None                       = IdentityStatusType("None")
+	IdentityStatusType_SystemAssigned             = IdentityStatusType("SystemAssigned")
+	IdentityStatusType_SystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
+	IdentityStatusType_UserAssigned               = IdentityStatusType("UserAssigned")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -139,17 +139,17 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 type SkuStatusName string
 
 const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	SkuStatusName_Basic    = SkuStatusName("Basic")
+	SkuStatusName_Premium  = SkuStatusName("Premium")
+	SkuStatusName_Standard = SkuStatusName("Standard")
 )
 
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBasic    = SkuStatusTier("Basic")
-	SkuStatusTierPremium  = SkuStatusTier("Premium")
-	SkuStatusTierStandard = SkuStatusTier("Standard")
+	SkuStatusTier_Basic    = SkuStatusTier("Basic")
+	SkuStatusTier_Premium  = SkuStatusTier("Premium")
+	SkuStatusTier_Standard = SkuStatusTier("Standard")
 )
 
 type UserAssignedIdentity_StatusARM struct {
@@ -162,7 +162,7 @@ type UserAssignedIdentity_StatusARM struct {
 
 type EncryptionStatusKeySource string
 
-const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
+const EncryptionStatusKeySource_MicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
 
 type KeyVaultProperties_StatusARM struct {
 	Identity *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`

@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &Namespaces_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespaces Namespaces_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -84,28 +84,28 @@ type EncryptionARM struct {
 type IdentityType string
 
 const (
-	IdentityTypeNone                       = IdentityType("None")
-	IdentityTypeSystemAssigned             = IdentityType("SystemAssigned")
-	IdentityTypeSystemAssignedUserAssigned = IdentityType("SystemAssigned, UserAssigned")
-	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned, UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuName string
 
 const (
-	SBSkuNameBasic    = SBSkuName("Basic")
-	SBSkuNamePremium  = SBSkuName("Premium")
-	SBSkuNameStandard = SBSkuName("Standard")
+	SBSkuName_Basic    = SBSkuName("Basic")
+	SBSkuName_Premium  = SBSkuName("Premium")
+	SBSkuName_Standard = SBSkuName("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuTier string
 
 const (
-	SBSkuTierBasic    = SBSkuTier("Basic")
-	SBSkuTierPremium  = SBSkuTier("Premium")
-	SBSkuTierStandard = SBSkuTier("Standard")
+	SBSkuTier_Basic    = SBSkuTier("Basic")
+	SBSkuTier_Premium  = SBSkuTier("Premium")
+	SBSkuTier_Standard = SBSkuTier("Standard")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties

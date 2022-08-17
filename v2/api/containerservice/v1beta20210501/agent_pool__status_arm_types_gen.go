@@ -139,15 +139,15 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 type AgentPoolMode_Status string
 
 const (
-	AgentPoolMode_StatusSystem = AgentPoolMode_Status("System")
-	AgentPoolMode_StatusUser   = AgentPoolMode_Status("User")
+	AgentPoolMode_Status_System = AgentPoolMode_Status("System")
+	AgentPoolMode_Status_User   = AgentPoolMode_Status("User")
 )
 
 type AgentPoolType_Status string
 
 const (
-	AgentPoolType_StatusAvailabilitySet         = AgentPoolType_Status("AvailabilitySet")
-	AgentPoolType_StatusVirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
+	AgentPoolType_Status_AvailabilitySet         = AgentPoolType_Status("AvailabilitySet")
+	AgentPoolType_Status_VirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
 )
 
 type AgentPoolUpgradeSettings_StatusARM struct {
@@ -161,11 +161,11 @@ type AgentPoolUpgradeSettings_StatusARM struct {
 type GPUInstanceProfile_Status string
 
 const (
-	GPUInstanceProfile_StatusMIG1G = GPUInstanceProfile_Status("MIG1g")
-	GPUInstanceProfile_StatusMIG2G = GPUInstanceProfile_Status("MIG2g")
-	GPUInstanceProfile_StatusMIG3G = GPUInstanceProfile_Status("MIG3g")
-	GPUInstanceProfile_StatusMIG4G = GPUInstanceProfile_Status("MIG4g")
-	GPUInstanceProfile_StatusMIG7G = GPUInstanceProfile_Status("MIG7g")
+	GPUInstanceProfile_Status_MIG1G = GPUInstanceProfile_Status("MIG1g")
+	GPUInstanceProfile_Status_MIG2G = GPUInstanceProfile_Status("MIG2g")
+	GPUInstanceProfile_Status_MIG3G = GPUInstanceProfile_Status("MIG3g")
+	GPUInstanceProfile_Status_MIG4G = GPUInstanceProfile_Status("MIG4g")
+	GPUInstanceProfile_Status_MIG7G = GPUInstanceProfile_Status("MIG7g")
 )
 
 type KubeletConfig_StatusARM struct {
@@ -212,8 +212,8 @@ type KubeletConfig_StatusARM struct {
 type KubeletDiskType_Status string
 
 const (
-	KubeletDiskType_StatusOS        = KubeletDiskType_Status("OS")
-	KubeletDiskType_StatusTemporary = KubeletDiskType_Status("Temporary")
+	KubeletDiskType_Status_OS        = KubeletDiskType_Status("OS")
+	KubeletDiskType_Status_Temporary = KubeletDiskType_Status("Temporary")
 )
 
 type LinuxOSConfig_StatusARM struct {
@@ -237,22 +237,22 @@ type LinuxOSConfig_StatusARM struct {
 type OSDiskType_Status string
 
 const (
-	OSDiskType_StatusEphemeral = OSDiskType_Status("Ephemeral")
-	OSDiskType_StatusManaged   = OSDiskType_Status("Managed")
+	OSDiskType_Status_Ephemeral = OSDiskType_Status("Ephemeral")
+	OSDiskType_Status_Managed   = OSDiskType_Status("Managed")
 )
 
 type OSSKU_Status string
 
 const (
-	OSSKU_StatusCBLMariner = OSSKU_Status("CBLMariner")
-	OSSKU_StatusUbuntu     = OSSKU_Status("Ubuntu")
+	OSSKU_Status_CBLMariner = OSSKU_Status("CBLMariner")
+	OSSKU_Status_Ubuntu     = OSSKU_Status("Ubuntu")
 )
 
 type OSType_Status string
 
 const (
-	OSType_StatusLinux   = OSType_Status("Linux")
-	OSType_StatusWindows = OSType_Status("Windows")
+	OSType_Status_Linux   = OSType_Status("Linux")
+	OSType_Status_Windows = OSType_Status("Windows")
 )
 
 type PowerState_StatusARM struct {
@@ -263,22 +263,22 @@ type PowerState_StatusARM struct {
 type ScaleSetEvictionPolicy_Status string
 
 const (
-	ScaleSetEvictionPolicy_StatusDeallocate = ScaleSetEvictionPolicy_Status("Deallocate")
-	ScaleSetEvictionPolicy_StatusDelete     = ScaleSetEvictionPolicy_Status("Delete")
+	ScaleSetEvictionPolicy_Status_Deallocate = ScaleSetEvictionPolicy_Status("Deallocate")
+	ScaleSetEvictionPolicy_Status_Delete     = ScaleSetEvictionPolicy_Status("Delete")
 )
 
 type ScaleSetPriority_Status string
 
 const (
-	ScaleSetPriority_StatusRegular = ScaleSetPriority_Status("Regular")
-	ScaleSetPriority_StatusSpot    = ScaleSetPriority_Status("Spot")
+	ScaleSetPriority_Status_Regular = ScaleSetPriority_Status("Regular")
+	ScaleSetPriority_Status_Spot    = ScaleSetPriority_Status("Spot")
 )
 
 type PowerStateStatusCode string
 
 const (
-	PowerStateStatusCodeRunning = PowerStateStatusCode("Running")
-	PowerStateStatusCodeStopped = PowerStateStatusCode("Stopped")
+	PowerStateStatusCode_Running = PowerStateStatusCode("Running")
+	PowerStateStatusCode_Stopped = PowerStateStatusCode("Stopped")
 )
 
 type SysctlConfig_StatusARM struct {

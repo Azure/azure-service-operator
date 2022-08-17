@@ -719,7 +719,7 @@ func ManagementPolicyRuleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagementPolicyRule(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleTypeLifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleType_Lifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRule is a factory method for creating gopter generators
@@ -838,7 +838,7 @@ func ManagementPolicyRuleStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagementPolicyRuleStatus(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleStatusTypeLifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleStatusType_Lifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRuleStatus is a factory method for creating gopter generators

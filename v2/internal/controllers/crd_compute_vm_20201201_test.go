@@ -46,7 +46,7 @@ func newVirtualMachine20201201(
 	secretRef genruntime.SecretReference,
 ) *compute2020.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute2020.HardwareProfileVmSizeStandardD1V2
+	size := compute2020.HardwareProfileVmSize_StandardD1V2
 
 	return &compute2020.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
@@ -81,7 +81,7 @@ func newVirtualMachine20201201(
 }
 
 func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
-	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic
+	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterfaces_Spec{
@@ -138,7 +138,7 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vm)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

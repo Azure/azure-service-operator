@@ -159,16 +159,16 @@ func AddIndependentPropertyGeneratorsForProfilePropertiesStatusARM(gens map[stri
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusProvisioningStateCreating,
-		ProfilePropertiesStatusProvisioningStateDeleting,
-		ProfilePropertiesStatusProvisioningStateFailed,
-		ProfilePropertiesStatusProvisioningStateSucceeded,
-		ProfilePropertiesStatusProvisioningStateUpdating))
+		ProfilePropertiesStatusProvisioningState_Creating,
+		ProfilePropertiesStatusProvisioningState_Deleting,
+		ProfilePropertiesStatusProvisioningState_Failed,
+		ProfilePropertiesStatusProvisioningState_Succeeded,
+		ProfilePropertiesStatusProvisioningState_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusResourceStateActive,
-		ProfilePropertiesStatusResourceStateCreating,
-		ProfilePropertiesStatusResourceStateDeleting,
-		ProfilePropertiesStatusResourceStateDisabled))
+		ProfilePropertiesStatusResourceState_Active,
+		ProfilePropertiesStatusResourceState_Creating,
+		ProfilePropertiesStatusResourceState_Deleting,
+		ProfilePropertiesStatusResourceState_Disabled))
 }
 
 func Test_Sku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -229,17 +229,17 @@ func SkuStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuStatusNameCustomVerizon,
-		SkuStatusNamePremiumAzureFrontDoor,
-		SkuStatusNamePremiumVerizon,
-		SkuStatusNameStandard955BandWidthChinaCdn,
-		SkuStatusNameStandardAkamai,
-		SkuStatusNameStandardAvgBandWidthChinaCdn,
-		SkuStatusNameStandardAzureFrontDoor,
-		SkuStatusNameStandardChinaCdn,
-		SkuStatusNameStandardMicrosoft,
-		SkuStatusNameStandardPlus955BandWidthChinaCdn,
-		SkuStatusNameStandardPlusAvgBandWidthChinaCdn,
-		SkuStatusNameStandardPlusChinaCdn,
-		SkuStatusNameStandardVerizon))
+		SkuStatusName_CustomVerizon,
+		SkuStatusName_PremiumAzureFrontDoor,
+		SkuStatusName_PremiumVerizon,
+		SkuStatusName_Standard955BandWidthChinaCdn,
+		SkuStatusName_StandardAkamai,
+		SkuStatusName_StandardAvgBandWidthChinaCdn,
+		SkuStatusName_StandardAzureFrontDoor,
+		SkuStatusName_StandardChinaCdn,
+		SkuStatusName_StandardMicrosoft,
+		SkuStatusName_StandardPlus955BandWidthChinaCdn,
+		SkuStatusName_StandardPlusAvgBandWidthChinaCdn,
+		SkuStatusName_StandardPlusChinaCdn,
+		SkuStatusName_StandardVerizon))
 }

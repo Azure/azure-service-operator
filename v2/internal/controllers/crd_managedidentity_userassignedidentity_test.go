@@ -47,7 +47,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(mi)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(managedidentity.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(managedidentity.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

@@ -98,7 +98,7 @@ func (account *DatabaseAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (account DatabaseAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -342,7 +342,7 @@ type DatabaseAccountList struct {
 // +kubebuilder:validation:Enum={"2021-05-15"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-15")
+const APIVersion_Value = APIVersion("2021-05-15")
 
 type DatabaseAccountGetResults_Status struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
@@ -3525,7 +3525,7 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 
 type ConnectorOffer_Status string
 
-const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
+const ConnectorOffer_Status_Small = ConnectorOffer_Status("Small")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
 type ConsistencyPolicy struct {
@@ -4078,32 +4078,32 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 // +kubebuilder:validation:Enum={"Small"}
 type DatabaseAccountCreateUpdatePropertiesConnectorOffer string
 
-const DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
+const DatabaseAccountCreateUpdatePropertiesConnectorOffer_Small = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
 
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType string
 
-const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
+const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType_Standard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
 
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type DatabaseAccountCreateUpdatePropertiesNetworkAclBypass string
 
 const (
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassAzureServices = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("AzureServices")
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
+	DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_AzureServices = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("AzureServices")
+	DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_None          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess string
 
 const (
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessDisabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
+	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Disabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
+	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Enabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
 
 type DatabaseAccountOfferType_Status string
 
-const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
+const DatabaseAccountOfferType_Status_Standard = DatabaseAccountOfferType_Status("Standard")
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -4913,8 +4913,8 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 type NetworkAclBypass_Status string
 
 const (
-	NetworkAclBypass_StatusAzureServices = NetworkAclBypass_Status("AzureServices")
-	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
+	NetworkAclBypass_Status_AzureServices = NetworkAclBypass_Status("AzureServices")
+	NetworkAclBypass_Status_None          = NetworkAclBypass_Status("None")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
@@ -4979,8 +4979,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 type PublicNetworkAccess_Status string
 
 const (
-	PublicNetworkAccess_StatusDisabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
+	PublicNetworkAccess_Status_Disabled = PublicNetworkAccess_Status("Disabled")
+	PublicNetworkAccess_Status_Enabled  = PublicNetworkAccess_Status("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
@@ -5187,60 +5187,60 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 type AnalyticalStorageConfigurationSchemaType string
 
 const (
-	AnalyticalStorageConfigurationSchemaTypeFullFidelity = AnalyticalStorageConfigurationSchemaType("FullFidelity")
-	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
+	AnalyticalStorageConfigurationSchemaType_FullFidelity = AnalyticalStorageConfigurationSchemaType("FullFidelity")
+	AnalyticalStorageConfigurationSchemaType_WellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
 type AnalyticalStorageSchemaType_Status string
 
 const (
-	AnalyticalStorageSchemaType_StatusFullFidelity = AnalyticalStorageSchemaType_Status("FullFidelity")
-	AnalyticalStorageSchemaType_StatusWellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
+	AnalyticalStorageSchemaType_Status_FullFidelity = AnalyticalStorageSchemaType_Status("FullFidelity")
+	AnalyticalStorageSchemaType_Status_WellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
 )
 
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
 type ApiPropertiesServerVersion string
 
 const (
-	ApiPropertiesServerVersion32 = ApiPropertiesServerVersion("3.2")
-	ApiPropertiesServerVersion36 = ApiPropertiesServerVersion("3.6")
-	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
+	ApiPropertiesServerVersion_32 = ApiPropertiesServerVersion("3.2")
+	ApiPropertiesServerVersion_36 = ApiPropertiesServerVersion("3.6")
+	ApiPropertiesServerVersion_40 = ApiPropertiesServerVersion("4.0")
 )
 
 type ApiPropertiesStatusServerVersion string
 
 const (
-	ApiPropertiesStatusServerVersion32 = ApiPropertiesStatusServerVersion("3.2")
-	ApiPropertiesStatusServerVersion36 = ApiPropertiesStatusServerVersion("3.6")
-	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
+	ApiPropertiesStatusServerVersion_32 = ApiPropertiesStatusServerVersion("3.2")
+	ApiPropertiesStatusServerVersion_36 = ApiPropertiesStatusServerVersion("3.6")
+	ApiPropertiesStatusServerVersion_40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
 type BackupPolicyType_Status string
 
 const (
-	BackupPolicyType_StatusContinuous = BackupPolicyType_Status("Continuous")
-	BackupPolicyType_StatusPeriodic   = BackupPolicyType_Status("Periodic")
+	BackupPolicyType_Status_Continuous = BackupPolicyType_Status("Continuous")
+	BackupPolicyType_Status_Periodic   = BackupPolicyType_Status("Periodic")
 )
 
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
 type ConsistencyPolicyDefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyDefaultConsistencyLevelEventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyDefaultConsistencyLevelSession          = ConsistencyPolicyDefaultConsistencyLevel("Session")
-	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
+	ConsistencyPolicyDefaultConsistencyLevel_BoundedStaleness = ConsistencyPolicyDefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicyDefaultConsistencyLevel_ConsistentPrefix = ConsistencyPolicyDefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicyDefaultConsistencyLevel_Eventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
+	ConsistencyPolicyDefaultConsistencyLevel_Session          = ConsistencyPolicyDefaultConsistencyLevel("Session")
+	ConsistencyPolicyDefaultConsistencyLevel_Strong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
 )
 
 type ConsistencyPolicyStatusDefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyStatusDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyStatusDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyStatusDefaultConsistencyLevelEventual         = ConsistencyPolicyStatusDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyStatusDefaultConsistencyLevelSession          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
-	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_BoundedStaleness = ConsistencyPolicyStatusDefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_ConsistentPrefix = ConsistencyPolicyStatusDefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Eventual         = ConsistencyPolicyStatusDefaultConsistencyLevel("Eventual")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Session          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
+	ConsistencyPolicyStatusDefaultConsistencyLevel_Strong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
@@ -5652,12 +5652,12 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 // +kubebuilder:validation:Enum={"Continuous"}
 type ContinuousModeBackupPolicyType string
 
-const ContinuousModeBackupPolicyTypeContinuous = ContinuousModeBackupPolicyType("Continuous")
+const ContinuousModeBackupPolicyType_Continuous = ContinuousModeBackupPolicyType("Continuous")
 
 // +kubebuilder:validation:Enum={"Periodic"}
 type PeriodicModeBackupPolicyType string
 
-const PeriodicModeBackupPolicyTypePeriodic = PeriodicModeBackupPolicyType("Periodic")
+const PeriodicModeBackupPolicyType_Periodic = PeriodicModeBackupPolicyType("Periodic")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
 type PeriodicModeProperties struct {

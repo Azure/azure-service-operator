@@ -98,9 +98,9 @@ type ServerPrivateEndpointConnection_StatusARM struct {
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBasic           = SkuStatusTier("Basic")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
+	SkuStatusTier_Basic           = SkuStatusTier("Basic")
+	SkuStatusTier_GeneralPurpose  = SkuStatusTier("GeneralPurpose")
+	SkuStatusTier_MemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
 type StorageProfile_StatusARM struct {

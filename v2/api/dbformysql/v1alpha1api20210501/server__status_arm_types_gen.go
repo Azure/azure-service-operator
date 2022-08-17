@@ -78,7 +78,7 @@ type HighAvailability_StatusARM struct {
 // Deprecated version of IdentityStatusType. Use v1beta20210501.IdentityStatusType instead
 type IdentityStatusType string
 
-const IdentityStatusTypeUserAssigned = IdentityStatusType("UserAssigned")
+const IdentityStatusType_UserAssigned = IdentityStatusType("UserAssigned")
 
 // Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
 type MaintenanceWindow_StatusARM struct {
@@ -99,9 +99,9 @@ type Network_StatusARM struct {
 type SkuStatusTier string
 
 const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
+	SkuStatusTier_Burstable       = SkuStatusTier("Burstable")
+	SkuStatusTier_GeneralPurpose  = SkuStatusTier("GeneralPurpose")
+	SkuStatusTier_MemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
 // Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead

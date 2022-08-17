@@ -32,30 +32,30 @@ type SystemData_StatusARM struct {
 type DomainTopicPropertiesStatusProvisioningState string
 
 const (
-	DomainTopicPropertiesStatusProvisioningStateCanceled  = DomainTopicPropertiesStatusProvisioningState("Canceled")
-	DomainTopicPropertiesStatusProvisioningStateCreating  = DomainTopicPropertiesStatusProvisioningState("Creating")
-	DomainTopicPropertiesStatusProvisioningStateDeleting  = DomainTopicPropertiesStatusProvisioningState("Deleting")
-	DomainTopicPropertiesStatusProvisioningStateFailed    = DomainTopicPropertiesStatusProvisioningState("Failed")
-	DomainTopicPropertiesStatusProvisioningStateSucceeded = DomainTopicPropertiesStatusProvisioningState("Succeeded")
-	DomainTopicPropertiesStatusProvisioningStateUpdating  = DomainTopicPropertiesStatusProvisioningState("Updating")
+	DomainTopicPropertiesStatusProvisioningState_Canceled  = DomainTopicPropertiesStatusProvisioningState("Canceled")
+	DomainTopicPropertiesStatusProvisioningState_Creating  = DomainTopicPropertiesStatusProvisioningState("Creating")
+	DomainTopicPropertiesStatusProvisioningState_Deleting  = DomainTopicPropertiesStatusProvisioningState("Deleting")
+	DomainTopicPropertiesStatusProvisioningState_Failed    = DomainTopicPropertiesStatusProvisioningState("Failed")
+	DomainTopicPropertiesStatusProvisioningState_Succeeded = DomainTopicPropertiesStatusProvisioningState("Succeeded")
+	DomainTopicPropertiesStatusProvisioningState_Updating  = DomainTopicPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of SystemDataStatusCreatedByType. Use v1beta20200601.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 // Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20200601.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )

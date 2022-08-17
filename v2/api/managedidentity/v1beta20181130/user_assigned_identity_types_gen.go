@@ -98,7 +98,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -320,7 +320,7 @@ type UserAssignedIdentityList struct {
 // +kubebuilder:validation:Enum={"2018-11-30"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-11-30")
+const APIVersion_Value = APIVersion("2018-11-30")
 
 type Identity_Status struct {
 	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.

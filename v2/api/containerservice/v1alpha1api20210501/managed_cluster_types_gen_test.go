@@ -907,11 +907,11 @@ func ContainerServiceNetworkProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile(gens map[string]gopter.Gen) {
 	gens["DnsServiceIP"] = gen.PtrOf(gen.AlphaString())
 	gens["DockerBridgeCidr"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileLoadBalancerSkuBasic, ContainerServiceNetworkProfileLoadBalancerSkuStandard))
-	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkModeBridge, ContainerServiceNetworkProfileNetworkModeTransparent))
-	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPluginAzure, ContainerServiceNetworkProfileNetworkPluginKubenet))
-	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPolicyAzure, ContainerServiceNetworkProfileNetworkPolicyCalico))
-	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileOutboundTypeLoadBalancer, ContainerServiceNetworkProfileOutboundTypeUserDefinedRouting))
+	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileLoadBalancerSku_Basic, ContainerServiceNetworkProfileLoadBalancerSku_Standard))
+	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkMode_Bridge, ContainerServiceNetworkProfileNetworkMode_Transparent))
+	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPlugin_Azure, ContainerServiceNetworkProfileNetworkPlugin_Kubenet))
+	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPolicy_Azure, ContainerServiceNetworkProfileNetworkPolicy_Calico))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileOutboundType_LoadBalancer, ContainerServiceNetworkProfileOutboundType_UserDefinedRouting))
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1032,11 +1032,11 @@ func ContainerServiceNetworkProfileStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileStatus(gens map[string]gopter.Gen) {
 	gens["DnsServiceIP"] = gen.PtrOf(gen.AlphaString())
 	gens["DockerBridgeCidr"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusLoadBalancerSkuBasic, ContainerServiceNetworkProfileStatusLoadBalancerSkuStandard))
-	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkModeBridge, ContainerServiceNetworkProfileStatusNetworkModeTransparent))
-	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkPluginAzure, ContainerServiceNetworkProfileStatusNetworkPluginKubenet))
-	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkPolicyAzure, ContainerServiceNetworkProfileStatusNetworkPolicyCalico))
-	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusOutboundTypeLoadBalancer, ContainerServiceNetworkProfileStatusOutboundTypeUserDefinedRouting))
+	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusLoadBalancerSku_Basic, ContainerServiceNetworkProfileStatusLoadBalancerSku_Standard))
+	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkMode_Bridge, ContainerServiceNetworkProfileStatusNetworkMode_Transparent))
+	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkPlugin_Azure, ContainerServiceNetworkProfileStatusNetworkPlugin_Kubenet))
+	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusNetworkPolicy_Azure, ContainerServiceNetworkProfileStatusNetworkPolicy_Calico))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileStatusOutboundType_LoadBalancer, ContainerServiceNetworkProfileStatusOutboundType_UserDefinedRouting))
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1146,7 +1146,7 @@ func ExtendedLocationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1250,7 +1250,7 @@ func ExtendedLocationStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationStatus(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_StatusEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_Status_EdgeZone))
 }
 
 func Test_ManagedClusterAADProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1904,30 +1904,30 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG1G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG2G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG3G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG4G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileKubeletDiskTypeOS, ManagedClusterAgentPoolProfileKubeletDiskTypeTemporary))
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG1G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG2G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG3G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG4G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileKubeletDiskType_OS, ManagedClusterAgentPoolProfileKubeletDiskType_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileModeSystem, ManagedClusterAgentPoolProfileModeUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileMode_System, ManagedClusterAgentPoolProfileMode_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsDiskTypeEphemeral, ManagedClusterAgentPoolProfileOsDiskTypeManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsSKUCBLMariner, ManagedClusterAgentPoolProfileOsSKUUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsTypeLinux, ManagedClusterAgentPoolProfileOsTypeWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsDiskType_Ephemeral, ManagedClusterAgentPoolProfileOsDiskType_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsSKU_CBLMariner, ManagedClusterAgentPoolProfileOsSKU_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsType_Linux, ManagedClusterAgentPoolProfileOsType_Windows))
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDeallocate, ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetPriorityRegular, ManagedClusterAgentPoolProfileScaleSetPrioritySpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Deallocate, ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetPriority_Regular, ManagedClusterAgentPoolProfileScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileTypeAvailabilitySet, ManagedClusterAgentPoolProfileTypeVirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileType_AvailabilitySet, ManagedClusterAgentPoolProfileType_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2055,16 +2055,16 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileStatus(gen
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		GPUInstanceProfile_StatusMIG1G,
-		GPUInstanceProfile_StatusMIG2G,
-		GPUInstanceProfile_StatusMIG3G,
-		GPUInstanceProfile_StatusMIG4G,
-		GPUInstanceProfile_StatusMIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_StatusOS, KubeletDiskType_StatusTemporary))
+		GPUInstanceProfile_Status_MIG1G,
+		GPUInstanceProfile_Status_MIG2G,
+		GPUInstanceProfile_Status_MIG3G,
+		GPUInstanceProfile_Status_MIG4G,
+		GPUInstanceProfile_Status_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_Status_OS, KubeletDiskType_Status_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_StatusSystem, AgentPoolMode_StatusUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_Status_System, AgentPoolMode_Status_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -2072,17 +2072,17 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileStatus(gen
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_StatusEphemeral, OSDiskType_StatusManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_StatusCBLMariner, OSSKU_StatusUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_StatusLinux, OSType_StatusWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_Status_Ephemeral, OSDiskType_Status_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_Status_CBLMariner, OSSKU_Status_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_Status_Linux, OSType_Status_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_StatusDeallocate, ScaleSetEvictionPolicy_StatusDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_StatusRegular, ScaleSetPriority_StatusSpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Status_Deallocate, ScaleSetEvictionPolicy_Status_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Status_Regular, ScaleSetPriority_Status_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_StatusAvailabilitySet, AgentPoolType_StatusVirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_Status_AvailabilitySet, AgentPoolType_Status_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2196,11 +2196,11 @@ func ManagedClusterAutoUpgradeProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile(gens map[string]gopter.Gen) {
 	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAutoUpgradeProfileUpgradeChannelNodeImage,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelNone,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelPatch,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelRapid,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelStable))
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_NodeImage,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_None,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Patch,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Rapid,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Stable))
 }
 
 func Test_ManagedClusterAutoUpgradeProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2304,11 +2304,11 @@ func ManagedClusterAutoUpgradeProfileStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileStatus(gens map[string]gopter.Gen) {
 	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage,
-		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone,
-		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch,
-		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid,
-		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable))
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_NodeImage,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_None,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Patch,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Rapid,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannel_Stable))
 }
 
 func Test_ManagedClusterHTTPProxyConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2623,7 +2623,7 @@ func ManagedClusterIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityTypeNone, ManagedClusterIdentityTypeSystemAssigned, ManagedClusterIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityType_None, ManagedClusterIdentityType_SystemAssigned, ManagedClusterIdentityType_UserAssigned))
 }
 
 func Test_ManagedClusterIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2737,7 +2737,7 @@ func ManagedClusterIdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityStatusTypeNone, ManagedClusterIdentityStatusTypeSystemAssigned, ManagedClusterIdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityStatusType_None, ManagedClusterIdentityStatusType_SystemAssigned, ManagedClusterIdentityStatusType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentityStatus is a factory method for creating gopter generators
@@ -3188,10 +3188,10 @@ func ManagedClusterPropertiesAutoScalerProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfile(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
 	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterPropertiesAutoScalerProfileExpanderLeastWaste,
-		ManagedClusterPropertiesAutoScalerProfileExpanderMostPods,
-		ManagedClusterPropertiesAutoScalerProfileExpanderPriority,
-		ManagedClusterPropertiesAutoScalerProfileExpanderRandom))
+		ManagedClusterPropertiesAutoScalerProfileExpander_LeastWaste,
+		ManagedClusterPropertiesAutoScalerProfileExpander_MostPods,
+		ManagedClusterPropertiesAutoScalerProfileExpander_Priority,
+		ManagedClusterPropertiesAutoScalerProfileExpander_Random))
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
@@ -3311,10 +3311,10 @@ func ManagedClusterPropertiesStatusAutoScalerProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPropertiesStatusAutoScalerProfile(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
 	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste,
-		ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods,
-		ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority,
-		ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom))
+		ManagedClusterPropertiesStatusAutoScalerProfileExpander_LeastWaste,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpander_MostPods,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpander_Priority,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpander_Random))
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
@@ -3431,8 +3431,8 @@ func ManagedClusterSKUGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSKU is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSKU(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUNameBasic))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUTierFree, ManagedClusterSKUTierPaid))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUName_Basic))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUTier_Free, ManagedClusterSKUTier_Paid))
 }
 
 func Test_ManagedClusterSKU_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3535,8 +3535,8 @@ func ManagedClusterSKUStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSKUStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSKUStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUStatusNameBasic))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUStatusTierFree, ManagedClusterSKUStatusTierPaid))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUStatusName_Basic))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUStatusTier_Free, ManagedClusterSKUStatusTier_Paid))
 }
 
 func Test_ManagedClusterServicePrincipalProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3850,7 +3850,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile(gens map[st
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseTypeNone, ManagedClusterWindowsProfileLicenseTypeWindowsServer))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseType_None, ManagedClusterWindowsProfileLicenseType_WindowsServer))
 }
 
 func Test_ManagedClusterWindowsProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3956,7 +3956,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileStatus(gens 
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileStatusLicenseTypeNone, ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileStatusLicenseType_None, ManagedClusterWindowsProfileStatusLicenseType_WindowsServer))
 }
 
 func Test_PowerState_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4058,7 +4058,7 @@ func PowerStateStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPowerStateStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerStateStatus(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerStateStatusCodeRunning, PowerStateStatusCodeStopped))
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerStateStatusCode_Running, PowerStateStatusCode_Stopped))
 }
 
 func Test_PrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5366,10 +5366,10 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatus(gens map
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterPodIdentityStatusProvisioningStateAssigned,
-		ManagedClusterPodIdentityStatusProvisioningStateDeleting,
-		ManagedClusterPodIdentityStatusProvisioningStateFailed,
-		ManagedClusterPodIdentityStatusProvisioningStateUpdating))
+		ManagedClusterPodIdentityStatusProvisioningState_Assigned,
+		ManagedClusterPodIdentityStatusProvisioningState_Deleting,
+		ManagedClusterPodIdentityStatusProvisioningState_Failed,
+		ManagedClusterPodIdentityStatusProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatus is a factory method for creating gopter generators

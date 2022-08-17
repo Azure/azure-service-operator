@@ -656,29 +656,29 @@ func ComputeStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForComputeStatus(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(
-		ComputeType_StatusAKS,
-		ComputeType_StatusAmlCompute,
-		ComputeType_StatusComputeInstance,
-		ComputeType_StatusDataFactory,
-		ComputeType_StatusDataLakeAnalytics,
-		ComputeType_StatusDatabricks,
-		ComputeType_StatusHDInsight,
-		ComputeType_StatusKubernetes,
-		ComputeType_StatusSynapseSpark,
-		ComputeType_StatusVirtualMachine))
+		ComputeType_Status_AKS,
+		ComputeType_Status_AmlCompute,
+		ComputeType_Status_ComputeInstance,
+		ComputeType_Status_DataFactory,
+		ComputeType_Status_DataLakeAnalytics,
+		ComputeType_Status_Databricks,
+		ComputeType_Status_HDInsight,
+		ComputeType_Status_Kubernetes,
+		ComputeType_Status_SynapseSpark,
+		ComputeType_Status_VirtualMachine))
 	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["IsAttachedCompute"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ComputeStatusProvisioningStateCanceled,
-		ComputeStatusProvisioningStateCreating,
-		ComputeStatusProvisioningStateDeleting,
-		ComputeStatusProvisioningStateFailed,
-		ComputeStatusProvisioningStateSucceeded,
-		ComputeStatusProvisioningStateUnknown,
-		ComputeStatusProvisioningStateUpdating))
+		ComputeStatusProvisioningState_Canceled,
+		ComputeStatusProvisioningState_Creating,
+		ComputeStatusProvisioningState_Deleting,
+		ComputeStatusProvisioningState_Failed,
+		ComputeStatusProvisioningState_Succeeded,
+		ComputeStatusProvisioningState_Unknown,
+		ComputeStatusProvisioningState_Updating))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -796,7 +796,7 @@ func ComputeAKSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeAKS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeAKS(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeAKSComputeTypeAKS))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeAKSComputeType_AKS))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -915,7 +915,7 @@ func ComputeAmlComputeGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeAmlCompute is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeAmlCompute(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeAmlComputeComputeTypeAmlCompute))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeAmlComputeComputeType_AmlCompute))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1035,7 +1035,7 @@ func ComputeComputeInstanceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeComputeInstance is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeComputeInstance(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeComputeInstanceComputeTypeComputeInstance))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeComputeInstanceComputeType_ComputeInstance))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1145,7 +1145,7 @@ func ComputeDataFactoryGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeDataFactory is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeDataFactory(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDataFactoryComputeTypeDataFactory))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDataFactoryComputeType_DataFactory))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1260,7 +1260,7 @@ func ComputeDataLakeAnalyticsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeDataLakeAnalytics is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeDataLakeAnalytics(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDataLakeAnalyticsComputeTypeDataLakeAnalytics))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDataLakeAnalyticsComputeType_DataLakeAnalytics))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1379,7 +1379,7 @@ func ComputeDatabricksGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeDatabricks is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeDatabricks(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDatabricksComputeTypeDatabricks))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeDatabricksComputeType_Databricks))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1498,7 +1498,7 @@ func ComputeHDInsightGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeHDInsight is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeHDInsight(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeHDInsightComputeTypeHDInsight))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeHDInsightComputeType_HDInsight))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1618,7 +1618,7 @@ func ComputeSynapseSparkGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeSynapseSpark is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeSynapseSpark(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeSynapseSparkComputeTypeSynapseSpark))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeSynapseSparkComputeType_SynapseSpark))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1738,7 +1738,7 @@ func ComputeVirtualMachineGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeVirtualMachine is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeVirtualMachine(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeVirtualMachineComputeTypeVirtualMachine))
+	gens["ComputeType"] = gen.PtrOf(gen.OneConstOf(ComputeVirtualMachineComputeType_VirtualMachine))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 }
@@ -1962,9 +1962,9 @@ func AddIndependentPropertyGeneratorsForAKSProperties(gens map[string]gopter.Gen
 	gens["AgentCount"] = gen.PtrOf(gen.Int())
 	gens["AgentVmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterFqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKSPropertiesClusterPurposeDenseProd, AKSPropertiesClusterPurposeDevTest, AKSPropertiesClusterPurposeFastProd))
+	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKSPropertiesClusterPurpose_DenseProd, AKSPropertiesClusterPurpose_DevTest, AKSPropertiesClusterPurpose_FastProd))
 	gens["LoadBalancerSubnet"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKSPropertiesLoadBalancerTypeInternalLoadBalancer, AKSPropertiesLoadBalancerTypePublicIp))
+	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKSPropertiesLoadBalancerType_InternalLoadBalancer, AKSPropertiesLoadBalancerType_PublicIp))
 }
 
 // AddRelatedPropertyGeneratorsForAKSProperties is a factory method for creating gopter generators
@@ -2084,9 +2084,9 @@ func AmlComputePropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAmlComputeProperties(gens map[string]gopter.Gen) {
 	gens["EnableNodePublicIp"] = gen.PtrOf(gen.Bool())
 	gens["IsolatedNetwork"] = gen.PtrOf(gen.Bool())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesOsTypeLinux, AmlComputePropertiesOsTypeWindows))
-	gens["RemoteLoginPortPublicAccess"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesRemoteLoginPortPublicAccessDisabled, AmlComputePropertiesRemoteLoginPortPublicAccessEnabled, AmlComputePropertiesRemoteLoginPortPublicAccessNotSpecified))
-	gens["VmPriority"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesVmPriorityDedicated, AmlComputePropertiesVmPriorityLowPriority))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesOsType_Linux, AmlComputePropertiesOsType_Windows))
+	gens["RemoteLoginPortPublicAccess"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesRemoteLoginPortPublicAccess_Disabled, AmlComputePropertiesRemoteLoginPortPublicAccess_Enabled, AmlComputePropertiesRemoteLoginPortPublicAccess_NotSpecified))
+	gens["VmPriority"] = gen.PtrOf(gen.OneConstOf(AmlComputePropertiesVmPriority_Dedicated, AmlComputePropertiesVmPriority_LowPriority))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2207,8 +2207,8 @@ func ComputeInstancePropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForComputeInstanceProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeInstanceProperties(gens map[string]gopter.Gen) {
-	gens["ApplicationSharingPolicy"] = gen.PtrOf(gen.OneConstOf(ComputeInstancePropertiesApplicationSharingPolicyPersonal, ComputeInstancePropertiesApplicationSharingPolicyShared))
-	gens["ComputeInstanceAuthorizationType"] = gen.PtrOf(gen.OneConstOf(ComputeInstancePropertiesComputeInstanceAuthorizationTypePersonal))
+	gens["ApplicationSharingPolicy"] = gen.PtrOf(gen.OneConstOf(ComputeInstancePropertiesApplicationSharingPolicy_Personal, ComputeInstancePropertiesApplicationSharingPolicy_Shared))
+	gens["ComputeInstanceAuthorizationType"] = gen.PtrOf(gen.OneConstOf(ComputeInstancePropertiesComputeInstanceAuthorizationType_Personal))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3324,7 +3324,7 @@ func ComputeInstanceSshSettingsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForComputeInstanceSshSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComputeInstanceSshSettings(gens map[string]gopter.Gen) {
 	gens["AdminPublicKey"] = gen.PtrOf(gen.AlphaString())
-	gens["SshPublicAccess"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceSshSettingsSshPublicAccessDisabled, ComputeInstanceSshSettingsSshPublicAccessEnabled))
+	gens["SshPublicAccess"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceSshSettingsSshPublicAccess_Disabled, ComputeInstanceSshSettingsSshPublicAccess_Enabled))
 }
 
 func Test_ErrorAdditionalInfo_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4058,7 +4058,7 @@ func AddIndependentPropertyGeneratorsForSslConfiguration(gens map[string]gopter.
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["LeafDomainLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["OverwriteExistingDomain"] = gen.PtrOf(gen.Bool())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(SslConfigurationStatusAuto, SslConfigurationStatusDisabled, SslConfigurationStatusEnabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(SslConfigurationStatus_Auto, SslConfigurationStatus_Disabled, SslConfigurationStatus_Enabled))
 }
 
 func Test_UserAccountCredentials_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

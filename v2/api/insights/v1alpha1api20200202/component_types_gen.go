@@ -113,7 +113,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -336,7 +336,7 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-02-02")
+const APIVersion_Value = APIVersion("2020-02-02")
 
 // Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_Status struct {
@@ -1750,8 +1750,8 @@ func (components *Components_Spec) SetAzureName(azureName string) { components.A
 type ApplicationInsightsComponentPropertiesApplicationType string
 
 const (
-	ApplicationInsightsComponentPropertiesApplicationTypeOther = ApplicationInsightsComponentPropertiesApplicationType("other")
-	ApplicationInsightsComponentPropertiesApplicationTypeWeb   = ApplicationInsightsComponentPropertiesApplicationType("web")
+	ApplicationInsightsComponentPropertiesApplicationType_Other = ApplicationInsightsComponentPropertiesApplicationType("other")
+	ApplicationInsightsComponentPropertiesApplicationType_Web   = ApplicationInsightsComponentPropertiesApplicationType("web")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesFlowType. Use
@@ -1759,7 +1759,7 @@ const (
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentPropertiesFlowType string
 
-const ApplicationInsightsComponentPropertiesFlowTypeBluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
+const ApplicationInsightsComponentPropertiesFlowType_Bluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
 
 // Deprecated version of ApplicationInsightsComponentPropertiesIngestionMode. Use
 // v1beta20200202.ApplicationInsightsComponentPropertiesIngestionMode instead
@@ -1767,9 +1767,9 @@ const ApplicationInsightsComponentPropertiesFlowTypeBluefield = ApplicationInsig
 type ApplicationInsightsComponentPropertiesIngestionMode string
 
 const (
-	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights                       = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
+	ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsights                       = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentPropertiesIngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentPropertiesIngestionMode_LogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion. Use
@@ -1778,8 +1778,8 @@ const (
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion string
 
 const (
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionDisabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Disabled")
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Disabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Disabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Enabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery. Use
@@ -1788,8 +1788,8 @@ const (
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery string
 
 const (
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryDisabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Disabled")
-	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Disabled = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Disabled")
+	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Enabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
 // Deprecated version of ApplicationInsightsComponentPropertiesRequestSource. Use
@@ -1797,7 +1797,7 @@ const (
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentPropertiesRequestSource string
 
-const ApplicationInsightsComponentPropertiesRequestSourceRest = ApplicationInsightsComponentPropertiesRequestSource("rest")
+const ApplicationInsightsComponentPropertiesRequestSource_Rest = ApplicationInsightsComponentPropertiesRequestSource("rest")
 
 // Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {

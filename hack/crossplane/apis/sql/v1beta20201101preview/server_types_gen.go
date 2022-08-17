@@ -33,7 +33,7 @@ type ServerList struct {
 // +kubebuilder:validation:Enum={"2020-11-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-11-01-preview")
+const APIVersion_Value = APIVersion("2020-11-01-preview")
 
 type Server_Status struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
@@ -225,22 +225,22 @@ type ServerPrivateEndpointConnection_Status struct {
 type ServerPropertiesPublicNetworkAccess string
 
 const (
-	ServerPropertiesPublicNetworkAccessDisabled = ServerPropertiesPublicNetworkAccess("Disabled")
-	ServerPropertiesPublicNetworkAccessEnabled  = ServerPropertiesPublicNetworkAccess("Enabled")
+	ServerPropertiesPublicNetworkAccess_Disabled = ServerPropertiesPublicNetworkAccess("Disabled")
+	ServerPropertiesPublicNetworkAccess_Enabled  = ServerPropertiesPublicNetworkAccess("Enabled")
 )
 
 type ServerPropertiesStatusPublicNetworkAccess string
 
 const (
-	ServerPropertiesStatusPublicNetworkAccessDisabled = ServerPropertiesStatusPublicNetworkAccess("Disabled")
-	ServerPropertiesStatusPublicNetworkAccessEnabled  = ServerPropertiesStatusPublicNetworkAccess("Enabled")
+	ServerPropertiesStatusPublicNetworkAccess_Disabled = ServerPropertiesStatusPublicNetworkAccess("Disabled")
+	ServerPropertiesStatusPublicNetworkAccess_Enabled  = ServerPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
 type ServerPropertiesStatusWorkspaceFeature string
 
 const (
-	ServerPropertiesStatusWorkspaceFeatureConnected    = ServerPropertiesStatusWorkspaceFeature("Connected")
-	ServerPropertiesStatusWorkspaceFeatureDisconnected = ServerPropertiesStatusWorkspaceFeature("Disconnected")
+	ServerPropertiesStatusWorkspaceFeature_Connected    = ServerPropertiesStatusWorkspaceFeature("Connected")
+	ServerPropertiesStatusWorkspaceFeature_Disconnected = ServerPropertiesStatusWorkspaceFeature("Disconnected")
 )
 
 type PrivateEndpointConnectionProperties_Status struct {
@@ -257,46 +257,46 @@ type PrivateEndpointConnectionProperties_Status struct {
 type ResourceIdentityStatusType string
 
 const (
-	ResourceIdentityStatusTypeNone                       = ResourceIdentityStatusType("None")
-	ResourceIdentityStatusTypeSystemAssigned             = ResourceIdentityStatusType("SystemAssigned")
-	ResourceIdentityStatusTypeSystemAssignedUserAssigned = ResourceIdentityStatusType("SystemAssigned,UserAssigned")
-	ResourceIdentityStatusTypeUserAssigned               = ResourceIdentityStatusType("UserAssigned")
+	ResourceIdentityStatusType_None                       = ResourceIdentityStatusType("None")
+	ResourceIdentityStatusType_SystemAssigned             = ResourceIdentityStatusType("SystemAssigned")
+	ResourceIdentityStatusType_SystemAssignedUserAssigned = ResourceIdentityStatusType("SystemAssigned,UserAssigned")
+	ResourceIdentityStatusType_UserAssigned               = ResourceIdentityStatusType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type ResourceIdentityType string
 
 const (
-	ResourceIdentityTypeNone                       = ResourceIdentityType("None")
-	ResourceIdentityTypeSystemAssigned             = ResourceIdentityType("SystemAssigned")
-	ResourceIdentityTypeSystemAssignedUserAssigned = ResourceIdentityType("SystemAssigned,UserAssigned")
-	ResourceIdentityTypeUserAssigned               = ResourceIdentityType("UserAssigned")
+	ResourceIdentityType_None                       = ResourceIdentityType("None")
+	ResourceIdentityType_SystemAssigned             = ResourceIdentityType("SystemAssigned")
+	ResourceIdentityType_SystemAssignedUserAssigned = ResourceIdentityType("SystemAssigned,UserAssigned")
+	ResourceIdentityType_UserAssigned               = ResourceIdentityType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}
 type ServerExternalAdministratorAdministratorType string
 
-const ServerExternalAdministratorAdministratorTypeActiveDirectory = ServerExternalAdministratorAdministratorType("ActiveDirectory")
+const ServerExternalAdministratorAdministratorType_ActiveDirectory = ServerExternalAdministratorAdministratorType("ActiveDirectory")
 
 // +kubebuilder:validation:Enum={"Application","Group","User"}
 type ServerExternalAdministratorPrincipalType string
 
 const (
-	ServerExternalAdministratorPrincipalTypeApplication = ServerExternalAdministratorPrincipalType("Application")
-	ServerExternalAdministratorPrincipalTypeGroup       = ServerExternalAdministratorPrincipalType("Group")
-	ServerExternalAdministratorPrincipalTypeUser        = ServerExternalAdministratorPrincipalType("User")
+	ServerExternalAdministratorPrincipalType_Application = ServerExternalAdministratorPrincipalType("Application")
+	ServerExternalAdministratorPrincipalType_Group       = ServerExternalAdministratorPrincipalType("Group")
+	ServerExternalAdministratorPrincipalType_User        = ServerExternalAdministratorPrincipalType("User")
 )
 
 type ServerExternalAdministratorStatusAdministratorType string
 
-const ServerExternalAdministratorStatusAdministratorTypeActiveDirectory = ServerExternalAdministratorStatusAdministratorType("ActiveDirectory")
+const ServerExternalAdministratorStatusAdministratorType_ActiveDirectory = ServerExternalAdministratorStatusAdministratorType("ActiveDirectory")
 
 type ServerExternalAdministratorStatusPrincipalType string
 
 const (
-	ServerExternalAdministratorStatusPrincipalTypeApplication = ServerExternalAdministratorStatusPrincipalType("Application")
-	ServerExternalAdministratorStatusPrincipalTypeGroup       = ServerExternalAdministratorStatusPrincipalType("Group")
-	ServerExternalAdministratorStatusPrincipalTypeUser        = ServerExternalAdministratorStatusPrincipalType("User")
+	ServerExternalAdministratorStatusPrincipalType_Application = ServerExternalAdministratorStatusPrincipalType("Application")
+	ServerExternalAdministratorStatusPrincipalType_Group       = ServerExternalAdministratorStatusPrincipalType("Group")
+	ServerExternalAdministratorStatusPrincipalType_User        = ServerExternalAdministratorStatusPrincipalType("User")
 )
 
 type UserIdentity_Status struct {
@@ -310,11 +310,11 @@ type UserIdentity_Status struct {
 type PrivateEndpointConnectionPropertiesStatusProvisioningState string
 
 const (
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateApproving = PrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateDropping  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateFailed    = PrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateReady     = PrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting = PrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Approving = PrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Dropping  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Failed    = PrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Ready     = PrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
+	PrivateEndpointConnectionPropertiesStatusProvisioningState_Rejecting = PrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
 )
 
 type PrivateEndpointProperty_Status struct {
@@ -335,15 +335,15 @@ type PrivateLinkServiceConnectionStateProperty_Status struct {
 
 type PrivateLinkServiceConnectionStatePropertyStatusActionsRequired string
 
-const PrivateLinkServiceConnectionStatePropertyStatusActionsRequiredNone = PrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
+const PrivateLinkServiceConnectionStatePropertyStatusActionsRequired_None = PrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
 
 type PrivateLinkServiceConnectionStatePropertyStatusStatus string
 
 const (
-	PrivateLinkServiceConnectionStatePropertyStatusStatusApproved     = PrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
-	PrivateLinkServiceConnectionStatePropertyStatusStatusDisconnected = PrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
-	PrivateLinkServiceConnectionStatePropertyStatusStatusPending      = PrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
-	PrivateLinkServiceConnectionStatePropertyStatusStatusRejected     = PrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
+	PrivateLinkServiceConnectionStatePropertyStatusStatus_Approved     = PrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
+	PrivateLinkServiceConnectionStatePropertyStatusStatus_Disconnected = PrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
+	PrivateLinkServiceConnectionStatePropertyStatusStatus_Pending      = PrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
+	PrivateLinkServiceConnectionStatePropertyStatusStatus_Rejected     = PrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
 )
 
 func init() {

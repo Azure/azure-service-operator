@@ -72,7 +72,7 @@ func (image *Image) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (image Image) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -203,7 +203,7 @@ type ImageList struct {
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-07-01")
+const APIVersion_Value = APIVersion("2021-07-01")
 
 // Storage version of v1beta20210701.Image_Status
 type Image_Status struct {

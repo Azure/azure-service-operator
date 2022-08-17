@@ -51,7 +51,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -133,7 +133,7 @@ type NamespaceList struct {
 // +kubebuilder:validation:Enum={"2021-11-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-11-01")
+const APIVersion_Value = APIVersion("2021-11-01")
 
 // Storage version of v1beta20211101.EHNamespace_Status
 type EHNamespace_Status struct {

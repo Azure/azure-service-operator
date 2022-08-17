@@ -98,7 +98,7 @@ func (gateway *VirtualNetworkGateway) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (gateway VirtualNetworkGateway) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -2503,24 +2503,24 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 type VirtualNetworkGatewayPropertiesFormatStatusGatewayType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeExpressRoute = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("ExpressRoute")
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeLocalGateway = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("LocalGateway")
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeVpn          = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("Vpn")
+	VirtualNetworkGatewayPropertiesFormatStatusGatewayType_ExpressRoute = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormatStatusGatewayType_LocalGateway = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormatStatusGatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("Vpn")
 )
 
 type VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationGeneration1 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationGeneration2 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationNone        = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("None")
+	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration_Generation1 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation1")
+	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration_Generation2 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation2")
+	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("None")
 )
 
 type VirtualNetworkGatewayPropertiesFormatStatusVpnType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormatStatusVpnTypePolicyBased = VirtualNetworkGatewayPropertiesFormatStatusVpnType("PolicyBased")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnTypeRouteBased  = VirtualNetworkGatewayPropertiesFormatStatusVpnType("RouteBased")
+	VirtualNetworkGatewayPropertiesFormatStatusVpnType_PolicyBased = VirtualNetworkGatewayPropertiesFormatStatusVpnType("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormatStatusVpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormatStatusVpnType("RouteBased")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
@@ -2750,27 +2750,27 @@ func (gatewaySku *VirtualNetworkGatewaySku_Status) AssignPropertiesToVirtualNetw
 type VirtualNetworkGatewaysSpecPropertiesGatewayType string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesGatewayTypeExpressRoute = VirtualNetworkGatewaysSpecPropertiesGatewayType("ExpressRoute")
-	VirtualNetworkGatewaysSpecPropertiesGatewayTypeHyperNet     = VirtualNetworkGatewaysSpecPropertiesGatewayType("HyperNet")
-	VirtualNetworkGatewaysSpecPropertiesGatewayTypeLocalGateway = VirtualNetworkGatewaysSpecPropertiesGatewayType("LocalGateway")
-	VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn          = VirtualNetworkGatewaysSpecPropertiesGatewayType("Vpn")
+	VirtualNetworkGatewaysSpecPropertiesGatewayType_ExpressRoute = VirtualNetworkGatewaysSpecPropertiesGatewayType("ExpressRoute")
+	VirtualNetworkGatewaysSpecPropertiesGatewayType_HyperNet     = VirtualNetworkGatewaysSpecPropertiesGatewayType("HyperNet")
+	VirtualNetworkGatewaysSpecPropertiesGatewayType_LocalGateway = VirtualNetworkGatewaysSpecPropertiesGatewayType("LocalGateway")
+	VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn          = VirtualNetworkGatewaysSpecPropertiesGatewayType("Vpn")
 )
 
 // +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
 type VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration1 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration2 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationNone        = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("None")
+	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation1")
+	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation2 = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("Generation2")
+	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_None        = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("None")
 )
 
 // +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
 type VirtualNetworkGatewaysSpecPropertiesVpnType string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnTypePolicyBased = VirtualNetworkGatewaysSpecPropertiesVpnType("PolicyBased")
-	VirtualNetworkGatewaysSpecPropertiesVpnTypeRouteBased  = VirtualNetworkGatewaysSpecPropertiesVpnType("RouteBased")
+	VirtualNetworkGatewaysSpecPropertiesVpnType_PolicyBased = VirtualNetworkGatewaysSpecPropertiesVpnType("PolicyBased")
+	VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased  = VirtualNetworkGatewaysSpecPropertiesVpnType("RouteBased")
 )
 
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
@@ -4842,116 +4842,116 @@ func (server *RadiusServer_Status) AssignPropertiesToRadiusServerStatus(destinat
 type VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
 
 const (
-	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
-	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic  = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
+	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Dynamic")
+	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static  = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
 )
 
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySkuName string
 
 const (
-	VirtualNetworkGatewaySkuNameBasic            = VirtualNetworkGatewaySkuName("Basic")
-	VirtualNetworkGatewaySkuNameErGw1AZ          = VirtualNetworkGatewaySkuName("ErGw1AZ")
-	VirtualNetworkGatewaySkuNameErGw2AZ          = VirtualNetworkGatewaySkuName("ErGw2AZ")
-	VirtualNetworkGatewaySkuNameErGw3AZ          = VirtualNetworkGatewaySkuName("ErGw3AZ")
-	VirtualNetworkGatewaySkuNameHighPerformance  = VirtualNetworkGatewaySkuName("HighPerformance")
-	VirtualNetworkGatewaySkuNameStandard         = VirtualNetworkGatewaySkuName("Standard")
-	VirtualNetworkGatewaySkuNameUltraPerformance = VirtualNetworkGatewaySkuName("UltraPerformance")
-	VirtualNetworkGatewaySkuNameVpnGw1           = VirtualNetworkGatewaySkuName("VpnGw1")
-	VirtualNetworkGatewaySkuNameVpnGw1AZ         = VirtualNetworkGatewaySkuName("VpnGw1AZ")
-	VirtualNetworkGatewaySkuNameVpnGw2           = VirtualNetworkGatewaySkuName("VpnGw2")
-	VirtualNetworkGatewaySkuNameVpnGw2AZ         = VirtualNetworkGatewaySkuName("VpnGw2AZ")
-	VirtualNetworkGatewaySkuNameVpnGw3           = VirtualNetworkGatewaySkuName("VpnGw3")
-	VirtualNetworkGatewaySkuNameVpnGw3AZ         = VirtualNetworkGatewaySkuName("VpnGw3AZ")
-	VirtualNetworkGatewaySkuNameVpnGw4           = VirtualNetworkGatewaySkuName("VpnGw4")
-	VirtualNetworkGatewaySkuNameVpnGw4AZ         = VirtualNetworkGatewaySkuName("VpnGw4AZ")
-	VirtualNetworkGatewaySkuNameVpnGw5           = VirtualNetworkGatewaySkuName("VpnGw5")
-	VirtualNetworkGatewaySkuNameVpnGw5AZ         = VirtualNetworkGatewaySkuName("VpnGw5AZ")
+	VirtualNetworkGatewaySkuName_Basic            = VirtualNetworkGatewaySkuName("Basic")
+	VirtualNetworkGatewaySkuName_ErGw1AZ          = VirtualNetworkGatewaySkuName("ErGw1AZ")
+	VirtualNetworkGatewaySkuName_ErGw2AZ          = VirtualNetworkGatewaySkuName("ErGw2AZ")
+	VirtualNetworkGatewaySkuName_ErGw3AZ          = VirtualNetworkGatewaySkuName("ErGw3AZ")
+	VirtualNetworkGatewaySkuName_HighPerformance  = VirtualNetworkGatewaySkuName("HighPerformance")
+	VirtualNetworkGatewaySkuName_Standard         = VirtualNetworkGatewaySkuName("Standard")
+	VirtualNetworkGatewaySkuName_UltraPerformance = VirtualNetworkGatewaySkuName("UltraPerformance")
+	VirtualNetworkGatewaySkuName_VpnGw1           = VirtualNetworkGatewaySkuName("VpnGw1")
+	VirtualNetworkGatewaySkuName_VpnGw1AZ         = VirtualNetworkGatewaySkuName("VpnGw1AZ")
+	VirtualNetworkGatewaySkuName_VpnGw2           = VirtualNetworkGatewaySkuName("VpnGw2")
+	VirtualNetworkGatewaySkuName_VpnGw2AZ         = VirtualNetworkGatewaySkuName("VpnGw2AZ")
+	VirtualNetworkGatewaySkuName_VpnGw3           = VirtualNetworkGatewaySkuName("VpnGw3")
+	VirtualNetworkGatewaySkuName_VpnGw3AZ         = VirtualNetworkGatewaySkuName("VpnGw3AZ")
+	VirtualNetworkGatewaySkuName_VpnGw4           = VirtualNetworkGatewaySkuName("VpnGw4")
+	VirtualNetworkGatewaySkuName_VpnGw4AZ         = VirtualNetworkGatewaySkuName("VpnGw4AZ")
+	VirtualNetworkGatewaySkuName_VpnGw5           = VirtualNetworkGatewaySkuName("VpnGw5")
+	VirtualNetworkGatewaySkuName_VpnGw5AZ         = VirtualNetworkGatewaySkuName("VpnGw5AZ")
 )
 
 type VirtualNetworkGatewaySkuStatusName string
 
 const (
-	VirtualNetworkGatewaySkuStatusNameBasic            = VirtualNetworkGatewaySkuStatusName("Basic")
-	VirtualNetworkGatewaySkuStatusNameErGw1AZ          = VirtualNetworkGatewaySkuStatusName("ErGw1AZ")
-	VirtualNetworkGatewaySkuStatusNameErGw2AZ          = VirtualNetworkGatewaySkuStatusName("ErGw2AZ")
-	VirtualNetworkGatewaySkuStatusNameErGw3AZ          = VirtualNetworkGatewaySkuStatusName("ErGw3AZ")
-	VirtualNetworkGatewaySkuStatusNameHighPerformance  = VirtualNetworkGatewaySkuStatusName("HighPerformance")
-	VirtualNetworkGatewaySkuStatusNameStandard         = VirtualNetworkGatewaySkuStatusName("Standard")
-	VirtualNetworkGatewaySkuStatusNameUltraPerformance = VirtualNetworkGatewaySkuStatusName("UltraPerformance")
-	VirtualNetworkGatewaySkuStatusNameVpnGw1           = VirtualNetworkGatewaySkuStatusName("VpnGw1")
-	VirtualNetworkGatewaySkuStatusNameVpnGw1AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw1AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw2           = VirtualNetworkGatewaySkuStatusName("VpnGw2")
-	VirtualNetworkGatewaySkuStatusNameVpnGw2AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw2AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw3           = VirtualNetworkGatewaySkuStatusName("VpnGw3")
-	VirtualNetworkGatewaySkuStatusNameVpnGw3AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw3AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw4           = VirtualNetworkGatewaySkuStatusName("VpnGw4")
-	VirtualNetworkGatewaySkuStatusNameVpnGw4AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw4AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw5           = VirtualNetworkGatewaySkuStatusName("VpnGw5")
-	VirtualNetworkGatewaySkuStatusNameVpnGw5AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw5AZ")
+	VirtualNetworkGatewaySkuStatusName_Basic            = VirtualNetworkGatewaySkuStatusName("Basic")
+	VirtualNetworkGatewaySkuStatusName_ErGw1AZ          = VirtualNetworkGatewaySkuStatusName("ErGw1AZ")
+	VirtualNetworkGatewaySkuStatusName_ErGw2AZ          = VirtualNetworkGatewaySkuStatusName("ErGw2AZ")
+	VirtualNetworkGatewaySkuStatusName_ErGw3AZ          = VirtualNetworkGatewaySkuStatusName("ErGw3AZ")
+	VirtualNetworkGatewaySkuStatusName_HighPerformance  = VirtualNetworkGatewaySkuStatusName("HighPerformance")
+	VirtualNetworkGatewaySkuStatusName_Standard         = VirtualNetworkGatewaySkuStatusName("Standard")
+	VirtualNetworkGatewaySkuStatusName_UltraPerformance = VirtualNetworkGatewaySkuStatusName("UltraPerformance")
+	VirtualNetworkGatewaySkuStatusName_VpnGw1           = VirtualNetworkGatewaySkuStatusName("VpnGw1")
+	VirtualNetworkGatewaySkuStatusName_VpnGw1AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw1AZ")
+	VirtualNetworkGatewaySkuStatusName_VpnGw2           = VirtualNetworkGatewaySkuStatusName("VpnGw2")
+	VirtualNetworkGatewaySkuStatusName_VpnGw2AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw2AZ")
+	VirtualNetworkGatewaySkuStatusName_VpnGw3           = VirtualNetworkGatewaySkuStatusName("VpnGw3")
+	VirtualNetworkGatewaySkuStatusName_VpnGw3AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw3AZ")
+	VirtualNetworkGatewaySkuStatusName_VpnGw4           = VirtualNetworkGatewaySkuStatusName("VpnGw4")
+	VirtualNetworkGatewaySkuStatusName_VpnGw4AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw4AZ")
+	VirtualNetworkGatewaySkuStatusName_VpnGw5           = VirtualNetworkGatewaySkuStatusName("VpnGw5")
+	VirtualNetworkGatewaySkuStatusName_VpnGw5AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw5AZ")
 )
 
 type VirtualNetworkGatewaySkuStatusTier string
 
 const (
-	VirtualNetworkGatewaySkuStatusTierBasic            = VirtualNetworkGatewaySkuStatusTier("Basic")
-	VirtualNetworkGatewaySkuStatusTierErGw1AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw1AZ")
-	VirtualNetworkGatewaySkuStatusTierErGw2AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw2AZ")
-	VirtualNetworkGatewaySkuStatusTierErGw3AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw3AZ")
-	VirtualNetworkGatewaySkuStatusTierHighPerformance  = VirtualNetworkGatewaySkuStatusTier("HighPerformance")
-	VirtualNetworkGatewaySkuStatusTierStandard         = VirtualNetworkGatewaySkuStatusTier("Standard")
-	VirtualNetworkGatewaySkuStatusTierUltraPerformance = VirtualNetworkGatewaySkuStatusTier("UltraPerformance")
-	VirtualNetworkGatewaySkuStatusTierVpnGw1           = VirtualNetworkGatewaySkuStatusTier("VpnGw1")
-	VirtualNetworkGatewaySkuStatusTierVpnGw1AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw1AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw2           = VirtualNetworkGatewaySkuStatusTier("VpnGw2")
-	VirtualNetworkGatewaySkuStatusTierVpnGw2AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw2AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw3           = VirtualNetworkGatewaySkuStatusTier("VpnGw3")
-	VirtualNetworkGatewaySkuStatusTierVpnGw3AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw3AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw4           = VirtualNetworkGatewaySkuStatusTier("VpnGw4")
-	VirtualNetworkGatewaySkuStatusTierVpnGw4AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw4AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw5           = VirtualNetworkGatewaySkuStatusTier("VpnGw5")
-	VirtualNetworkGatewaySkuStatusTierVpnGw5AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw5AZ")
+	VirtualNetworkGatewaySkuStatusTier_Basic            = VirtualNetworkGatewaySkuStatusTier("Basic")
+	VirtualNetworkGatewaySkuStatusTier_ErGw1AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw1AZ")
+	VirtualNetworkGatewaySkuStatusTier_ErGw2AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw2AZ")
+	VirtualNetworkGatewaySkuStatusTier_ErGw3AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw3AZ")
+	VirtualNetworkGatewaySkuStatusTier_HighPerformance  = VirtualNetworkGatewaySkuStatusTier("HighPerformance")
+	VirtualNetworkGatewaySkuStatusTier_Standard         = VirtualNetworkGatewaySkuStatusTier("Standard")
+	VirtualNetworkGatewaySkuStatusTier_UltraPerformance = VirtualNetworkGatewaySkuStatusTier("UltraPerformance")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw1           = VirtualNetworkGatewaySkuStatusTier("VpnGw1")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw1AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw1AZ")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw2           = VirtualNetworkGatewaySkuStatusTier("VpnGw2")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw2AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw2AZ")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw3           = VirtualNetworkGatewaySkuStatusTier("VpnGw3")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw3AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw3AZ")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw4           = VirtualNetworkGatewaySkuStatusTier("VpnGw4")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw4AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw4AZ")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw5           = VirtualNetworkGatewaySkuStatusTier("VpnGw5")
+	VirtualNetworkGatewaySkuStatusTier_VpnGw5AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw5AZ")
 )
 
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySkuTier string
 
 const (
-	VirtualNetworkGatewaySkuTierBasic            = VirtualNetworkGatewaySkuTier("Basic")
-	VirtualNetworkGatewaySkuTierErGw1AZ          = VirtualNetworkGatewaySkuTier("ErGw1AZ")
-	VirtualNetworkGatewaySkuTierErGw2AZ          = VirtualNetworkGatewaySkuTier("ErGw2AZ")
-	VirtualNetworkGatewaySkuTierErGw3AZ          = VirtualNetworkGatewaySkuTier("ErGw3AZ")
-	VirtualNetworkGatewaySkuTierHighPerformance  = VirtualNetworkGatewaySkuTier("HighPerformance")
-	VirtualNetworkGatewaySkuTierStandard         = VirtualNetworkGatewaySkuTier("Standard")
-	VirtualNetworkGatewaySkuTierUltraPerformance = VirtualNetworkGatewaySkuTier("UltraPerformance")
-	VirtualNetworkGatewaySkuTierVpnGw1           = VirtualNetworkGatewaySkuTier("VpnGw1")
-	VirtualNetworkGatewaySkuTierVpnGw1AZ         = VirtualNetworkGatewaySkuTier("VpnGw1AZ")
-	VirtualNetworkGatewaySkuTierVpnGw2           = VirtualNetworkGatewaySkuTier("VpnGw2")
-	VirtualNetworkGatewaySkuTierVpnGw2AZ         = VirtualNetworkGatewaySkuTier("VpnGw2AZ")
-	VirtualNetworkGatewaySkuTierVpnGw3           = VirtualNetworkGatewaySkuTier("VpnGw3")
-	VirtualNetworkGatewaySkuTierVpnGw3AZ         = VirtualNetworkGatewaySkuTier("VpnGw3AZ")
-	VirtualNetworkGatewaySkuTierVpnGw4           = VirtualNetworkGatewaySkuTier("VpnGw4")
-	VirtualNetworkGatewaySkuTierVpnGw4AZ         = VirtualNetworkGatewaySkuTier("VpnGw4AZ")
-	VirtualNetworkGatewaySkuTierVpnGw5           = VirtualNetworkGatewaySkuTier("VpnGw5")
-	VirtualNetworkGatewaySkuTierVpnGw5AZ         = VirtualNetworkGatewaySkuTier("VpnGw5AZ")
+	VirtualNetworkGatewaySkuTier_Basic            = VirtualNetworkGatewaySkuTier("Basic")
+	VirtualNetworkGatewaySkuTier_ErGw1AZ          = VirtualNetworkGatewaySkuTier("ErGw1AZ")
+	VirtualNetworkGatewaySkuTier_ErGw2AZ          = VirtualNetworkGatewaySkuTier("ErGw2AZ")
+	VirtualNetworkGatewaySkuTier_ErGw3AZ          = VirtualNetworkGatewaySkuTier("ErGw3AZ")
+	VirtualNetworkGatewaySkuTier_HighPerformance  = VirtualNetworkGatewaySkuTier("HighPerformance")
+	VirtualNetworkGatewaySkuTier_Standard         = VirtualNetworkGatewaySkuTier("Standard")
+	VirtualNetworkGatewaySkuTier_UltraPerformance = VirtualNetworkGatewaySkuTier("UltraPerformance")
+	VirtualNetworkGatewaySkuTier_VpnGw1           = VirtualNetworkGatewaySkuTier("VpnGw1")
+	VirtualNetworkGatewaySkuTier_VpnGw1AZ         = VirtualNetworkGatewaySkuTier("VpnGw1AZ")
+	VirtualNetworkGatewaySkuTier_VpnGw2           = VirtualNetworkGatewaySkuTier("VpnGw2")
+	VirtualNetworkGatewaySkuTier_VpnGw2AZ         = VirtualNetworkGatewaySkuTier("VpnGw2AZ")
+	VirtualNetworkGatewaySkuTier_VpnGw3           = VirtualNetworkGatewaySkuTier("VpnGw3")
+	VirtualNetworkGatewaySkuTier_VpnGw3AZ         = VirtualNetworkGatewaySkuTier("VpnGw3AZ")
+	VirtualNetworkGatewaySkuTier_VpnGw4           = VirtualNetworkGatewaySkuTier("VpnGw4")
+	VirtualNetworkGatewaySkuTier_VpnGw4AZ         = VirtualNetworkGatewaySkuTier("VpnGw4AZ")
+	VirtualNetworkGatewaySkuTier_VpnGw5           = VirtualNetworkGatewaySkuTier("VpnGw5")
+	VirtualNetworkGatewaySkuTier_VpnGw5AZ         = VirtualNetworkGatewaySkuTier("VpnGw5AZ")
 )
 
 // +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
 type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesAAD         = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("AAD")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesCertificate = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Certificate")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesRadius      = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Radius")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD         = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("AAD")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Certificate")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius      = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Radius")
 )
 
 // +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
 type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols string
 
 const (
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsIkeV2   = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("IkeV2")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsOpenVPN = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("OpenVPN")
-	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsSSTP    = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("SSTP")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2   = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("IkeV2")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("OpenVPN")
+	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP    = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("SSTP")
 )
 
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
@@ -5158,17 +5158,17 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 type VpnClientConfigurationStatusVpnAuthenticationTypes string
 
 const (
-	VpnClientConfigurationStatusVpnAuthenticationTypesAAD         = VpnClientConfigurationStatusVpnAuthenticationTypes("AAD")
-	VpnClientConfigurationStatusVpnAuthenticationTypesCertificate = VpnClientConfigurationStatusVpnAuthenticationTypes("Certificate")
-	VpnClientConfigurationStatusVpnAuthenticationTypesRadius      = VpnClientConfigurationStatusVpnAuthenticationTypes("Radius")
+	VpnClientConfigurationStatusVpnAuthenticationTypes_AAD         = VpnClientConfigurationStatusVpnAuthenticationTypes("AAD")
+	VpnClientConfigurationStatusVpnAuthenticationTypes_Certificate = VpnClientConfigurationStatusVpnAuthenticationTypes("Certificate")
+	VpnClientConfigurationStatusVpnAuthenticationTypes_Radius      = VpnClientConfigurationStatusVpnAuthenticationTypes("Radius")
 )
 
 type VpnClientConfigurationStatusVpnClientProtocols string
 
 const (
-	VpnClientConfigurationStatusVpnClientProtocolsIkeV2   = VpnClientConfigurationStatusVpnClientProtocols("IkeV2")
-	VpnClientConfigurationStatusVpnClientProtocolsOpenVPN = VpnClientConfigurationStatusVpnClientProtocols("OpenVPN")
-	VpnClientConfigurationStatusVpnClientProtocolsSSTP    = VpnClientConfigurationStatusVpnClientProtocols("SSTP")
+	VpnClientConfigurationStatusVpnClientProtocols_IkeV2   = VpnClientConfigurationStatusVpnClientProtocols("IkeV2")
+	VpnClientConfigurationStatusVpnClientProtocols_OpenVPN = VpnClientConfigurationStatusVpnClientProtocols("OpenVPN")
+	VpnClientConfigurationStatusVpnClientProtocols_SSTP    = VpnClientConfigurationStatusVpnClientProtocols("SSTP")
 )
 
 type VpnClientRevokedCertificate_Status struct {
@@ -5442,157 +5442,157 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesToVpnClientR
 type DhGroup_Status string
 
 const (
-	DhGroup_StatusDHGroup1    = DhGroup_Status("DHGroup1")
-	DhGroup_StatusDHGroup14   = DhGroup_Status("DHGroup14")
-	DhGroup_StatusDHGroup2    = DhGroup_Status("DHGroup2")
-	DhGroup_StatusDHGroup2048 = DhGroup_Status("DHGroup2048")
-	DhGroup_StatusDHGroup24   = DhGroup_Status("DHGroup24")
-	DhGroup_StatusECP256      = DhGroup_Status("ECP256")
-	DhGroup_StatusECP384      = DhGroup_Status("ECP384")
-	DhGroup_StatusNone        = DhGroup_Status("None")
+	DhGroup_Status_DHGroup1    = DhGroup_Status("DHGroup1")
+	DhGroup_Status_DHGroup14   = DhGroup_Status("DHGroup14")
+	DhGroup_Status_DHGroup2    = DhGroup_Status("DHGroup2")
+	DhGroup_Status_DHGroup2048 = DhGroup_Status("DHGroup2048")
+	DhGroup_Status_DHGroup24   = DhGroup_Status("DHGroup24")
+	DhGroup_Status_ECP256      = DhGroup_Status("ECP256")
+	DhGroup_Status_ECP384      = DhGroup_Status("ECP384")
+	DhGroup_Status_None        = DhGroup_Status("None")
 )
 
 type IkeEncryption_Status string
 
 const (
-	IkeEncryption_StatusAES128    = IkeEncryption_Status("AES128")
-	IkeEncryption_StatusAES192    = IkeEncryption_Status("AES192")
-	IkeEncryption_StatusAES256    = IkeEncryption_Status("AES256")
-	IkeEncryption_StatusDES       = IkeEncryption_Status("DES")
-	IkeEncryption_StatusDES3      = IkeEncryption_Status("DES3")
-	IkeEncryption_StatusGCMAES128 = IkeEncryption_Status("GCMAES128")
-	IkeEncryption_StatusGCMAES256 = IkeEncryption_Status("GCMAES256")
+	IkeEncryption_Status_AES128    = IkeEncryption_Status("AES128")
+	IkeEncryption_Status_AES192    = IkeEncryption_Status("AES192")
+	IkeEncryption_Status_AES256    = IkeEncryption_Status("AES256")
+	IkeEncryption_Status_DES       = IkeEncryption_Status("DES")
+	IkeEncryption_Status_DES3      = IkeEncryption_Status("DES3")
+	IkeEncryption_Status_GCMAES128 = IkeEncryption_Status("GCMAES128")
+	IkeEncryption_Status_GCMAES256 = IkeEncryption_Status("GCMAES256")
 )
 
 type IkeIntegrity_Status string
 
 const (
-	IkeIntegrity_StatusGCMAES128 = IkeIntegrity_Status("GCMAES128")
-	IkeIntegrity_StatusGCMAES256 = IkeIntegrity_Status("GCMAES256")
-	IkeIntegrity_StatusMD5       = IkeIntegrity_Status("MD5")
-	IkeIntegrity_StatusSHA1      = IkeIntegrity_Status("SHA1")
-	IkeIntegrity_StatusSHA256    = IkeIntegrity_Status("SHA256")
-	IkeIntegrity_StatusSHA384    = IkeIntegrity_Status("SHA384")
+	IkeIntegrity_Status_GCMAES128 = IkeIntegrity_Status("GCMAES128")
+	IkeIntegrity_Status_GCMAES256 = IkeIntegrity_Status("GCMAES256")
+	IkeIntegrity_Status_MD5       = IkeIntegrity_Status("MD5")
+	IkeIntegrity_Status_SHA1      = IkeIntegrity_Status("SHA1")
+	IkeIntegrity_Status_SHA256    = IkeIntegrity_Status("SHA256")
+	IkeIntegrity_Status_SHA384    = IkeIntegrity_Status("SHA384")
 )
 
 type IpsecEncryption_Status string
 
 const (
-	IpsecEncryption_StatusAES128    = IpsecEncryption_Status("AES128")
-	IpsecEncryption_StatusAES192    = IpsecEncryption_Status("AES192")
-	IpsecEncryption_StatusAES256    = IpsecEncryption_Status("AES256")
-	IpsecEncryption_StatusDES       = IpsecEncryption_Status("DES")
-	IpsecEncryption_StatusDES3      = IpsecEncryption_Status("DES3")
-	IpsecEncryption_StatusGCMAES128 = IpsecEncryption_Status("GCMAES128")
-	IpsecEncryption_StatusGCMAES192 = IpsecEncryption_Status("GCMAES192")
-	IpsecEncryption_StatusGCMAES256 = IpsecEncryption_Status("GCMAES256")
-	IpsecEncryption_StatusNone      = IpsecEncryption_Status("None")
+	IpsecEncryption_Status_AES128    = IpsecEncryption_Status("AES128")
+	IpsecEncryption_Status_AES192    = IpsecEncryption_Status("AES192")
+	IpsecEncryption_Status_AES256    = IpsecEncryption_Status("AES256")
+	IpsecEncryption_Status_DES       = IpsecEncryption_Status("DES")
+	IpsecEncryption_Status_DES3      = IpsecEncryption_Status("DES3")
+	IpsecEncryption_Status_GCMAES128 = IpsecEncryption_Status("GCMAES128")
+	IpsecEncryption_Status_GCMAES192 = IpsecEncryption_Status("GCMAES192")
+	IpsecEncryption_Status_GCMAES256 = IpsecEncryption_Status("GCMAES256")
+	IpsecEncryption_Status_None      = IpsecEncryption_Status("None")
 )
 
 type IpsecIntegrity_Status string
 
 const (
-	IpsecIntegrity_StatusGCMAES128 = IpsecIntegrity_Status("GCMAES128")
-	IpsecIntegrity_StatusGCMAES192 = IpsecIntegrity_Status("GCMAES192")
-	IpsecIntegrity_StatusGCMAES256 = IpsecIntegrity_Status("GCMAES256")
-	IpsecIntegrity_StatusMD5       = IpsecIntegrity_Status("MD5")
-	IpsecIntegrity_StatusSHA1      = IpsecIntegrity_Status("SHA1")
-	IpsecIntegrity_StatusSHA256    = IpsecIntegrity_Status("SHA256")
+	IpsecIntegrity_Status_GCMAES128 = IpsecIntegrity_Status("GCMAES128")
+	IpsecIntegrity_Status_GCMAES192 = IpsecIntegrity_Status("GCMAES192")
+	IpsecIntegrity_Status_GCMAES256 = IpsecIntegrity_Status("GCMAES256")
+	IpsecIntegrity_Status_MD5       = IpsecIntegrity_Status("MD5")
+	IpsecIntegrity_Status_SHA1      = IpsecIntegrity_Status("SHA1")
+	IpsecIntegrity_Status_SHA256    = IpsecIntegrity_Status("SHA256")
 )
 
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
 type IpsecPolicyDhGroup string
 
 const (
-	IpsecPolicyDhGroupDHGroup1    = IpsecPolicyDhGroup("DHGroup1")
-	IpsecPolicyDhGroupDHGroup14   = IpsecPolicyDhGroup("DHGroup14")
-	IpsecPolicyDhGroupDHGroup2    = IpsecPolicyDhGroup("DHGroup2")
-	IpsecPolicyDhGroupDHGroup2048 = IpsecPolicyDhGroup("DHGroup2048")
-	IpsecPolicyDhGroupDHGroup24   = IpsecPolicyDhGroup("DHGroup24")
-	IpsecPolicyDhGroupECP256      = IpsecPolicyDhGroup("ECP256")
-	IpsecPolicyDhGroupECP384      = IpsecPolicyDhGroup("ECP384")
-	IpsecPolicyDhGroupNone        = IpsecPolicyDhGroup("None")
+	IpsecPolicyDhGroup_DHGroup1    = IpsecPolicyDhGroup("DHGroup1")
+	IpsecPolicyDhGroup_DHGroup14   = IpsecPolicyDhGroup("DHGroup14")
+	IpsecPolicyDhGroup_DHGroup2    = IpsecPolicyDhGroup("DHGroup2")
+	IpsecPolicyDhGroup_DHGroup2048 = IpsecPolicyDhGroup("DHGroup2048")
+	IpsecPolicyDhGroup_DHGroup24   = IpsecPolicyDhGroup("DHGroup24")
+	IpsecPolicyDhGroup_ECP256      = IpsecPolicyDhGroup("ECP256")
+	IpsecPolicyDhGroup_ECP384      = IpsecPolicyDhGroup("ECP384")
+	IpsecPolicyDhGroup_None        = IpsecPolicyDhGroup("None")
 )
 
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
 type IpsecPolicyIkeEncryption string
 
 const (
-	IpsecPolicyIkeEncryptionAES128    = IpsecPolicyIkeEncryption("AES128")
-	IpsecPolicyIkeEncryptionAES192    = IpsecPolicyIkeEncryption("AES192")
-	IpsecPolicyIkeEncryptionAES256    = IpsecPolicyIkeEncryption("AES256")
-	IpsecPolicyIkeEncryptionDES       = IpsecPolicyIkeEncryption("DES")
-	IpsecPolicyIkeEncryptionDES3      = IpsecPolicyIkeEncryption("DES3")
-	IpsecPolicyIkeEncryptionGCMAES128 = IpsecPolicyIkeEncryption("GCMAES128")
-	IpsecPolicyIkeEncryptionGCMAES256 = IpsecPolicyIkeEncryption("GCMAES256")
+	IpsecPolicyIkeEncryption_AES128    = IpsecPolicyIkeEncryption("AES128")
+	IpsecPolicyIkeEncryption_AES192    = IpsecPolicyIkeEncryption("AES192")
+	IpsecPolicyIkeEncryption_AES256    = IpsecPolicyIkeEncryption("AES256")
+	IpsecPolicyIkeEncryption_DES       = IpsecPolicyIkeEncryption("DES")
+	IpsecPolicyIkeEncryption_DES3      = IpsecPolicyIkeEncryption("DES3")
+	IpsecPolicyIkeEncryption_GCMAES128 = IpsecPolicyIkeEncryption("GCMAES128")
+	IpsecPolicyIkeEncryption_GCMAES256 = IpsecPolicyIkeEncryption("GCMAES256")
 )
 
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
 type IpsecPolicyIkeIntegrity string
 
 const (
-	IpsecPolicyIkeIntegrityGCMAES128 = IpsecPolicyIkeIntegrity("GCMAES128")
-	IpsecPolicyIkeIntegrityGCMAES256 = IpsecPolicyIkeIntegrity("GCMAES256")
-	IpsecPolicyIkeIntegrityMD5       = IpsecPolicyIkeIntegrity("MD5")
-	IpsecPolicyIkeIntegritySHA1      = IpsecPolicyIkeIntegrity("SHA1")
-	IpsecPolicyIkeIntegritySHA256    = IpsecPolicyIkeIntegrity("SHA256")
-	IpsecPolicyIkeIntegritySHA384    = IpsecPolicyIkeIntegrity("SHA384")
+	IpsecPolicyIkeIntegrity_GCMAES128 = IpsecPolicyIkeIntegrity("GCMAES128")
+	IpsecPolicyIkeIntegrity_GCMAES256 = IpsecPolicyIkeIntegrity("GCMAES256")
+	IpsecPolicyIkeIntegrity_MD5       = IpsecPolicyIkeIntegrity("MD5")
+	IpsecPolicyIkeIntegrity_SHA1      = IpsecPolicyIkeIntegrity("SHA1")
+	IpsecPolicyIkeIntegrity_SHA256    = IpsecPolicyIkeIntegrity("SHA256")
+	IpsecPolicyIkeIntegrity_SHA384    = IpsecPolicyIkeIntegrity("SHA384")
 )
 
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
 type IpsecPolicyIpsecEncryption string
 
 const (
-	IpsecPolicyIpsecEncryptionAES128    = IpsecPolicyIpsecEncryption("AES128")
-	IpsecPolicyIpsecEncryptionAES192    = IpsecPolicyIpsecEncryption("AES192")
-	IpsecPolicyIpsecEncryptionAES256    = IpsecPolicyIpsecEncryption("AES256")
-	IpsecPolicyIpsecEncryptionDES       = IpsecPolicyIpsecEncryption("DES")
-	IpsecPolicyIpsecEncryptionDES3      = IpsecPolicyIpsecEncryption("DES3")
-	IpsecPolicyIpsecEncryptionGCMAES128 = IpsecPolicyIpsecEncryption("GCMAES128")
-	IpsecPolicyIpsecEncryptionGCMAES192 = IpsecPolicyIpsecEncryption("GCMAES192")
-	IpsecPolicyIpsecEncryptionGCMAES256 = IpsecPolicyIpsecEncryption("GCMAES256")
-	IpsecPolicyIpsecEncryptionNone      = IpsecPolicyIpsecEncryption("None")
+	IpsecPolicyIpsecEncryption_AES128    = IpsecPolicyIpsecEncryption("AES128")
+	IpsecPolicyIpsecEncryption_AES192    = IpsecPolicyIpsecEncryption("AES192")
+	IpsecPolicyIpsecEncryption_AES256    = IpsecPolicyIpsecEncryption("AES256")
+	IpsecPolicyIpsecEncryption_DES       = IpsecPolicyIpsecEncryption("DES")
+	IpsecPolicyIpsecEncryption_DES3      = IpsecPolicyIpsecEncryption("DES3")
+	IpsecPolicyIpsecEncryption_GCMAES128 = IpsecPolicyIpsecEncryption("GCMAES128")
+	IpsecPolicyIpsecEncryption_GCMAES192 = IpsecPolicyIpsecEncryption("GCMAES192")
+	IpsecPolicyIpsecEncryption_GCMAES256 = IpsecPolicyIpsecEncryption("GCMAES256")
+	IpsecPolicyIpsecEncryption_None      = IpsecPolicyIpsecEncryption("None")
 )
 
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
 type IpsecPolicyIpsecIntegrity string
 
 const (
-	IpsecPolicyIpsecIntegrityGCMAES128 = IpsecPolicyIpsecIntegrity("GCMAES128")
-	IpsecPolicyIpsecIntegrityGCMAES192 = IpsecPolicyIpsecIntegrity("GCMAES192")
-	IpsecPolicyIpsecIntegrityGCMAES256 = IpsecPolicyIpsecIntegrity("GCMAES256")
-	IpsecPolicyIpsecIntegrityMD5       = IpsecPolicyIpsecIntegrity("MD5")
-	IpsecPolicyIpsecIntegritySHA1      = IpsecPolicyIpsecIntegrity("SHA1")
-	IpsecPolicyIpsecIntegritySHA256    = IpsecPolicyIpsecIntegrity("SHA256")
+	IpsecPolicyIpsecIntegrity_GCMAES128 = IpsecPolicyIpsecIntegrity("GCMAES128")
+	IpsecPolicyIpsecIntegrity_GCMAES192 = IpsecPolicyIpsecIntegrity("GCMAES192")
+	IpsecPolicyIpsecIntegrity_GCMAES256 = IpsecPolicyIpsecIntegrity("GCMAES256")
+	IpsecPolicyIpsecIntegrity_MD5       = IpsecPolicyIpsecIntegrity("MD5")
+	IpsecPolicyIpsecIntegrity_SHA1      = IpsecPolicyIpsecIntegrity("SHA1")
+	IpsecPolicyIpsecIntegrity_SHA256    = IpsecPolicyIpsecIntegrity("SHA256")
 )
 
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
 type IpsecPolicyPfsGroup string
 
 const (
-	IpsecPolicyPfsGroupECP256  = IpsecPolicyPfsGroup("ECP256")
-	IpsecPolicyPfsGroupECP384  = IpsecPolicyPfsGroup("ECP384")
-	IpsecPolicyPfsGroupNone    = IpsecPolicyPfsGroup("None")
-	IpsecPolicyPfsGroupPFS1    = IpsecPolicyPfsGroup("PFS1")
-	IpsecPolicyPfsGroupPFS14   = IpsecPolicyPfsGroup("PFS14")
-	IpsecPolicyPfsGroupPFS2    = IpsecPolicyPfsGroup("PFS2")
-	IpsecPolicyPfsGroupPFS2048 = IpsecPolicyPfsGroup("PFS2048")
-	IpsecPolicyPfsGroupPFS24   = IpsecPolicyPfsGroup("PFS24")
-	IpsecPolicyPfsGroupPFSMM   = IpsecPolicyPfsGroup("PFSMM")
+	IpsecPolicyPfsGroup_ECP256  = IpsecPolicyPfsGroup("ECP256")
+	IpsecPolicyPfsGroup_ECP384  = IpsecPolicyPfsGroup("ECP384")
+	IpsecPolicyPfsGroup_None    = IpsecPolicyPfsGroup("None")
+	IpsecPolicyPfsGroup_PFS1    = IpsecPolicyPfsGroup("PFS1")
+	IpsecPolicyPfsGroup_PFS14   = IpsecPolicyPfsGroup("PFS14")
+	IpsecPolicyPfsGroup_PFS2    = IpsecPolicyPfsGroup("PFS2")
+	IpsecPolicyPfsGroup_PFS2048 = IpsecPolicyPfsGroup("PFS2048")
+	IpsecPolicyPfsGroup_PFS24   = IpsecPolicyPfsGroup("PFS24")
+	IpsecPolicyPfsGroup_PFSMM   = IpsecPolicyPfsGroup("PFSMM")
 )
 
 type PfsGroup_Status string
 
 const (
-	PfsGroup_StatusECP256  = PfsGroup_Status("ECP256")
-	PfsGroup_StatusECP384  = PfsGroup_Status("ECP384")
-	PfsGroup_StatusNone    = PfsGroup_Status("None")
-	PfsGroup_StatusPFS1    = PfsGroup_Status("PFS1")
-	PfsGroup_StatusPFS14   = PfsGroup_Status("PFS14")
-	PfsGroup_StatusPFS2    = PfsGroup_Status("PFS2")
-	PfsGroup_StatusPFS2048 = PfsGroup_Status("PFS2048")
-	PfsGroup_StatusPFS24   = PfsGroup_Status("PFS24")
-	PfsGroup_StatusPFSMM   = PfsGroup_Status("PFSMM")
+	PfsGroup_Status_ECP256  = PfsGroup_Status("ECP256")
+	PfsGroup_Status_ECP384  = PfsGroup_Status("ECP384")
+	PfsGroup_Status_None    = PfsGroup_Status("None")
+	PfsGroup_Status_PFS1    = PfsGroup_Status("PFS1")
+	PfsGroup_Status_PFS14   = PfsGroup_Status("PFS14")
+	PfsGroup_Status_PFS2    = PfsGroup_Status("PFS2")
+	PfsGroup_Status_PFS2048 = PfsGroup_Status("PFS2048")
+	PfsGroup_Status_PFS24   = PfsGroup_Status("PFS24")
+	PfsGroup_Status_PFSMM   = PfsGroup_Status("PFSMM")
 )
 
 func init() {

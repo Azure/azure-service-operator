@@ -128,10 +128,10 @@ type Encryption_StatusARM struct {
 type IdentityStatusType string
 
 const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
+	IdentityStatusType_None                       = IdentityStatusType("None")
+	IdentityStatusType_SystemAssigned             = IdentityStatusType("SystemAssigned")
+	IdentityStatusType_SystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
+	IdentityStatusType_UserAssigned               = IdentityStatusType("UserAssigned")
 )
 
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
@@ -145,35 +145,35 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 type SBSkuStatusName string
 
 const (
-	SBSkuStatusNameBasic    = SBSkuStatusName("Basic")
-	SBSkuStatusNamePremium  = SBSkuStatusName("Premium")
-	SBSkuStatusNameStandard = SBSkuStatusName("Standard")
+	SBSkuStatusName_Basic    = SBSkuStatusName("Basic")
+	SBSkuStatusName_Premium  = SBSkuStatusName("Premium")
+	SBSkuStatusName_Standard = SBSkuStatusName("Standard")
 )
 
 type SBSkuStatusTier string
 
 const (
-	SBSkuStatusTierBasic    = SBSkuStatusTier("Basic")
-	SBSkuStatusTierPremium  = SBSkuStatusTier("Premium")
-	SBSkuStatusTierStandard = SBSkuStatusTier("Standard")
+	SBSkuStatusTier_Basic    = SBSkuStatusTier("Basic")
+	SBSkuStatusTier_Premium  = SBSkuStatusTier("Premium")
+	SBSkuStatusTier_Standard = SBSkuStatusTier("Standard")
 )
 
 type SystemDataStatusCreatedByType string
 
 const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+	SystemDataStatusCreatedByType_Application     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByType_Key             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByType_ManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByType_User            = SystemDataStatusCreatedByType("User")
 )
 
 type SystemDataStatusLastModifiedByType string
 
 const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+	SystemDataStatusLastModifiedByType_Application     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByType_Key             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByType_ManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByType_User            = SystemDataStatusLastModifiedByType("User")
 )
 
 type KeyVaultProperties_StatusARM struct {

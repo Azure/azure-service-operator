@@ -51,7 +51,7 @@ func (zone *PrivateDnsZone) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-09-01"
 func (zone PrivateDnsZone) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -133,7 +133,7 @@ type PrivateDnsZoneList struct {
 // +kubebuilder:validation:Enum={"2018-09-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-09-01")
+const APIVersion_Value = APIVersion("2018-09-01")
 
 // Storage version of v1beta20180901.PrivateDnsZones_Spec
 type PrivateDnsZones_Spec struct {
