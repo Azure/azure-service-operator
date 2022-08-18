@@ -50,9 +50,10 @@ type Configuration struct {
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
-	// SamplesURL is the URL the samples are accessible at. Paths will be appended to the end of this to
-	// build full sample links. If this is not specified, no samples links are generated.
-	SamplesURL string `yaml:"samplesUrl"`
+	// RootURL is the root URL for ASOv2 repo, paths are appended to this to generate resource links.
+	RootURL string `yaml:"rootUrl"`
+	// SamplesPath is the Path the samples are accessible at. This is used to walk through the samples directory and generate sample links.
+	SamplesPath string `yaml:"samplesPath"`
 	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.
 	EmitDocFiles bool `yaml:"emitDocFiles"`
 	// Destination file and additional information for our supported resources report
