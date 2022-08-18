@@ -20,7 +20,7 @@ import (
 func Test_Aliases_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -162,7 +162,7 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestPropertiesARM(gens map[st
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["ResellerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Workload"] = gen.PtrOf(gen.OneConstOf(PutAliasRequestPropertiesWorkloadDevTest, PutAliasRequestPropertiesWorkloadProduction))
+	gens["Workload"] = gen.PtrOf(gen.OneConstOf(PutAliasRequestPropertiesWorkload_DevTest, PutAliasRequestPropertiesWorkload_Production))
 }
 
 // AddRelatedPropertyGeneratorsForPutAliasRequestPropertiesARM is a factory method for creating gopter generators

@@ -25,9 +25,9 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 	// Custom namer because storage accounts have strict names
 
 	// Create a storage account with an invalid key expiration period
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
+	kind := storage.StorageAccountsSpecKind_BlobStorage
+	sku := storage.SkuName_StandardLRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
@@ -46,7 +46,7 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 }
 
 func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *compute.VirtualMachineScaleSet {
-	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute.UpgradePolicyMode_Automatic
 	adminUsername := "adminUser"
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),

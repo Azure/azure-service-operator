@@ -20,7 +20,7 @@ import (
 func Test_VirtualNetworkGateways_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -97,7 +97,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecARM(gens map[strin
 func Test_VirtualNetworkGateways_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -166,13 +166,13 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesARM(
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaysSpecPropertiesGatewayTypeExpressRoute,
-		VirtualNetworkGatewaysSpecPropertiesGatewayTypeHyperNet,
-		VirtualNetworkGatewaysSpecPropertiesGatewayTypeLocalGateway,
-		VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn))
+		VirtualNetworkGatewaysSpecPropertiesGatewayType_ExpressRoute,
+		VirtualNetworkGatewaysSpecPropertiesGatewayType_HyperNet,
+		VirtualNetworkGatewaysSpecPropertiesGatewayType_LocalGateway,
+		VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn))
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration1, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration2, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationNone))
-	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnTypePolicyBased, VirtualNetworkGatewaysSpecPropertiesVpnTypeRouteBased))
+	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation2, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_None))
+	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnType_PolicyBased, VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesARM is a factory method for creating gopter generators
@@ -322,106 +322,10 @@ func AddRelatedPropertyGeneratorsForBgpSettingsARM(gens map[string]gopter.Gen) {
 	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddressARMGenerator())
 }
 
-func Test_VirtualNetworkGatewaySkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkGatewaySkuARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySkuARM, VirtualNetworkGatewaySkuARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkGatewaySkuARM runs a test to see if a specific instance of VirtualNetworkGatewaySkuARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaySkuARM(subject VirtualNetworkGatewaySkuARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkGatewaySkuARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkGatewaySkuARM instances for property testing - lazily instantiated by
-// VirtualNetworkGatewaySkuARMGenerator()
-var virtualNetworkGatewaySkuARMGenerator gopter.Gen
-
-// VirtualNetworkGatewaySkuARMGenerator returns a generator of VirtualNetworkGatewaySkuARM instances for property testing.
-func VirtualNetworkGatewaySkuARMGenerator() gopter.Gen {
-	if virtualNetworkGatewaySkuARMGenerator != nil {
-		return virtualNetworkGatewaySkuARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(generators)
-	virtualNetworkGatewaySkuARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySkuARM{}), generators)
-
-	return virtualNetworkGatewaySkuARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuNameBasic,
-		VirtualNetworkGatewaySkuNameErGw1AZ,
-		VirtualNetworkGatewaySkuNameErGw2AZ,
-		VirtualNetworkGatewaySkuNameErGw3AZ,
-		VirtualNetworkGatewaySkuNameHighPerformance,
-		VirtualNetworkGatewaySkuNameStandard,
-		VirtualNetworkGatewaySkuNameUltraPerformance,
-		VirtualNetworkGatewaySkuNameVpnGw1,
-		VirtualNetworkGatewaySkuNameVpnGw1AZ,
-		VirtualNetworkGatewaySkuNameVpnGw2,
-		VirtualNetworkGatewaySkuNameVpnGw2AZ,
-		VirtualNetworkGatewaySkuNameVpnGw3,
-		VirtualNetworkGatewaySkuNameVpnGw3AZ,
-		VirtualNetworkGatewaySkuNameVpnGw4,
-		VirtualNetworkGatewaySkuNameVpnGw4AZ,
-		VirtualNetworkGatewaySkuNameVpnGw5,
-		VirtualNetworkGatewaySkuNameVpnGw5AZ))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuTierBasic,
-		VirtualNetworkGatewaySkuTierErGw1AZ,
-		VirtualNetworkGatewaySkuTierErGw2AZ,
-		VirtualNetworkGatewaySkuTierErGw3AZ,
-		VirtualNetworkGatewaySkuTierHighPerformance,
-		VirtualNetworkGatewaySkuTierStandard,
-		VirtualNetworkGatewaySkuTierUltraPerformance,
-		VirtualNetworkGatewaySkuTierVpnGw1,
-		VirtualNetworkGatewaySkuTierVpnGw1AZ,
-		VirtualNetworkGatewaySkuTierVpnGw2,
-		VirtualNetworkGatewaySkuTierVpnGw2AZ,
-		VirtualNetworkGatewaySkuTierVpnGw3,
-		VirtualNetworkGatewaySkuTierVpnGw3AZ,
-		VirtualNetworkGatewaySkuTierVpnGw4,
-		VirtualNetworkGatewaySkuTierVpnGw4AZ,
-		VirtualNetworkGatewaySkuTierVpnGw5,
-		VirtualNetworkGatewaySkuTierVpnGw5AZ))
-}
-
 func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -496,7 +400,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfig
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -565,8 +469,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnC
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesAAD, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesCertificate, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesRadius))
-	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsIkeV2, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsOpenVPN, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsSSTP))
+	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius))
+	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARM is a factory method for creating gopter generators
@@ -576,6 +480,102 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClien
 	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicyARMGenerator())
 	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator())
 	gens["VpnClientRootCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator())
+}
+
+func Test_VirtualNetworkGatewaySkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGatewaySkuARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySkuARM, VirtualNetworkGatewaySkuARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGatewaySkuARM runs a test to see if a specific instance of VirtualNetworkGatewaySkuARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewaySkuARM(subject VirtualNetworkGatewaySkuARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGatewaySkuARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGatewaySkuARM instances for property testing - lazily instantiated by
+// VirtualNetworkGatewaySkuARMGenerator()
+var virtualNetworkGatewaySkuARMGenerator gopter.Gen
+
+// VirtualNetworkGatewaySkuARMGenerator returns a generator of VirtualNetworkGatewaySkuARM instances for property testing.
+func VirtualNetworkGatewaySkuARMGenerator() gopter.Gen {
+	if virtualNetworkGatewaySkuARMGenerator != nil {
+		return virtualNetworkGatewaySkuARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(generators)
+	virtualNetworkGatewaySkuARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySkuARM{}), generators)
+
+	return virtualNetworkGatewaySkuARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuName_Basic,
+		VirtualNetworkGatewaySkuName_ErGw1AZ,
+		VirtualNetworkGatewaySkuName_ErGw2AZ,
+		VirtualNetworkGatewaySkuName_ErGw3AZ,
+		VirtualNetworkGatewaySkuName_HighPerformance,
+		VirtualNetworkGatewaySkuName_Standard,
+		VirtualNetworkGatewaySkuName_UltraPerformance,
+		VirtualNetworkGatewaySkuName_VpnGw1,
+		VirtualNetworkGatewaySkuName_VpnGw1AZ,
+		VirtualNetworkGatewaySkuName_VpnGw2,
+		VirtualNetworkGatewaySkuName_VpnGw2AZ,
+		VirtualNetworkGatewaySkuName_VpnGw3,
+		VirtualNetworkGatewaySkuName_VpnGw3AZ,
+		VirtualNetworkGatewaySkuName_VpnGw4,
+		VirtualNetworkGatewaySkuName_VpnGw4AZ,
+		VirtualNetworkGatewaySkuName_VpnGw5,
+		VirtualNetworkGatewaySkuName_VpnGw5AZ))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuTier_Basic,
+		VirtualNetworkGatewaySkuTier_ErGw1AZ,
+		VirtualNetworkGatewaySkuTier_ErGw2AZ,
+		VirtualNetworkGatewaySkuTier_ErGw3AZ,
+		VirtualNetworkGatewaySkuTier_HighPerformance,
+		VirtualNetworkGatewaySkuTier_Standard,
+		VirtualNetworkGatewaySkuTier_UltraPerformance,
+		VirtualNetworkGatewaySkuTier_VpnGw1,
+		VirtualNetworkGatewaySkuTier_VpnGw1AZ,
+		VirtualNetworkGatewaySkuTier_VpnGw2,
+		VirtualNetworkGatewaySkuTier_VpnGw2AZ,
+		VirtualNetworkGatewaySkuTier_VpnGw3,
+		VirtualNetworkGatewaySkuTier_VpnGw3AZ,
+		VirtualNetworkGatewaySkuTier_VpnGw4,
+		VirtualNetworkGatewaySkuTier_VpnGw4AZ,
+		VirtualNetworkGatewaySkuTier_VpnGw5,
+		VirtualNetworkGatewaySkuTier_VpnGw5AZ))
 }
 
 func Test_IPConfigurationBgpPeeringAddressARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -698,56 +698,56 @@ func IpsecPolicyARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIpsecPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicyARM(gens map[string]gopter.Gen) {
 	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyDhGroupDHGroup1,
-		IpsecPolicyDhGroupDHGroup14,
-		IpsecPolicyDhGroupDHGroup2,
-		IpsecPolicyDhGroupDHGroup2048,
-		IpsecPolicyDhGroupDHGroup24,
-		IpsecPolicyDhGroupECP256,
-		IpsecPolicyDhGroupECP384,
-		IpsecPolicyDhGroupNone))
+		IpsecPolicyDhGroup_DHGroup1,
+		IpsecPolicyDhGroup_DHGroup14,
+		IpsecPolicyDhGroup_DHGroup2,
+		IpsecPolicyDhGroup_DHGroup2048,
+		IpsecPolicyDhGroup_DHGroup24,
+		IpsecPolicyDhGroup_ECP256,
+		IpsecPolicyDhGroup_ECP384,
+		IpsecPolicyDhGroup_None))
 	gens["IkeEncryption"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIkeEncryptionAES128,
-		IpsecPolicyIkeEncryptionAES192,
-		IpsecPolicyIkeEncryptionAES256,
-		IpsecPolicyIkeEncryptionDES,
-		IpsecPolicyIkeEncryptionDES3,
-		IpsecPolicyIkeEncryptionGCMAES128,
-		IpsecPolicyIkeEncryptionGCMAES256))
+		IpsecPolicyIkeEncryption_AES128,
+		IpsecPolicyIkeEncryption_AES192,
+		IpsecPolicyIkeEncryption_AES256,
+		IpsecPolicyIkeEncryption_DES,
+		IpsecPolicyIkeEncryption_DES3,
+		IpsecPolicyIkeEncryption_GCMAES128,
+		IpsecPolicyIkeEncryption_GCMAES256))
 	gens["IkeIntegrity"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIkeIntegrityGCMAES128,
-		IpsecPolicyIkeIntegrityGCMAES256,
-		IpsecPolicyIkeIntegrityMD5,
-		IpsecPolicyIkeIntegritySHA1,
-		IpsecPolicyIkeIntegritySHA256,
-		IpsecPolicyIkeIntegritySHA384))
+		IpsecPolicyIkeIntegrity_GCMAES128,
+		IpsecPolicyIkeIntegrity_GCMAES256,
+		IpsecPolicyIkeIntegrity_MD5,
+		IpsecPolicyIkeIntegrity_SHA1,
+		IpsecPolicyIkeIntegrity_SHA256,
+		IpsecPolicyIkeIntegrity_SHA384))
 	gens["IpsecEncryption"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIpsecEncryptionAES128,
-		IpsecPolicyIpsecEncryptionAES192,
-		IpsecPolicyIpsecEncryptionAES256,
-		IpsecPolicyIpsecEncryptionDES,
-		IpsecPolicyIpsecEncryptionDES3,
-		IpsecPolicyIpsecEncryptionGCMAES128,
-		IpsecPolicyIpsecEncryptionGCMAES192,
-		IpsecPolicyIpsecEncryptionGCMAES256,
-		IpsecPolicyIpsecEncryptionNone))
+		IpsecPolicyIpsecEncryption_AES128,
+		IpsecPolicyIpsecEncryption_AES192,
+		IpsecPolicyIpsecEncryption_AES256,
+		IpsecPolicyIpsecEncryption_DES,
+		IpsecPolicyIpsecEncryption_DES3,
+		IpsecPolicyIpsecEncryption_GCMAES128,
+		IpsecPolicyIpsecEncryption_GCMAES192,
+		IpsecPolicyIpsecEncryption_GCMAES256,
+		IpsecPolicyIpsecEncryption_None))
 	gens["IpsecIntegrity"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIpsecIntegrityGCMAES128,
-		IpsecPolicyIpsecIntegrityGCMAES192,
-		IpsecPolicyIpsecIntegrityGCMAES256,
-		IpsecPolicyIpsecIntegrityMD5,
-		IpsecPolicyIpsecIntegritySHA1,
-		IpsecPolicyIpsecIntegritySHA256))
+		IpsecPolicyIpsecIntegrity_GCMAES128,
+		IpsecPolicyIpsecIntegrity_GCMAES192,
+		IpsecPolicyIpsecIntegrity_GCMAES256,
+		IpsecPolicyIpsecIntegrity_MD5,
+		IpsecPolicyIpsecIntegrity_SHA1,
+		IpsecPolicyIpsecIntegrity_SHA256))
 	gens["PfsGroup"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyPfsGroupECP256,
-		IpsecPolicyPfsGroupECP384,
-		IpsecPolicyPfsGroupNone,
-		IpsecPolicyPfsGroupPFS1,
-		IpsecPolicyPfsGroupPFS14,
-		IpsecPolicyPfsGroupPFS2,
-		IpsecPolicyPfsGroupPFS2048,
-		IpsecPolicyPfsGroupPFS24,
-		IpsecPolicyPfsGroupPFSMM))
+		IpsecPolicyPfsGroup_ECP256,
+		IpsecPolicyPfsGroup_ECP384,
+		IpsecPolicyPfsGroup_None,
+		IpsecPolicyPfsGroup_PFS1,
+		IpsecPolicyPfsGroup_PFS14,
+		IpsecPolicyPfsGroup_PFS2,
+		IpsecPolicyPfsGroup_PFS2048,
+		IpsecPolicyPfsGroup_PFS24,
+		IpsecPolicyPfsGroup_PFSMM))
 	gens["SaDataSizeKilobytes"] = gen.PtrOf(gen.Int())
 	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
@@ -881,7 +881,7 @@ func VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator() gopter.G
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic, VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic, VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM is a factory method for creating gopter generators
@@ -893,7 +893,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationProperti
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -969,7 +969,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClien
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

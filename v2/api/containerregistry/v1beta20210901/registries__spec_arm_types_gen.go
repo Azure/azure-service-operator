@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &Registries_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registries Registries_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -103,10 +103,10 @@ type EncryptionPropertyARM struct {
 type IdentityPropertiesType string
 
 const (
-	IdentityPropertiesTypeNone                       = IdentityPropertiesType("None")
-	IdentityPropertiesTypeSystemAssigned             = IdentityPropertiesType("SystemAssigned")
-	IdentityPropertiesTypeSystemAssignedUserAssigned = IdentityPropertiesType("SystemAssigned, UserAssigned")
-	IdentityPropertiesTypeUserAssigned               = IdentityPropertiesType("UserAssigned")
+	IdentityPropertiesType_None                       = IdentityPropertiesType("None")
+	IdentityPropertiesType_SystemAssigned             = IdentityPropertiesType("SystemAssigned")
+	IdentityPropertiesType_SystemAssignedUserAssigned = IdentityPropertiesType("SystemAssigned, UserAssigned")
+	IdentityPropertiesType_UserAssigned               = IdentityPropertiesType("UserAssigned")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
@@ -137,34 +137,34 @@ type PoliciesARM struct {
 type RegistryPropertiesNetworkRuleBypassOptions string
 
 const (
-	RegistryPropertiesNetworkRuleBypassOptionsAzureServices = RegistryPropertiesNetworkRuleBypassOptions("AzureServices")
-	RegistryPropertiesNetworkRuleBypassOptionsNone          = RegistryPropertiesNetworkRuleBypassOptions("None")
+	RegistryPropertiesNetworkRuleBypassOptions_AzureServices = RegistryPropertiesNetworkRuleBypassOptions("AzureServices")
+	RegistryPropertiesNetworkRuleBypassOptions_None          = RegistryPropertiesNetworkRuleBypassOptions("None")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesPublicNetworkAccess string
 
 const (
-	RegistryPropertiesPublicNetworkAccessDisabled = RegistryPropertiesPublicNetworkAccess("Disabled")
-	RegistryPropertiesPublicNetworkAccessEnabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
+	RegistryPropertiesPublicNetworkAccess_Disabled = RegistryPropertiesPublicNetworkAccess("Disabled")
+	RegistryPropertiesPublicNetworkAccess_Enabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesZoneRedundancy string
 
 const (
-	RegistryPropertiesZoneRedundancyDisabled = RegistryPropertiesZoneRedundancy("Disabled")
-	RegistryPropertiesZoneRedundancyEnabled  = RegistryPropertiesZoneRedundancy("Enabled")
+	RegistryPropertiesZoneRedundancy_Disabled = RegistryPropertiesZoneRedundancy("Disabled")
+	RegistryPropertiesZoneRedundancy_Enabled  = RegistryPropertiesZoneRedundancy("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type SkuName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNameClassic  = SkuName("Classic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Classic  = SkuName("Classic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
@@ -180,8 +180,8 @@ type UserIdentityPropertiesARM struct {
 type EncryptionPropertyStatus string
 
 const (
-	EncryptionPropertyStatusDisabled = EncryptionPropertyStatus("disabled")
-	EncryptionPropertyStatusEnabled  = EncryptionPropertyStatus("enabled")
+	EncryptionPropertyStatus_Disabled = EncryptionPropertyStatus("disabled")
+	EncryptionPropertyStatus_Enabled  = EncryptionPropertyStatus("enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
@@ -212,8 +212,8 @@ type KeyVaultPropertiesARM struct {
 type NetworkRuleSetDefaultAction string
 
 const (
-	NetworkRuleSetDefaultActionAllow = NetworkRuleSetDefaultAction("Allow")
-	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
+	NetworkRuleSetDefaultAction_Allow = NetworkRuleSetDefaultAction("Allow")
+	NetworkRuleSetDefaultAction_Deny  = NetworkRuleSetDefaultAction("Deny")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
@@ -244,40 +244,40 @@ type TrustPolicyARM struct {
 type ExportPolicyStatus string
 
 const (
-	ExportPolicyStatusDisabled = ExportPolicyStatus("disabled")
-	ExportPolicyStatusEnabled  = ExportPolicyStatus("enabled")
+	ExportPolicyStatus_Disabled = ExportPolicyStatus("disabled")
+	ExportPolicyStatus_Enabled  = ExportPolicyStatus("enabled")
 )
 
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
-const IPRuleActionAllow = IPRuleAction("Allow")
+const IPRuleAction_Allow = IPRuleAction("Allow")
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicyStatus string
 
 const (
-	QuarantinePolicyStatusDisabled = QuarantinePolicyStatus("disabled")
-	QuarantinePolicyStatusEnabled  = QuarantinePolicyStatus("enabled")
+	QuarantinePolicyStatus_Disabled = QuarantinePolicyStatus("disabled")
+	QuarantinePolicyStatus_Enabled  = QuarantinePolicyStatus("enabled")
 )
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicyStatus string
 
 const (
-	RetentionPolicyStatusDisabled = RetentionPolicyStatus("disabled")
-	RetentionPolicyStatusEnabled  = RetentionPolicyStatus("enabled")
+	RetentionPolicyStatus_Disabled = RetentionPolicyStatus("disabled")
+	RetentionPolicyStatus_Enabled  = RetentionPolicyStatus("enabled")
 )
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicyStatus string
 
 const (
-	TrustPolicyStatusDisabled = TrustPolicyStatus("disabled")
-	TrustPolicyStatusEnabled  = TrustPolicyStatus("enabled")
+	TrustPolicyStatus_Disabled = TrustPolicyStatus("disabled")
+	TrustPolicyStatus_Enabled  = TrustPolicyStatus("enabled")
 )
 
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicyType string
 
-const TrustPolicyTypeNotary = TrustPolicyType("Notary")
+const TrustPolicyType_Notary = TrustPolicyType("Notary")

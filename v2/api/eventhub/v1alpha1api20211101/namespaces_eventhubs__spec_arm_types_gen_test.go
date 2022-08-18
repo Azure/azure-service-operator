@@ -20,7 +20,7 @@ import (
 func Test_NamespacesEventhubs_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -97,7 +97,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecARM(gens map[string]g
 func Test_NamespacesEventhubs_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -173,7 +173,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecPropertiesARM(gens ma
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -238,7 +238,7 @@ func NamespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator() gopter.Ge
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescriptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDescriptionARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_Avro, NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())
@@ -252,7 +252,7 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDesc
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

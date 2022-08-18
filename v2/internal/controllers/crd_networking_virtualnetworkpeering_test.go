@@ -53,7 +53,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(peering)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -93,7 +93,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 	tc.PatchResourceAndWait(old, vnet1)
 
 	// Now ensure that the VirtualNetworkPeering still exists
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

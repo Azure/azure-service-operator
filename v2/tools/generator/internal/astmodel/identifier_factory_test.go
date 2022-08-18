@@ -170,30 +170,31 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		// Base cases
 		{"Address", "address"},
 		// Forbidden receiver suffixes
-		{"Address_Status", "address"},
-		{"Address_Spec", "address"},
-		{"Address_SpecARM", "address"},
+		{"Address" + StatusSuffix, "address"},
+		{"Address" + SpecSuffix, "address"},
+		{"Address" + StatusSuffix + "ARM", "address"},
+		{"Address" + SpecSuffix + "ARM", "address"},
 		// Real world examples
 		{"EncryptionSettingsCollection", "collection"},
 		{"RedisLinkedServer", "server"},
 		{"FlexibleServersConfiguration", "configuration"},
-		{"CompositePath_Status", "path"},
+		{"CompositePath" + StatusSuffix, "path"},
 		// Long examples
-		{"VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile", "profile"},
-		{"VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions", "extensions"},
-		{"ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes", "prefixes"},
-		{"DatabaseAccountsMongodbDatabasesCollections_Spec", "collections"},
-		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec", "settings"},
+		{"VirtualMachineScaleSets" + SpecSuffix + "Properties_VirtualMachineProfile_ExtensionProfile", "profile"},
+		{"VirtualMachineScaleSets" + SpecSuffix + "Properties_VirtualMachineProfile_ExtensionProfile_Extensions", "extensions"},
+		{"ManagedClusterLoadBalancerProfile" + StatusSuffix + "OutboundIPPrefixes", "prefixes"},
+		{"DatabaseAccountsMongodbDatabasesCollections" + SpecSuffix, "collections"},
+		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings" + SpecSuffix, "settings"},
 		// Very short receiver names need more detail
-		{"SignalR_SpecARM", "signalR"},
-		{"PublicIPAddressSku_Status", "addressSku"},
-		{"SBSku_Status", "sbSku"},
+		{"SignalR" + SpecSuffix + "ARM", "signalR"},
+		{"PublicIPAddressSku" + StatusSuffix, "addressSku"},
+		{"SBSku" + StatusSuffix, "sbSku"},
 		{"ManagedClusterSKU", "clusterSKU"},
 		{"AdvancedFilter_NumberIn", "numberIn"},
 		{"AdvancedFilter_NumberNotIn", "notIn"},
-		{"DiskSku_Status", "diskSku"},
+		{"DiskSku" + StatusSuffix, "diskSku"},
 		// Conflicts with reserved words need more detail
-		{"BlobRestoreRange_Status", "restoreRange"},
+		{"BlobRestoreRange" + StatusSuffix, "restoreRange"},
 	}
 
 	factory := NewIdentifierFactory()

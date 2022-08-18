@@ -222,12 +222,21 @@ func (typeName TypeName) IsEmpty() bool {
 	return typeName == EmptyTypeName
 }
 
+const (
+	// SpecSuffix is the suffix used for all Spec types
+	SpecSuffix = "_Spec"
+	// StatusSuffix is the suffix used for all Status types
+	StatusSuffix = "_STATUS"
+)
+
 // IsSpec returns true if the type name specifies a spec
-func IsSpec(name TypeName) bool {
-	return strings.HasSuffix(name.Name(), "_Spec")
+// Sometimes we build type names by adding a suffix after _Spec, so we need to use a contains check
+func (typeName TypeName) IsSpec() bool {
+	return strings.Contains(typeName.Name(), SpecSuffix)
 }
 
 // IsStatus returns true if the type name specifies a status
-func IsStatus(name TypeName) bool {
-	return strings.HasSuffix(name.Name(), "_Status")
+// Sometimes we build type names by adding a suffix after _STATUS, so we need to use a contains check
+func (typeName TypeName) IsStatus() bool {
+	return strings.Contains(typeName.Name(), StatusSuffix)
 }

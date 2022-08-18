@@ -162,35 +162,35 @@ func NamespacesEventhubsConsumerGroupGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup(gens map[string]gopter.Gen) {
 	gens["Spec"] = NamespacesEventhubsConsumergroupsSpecGenerator()
-	gens["Status"] = ConsumerGroupStatusGenerator()
+	gens["Status"] = ConsumerGroupSTATUSGenerator()
 }
 
-func Test_ConsumerGroup_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ConsumerGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ConsumerGroup_Status to ConsumerGroup_Status via AssignPropertiesToConsumerGroupStatus & AssignPropertiesFromConsumerGroupStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConsumerGroupStatus, ConsumerGroupStatusGenerator()))
+		"Round trip from ConsumerGroup_STATUS to ConsumerGroup_STATUS via AssignPropertiesToConsumerGroupSTATUS & AssignPropertiesFromConsumerGroupSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConsumerGroupSTATUS, ConsumerGroupSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForConsumerGroupStatus tests if a specific instance of ConsumerGroup_Status can be assigned to v1beta20211101storage and back losslessly
-func RunPropertyAssignmentTestForConsumerGroupStatus(subject ConsumerGroup_Status) string {
+// RunPropertyAssignmentTestForConsumerGroupSTATUS tests if a specific instance of ConsumerGroup_STATUS can be assigned to v1beta20211101storage and back losslessly
+func RunPropertyAssignmentTestForConsumerGroupSTATUS(subject ConsumerGroup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.ConsumerGroup_Status
-	err := copied.AssignPropertiesToConsumerGroupStatus(&other)
+	var other v20211101s.ConsumerGroup_STATUS
+	err := copied.AssignPropertiesToConsumerGroupSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ConsumerGroup_Status
-	err = actual.AssignPropertiesFromConsumerGroupStatus(&other)
+	var actual ConsumerGroup_STATUS
+	err = actual.AssignPropertiesFromConsumerGroupSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForConsumerGroupStatus(subject ConsumerGroup_Statu
 	return ""
 }
 
-func Test_ConsumerGroup_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConsumerGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConsumerGroup_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConsumerGroupStatus, ConsumerGroupStatusGenerator()))
+		"Round trip of ConsumerGroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConsumerGroupSTATUS, ConsumerGroupSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConsumerGroupStatus runs a test to see if a specific instance of ConsumerGroup_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status) string {
+// RunJSONSerializationTestForConsumerGroupSTATUS runs a test to see if a specific instance of ConsumerGroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForConsumerGroupSTATUS(subject ConsumerGroup_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status
 	}
 
 	// Deserialize back into memory
-	var actual ConsumerGroup_Status
+	var actual ConsumerGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,34 +246,34 @@ func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status
 	return ""
 }
 
-// Generator of ConsumerGroup_Status instances for property testing - lazily instantiated by
-// ConsumerGroupStatusGenerator()
-var consumerGroupStatusGenerator gopter.Gen
+// Generator of ConsumerGroup_STATUS instances for property testing - lazily instantiated by
+// ConsumerGroupSTATUSGenerator()
+var consumerGroupSTATUSGenerator gopter.Gen
 
-// ConsumerGroupStatusGenerator returns a generator of ConsumerGroup_Status instances for property testing.
-// We first initialize consumerGroupStatusGenerator with a simplified generator based on the
+// ConsumerGroupSTATUSGenerator returns a generator of ConsumerGroup_STATUS instances for property testing.
+// We first initialize consumerGroupSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ConsumerGroupStatusGenerator() gopter.Gen {
-	if consumerGroupStatusGenerator != nil {
-		return consumerGroupStatusGenerator
+func ConsumerGroupSTATUSGenerator() gopter.Gen {
+	if consumerGroupSTATUSGenerator != nil {
+		return consumerGroupSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupStatus(generators)
-	consumerGroupStatusGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_Status{}), generators)
+	AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(generators)
+	consumerGroupSTATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupStatus(generators)
-	AddRelatedPropertyGeneratorsForConsumerGroupStatus(generators)
-	consumerGroupStatusGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_Status{}), generators)
+	AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(generators)
+	AddRelatedPropertyGeneratorsForConsumerGroupSTATUS(generators)
+	consumerGroupSTATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
 
-	return consumerGroupStatusGenerator
+	return consumerGroupSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConsumerGroupStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConsumerGroupSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -283,9 +283,9 @@ func AddIndependentPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopt
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForConsumerGroupStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForConsumerGroupSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConsumerGroupSTATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
 }
 
 func Test_NamespacesEventhubsConsumergroups_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

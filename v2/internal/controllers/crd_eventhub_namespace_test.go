@@ -23,8 +23,8 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	skuTier := eventhub.SkuTierStandard
-	skuName := eventhub.SkuNameStandard
+	skuTier := eventhub.SkuTier_Standard
+	skuName := eventhub.SkuName_Standard
 	namespace := &eventhub.Namespace{
 		ObjectMeta: tc.MakeObjectMeta("namespace"),
 		Spec: eventhub.Namespaces_Spec{
@@ -70,7 +70,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -124,8 +124,8 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 		Spec: eventhub.NamespacesAuthorizationRules_Spec{
 			Owner: testcommon.AsOwner(namespace),
 			Rights: []eventhub.AuthorizationRulePropertiesRights{
-				eventhub.AuthorizationRulePropertiesRightsListen,
-				eventhub.AuthorizationRulePropertiesRightsSend,
+				eventhub.AuthorizationRulePropertiesRights_Listen,
+				eventhub.AuthorizationRulePropertiesRights_Send,
 			},
 		},
 	}
@@ -145,8 +145,8 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 		Spec: eventhub.NamespacesEventhubsAuthorizationRules_Spec{
 			Owner: testcommon.AsOwner(eh),
 			Rights: []eventhub.AuthorizationRulePropertiesRights{
-				eventhub.AuthorizationRulePropertiesRightsListen,
-				eventhub.AuthorizationRulePropertiesRightsSend,
+				eventhub.AuthorizationRulePropertiesRights_Listen,
+				eventhub.AuthorizationRulePropertiesRights_Send,
 			},
 		},
 	}

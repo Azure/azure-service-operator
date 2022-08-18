@@ -27,7 +27,7 @@ type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesEventhubsConsumergroups_Spec `json:"spec,omitempty"`
-	Status            ConsumerGroup_Status                   `json:"status,omitempty"`
+	Status            ConsumerGroup_STATUS                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -51,7 +51,7 @@ func (group *NamespacesEventhubsConsumerGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ConsumerGroup_Status{}
+	return &ConsumerGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ConsumerGroup_Status); ok {
+	if st, ok := status.(*ConsumerGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ConsumerGroup_Status
+	var st ConsumerGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,24 +129,24 @@ type NamespacesEventhubsConsumerGroupList struct {
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
-// Storage version of v1beta20211101.ConsumerGroup_Status
-type ConsumerGroup_Status struct {
+// Storage version of v1beta20211101.ConsumerGroup_STATUS
+type ConsumerGroup_STATUS struct {
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreatedAt    *string                `json:"createdAt,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 	Location     *string                `json:"location,omitempty"`
 	Name         *string                `json:"name,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData   *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData   *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type         *string                `json:"type,omitempty"`
 	UpdatedAt    *string                `json:"updatedAt,omitempty"`
 	UserMetadata *string                `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ConsumerGroup_Status{}
+var _ genruntime.ConvertibleStatus = &ConsumerGroup_STATUS{}
 
-// ConvertStatusFrom populates our ConsumerGroup_Status from the provided source
-func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ConsumerGroup_STATUS from the provided source
+func (group *ConsumerGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -154,8 +154,8 @@ func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.Convertib
 	return source.ConvertStatusTo(group)
 }
 
-// ConvertStatusTo populates the provided destination from our ConsumerGroup_Status
-func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

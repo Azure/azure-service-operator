@@ -21,13 +21,13 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccessEnabled
-	zoneRedundancy := containerregistry.RegistryPropertiesZoneRedundancyDisabled
+	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccess_Enabled
+	zoneRedundancy := containerregistry.RegistryPropertiesZoneRedundancy_Disabled
 	adminUserEnabled := false
 	name := tc.NoSpaceNamer.GenerateName("registry")
 
 	// Create a ContainerRegistry
-	skuName := containerregistry.SkuNameBasic
+	skuName := containerregistry.SkuName_Basic
 	acct := containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: containerregistry.Registries_Spec{

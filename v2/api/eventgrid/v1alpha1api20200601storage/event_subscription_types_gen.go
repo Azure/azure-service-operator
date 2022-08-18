@@ -26,7 +26,7 @@ type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
-	Status            EventSubscription_Status `json:"status,omitempty"`
+	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &EventSubscription{}
@@ -72,7 +72,7 @@ func (subscription *EventSubscription) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -97,7 +97,7 @@ func (subscription *EventSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EventSubscription_Status{}
+	return &EventSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -112,13 +112,13 @@ func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EventSubscription_Status); ok {
+	if st, ok := status.(*EventSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EventSubscription_Status
+	var st EventSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,10 +143,10 @@ func (subscription *EventSubscription) AssignPropertiesFromEventSubscription(sou
 	subscription.Spec = spec
 
 	// Status
-	var status EventSubscription_Status
-	err = status.AssignPropertiesFromEventSubscriptionStatus(&source.Status)
+	var status EventSubscription_STATUS
+	err = status.AssignPropertiesFromEventSubscriptionSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionSTATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -169,10 +169,10 @@ func (subscription *EventSubscription) AssignPropertiesToEventSubscription(desti
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.EventSubscription_Status
-	err = subscription.Status.AssignPropertiesToEventSubscriptionStatus(&status)
+	var status v20200601s.EventSubscription_STATUS
+	err = subscription.Status.AssignPropertiesToEventSubscriptionSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,45 +198,45 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
-// Storage version of v1alpha1api20200601.EventSubscription_Status
-// Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
-type EventSubscription_Status struct {
+// Storage version of v1alpha1api20200601.EventSubscription_STATUS
+// Deprecated version of EventSubscription_STATUS. Use v1beta20200601.EventSubscription_STATUS instead
+type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_Status        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Status `json:"destination,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
 	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Status      `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS      `json:"filter,omitempty"`
 	Id                    *string                              `json:"id,omitempty"`
 	Labels                []string                             `json:"labels,omitempty"`
 	Name                  *string                              `json:"name,omitempty"`
 	PropertyBag           genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_Status                  `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_Status                   `json:"systemData,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                  `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Topic                 *string                              `json:"topic,omitempty"`
 	Type                  *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
+var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
-// ConvertStatusFrom populates our EventSubscription_Status from the provided source
-func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.EventSubscription_Status)
+// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
+func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+		return subscription.AssignPropertiesFromEventSubscriptionSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.EventSubscription_Status{}
+	src = &v20200601s.EventSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+	err = subscription.AssignPropertiesFromEventSubscriptionSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -244,17 +244,17 @@ func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our EventSubscription_Status
-func (subscription *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.EventSubscription_Status)
+// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+		return subscription.AssignPropertiesToEventSubscriptionSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.EventSubscription_Status{}
-	err := subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+	dst = &v20200601s.EventSubscription_STATUS{}
+	err := subscription.AssignPropertiesToEventSubscriptionSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -268,8 +268,8 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionStatus populates our EventSubscription_Status from the provided source EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscriptionStatus(source *v20200601s.EventSubscription_Status) error {
+// AssignPropertiesFromEventSubscriptionSTATUS populates our EventSubscription_STATUS from the provided source EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesFromEventSubscriptionSTATUS(source *v20200601s.EventSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -278,10 +278,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
-		var deadLetterDestination DeadLetterDestination_Status
-		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestinationStatus(source.DeadLetterDestination)
+		var deadLetterDestination DeadLetterDestination_STATUS
+		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestinationSTATUS(source.DeadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestinationSTATUS() to populate field DeadLetterDestination")
 		}
 		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -290,10 +290,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Destination
 	if source.Destination != nil {
-		var destination EventSubscriptionDestination_Status
-		err := destination.AssignPropertiesFromEventSubscriptionDestinationStatus(source.Destination)
+		var destination EventSubscriptionDestination_STATUS
+		err := destination.AssignPropertiesFromEventSubscriptionDestinationSTATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestinationSTATUS() to populate field Destination")
 		}
 		subscription.Destination = &destination
 	} else {
@@ -308,10 +308,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Filter
 	if source.Filter != nil {
-		var filter EventSubscriptionFilter_Status
-		err := filter.AssignPropertiesFromEventSubscriptionFilterStatus(source.Filter)
+		var filter EventSubscriptionFilter_STATUS
+		err := filter.AssignPropertiesFromEventSubscriptionFilterSTATUS(source.Filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilterSTATUS() to populate field Filter")
 		}
 		subscription.Filter = &filter
 	} else {
@@ -332,10 +332,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// RetryPolicy
 	if source.RetryPolicy != nil {
-		var retryPolicy RetryPolicy_Status
-		err := retryPolicy.AssignPropertiesFromRetryPolicyStatus(source.RetryPolicy)
+		var retryPolicy RetryPolicy_STATUS
+		err := retryPolicy.AssignPropertiesFromRetryPolicySTATUS(source.RetryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicySTATUS() to populate field RetryPolicy")
 		}
 		subscription.RetryPolicy = &retryPolicy
 	} else {
@@ -344,10 +344,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		subscription.SystemData = &systemDatum
 	} else {
@@ -371,8 +371,8 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionStatus populates the provided destination EventSubscription_Status from our EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptionStatus(destination *v20200601s.EventSubscription_Status) error {
+// AssignPropertiesToEventSubscriptionSTATUS populates the provided destination EventSubscription_STATUS from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesToEventSubscriptionSTATUS(destination *v20200601s.EventSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -381,10 +381,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-		var deadLetterDestination v20200601s.DeadLetterDestination_Status
-		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestinationStatus(&deadLetterDestination)
+		var deadLetterDestination v20200601s.DeadLetterDestination_STATUS
+		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestinationSTATUS(&deadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestinationSTATUS() to populate field DeadLetterDestination")
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -393,10 +393,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Destination
 	if subscription.Destination != nil {
-		var destinationLocal v20200601s.EventSubscriptionDestination_Status
-		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestinationStatus(&destinationLocal)
+		var destinationLocal v20200601s.EventSubscriptionDestination_STATUS
+		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestinationSTATUS(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestinationSTATUS() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -411,10 +411,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Filter
 	if subscription.Filter != nil {
-		var filter v20200601s.EventSubscriptionFilter_Status
-		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilterStatus(&filter)
+		var filter v20200601s.EventSubscriptionFilter_STATUS
+		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilterSTATUS(&filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilterSTATUS() to populate field Filter")
 		}
 		destination.Filter = &filter
 	} else {
@@ -435,10 +435,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
-		var retryPolicy v20200601s.RetryPolicy_Status
-		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicyStatus(&retryPolicy)
+		var retryPolicy v20200601s.RetryPolicy_STATUS
+		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicySTATUS(&retryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicySTATUS() to populate field RetryPolicy")
 		}
 		destination.RetryPolicy = &retryPolicy
 	} else {
@@ -447,10 +447,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum v20200601s.SystemData_Status
-		err := subscription.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20200601s.SystemData_STATUS
+		err := subscription.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -734,15 +734,15 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.DeadLetterDestination_Status
-// Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
-type DeadLetterDestination_Status struct {
+// Storage version of v1alpha1api20200601.DeadLetterDestination_STATUS
+// Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
+type DeadLetterDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromDeadLetterDestinationStatus populates our DeadLetterDestination_Status from the provided source DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterDestinationStatus(source *v20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesFromDeadLetterDestinationSTATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesFromDeadLetterDestinationSTATUS(source *v20200601s.DeadLetterDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -760,8 +760,8 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterD
 	return nil
 }
 
-// AssignPropertiesToDeadLetterDestinationStatus populates the provided destination DeadLetterDestination_Status from our DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDestinationStatus(target *v20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesToDeadLetterDestinationSTATUS populates the provided destination DeadLetterDestination_STATUS from our DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesToDeadLetterDestinationSTATUS(target *v20200601s.DeadLetterDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
 
@@ -992,15 +992,15 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.EventSubscriptionDestination_Status
-// Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
-type EventSubscriptionDestination_Status struct {
+// Storage version of v1alpha1api20200601.EventSubscriptionDestination_STATUS
+// Deprecated version of EventSubscriptionDestination_STATUS. Use v1beta20200601.EventSubscriptionDestination_STATUS instead
+type EventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromEventSubscriptionDestinationStatus populates our EventSubscriptionDestination_Status from the provided source EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEventSubscriptionDestinationStatus(source *v20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesFromEventSubscriptionDestinationSTATUS populates our EventSubscriptionDestination_STATUS from the provided source EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesFromEventSubscriptionDestinationSTATUS(source *v20200601s.EventSubscriptionDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1018,8 +1018,8 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEven
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionDestinationStatus populates the provided destination EventSubscriptionDestination_Status from our EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventSubscriptionDestinationStatus(target *v20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesToEventSubscriptionDestinationSTATUS populates the provided destination EventSubscriptionDestination_STATUS from our EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesToEventSubscriptionDestinationSTATUS(target *v20200601s.EventSubscriptionDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
 
@@ -1150,10 +1150,10 @@ func (filter *EventSubscriptionFilter) AssignPropertiesToEventSubscriptionFilter
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.EventSubscriptionFilter_Status
-// Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
-type EventSubscriptionFilter_Status struct {
-	AdvancedFilters        []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
+// Storage version of v1alpha1api20200601.EventSubscriptionFilter_STATUS
+// Deprecated version of EventSubscriptionFilter_STATUS. Use v1beta20200601.EventSubscriptionFilter_STATUS instead
+type EventSubscriptionFilter_STATUS struct {
+	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
 	IsSubjectCaseSensitive *bool                   `json:"isSubjectCaseSensitive,omitempty"`
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -1161,21 +1161,21 @@ type EventSubscriptionFilter_Status struct {
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
-// AssignPropertiesFromEventSubscriptionFilterStatus populates our EventSubscriptionFilter_Status from the provided source EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscriptionFilterStatus(source *v20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesFromEventSubscriptionFilterSTATUS populates our EventSubscriptionFilter_STATUS from the provided source EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesFromEventSubscriptionFilterSTATUS(source *v20200601s.EventSubscriptionFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdvancedFilters
 	if source.AdvancedFilters != nil {
-		advancedFilterList := make([]AdvancedFilter_Status, len(source.AdvancedFilters))
+		advancedFilterList := make([]AdvancedFilter_STATUS, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter AdvancedFilter_Status
-			err := advancedFilter.AssignPropertiesFromAdvancedFilterStatus(&advancedFilterItem)
+			var advancedFilter AdvancedFilter_STATUS
+			err := advancedFilter.AssignPropertiesFromAdvancedFilterSTATUS(&advancedFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterSTATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -1212,21 +1212,21 @@ func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionFilterStatus populates the provided destination EventSubscriptionFilter_Status from our EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesToEventSubscriptionFilterStatus(destination *v20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesToEventSubscriptionFilterSTATUS populates the provided destination EventSubscriptionFilter_STATUS from our EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesToEventSubscriptionFilterSTATUS(destination *v20200601s.EventSubscriptionFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
 	// AdvancedFilters
 	if filter.AdvancedFilters != nil {
-		advancedFilterList := make([]v20200601s.AdvancedFilter_Status, len(filter.AdvancedFilters))
+		advancedFilterList := make([]v20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter v20200601s.AdvancedFilter_Status
-			err := advancedFilterItem.AssignPropertiesToAdvancedFilterStatus(&advancedFilter)
+			var advancedFilter v20200601s.AdvancedFilter_STATUS
+			err := advancedFilterItem.AssignPropertiesToAdvancedFilterSTATUS(&advancedFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterSTATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -1315,16 +1315,16 @@ func (policy *RetryPolicy) AssignPropertiesToRetryPolicy(destination *v20200601s
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.RetryPolicy_Status
-// Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
-type RetryPolicy_Status struct {
+// Storage version of v1alpha1api20200601.RetryPolicy_STATUS
+// Deprecated version of RetryPolicy_STATUS. Use v1beta20200601.RetryPolicy_STATUS instead
+type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromRetryPolicyStatus populates our RetryPolicy_Status from the provided source RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *v20200601s.RetryPolicy_Status) error {
+// AssignPropertiesFromRetryPolicySTATUS populates our RetryPolicy_STATUS from the provided source RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesFromRetryPolicySTATUS(source *v20200601s.RetryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1345,8 +1345,8 @@ func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *
 	return nil
 }
 
-// AssignPropertiesToRetryPolicyStatus populates the provided destination RetryPolicy_Status from our RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destination *v20200601s.RetryPolicy_Status) error {
+// AssignPropertiesToRetryPolicySTATUS populates the provided destination RetryPolicy_STATUS from our RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesToRetryPolicySTATUS(destination *v20200601s.RetryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -1775,16 +1775,16 @@ func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.AdvancedFilter_Status
-// Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
-type AdvancedFilter_Status struct {
+// Storage version of v1alpha1api20200601.AdvancedFilter_STATUS
+// Deprecated version of AdvancedFilter_STATUS. Use v1beta20200601.AdvancedFilter_STATUS instead
+type AdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromAdvancedFilterStatus populates our AdvancedFilter_Status from the provided source AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(source *v20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesFromAdvancedFilterSTATUS populates our AdvancedFilter_STATUS from the provided source AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesFromAdvancedFilterSTATUS(source *v20200601s.AdvancedFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1805,8 +1805,8 @@ func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(so
 	return nil
 }
 
-// AssignPropertiesToAdvancedFilterStatus populates the provided destination AdvancedFilter_Status from our AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(destination *v20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesToAdvancedFilterSTATUS populates the provided destination AdvancedFilter_STATUS from our AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesToAdvancedFilterSTATUS(destination *v20200601s.AdvancedFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 

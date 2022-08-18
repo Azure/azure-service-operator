@@ -27,7 +27,7 @@ type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Aliases_Spec                     `json:"spec,omitempty"`
-	Status            SubscriptionAliasResponse_Status `json:"status,omitempty"`
+	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Alias{}
@@ -51,7 +51,7 @@ func (alias *Alias) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (alias Alias) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (alias *Alias) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SubscriptionAliasResponse_Status{}
+	return &SubscriptionAliasResponse_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -87,13 +87,13 @@ func (alias *Alias) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SubscriptionAliasResponse_Status); ok {
+	if st, ok := status.(*SubscriptionAliasResponse_STATUS); ok {
 		alias.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SubscriptionAliasResponse_Status
+	var st SubscriptionAliasResponse_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -123,12 +123,6 @@ type AliasList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Alias `json:"items"`
 }
-
-// Storage version of v1beta20211001.APIVersion
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type APIVersion string
-
-const APIVersionValue = APIVersion("2021-10-01")
 
 // Storage version of v1beta20211001.Aliases_Spec
 type Aliases_Spec struct {
@@ -160,21 +154,27 @@ func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return destination.ConvertSpecFrom(aliases)
 }
 
-// Storage version of v1beta20211001.SubscriptionAliasResponse_Status
-type SubscriptionAliasResponse_Status struct {
+// Storage version of v1beta20211001.APIVersion
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2021-10-01")
+
+// Storage version of v1beta20211001.SubscriptionAliasResponse_STATUS
+type SubscriptionAliasResponse_STATUS struct {
 	Conditions  []conditions.Condition                      `json:"conditions,omitempty"`
 	Id          *string                                     `json:"id,omitempty"`
 	Name        *string                                     `json:"name,omitempty"`
-	Properties  *SubscriptionAliasResponseProperties_Status `json:"properties,omitempty"`
+	Properties  *SubscriptionAliasResponseProperties_STATUS `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status                          `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS                          `json:"systemData,omitempty"`
 	Type        *string                                     `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SubscriptionAliasResponse_Status{}
+var _ genruntime.ConvertibleStatus = &SubscriptionAliasResponse_STATUS{}
 
-// ConvertStatusFrom populates our SubscriptionAliasResponse_Status from the provided source
-func (response *SubscriptionAliasResponse_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SubscriptionAliasResponse_STATUS from the provided source
+func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == response {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -182,8 +182,8 @@ func (response *SubscriptionAliasResponse_Status) ConvertStatusFrom(source genru
 	return source.ConvertStatusTo(response)
 }
 
-// ConvertStatusTo populates the provided destination from our SubscriptionAliasResponse_Status
-func (response *SubscriptionAliasResponse_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SubscriptionAliasResponse_STATUS
+func (response *SubscriptionAliasResponse_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == response {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -203,8 +203,8 @@ type PutAliasRequestProperties struct {
 	Workload             *string                              `json:"workload,omitempty"`
 }
 
-// Storage version of v1beta20211001.SubscriptionAliasResponseProperties_Status
-type SubscriptionAliasResponseProperties_Status struct {
+// Storage version of v1beta20211001.SubscriptionAliasResponseProperties_STATUS
+type SubscriptionAliasResponseProperties_STATUS struct {
 	AcceptOwnershipState *string                `json:"acceptOwnershipState,omitempty"`
 	AcceptOwnershipUrl   *string                `json:"acceptOwnershipUrl,omitempty"`
 	BillingScope         *string                `json:"billingScope,omitempty"`
@@ -220,8 +220,8 @@ type SubscriptionAliasResponseProperties_Status struct {
 	Workload             *string                `json:"workload,omitempty"`
 }
 
-// Storage version of v1beta20211001.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20211001.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`

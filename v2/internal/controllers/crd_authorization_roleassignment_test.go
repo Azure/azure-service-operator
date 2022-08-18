@@ -69,7 +69,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(authorization.APIVersionValue))
+		string(authorization.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -95,9 +95,9 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
+	kind := storage.StorageAccountsSpecKind_BlobStorage
+	sku := storage.SkuName_StandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
@@ -143,7 +143,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(authorization.APIVersionValue))
+		string(authorization.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

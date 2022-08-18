@@ -20,7 +20,7 @@ import (
 func Test_Components_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -153,17 +153,17 @@ func ApplicationInsightsComponentPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(gens map[string]gopter.Gen) {
-	gens["ApplicationType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationTypeOther, ApplicationInsightsComponentPropertiesApplicationTypeWeb))
+	gens["ApplicationType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesApplicationType_Other, ApplicationInsightsComponentPropertiesApplicationType_Web))
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["FlowType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesFlowTypeBluefield))
+	gens["FlowType"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesFlowType_Bluefield))
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesIngestionModeApplicationInsights, ApplicationInsightsComponentPropertiesIngestionModeApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionDisabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryDisabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled))
-	gens["RequestSource"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesRequestSourceRest))
+	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsights, ApplicationInsightsComponentPropertiesIngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentPropertiesIngestionMode_LogAnalytics))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Disabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Disabled, ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery_Enabled))
+	gens["RequestSource"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentPropertiesRequestSource_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())

@@ -27,7 +27,7 @@ type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Components_Spec                     `json:"spec,omitempty"`
-	Status            ApplicationInsightsComponent_Status `json:"status,omitempty"`
+	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Component{}
@@ -73,7 +73,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -98,7 +98,7 @@ func (component *Component) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationInsightsComponent_Status{}
+	return &ApplicationInsightsComponent_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -114,13 +114,13 @@ func (component *Component) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationInsightsComponent_Status); ok {
+	if st, ok := status.(*ApplicationInsightsComponent_STATUS); ok {
 		component.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationInsightsComponent_Status
+	var st ApplicationInsightsComponent_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -145,10 +145,10 @@ func (component *Component) AssignPropertiesFromComponent(source *v20200202s.Com
 	component.Spec = spec
 
 	// Status
-	var status ApplicationInsightsComponent_Status
-	err = status.AssignPropertiesFromApplicationInsightsComponentStatus(&source.Status)
+	var status ApplicationInsightsComponent_STATUS
+	err = status.AssignPropertiesFromApplicationInsightsComponentSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponentSTATUS() to populate field Status")
 	}
 	component.Status = status
 
@@ -171,10 +171,10 @@ func (component *Component) AssignPropertiesToComponent(destination *v20200202s.
 	destination.Spec = spec
 
 	// Status
-	var status v20200202s.ApplicationInsightsComponent_Status
-	err = component.Status.AssignPropertiesToApplicationInsightsComponentStatus(&status)
+	var status v20200202s.ApplicationInsightsComponent_STATUS
+	err = component.Status.AssignPropertiesToApplicationInsightsComponentSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -205,11 +205,11 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-02-02")
+const APIVersion_Value = APIVersion("2020-02-02")
 
-// Storage version of v1alpha1api20200202.ApplicationInsightsComponent_Status
-// Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
-type ApplicationInsightsComponent_Status struct {
+// Storage version of v1alpha1api20200202.ApplicationInsightsComponent_STATUS
+// Deprecated version of ApplicationInsightsComponent_STATUS. Use v1beta20200202.ApplicationInsightsComponent_STATUS instead
+type ApplicationInsightsComponent_STATUS struct {
 	AppId                           *string                            `json:"AppId,omitempty"`
 	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
 	ApplicationType                 *string                            `json:"Application_Type,omitempty"`
@@ -231,7 +231,7 @@ type ApplicationInsightsComponent_Status struct {
 	LaMigrationDate                 *string                            `json:"LaMigrationDate,omitempty"`
 	Location                        *string                            `json:"location,omitempty"`
 	Name                            *string                            `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status `json:"PrivateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"PrivateLinkScopedResources,omitempty"`
 	PropertiesName                  *string                            `json:"properties_name,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
@@ -246,25 +246,25 @@ type ApplicationInsightsComponent_Status struct {
 	WorkspaceResourceId             *string                            `json:"WorkspaceResourceId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_Status{}
+var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_STATUS{}
 
-// ConvertStatusFrom populates our ApplicationInsightsComponent_Status from the provided source
-func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200202s.ApplicationInsightsComponent_Status)
+// ConvertStatusFrom populates our ApplicationInsightsComponent_STATUS from the provided source
+func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200202s.ApplicationInsightsComponent_STATUS)
 	if ok {
 		// Populate our instance from source
-		return component.AssignPropertiesFromApplicationInsightsComponentStatus(src)
+		return component.AssignPropertiesFromApplicationInsightsComponentSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200202s.ApplicationInsightsComponent_Status{}
+	src = &v20200202s.ApplicationInsightsComponent_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = component.AssignPropertiesFromApplicationInsightsComponentStatus(src)
+	err = component.AssignPropertiesFromApplicationInsightsComponentSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -272,17 +272,17 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source g
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200202s.ApplicationInsightsComponent_Status)
+// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200202s.ApplicationInsightsComponent_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
+		return component.AssignPropertiesToApplicationInsightsComponentSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200202s.ApplicationInsightsComponent_Status{}
-	err := component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
+	dst = &v20200202s.ApplicationInsightsComponent_STATUS{}
+	err := component.AssignPropertiesToApplicationInsightsComponentSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -296,8 +296,8 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 	return nil
 }
 
-// AssignPropertiesFromApplicationInsightsComponentStatus populates our ApplicationInsightsComponent_Status from the provided source ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplicationInsightsComponentStatus(source *v20200202s.ApplicationInsightsComponent_Status) error {
+// AssignPropertiesFromApplicationInsightsComponentSTATUS populates our ApplicationInsightsComponent_STATUS from the provided source ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplicationInsightsComponentSTATUS(source *v20200202s.ApplicationInsightsComponent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -386,14 +386,14 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 
 	// PrivateLinkScopedResources
 	if source.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_Status, len(source.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_STATUS, len(source.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource PrivateLinkScopedResource_Status
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
+			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
+			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceSTATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceSTATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -456,8 +456,8 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	return nil
 }
 
-// AssignPropertiesToApplicationInsightsComponentStatus populates the provided destination ApplicationInsightsComponent_Status from our ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicationInsightsComponentStatus(destination *v20200202s.ApplicationInsightsComponent_Status) error {
+// AssignPropertiesToApplicationInsightsComponentSTATUS populates the provided destination ApplicationInsightsComponent_STATUS from our ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicationInsightsComponentSTATUS(destination *v20200202s.ApplicationInsightsComponent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(component.PropertyBag)
 
@@ -546,14 +546,14 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 
 	// PrivateLinkScopedResources
 	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource_Status, len(component.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_Status
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
+			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_STATUS
+			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceSTATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceSTATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -928,16 +928,16 @@ func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination 
 	return nil
 }
 
-// Storage version of v1alpha1api20200202.PrivateLinkScopedResource_Status
-// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
-type PrivateLinkScopedResource_Status struct {
+// Storage version of v1alpha1api20200202.PrivateLinkScopedResource_STATUS
+// Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20200202.PrivateLinkScopedResource_STATUS instead
+type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`
 	ScopeId     *string                `json:"ScopeId,omitempty"`
 }
 
-// AssignPropertiesFromPrivateLinkScopedResourceStatus populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v20200202s.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesFromPrivateLinkScopedResourceSTATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesFromPrivateLinkScopedResourceSTATUS(source *v20200202s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -958,8 +958,8 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLin
 	return nil
 }
 
-// AssignPropertiesToPrivateLinkScopedResourceStatus populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v20200202s.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesToPrivateLinkScopedResourceSTATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkScopedResourceSTATUS(destination *v20200202s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

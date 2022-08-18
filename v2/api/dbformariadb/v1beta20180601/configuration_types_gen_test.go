@@ -161,35 +161,35 @@ func ConfigurationGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForConfiguration is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForConfiguration(gens map[string]gopter.Gen) {
 	gens["Spec"] = ServersConfigurationsSpecGenerator()
-	gens["Status"] = ConfigurationStatusGenerator()
+	gens["Status"] = ConfigurationSTATUSGenerator()
 }
 
-func Test_Configuration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Configuration_Status to Configuration_Status via AssignPropertiesToConfigurationStatus & AssignPropertiesFromConfigurationStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConfigurationStatus, ConfigurationStatusGenerator()))
+		"Round trip from Configuration_STATUS to Configuration_STATUS via AssignPropertiesToConfigurationSTATUS & AssignPropertiesFromConfigurationSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConfigurationSTATUS, ConfigurationSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForConfigurationStatus tests if a specific instance of Configuration_Status can be assigned to v1beta20180601storage and back losslessly
-func RunPropertyAssignmentTestForConfigurationStatus(subject Configuration_Status) string {
+// RunPropertyAssignmentTestForConfigurationSTATUS tests if a specific instance of Configuration_STATUS can be assigned to v1beta20180601storage and back losslessly
+func RunPropertyAssignmentTestForConfigurationSTATUS(subject Configuration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Configuration_Status
-	err := copied.AssignPropertiesToConfigurationStatus(&other)
+	var other v20180601s.Configuration_STATUS
+	err := copied.AssignPropertiesToConfigurationSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Configuration_Status
-	err = actual.AssignPropertiesFromConfigurationStatus(&other)
+	var actual Configuration_STATUS
+	err = actual.AssignPropertiesFromConfigurationSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForConfigurationStatus(subject Configuration_Statu
 	return ""
 }
 
-func Test_Configuration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Configuration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationStatus, ConfigurationStatusGenerator()))
+		"Round trip of Configuration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationSTATUS, ConfigurationSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationStatus runs a test to see if a specific instance of Configuration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationStatus(subject Configuration_Status) string {
+// RunJSONSerializationTestForConfigurationSTATUS runs a test to see if a specific instance of Configuration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationSTATUS(subject Configuration_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForConfigurationStatus(subject Configuration_Status
 	}
 
 	// Deserialize back into memory
-	var actual Configuration_Status
+	var actual Configuration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,25 +245,25 @@ func RunJSONSerializationTestForConfigurationStatus(subject Configuration_Status
 	return ""
 }
 
-// Generator of Configuration_Status instances for property testing - lazily instantiated by
-// ConfigurationStatusGenerator()
-var configurationStatusGenerator gopter.Gen
+// Generator of Configuration_STATUS instances for property testing - lazily instantiated by
+// ConfigurationSTATUSGenerator()
+var configurationSTATUSGenerator gopter.Gen
 
-// ConfigurationStatusGenerator returns a generator of Configuration_Status instances for property testing.
-func ConfigurationStatusGenerator() gopter.Gen {
-	if configurationStatusGenerator != nil {
-		return configurationStatusGenerator
+// ConfigurationSTATUSGenerator returns a generator of Configuration_STATUS instances for property testing.
+func ConfigurationSTATUSGenerator() gopter.Gen {
+	if configurationSTATUSGenerator != nil {
+		return configurationSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationStatus(generators)
-	configurationStatusGenerator = gen.Struct(reflect.TypeOf(Configuration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForConfigurationSTATUS(generators)
+	configurationSTATUSGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUS{}), generators)
 
-	return configurationStatusGenerator
+	return configurationSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfigurationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConfigurationSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfigurationSTATUS(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["DataType"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())

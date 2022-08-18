@@ -20,7 +20,7 @@ import (
 func Test_ManagedClusters_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -156,7 +156,7 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_ManagedClusterIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -217,7 +217,7 @@ func ManagedClusterIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityTypeNone, ManagedClusterIdentityTypeSystemAssigned, ManagedClusterIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentityType_None, ManagedClusterIdentityType_SystemAssigned, ManagedClusterIdentityType_UserAssigned))
 }
 
 func Test_ManagedClusterPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -373,8 +373,8 @@ func ManagedClusterSKUARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSKUARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSKUARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUNameBasic))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUTierFree, ManagedClusterSKUTierPaid))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUName_Basic))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKUTier_Free, ManagedClusterSKUTier_Paid))
 }
 
 func Test_Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -585,11 +585,11 @@ func ContainerServiceNetworkProfileARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileARM(gens map[string]gopter.Gen) {
 	gens["DnsServiceIP"] = gen.PtrOf(gen.AlphaString())
 	gens["DockerBridgeCidr"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileLoadBalancerSkuBasic, ContainerServiceNetworkProfileLoadBalancerSkuStandard))
-	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkModeBridge, ContainerServiceNetworkProfileNetworkModeTransparent))
-	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPluginAzure, ContainerServiceNetworkProfileNetworkPluginKubenet))
-	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPolicyAzure, ContainerServiceNetworkProfileNetworkPolicyCalico))
-	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileOutboundTypeLoadBalancer, ContainerServiceNetworkProfileOutboundTypeUserDefinedRouting))
+	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileLoadBalancerSku_Basic, ContainerServiceNetworkProfileLoadBalancerSku_Standard))
+	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkMode_Bridge, ContainerServiceNetworkProfileNetworkMode_Transparent))
+	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPlugin_Azure, ContainerServiceNetworkProfileNetworkPlugin_Kubenet))
+	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileNetworkPolicy_Azure, ContainerServiceNetworkProfileNetworkPolicy_Calico))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfileOutboundType_LoadBalancer, ContainerServiceNetworkProfileOutboundType_UserDefinedRouting))
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
@@ -664,70 +664,6 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfileARM(gens map[str
 	gens["ServerAppID"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerAppSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ManagedClusterAPIServerAccessProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAPIServerAccessProfileARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM, ManagedClusterAPIServerAccessProfileARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfileARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject ManagedClusterAPIServerAccessProfileARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterAPIServerAccessProfileARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterAPIServerAccessProfileARM instances for property testing - lazily instantiated by
-// ManagedClusterAPIServerAccessProfileARMGenerator()
-var managedClusterAPIServerAccessProfileARMGenerator gopter.Gen
-
-// ManagedClusterAPIServerAccessProfileARMGenerator returns a generator of ManagedClusterAPIServerAccessProfileARM instances for property testing.
-func ManagedClusterAPIServerAccessProfileARMGenerator() gopter.Gen {
-	if managedClusterAPIServerAccessProfileARMGenerator != nil {
-		return managedClusterAPIServerAccessProfileARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(generators)
-	managedClusterAPIServerAccessProfileARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfileARM{}), generators)
-
-	return managedClusterAPIServerAccessProfileARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(gens map[string]gopter.Gen) {
-	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
-	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
-	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterAddonProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -867,32 +803,32 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileARM(gens m
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG1G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG2G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG3G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG4G,
-		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileKubeletDiskTypeOS, ManagedClusterAgentPoolProfileKubeletDiskTypeTemporary))
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG1G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG2G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG3G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG4G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfile_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileKubeletDiskType_OS, ManagedClusterAgentPoolProfileKubeletDiskType_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileModeSystem, ManagedClusterAgentPoolProfileModeUser))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileMode_System, ManagedClusterAgentPoolProfileMode_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsDiskTypeEphemeral, ManagedClusterAgentPoolProfileOsDiskTypeManaged))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsSKUCBLMariner, ManagedClusterAgentPoolProfileOsSKUUbuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsTypeLinux, ManagedClusterAgentPoolProfileOsTypeWindows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsDiskType_Ephemeral, ManagedClusterAgentPoolProfileOsDiskType_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsSKU_CBLMariner, ManagedClusterAgentPoolProfileOsSKU_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileOsType_Linux, ManagedClusterAgentPoolProfileOsType_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDeallocate, ManagedClusterAgentPoolProfileScaleSetEvictionPolicyDelete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetPriorityRegular, ManagedClusterAgentPoolProfileScaleSetPrioritySpot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Deallocate, ManagedClusterAgentPoolProfileScaleSetEvictionPolicy_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileScaleSetPriority_Regular, ManagedClusterAgentPoolProfileScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileTypeAvailabilitySet, ManagedClusterAgentPoolProfileTypeVirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileType_AvailabilitySet, ManagedClusterAgentPoolProfileType_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }
@@ -902,6 +838,70 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileARM(gens map[s
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsARMGenerator())
+}
+
+func Test_ManagedClusterAPIServerAccessProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterAPIServerAccessProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM, ManagedClusterAPIServerAccessProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject ManagedClusterAPIServerAccessProfileARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterAPIServerAccessProfileARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterAPIServerAccessProfileARM instances for property testing - lazily instantiated by
+// ManagedClusterAPIServerAccessProfileARMGenerator()
+var managedClusterAPIServerAccessProfileARMGenerator gopter.Gen
+
+// ManagedClusterAPIServerAccessProfileARMGenerator returns a generator of ManagedClusterAPIServerAccessProfileARM instances for property testing.
+func ManagedClusterAPIServerAccessProfileARMGenerator() gopter.Gen {
+	if managedClusterAPIServerAccessProfileARMGenerator != nil {
+		return managedClusterAPIServerAccessProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(generators)
+	managedClusterAPIServerAccessProfileARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfileARM{}), generators)
+
+	return managedClusterAPIServerAccessProfileARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(gens map[string]gopter.Gen) {
+	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
+	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
+	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
+	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterAutoUpgradeProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -963,11 +963,11 @@ func ManagedClusterAutoUpgradeProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileARM(gens map[string]gopter.Gen) {
 	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterAutoUpgradeProfileUpgradeChannelNodeImage,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelNone,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelPatch,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelRapid,
-		ManagedClusterAutoUpgradeProfileUpgradeChannelStable))
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_NodeImage,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_None,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Patch,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Rapid,
+		ManagedClusterAutoUpgradeProfileUpgradeChannel_Stable))
 }
 
 func Test_ManagedClusterHTTPProxyConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1171,10 +1171,10 @@ func ManagedClusterPropertiesAutoScalerProfileARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfileARM(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
 	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
-		ManagedClusterPropertiesAutoScalerProfileExpanderLeastWaste,
-		ManagedClusterPropertiesAutoScalerProfileExpanderMostPods,
-		ManagedClusterPropertiesAutoScalerProfileExpanderPriority,
-		ManagedClusterPropertiesAutoScalerProfileExpanderRandom))
+		ManagedClusterPropertiesAutoScalerProfileExpander_LeastWaste,
+		ManagedClusterPropertiesAutoScalerProfileExpander_MostPods,
+		ManagedClusterPropertiesAutoScalerProfileExpander_Priority,
+		ManagedClusterPropertiesAutoScalerProfileExpander_Random))
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
@@ -1315,7 +1315,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileARM(gens map
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseTypeNone, ManagedClusterWindowsProfileLicenseTypeWindowsServer))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfileLicenseType_None, ManagedClusterWindowsProfileLicenseType_WindowsServer))
 }
 
 func Test_PrivateLinkResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

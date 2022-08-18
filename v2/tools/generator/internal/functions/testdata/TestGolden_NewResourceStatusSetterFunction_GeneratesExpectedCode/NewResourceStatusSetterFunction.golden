@@ -16,19 +16,19 @@
  	metav1.TypeMeta   `json:",inline"`
  	metav1.ObjectMeta `json:"metadata,omitempty"`
  	Spec              Person_Spec   `json:"spec,omitempty"`
- 	Status            Person_Status `json:"status,omitempty"`
+ 	Status            Person_STATUS `json:"status,omitempty"`
  }
  
 +// SetStatus sets the status of this resource
 +func (person *Person) SetStatus(status genruntime.ConvertibleStatus) error {
 +	// If we have exactly the right type of status, assign it
-+	if st, ok := status.(*Person_Status); ok {
++	if st, ok := status.(*Person_STATUS); ok {
 +		person.Status = *st
 +		return nil
 +	}
 +
 +	// Convert status to required version
-+	var st Person_Status
++	var st Person_STATUS
 +	err := status.ConvertStatusTo(&st)
 +	if err != nil {
 +		return errors.Wrap(err, "failed to convert status")

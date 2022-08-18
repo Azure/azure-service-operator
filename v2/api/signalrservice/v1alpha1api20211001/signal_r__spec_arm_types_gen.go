@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -67,8 +67,8 @@ type SignalRPropertiesARM struct {
 type SignalRSpecKind string
 
 const (
-	SignalRSpecKindRawWebSockets = SignalRSpecKind("RawWebSockets")
-	SignalRSpecKindSignalR       = SignalRSpecKind("SignalR")
+	SignalRSpecKind_RawWebSockets = SignalRSpecKind("RawWebSockets")
+	SignalRSpecKind_SignalR       = SignalRSpecKind("SignalR")
 )
 
 // Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead
@@ -76,9 +76,9 @@ const (
 type ManagedIdentityType string
 
 const (
-	ManagedIdentityTypeNone           = ManagedIdentityType("None")
-	ManagedIdentityTypeSystemAssigned = ManagedIdentityType("SystemAssigned")
-	ManagedIdentityTypeUserAssigned   = ManagedIdentityType("UserAssigned")
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
@@ -91,10 +91,10 @@ type ResourceLogConfigurationARM struct {
 type ResourceSkuTier string
 
 const (
-	ResourceSkuTierBasic    = ResourceSkuTier("Basic")
-	ResourceSkuTierFree     = ResourceSkuTier("Free")
-	ResourceSkuTierPremium  = ResourceSkuTier("Premium")
-	ResourceSkuTierStandard = ResourceSkuTier("Standard")
+	ResourceSkuTier_Basic    = ResourceSkuTier("Basic")
+	ResourceSkuTier_Free     = ResourceSkuTier("Free")
+	ResourceSkuTier_Premium  = ResourceSkuTier("Premium")
+	ResourceSkuTier_Standard = ResourceSkuTier("Standard")
 )
 
 // Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead

@@ -162,7 +162,7 @@ func MongodbDatabaseCollectionThroughputSettingGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator()
-	gens["Status"] = ThroughputSettingsGetResultsStatusGenerator()
+	gens["Status"] = ThroughputSettingsGetResultsSTATUSGenerator()
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -283,32 +283,32 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsT
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }
 
-func Test_ThroughputSettingsGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ThroughputSettingsGetResults_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ThroughputSettingsGetResults_Status to ThroughputSettingsGetResults_Status via AssignPropertiesToThroughputSettingsGetResultsStatus & AssignPropertiesFromThroughputSettingsGetResultsStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus, ThroughputSettingsGetResultsStatusGenerator()))
+		"Round trip from ThroughputSettingsGetResults_STATUS to ThroughputSettingsGetResults_STATUS via AssignPropertiesToThroughputSettingsGetResultsSTATUS & AssignPropertiesFromThroughputSettingsGetResultsSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetResultsSTATUS, ThroughputSettingsGetResultsSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus tests if a specific instance of ThroughputSettingsGetResults_Status can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus(subject ThroughputSettingsGetResults_Status) string {
+// RunPropertyAssignmentTestForThroughputSettingsGetResultsSTATUS tests if a specific instance of ThroughputSettingsGetResults_STATUS can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputSettingsGetResultsSTATUS(subject ThroughputSettingsGetResults_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.ThroughputSettingsGetResults_Status
-	err := copied.AssignPropertiesToThroughputSettingsGetResultsStatus(&other)
+	var other v20210515s.ThroughputSettingsGetResults_STATUS
+	err := copied.AssignPropertiesToThroughputSettingsGetResultsSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ThroughputSettingsGetResults_Status
-	err = actual.AssignPropertiesFromThroughputSettingsGetResultsStatus(&other)
+	var actual ThroughputSettingsGetResults_STATUS
+	err = actual.AssignPropertiesFromThroughputSettingsGetResultsSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -325,20 +325,20 @@ func RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus(subject Thro
 	return ""
 }
 
-func Test_ThroughputSettingsGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ThroughputSettingsGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ThroughputSettingsGetResults_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsGetResultsStatus, ThroughputSettingsGetResultsStatusGenerator()))
+		"Round trip of ThroughputSettingsGetResults_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForThroughputSettingsGetResultsSTATUS, ThroughputSettingsGetResultsSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsGetResultsStatus runs a test to see if a specific instance of ThroughputSettingsGetResults_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsGetResultsStatus(subject ThroughputSettingsGetResults_Status) string {
+// RunJSONSerializationTestForThroughputSettingsGetResultsSTATUS runs a test to see if a specific instance of ThroughputSettingsGetResults_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputSettingsGetResultsSTATUS(subject ThroughputSettingsGetResults_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -346,7 +346,7 @@ func RunJSONSerializationTestForThroughputSettingsGetResultsStatus(subject Throu
 	}
 
 	// Deserialize back into memory
-	var actual ThroughputSettingsGetResults_Status
+	var actual ThroughputSettingsGetResults_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -364,34 +364,34 @@ func RunJSONSerializationTestForThroughputSettingsGetResultsStatus(subject Throu
 	return ""
 }
 
-// Generator of ThroughputSettingsGetResults_Status instances for property testing - lazily instantiated by
-// ThroughputSettingsGetResultsStatusGenerator()
-var throughputSettingsGetResultsStatusGenerator gopter.Gen
+// Generator of ThroughputSettingsGetResults_STATUS instances for property testing - lazily instantiated by
+// ThroughputSettingsGetResultsSTATUSGenerator()
+var throughputSettingsGetResultsSTATUSGenerator gopter.Gen
 
-// ThroughputSettingsGetResultsStatusGenerator returns a generator of ThroughputSettingsGetResults_Status instances for property testing.
-// We first initialize throughputSettingsGetResultsStatusGenerator with a simplified generator based on the
+// ThroughputSettingsGetResultsSTATUSGenerator returns a generator of ThroughputSettingsGetResults_STATUS instances for property testing.
+// We first initialize throughputSettingsGetResultsSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ThroughputSettingsGetResultsStatusGenerator() gopter.Gen {
-	if throughputSettingsGetResultsStatusGenerator != nil {
-		return throughputSettingsGetResultsStatusGenerator
+func ThroughputSettingsGetResultsSTATUSGenerator() gopter.Gen {
+	if throughputSettingsGetResultsSTATUSGenerator != nil {
+		return throughputSettingsGetResultsSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus(generators)
-	throughputSettingsGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsSTATUS(generators)
+	throughputSettingsGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus(generators)
-	AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus(generators)
-	throughputSettingsGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsSTATUS(generators)
+	AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsSTATUS(generators)
+	throughputSettingsGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_STATUS{}), generators)
 
-	return throughputSettingsGetResultsStatusGenerator
+	return throughputSettingsGetResultsSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsSTATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -399,37 +399,37 @@ func AddIndependentPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens 
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetPropertiesStatusResourceGenerator())
+// AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsSTATUS(gens map[string]gopter.Gen) {
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetPropertiesSTATUSResourceGenerator())
 }
 
-func Test_ThroughputSettingsGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ThroughputSettingsGetProperties_STATUS_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ThroughputSettingsGetProperties_Status_Resource to ThroughputSettingsGetProperties_Status_Resource via AssignPropertiesToThroughputSettingsGetPropertiesStatusResource & AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource, ThroughputSettingsGetPropertiesStatusResourceGenerator()))
+		"Round trip from ThroughputSettingsGetProperties_STATUS_Resource to ThroughputSettingsGetProperties_STATUS_Resource via AssignPropertiesToThroughputSettingsGetPropertiesSTATUSResource & AssignPropertiesFromThroughputSettingsGetPropertiesSTATUSResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetPropertiesSTATUSResource, ThroughputSettingsGetPropertiesSTATUSResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource tests if a specific instance of ThroughputSettingsGetProperties_Status_Resource can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource(subject ThroughputSettingsGetProperties_Status_Resource) string {
+// RunPropertyAssignmentTestForThroughputSettingsGetPropertiesSTATUSResource tests if a specific instance of ThroughputSettingsGetProperties_STATUS_Resource can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesSTATUSResource(subject ThroughputSettingsGetProperties_STATUS_Resource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.ThroughputSettingsGetProperties_Status_Resource
-	err := copied.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&other)
+	var other v20210515s.ThroughputSettingsGetProperties_STATUS_Resource
+	err := copied.AssignPropertiesToThroughputSettingsGetPropertiesSTATUSResource(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ThroughputSettingsGetProperties_Status_Resource
-	err = actual.AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource(&other)
+	var actual ThroughputSettingsGetProperties_STATUS_Resource
+	err = actual.AssignPropertiesFromThroughputSettingsGetPropertiesSTATUSResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -446,20 +446,20 @@ func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource(s
 	return ""
 }
 
-func Test_ThroughputSettingsGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ThroughputSettingsGetProperties_STATUS_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ThroughputSettingsGetProperties_Status_Resource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource, ThroughputSettingsGetPropertiesStatusResourceGenerator()))
+		"Round trip of ThroughputSettingsGetProperties_STATUS_Resource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForThroughputSettingsGetPropertiesSTATUSResource, ThroughputSettingsGetPropertiesSTATUSResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource runs a test to see if a specific instance of ThroughputSettingsGetProperties_Status_Resource round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource(subject ThroughputSettingsGetProperties_Status_Resource) string {
+// RunJSONSerializationTestForThroughputSettingsGetPropertiesSTATUSResource runs a test to see if a specific instance of ThroughputSettingsGetProperties_STATUS_Resource round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputSettingsGetPropertiesSTATUSResource(subject ThroughputSettingsGetProperties_STATUS_Resource) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -467,7 +467,7 @@ func RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource(su
 	}
 
 	// Deserialize back into memory
-	var actual ThroughputSettingsGetProperties_Status_Resource
+	var actual ThroughputSettingsGetProperties_STATUS_Resource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -485,34 +485,34 @@ func RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource(su
 	return ""
 }
 
-// Generator of ThroughputSettingsGetProperties_Status_Resource instances for property testing - lazily instantiated by
-// ThroughputSettingsGetPropertiesStatusResourceGenerator()
-var throughputSettingsGetPropertiesStatusResourceGenerator gopter.Gen
+// Generator of ThroughputSettingsGetProperties_STATUS_Resource instances for property testing - lazily instantiated by
+// ThroughputSettingsGetPropertiesSTATUSResourceGenerator()
+var throughputSettingsGetPropertiesSTATUSResourceGenerator gopter.Gen
 
-// ThroughputSettingsGetPropertiesStatusResourceGenerator returns a generator of ThroughputSettingsGetProperties_Status_Resource instances for property testing.
-// We first initialize throughputSettingsGetPropertiesStatusResourceGenerator with a simplified generator based on the
+// ThroughputSettingsGetPropertiesSTATUSResourceGenerator returns a generator of ThroughputSettingsGetProperties_STATUS_Resource instances for property testing.
+// We first initialize throughputSettingsGetPropertiesSTATUSResourceGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ThroughputSettingsGetPropertiesStatusResourceGenerator() gopter.Gen {
-	if throughputSettingsGetPropertiesStatusResourceGenerator != nil {
-		return throughputSettingsGetPropertiesStatusResourceGenerator
+func ThroughputSettingsGetPropertiesSTATUSResourceGenerator() gopter.Gen {
+	if throughputSettingsGetPropertiesSTATUSResourceGenerator != nil {
+		return throughputSettingsGetPropertiesSTATUSResourceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource(generators)
-	throughputSettingsGetPropertiesStatusResourceGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetProperties_Status_Resource{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource(generators)
+	throughputSettingsGetPropertiesSTATUSResourceGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetProperties_STATUS_Resource{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource(generators)
-	AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource(generators)
-	throughputSettingsGetPropertiesStatusResourceGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetProperties_Status_Resource{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource(generators)
+	AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource(generators)
+	throughputSettingsGetPropertiesSTATUSResourceGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetProperties_STATUS_Resource{}), generators)
 
-	return throughputSettingsGetPropertiesStatusResourceGenerator
+	return throughputSettingsGetPropertiesSTATUSResourceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumThroughput"] = gen.PtrOf(gen.AlphaString())
 	gens["OfferReplacePending"] = gen.PtrOf(gen.AlphaString())
@@ -521,9 +521,9 @@ func AddIndependentPropertyGeneratorsForThroughputSettingsGetPropertiesStatusRes
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResource(gens map[string]gopter.Gen) {
-	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesSTATUSResource(gens map[string]gopter.Gen) {
+	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsResourceSTATUSGenerator())
 }
 
 func Test_ThroughputSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -760,32 +760,32 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]go
 	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceGenerator())
 }
 
-func Test_AutoscaleSettingsResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AutoscaleSettingsResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AutoscaleSettingsResource_Status to AutoscaleSettingsResource_Status via AssignPropertiesToAutoscaleSettingsResourceStatus & AssignPropertiesFromAutoscaleSettingsResourceStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus, AutoscaleSettingsResourceStatusGenerator()))
+		"Round trip from AutoscaleSettingsResource_STATUS to AutoscaleSettingsResource_STATUS via AssignPropertiesToAutoscaleSettingsResourceSTATUS & AssignPropertiesFromAutoscaleSettingsResourceSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettingsResourceSTATUS, AutoscaleSettingsResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus tests if a specific instance of AutoscaleSettingsResource_Status can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus(subject AutoscaleSettingsResource_Status) string {
+// RunPropertyAssignmentTestForAutoscaleSettingsResourceSTATUS tests if a specific instance of AutoscaleSettingsResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoscaleSettingsResourceSTATUS(subject AutoscaleSettingsResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.AutoscaleSettingsResource_Status
-	err := copied.AssignPropertiesToAutoscaleSettingsResourceStatus(&other)
+	var other v20210515s.AutoscaleSettingsResource_STATUS
+	err := copied.AssignPropertiesToAutoscaleSettingsResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoscaleSettingsResource_Status
-	err = actual.AssignPropertiesFromAutoscaleSettingsResourceStatus(&other)
+	var actual AutoscaleSettingsResource_STATUS
+	err = actual.AssignPropertiesFromAutoscaleSettingsResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -802,20 +802,20 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus(subject Autosca
 	return ""
 }
 
-func Test_AutoscaleSettingsResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutoscaleSettingsResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutoscaleSettingsResource_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingsResourceStatus, AutoscaleSettingsResourceStatusGenerator()))
+		"Round trip of AutoscaleSettingsResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingsResourceSTATUS, AutoscaleSettingsResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoscaleSettingsResourceStatus runs a test to see if a specific instance of AutoscaleSettingsResource_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscaleSettingsResourceStatus(subject AutoscaleSettingsResource_Status) string {
+// RunJSONSerializationTestForAutoscaleSettingsResourceSTATUS runs a test to see if a specific instance of AutoscaleSettingsResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscaleSettingsResourceSTATUS(subject AutoscaleSettingsResource_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -823,7 +823,7 @@ func RunJSONSerializationTestForAutoscaleSettingsResourceStatus(subject Autoscal
 	}
 
 	// Deserialize back into memory
-	var actual AutoscaleSettingsResource_Status
+	var actual AutoscaleSettingsResource_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -841,41 +841,41 @@ func RunJSONSerializationTestForAutoscaleSettingsResourceStatus(subject Autoscal
 	return ""
 }
 
-// Generator of AutoscaleSettingsResource_Status instances for property testing - lazily instantiated by
-// AutoscaleSettingsResourceStatusGenerator()
-var autoscaleSettingsResourceStatusGenerator gopter.Gen
+// Generator of AutoscaleSettingsResource_STATUS instances for property testing - lazily instantiated by
+// AutoscaleSettingsResourceSTATUSGenerator()
+var autoscaleSettingsResourceSTATUSGenerator gopter.Gen
 
-// AutoscaleSettingsResourceStatusGenerator returns a generator of AutoscaleSettingsResource_Status instances for property testing.
-// We first initialize autoscaleSettingsResourceStatusGenerator with a simplified generator based on the
+// AutoscaleSettingsResourceSTATUSGenerator returns a generator of AutoscaleSettingsResource_STATUS instances for property testing.
+// We first initialize autoscaleSettingsResourceSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AutoscaleSettingsResourceStatusGenerator() gopter.Gen {
-	if autoscaleSettingsResourceStatusGenerator != nil {
-		return autoscaleSettingsResourceStatusGenerator
+func AutoscaleSettingsResourceSTATUSGenerator() gopter.Gen {
+	if autoscaleSettingsResourceSTATUSGenerator != nil {
+		return autoscaleSettingsResourceSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus(generators)
-	autoscaleSettingsResourceStatusGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_Status{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSTATUS(generators)
+	autoscaleSettingsResourceSTATUSGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus(generators)
-	AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus(generators)
-	autoscaleSettingsResourceStatusGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_Status{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSTATUS(generators)
+	AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSTATUS(generators)
+	autoscaleSettingsResourceSTATUSGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingsResource_STATUS{}), generators)
 
-	return autoscaleSettingsResourceStatusGenerator
+	return autoscaleSettingsResourceSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscaleSettingsResourceSTATUS(gens map[string]gopter.Gen) {
 	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
 	gens["TargetMaxThroughput"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[string]gopter.Gen) {
-	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceSTATUS(gens map[string]gopter.Gen) {
+	gens["AutoUpgradePolicy"] = gen.PtrOf(AutoUpgradePolicyResourceSTATUSGenerator())
 }
 
 func Test_AutoUpgradePolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -981,32 +981,32 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource(gens map[string]go
 	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceGenerator())
 }
 
-func Test_AutoUpgradePolicyResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AutoUpgradePolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AutoUpgradePolicyResource_Status to AutoUpgradePolicyResource_Status via AssignPropertiesToAutoUpgradePolicyResourceStatus & AssignPropertiesFromAutoUpgradePolicyResourceStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus, AutoUpgradePolicyResourceStatusGenerator()))
+		"Round trip from AutoUpgradePolicyResource_STATUS to AutoUpgradePolicyResource_STATUS via AssignPropertiesToAutoUpgradePolicyResourceSTATUS & AssignPropertiesFromAutoUpgradePolicyResourceSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradePolicyResourceSTATUS, AutoUpgradePolicyResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus tests if a specific instance of AutoUpgradePolicyResource_Status can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus(subject AutoUpgradePolicyResource_Status) string {
+// RunPropertyAssignmentTestForAutoUpgradePolicyResourceSTATUS tests if a specific instance of AutoUpgradePolicyResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoUpgradePolicyResourceSTATUS(subject AutoUpgradePolicyResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.AutoUpgradePolicyResource_Status
-	err := copied.AssignPropertiesToAutoUpgradePolicyResourceStatus(&other)
+	var other v20210515s.AutoUpgradePolicyResource_STATUS
+	err := copied.AssignPropertiesToAutoUpgradePolicyResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoUpgradePolicyResource_Status
-	err = actual.AssignPropertiesFromAutoUpgradePolicyResourceStatus(&other)
+	var actual AutoUpgradePolicyResource_STATUS
+	err = actual.AssignPropertiesFromAutoUpgradePolicyResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1023,20 +1023,20 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus(subject AutoUpg
 	return ""
 }
 
-func Test_AutoUpgradePolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutoUpgradePolicyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutoUpgradePolicyResource_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradePolicyResourceStatus, AutoUpgradePolicyResourceStatusGenerator()))
+		"Round trip of AutoUpgradePolicyResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoUpgradePolicyResourceSTATUS, AutoUpgradePolicyResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoUpgradePolicyResourceStatus runs a test to see if a specific instance of AutoUpgradePolicyResource_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradePolicyResourceStatus(subject AutoUpgradePolicyResource_Status) string {
+// RunJSONSerializationTestForAutoUpgradePolicyResourceSTATUS runs a test to see if a specific instance of AutoUpgradePolicyResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoUpgradePolicyResourceSTATUS(subject AutoUpgradePolicyResource_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1044,7 +1044,7 @@ func RunJSONSerializationTestForAutoUpgradePolicyResourceStatus(subject AutoUpgr
 	}
 
 	// Deserialize back into memory
-	var actual AutoUpgradePolicyResource_Status
+	var actual AutoUpgradePolicyResource_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1062,26 +1062,26 @@ func RunJSONSerializationTestForAutoUpgradePolicyResourceStatus(subject AutoUpgr
 	return ""
 }
 
-// Generator of AutoUpgradePolicyResource_Status instances for property testing - lazily instantiated by
-// AutoUpgradePolicyResourceStatusGenerator()
-var autoUpgradePolicyResourceStatusGenerator gopter.Gen
+// Generator of AutoUpgradePolicyResource_STATUS instances for property testing - lazily instantiated by
+// AutoUpgradePolicyResourceSTATUSGenerator()
+var autoUpgradePolicyResourceSTATUSGenerator gopter.Gen
 
-// AutoUpgradePolicyResourceStatusGenerator returns a generator of AutoUpgradePolicyResource_Status instances for property testing.
-func AutoUpgradePolicyResourceStatusGenerator() gopter.Gen {
-	if autoUpgradePolicyResourceStatusGenerator != nil {
-		return autoUpgradePolicyResourceStatusGenerator
+// AutoUpgradePolicyResourceSTATUSGenerator returns a generator of AutoUpgradePolicyResource_STATUS instances for property testing.
+func AutoUpgradePolicyResourceSTATUSGenerator() gopter.Gen {
+	if autoUpgradePolicyResourceSTATUSGenerator != nil {
+		return autoUpgradePolicyResourceSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus(generators)
-	autoUpgradePolicyResourceStatusGenerator = gen.Struct(reflect.TypeOf(AutoUpgradePolicyResource_Status{}), generators)
+	AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSTATUS(generators)
+	autoUpgradePolicyResourceSTATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradePolicyResource_STATUS{}), generators)
 
-	return autoUpgradePolicyResourceStatusGenerator
+	return autoUpgradePolicyResourceSTATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus(gens map[string]gopter.Gen) {
-	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceSTATUS(gens map[string]gopter.Gen) {
+	gens["ThroughputPolicy"] = gen.PtrOf(ThroughputPolicyResourceSTATUSGenerator())
 }
 
 func Test_ThroughputPolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1188,32 +1188,32 @@ func AddIndependentPropertyGeneratorsForThroughputPolicyResource(gens map[string
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_ThroughputPolicyResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ThroughputPolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ThroughputPolicyResource_Status to ThroughputPolicyResource_Status via AssignPropertiesToThroughputPolicyResourceStatus & AssignPropertiesFromThroughputPolicyResourceStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForThroughputPolicyResourceStatus, ThroughputPolicyResourceStatusGenerator()))
+		"Round trip from ThroughputPolicyResource_STATUS to ThroughputPolicyResource_STATUS via AssignPropertiesToThroughputPolicyResourceSTATUS & AssignPropertiesFromThroughputPolicyResourceSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThroughputPolicyResourceSTATUS, ThroughputPolicyResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputPolicyResourceStatus tests if a specific instance of ThroughputPolicyResource_Status can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForThroughputPolicyResourceStatus(subject ThroughputPolicyResource_Status) string {
+// RunPropertyAssignmentTestForThroughputPolicyResourceSTATUS tests if a specific instance of ThroughputPolicyResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForThroughputPolicyResourceSTATUS(subject ThroughputPolicyResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.ThroughputPolicyResource_Status
-	err := copied.AssignPropertiesToThroughputPolicyResourceStatus(&other)
+	var other v20210515s.ThroughputPolicyResource_STATUS
+	err := copied.AssignPropertiesToThroughputPolicyResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ThroughputPolicyResource_Status
-	err = actual.AssignPropertiesFromThroughputPolicyResourceStatus(&other)
+	var actual ThroughputPolicyResource_STATUS
+	err = actual.AssignPropertiesFromThroughputPolicyResourceSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1230,20 +1230,20 @@ func RunPropertyAssignmentTestForThroughputPolicyResourceStatus(subject Throughp
 	return ""
 }
 
-func Test_ThroughputPolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ThroughputPolicyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ThroughputPolicyResource_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputPolicyResourceStatus, ThroughputPolicyResourceStatusGenerator()))
+		"Round trip of ThroughputPolicyResource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForThroughputPolicyResourceSTATUS, ThroughputPolicyResourceSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputPolicyResourceStatus runs a test to see if a specific instance of ThroughputPolicyResource_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputPolicyResourceStatus(subject ThroughputPolicyResource_Status) string {
+// RunJSONSerializationTestForThroughputPolicyResourceSTATUS runs a test to see if a specific instance of ThroughputPolicyResource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForThroughputPolicyResourceSTATUS(subject ThroughputPolicyResource_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1251,7 +1251,7 @@ func RunJSONSerializationTestForThroughputPolicyResourceStatus(subject Throughpu
 	}
 
 	// Deserialize back into memory
-	var actual ThroughputPolicyResource_Status
+	var actual ThroughputPolicyResource_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1269,25 +1269,25 @@ func RunJSONSerializationTestForThroughputPolicyResourceStatus(subject Throughpu
 	return ""
 }
 
-// Generator of ThroughputPolicyResource_Status instances for property testing - lazily instantiated by
-// ThroughputPolicyResourceStatusGenerator()
-var throughputPolicyResourceStatusGenerator gopter.Gen
+// Generator of ThroughputPolicyResource_STATUS instances for property testing - lazily instantiated by
+// ThroughputPolicyResourceSTATUSGenerator()
+var throughputPolicyResourceSTATUSGenerator gopter.Gen
 
-// ThroughputPolicyResourceStatusGenerator returns a generator of ThroughputPolicyResource_Status instances for property testing.
-func ThroughputPolicyResourceStatusGenerator() gopter.Gen {
-	if throughputPolicyResourceStatusGenerator != nil {
-		return throughputPolicyResourceStatusGenerator
+// ThroughputPolicyResourceSTATUSGenerator returns a generator of ThroughputPolicyResource_STATUS instances for property testing.
+func ThroughputPolicyResourceSTATUSGenerator() gopter.Gen {
+	if throughputPolicyResourceSTATUSGenerator != nil {
+		return throughputPolicyResourceSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputPolicyResourceStatus(generators)
-	throughputPolicyResourceStatusGenerator = gen.Struct(reflect.TypeOf(ThroughputPolicyResource_Status{}), generators)
+	AddIndependentPropertyGeneratorsForThroughputPolicyResourceSTATUS(generators)
+	throughputPolicyResourceSTATUSGenerator = gen.Struct(reflect.TypeOf(ThroughputPolicyResource_STATUS{}), generators)
 
-	return throughputPolicyResourceStatusGenerator
+	return throughputPolicyResourceSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputPolicyResourceStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputPolicyResourceStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForThroughputPolicyResourceSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForThroughputPolicyResourceSTATUS(gens map[string]gopter.Gen) {
 	gens["IncrementPercent"] = gen.PtrOf(gen.Int())
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 }

@@ -27,7 +27,7 @@ type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              PrivateDnsZones_Spec `json:"spec,omitempty"`
-	Status            PrivateZone_Status   `json:"status,omitempty"`
+	Status            PrivateZone_STATUS   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -51,7 +51,7 @@ func (zone *PrivateDnsZone) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-09-01"
 func (zone PrivateDnsZone) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (zone *PrivateDnsZone) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateZone_Status{}
+	return &PrivateZone_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (zone *PrivateDnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateZone_Status); ok {
+	if st, ok := status.(*PrivateZone_STATUS); ok {
 		zone.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateZone_Status
+	var st PrivateZone_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,7 +133,7 @@ type PrivateDnsZoneList struct {
 // +kubebuilder:validation:Enum={"2018-09-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-09-01")
+const APIVersion_Value = APIVersion("2018-09-01")
 
 // Storage version of v1beta20180901.PrivateDnsZones_Spec
 type PrivateDnsZones_Spec struct {
@@ -173,8 +173,8 @@ func (zones *PrivateDnsZones_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(zones)
 }
 
-// Storage version of v1beta20180901.PrivateZone_Status
-type PrivateZone_Status struct {
+// Storage version of v1beta20180901.PrivateZone_STATUS
+type PrivateZone_STATUS struct {
 	Conditions                                     []conditions.Condition `json:"conditions,omitempty"`
 	Etag                                           *string                `json:"etag,omitempty"`
 	MaxNumberOfRecordSets                          *int                   `json:"maxNumberOfRecordSets,omitempty"`
@@ -187,10 +187,10 @@ type PrivateZone_Status struct {
 	ProvisioningState                              *string                `json:"provisioningState,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateZone_Status{}
+var _ genruntime.ConvertibleStatus = &PrivateZone_STATUS{}
 
-// ConvertStatusFrom populates our PrivateZone_Status from the provided source
-func (zone *PrivateZone_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our PrivateZone_STATUS from the provided source
+func (zone *PrivateZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -198,8 +198,8 @@ func (zone *PrivateZone_Status) ConvertStatusFrom(source genruntime.ConvertibleS
 	return source.ConvertStatusTo(zone)
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateZone_Status
-func (zone *PrivateZone_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our PrivateZone_STATUS
+func (zone *PrivateZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

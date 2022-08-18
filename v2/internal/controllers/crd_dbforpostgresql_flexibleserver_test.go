@@ -44,8 +44,8 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerPropertiesVersion13
-	tier := postgresql.SkuTierGeneralPurpose
+	version := postgresql.ServerPropertiesVersion_13
+	tier := postgresql.SkuTier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
@@ -114,7 +114,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersion_Value))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

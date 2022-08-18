@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &Servers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
 func (servers Servers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -223,165 +223,165 @@ type ServerPropertiesForRestoreARM struct {
 type SkuTier string
 
 const (
-	SkuTierBasic           = SkuTier("Basic")
-	SkuTierGeneralPurpose  = SkuTier("GeneralPurpose")
-	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
+	SkuTier_Basic           = SkuTier("Basic")
+	SkuTier_GeneralPurpose  = SkuTier("GeneralPurpose")
+	SkuTier_MemoryOptimized = SkuTier("MemoryOptimized")
 )
 
 // +kubebuilder:validation:Enum={"Default"}
 type ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateMode string
 
-const ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateModeDefault = ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateMode("Default")
+const ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateMode_Default = ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateMode("Default")
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersionTLS10                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_0")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersionTLS11                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_1")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersionTLS12                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_2")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersionTLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLSEnforcementDisabled")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion_TLS10                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_0")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion_TLS11                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_1")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion_TLS12                  = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLS1_2")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion_TLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForDefaultCreateMinimalTlsVersion("TLSEnforcementDisabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccessDisabled = ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess("Disabled")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccessEnabled  = ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess("Enabled")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess_Disabled = ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess("Disabled")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess_Enabled  = ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement("Disabled")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcementEnabled  = ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement("Enabled")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement_Disabled = ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement("Disabled")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement_Enabled  = ServerPropertiesForCreateServerPropertiesForDefaultCreateSslEnforcement("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion102 = ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion("10.2")
-	ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion103 = ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion("10.3")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion_102 = ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion("10.2")
+	ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion_103 = ServerPropertiesForCreateServerPropertiesForDefaultCreateVersion("10.3")
 )
 
 // +kubebuilder:validation:Enum={"GeoRestore"}
 type ServerPropertiesForCreateServerPropertiesForGeoRestoreCreateMode string
 
-const ServerPropertiesForCreateServerPropertiesForGeoRestoreCreateModeGeoRestore = ServerPropertiesForCreateServerPropertiesForGeoRestoreCreateMode("GeoRestore")
+const ServerPropertiesForCreateServerPropertiesForGeoRestoreCreateMode_GeoRestore = ServerPropertiesForCreateServerPropertiesForGeoRestoreCreateMode("GeoRestore")
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersionTLS10                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_0")
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersionTLS11                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_1")
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersionTLS12                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_2")
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersionTLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLSEnforcementDisabled")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion_TLS10                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_0")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion_TLS11                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_1")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion_TLS12                  = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLS1_2")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion_TLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForGeoRestoreMinimalTlsVersion("TLSEnforcementDisabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccessDisabled = ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess("Disabled")
-	ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccessEnabled  = ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess("Enabled")
+	ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess_Disabled = ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess("Disabled")
+	ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess_Enabled  = ServerPropertiesForCreateServerPropertiesForGeoRestorePublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement("Disabled")
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcementEnabled  = ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement("Enabled")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement_Disabled = ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement("Disabled")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement_Enabled  = ServerPropertiesForCreateServerPropertiesForGeoRestoreSslEnforcement("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion102 = ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion("10.2")
-	ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion103 = ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion("10.3")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion_102 = ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion("10.2")
+	ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion_103 = ServerPropertiesForCreateServerPropertiesForGeoRestoreVersion("10.3")
 )
 
 // +kubebuilder:validation:Enum={"Replica"}
 type ServerPropertiesForCreateServerPropertiesForReplicaCreateMode string
 
-const ServerPropertiesForCreateServerPropertiesForReplicaCreateModeReplica = ServerPropertiesForCreateServerPropertiesForReplicaCreateMode("Replica")
+const ServerPropertiesForCreateServerPropertiesForReplicaCreateMode_Replica = ServerPropertiesForCreateServerPropertiesForReplicaCreateMode("Replica")
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersionTLS10                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_0")
-	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersionTLS11                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_1")
-	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersionTLS12                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_2")
-	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersionTLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLSEnforcementDisabled")
+	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion_TLS10                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_0")
+	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion_TLS11                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_1")
+	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion_TLS12                  = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLS1_2")
+	ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion_TLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForReplicaMinimalTlsVersion("TLSEnforcementDisabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccessDisabled = ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess("Disabled")
-	ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccessEnabled  = ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess("Enabled")
+	ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess_Disabled = ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess("Disabled")
+	ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess_Enabled  = ServerPropertiesForCreateServerPropertiesForReplicaPublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement("Disabled")
-	ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcementEnabled  = ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement("Enabled")
+	ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement_Disabled = ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement("Disabled")
+	ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement_Enabled  = ServerPropertiesForCreateServerPropertiesForReplicaSslEnforcement("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerPropertiesForCreateServerPropertiesForReplicaVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForReplicaVersion102 = ServerPropertiesForCreateServerPropertiesForReplicaVersion("10.2")
-	ServerPropertiesForCreateServerPropertiesForReplicaVersion103 = ServerPropertiesForCreateServerPropertiesForReplicaVersion("10.3")
+	ServerPropertiesForCreateServerPropertiesForReplicaVersion_102 = ServerPropertiesForCreateServerPropertiesForReplicaVersion("10.2")
+	ServerPropertiesForCreateServerPropertiesForReplicaVersion_103 = ServerPropertiesForCreateServerPropertiesForReplicaVersion("10.3")
 )
 
 // +kubebuilder:validation:Enum={"PointInTimeRestore"}
 type ServerPropertiesForCreateServerPropertiesForRestoreCreateMode string
 
-const ServerPropertiesForCreateServerPropertiesForRestoreCreateModePointInTimeRestore = ServerPropertiesForCreateServerPropertiesForRestoreCreateMode("PointInTimeRestore")
+const ServerPropertiesForCreateServerPropertiesForRestoreCreateMode_PointInTimeRestore = ServerPropertiesForCreateServerPropertiesForRestoreCreateMode("PointInTimeRestore")
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersionTLS10                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_0")
-	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersionTLS11                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_1")
-	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersionTLS12                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_2")
-	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersionTLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLSEnforcementDisabled")
+	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion_TLS10                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_0")
+	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion_TLS11                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_1")
+	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion_TLS12                  = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLS1_2")
+	ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion_TLSEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForRestoreMinimalTlsVersion("TLSEnforcementDisabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccessDisabled = ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess("Disabled")
-	ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccessEnabled  = ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess("Enabled")
+	ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess_Disabled = ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess("Disabled")
+	ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess_Enabled  = ServerPropertiesForCreateServerPropertiesForRestorePublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcementDisabled = ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement("Disabled")
-	ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcementEnabled  = ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement("Enabled")
+	ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement_Disabled = ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement("Disabled")
+	ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement_Enabled  = ServerPropertiesForCreateServerPropertiesForRestoreSslEnforcement("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerPropertiesForCreateServerPropertiesForRestoreVersion string
 
 const (
-	ServerPropertiesForCreateServerPropertiesForRestoreVersion102 = ServerPropertiesForCreateServerPropertiesForRestoreVersion("10.2")
-	ServerPropertiesForCreateServerPropertiesForRestoreVersion103 = ServerPropertiesForCreateServerPropertiesForRestoreVersion("10.3")
+	ServerPropertiesForCreateServerPropertiesForRestoreVersion_102 = ServerPropertiesForCreateServerPropertiesForRestoreVersion("10.2")
+	ServerPropertiesForCreateServerPropertiesForRestoreVersion_103 = ServerPropertiesForCreateServerPropertiesForRestoreVersion("10.3")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/StorageProfile
@@ -403,14 +403,14 @@ type StorageProfileARM struct {
 type StorageProfileGeoRedundantBackup string
 
 const (
-	StorageProfileGeoRedundantBackupDisabled = StorageProfileGeoRedundantBackup("Disabled")
-	StorageProfileGeoRedundantBackupEnabled  = StorageProfileGeoRedundantBackup("Enabled")
+	StorageProfileGeoRedundantBackup_Disabled = StorageProfileGeoRedundantBackup("Disabled")
+	StorageProfileGeoRedundantBackup_Enabled  = StorageProfileGeoRedundantBackup("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageProfileStorageAutogrow string
 
 const (
-	StorageProfileStorageAutogrowDisabled = StorageProfileStorageAutogrow("Disabled")
-	StorageProfileStorageAutogrowEnabled  = StorageProfileStorageAutogrow("Enabled")
+	StorageProfileStorageAutogrow_Disabled = StorageProfileStorageAutogrow("Disabled")
+	StorageProfileStorageAutogrow_Enabled  = StorageProfileStorageAutogrow("Enabled")
 )

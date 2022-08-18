@@ -27,7 +27,7 @@ type SqlDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                 `json:"status,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                 `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseThroughputSetting{}
@@ -51,7 +51,7 @@ func (setting *SqlDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting SqlDatabaseThroughputSetting) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (setting *SqlDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsGetResults_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (setting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsGetResults_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")

@@ -8,6 +8,7 @@ package astmodel
 import (
 	"go/token"
 	"sort"
+	"strings"
 
 	"github.com/dave/dst"
 
@@ -42,7 +43,8 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		return definitions[i].Name().name < definitions[j].Name().name
+		// Case insensitive sort
+		return strings.ToLower(definitions[i].Name().name) < strings.ToLower(definitions[j].Name().name)
 	})
 
 	// TODO: check that all definitions are from same package

@@ -19,7 +19,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // Hub marks that this Person is the hub type for conversion
@@ -41,8 +41,8 @@ type Person_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20200101.Person_Status
-type Person_Status struct {
+// Storage version of v20200101.Person_STATUS
+type Person_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
