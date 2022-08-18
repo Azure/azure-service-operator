@@ -144,7 +144,7 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 	resourceLookup[lower] = theType
 }
 
-// statusTypeRenamer appends our standard StatusSuffix '_Stotus` to all types
+// statusTypeRenamer appends our standard StatusSuffix '_Status` to all types
 var statusTypeRenamer = astmodel.NewRenamingVisitorFromLambda(appendStatusSuffix)
 
 func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
