@@ -30,7 +30,7 @@ type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Workspaces_Spec  `json:"spec,omitempty"`
-	Status            Workspace_Status `json:"status,omitempty"`
+	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Workspace{}
@@ -124,7 +124,7 @@ func (workspace *Workspace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspace_Status{}
+	return &Workspace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (workspace *Workspace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspace_Status); ok {
+	if st, ok := status.(*Workspace_STATUS); ok {
 		workspace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspace_Status
+	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -288,10 +288,10 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v20210701s.Wor
 	workspace.Spec = spec
 
 	// Status
-	var status Workspace_Status
-	err = status.AssignPropertiesFromWorkspaceStatus(&source.Status)
+	var status Workspace_STATUS
+	err = status.AssignPropertiesFromWorkspaceSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSTATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -314,10 +314,10 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v20210701s.
 	destination.Spec = spec
 
 	// Status
-	var status v20210701s.Workspace_Status
-	err = workspace.Status.AssignPropertiesToWorkspaceStatus(&status)
+	var status v20210701s.Workspace_STATUS
+	err = workspace.Status.AssignPropertiesToWorkspaceSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -347,7 +347,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
 
-type Workspace_Status struct {
+type Workspace_STATUS struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 
@@ -369,7 +369,7 @@ type Workspace_Status struct {
 	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
 
 	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty_Status `json:"encryption,omitempty"`
+	Encryption *EncryptionProperty_STATUS `json:"encryption,omitempty"`
 
 	// FriendlyName: The friendly name for this workspace. This name in mutable
 	FriendlyName *string `json:"friendlyName,omitempty"`
@@ -382,7 +382,7 @@ type Workspace_Status struct {
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_Status `json:"identity,omitempty"`
+	Identity *Identity_STATUS `json:"identity,omitempty"`
 
 	// ImageBuildCompute: The compute name for image build
 	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
@@ -401,36 +401,36 @@ type Workspace_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// NotebookInfo: The notebook info of Azure ML workspace.
-	NotebookInfo *NotebookResourceInfo_Status `json:"notebookInfo,omitempty"`
+	NotebookInfo *NotebookResourceInfo_STATUS `json:"notebookInfo,omitempty"`
 
 	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	// PrivateLinkCount: Count of private connections in the workspace
 	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
 
 	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
 	// resource provisioning.
-	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspacePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspacePropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *WorkspacePropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_Status `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
 
 	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
 	// if the workspace is CMK workspace
 	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
 
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_Status `json:"sharedPrivateLinkResources,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS `json:"sharedPrivateLinkResources,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_Status `json:"sku,omitempty"`
+	Sku *Sku_STATUS `json:"sku,omitempty"`
 
 	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
 	// has been created
@@ -440,7 +440,7 @@ type Workspace_Status struct {
 	StorageHnsEnabled *bool `json:"storageHnsEnabled,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -455,25 +455,25 @@ type Workspace_Status struct {
 	WorkspaceId *string `json:"workspaceId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspace_Status{}
+var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 
-// ConvertStatusFrom populates our Workspace_Status from the provided source
-func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210701s.Workspace_Status)
+// ConvertStatusFrom populates our Workspace_STATUS from the provided source
+func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210701s.Workspace_STATUS)
 	if ok {
 		// Populate our instance from source
-		return workspace.AssignPropertiesFromWorkspaceStatus(src)
+		return workspace.AssignPropertiesFromWorkspaceSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.Workspace_Status{}
+	src = &v20210701s.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = workspace.AssignPropertiesFromWorkspaceStatus(src)
+	err = workspace.AssignPropertiesFromWorkspaceSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -481,17 +481,17 @@ func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Workspace_Status
-func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210701s.Workspace_Status)
+// ConvertStatusTo populates the provided destination from our Workspace_STATUS
+func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210701s.Workspace_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return workspace.AssignPropertiesToWorkspaceStatus(dst)
+		return workspace.AssignPropertiesToWorkspaceSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.Workspace_Status{}
-	err := workspace.AssignPropertiesToWorkspaceStatus(dst)
+	dst = &v20210701s.Workspace_STATUS{}
+	err := workspace.AssignPropertiesToWorkspaceSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -505,18 +505,18 @@ func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Workspace_Status{}
+var _ genruntime.FromARMConverter = &Workspace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (workspace *Workspace_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_StatusARM{}
+func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspace_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_StatusARM)
+func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspace_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowPublicAccessWhenBehindVnet’:
@@ -570,7 +570,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
-			var encryption1 EncryptionProperty_Status
+			var encryption1 EncryptionProperty_STATUS
 			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
 			if err != nil {
 				return err
@@ -606,7 +606,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 Identity_Status
+		var identity1 Identity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -658,7 +658,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NotebookInfo != nil {
-			var notebookInfo1 NotebookResourceInfo_Status
+			var notebookInfo1 NotebookResourceInfo_STATUS
 			err := notebookInfo1.PopulateFromARM(owner, *typedInput.Properties.NotebookInfo)
 			if err != nil {
 				return err
@@ -681,7 +681,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_Status_SubResourceEmbedded
+			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -721,7 +721,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceManagedResourcesSettings != nil {
-			var serviceManagedResourcesSettings1 ServiceManagedResourcesSettings_Status
+			var serviceManagedResourcesSettings1 ServiceManagedResourcesSettings_STATUS
 			err := serviceManagedResourcesSettings1.PopulateFromARM(owner, *typedInput.Properties.ServiceManagedResourcesSettings)
 			if err != nil {
 				return err
@@ -744,7 +744,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
-			var item1 SharedPrivateLinkResource_Status
+			var item1 SharedPrivateLinkResource_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -755,7 +755,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku_Status
+		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
@@ -784,7 +784,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -829,8 +829,8 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceStatus populates our Workspace_Status from the provided source Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v20210701s.Workspace_Status) error {
+// AssignPropertiesFromWorkspaceSTATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesFromWorkspaceSTATUS(source *v20210701s.Workspace_STATUS) error {
 
 	// AllowPublicAccessWhenBehindVnet
 	if source.AllowPublicAccessWhenBehindVnet != nil {
@@ -857,10 +857,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// Encryption
 	if source.Encryption != nil {
-		var encryption EncryptionProperty_Status
-		err := encryption.AssignPropertiesFromEncryptionPropertyStatus(source.Encryption)
+		var encryption EncryptionProperty_STATUS
+		err := encryption.AssignPropertiesFromEncryptionPropertySTATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertyStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertySTATUS() to populate field Encryption")
 		}
 		workspace.Encryption = &encryption
 	} else {
@@ -883,10 +883,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// Identity
 	if source.Identity != nil {
-		var identity Identity_Status
-		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
+		var identity Identity_STATUS
+		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
 		}
 		workspace.Identity = &identity
 	} else {
@@ -910,10 +910,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// NotebookInfo
 	if source.NotebookInfo != nil {
-		var notebookInfo NotebookResourceInfo_Status
-		err := notebookInfo.AssignPropertiesFromNotebookResourceInfoStatus(source.NotebookInfo)
+		var notebookInfo NotebookResourceInfo_STATUS
+		err := notebookInfo.AssignPropertiesFromNotebookResourceInfoSTATUS(source.NotebookInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNotebookResourceInfoStatus() to populate field NotebookInfo")
+			return errors.Wrap(err, "calling AssignPropertiesFromNotebookResourceInfoSTATUS() to populate field NotebookInfo")
 		}
 		workspace.NotebookInfo = &notebookInfo
 	} else {
@@ -925,14 +925,14 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -946,7 +946,7 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspacePropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := WorkspacePropertiesSTATUSProvisioningState(*source.ProvisioningState)
 		workspace.ProvisioningState = &provisioningState
 	} else {
 		workspace.ProvisioningState = nil
@@ -954,7 +954,7 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspacePropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := WorkspacePropertiesSTATUSPublicNetworkAccess(*source.PublicNetworkAccess)
 		workspace.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		workspace.PublicNetworkAccess = nil
@@ -962,10 +962,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// ServiceManagedResourcesSettings
 	if source.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting ServiceManagedResourcesSettings_Status
-		err := serviceManagedResourcesSetting.AssignPropertiesFromServiceManagedResourcesSettingsStatus(source.ServiceManagedResourcesSettings)
+		var serviceManagedResourcesSetting ServiceManagedResourcesSettings_STATUS
+		err := serviceManagedResourcesSetting.AssignPropertiesFromServiceManagedResourcesSettingsSTATUS(source.ServiceManagedResourcesSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceManagedResourcesSettingsStatus() to populate field ServiceManagedResourcesSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromServiceManagedResourcesSettingsSTATUS() to populate field ServiceManagedResourcesSettings")
 		}
 		workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
 	} else {
@@ -977,14 +977,14 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// SharedPrivateLinkResources
 	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_Status, len(source.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource SharedPrivateLinkResource_Status
-			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResourceStatus(&sharedPrivateLinkResourceItem)
+			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
+			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResourceSTATUS(&sharedPrivateLinkResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResourceStatus() to populate field SharedPrivateLinkResources")
+				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResourceSTATUS() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -995,10 +995,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -1018,10 +1018,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		workspace.SystemData = &systemDatum
 	} else {
@@ -1044,8 +1044,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	return nil
 }
 
-// AssignPropertiesToWorkspaceStatus populates the provided destination Workspace_Status from our Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination *v20210701s.Workspace_Status) error {
+// AssignPropertiesToWorkspaceSTATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesToWorkspaceSTATUS(destination *v20210701s.Workspace_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1074,10 +1074,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// Encryption
 	if workspace.Encryption != nil {
-		var encryption v20210701s.EncryptionProperty_Status
-		err := workspace.Encryption.AssignPropertiesToEncryptionPropertyStatus(&encryption)
+		var encryption v20210701s.EncryptionProperty_STATUS
+		err := workspace.Encryption.AssignPropertiesToEncryptionPropertySTATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertyStatus() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertySTATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1100,10 +1100,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// Identity
 	if workspace.Identity != nil {
-		var identity v20210701s.Identity_Status
-		err := workspace.Identity.AssignPropertiesToIdentityStatus(&identity)
+		var identity v20210701s.Identity_STATUS
+		err := workspace.Identity.AssignPropertiesToIdentitySTATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1127,10 +1127,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// NotebookInfo
 	if workspace.NotebookInfo != nil {
-		var notebookInfo v20210701s.NotebookResourceInfo_Status
-		err := workspace.NotebookInfo.AssignPropertiesToNotebookResourceInfoStatus(&notebookInfo)
+		var notebookInfo v20210701s.NotebookResourceInfo_STATUS
+		err := workspace.NotebookInfo.AssignPropertiesToNotebookResourceInfoSTATUS(&notebookInfo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNotebookResourceInfoStatus() to populate field NotebookInfo")
+			return errors.Wrap(err, "calling AssignPropertiesToNotebookResourceInfoSTATUS() to populate field NotebookInfo")
 		}
 		destination.NotebookInfo = &notebookInfo
 	} else {
@@ -1142,14 +1142,14 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// PrivateEndpointConnections
 	if workspace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_Status_SubResourceEmbedded, len(workspace.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(workspace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210701s.PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
+			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1179,10 +1179,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// ServiceManagedResourcesSettings
 	if workspace.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings_Status
-		err := workspace.ServiceManagedResourcesSettings.AssignPropertiesToServiceManagedResourcesSettingsStatus(&serviceManagedResourcesSetting)
+		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings_STATUS
+		err := workspace.ServiceManagedResourcesSettings.AssignPropertiesToServiceManagedResourcesSettingsSTATUS(&serviceManagedResourcesSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceManagedResourcesSettingsStatus() to populate field ServiceManagedResourcesSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToServiceManagedResourcesSettingsSTATUS() to populate field ServiceManagedResourcesSettings")
 		}
 		destination.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
 	} else {
@@ -1194,14 +1194,14 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// SharedPrivateLinkResources
 	if workspace.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource_Status, len(workspace.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource_Status
-			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResourceStatus(&sharedPrivateLinkResource)
+			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource_STATUS
+			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResourceSTATUS(&sharedPrivateLinkResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResourceStatus() to populate field SharedPrivateLinkResources")
+				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResourceSTATUS() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -1212,10 +1212,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v20210701s.Sku_Status
-		err := workspace.Sku.AssignPropertiesToSkuStatus(&sku)
+		var sku v20210701s.Sku_STATUS
+		err := workspace.Sku.AssignPropertiesToSkuSTATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1235,10 +1235,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// SystemData
 	if workspace.SystemData != nil {
-		var systemDatum v20210701s.SystemData_Status
-		err := workspace.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210701s.SystemData_STATUS
+		err := workspace.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2330,34 +2330,34 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 	return nil
 }
 
-type EncryptionProperty_Status struct {
+type EncryptionProperty_STATUS struct {
 	// Identity: The identity that will be used to access the key vault for encryption at rest.
-	Identity *IdentityForCmk_Status `json:"identity,omitempty"`
+	Identity *IdentityForCmk_STATUS `json:"identity,omitempty"`
 
 	// KeyVaultProperties: Customer Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionPropertyStatusStatus `json:"status,omitempty"`
+	Status *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &EncryptionProperty_Status{}
+var _ genruntime.FromARMConverter = &EncryptionProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *EncryptionProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EncryptionProperty_StatusARM{}
+func (property *EncryptionProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EncryptionProperty_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *EncryptionProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EncryptionProperty_StatusARM)
+func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EncryptionProperty_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperty_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperty_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 IdentityForCmk_Status
+		var identity1 IdentityForCmk_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -2368,7 +2368,7 @@ func (property *EncryptionProperty_Status) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘KeyVaultProperties’:
 	if typedInput.KeyVaultProperties != nil {
-		var keyVaultProperties1 KeyVaultProperties_Status
+		var keyVaultProperties1 KeyVaultProperties_STATUS
 		err := keyVaultProperties1.PopulateFromARM(owner, *typedInput.KeyVaultProperties)
 		if err != nil {
 			return err
@@ -2387,15 +2387,15 @@ func (property *EncryptionProperty_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromEncryptionPropertyStatus populates our EncryptionProperty_Status from the provided source EncryptionProperty_Status
-func (property *EncryptionProperty_Status) AssignPropertiesFromEncryptionPropertyStatus(source *v20210701s.EncryptionProperty_Status) error {
+// AssignPropertiesFromEncryptionPropertySTATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
+func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropertySTATUS(source *v20210701s.EncryptionProperty_STATUS) error {
 
 	// Identity
 	if source.Identity != nil {
-		var identity IdentityForCmk_Status
-		err := identity.AssignPropertiesFromIdentityForCmkStatus(source.Identity)
+		var identity IdentityForCmk_STATUS
+		err := identity.AssignPropertiesFromIdentityForCmkSTATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityForCmkStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityForCmkSTATUS() to populate field Identity")
 		}
 		property.Identity = &identity
 	} else {
@@ -2404,10 +2404,10 @@ func (property *EncryptionProperty_Status) AssignPropertiesFromEncryptionPropert
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
-		var keyVaultProperty KeyVaultProperties_Status
-		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesStatus(source.KeyVaultProperties)
+		var keyVaultProperty KeyVaultProperties_STATUS
+		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSTATUS(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2416,7 +2416,7 @@ func (property *EncryptionProperty_Status) AssignPropertiesFromEncryptionPropert
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionPropertyStatusStatus(*source.Status)
+		status := EncryptionPropertySTATUSStatus(*source.Status)
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -2426,17 +2426,17 @@ func (property *EncryptionProperty_Status) AssignPropertiesFromEncryptionPropert
 	return nil
 }
 
-// AssignPropertiesToEncryptionPropertyStatus populates the provided destination EncryptionProperty_Status from our EncryptionProperty_Status
-func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyStatus(destination *v20210701s.EncryptionProperty_Status) error {
+// AssignPropertiesToEncryptionPropertySTATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
+func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionPropertySTATUS(destination *v20210701s.EncryptionProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if property.Identity != nil {
-		var identity v20210701s.IdentityForCmk_Status
-		err := property.Identity.AssignPropertiesToIdentityForCmkStatus(&identity)
+		var identity v20210701s.IdentityForCmk_STATUS
+		err := property.Identity.AssignPropertiesToIdentityForCmkSTATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityForCmkStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityForCmkSTATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2445,10 +2445,10 @@ func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyS
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
-		var keyVaultProperty v20210701s.KeyVaultProperties_Status
-		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
+		var keyVaultProperty v20210701s.KeyVaultProperties_STATUS
+		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesSTATUS(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2603,7 +2603,7 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v20210701s.Ide
 	return nil
 }
 
-type Identity_Status struct {
+type Identity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -2611,24 +2611,24 @@ type Identity_Status struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *IdentityStatusType `json:"type,omitempty"`
+	Type *IdentitySTATUSType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The user assigned identities associated with the resource.
-	UserAssignedIdentities map[string]UserAssignedIdentity_Status `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Identity_Status{}
+var _ genruntime.FromARMConverter = &Identity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Identity_StatusARM{}
+func (identity *Identity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Identity_StatusARM)
+func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Identity_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘PrincipalId’:
@@ -2651,9 +2651,9 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_Status, len(typedInput.UserAssignedIdentities))
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 UserAssignedIdentity_Status
+			var value1 UserAssignedIdentity_STATUS
 			err := value1.PopulateFromARM(owner, value)
 			if err != nil {
 				return err
@@ -2666,8 +2666,8 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v20210701s.Identity_Status) error {
+// AssignPropertiesFromIdentitySTATUS populates our Identity_STATUS from the provided source Identity_STATUS
+func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v20210701s.Identity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2677,7 +2677,7 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v202
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityStatusType(*source.Type)
+		typeVar := IdentitySTATUSType(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2685,14 +2685,14 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v202
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_Status, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserAssignedIdentity_Status
-			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityStatus(&userAssignedIdentityValue)
+			var userAssignedIdentity UserAssignedIdentity_STATUS
+			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentitySTATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentitySTATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2705,8 +2705,8 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v20210701s.Identity_Status) error {
+// AssignPropertiesToIdentitySTATUS populates the provided destination Identity_STATUS from our Identity_STATUS
+func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *v20210701s.Identity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2726,14 +2726,14 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210701s.UserAssignedIdentity_Status, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210701s.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210701s.UserAssignedIdentity_Status
-			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityStatus(&userAssignedIdentity)
+			var userAssignedIdentity v20210701s.UserAssignedIdentity_STATUS
+			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentitySTATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentitySTATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2753,28 +2753,28 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 	return nil
 }
 
-type NotebookResourceInfo_Status struct {
+type NotebookResourceInfo_STATUS struct {
 	Fqdn *string `json:"fqdn,omitempty"`
 
 	// NotebookPreparationError: The error that occurs when preparing notebook.
-	NotebookPreparationError *NotebookPreparationError_Status `json:"notebookPreparationError,omitempty"`
+	NotebookPreparationError *NotebookPreparationError_STATUS `json:"notebookPreparationError,omitempty"`
 
 	// ResourceId: the data plane resourceId that used to initialize notebook component
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &NotebookResourceInfo_Status{}
+var _ genruntime.FromARMConverter = &NotebookResourceInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (info *NotebookResourceInfo_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NotebookResourceInfo_StatusARM{}
+func (info *NotebookResourceInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NotebookResourceInfo_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (info *NotebookResourceInfo_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NotebookResourceInfo_StatusARM)
+func (info *NotebookResourceInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NotebookResourceInfo_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookResourceInfo_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookResourceInfo_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Fqdn’:
@@ -2785,7 +2785,7 @@ func (info *NotebookResourceInfo_Status) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘NotebookPreparationError’:
 	if typedInput.NotebookPreparationError != nil {
-		var notebookPreparationError1 NotebookPreparationError_Status
+		var notebookPreparationError1 NotebookPreparationError_STATUS
 		err := notebookPreparationError1.PopulateFromARM(owner, *typedInput.NotebookPreparationError)
 		if err != nil {
 			return err
@@ -2804,18 +2804,18 @@ func (info *NotebookResourceInfo_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromNotebookResourceInfoStatus populates our NotebookResourceInfo_Status from the provided source NotebookResourceInfo_Status
-func (info *NotebookResourceInfo_Status) AssignPropertiesFromNotebookResourceInfoStatus(source *v20210701s.NotebookResourceInfo_Status) error {
+// AssignPropertiesFromNotebookResourceInfoSTATUS populates our NotebookResourceInfo_STATUS from the provided source NotebookResourceInfo_STATUS
+func (info *NotebookResourceInfo_STATUS) AssignPropertiesFromNotebookResourceInfoSTATUS(source *v20210701s.NotebookResourceInfo_STATUS) error {
 
 	// Fqdn
 	info.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// NotebookPreparationError
 	if source.NotebookPreparationError != nil {
-		var notebookPreparationError NotebookPreparationError_Status
-		err := notebookPreparationError.AssignPropertiesFromNotebookPreparationErrorStatus(source.NotebookPreparationError)
+		var notebookPreparationError NotebookPreparationError_STATUS
+		err := notebookPreparationError.AssignPropertiesFromNotebookPreparationErrorSTATUS(source.NotebookPreparationError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNotebookPreparationErrorStatus() to populate field NotebookPreparationError")
+			return errors.Wrap(err, "calling AssignPropertiesFromNotebookPreparationErrorSTATUS() to populate field NotebookPreparationError")
 		}
 		info.NotebookPreparationError = &notebookPreparationError
 	} else {
@@ -2829,8 +2829,8 @@ func (info *NotebookResourceInfo_Status) AssignPropertiesFromNotebookResourceInf
 	return nil
 }
 
-// AssignPropertiesToNotebookResourceInfoStatus populates the provided destination NotebookResourceInfo_Status from our NotebookResourceInfo_Status
-func (info *NotebookResourceInfo_Status) AssignPropertiesToNotebookResourceInfoStatus(destination *v20210701s.NotebookResourceInfo_Status) error {
+// AssignPropertiesToNotebookResourceInfoSTATUS populates the provided destination NotebookResourceInfo_STATUS from our NotebookResourceInfo_STATUS
+func (info *NotebookResourceInfo_STATUS) AssignPropertiesToNotebookResourceInfoSTATUS(destination *v20210701s.NotebookResourceInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2839,10 +2839,10 @@ func (info *NotebookResourceInfo_Status) AssignPropertiesToNotebookResourceInfoS
 
 	// NotebookPreparationError
 	if info.NotebookPreparationError != nil {
-		var notebookPreparationError v20210701s.NotebookPreparationError_Status
-		err := info.NotebookPreparationError.AssignPropertiesToNotebookPreparationErrorStatus(&notebookPreparationError)
+		var notebookPreparationError v20210701s.NotebookPreparationError_STATUS
+		err := info.NotebookPreparationError.AssignPropertiesToNotebookPreparationErrorSTATUS(&notebookPreparationError)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNotebookPreparationErrorStatus() to populate field NotebookPreparationError")
+			return errors.Wrap(err, "calling AssignPropertiesToNotebookPreparationErrorSTATUS() to populate field NotebookPreparationError")
 		}
 		destination.NotebookPreparationError = &notebookPreparationError
 	} else {
@@ -2863,33 +2863,33 @@ func (info *NotebookResourceInfo_Status) AssignPropertiesToNotebookResourceInfoS
 	return nil
 }
 
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_Status `json:"identity,omitempty"`
+	Identity *Identity_STATUS `json:"identity,omitempty"`
 
 	// Sku: The sku of the workspace.
-	Sku *Sku_Status `json:"sku,omitempty"`
+	Sku *Sku_STATUS `json:"sku,omitempty"`
 
 	// SystemData: System data
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_Status_SubResourceEmbeddedARM)
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_Status_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -2900,7 +2900,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFr
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 Identity_Status
+		var identity1 Identity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -2911,7 +2911,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFr
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku_Status
+		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
@@ -2922,7 +2922,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFr
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -2935,18 +2935,18 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v20210701s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
-		var identity Identity_Status
-		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
+		var identity Identity_STATUS
+		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
 		}
 		embedded.Identity = &identity
 	} else {
@@ -2955,10 +2955,10 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
 		}
 		embedded.Sku = &sku
 	} else {
@@ -2967,10 +2967,10 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		embedded.SystemData = &systemDatum
 	} else {
@@ -2981,8 +2981,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v20210701s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2991,10 +2991,10 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 	// Identity
 	if embedded.Identity != nil {
-		var identity v20210701s.Identity_Status
-		err := embedded.Identity.AssignPropertiesToIdentityStatus(&identity)
+		var identity v20210701s.Identity_STATUS
+		err := embedded.Identity.AssignPropertiesToIdentitySTATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -3003,10 +3003,10 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 	// Sku
 	if embedded.Sku != nil {
-		var sku v20210701s.Sku_Status
-		err := embedded.Sku.AssignPropertiesToSkuStatus(&sku)
+		var sku v20210701s.Sku_STATUS
+		err := embedded.Sku.AssignPropertiesToSkuSTATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -3015,10 +3015,10 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 
 	// SystemData
 	if embedded.SystemData != nil {
-		var systemDatum v20210701s.SystemData_Status
-		err := embedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210701s.SystemData_STATUS
+		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -3136,28 +3136,28 @@ func (settings *ServiceManagedResourcesSettings) AssignPropertiesToServiceManage
 	return nil
 }
 
-type ServiceManagedResourcesSettings_Status struct {
+type ServiceManagedResourcesSettings_STATUS struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
-	CosmosDb *CosmosDbSettings_Status `json:"cosmosDb,omitempty"`
+	CosmosDb *CosmosDbSettings_STATUS `json:"cosmosDb,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ServiceManagedResourcesSettings_Status{}
+var _ genruntime.FromARMConverter = &ServiceManagedResourcesSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *ServiceManagedResourcesSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServiceManagedResourcesSettings_StatusARM{}
+func (settings *ServiceManagedResourcesSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServiceManagedResourcesSettings_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *ServiceManagedResourcesSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServiceManagedResourcesSettings_StatusARM)
+func (settings *ServiceManagedResourcesSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServiceManagedResourcesSettings_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceManagedResourcesSettings_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceManagedResourcesSettings_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘CosmosDb’:
 	if typedInput.CosmosDb != nil {
-		var cosmosDb1 CosmosDbSettings_Status
+		var cosmosDb1 CosmosDbSettings_STATUS
 		err := cosmosDb1.PopulateFromARM(owner, *typedInput.CosmosDb)
 		if err != nil {
 			return err
@@ -3170,15 +3170,15 @@ func (settings *ServiceManagedResourcesSettings_Status) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromServiceManagedResourcesSettingsStatus populates our ServiceManagedResourcesSettings_Status from the provided source ServiceManagedResourcesSettings_Status
-func (settings *ServiceManagedResourcesSettings_Status) AssignPropertiesFromServiceManagedResourcesSettingsStatus(source *v20210701s.ServiceManagedResourcesSettings_Status) error {
+// AssignPropertiesFromServiceManagedResourcesSettingsSTATUS populates our ServiceManagedResourcesSettings_STATUS from the provided source ServiceManagedResourcesSettings_STATUS
+func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesFromServiceManagedResourcesSettingsSTATUS(source *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
 
 	// CosmosDb
 	if source.CosmosDb != nil {
-		var cosmosDb CosmosDbSettings_Status
-		err := cosmosDb.AssignPropertiesFromCosmosDbSettingsStatus(source.CosmosDb)
+		var cosmosDb CosmosDbSettings_STATUS
+		err := cosmosDb.AssignPropertiesFromCosmosDbSettingsSTATUS(source.CosmosDb)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCosmosDbSettingsStatus() to populate field CosmosDb")
+			return errors.Wrap(err, "calling AssignPropertiesFromCosmosDbSettingsSTATUS() to populate field CosmosDb")
 		}
 		settings.CosmosDb = &cosmosDb
 	} else {
@@ -3189,17 +3189,17 @@ func (settings *ServiceManagedResourcesSettings_Status) AssignPropertiesFromServ
 	return nil
 }
 
-// AssignPropertiesToServiceManagedResourcesSettingsStatus populates the provided destination ServiceManagedResourcesSettings_Status from our ServiceManagedResourcesSettings_Status
-func (settings *ServiceManagedResourcesSettings_Status) AssignPropertiesToServiceManagedResourcesSettingsStatus(destination *v20210701s.ServiceManagedResourcesSettings_Status) error {
+// AssignPropertiesToServiceManagedResourcesSettingsSTATUS populates the provided destination ServiceManagedResourcesSettings_STATUS from our ServiceManagedResourcesSettings_STATUS
+func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesToServiceManagedResourcesSettingsSTATUS(destination *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CosmosDb
 	if settings.CosmosDb != nil {
-		var cosmosDb v20210701s.CosmosDbSettings_Status
-		err := settings.CosmosDb.AssignPropertiesToCosmosDbSettingsStatus(&cosmosDb)
+		var cosmosDb v20210701s.CosmosDbSettings_STATUS
+		err := settings.CosmosDb.AssignPropertiesToCosmosDbSettingsSTATUS(&cosmosDb)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCosmosDbSettingsStatus() to populate field CosmosDb")
+			return errors.Wrap(err, "calling AssignPropertiesToCosmosDbSettingsSTATUS() to populate field CosmosDb")
 		}
 		destination.CosmosDb = &cosmosDb
 	} else {
@@ -3217,7 +3217,7 @@ func (settings *ServiceManagedResourcesSettings_Status) AssignPropertiesToServic
 	return nil
 }
 
-type SharedPrivateLinkResource_Status struct {
+type SharedPrivateLinkResource_STATUS struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
 
@@ -3231,21 +3231,21 @@ type SharedPrivateLinkResource_Status struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 
 	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus_Status `json:"status,omitempty"`
+	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SharedPrivateLinkResource_Status{}
+var _ genruntime.FromARMConverter = &SharedPrivateLinkResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SharedPrivateLinkResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedPrivateLinkResource_StatusARM{}
+func (resource *SharedPrivateLinkResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SharedPrivateLinkResource_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SharedPrivateLinkResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedPrivateLinkResource_StatusARM)
+func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SharedPrivateLinkResource_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘GroupId’:
@@ -3294,8 +3294,8 @@ func (resource *SharedPrivateLinkResource_Status) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromSharedPrivateLinkResourceStatus populates our SharedPrivateLinkResource_Status from the provided source SharedPrivateLinkResource_Status
-func (resource *SharedPrivateLinkResource_Status) AssignPropertiesFromSharedPrivateLinkResourceStatus(source *v20210701s.SharedPrivateLinkResource_Status) error {
+// AssignPropertiesFromSharedPrivateLinkResourceSTATUS populates our SharedPrivateLinkResource_STATUS from the provided source SharedPrivateLinkResource_STATUS
+func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesFromSharedPrivateLinkResourceSTATUS(source *v20210701s.SharedPrivateLinkResource_STATUS) error {
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -3311,7 +3311,7 @@ func (resource *SharedPrivateLinkResource_Status) AssignPropertiesFromSharedPriv
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus_Status(*source.Status)
+		status := PrivateEndpointServiceConnectionStatus_STATUS(*source.Status)
 		resource.Status = &status
 	} else {
 		resource.Status = nil
@@ -3321,8 +3321,8 @@ func (resource *SharedPrivateLinkResource_Status) AssignPropertiesFromSharedPriv
 	return nil
 }
 
-// AssignPropertiesToSharedPrivateLinkResourceStatus populates the provided destination SharedPrivateLinkResource_Status from our SharedPrivateLinkResource_Status
-func (resource *SharedPrivateLinkResource_Status) AssignPropertiesToSharedPrivateLinkResourceStatus(destination *v20210701s.SharedPrivateLinkResource_Status) error {
+// AssignPropertiesToSharedPrivateLinkResourceSTATUS populates the provided destination SharedPrivateLinkResource_STATUS from our SharedPrivateLinkResource_STATUS
+func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesToSharedPrivateLinkResourceSTATUS(destination *v20210701s.SharedPrivateLinkResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3452,7 +3452,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210701s.Sku) error {
 	return nil
 }
 
-type Sku_Status struct {
+type Sku_STATUS struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
 
@@ -3460,18 +3460,18 @@ type Sku_Status struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Sku_Status{}
+var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_StatusARM{}
+func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_StatusARM)
+func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3490,8 +3490,8 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210701s.Sku_Status) error {
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210701s.Sku_STATUS) error {
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -3503,8 +3503,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210701s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210701s.Sku_Status) error {
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210701s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3744,7 +3744,7 @@ func (data *SystemData) AssignPropertiesToSystemData(destination *v20210701s.Sys
 	return nil
 }
 
-type SystemData_Status struct {
+type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -3752,7 +3752,7 @@ type SystemData_Status struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -3761,21 +3761,21 @@ type SystemData_Status struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SystemData_Status{}
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_StatusARM{}
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SystemData_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_StatusARM)
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SystemData_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘CreatedAt’:
@@ -3818,8 +3818,8 @@ func (data *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v20210701s.SystemData_Status) error {
+// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20210701s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3829,7 +3829,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
+		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -3843,7 +3843,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -3853,8 +3853,8 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v20210701s.SystemData_Status) error {
+// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20210701s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3950,31 +3950,23 @@ func (operator *WorkspaceOperatorSpec) AssignPropertiesToWorkspaceOperatorSpec(d
 	return nil
 }
 
-type WorkspacePropertiesStatusProvisioningState string
+type WorkspacePropertiesSTATUSProvisioningState string
 
 const (
-	WorkspacePropertiesStatusProvisioningState_Canceled  = WorkspacePropertiesStatusProvisioningState("Canceled")
-	WorkspacePropertiesStatusProvisioningState_Creating  = WorkspacePropertiesStatusProvisioningState("Creating")
-	WorkspacePropertiesStatusProvisioningState_Deleting  = WorkspacePropertiesStatusProvisioningState("Deleting")
-	WorkspacePropertiesStatusProvisioningState_Failed    = WorkspacePropertiesStatusProvisioningState("Failed")
-	WorkspacePropertiesStatusProvisioningState_Succeeded = WorkspacePropertiesStatusProvisioningState("Succeeded")
-	WorkspacePropertiesStatusProvisioningState_Unknown   = WorkspacePropertiesStatusProvisioningState("Unknown")
-	WorkspacePropertiesStatusProvisioningState_Updating  = WorkspacePropertiesStatusProvisioningState("Updating")
+	WorkspacePropertiesSTATUSProvisioningState_Canceled  = WorkspacePropertiesSTATUSProvisioningState("Canceled")
+	WorkspacePropertiesSTATUSProvisioningState_Creating  = WorkspacePropertiesSTATUSProvisioningState("Creating")
+	WorkspacePropertiesSTATUSProvisioningState_Deleting  = WorkspacePropertiesSTATUSProvisioningState("Deleting")
+	WorkspacePropertiesSTATUSProvisioningState_Failed    = WorkspacePropertiesSTATUSProvisioningState("Failed")
+	WorkspacePropertiesSTATUSProvisioningState_Succeeded = WorkspacePropertiesSTATUSProvisioningState("Succeeded")
+	WorkspacePropertiesSTATUSProvisioningState_Unknown   = WorkspacePropertiesSTATUSProvisioningState("Unknown")
+	WorkspacePropertiesSTATUSProvisioningState_Updating  = WorkspacePropertiesSTATUSProvisioningState("Updating")
 )
 
-type WorkspacePropertiesStatusPublicNetworkAccess string
+type WorkspacePropertiesSTATUSPublicNetworkAccess string
 
 const (
-	WorkspacePropertiesStatusPublicNetworkAccess_Disabled = WorkspacePropertiesStatusPublicNetworkAccess("Disabled")
-	WorkspacePropertiesStatusPublicNetworkAccess_Enabled  = WorkspacePropertiesStatusPublicNetworkAccess("Enabled")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type WorkspacesSpecPropertiesPublicNetworkAccess string
-
-const (
-	WorkspacesSpecPropertiesPublicNetworkAccess_Disabled = WorkspacesSpecPropertiesPublicNetworkAccess("Disabled")
-	WorkspacesSpecPropertiesPublicNetworkAccess_Enabled  = WorkspacesSpecPropertiesPublicNetworkAccess("Enabled")
+	WorkspacePropertiesSTATUSPublicNetworkAccess_Disabled = WorkspacePropertiesSTATUSPublicNetworkAccess("Disabled")
+	WorkspacePropertiesSTATUSPublicNetworkAccess_Enabled  = WorkspacePropertiesSTATUSPublicNetworkAccess("Enabled")
 )
 
 type Workspaces_Spec_Properties_SharedPrivateLinkResources struct {
@@ -4163,6 +4155,14 @@ func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) AssignPr
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type WorkspacesSpecPropertiesPublicNetworkAccess string
+
+const (
+	WorkspacesSpecPropertiesPublicNetworkAccess_Disabled = WorkspacesSpecPropertiesPublicNetworkAccess("Disabled")
+	WorkspacesSpecPropertiesPublicNetworkAccess_Enabled  = WorkspacesSpecPropertiesPublicNetworkAccess("Enabled")
+)
+
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/CosmosDbSettings
 type CosmosDbSettings struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
@@ -4237,23 +4237,23 @@ func (settings *CosmosDbSettings) AssignPropertiesToCosmosDbSettings(destination
 	return nil
 }
 
-type CosmosDbSettings_Status struct {
+type CosmosDbSettings_STATUS struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &CosmosDbSettings_Status{}
+var _ genruntime.FromARMConverter = &CosmosDbSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *CosmosDbSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CosmosDbSettings_StatusARM{}
+func (settings *CosmosDbSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CosmosDbSettings_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *CosmosDbSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CosmosDbSettings_StatusARM)
+func (settings *CosmosDbSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CosmosDbSettings_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CosmosDbSettings_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CosmosDbSettings_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘CollectionsThroughput’:
@@ -4266,8 +4266,8 @@ func (settings *CosmosDbSettings_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromCosmosDbSettingsStatus populates our CosmosDbSettings_Status from the provided source CosmosDbSettings_Status
-func (settings *CosmosDbSettings_Status) AssignPropertiesFromCosmosDbSettingsStatus(source *v20210701s.CosmosDbSettings_Status) error {
+// AssignPropertiesFromCosmosDbSettingsSTATUS populates our CosmosDbSettings_STATUS from the provided source CosmosDbSettings_STATUS
+func (settings *CosmosDbSettings_STATUS) AssignPropertiesFromCosmosDbSettingsSTATUS(source *v20210701s.CosmosDbSettings_STATUS) error {
 
 	// CollectionsThroughput
 	settings.CollectionsThroughput = genruntime.ClonePointerToInt(source.CollectionsThroughput)
@@ -4276,8 +4276,8 @@ func (settings *CosmosDbSettings_Status) AssignPropertiesFromCosmosDbSettingsSta
 	return nil
 }
 
-// AssignPropertiesToCosmosDbSettingsStatus populates the provided destination CosmosDbSettings_Status from our CosmosDbSettings_Status
-func (settings *CosmosDbSettings_Status) AssignPropertiesToCosmosDbSettingsStatus(destination *v20210701s.CosmosDbSettings_Status) error {
+// AssignPropertiesToCosmosDbSettingsSTATUS populates the provided destination CosmosDbSettings_STATUS from our CosmosDbSettings_STATUS
+func (settings *CosmosDbSettings_STATUS) AssignPropertiesToCosmosDbSettingsSTATUS(destination *v20210701s.CosmosDbSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4303,11 +4303,11 @@ const (
 	EncryptionPropertyStatus_Enabled  = EncryptionPropertyStatus("Enabled")
 )
 
-type EncryptionPropertyStatusStatus string
+type EncryptionPropertySTATUSStatus string
 
 const (
-	EncryptionPropertyStatusStatus_Disabled = EncryptionPropertyStatusStatus("Disabled")
-	EncryptionPropertyStatusStatus_Enabled  = EncryptionPropertyStatusStatus("Enabled")
+	EncryptionPropertySTATUSStatus_Disabled = EncryptionPropertySTATUSStatus("Disabled")
+	EncryptionPropertySTATUSStatus_Enabled  = EncryptionPropertySTATUSStatus("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/IdentityForCmk
@@ -4384,23 +4384,23 @@ func (forCmk *IdentityForCmk) AssignPropertiesToIdentityForCmk(destination *v202
 	return nil
 }
 
-type IdentityForCmk_Status struct {
+type IdentityForCmk_STATUS struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &IdentityForCmk_Status{}
+var _ genruntime.FromARMConverter = &IdentityForCmk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (forCmk *IdentityForCmk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IdentityForCmk_StatusARM{}
+func (forCmk *IdentityForCmk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IdentityForCmk_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (forCmk *IdentityForCmk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IdentityForCmk_StatusARM)
+func (forCmk *IdentityForCmk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(IdentityForCmk_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityForCmk_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityForCmk_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘UserAssignedIdentity’:
@@ -4413,8 +4413,8 @@ func (forCmk *IdentityForCmk_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromIdentityForCmkStatus populates our IdentityForCmk_Status from the provided source IdentityForCmk_Status
-func (forCmk *IdentityForCmk_Status) AssignPropertiesFromIdentityForCmkStatus(source *v20210701s.IdentityForCmk_Status) error {
+// AssignPropertiesFromIdentityForCmkSTATUS populates our IdentityForCmk_STATUS from the provided source IdentityForCmk_STATUS
+func (forCmk *IdentityForCmk_STATUS) AssignPropertiesFromIdentityForCmkSTATUS(source *v20210701s.IdentityForCmk_STATUS) error {
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -4423,8 +4423,8 @@ func (forCmk *IdentityForCmk_Status) AssignPropertiesFromIdentityForCmkStatus(so
 	return nil
 }
 
-// AssignPropertiesToIdentityForCmkStatus populates the provided destination IdentityForCmk_Status from our IdentityForCmk_Status
-func (forCmk *IdentityForCmk_Status) AssignPropertiesToIdentityForCmkStatus(destination *v20210701s.IdentityForCmk_Status) error {
+// AssignPropertiesToIdentityForCmkSTATUS populates the provided destination IdentityForCmk_STATUS from our IdentityForCmk_STATUS
+func (forCmk *IdentityForCmk_STATUS) AssignPropertiesToIdentityForCmkSTATUS(destination *v20210701s.IdentityForCmk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4560,7 +4560,7 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-type KeyVaultProperties_Status struct {
+type KeyVaultProperties_STATUS struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 
@@ -4571,18 +4571,18 @@ type KeyVaultProperties_Status struct {
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &KeyVaultProperties_Status{}
+var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *KeyVaultProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultProperties_StatusARM{}
+func (properties *KeyVaultProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultProperties_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *KeyVaultProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultProperties_StatusARM)
+func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(KeyVaultProperties_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘IdentityClientId’:
@@ -4607,8 +4607,8 @@ func (properties *KeyVaultProperties_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultPropertiesStatus populates our KeyVaultProperties_Status from the provided source KeyVaultProperties_Status
-func (properties *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultPropertiesStatus(source *v20210701s.KeyVaultProperties_Status) error {
+// AssignPropertiesFromKeyVaultPropertiesSTATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropertiesSTATUS(source *v20210701s.KeyVaultProperties_STATUS) error {
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -4623,8 +4623,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
-// AssignPropertiesToKeyVaultPropertiesStatus populates the provided destination KeyVaultProperties_Status from our KeyVaultProperties_Status
-func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertiesStatus(destination *v20210701s.KeyVaultProperties_Status) error {
+// AssignPropertiesToKeyVaultPropertiesSTATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertiesSTATUS(destination *v20210701s.KeyVaultProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4648,23 +4648,23 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-type NotebookPreparationError_Status struct {
+type NotebookPreparationError_STATUS struct {
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	StatusCode   *int    `json:"statusCode,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &NotebookPreparationError_Status{}
+var _ genruntime.FromARMConverter = &NotebookPreparationError_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (error *NotebookPreparationError_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NotebookPreparationError_StatusARM{}
+func (error *NotebookPreparationError_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NotebookPreparationError_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (error *NotebookPreparationError_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NotebookPreparationError_StatusARM)
+func (error *NotebookPreparationError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NotebookPreparationError_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookPreparationError_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookPreparationError_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ErrorMessage’:
@@ -4683,8 +4683,8 @@ func (error *NotebookPreparationError_Status) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromNotebookPreparationErrorStatus populates our NotebookPreparationError_Status from the provided source NotebookPreparationError_Status
-func (error *NotebookPreparationError_Status) AssignPropertiesFromNotebookPreparationErrorStatus(source *v20210701s.NotebookPreparationError_Status) error {
+// AssignPropertiesFromNotebookPreparationErrorSTATUS populates our NotebookPreparationError_STATUS from the provided source NotebookPreparationError_STATUS
+func (error *NotebookPreparationError_STATUS) AssignPropertiesFromNotebookPreparationErrorSTATUS(source *v20210701s.NotebookPreparationError_STATUS) error {
 
 	// ErrorMessage
 	error.ErrorMessage = genruntime.ClonePointerToString(source.ErrorMessage)
@@ -4696,8 +4696,8 @@ func (error *NotebookPreparationError_Status) AssignPropertiesFromNotebookPrepar
 	return nil
 }
 
-// AssignPropertiesToNotebookPreparationErrorStatus populates the provided destination NotebookPreparationError_Status from our NotebookPreparationError_Status
-func (error *NotebookPreparationError_Status) AssignPropertiesToNotebookPreparationErrorStatus(destination *v20210701s.NotebookPreparationError_Status) error {
+// AssignPropertiesToNotebookPreparationErrorSTATUS populates the provided destination NotebookPreparationError_STATUS from our NotebookPreparationError_STATUS
+func (error *NotebookPreparationError_STATUS) AssignPropertiesToNotebookPreparationErrorSTATUS(destination *v20210701s.NotebookPreparationError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4718,14 +4718,14 @@ func (error *NotebookPreparationError_Status) AssignPropertiesToNotebookPreparat
 	return nil
 }
 
-type PrivateEndpointServiceConnectionStatus_Status string
+type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
-	PrivateEndpointServiceConnectionStatus_Status_Approved     = PrivateEndpointServiceConnectionStatus_Status("Approved")
-	PrivateEndpointServiceConnectionStatus_Status_Disconnected = PrivateEndpointServiceConnectionStatus_Status("Disconnected")
-	PrivateEndpointServiceConnectionStatus_Status_Pending      = PrivateEndpointServiceConnectionStatus_Status("Pending")
-	PrivateEndpointServiceConnectionStatus_Status_Rejected     = PrivateEndpointServiceConnectionStatus_Status("Rejected")
-	PrivateEndpointServiceConnectionStatus_Status_Timeout      = PrivateEndpointServiceConnectionStatus_Status("Timeout")
+	PrivateEndpointServiceConnectionStatus_STATUS_Approved     = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
+	PrivateEndpointServiceConnectionStatus_STATUS_Disconnected = PrivateEndpointServiceConnectionStatus_STATUS("Disconnected")
+	PrivateEndpointServiceConnectionStatus_STATUS_Pending      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
+	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
+	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
 )
 
 // +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
@@ -4739,7 +4739,7 @@ const (
 	SharedPrivateLinkResourcePropertyStatus_Timeout      = SharedPrivateLinkResourcePropertyStatus("Timeout")
 )
 
-type UserAssignedIdentity_Status struct {
+type UserAssignedIdentity_STATUS struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -4750,18 +4750,18 @@ type UserAssignedIdentity_Status struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &UserAssignedIdentity_Status{}
+var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *UserAssignedIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_StatusARM{}
+func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *UserAssignedIdentity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_StatusARM)
+func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentity_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ClientId’:
@@ -4786,8 +4786,8 @@ func (identity *UserAssignedIdentity_Status) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentityStatus populates our UserAssignedIdentity_Status from the provided source UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v20210701s.UserAssignedIdentity_Status) error {
+// AssignPropertiesFromUserAssignedIdentitySTATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIdentitySTATUS(source *v20210701s.UserAssignedIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -4802,8 +4802,8 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIde
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentityStatus populates the provided destination UserAssignedIdentity_Status from our UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdentityStatus(destination *v20210701s.UserAssignedIdentity_Status) error {
+// AssignPropertiesToUserAssignedIdentitySTATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdentitySTATUS(destination *v20210701s.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

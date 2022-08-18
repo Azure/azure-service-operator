@@ -48,15 +48,15 @@ type BList struct {
 	Items           []B `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-06-01")
-
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider           AParameters `json:"forProvider,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type B_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`

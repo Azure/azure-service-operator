@@ -28,7 +28,7 @@ type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Disks_Spec  `json:"spec,omitempty"`
-	Status            Disk_Status `json:"status,omitempty"`
+	Status            Disk_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Disk{}
@@ -77,7 +77,7 @@ func (disk *Disk) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Disk_Status{}
+	return &Disk_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (disk *Disk) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (disk *Disk) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Disk_Status); ok {
+	if st, ok := status.(*Disk_STATUS); ok {
 		disk.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Disk_Status
+	var st Disk_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,11 +136,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-09-30")
 
-// Storage version of v1beta20200930.Disk_Status
-type Disk_Status struct {
+// Storage version of v1beta20200930.Disk_STATUS
+type Disk_STATUS struct {
 	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
 	DiskIOPSReadOnly             *int                                 `json:"diskIOPSReadOnly,omitempty"`
 	DiskIOPSReadWrite            *int                                 `json:"diskIOPSReadWrite,omitempty"`
@@ -149,9 +149,9 @@ type Disk_Status struct {
 	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                              `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
 	Id                           *string                              `json:"id,omitempty"`
 	Location                     *string                              `json:"location,omitempty"`
@@ -163,9 +163,9 @@ type Disk_Status struct {
 	OsType                       *string                              `json:"osType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
-	ShareInfo                    []ShareInfoElement_Status            `json:"shareInfo,omitempty"`
-	Sku                          *DiskSku_Status                      `json:"sku,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	ShareInfo                    []ShareInfoElement_STATUS            `json:"shareInfo,omitempty"`
+	Sku                          *DiskSku_STATUS                      `json:"sku,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	Tier                         *string                              `json:"tier,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
@@ -174,10 +174,10 @@ type Disk_Status struct {
 	Zones                        []string                             `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Disk_Status{}
+var _ genruntime.ConvertibleStatus = &Disk_STATUS{}
 
-// ConvertStatusFrom populates our Disk_Status from the provided source
-func (disk *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Disk_STATUS from the provided source
+func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == disk {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -185,8 +185,8 @@ func (disk *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	return source.ConvertStatusTo(disk)
 }
 
-// ConvertStatusTo populates the provided destination from our Disk_Status
-func (disk *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Disk_STATUS
+func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == disk {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -268,11 +268,11 @@ type CreationData struct {
 	UploadSizeBytes         *int                          `json:"uploadSizeBytes,omitempty"`
 }
 
-// Storage version of v1beta20200930.CreationData_Status
-type CreationData_Status struct {
+// Storage version of v1beta20200930.CreationData_STATUS
+type CreationData_STATUS struct {
 	CreateOption          *string                    `json:"createOption,omitempty"`
-	GalleryImageReference *ImageDiskReference_Status `json:"galleryImageReference,omitempty"`
-	ImageReference        *ImageDiskReference_Status `json:"imageReference,omitempty"`
+	GalleryImageReference *ImageDiskReference_STATUS `json:"galleryImageReference,omitempty"`
+	ImageReference        *ImageDiskReference_STATUS `json:"imageReference,omitempty"`
 	LogicalSectorSize     *int                       `json:"logicalSectorSize,omitempty"`
 	PropertyBag           genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	SourceResourceId      *string                    `json:"sourceResourceId,omitempty"`
@@ -289,8 +289,8 @@ type DiskSku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200930.DiskSku_Status
-type DiskSku_Status struct {
+// Storage version of v1beta20200930.DiskSku_STATUS
+type DiskSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -305,6 +305,13 @@ type Encryption struct {
 	Type                       *string                       `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20200930.Encryption_STATUS
+type Encryption_STATUS struct {
+	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                *string                `json:"type,omitempty"`
+}
+
 // Storage version of v1beta20200930.EncryptionSettingsCollection
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection
 type EncryptionSettingsCollection struct {
@@ -314,19 +321,12 @@ type EncryptionSettingsCollection struct {
 	PropertyBag               genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200930.EncryptionSettingsCollection_Status
-type EncryptionSettingsCollection_Status struct {
+// Storage version of v1beta20200930.EncryptionSettingsCollection_STATUS
+type EncryptionSettingsCollection_STATUS struct {
 	Enabled                   *bool                              `json:"enabled,omitempty"`
-	EncryptionSettings        []EncryptionSettingsElement_Status `json:"encryptionSettings,omitempty"`
+	EncryptionSettings        []EncryptionSettingsElement_STATUS `json:"encryptionSettings,omitempty"`
 	EncryptionSettingsVersion *string                            `json:"encryptionSettingsVersion,omitempty"`
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200930.Encryption_Status
-type Encryption_Status struct {
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20200930.ExtendedLocation
@@ -381,15 +381,15 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-// Storage version of v1beta20200930.ExtendedLocation_Status
-type ExtendedLocation_Status struct {
+// Storage version of v1beta20200930.ExtendedLocation_STATUS
+type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v20201201s.ExtendedLocation_Status) error {
+// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *v20201201s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -410,8 +410,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v20201201s.ExtendedLocation_Status) error {
+// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -442,8 +442,8 @@ type PurchasePlan struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// Storage version of v1beta20200930.PurchasePlan_Status
-type PurchasePlan_Status struct {
+// Storage version of v1beta20200930.PurchasePlan_STATUS
+type PurchasePlan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
 	PromotionCode *string                `json:"promotionCode,omitempty"`
@@ -451,8 +451,8 @@ type PurchasePlan_Status struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// Storage version of v1beta20200930.ShareInfoElement_Status
-type ShareInfoElement_Status struct {
+// Storage version of v1beta20200930.ShareInfoElement_STATUS
+type ShareInfoElement_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmUri       *string                `json:"vmUri,omitempty"`
 }
@@ -465,10 +465,10 @@ type EncryptionSettingsElement struct {
 	PropertyBag       genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200930.EncryptionSettingsElement_Status
-type EncryptionSettingsElement_Status struct {
-	DiskEncryptionKey *KeyVaultAndSecretReference_Status `json:"diskEncryptionKey,omitempty"`
-	KeyEncryptionKey  *KeyVaultAndKeyReference_Status    `json:"keyEncryptionKey,omitempty"`
+// Storage version of v1beta20200930.EncryptionSettingsElement_STATUS
+type EncryptionSettingsElement_STATUS struct {
+	DiskEncryptionKey *KeyVaultAndSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
+	KeyEncryptionKey  *KeyVaultAndKeyReference_STATUS    `json:"keyEncryptionKey,omitempty"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
@@ -483,8 +483,8 @@ type ImageDiskReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20200930.ImageDiskReference_Status
-type ImageDiskReference_Status struct {
+// Storage version of v1beta20200930.ImageDiskReference_STATUS
+type ImageDiskReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Lun         *int                   `json:"lun,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -498,11 +498,11 @@ type KeyVaultAndKeyReference struct {
 	SourceVault *SourceVault           `json:"sourceVault,omitempty"`
 }
 
-// Storage version of v1beta20200930.KeyVaultAndKeyReference_Status
-type KeyVaultAndKeyReference_Status struct {
+// Storage version of v1beta20200930.KeyVaultAndKeyReference_STATUS
+type KeyVaultAndKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceVault *SourceVault_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SourceVault_STATUS    `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1beta20200930.KeyVaultAndSecretReference
@@ -513,11 +513,11 @@ type KeyVaultAndSecretReference struct {
 	SourceVault *SourceVault           `json:"sourceVault,omitempty"`
 }
 
-// Storage version of v1beta20200930.KeyVaultAndSecretReference_Status
-type KeyVaultAndSecretReference_Status struct {
+// Storage version of v1beta20200930.KeyVaultAndSecretReference_STATUS
+type KeyVaultAndSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SourceVault_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SourceVault_STATUS    `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1beta20200930.SourceVault
@@ -529,8 +529,8 @@ type SourceVault struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20200930.SourceVault_Status
-type SourceVault_Status struct {
+// Storage version of v1beta20200930.SourceVault_STATUS
+type SourceVault_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

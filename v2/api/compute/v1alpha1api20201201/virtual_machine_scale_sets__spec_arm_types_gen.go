@@ -162,13 +162,6 @@ type ScheduledEventsProfileARM struct {
 	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-// Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
-type VirtualMachineScaleSetStorageProfileARM struct {
-	DataDisks      []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
-	ImageReference *ImageReferenceARM                  `json:"imageReference,omitempty"`
-	OsDisk         *VirtualMachineScaleSetOSDiskARM    `json:"osDisk,omitempty"`
-}
-
 // Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
 	Extensions           []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
@@ -190,6 +183,13 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM 
 	LinuxConfiguration   *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
 	Secrets              []VaultSecretGroupARM    `json:"secrets,omitempty"`
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
+}
+
+// Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
+type VirtualMachineScaleSetStorageProfileARM struct {
+	DataDisks      []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
+	ImageReference *ImageReferenceARM                  `json:"imageReference,omitempty"`
+	OsDisk         *VirtualMachineScaleSetOSDiskARM    `json:"osDisk,omitempty"`
 }
 
 // Deprecated version of ApiEntityReference. Use v1beta20201201.ApiEntityReference instead

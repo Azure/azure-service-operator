@@ -26,7 +26,7 @@ type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesEventhubs_Spec `json:"spec,omitempty"`
-	Status            Eventhub_Status          `json:"status,omitempty"`
+	Status            Eventhub_STATUS          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhub{}
@@ -97,7 +97,7 @@ func (eventhub *NamespacesEventhub) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Eventhub_Status{}
+	return &Eventhub_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Eventhub_Status); ok {
+	if st, ok := status.(*Eventhub_STATUS); ok {
 		eventhub.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Eventhub_Status
+	var st Eventhub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (eventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEventhub(sourc
 	eventhub.Spec = spec
 
 	// Status
-	var status Eventhub_Status
-	err = status.AssignPropertiesFromEventhubStatus(&source.Status)
+	var status Eventhub_STATUS
+	err = status.AssignPropertiesFromEventhubSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEventhubStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventhubSTATUS() to populate field Status")
 	}
 	eventhub.Status = status
 
@@ -170,10 +170,10 @@ func (eventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventhub(destina
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.Eventhub_Status
-	err = eventhub.Status.AssignPropertiesToEventhubStatus(&status)
+	var status v20211101s.Eventhub_STATUS
+	err = eventhub.Status.AssignPropertiesToEventhubSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEventhubStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEventhubSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,10 +199,10 @@ type NamespacesEventhubList struct {
 	Items           []NamespacesEventhub `json:"items"`
 }
 
-// Storage version of v1alpha1api20211101.Eventhub_Status
-// Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
-type Eventhub_Status struct {
-	CaptureDescription     *CaptureDescription_Status `json:"captureDescription,omitempty"`
+// Storage version of v1alpha1api20211101.Eventhub_STATUS
+// Deprecated version of Eventhub_STATUS. Use v1beta20211101.Eventhub_STATUS instead
+type Eventhub_STATUS struct {
+	CaptureDescription     *CaptureDescription_STATUS `json:"captureDescription,omitempty"`
 	Conditions             []conditions.Condition     `json:"conditions,omitempty"`
 	CreatedAt              *string                    `json:"createdAt,omitempty"`
 	Id                     *string                    `json:"id,omitempty"`
@@ -213,30 +213,30 @@ type Eventhub_Status struct {
 	PartitionIds           []string                   `json:"partitionIds,omitempty"`
 	PropertyBag            genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status                 *string                    `json:"status,omitempty"`
-	SystemData             *SystemData_Status         `json:"systemData,omitempty"`
+	SystemData             *SystemData_STATUS         `json:"systemData,omitempty"`
 	Type                   *string                    `json:"type,omitempty"`
 	UpdatedAt              *string                    `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Eventhub_Status{}
+var _ genruntime.ConvertibleStatus = &Eventhub_STATUS{}
 
-// ConvertStatusFrom populates our Eventhub_Status from the provided source
-func (eventhub *Eventhub_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.Eventhub_Status)
+// ConvertStatusFrom populates our Eventhub_STATUS from the provided source
+func (eventhub *Eventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20211101s.Eventhub_STATUS)
 	if ok {
 		// Populate our instance from source
-		return eventhub.AssignPropertiesFromEventhubStatus(src)
+		return eventhub.AssignPropertiesFromEventhubSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.Eventhub_Status{}
+	src = &v20211101s.Eventhub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = eventhub.AssignPropertiesFromEventhubStatus(src)
+	err = eventhub.AssignPropertiesFromEventhubSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -244,17 +244,17 @@ func (eventhub *Eventhub_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Eventhub_Status
-func (eventhub *Eventhub_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.Eventhub_Status)
+// ConvertStatusTo populates the provided destination from our Eventhub_STATUS
+func (eventhub *Eventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20211101s.Eventhub_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return eventhub.AssignPropertiesToEventhubStatus(dst)
+		return eventhub.AssignPropertiesToEventhubSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.Eventhub_Status{}
-	err := eventhub.AssignPropertiesToEventhubStatus(dst)
+	dst = &v20211101s.Eventhub_STATUS{}
+	err := eventhub.AssignPropertiesToEventhubSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -268,17 +268,17 @@ func (eventhub *Eventhub_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromEventhubStatus populates our Eventhub_Status from the provided source Eventhub_Status
-func (eventhub *Eventhub_Status) AssignPropertiesFromEventhubStatus(source *v20211101s.Eventhub_Status) error {
+// AssignPropertiesFromEventhubSTATUS populates our Eventhub_STATUS from the provided source Eventhub_STATUS
+func (eventhub *Eventhub_STATUS) AssignPropertiesFromEventhubSTATUS(source *v20211101s.Eventhub_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// CaptureDescription
 	if source.CaptureDescription != nil {
-		var captureDescription CaptureDescription_Status
-		err := captureDescription.AssignPropertiesFromCaptureDescriptionStatus(source.CaptureDescription)
+		var captureDescription CaptureDescription_STATUS
+		err := captureDescription.AssignPropertiesFromCaptureDescriptionSTATUS(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCaptureDescriptionStatus() to populate field CaptureDescription")
+			return errors.Wrap(err, "calling AssignPropertiesFromCaptureDescriptionSTATUS() to populate field CaptureDescription")
 		}
 		eventhub.CaptureDescription = &captureDescription
 	} else {
@@ -314,10 +314,10 @@ func (eventhub *Eventhub_Status) AssignPropertiesFromEventhubStatus(source *v202
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		eventhub.SystemData = &systemDatum
 	} else {
@@ -341,17 +341,17 @@ func (eventhub *Eventhub_Status) AssignPropertiesFromEventhubStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToEventhubStatus populates the provided destination Eventhub_Status from our Eventhub_Status
-func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *v20211101s.Eventhub_Status) error {
+// AssignPropertiesToEventhubSTATUS populates the provided destination Eventhub_STATUS from our Eventhub_STATUS
+func (eventhub *Eventhub_STATUS) AssignPropertiesToEventhubSTATUS(destination *v20211101s.Eventhub_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(eventhub.PropertyBag)
 
 	// CaptureDescription
 	if eventhub.CaptureDescription != nil {
-		var captureDescription v20211101s.CaptureDescription_Status
-		err := eventhub.CaptureDescription.AssignPropertiesToCaptureDescriptionStatus(&captureDescription)
+		var captureDescription v20211101s.CaptureDescription_STATUS
+		err := eventhub.CaptureDescription.AssignPropertiesToCaptureDescriptionSTATUS(&captureDescription)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCaptureDescriptionStatus() to populate field CaptureDescription")
+			return errors.Wrap(err, "calling AssignPropertiesToCaptureDescriptionSTATUS() to populate field CaptureDescription")
 		}
 		destination.CaptureDescription = &captureDescription
 	} else {
@@ -387,10 +387,10 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *v
 
 	// SystemData
 	if eventhub.SystemData != nil {
-		var systemDatum v20211101s.SystemData_Status
-		err := eventhub.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20211101s.SystemData_STATUS
+		err := eventhub.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -594,10 +594,10 @@ func (eventhubs *NamespacesEventhubs_Spec) AssignPropertiesToNamespacesEventhubs
 	return nil
 }
 
-// Storage version of v1alpha1api20211101.CaptureDescription_Status
-// Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
-type CaptureDescription_Status struct {
-	Destination       *Destination_Status    `json:"destination,omitempty"`
+// Storage version of v1alpha1api20211101.CaptureDescription_STATUS
+// Deprecated version of CaptureDescription_STATUS. Use v1beta20211101.CaptureDescription_STATUS instead
+type CaptureDescription_STATUS struct {
+	Destination       *Destination_STATUS    `json:"destination,omitempty"`
 	Enabled           *bool                  `json:"enabled,omitempty"`
 	Encoding          *string                `json:"encoding,omitempty"`
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
@@ -606,17 +606,17 @@ type CaptureDescription_Status struct {
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
 }
 
-// AssignPropertiesFromCaptureDescriptionStatus populates our CaptureDescription_Status from the provided source CaptureDescription_Status
-func (description *CaptureDescription_Status) AssignPropertiesFromCaptureDescriptionStatus(source *v20211101s.CaptureDescription_Status) error {
+// AssignPropertiesFromCaptureDescriptionSTATUS populates our CaptureDescription_STATUS from the provided source CaptureDescription_STATUS
+func (description *CaptureDescription_STATUS) AssignPropertiesFromCaptureDescriptionSTATUS(source *v20211101s.CaptureDescription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Destination
 	if source.Destination != nil {
-		var destination Destination_Status
-		err := destination.AssignPropertiesFromDestinationStatus(source.Destination)
+		var destination Destination_STATUS
+		err := destination.AssignPropertiesFromDestinationSTATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesFromDestinationSTATUS() to populate field Destination")
 		}
 		description.Destination = &destination
 	} else {
@@ -659,17 +659,17 @@ func (description *CaptureDescription_Status) AssignPropertiesFromCaptureDescrip
 	return nil
 }
 
-// AssignPropertiesToCaptureDescriptionStatus populates the provided destination CaptureDescription_Status from our CaptureDescription_Status
-func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescriptionStatus(destination *v20211101s.CaptureDescription_Status) error {
+// AssignPropertiesToCaptureDescriptionSTATUS populates the provided destination CaptureDescription_STATUS from our CaptureDescription_STATUS
+func (description *CaptureDescription_STATUS) AssignPropertiesToCaptureDescriptionSTATUS(destination *v20211101s.CaptureDescription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(description.PropertyBag)
 
 	// Destination
 	if description.Destination != nil {
-		var destinationLocal v20211101s.Destination_Status
-		err := description.Destination.AssignPropertiesToDestinationStatus(&destinationLocal)
+		var destinationLocal v20211101s.Destination_STATUS
+		err := description.Destination.AssignPropertiesToDestinationSTATUS(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesToDestinationSTATUS() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -830,9 +830,9 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Assig
 	return nil
 }
 
-// Storage version of v1alpha1api20211101.Destination_Status
-// Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
-type Destination_Status struct {
+// Storage version of v1alpha1api20211101.Destination_STATUS
+// Deprecated version of Destination_STATUS. Use v1beta20211101.Destination_STATUS instead
+type Destination_STATUS struct {
 	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string                `json:"blobContainer,omitempty"`
 	DataLakeAccountName      *string                `json:"dataLakeAccountName,omitempty"`
@@ -843,8 +843,8 @@ type Destination_Status struct {
 	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
 }
 
-// AssignPropertiesFromDestinationStatus populates our Destination_Status from the provided source Destination_Status
-func (destination *Destination_Status) AssignPropertiesFromDestinationStatus(source *v20211101s.Destination_Status) error {
+// AssignPropertiesFromDestinationSTATUS populates our Destination_STATUS from the provided source Destination_STATUS
+func (destination *Destination_STATUS) AssignPropertiesFromDestinationSTATUS(source *v20211101s.Destination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -880,8 +880,8 @@ func (destination *Destination_Status) AssignPropertiesFromDestinationStatus(sou
 	return nil
 }
 
-// AssignPropertiesToDestinationStatus populates the provided destination Destination_Status from our Destination_Status
-func (destination *Destination_Status) AssignPropertiesToDestinationStatus(target *v20211101s.Destination_Status) error {
+// AssignPropertiesToDestinationSTATUS populates the provided destination Destination_STATUS from our Destination_STATUS
+func (destination *Destination_STATUS) AssignPropertiesToDestinationSTATUS(target *v20211101s.Destination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
 

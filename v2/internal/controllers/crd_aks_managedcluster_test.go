@@ -81,9 +81,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUStatusName_Basic))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUSTATUSName_Basic))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUStatusTier_Paid))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUSTATUSTier_Paid))
 
 	// Run sub tests
 	tc.RunSubtests(

@@ -62,12 +62,6 @@ type BgpSettingsARM struct {
 	PeerWeight          *int                                  `json:"peerWeight,omitempty"`
 }
 
-// Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
-type VirtualNetworkGatewaySkuARM struct {
-	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
-	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
-}
-
 // Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead
 type VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM struct {
 	Name       *string                                                  `json:"name,omitempty"`
@@ -88,6 +82,12 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM struct {
 	VpnClientProtocols           []VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols                  `json:"vpnClientProtocols,omitempty"`
 	VpnClientRevokedCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM `json:"vpnClientRevokedCertificates,omitempty"`
 	VpnClientRootCertificates    []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM    `json:"vpnClientRootCertificates,omitempty"`
+}
+
+// Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
+type VirtualNetworkGatewaySkuARM struct {
+	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
+	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
 }
 
 // Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead

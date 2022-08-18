@@ -14,12 +14,12 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (person *Person) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Person_Status{}
+	return &Person_STATUS{}
 }
 
 // +kubebuilder:object:root=true

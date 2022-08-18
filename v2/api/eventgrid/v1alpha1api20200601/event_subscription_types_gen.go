@@ -29,7 +29,7 @@ type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
-	Status            EventSubscription_Status `json:"status,omitempty"`
+	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &EventSubscription{}
@@ -137,7 +137,7 @@ func (subscription *EventSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EventSubscription_Status{}
+	return &EventSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -152,13 +152,13 @@ func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EventSubscription_Status); ok {
+	if st, ok := status.(*EventSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EventSubscription_Status
+	var st EventSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -276,10 +276,10 @@ func (subscription *EventSubscription) AssignPropertiesFromEventSubscription(sou
 	subscription.Spec = spec
 
 	// Status
-	var status EventSubscription_Status
-	err = status.AssignPropertiesFromEventSubscriptionStatus(&source.Status)
+	var status EventSubscription_STATUS
+	err = status.AssignPropertiesFromEventSubscriptionSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionSTATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -302,10 +302,10 @@ func (subscription *EventSubscription) AssignPropertiesToEventSubscription(desti
 	destination.Spec = spec
 
 	// Status
-	var status alpha20200601s.EventSubscription_Status
-	err = subscription.Status.AssignPropertiesToEventSubscriptionStatus(&status)
+	var status alpha20200601s.EventSubscription_STATUS
+	err = subscription.Status.AssignPropertiesToEventSubscriptionSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -330,44 +330,44 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
-// Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
-type EventSubscription_Status struct {
+// Deprecated version of EventSubscription_STATUS. Use v1beta20200601.EventSubscription_STATUS instead
+type EventSubscription_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions            []conditions.Condition                                `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_Status                         `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Status                  `json:"destination,omitempty"`
-	EventDeliverySchema   *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS                         `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS                  `json:"destination,omitempty"`
+	EventDeliverySchema   *EventSubscriptionPropertiesSTATUSEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                                               `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Status                       `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS                       `json:"filter,omitempty"`
 	Id                    *string                                               `json:"id,omitempty"`
 	Labels                []string                                              `json:"labels,omitempty"`
 	Name                  *string                                               `json:"name,omitempty"`
-	ProvisioningState     *EventSubscriptionPropertiesStatusProvisioningState   `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_Status                                   `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_Status                                    `json:"systemData,omitempty"`
+	ProvisioningState     *EventSubscriptionPropertiesSTATUSProvisioningState   `json:"provisioningState,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                                   `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                                    `json:"systemData,omitempty"`
 	Topic                 *string                                               `json:"topic,omitempty"`
 	Type                  *string                                               `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
+var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
-// ConvertStatusFrom populates our EventSubscription_Status from the provided source
-func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20200601s.EventSubscription_Status)
+// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
+func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+		return subscription.AssignPropertiesFromEventSubscriptionSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20200601s.EventSubscription_Status{}
+	src = &alpha20200601s.EventSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+	err = subscription.AssignPropertiesFromEventSubscriptionSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -375,17 +375,17 @@ func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our EventSubscription_Status
-func (subscription *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20200601s.EventSubscription_Status)
+// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+		return subscription.AssignPropertiesToEventSubscriptionSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20200601s.EventSubscription_Status{}
-	err := subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+	dst = &alpha20200601s.EventSubscription_STATUS{}
+	err := subscription.AssignPropertiesToEventSubscriptionSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -399,18 +399,18 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &EventSubscription_Status{}
+var _ genruntime.FromARMConverter = &EventSubscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subscription *EventSubscription_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscription_StatusARM{}
+func (subscription *EventSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EventSubscription_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscription_StatusARM)
+func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EventSubscription_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -419,7 +419,7 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
-			var deadLetterDestination1 DeadLetterDestination_Status
+			var deadLetterDestination1 DeadLetterDestination_STATUS
 			err := deadLetterDestination1.PopulateFromARM(owner, *typedInput.Properties.DeadLetterDestination)
 			if err != nil {
 				return err
@@ -433,7 +433,7 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Destination != nil {
-			var destination1 EventSubscriptionDestination_Status
+			var destination1 EventSubscriptionDestination_STATUS
 			err := destination1.PopulateFromARM(owner, *typedInput.Properties.Destination)
 			if err != nil {
 				return err
@@ -465,7 +465,7 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Filter != nil {
-			var filter1 EventSubscriptionFilter_Status
+			var filter1 EventSubscriptionFilter_STATUS
 			err := filter1.PopulateFromARM(owner, *typedInput.Properties.Filter)
 			if err != nil {
 				return err
@@ -508,7 +508,7 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryPolicy != nil {
-			var retryPolicy1 RetryPolicy_Status
+			var retryPolicy1 RetryPolicy_STATUS
 			err := retryPolicy1.PopulateFromARM(owner, *typedInput.Properties.RetryPolicy)
 			if err != nil {
 				return err
@@ -520,7 +520,7 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -548,18 +548,18 @@ func (subscription *EventSubscription_Status) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionStatus populates our EventSubscription_Status from the provided source EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscriptionStatus(source *alpha20200601s.EventSubscription_Status) error {
+// AssignPropertiesFromEventSubscriptionSTATUS populates our EventSubscription_STATUS from the provided source EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesFromEventSubscriptionSTATUS(source *alpha20200601s.EventSubscription_STATUS) error {
 
 	// Conditions
 	subscription.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
-		var deadLetterDestination DeadLetterDestination_Status
-		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestinationStatus(source.DeadLetterDestination)
+		var deadLetterDestination DeadLetterDestination_STATUS
+		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestinationSTATUS(source.DeadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestinationSTATUS() to populate field DeadLetterDestination")
 		}
 		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -568,10 +568,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Destination
 	if source.Destination != nil {
-		var destination EventSubscriptionDestination_Status
-		err := destination.AssignPropertiesFromEventSubscriptionDestinationStatus(source.Destination)
+		var destination EventSubscriptionDestination_STATUS
+		err := destination.AssignPropertiesFromEventSubscriptionDestinationSTATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestinationSTATUS() to populate field Destination")
 		}
 		subscription.Destination = &destination
 	} else {
@@ -580,7 +580,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// EventDeliverySchema
 	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionPropertiesStatusEventDeliverySchema(*source.EventDeliverySchema)
+		eventDeliverySchema := EventSubscriptionPropertiesSTATUSEventDeliverySchema(*source.EventDeliverySchema)
 		subscription.EventDeliverySchema = &eventDeliverySchema
 	} else {
 		subscription.EventDeliverySchema = nil
@@ -591,10 +591,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Filter
 	if source.Filter != nil {
-		var filter EventSubscriptionFilter_Status
-		err := filter.AssignPropertiesFromEventSubscriptionFilterStatus(source.Filter)
+		var filter EventSubscriptionFilter_STATUS
+		err := filter.AssignPropertiesFromEventSubscriptionFilterSTATUS(source.Filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilterSTATUS() to populate field Filter")
 		}
 		subscription.Filter = &filter
 	} else {
@@ -612,7 +612,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EventSubscriptionPropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := EventSubscriptionPropertiesSTATUSProvisioningState(*source.ProvisioningState)
 		subscription.ProvisioningState = &provisioningState
 	} else {
 		subscription.ProvisioningState = nil
@@ -620,10 +620,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// RetryPolicy
 	if source.RetryPolicy != nil {
-		var retryPolicy RetryPolicy_Status
-		err := retryPolicy.AssignPropertiesFromRetryPolicyStatus(source.RetryPolicy)
+		var retryPolicy RetryPolicy_STATUS
+		err := retryPolicy.AssignPropertiesFromRetryPolicySTATUS(source.RetryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicySTATUS() to populate field RetryPolicy")
 		}
 		subscription.RetryPolicy = &retryPolicy
 	} else {
@@ -632,10 +632,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		subscription.SystemData = &systemDatum
 	} else {
@@ -652,8 +652,8 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionStatus populates the provided destination EventSubscription_Status from our EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptionStatus(destination *alpha20200601s.EventSubscription_Status) error {
+// AssignPropertiesToEventSubscriptionSTATUS populates the provided destination EventSubscription_STATUS from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesToEventSubscriptionSTATUS(destination *alpha20200601s.EventSubscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -662,10 +662,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-		var deadLetterDestination alpha20200601s.DeadLetterDestination_Status
-		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestinationStatus(&deadLetterDestination)
+		var deadLetterDestination alpha20200601s.DeadLetterDestination_STATUS
+		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestinationSTATUS(&deadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestinationSTATUS() to populate field DeadLetterDestination")
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -674,10 +674,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Destination
 	if subscription.Destination != nil {
-		var destinationLocal alpha20200601s.EventSubscriptionDestination_Status
-		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestinationStatus(&destinationLocal)
+		var destinationLocal alpha20200601s.EventSubscriptionDestination_STATUS
+		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestinationSTATUS(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestinationSTATUS() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -697,10 +697,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Filter
 	if subscription.Filter != nil {
-		var filter alpha20200601s.EventSubscriptionFilter_Status
-		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilterStatus(&filter)
+		var filter alpha20200601s.EventSubscriptionFilter_STATUS
+		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilterSTATUS(&filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilterSTATUS() to populate field Filter")
 		}
 		destination.Filter = &filter
 	} else {
@@ -726,10 +726,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
-		var retryPolicy alpha20200601s.RetryPolicy_Status
-		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicyStatus(&retryPolicy)
+		var retryPolicy alpha20200601s.RetryPolicy_STATUS
+		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicySTATUS(&retryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicySTATUS() to populate field RetryPolicy")
 		}
 		destination.RetryPolicy = &retryPolicy
 	} else {
@@ -738,10 +738,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum alpha20200601s.SystemData_Status
-		err := subscription.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum alpha20200601s.SystemData_STATUS
+		err := subscription.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1240,23 +1240,23 @@ func (subscriptions *EventSubscriptions_Spec) SetAzureName(azureName string) {
 	subscriptions.AzureName = azureName
 }
 
-// Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
-type DeadLetterDestination_Status struct {
-	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
+// Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
+type DeadLetterDestination_STATUS struct {
+	EndpointType *DeadLetterDestinationSTATUSEndpointType `json:"endpointType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeadLetterDestination_Status{}
+var _ genruntime.FromARMConverter = &DeadLetterDestination_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (destination *DeadLetterDestination_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeadLetterDestination_StatusARM{}
+func (destination *DeadLetterDestination_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeadLetterDestination_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (destination *DeadLetterDestination_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeadLetterDestination_StatusARM)
+func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeadLetterDestination_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1269,12 +1269,12 @@ func (destination *DeadLetterDestination_Status) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromDeadLetterDestinationStatus populates our DeadLetterDestination_Status from the provided source DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterDestinationStatus(source *alpha20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesFromDeadLetterDestinationSTATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesFromDeadLetterDestinationSTATUS(source *alpha20200601s.DeadLetterDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := DeadLetterDestinationStatusEndpointType(*source.EndpointType)
+		endpointType := DeadLetterDestinationSTATUSEndpointType(*source.EndpointType)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -1284,8 +1284,8 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterD
 	return nil
 }
 
-// AssignPropertiesToDeadLetterDestinationStatus populates the provided destination DeadLetterDestination_Status from our DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDestinationStatus(target *alpha20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesToDeadLetterDestinationSTATUS populates the provided destination DeadLetterDestination_STATUS from our DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesToDeadLetterDestinationSTATUS(target *alpha20200601s.DeadLetterDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1684,23 +1684,23 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 	return nil
 }
 
-// Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
-type EventSubscriptionDestination_Status struct {
-	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
+// Deprecated version of EventSubscriptionDestination_STATUS. Use v1beta20200601.EventSubscriptionDestination_STATUS instead
+type EventSubscriptionDestination_STATUS struct {
+	EndpointType *EventSubscriptionDestinationSTATUSEndpointType `json:"endpointType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &EventSubscriptionDestination_Status{}
+var _ genruntime.FromARMConverter = &EventSubscriptionDestination_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (destination *EventSubscriptionDestination_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionDestination_StatusARM{}
+func (destination *EventSubscriptionDestination_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EventSubscriptionDestination_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (destination *EventSubscriptionDestination_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionDestination_StatusARM)
+func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EventSubscriptionDestination_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘EndpointType’:
@@ -1713,12 +1713,12 @@ func (destination *EventSubscriptionDestination_Status) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionDestinationStatus populates our EventSubscriptionDestination_Status from the provided source EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEventSubscriptionDestinationStatus(source *alpha20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesFromEventSubscriptionDestinationSTATUS populates our EventSubscriptionDestination_STATUS from the provided source EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesFromEventSubscriptionDestinationSTATUS(source *alpha20200601s.EventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := EventSubscriptionDestinationStatusEndpointType(*source.EndpointType)
+		endpointType := EventSubscriptionDestinationSTATUSEndpointType(*source.EndpointType)
 		destination.EndpointType = &endpointType
 	} else {
 		destination.EndpointType = nil
@@ -1728,8 +1728,8 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEven
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionDestinationStatus populates the provided destination EventSubscriptionDestination_Status from our EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventSubscriptionDestinationStatus(target *alpha20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesToEventSubscriptionDestinationSTATUS populates the provided destination EventSubscriptionDestination_STATUS from our EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesToEventSubscriptionDestinationSTATUS(target *alpha20200601s.EventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1946,32 +1946,32 @@ func (filter *EventSubscriptionFilter) AssignPropertiesToEventSubscriptionFilter
 	return nil
 }
 
-// Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
-type EventSubscriptionFilter_Status struct {
-	AdvancedFilters        []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
+// Deprecated version of EventSubscriptionFilter_STATUS. Use v1beta20200601.EventSubscriptionFilter_STATUS instead
+type EventSubscriptionFilter_STATUS struct {
+	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
 	IsSubjectCaseSensitive *bool                   `json:"isSubjectCaseSensitive,omitempty"`
 	SubjectBeginsWith      *string                 `json:"subjectBeginsWith,omitempty"`
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &EventSubscriptionFilter_Status{}
+var _ genruntime.FromARMConverter = &EventSubscriptionFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (filter *EventSubscriptionFilter_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventSubscriptionFilter_StatusARM{}
+func (filter *EventSubscriptionFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EventSubscriptionFilter_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (filter *EventSubscriptionFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventSubscriptionFilter_StatusARM)
+func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EventSubscriptionFilter_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AdvancedFilters’:
 	for _, item := range typedInput.AdvancedFilters {
-		var item1 AdvancedFilter_Status
+		var item1 AdvancedFilter_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2006,19 +2006,19 @@ func (filter *EventSubscriptionFilter_Status) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionFilterStatus populates our EventSubscriptionFilter_Status from the provided source EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscriptionFilterStatus(source *alpha20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesFromEventSubscriptionFilterSTATUS populates our EventSubscriptionFilter_STATUS from the provided source EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesFromEventSubscriptionFilterSTATUS(source *alpha20200601s.EventSubscriptionFilter_STATUS) error {
 
 	// AdvancedFilters
 	if source.AdvancedFilters != nil {
-		advancedFilterList := make([]AdvancedFilter_Status, len(source.AdvancedFilters))
+		advancedFilterList := make([]AdvancedFilter_STATUS, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter AdvancedFilter_Status
-			err := advancedFilter.AssignPropertiesFromAdvancedFilterStatus(&advancedFilterItem)
+			var advancedFilter AdvancedFilter_STATUS
+			err := advancedFilter.AssignPropertiesFromAdvancedFilterSTATUS(&advancedFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterSTATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -2048,21 +2048,21 @@ func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionFilterStatus populates the provided destination EventSubscriptionFilter_Status from our EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesToEventSubscriptionFilterStatus(destination *alpha20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesToEventSubscriptionFilterSTATUS populates the provided destination EventSubscriptionFilter_STATUS from our EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesToEventSubscriptionFilterSTATUS(destination *alpha20200601s.EventSubscriptionFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdvancedFilters
 	if filter.AdvancedFilters != nil {
-		advancedFilterList := make([]alpha20200601s.AdvancedFilter_Status, len(filter.AdvancedFilters))
+		advancedFilterList := make([]alpha20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter alpha20200601s.AdvancedFilter_Status
-			err := advancedFilterItem.AssignPropertiesToAdvancedFilterStatus(&advancedFilter)
+			var advancedFilter alpha20200601s.AdvancedFilter_STATUS
+			err := advancedFilterItem.AssignPropertiesToAdvancedFilterSTATUS(&advancedFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterSTATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -2110,28 +2110,28 @@ const (
 	EventSubscriptionPropertiesEventDeliverySchema_EventGridSchema     = EventSubscriptionPropertiesEventDeliverySchema("EventGridSchema")
 )
 
-// Deprecated version of EventSubscriptionPropertiesStatusEventDeliverySchema. Use
-// v1beta20200601.EventSubscriptionPropertiesStatusEventDeliverySchema instead
-type EventSubscriptionPropertiesStatusEventDeliverySchema string
+// Deprecated version of EventSubscriptionPropertiesSTATUSEventDeliverySchema. Use
+// v1beta20200601.EventSubscriptionPropertiesSTATUSEventDeliverySchema instead
+type EventSubscriptionPropertiesSTATUSEventDeliverySchema string
 
 const (
-	EventSubscriptionPropertiesStatusEventDeliverySchema_CloudEventSchemaV10 = EventSubscriptionPropertiesStatusEventDeliverySchema("CloudEventSchemaV1_0")
-	EventSubscriptionPropertiesStatusEventDeliverySchema_CustomInputSchema   = EventSubscriptionPropertiesStatusEventDeliverySchema("CustomInputSchema")
-	EventSubscriptionPropertiesStatusEventDeliverySchema_EventGridSchema     = EventSubscriptionPropertiesStatusEventDeliverySchema("EventGridSchema")
+	EventSubscriptionPropertiesSTATUSEventDeliverySchema_CloudEventSchemaV10 = EventSubscriptionPropertiesSTATUSEventDeliverySchema("CloudEventSchemaV1_0")
+	EventSubscriptionPropertiesSTATUSEventDeliverySchema_CustomInputSchema   = EventSubscriptionPropertiesSTATUSEventDeliverySchema("CustomInputSchema")
+	EventSubscriptionPropertiesSTATUSEventDeliverySchema_EventGridSchema     = EventSubscriptionPropertiesSTATUSEventDeliverySchema("EventGridSchema")
 )
 
-// Deprecated version of EventSubscriptionPropertiesStatusProvisioningState. Use
-// v1beta20200601.EventSubscriptionPropertiesStatusProvisioningState instead
-type EventSubscriptionPropertiesStatusProvisioningState string
+// Deprecated version of EventSubscriptionPropertiesSTATUSProvisioningState. Use
+// v1beta20200601.EventSubscriptionPropertiesSTATUSProvisioningState instead
+type EventSubscriptionPropertiesSTATUSProvisioningState string
 
 const (
-	EventSubscriptionPropertiesStatusProvisioningState_AwaitingManualAction = EventSubscriptionPropertiesStatusProvisioningState("AwaitingManualAction")
-	EventSubscriptionPropertiesStatusProvisioningState_Canceled             = EventSubscriptionPropertiesStatusProvisioningState("Canceled")
-	EventSubscriptionPropertiesStatusProvisioningState_Creating             = EventSubscriptionPropertiesStatusProvisioningState("Creating")
-	EventSubscriptionPropertiesStatusProvisioningState_Deleting             = EventSubscriptionPropertiesStatusProvisioningState("Deleting")
-	EventSubscriptionPropertiesStatusProvisioningState_Failed               = EventSubscriptionPropertiesStatusProvisioningState("Failed")
-	EventSubscriptionPropertiesStatusProvisioningState_Succeeded            = EventSubscriptionPropertiesStatusProvisioningState("Succeeded")
-	EventSubscriptionPropertiesStatusProvisioningState_Updating             = EventSubscriptionPropertiesStatusProvisioningState("Updating")
+	EventSubscriptionPropertiesSTATUSProvisioningState_AwaitingManualAction = EventSubscriptionPropertiesSTATUSProvisioningState("AwaitingManualAction")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Canceled             = EventSubscriptionPropertiesSTATUSProvisioningState("Canceled")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Creating             = EventSubscriptionPropertiesSTATUSProvisioningState("Creating")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Deleting             = EventSubscriptionPropertiesSTATUSProvisioningState("Deleting")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Failed               = EventSubscriptionPropertiesSTATUSProvisioningState("Failed")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Succeeded            = EventSubscriptionPropertiesSTATUSProvisioningState("Succeeded")
+	EventSubscriptionPropertiesSTATUSProvisioningState_Updating             = EventSubscriptionPropertiesSTATUSProvisioningState("Updating")
 )
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
@@ -2226,24 +2226,24 @@ func (policy *RetryPolicy) AssignPropertiesToRetryPolicy(destination *alpha20200
 	return nil
 }
 
-// Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
-type RetryPolicy_Status struct {
+// Deprecated version of RetryPolicy_STATUS. Use v1beta20200601.RetryPolicy_STATUS instead
+type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &RetryPolicy_Status{}
+var _ genruntime.FromARMConverter = &RetryPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *RetryPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RetryPolicy_StatusARM{}
+func (policy *RetryPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RetryPolicy_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *RetryPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RetryPolicy_StatusARM)
+func (policy *RetryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RetryPolicy_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘EventTimeToLiveInMinutes’:
@@ -2262,8 +2262,8 @@ func (policy *RetryPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromRetryPolicyStatus populates our RetryPolicy_Status from the provided source RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *alpha20200601s.RetryPolicy_Status) error {
+// AssignPropertiesFromRetryPolicySTATUS populates our RetryPolicy_STATUS from the provided source RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesFromRetryPolicySTATUS(source *alpha20200601s.RetryPolicy_STATUS) error {
 
 	// EventTimeToLiveInMinutes
 	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
@@ -2275,8 +2275,8 @@ func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *
 	return nil
 }
 
-// AssignPropertiesToRetryPolicyStatus populates the provided destination RetryPolicy_Status from our RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destination *alpha20200601s.RetryPolicy_Status) error {
+// AssignPropertiesToRetryPolicySTATUS populates the provided destination RetryPolicy_STATUS from our RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesToRetryPolicySTATUS(destination *alpha20200601s.RetryPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3033,24 +3033,24 @@ func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *alph
 	return nil
 }
 
-// Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
-type AdvancedFilter_Status struct {
+// Deprecated version of AdvancedFilter_STATUS. Use v1beta20200601.AdvancedFilter_STATUS instead
+type AdvancedFilter_STATUS struct {
 	Key          *string                           `json:"key,omitempty"`
-	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
+	OperatorType *AdvancedFilterSTATUSOperatorType `json:"operatorType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &AdvancedFilter_Status{}
+var _ genruntime.FromARMConverter = &AdvancedFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (filter *AdvancedFilter_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AdvancedFilter_StatusARM{}
+func (filter *AdvancedFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AdvancedFilter_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (filter *AdvancedFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AdvancedFilter_StatusARM)
+func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AdvancedFilter_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Key’:
@@ -3069,15 +3069,15 @@ func (filter *AdvancedFilter_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromAdvancedFilterStatus populates our AdvancedFilter_Status from the provided source AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(source *alpha20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesFromAdvancedFilterSTATUS populates our AdvancedFilter_STATUS from the provided source AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesFromAdvancedFilterSTATUS(source *alpha20200601s.AdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := AdvancedFilterStatusOperatorType(*source.OperatorType)
+		operatorType := AdvancedFilterSTATUSOperatorType(*source.OperatorType)
 		filter.OperatorType = &operatorType
 	} else {
 		filter.OperatorType = nil
@@ -3087,8 +3087,8 @@ func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(so
 	return nil
 }
 
-// AssignPropertiesToAdvancedFilterStatus populates the provided destination AdvancedFilter_Status from our AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(destination *alpha20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesToAdvancedFilterSTATUS populates the provided destination AdvancedFilter_STATUS from our AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesToAdvancedFilterSTATUS(destination *alpha20200601s.AdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3240,11 +3240,11 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesTo
 	return nil
 }
 
-// Deprecated version of DeadLetterDestinationStatusEndpointType. Use
-// v1beta20200601.DeadLetterDestinationStatusEndpointType instead
-type DeadLetterDestinationStatusEndpointType string
+// Deprecated version of DeadLetterDestinationSTATUSEndpointType. Use
+// v1beta20200601.DeadLetterDestinationSTATUSEndpointType instead
+type DeadLetterDestinationSTATUSEndpointType string
 
-const DeadLetterDestinationStatusEndpointType_StorageBlob = DeadLetterDestinationStatusEndpointType("StorageBlob")
+const DeadLetterDestinationSTATUSEndpointType_StorageBlob = DeadLetterDestinationSTATUSEndpointType("StorageBlob")
 
 // Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination struct {
@@ -3372,18 +3372,18 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEvent
 	return nil
 }
 
-// Deprecated version of EventSubscriptionDestinationStatusEndpointType. Use
-// v1beta20200601.EventSubscriptionDestinationStatusEndpointType instead
-type EventSubscriptionDestinationStatusEndpointType string
+// Deprecated version of EventSubscriptionDestinationSTATUSEndpointType. Use
+// v1beta20200601.EventSubscriptionDestinationSTATUSEndpointType instead
+type EventSubscriptionDestinationSTATUSEndpointType string
 
 const (
-	EventSubscriptionDestinationStatusEndpointType_AzureFunction    = EventSubscriptionDestinationStatusEndpointType("AzureFunction")
-	EventSubscriptionDestinationStatusEndpointType_EventHub         = EventSubscriptionDestinationStatusEndpointType("EventHub")
-	EventSubscriptionDestinationStatusEndpointType_HybridConnection = EventSubscriptionDestinationStatusEndpointType("HybridConnection")
-	EventSubscriptionDestinationStatusEndpointType_ServiceBusQueue  = EventSubscriptionDestinationStatusEndpointType("ServiceBusQueue")
-	EventSubscriptionDestinationStatusEndpointType_ServiceBusTopic  = EventSubscriptionDestinationStatusEndpointType("ServiceBusTopic")
-	EventSubscriptionDestinationStatusEndpointType_StorageQueue     = EventSubscriptionDestinationStatusEndpointType("StorageQueue")
-	EventSubscriptionDestinationStatusEndpointType_WebHook          = EventSubscriptionDestinationStatusEndpointType("WebHook")
+	EventSubscriptionDestinationSTATUSEndpointType_AzureFunction    = EventSubscriptionDestinationSTATUSEndpointType("AzureFunction")
+	EventSubscriptionDestinationSTATUSEndpointType_EventHub         = EventSubscriptionDestinationSTATUSEndpointType("EventHub")
+	EventSubscriptionDestinationSTATUSEndpointType_HybridConnection = EventSubscriptionDestinationSTATUSEndpointType("HybridConnection")
+	EventSubscriptionDestinationSTATUSEndpointType_ServiceBusQueue  = EventSubscriptionDestinationSTATUSEndpointType("ServiceBusQueue")
+	EventSubscriptionDestinationSTATUSEndpointType_ServiceBusTopic  = EventSubscriptionDestinationSTATUSEndpointType("ServiceBusTopic")
+	EventSubscriptionDestinationSTATUSEndpointType_StorageQueue     = EventSubscriptionDestinationSTATUSEndpointType("StorageQueue")
+	EventSubscriptionDestinationSTATUSEndpointType_WebHook          = EventSubscriptionDestinationSTATUSEndpointType("WebHook")
 )
 
 // Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
@@ -4124,24 +4124,6 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHoo
 	// No error
 	return nil
 }
-
-// Deprecated version of AdvancedFilterStatusOperatorType. Use v1beta20200601.AdvancedFilterStatusOperatorType instead
-type AdvancedFilterStatusOperatorType string
-
-const (
-	AdvancedFilterStatusOperatorType_BoolEquals                = AdvancedFilterStatusOperatorType("BoolEquals")
-	AdvancedFilterStatusOperatorType_NumberGreaterThan         = AdvancedFilterStatusOperatorType("NumberGreaterThan")
-	AdvancedFilterStatusOperatorType_NumberGreaterThanOrEquals = AdvancedFilterStatusOperatorType("NumberGreaterThanOrEquals")
-	AdvancedFilterStatusOperatorType_NumberIn                  = AdvancedFilterStatusOperatorType("NumberIn")
-	AdvancedFilterStatusOperatorType_NumberLessThan            = AdvancedFilterStatusOperatorType("NumberLessThan")
-	AdvancedFilterStatusOperatorType_NumberLessThanOrEquals    = AdvancedFilterStatusOperatorType("NumberLessThanOrEquals")
-	AdvancedFilterStatusOperatorType_NumberNotIn               = AdvancedFilterStatusOperatorType("NumberNotIn")
-	AdvancedFilterStatusOperatorType_StringBeginsWith          = AdvancedFilterStatusOperatorType("StringBeginsWith")
-	AdvancedFilterStatusOperatorType_StringContains            = AdvancedFilterStatusOperatorType("StringContains")
-	AdvancedFilterStatusOperatorType_StringEndsWith            = AdvancedFilterStatusOperatorType("StringEndsWith")
-	AdvancedFilterStatusOperatorType_StringIn                  = AdvancedFilterStatusOperatorType("StringIn")
-	AdvancedFilterStatusOperatorType_StringNotIn               = AdvancedFilterStatusOperatorType("StringNotIn")
-)
 
 // Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
 type AdvancedFilter_BoolEquals struct {
@@ -5646,6 +5628,24 @@ func (notIn *AdvancedFilter_StringNotIn) AssignPropertiesToAdvancedFilterStringN
 	// No error
 	return nil
 }
+
+// Deprecated version of AdvancedFilterSTATUSOperatorType. Use v1beta20200601.AdvancedFilterSTATUSOperatorType instead
+type AdvancedFilterSTATUSOperatorType string
+
+const (
+	AdvancedFilterSTATUSOperatorType_BoolEquals                = AdvancedFilterSTATUSOperatorType("BoolEquals")
+	AdvancedFilterSTATUSOperatorType_NumberGreaterThan         = AdvancedFilterSTATUSOperatorType("NumberGreaterThan")
+	AdvancedFilterSTATUSOperatorType_NumberGreaterThanOrEquals = AdvancedFilterSTATUSOperatorType("NumberGreaterThanOrEquals")
+	AdvancedFilterSTATUSOperatorType_NumberIn                  = AdvancedFilterSTATUSOperatorType("NumberIn")
+	AdvancedFilterSTATUSOperatorType_NumberLessThan            = AdvancedFilterSTATUSOperatorType("NumberLessThan")
+	AdvancedFilterSTATUSOperatorType_NumberLessThanOrEquals    = AdvancedFilterSTATUSOperatorType("NumberLessThanOrEquals")
+	AdvancedFilterSTATUSOperatorType_NumberNotIn               = AdvancedFilterSTATUSOperatorType("NumberNotIn")
+	AdvancedFilterSTATUSOperatorType_StringBeginsWith          = AdvancedFilterSTATUSOperatorType("StringBeginsWith")
+	AdvancedFilterSTATUSOperatorType_StringContains            = AdvancedFilterSTATUSOperatorType("StringContains")
+	AdvancedFilterSTATUSOperatorType_StringEndsWith            = AdvancedFilterSTATUSOperatorType("StringEndsWith")
+	AdvancedFilterSTATUSOperatorType_StringIn                  = AdvancedFilterSTATUSOperatorType("StringIn")
+	AdvancedFilterSTATUSOperatorType_StringNotIn               = AdvancedFilterSTATUSOperatorType("StringNotIn")
+)
 
 // Deprecated version of AzureFunctionEventSubscriptionDestinationEndpointType. Use
 // v1beta20200601.AzureFunctionEventSubscriptionDestinationEndpointType instead

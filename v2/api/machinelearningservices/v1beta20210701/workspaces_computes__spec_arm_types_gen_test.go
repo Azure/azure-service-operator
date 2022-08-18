@@ -20,7 +20,7 @@ import (
 func Test_WorkspacesComputes_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -625,6 +625,85 @@ func AddRelatedPropertyGeneratorsForComputeComputeInstanceARM(gens map[string]go
 	gens["Properties"] = gen.PtrOf(ComputeInstancePropertiesARMGenerator())
 }
 
+func Test_Compute_DatabricksARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Compute_DatabricksARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComputeDatabricksARM, ComputeDatabricksARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForComputeDatabricksARM runs a test to see if a specific instance of Compute_DatabricksARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForComputeDatabricksARM(subject Compute_DatabricksARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Compute_DatabricksARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Compute_DatabricksARM instances for property testing - lazily instantiated by
+// ComputeDatabricksARMGenerator()
+var computeDatabricksARMGenerator gopter.Gen
+
+// ComputeDatabricksARMGenerator returns a generator of Compute_DatabricksARM instances for property testing.
+// We first initialize computeDatabricksARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ComputeDatabricksARMGenerator() gopter.Gen {
+	if computeDatabricksARMGenerator != nil {
+		return computeDatabricksARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForComputeDatabricksARM(generators)
+	computeDatabricksARMGenerator = gen.Struct(reflect.TypeOf(Compute_DatabricksARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForComputeDatabricksARM(generators)
+	AddRelatedPropertyGeneratorsForComputeDatabricksARM(generators)
+	computeDatabricksARMGenerator = gen.Struct(reflect.TypeOf(Compute_DatabricksARM{}), generators)
+
+	return computeDatabricksARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForComputeDatabricksARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComputeDatabricksARM(gens map[string]gopter.Gen) {
+	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["ComputeType"] = gen.OneConstOf(ComputeDatabricksComputeType_Databricks)
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForComputeDatabricksARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForComputeDatabricksARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DatabricksPropertiesARMGenerator())
+}
+
 func Test_Compute_DataFactoryARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -767,85 +846,6 @@ func AddIndependentPropertyGeneratorsForComputeDataLakeAnalyticsARM(gens map[str
 // AddRelatedPropertyGeneratorsForComputeDataLakeAnalyticsARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComputeDataLakeAnalyticsARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DataLakeAnalyticsPropertiesARMGenerator())
-}
-
-func Test_Compute_DatabricksARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Compute_DatabricksARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComputeDatabricksARM, ComputeDatabricksARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForComputeDatabricksARM runs a test to see if a specific instance of Compute_DatabricksARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForComputeDatabricksARM(subject Compute_DatabricksARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Compute_DatabricksARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Compute_DatabricksARM instances for property testing - lazily instantiated by
-// ComputeDatabricksARMGenerator()
-var computeDatabricksARMGenerator gopter.Gen
-
-// ComputeDatabricksARMGenerator returns a generator of Compute_DatabricksARM instances for property testing.
-// We first initialize computeDatabricksARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ComputeDatabricksARMGenerator() gopter.Gen {
-	if computeDatabricksARMGenerator != nil {
-		return computeDatabricksARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComputeDatabricksARM(generators)
-	computeDatabricksARMGenerator = gen.Struct(reflect.TypeOf(Compute_DatabricksARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComputeDatabricksARM(generators)
-	AddRelatedPropertyGeneratorsForComputeDatabricksARM(generators)
-	computeDatabricksARMGenerator = gen.Struct(reflect.TypeOf(Compute_DatabricksARM{}), generators)
-
-	return computeDatabricksARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForComputeDatabricksARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComputeDatabricksARM(gens map[string]gopter.Gen) {
-	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(ComputeDatabricksComputeType_Databricks)
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForComputeDatabricksARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForComputeDatabricksARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DatabricksPropertiesARMGenerator())
 }
 
 func Test_Compute_HDInsightARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1328,67 +1328,6 @@ func AddRelatedPropertyGeneratorsForComputeInstancePropertiesARM(gens map[string
 	gens["Subnet"] = gen.PtrOf(ResourceIdARMGenerator())
 }
 
-func Test_DataLakeAnalyticsPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataLakeAnalyticsPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM, DataLakeAnalyticsPropertiesARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM runs a test to see if a specific instance of DataLakeAnalyticsPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM(subject DataLakeAnalyticsPropertiesARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DataLakeAnalyticsPropertiesARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DataLakeAnalyticsPropertiesARM instances for property testing - lazily instantiated by
-// DataLakeAnalyticsPropertiesARMGenerator()
-var dataLakeAnalyticsPropertiesARMGenerator gopter.Gen
-
-// DataLakeAnalyticsPropertiesARMGenerator returns a generator of DataLakeAnalyticsPropertiesARM instances for property testing.
-func DataLakeAnalyticsPropertiesARMGenerator() gopter.Gen {
-	if dataLakeAnalyticsPropertiesARMGenerator != nil {
-		return dataLakeAnalyticsPropertiesARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM(generators)
-	dataLakeAnalyticsPropertiesARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalyticsPropertiesARM{}), generators)
-
-	return dataLakeAnalyticsPropertiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM(gens map[string]gopter.Gen) {
-	gens["DataLakeStoreAccountName"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_DatabricksPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1449,6 +1388,67 @@ func DatabricksPropertiesARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDatabricksPropertiesARM(gens map[string]gopter.Gen) {
 	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DataLakeAnalyticsPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataLakeAnalyticsPropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM, DataLakeAnalyticsPropertiesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM runs a test to see if a specific instance of DataLakeAnalyticsPropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataLakeAnalyticsPropertiesARM(subject DataLakeAnalyticsPropertiesARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataLakeAnalyticsPropertiesARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataLakeAnalyticsPropertiesARM instances for property testing - lazily instantiated by
+// DataLakeAnalyticsPropertiesARMGenerator()
+var dataLakeAnalyticsPropertiesARMGenerator gopter.Gen
+
+// DataLakeAnalyticsPropertiesARMGenerator returns a generator of DataLakeAnalyticsPropertiesARM instances for property testing.
+func DataLakeAnalyticsPropertiesARMGenerator() gopter.Gen {
+	if dataLakeAnalyticsPropertiesARMGenerator != nil {
+		return dataLakeAnalyticsPropertiesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM(generators)
+	dataLakeAnalyticsPropertiesARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalyticsPropertiesARM{}), generators)
+
+	return dataLakeAnalyticsPropertiesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataLakeAnalyticsPropertiesARM(gens map[string]gopter.Gen) {
+	gens["DataLakeStoreAccountName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_HDInsightPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

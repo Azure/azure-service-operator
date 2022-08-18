@@ -111,14 +111,6 @@ const (
 	ContainerGroupIdentityType_UserAssigned               = ContainerGroupIdentityType("UserAssigned")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
-type ContainerGroupSubnetIdARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name for the subnet.
-	Name *string `json:"name,omitempty"`
-}
-
 type ContainerGroups_Spec_Properties_ContainersARM struct {
 	// Name: The user-provided name of the container instance.
 	Name *string `json:"name,omitempty"`
@@ -150,6 +142,14 @@ type ContainerGroups_Spec_Properties_InitContainersARM struct {
 
 	// Properties: The init container definition properties.
 	Properties *InitContainerPropertiesDefinitionARM `json:"properties,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
+type ContainerGroupSubnetIdARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Name: Friendly name for the subnet.
+	Name *string `json:"name,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration

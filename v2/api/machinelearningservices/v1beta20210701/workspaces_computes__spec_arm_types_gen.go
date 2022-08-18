@@ -250,6 +250,23 @@ type Compute_ComputeInstanceARM struct {
 	ResourceId *string                       `json:"resourceId,omitempty"`
 }
 
+type Compute_DatabricksARM struct {
+	// ComputeLocation: Location for the underlying compute
+	ComputeLocation *string                      `json:"computeLocation,omitempty"`
+	ComputeType     ComputeDatabricksComputeType `json:"computeType,omitempty"`
+
+	// Description: The description of the Machine Learning compute.
+	Description *string `json:"description,omitempty"`
+
+	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
+	// authentication.
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: Properties of Databricks
+	Properties *DatabricksPropertiesARM `json:"properties,omitempty"`
+	ResourceId *string                  `json:"resourceId,omitempty"`
+}
+
 type Compute_DataFactoryARM struct {
 	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string                       `json:"computeLocation,omitempty"`
@@ -277,23 +294,6 @@ type Compute_DataLakeAnalyticsARM struct {
 	DisableLocalAuth *bool                           `json:"disableLocalAuth,omitempty"`
 	Properties       *DataLakeAnalyticsPropertiesARM `json:"properties,omitempty"`
 	ResourceId       *string                         `json:"resourceId,omitempty"`
-}
-
-type Compute_DatabricksARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                      `json:"computeLocation,omitempty"`
-	ComputeType     ComputeDatabricksComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksPropertiesARM `json:"properties,omitempty"`
-	ResourceId *string                  `json:"resourceId,omitempty"`
 }
 
 type Compute_HDInsightARM struct {
@@ -454,6 +454,11 @@ type ComputeComputeInstanceComputeType string
 
 const ComputeComputeInstanceComputeType_ComputeInstance = ComputeComputeInstanceComputeType("ComputeInstance")
 
+// +kubebuilder:validation:Enum={"Databricks"}
+type ComputeDatabricksComputeType string
+
+const ComputeDatabricksComputeType_Databricks = ComputeDatabricksComputeType("Databricks")
+
 // +kubebuilder:validation:Enum={"DataFactory"}
 type ComputeDataFactoryComputeType string
 
@@ -463,11 +468,6 @@ const ComputeDataFactoryComputeType_DataFactory = ComputeDataFactoryComputeType(
 type ComputeDataLakeAnalyticsComputeType string
 
 const ComputeDataLakeAnalyticsComputeType_DataLakeAnalytics = ComputeDataLakeAnalyticsComputeType("DataLakeAnalytics")
-
-// +kubebuilder:validation:Enum={"Databricks"}
-type ComputeDatabricksComputeType string
-
-const ComputeDatabricksComputeType_Databricks = ComputeDatabricksComputeType("Databricks")
 
 // +kubebuilder:validation:Enum={"HDInsight"}
 type ComputeHDInsightComputeType string
@@ -510,12 +510,6 @@ type ComputeVirtualMachineComputeType string
 
 const ComputeVirtualMachineComputeType_VirtualMachine = ComputeVirtualMachineComputeType("VirtualMachine")
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
-type DataLakeAnalyticsPropertiesARM struct {
-	// DataLakeStoreAccountName: DataLake Store Account Name
-	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DatabricksProperties
 type DatabricksPropertiesARM struct {
 	// DatabricksAccessToken: Databricks access token
@@ -523,6 +517,12 @@ type DatabricksPropertiesARM struct {
 
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
+type DataLakeAnalyticsPropertiesARM struct {
+	// DataLakeStoreAccountName: DataLake Store Account Name
+	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/HDInsightProperties
@@ -588,6 +588,22 @@ type VirtualMachinePropertiesARM struct {
 	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AksNetworkingConfiguration
+type AksNetworkingConfigurationARM struct {
+	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
+	// range specified in serviceCidr.
+	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
+
+	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
+	// ranges or the Kubernetes service address range.
+	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
+
+	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
+	// ranges.
+	ServiceCidr *string `json:"serviceCidr,omitempty"`
+	SubnetId    *string `json:"subnetId,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
 type AKSPropertiesClusterPurpose string
 
@@ -604,22 +620,6 @@ const (
 	AKSPropertiesLoadBalancerType_InternalLoadBalancer = AKSPropertiesLoadBalancerType("InternalLoadBalancer")
 	AKSPropertiesLoadBalancerType_PublicIp             = AKSPropertiesLoadBalancerType("PublicIp")
 )
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AksNetworkingConfiguration
-type AksNetworkingConfigurationARM struct {
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-	// range specified in serviceCidr.
-	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
-
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
-	// ranges or the Kubernetes service address range.
-	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
-
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-	// ranges.
-	ServiceCidr *string `json:"serviceCidr,omitempty"`
-	SubnetId    *string `json:"subnetId,omitempty"`
-}
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type AmlComputePropertiesOsType string

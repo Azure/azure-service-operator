@@ -20,7 +20,7 @@ import (
 func Test_VirtualMachineScaleSets_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -354,7 +354,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityARM(gens m
 func Test_VirtualMachineScaleSets_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -758,7 +758,7 @@ func AddRelatedPropertyGeneratorsForUpgradePolicyARM(gens map[string]gopter.Gen)
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1028,73 +1028,10 @@ func AddRelatedPropertyGeneratorsForScheduledEventsProfileARM(gens map[string]go
 	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfileARMGenerator())
 }
 
-func Test_VirtualMachineScaleSetStorageProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetStorageProfileARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM, VirtualMachineScaleSetStorageProfileARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfileARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM(subject VirtualMachineScaleSetStorageProfileARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetStorageProfileARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetStorageProfileARM instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetStorageProfileARMGenerator()
-var virtualMachineScaleSetStorageProfileARMGenerator gopter.Gen
-
-// VirtualMachineScaleSetStorageProfileARMGenerator returns a generator of VirtualMachineScaleSetStorageProfileARM instances for property testing.
-func VirtualMachineScaleSetStorageProfileARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetStorageProfileARMGenerator != nil {
-		return virtualMachineScaleSetStorageProfileARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM(generators)
-	virtualMachineScaleSetStorageProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfileARM{}), generators)
-
-	return virtualMachineScaleSetStorageProfileARMGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDiskARMGenerator())
-	gens["ImageReference"] = gen.PtrOf(ImageReferenceARMGenerator())
-	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDiskARMGenerator())
-}
-
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1169,7 +1106,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1231,7 +1168,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1306,6 +1243,69 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationARMGenerator())
 	gens["Secrets"] = gen.SliceOf(VaultSecretGroupARMGenerator())
 	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationARMGenerator())
+}
+
+func Test_VirtualMachineScaleSetStorageProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetStorageProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM, VirtualMachineScaleSetStorageProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileARM(subject VirtualMachineScaleSetStorageProfileARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetStorageProfileARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetStorageProfileARM instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetStorageProfileARMGenerator()
+var virtualMachineScaleSetStorageProfileARMGenerator gopter.Gen
+
+// VirtualMachineScaleSetStorageProfileARMGenerator returns a generator of VirtualMachineScaleSetStorageProfileARM instances for property testing.
+func VirtualMachineScaleSetStorageProfileARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetStorageProfileARMGenerator != nil {
+		return virtualMachineScaleSetStorageProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM(generators)
+	virtualMachineScaleSetStorageProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfileARM{}), generators)
+
+	return virtualMachineScaleSetStorageProfileARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileARM(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDiskARMGenerator())
+	gens["ImageReference"] = gen.PtrOf(ImageReferenceARMGenerator())
+	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDiskARMGenerator())
 }
 
 func Test_ApiEntityReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1599,7 +1599,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskARM(gens map[str
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1675,7 +1675,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1897,7 +1897,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersA
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -2040,7 +2040,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -2118,7 +2118,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -2201,7 +2201,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

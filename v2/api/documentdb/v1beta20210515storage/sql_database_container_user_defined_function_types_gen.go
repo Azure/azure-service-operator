@@ -27,7 +27,7 @@ type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_Status                         `json:"status,omitempty"`
+	Status            SqlUserDefinedFunctionGetResults_STATUS                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -76,7 +76,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlUserDefinedFunctionGetResults_Status{}
+	return &SqlUserDefinedFunctionGetResults_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
+	if st, ok := status.(*SqlUserDefinedFunctionGetResults_STATUS); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlUserDefinedFunctionGetResults_Status
+	var st SqlUserDefinedFunctionGetResults_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -168,22 +168,22 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	return destination.ConvertSpecFrom(functions)
 }
 
-// Storage version of v1beta20210515.SqlUserDefinedFunctionGetResults_Status
-type SqlUserDefinedFunctionGetResults_Status struct {
+// Storage version of v1beta20210515.SqlUserDefinedFunctionGetResults_STATUS
+type SqlUserDefinedFunctionGetResults_STATUS struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`
 	Location    *string                                              `json:"location,omitempty"`
 	Name        *string                                              `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionGetProperties_Status_Resource `json:"resource,omitempty"`
+	Resource    *SqlUserDefinedFunctionGetProperties_STATUS_Resource `json:"resource,omitempty"`
 	Tags        map[string]string                                    `json:"tags,omitempty"`
 	Type        *string                                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_STATUS{}
 
-// ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_Status from the provided source
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_STATUS from the provided source
+func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -191,8 +191,8 @@ func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source
 	return source.ConvertStatusTo(results)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_Status
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_STATUS
+func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -200,8 +200,8 @@ func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destinat
 	return destination.ConvertStatusFrom(results)
 }
 
-// Storage version of v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource
-type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
+// Storage version of v1beta20210515.SqlUserDefinedFunctionGetProperties_STATUS_Resource
+type SqlUserDefinedFunctionGetProperties_STATUS_Resource struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`

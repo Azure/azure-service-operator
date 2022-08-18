@@ -75,23 +75,23 @@ func TopicGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
 	gens["Spec"] = TopicsSpecGenerator()
-	gens["Status"] = TopicStatusGenerator()
+	gens["Status"] = TopicSTATUSGenerator()
 }
 
-func Test_Topic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Topic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Topic_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopicStatus, TopicStatusGenerator()))
+		"Round trip of Topic_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicSTATUS, TopicSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTopicStatus runs a test to see if a specific instance of Topic_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopicStatus(subject Topic_Status) string {
+// RunJSONSerializationTestForTopicSTATUS runs a test to see if a specific instance of Topic_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicSTATUS(subject Topic_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForTopicStatus(subject Topic_Status) string {
 	}
 
 	// Deserialize back into memory
-	var actual Topic_Status
+	var actual Topic_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,33 +117,33 @@ func RunJSONSerializationTestForTopicStatus(subject Topic_Status) string {
 	return ""
 }
 
-// Generator of Topic_Status instances for property testing - lazily instantiated by TopicStatusGenerator()
-var topicStatusGenerator gopter.Gen
+// Generator of Topic_STATUS instances for property testing - lazily instantiated by TopicSTATUSGenerator()
+var topicSTATUSGenerator gopter.Gen
 
-// TopicStatusGenerator returns a generator of Topic_Status instances for property testing.
-// We first initialize topicStatusGenerator with a simplified generator based on the
+// TopicSTATUSGenerator returns a generator of Topic_STATUS instances for property testing.
+// We first initialize topicSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func TopicStatusGenerator() gopter.Gen {
-	if topicStatusGenerator != nil {
-		return topicStatusGenerator
+func TopicSTATUSGenerator() gopter.Gen {
+	if topicSTATUSGenerator != nil {
+		return topicSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopicStatus(generators)
-	topicStatusGenerator = gen.Struct(reflect.TypeOf(Topic_Status{}), generators)
+	AddIndependentPropertyGeneratorsForTopicSTATUS(generators)
+	topicSTATUSGenerator = gen.Struct(reflect.TypeOf(Topic_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopicStatus(generators)
-	AddRelatedPropertyGeneratorsForTopicStatus(generators)
-	topicStatusGenerator = gen.Struct(reflect.TypeOf(Topic_Status{}), generators)
+	AddIndependentPropertyGeneratorsForTopicSTATUS(generators)
+	AddRelatedPropertyGeneratorsForTopicSTATUS(generators)
+	topicSTATUSGenerator = gen.Struct(reflect.TypeOf(Topic_STATUS{}), generators)
 
-	return topicStatusGenerator
+	return topicSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTopicStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTopicSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopicSTATUS(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
@@ -156,12 +156,12 @@ func AddIndependentPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) 
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForTopicStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) {
-	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleStatusGenerator())
-	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingStatusGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForTopicSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopicSTATUS(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleSTATUSGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingSTATUSGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
 }
 
 func Test_Topics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -227,20 +227,20 @@ func AddIndependentPropertyGeneratorsForTopicsSpec(gens map[string]gopter.Gen) {
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-func Test_PrivateEndpointConnection_Status_Topic_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceEmbedded, PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()))
+		"Round trip of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded, PrivateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceEmbedded(subject PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -248,7 +248,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceE
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
+	var actual PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -266,24 +266,24 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceE
 	return ""
 }
 
-// Generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()
-var privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator gopter.Gen
+// Generator of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded instances for property testing - lazily
+// instantiated by PrivateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator()
+var privateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator gopter.Gen
 
-// PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing.
-func PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator != nil {
-		return privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator
+// PrivateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded instances for property testing.
+func PrivateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator() gopter.Gen {
+	if privateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator != nil {
+		return privateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusTopicSubResourceEmbedded(generators)
-	privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Status_Topic_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(generators)
+	privateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded{}), generators)
 
-	return privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator
+	return privateEndpointConnectionSTATUSTopicSubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusTopicSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusTopicSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

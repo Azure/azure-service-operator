@@ -27,7 +27,7 @@ type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
-	Status            EventSubscription_Status `json:"status,omitempty"`
+	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &EventSubscription{}
@@ -76,7 +76,7 @@ func (subscription *EventSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EventSubscription_Status{}
+	return &EventSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -91,13 +91,13 @@ func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EventSubscription_Status); ok {
+	if st, ok := status.(*EventSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EventSubscription_Status
+	var st EventSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -128,29 +128,29 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
-// Storage version of v1beta20200601.EventSubscription_Status
-type EventSubscription_Status struct {
+// Storage version of v1beta20200601.EventSubscription_STATUS
+type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_Status        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Status `json:"destination,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
 	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Status      `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS      `json:"filter,omitempty"`
 	Id                    *string                              `json:"id,omitempty"`
 	Labels                []string                             `json:"labels,omitempty"`
 	Name                  *string                              `json:"name,omitempty"`
 	PropertyBag           genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_Status                  `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_Status                   `json:"systemData,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                  `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Topic                 *string                              `json:"topic,omitempty"`
 	Type                  *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
+var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
-// ConvertStatusFrom populates our EventSubscription_Status from the provided source
-func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
+func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -158,8 +158,8 @@ func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntim
 	return source.ConvertStatusTo(subscription)
 }
 
-// ConvertStatusTo populates the provided destination from our EventSubscription_Status
-func (subscription *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -211,8 +211,8 @@ func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genrunti
 	return destination.ConvertSpecFrom(subscriptions)
 }
 
-// Storage version of v1beta20200601.DeadLetterDestination_Status
-type DeadLetterDestination_Status struct {
+// Storage version of v1beta20200601.DeadLetterDestination_STATUS
+type DeadLetterDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -230,8 +230,8 @@ type EventSubscriptionDestination struct {
 	WebHook          *WebHookEventSubscriptionDestination          `json:"webHookEventSubscriptionDestination,omitempty"`
 }
 
-// Storage version of v1beta20200601.EventSubscriptionDestination_Status
-type EventSubscriptionDestination_Status struct {
+// Storage version of v1beta20200601.EventSubscriptionDestination_STATUS
+type EventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -247,9 +247,9 @@ type EventSubscriptionFilter struct {
 	SubjectEndsWith        *string                `json:"subjectEndsWith,omitempty"`
 }
 
-// Storage version of v1beta20200601.EventSubscriptionFilter_Status
-type EventSubscriptionFilter_Status struct {
-	AdvancedFilters        []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
+// Storage version of v1beta20200601.EventSubscriptionFilter_STATUS
+type EventSubscriptionFilter_STATUS struct {
+	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
 	IsSubjectCaseSensitive *bool                   `json:"isSubjectCaseSensitive,omitempty"`
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -265,8 +265,8 @@ type RetryPolicy struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.RetryPolicy_Status
-type RetryPolicy_Status struct {
+// Storage version of v1beta20200601.RetryPolicy_STATUS
+type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -298,8 +298,8 @@ type AdvancedFilter struct {
 	StringNotIn               *AdvancedFilter_StringNotIn               `json:"stringNotInAdvancedFilter,omitempty"`
 }
 
-// Storage version of v1beta20200601.AdvancedFilter_Status
-type AdvancedFilter_Status struct {
+// Storage version of v1beta20200601.AdvancedFilter_STATUS
+type AdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

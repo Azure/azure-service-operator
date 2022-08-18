@@ -29,7 +29,7 @@ type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsMongodbDatabasesThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                     `json:"status,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -130,7 +130,7 @@ func (setting *MongodbDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsGetResults_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -146,13 +146,13 @@ func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsGetResults_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -270,10 +270,10 @@ func (setting *MongodbDatabaseThroughputSetting) AssignPropertiesFromMongodbData
 	setting.Spec = spec
 
 	// Status
-	var status ThroughputSettingsGetResults_Status
-	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
+	var status ThroughputSettingsGetResults_STATUS
+	err = status.AssignPropertiesFromThroughputSettingsGetResultsSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsSTATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -296,10 +296,10 @@ func (setting *MongodbDatabaseThroughputSetting) AssignPropertiesToMongodbDataba
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210515s.ThroughputSettingsGetResults_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
+	var status alpha20210515s.ThroughputSettingsGetResults_STATUS
+	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsSTATUS() to populate field Status")
 	}
 	destination.Status = status
 

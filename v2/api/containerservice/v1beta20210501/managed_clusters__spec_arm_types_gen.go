@@ -241,26 +241,6 @@ type ManagedClusterAADProfileARM struct {
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
-type ManagedClusterAPIServerAccessProfileARM struct {
-	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
-	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
-	// server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
-	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
-
-	// EnablePrivateCluster: For more details, see [Creating a private AKS
-	// cluster](https://docs.microsoft.com/azure/aks/private-clusters).
-	EnablePrivateCluster *bool `json:"enablePrivateCluster,omitempty"`
-
-	// EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for private cluster or not.
-	EnablePrivateClusterPublicFQDN *bool `json:"enablePrivateClusterPublicFQDN,omitempty"`
-
-	// PrivateDNSZone: The default is System. For more details see [configure private DNS
-	// zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and
-	// 'none'.
-	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
-}
-
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
 type ManagedClusterAddonProfileARM struct {
 	// Config: Key-value pairs for configuring an add-on.
@@ -378,6 +358,26 @@ type ManagedClusterAgentPoolProfileARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
+type ManagedClusterAPIServerAccessProfileARM struct {
+	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
+	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
+	// server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
+
+	// EnablePrivateCluster: For more details, see [Creating a private AKS
+	// cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+	EnablePrivateCluster *bool `json:"enablePrivateCluster,omitempty"`
+
+	// EnablePrivateClusterPublicFQDN: Whether to create additional public FQDN for private cluster or not.
+	EnablePrivateClusterPublicFQDN *bool `json:"enablePrivateClusterPublicFQDN,omitempty"`
+
+	// PrivateDNSZone: The default is System. For more details see [configure private DNS
+	// zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and
+	// 'none'.
+	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
 type ManagedClusterAutoUpgradeProfileARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
@@ -491,6 +491,15 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
+type ManagedClusterServicePrincipalProfileARM struct {
+	// ClientId: The ID for the service principal.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// Secret: The secret password associated with the service principal in plain text.
+	Secret *string `json:"secret,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKUName string
 
@@ -503,15 +512,6 @@ const (
 	ManagedClusterSKUTier_Free = ManagedClusterSKUTier("Free")
 	ManagedClusterSKUTier_Paid = ManagedClusterSKUTier("Paid")
 )
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
-type ManagedClusterServicePrincipalProfileARM struct {
-	// ClientId: The ID for the service principal.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// Secret: The secret password associated with the service principal in plain text.
-	Secret *string `json:"secret,omitempty"`
-}
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
 type ManagedClusterWindowsProfileARM struct {

@@ -27,7 +27,7 @@ type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Images_Spec  `json:"spec,omitempty"`
-	Status            Image_Status `json:"status,omitempty"`
+	Status            Image_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Image{}
@@ -76,7 +76,7 @@ func (image *Image) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (image *Image) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Image_Status{}
+	return &Image_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (image *Image) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Image_Status); ok {
+	if st, ok := status.(*Image_STATUS); ok {
 		image.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Image_Status
+	var st Image_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -135,26 +135,26 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
 
-// Storage version of v1beta20220301.Image_Status
-type Image_Status struct {
+// Storage version of v1beta20220301.Image_STATUS
+type Image_STATUS struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Status    `json:"extendedLocation,omitempty"`
+	ExtendedLocation     *ExtendedLocation_STATUS    `json:"extendedLocation,omitempty"`
 	HyperVGeneration     *string                     `json:"hyperVGeneration,omitempty"`
 	Id                   *string                     `json:"id,omitempty"`
 	Location             *string                     `json:"location,omitempty"`
 	Name                 *string                     `json:"name,omitempty"`
 	PropertyBag          genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	ProvisioningState    *string                     `json:"provisioningState,omitempty"`
-	SourceVirtualMachine *SubResource_Status         `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfile_Status `json:"storageProfile,omitempty"`
+	SourceVirtualMachine *SubResource_STATUS         `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_STATUS `json:"storageProfile,omitempty"`
 	Tags                 map[string]string           `json:"tags,omitempty"`
 	Type                 *string                     `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Image_Status{}
+var _ genruntime.ConvertibleStatus = &Image_STATUS{}
 
-// ConvertStatusFrom populates our Image_Status from the provided source
-func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Image_STATUS from the provided source
+func (image *Image_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == image {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -162,8 +162,8 @@ func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	return source.ConvertStatusTo(image)
 }
 
-// ConvertStatusTo populates the provided destination from our Image_Status
-func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Image_STATUS
+func (image *Image_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == image {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -220,8 +220,8 @@ type ExtendedLocation struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20220301.ExtendedLocation_Status
-type ExtendedLocation_Status struct {
+// Storage version of v1beta20220301.ExtendedLocation_STATUS
+type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -236,10 +236,10 @@ type ImageStorageProfile struct {
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
-// Storage version of v1beta20220301.ImageStorageProfile_Status
-type ImageStorageProfile_Status struct {
-	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
-	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
+// Storage version of v1beta20220301.ImageStorageProfile_STATUS
+type ImageStorageProfile_STATUS struct {
+	DataDisks     []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk_STATUS    `json:"osDisk,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
@@ -253,8 +253,8 @@ type SubResource struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20220301.SubResource_Status
-type SubResource_Status struct {
+// Storage version of v1beta20220301.SubResource_STATUS
+type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -273,16 +273,16 @@ type ImageDataDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
-// Storage version of v1beta20220301.ImageDataDisk_Status
-type ImageDataDisk_Status struct {
+// Storage version of v1beta20220301.ImageDataDisk_STATUS
+type ImageDataDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status    `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
 	Lun                *int                   `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_Status    `json:"managedDisk,omitempty"`
+	ManagedDisk        *SubResource_STATUS    `json:"managedDisk,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Snapshot           *SubResource_Status    `json:"snapshot,omitempty"`
+	Snapshot           *SubResource_STATUS    `json:"snapshot,omitempty"`
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
@@ -301,17 +301,17 @@ type ImageOSDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
-// Storage version of v1beta20220301.ImageOSDisk_Status
-type ImageOSDisk_Status struct {
+// Storage version of v1beta20220301.ImageOSDisk_STATUS
+type ImageOSDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status    `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_Status    `json:"managedDisk,omitempty"`
+	ManagedDisk        *SubResource_STATUS    `json:"managedDisk,omitempty"`
 	OsState            *string                `json:"osState,omitempty"`
 	OsType             *string                `json:"osType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Snapshot           *SubResource_Status    `json:"snapshot,omitempty"`
+	Snapshot           *SubResource_STATUS    `json:"snapshot,omitempty"`
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 

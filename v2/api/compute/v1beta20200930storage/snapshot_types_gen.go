@@ -27,7 +27,7 @@ type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Snapshots_Spec  `json:"spec,omitempty"`
-	Status            Snapshot_Status `json:"status,omitempty"`
+	Status            Snapshot_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Snapshot{}
@@ -76,7 +76,7 @@ func (snapshot *Snapshot) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Snapshot_Status{}
+	return &Snapshot_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Snapshot_Status); ok {
+	if st, ok := status.(*Snapshot_STATUS); ok {
 		snapshot.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Snapshot_Status
+	var st Snapshot_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,17 +129,17 @@ type SnapshotList struct {
 	Items           []Snapshot `json:"items"`
 }
 
-// Storage version of v1beta20200930.Snapshot_Status
-type Snapshot_Status struct {
+// Storage version of v1beta20200930.Snapshot_STATUS
+type Snapshot_STATUS struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
 	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                              `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
 	Id                           *string                              `json:"id,omitempty"`
 	Incremental                  *bool                                `json:"incremental,omitempty"`
@@ -150,18 +150,18 @@ type Snapshot_Status struct {
 	OsType                       *string                              `json:"osType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
-	Sku                          *SnapshotSku_Status                  `json:"sku,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	Sku                          *SnapshotSku_STATUS                  `json:"sku,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
 	Type                         *string                              `json:"type,omitempty"`
 	UniqueId                     *string                              `json:"uniqueId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Snapshot_Status{}
+var _ genruntime.ConvertibleStatus = &Snapshot_STATUS{}
 
-// ConvertStatusFrom populates our Snapshot_Status from the provided source
-func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Snapshot_STATUS from the provided source
+func (snapshot *Snapshot_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -169,8 +169,8 @@ func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(snapshot)
 }
 
-// ConvertStatusTo populates the provided destination from our Snapshot_Status
-func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Snapshot_STATUS
+func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -237,8 +237,8 @@ type SnapshotSku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200930.SnapshotSku_Status
-type SnapshotSku_Status struct {
+// Storage version of v1beta20200930.SnapshotSku_STATUS
+type SnapshotSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`

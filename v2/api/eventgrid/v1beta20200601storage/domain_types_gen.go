@@ -27,7 +27,7 @@ type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Domains_Spec  `json:"spec,omitempty"`
-	Status            Domain_Status `json:"status,omitempty"`
+	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Domain{}
@@ -76,7 +76,7 @@ func (domain *Domain) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Domain_Status{}
+	return &Domain_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (domain *Domain) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Domain_Status); ok {
+	if st, ok := status.(*Domain_STATUS); ok {
 		domain.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Domain_Status
+	var st Domain_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -135,30 +135,30 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
-// Storage version of v1beta20200601.Domain_Status
-type Domain_Status struct {
+// Storage version of v1beta20200601.Domain_STATUS
+type Domain_STATUS struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
 	Id                         *string                                                       `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_Status                                        `json:"inboundIpRules,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                        `json:"inboundIpRules,omitempty"`
 	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_Status                                    `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                    `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                       `json:"location,omitempty"`
 	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
 	Name                       *string                                                       `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_Status                                            `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                            `json:"systemData,omitempty"`
 	Tags                       map[string]string                                             `json:"tags,omitempty"`
 	Type                       *string                                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Domain_Status{}
+var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
 
-// ConvertStatusFrom populates our Domain_Status from the provided source
-func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Domain_STATUS from the provided source
+func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -166,8 +166,8 @@ func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(domain)
 }
 
-// ConvertStatusTo populates the provided destination from our Domain_Status
-func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Domain_STATUS
+func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -224,15 +224,15 @@ type InboundIpRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.InboundIpRule_Status
-type InboundIpRule_Status struct {
+// Storage version of v1beta20200601.InboundIpRule_STATUS
+type InboundIpRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.InputSchemaMapping_Status
-type InputSchemaMapping_Status struct {
+// Storage version of v1beta20200601.InputSchemaMapping_STATUS
+type InputSchemaMapping_STATUS struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -245,14 +245,14 @@ type JsonInputSchemaMapping struct {
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
+// Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20200601.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`

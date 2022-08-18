@@ -29,7 +29,7 @@ type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Servers_Spec  `json:"spec,omitempty"`
-	Status            Server_Status `json:"status,omitempty"`
+	Status            Server_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Server{}
@@ -123,7 +123,7 @@ func (server *Server) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_Status{}
+	return &Server_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +139,13 @@ func (server *Server) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_Status); ok {
+	if st, ok := status.(*Server_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_Status
+	var st Server_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -281,10 +281,10 @@ func (server *Server) AssignPropertiesFromServer(source *v20180601s.Server) erro
 	server.Spec = spec
 
 	// Status
-	var status Server_Status
-	err = status.AssignPropertiesFromServerStatus(&source.Status)
+	var status Server_STATUS
+	err = status.AssignPropertiesFromServerSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromServerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromServerSTATUS() to populate field Status")
 	}
 	server.Status = status
 
@@ -307,10 +307,10 @@ func (server *Server) AssignPropertiesToServer(destination *v20180601s.Server) e
 	destination.Spec = spec
 
 	// Status
-	var status v20180601s.Server_Status
-	err = server.Status.AssignPropertiesToServerStatus(&status)
+	var status v20180601s.Server_STATUS
+	err = server.Status.AssignPropertiesToServerSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToServerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToServerSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -335,7 +335,7 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
-type Server_Status struct {
+type Server_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -360,17 +360,17 @@ type Server_Status struct {
 	MasterServerId *string `json:"masterServerId,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_Status `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections on a server
-	PrivateEndpointConnections []ServerPrivateEndpointConnection_Status `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCapacity: The maximum number of replicas that a master server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
@@ -379,13 +379,13 @@ type Server_Status struct {
 	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_Status `json:"sku,omitempty"`
+	Sku *Sku_STATUS `json:"sku,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_Status `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_Status `json:"storageProfile,omitempty"`
+	StorageProfile *StorageProfile_STATUS `json:"storageProfile,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -394,31 +394,31 @@ type Server_Status struct {
 	Type *string `json:"type,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerPropertiesStatusUserVisibleState `json:"userVisibleState,omitempty"`
+	UserVisibleState *ServerPropertiesSTATUSUserVisibleState `json:"userVisibleState,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Server_Status{}
+var _ genruntime.ConvertibleStatus = &Server_STATUS{}
 
-// ConvertStatusFrom populates our Server_Status from the provided source
-func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180601s.Server_Status)
+// ConvertStatusFrom populates our Server_STATUS from the provided source
+func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate our instance from source
-		return server.AssignPropertiesFromServerStatus(src)
+		return server.AssignPropertiesFromServerSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180601s.Server_Status{}
+	src = &v20180601s.Server_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = server.AssignPropertiesFromServerStatus(src)
+	err = server.AssignPropertiesFromServerSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -426,17 +426,17 @@ func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Server_Status
-func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180601s.Server_Status)
+// ConvertStatusTo populates the provided destination from our Server_STATUS
+func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return server.AssignPropertiesToServerStatus(dst)
+		return server.AssignPropertiesToServerSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180601s.Server_Status{}
-	err := server.AssignPropertiesToServerStatus(dst)
+	dst = &v20180601s.Server_STATUS{}
+	err := server.AssignPropertiesToServerSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -450,18 +450,18 @@ func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Server_Status{}
+var _ genruntime.FromARMConverter = &Server_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (server *Server_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_StatusARM{}
+func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Server_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_StatusARM)
+func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Server_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
@@ -533,7 +533,7 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 ServerPrivateEndpointConnection_Status
+			var item1 ServerPrivateEndpointConnection_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -571,7 +571,7 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku_Status
+		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
@@ -593,7 +593,7 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageProfile != nil {
-			var storageProfile1 StorageProfile_Status
+			var storageProfile1 StorageProfile_STATUS
 			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
 			if err != nil {
 				return err
@@ -639,8 +639,8 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromServerStatus populates our Server_Status from the provided source Server_Status
-func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s.Server_Status) error {
+// AssignPropertiesFromServerSTATUS populates our Server_STATUS from the provided source Server_STATUS
+func (server *Server_STATUS) AssignPropertiesFromServerSTATUS(source *v20180601s.Server_STATUS) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -665,7 +665,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion_Status(*source.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion_STATUS(*source.MinimalTlsVersion)
 		server.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		server.MinimalTlsVersion = nil
@@ -676,14 +676,14 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]ServerPrivateEndpointConnection_Status, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]ServerPrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection ServerPrivateEndpointConnection_Status
-			err := privateEndpointConnection.AssignPropertiesFromServerPrivateEndpointConnectionStatus(&privateEndpointConnectionItem)
+			var privateEndpointConnection ServerPrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignPropertiesFromServerPrivateEndpointConnectionSTATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateEndpointConnectionStatus() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateEndpointConnectionSTATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -694,7 +694,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess_Status(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
 		server.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		server.PublicNetworkAccess = nil
@@ -708,10 +708,10 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
 		}
 		server.Sku = &sku
 	} else {
@@ -720,7 +720,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement_Status(*source.SslEnforcement)
+		sslEnforcement := SslEnforcement_STATUS(*source.SslEnforcement)
 		server.SslEnforcement = &sslEnforcement
 	} else {
 		server.SslEnforcement = nil
@@ -728,10 +728,10 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// StorageProfile
 	if source.StorageProfile != nil {
-		var storageProfile StorageProfile_Status
-		err := storageProfile.AssignPropertiesFromStorageProfileStatus(source.StorageProfile)
+		var storageProfile StorageProfile_STATUS
+		err := storageProfile.AssignPropertiesFromStorageProfileSTATUS(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfileSTATUS() to populate field StorageProfile")
 		}
 		server.StorageProfile = &storageProfile
 	} else {
@@ -746,7 +746,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// UserVisibleState
 	if source.UserVisibleState != nil {
-		userVisibleState := ServerPropertiesStatusUserVisibleState(*source.UserVisibleState)
+		userVisibleState := ServerPropertiesSTATUSUserVisibleState(*source.UserVisibleState)
 		server.UserVisibleState = &userVisibleState
 	} else {
 		server.UserVisibleState = nil
@@ -754,7 +754,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion_Status(*source.Version)
+		version := ServerVersion_STATUS(*source.Version)
 		server.Version = &version
 	} else {
 		server.Version = nil
@@ -764,8 +764,8 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 	return nil
 }
 
-// AssignPropertiesToServerStatus populates the provided destination Server_Status from our Server_Status
-func (server *Server_Status) AssignPropertiesToServerStatus(destination *v20180601s.Server_Status) error {
+// AssignPropertiesToServerSTATUS populates the provided destination Server_STATUS from our Server_STATUS
+func (server *Server_STATUS) AssignPropertiesToServerSTATUS(destination *v20180601s.Server_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -803,14 +803,14 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 
 	// PrivateEndpointConnections
 	if server.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20180601s.ServerPrivateEndpointConnection_Status, len(server.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20180601s.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range server.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20180601s.ServerPrivateEndpointConnection_Status
-			err := privateEndpointConnectionItem.AssignPropertiesToServerPrivateEndpointConnectionStatus(&privateEndpointConnection)
+			var privateEndpointConnection v20180601s.ServerPrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToServerPrivateEndpointConnectionSTATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToServerPrivateEndpointConnectionStatus() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesToServerPrivateEndpointConnectionSTATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -835,10 +835,10 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 
 	// Sku
 	if server.Sku != nil {
-		var sku v20180601s.Sku_Status
-		err := server.Sku.AssignPropertiesToSkuStatus(&sku)
+		var sku v20180601s.Sku_STATUS
+		err := server.Sku.AssignPropertiesToSkuSTATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -855,10 +855,10 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 
 	// StorageProfile
 	if server.StorageProfile != nil {
-		var storageProfile v20180601s.StorageProfile_Status
-		err := server.StorageProfile.AssignPropertiesToStorageProfileStatus(&storageProfile)
+		var storageProfile v20180601s.StorageProfile_STATUS
+		err := server.StorageProfile.AssignPropertiesToStorageProfileSTATUS(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageProfileSTATUS() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -1227,20 +1227,20 @@ func (servers *Servers_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (servers *Servers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
-type MinimalTlsVersion_Status string
+type MinimalTlsVersion_STATUS string
 
 const (
-	MinimalTlsVersion_Status_TLS10                  = MinimalTlsVersion_Status("TLS1_0")
-	MinimalTlsVersion_Status_TLS11                  = MinimalTlsVersion_Status("TLS1_1")
-	MinimalTlsVersion_Status_TLS12                  = MinimalTlsVersion_Status("TLS1_2")
-	MinimalTlsVersion_Status_TLSEnforcementDisabled = MinimalTlsVersion_Status("TLSEnforcementDisabled")
+	MinimalTlsVersion_STATUS_TLS10                  = MinimalTlsVersion_STATUS("TLS1_0")
+	MinimalTlsVersion_STATUS_TLS11                  = MinimalTlsVersion_STATUS("TLS1_1")
+	MinimalTlsVersion_STATUS_TLS12                  = MinimalTlsVersion_STATUS("TLS1_2")
+	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
-type PublicNetworkAccess_Status string
+type PublicNetworkAccess_STATUS string
 
 const (
-	PublicNetworkAccess_Status_Disabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_Status_Enabled  = PublicNetworkAccess_Status("Enabled")
+	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -1296,26 +1296,26 @@ func (operator *ServerOperatorSpec) AssignPropertiesToServerOperatorSpec(destina
 	return nil
 }
 
-type ServerPrivateEndpointConnection_Status struct {
+type ServerPrivateEndpointConnection_STATUS struct {
 	// Id: Resource Id of the private endpoint connection.
 	Id *string `json:"id,omitempty"`
 
 	// Properties: Private endpoint connection properties
-	Properties *ServerPrivateEndpointConnectionProperties_Status `json:"properties,omitempty"`
+	Properties *ServerPrivateEndpointConnectionProperties_STATUS `json:"properties,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnection_Status{}
+var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *ServerPrivateEndpointConnection_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnection_StatusARM{}
+func (connection *ServerPrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPrivateEndpointConnection_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *ServerPrivateEndpointConnection_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnection_StatusARM)
+func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPrivateEndpointConnection_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1326,7 +1326,7 @@ func (connection *ServerPrivateEndpointConnection_Status) PopulateFromARM(owner 
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		var properties1 ServerPrivateEndpointConnectionProperties_Status
+		var properties1 ServerPrivateEndpointConnectionProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
 		if err != nil {
 			return err
@@ -1339,18 +1339,18 @@ func (connection *ServerPrivateEndpointConnection_Status) PopulateFromARM(owner 
 	return nil
 }
 
-// AssignPropertiesFromServerPrivateEndpointConnectionStatus populates our ServerPrivateEndpointConnection_Status from the provided source ServerPrivateEndpointConnection_Status
-func (connection *ServerPrivateEndpointConnection_Status) AssignPropertiesFromServerPrivateEndpointConnectionStatus(source *v20180601s.ServerPrivateEndpointConnection_Status) error {
+// AssignPropertiesFromServerPrivateEndpointConnectionSTATUS populates our ServerPrivateEndpointConnection_STATUS from the provided source ServerPrivateEndpointConnection_STATUS
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignPropertiesFromServerPrivateEndpointConnectionSTATUS(source *v20180601s.ServerPrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Properties
 	if source.Properties != nil {
-		var property ServerPrivateEndpointConnectionProperties_Status
-		err := property.AssignPropertiesFromServerPrivateEndpointConnectionPropertiesStatus(source.Properties)
+		var property ServerPrivateEndpointConnectionProperties_STATUS
+		err := property.AssignPropertiesFromServerPrivateEndpointConnectionPropertiesSTATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateEndpointConnectionPropertiesStatus() to populate field Properties")
+			return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateEndpointConnectionPropertiesSTATUS() to populate field Properties")
 		}
 		connection.Properties = &property
 	} else {
@@ -1361,8 +1361,8 @@ func (connection *ServerPrivateEndpointConnection_Status) AssignPropertiesFromSe
 	return nil
 }
 
-// AssignPropertiesToServerPrivateEndpointConnectionStatus populates the provided destination ServerPrivateEndpointConnection_Status from our ServerPrivateEndpointConnection_Status
-func (connection *ServerPrivateEndpointConnection_Status) AssignPropertiesToServerPrivateEndpointConnectionStatus(destination *v20180601s.ServerPrivateEndpointConnection_Status) error {
+// AssignPropertiesToServerPrivateEndpointConnectionSTATUS populates the provided destination ServerPrivateEndpointConnection_STATUS from our ServerPrivateEndpointConnection_STATUS
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignPropertiesToServerPrivateEndpointConnectionSTATUS(destination *v20180601s.ServerPrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1371,10 +1371,10 @@ func (connection *ServerPrivateEndpointConnection_Status) AssignPropertiesToServ
 
 	// Properties
 	if connection.Properties != nil {
-		var property v20180601s.ServerPrivateEndpointConnectionProperties_Status
-		err := connection.Properties.AssignPropertiesToServerPrivateEndpointConnectionPropertiesStatus(&property)
+		var property v20180601s.ServerPrivateEndpointConnectionProperties_STATUS
+		err := connection.Properties.AssignPropertiesToServerPrivateEndpointConnectionPropertiesSTATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServerPrivateEndpointConnectionPropertiesStatus() to populate field Properties")
+			return errors.Wrap(err, "calling AssignPropertiesToServerPrivateEndpointConnectionPropertiesSTATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -1637,19 +1637,19 @@ func (create *ServerPropertiesForCreate) AssignPropertiesToServerPropertiesForCr
 	return nil
 }
 
-type ServerPropertiesStatusUserVisibleState string
+type ServerPropertiesSTATUSUserVisibleState string
 
 const (
-	ServerPropertiesStatusUserVisibleState_Disabled = ServerPropertiesStatusUserVisibleState("Disabled")
-	ServerPropertiesStatusUserVisibleState_Dropping = ServerPropertiesStatusUserVisibleState("Dropping")
-	ServerPropertiesStatusUserVisibleState_Ready    = ServerPropertiesStatusUserVisibleState("Ready")
+	ServerPropertiesSTATUSUserVisibleState_Disabled = ServerPropertiesSTATUSUserVisibleState("Disabled")
+	ServerPropertiesSTATUSUserVisibleState_Dropping = ServerPropertiesSTATUSUserVisibleState("Dropping")
+	ServerPropertiesSTATUSUserVisibleState_Ready    = ServerPropertiesSTATUSUserVisibleState("Ready")
 )
 
-type ServerVersion_Status string
+type ServerVersion_STATUS string
 
 const (
-	ServerVersion_Status_102 = ServerVersion_Status("10.2")
-	ServerVersion_Status_103 = ServerVersion_Status("10.3")
+	ServerVersion_STATUS_102 = ServerVersion_STATUS("10.2")
+	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
@@ -1832,7 +1832,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20180601s.Sku) error {
 	return nil
 }
 
-type Sku_Status struct {
+type Sku_STATUS struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -1846,21 +1846,21 @@ type Sku_Status struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Tier *SkuSTATUSTier `json:"tier,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Sku_Status{}
+var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_StatusARM{}
+func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_StatusARM)
+func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1897,8 +1897,8 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20180601s.Sku_Status) error {
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20180601s.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -1914,7 +1914,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20180601s.Sku_Stat
 
 	// Tier
 	if source.Tier != nil {
-		tier := SkuStatusTier(*source.Tier)
+		tier := SkuSTATUSTier(*source.Tier)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil
@@ -1924,8 +1924,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20180601s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20180601s.Sku_Status) error {
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20180601s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1960,39 +1960,39 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20180601s.Sku_S
 	return nil
 }
 
-type SslEnforcement_Status string
+type SslEnforcement_STATUS string
 
 const (
-	SslEnforcement_Status_Disabled = SslEnforcement_Status("Disabled")
-	SslEnforcement_Status_Enabled  = SslEnforcement_Status("Enabled")
+	SslEnforcement_STATUS_Disabled = SslEnforcement_STATUS("Disabled")
+	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
 
-type StorageProfile_Status struct {
+type StorageProfile_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfileStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *StorageProfileSTATUSGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfileStatusStorageAutogrow `json:"storageAutogrow,omitempty"`
+	StorageAutogrow *StorageProfileSTATUSStorageAutogrow `json:"storageAutogrow,omitempty"`
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &StorageProfile_Status{}
+var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *StorageProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_StatusARM{}
+func (profile *StorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageProfile_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *StorageProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_StatusARM)
+func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageProfile_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -2023,15 +2023,15 @@ func (profile *StorageProfile_Status) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromStorageProfileStatus populates our StorageProfile_Status from the provided source StorageProfile_Status
-func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(source *v20180601s.StorageProfile_Status) error {
+// AssignPropertiesFromStorageProfileSTATUS populates our StorageProfile_STATUS from the provided source StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(source *v20180601s.StorageProfile_STATUS) error {
 
 	// BackupRetentionDays
 	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := StorageProfileStatusGeoRedundantBackup(*source.GeoRedundantBackup)
+		geoRedundantBackup := StorageProfileSTATUSGeoRedundantBackup(*source.GeoRedundantBackup)
 		profile.GeoRedundantBackup = &geoRedundantBackup
 	} else {
 		profile.GeoRedundantBackup = nil
@@ -2039,7 +2039,7 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 
 	// StorageAutogrow
 	if source.StorageAutogrow != nil {
-		storageAutogrow := StorageProfileStatusStorageAutogrow(*source.StorageAutogrow)
+		storageAutogrow := StorageProfileSTATUSStorageAutogrow(*source.StorageAutogrow)
 		profile.StorageAutogrow = &storageAutogrow
 	} else {
 		profile.StorageAutogrow = nil
@@ -2052,8 +2052,8 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 	return nil
 }
 
-// AssignPropertiesToStorageProfileStatus populates the provided destination StorageProfile_Status from our StorageProfile_Status
-func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(destination *v20180601s.StorageProfile_Status) error {
+// AssignPropertiesToStorageProfileSTATUS populates the provided destination StorageProfile_STATUS from our StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfileSTATUS(destination *v20180601s.StorageProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2135,34 +2135,34 @@ func (secrets *ServerOperatorSecrets) AssignPropertiesToServerOperatorSecrets(de
 	return nil
 }
 
-type ServerPrivateEndpointConnectionProperties_Status struct {
+type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
-	PrivateEndpoint *PrivateEndpointProperty_Status `json:"privateEndpoint,omitempty"`
+	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
 
 	// PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
-	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_Status `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_Status{}
+var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *ServerPrivateEndpointConnectionProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnectionProperties_StatusARM{}
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPrivateEndpointConnectionProperties_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *ServerPrivateEndpointConnectionProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnectionProperties_StatusARM)
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPrivateEndpointConnectionProperties_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘PrivateEndpoint’:
 	if typedInput.PrivateEndpoint != nil {
-		var privateEndpoint1 PrivateEndpointProperty_Status
+		var privateEndpoint1 PrivateEndpointProperty_STATUS
 		err := privateEndpoint1.PopulateFromARM(owner, *typedInput.PrivateEndpoint)
 		if err != nil {
 			return err
@@ -2173,7 +2173,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) PopulateFrom
 
 	// Set property ‘PrivateLinkServiceConnectionState’:
 	if typedInput.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState1 ServerPrivateLinkServiceConnectionStateProperty_Status
+		var privateLinkServiceConnectionState1 ServerPrivateLinkServiceConnectionStateProperty_STATUS
 		err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.PrivateLinkServiceConnectionState)
 		if err != nil {
 			return err
@@ -2192,15 +2192,15 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) PopulateFrom
 	return nil
 }
 
-// AssignPropertiesFromServerPrivateEndpointConnectionPropertiesStatus populates our ServerPrivateEndpointConnectionProperties_Status from the provided source ServerPrivateEndpointConnectionProperties_Status
-func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignPropertiesFromServerPrivateEndpointConnectionPropertiesStatus(source *v20180601s.ServerPrivateEndpointConnectionProperties_Status) error {
+// AssignPropertiesFromServerPrivateEndpointConnectionPropertiesSTATUS populates our ServerPrivateEndpointConnectionProperties_STATUS from the provided source ServerPrivateEndpointConnectionProperties_STATUS
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignPropertiesFromServerPrivateEndpointConnectionPropertiesSTATUS(source *v20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
 
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpointProperty_Status
-		err := privateEndpoint.AssignPropertiesFromPrivateEndpointPropertyStatus(source.PrivateEndpoint)
+		var privateEndpoint PrivateEndpointProperty_STATUS
+		err := privateEndpoint.AssignPropertiesFromPrivateEndpointPropertySTATUS(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointPropertyStatus() to populate field PrivateEndpoint")
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointPropertySTATUS() to populate field PrivateEndpoint")
 		}
 		properties.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2209,10 +2209,10 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 
 	// PrivateLinkServiceConnectionState
 	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState ServerPrivateLinkServiceConnectionStateProperty_Status
-		err := privateLinkServiceConnectionState.AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertyStatus(source.PrivateLinkServiceConnectionState)
+		var privateLinkServiceConnectionState ServerPrivateLinkServiceConnectionStateProperty_STATUS
+		err := privateLinkServiceConnectionState.AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertySTATUS(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertyStatus() to populate field PrivateLinkServiceConnectionState")
+			return errors.Wrap(err, "calling AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertySTATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2221,7 +2221,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ServerPrivateEndpointConnectionPropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState(*source.ProvisioningState)
 		properties.ProvisioningState = &provisioningState
 	} else {
 		properties.ProvisioningState = nil
@@ -2231,17 +2231,17 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 	return nil
 }
 
-// AssignPropertiesToServerPrivateEndpointConnectionPropertiesStatus populates the provided destination ServerPrivateEndpointConnectionProperties_Status from our ServerPrivateEndpointConnectionProperties_Status
-func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignPropertiesToServerPrivateEndpointConnectionPropertiesStatus(destination *v20180601s.ServerPrivateEndpointConnectionProperties_Status) error {
+// AssignPropertiesToServerPrivateEndpointConnectionPropertiesSTATUS populates the provided destination ServerPrivateEndpointConnectionProperties_STATUS from our ServerPrivateEndpointConnectionProperties_STATUS
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignPropertiesToServerPrivateEndpointConnectionPropertiesSTATUS(destination *v20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrivateEndpoint
 	if properties.PrivateEndpoint != nil {
-		var privateEndpoint v20180601s.PrivateEndpointProperty_Status
-		err := properties.PrivateEndpoint.AssignPropertiesToPrivateEndpointPropertyStatus(&privateEndpoint)
+		var privateEndpoint v20180601s.PrivateEndpointProperty_STATUS
+		err := properties.PrivateEndpoint.AssignPropertiesToPrivateEndpointPropertySTATUS(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointPropertyStatus() to populate field PrivateEndpoint")
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointPropertySTATUS() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2250,10 +2250,10 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 
 	// PrivateLinkServiceConnectionState
 	if properties.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20180601s.ServerPrivateLinkServiceConnectionStateProperty_Status
-		err := properties.PrivateLinkServiceConnectionState.AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertyStatus(&privateLinkServiceConnectionState)
+		var privateLinkServiceConnectionState v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS
+		err := properties.PrivateLinkServiceConnectionState.AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertySTATUS(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertyStatus() to populate field PrivateLinkServiceConnectionState")
+			return errors.Wrap(err, "calling AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertySTATUS() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -3432,37 +3432,37 @@ func (restore *ServerPropertiesForRestore) AssignPropertiesToServerPropertiesFor
 	return nil
 }
 
-type StorageProfileStatusGeoRedundantBackup string
+type StorageProfileSTATUSGeoRedundantBackup string
 
 const (
-	StorageProfileStatusGeoRedundantBackup_Disabled = StorageProfileStatusGeoRedundantBackup("Disabled")
-	StorageProfileStatusGeoRedundantBackup_Enabled  = StorageProfileStatusGeoRedundantBackup("Enabled")
+	StorageProfileSTATUSGeoRedundantBackup_Disabled = StorageProfileSTATUSGeoRedundantBackup("Disabled")
+	StorageProfileSTATUSGeoRedundantBackup_Enabled  = StorageProfileSTATUSGeoRedundantBackup("Enabled")
 )
 
-type StorageProfileStatusStorageAutogrow string
+type StorageProfileSTATUSStorageAutogrow string
 
 const (
-	StorageProfileStatusStorageAutogrow_Disabled = StorageProfileStatusStorageAutogrow("Disabled")
-	StorageProfileStatusStorageAutogrow_Enabled  = StorageProfileStatusStorageAutogrow("Enabled")
+	StorageProfileSTATUSStorageAutogrow_Disabled = StorageProfileSTATUSStorageAutogrow("Disabled")
+	StorageProfileSTATUSStorageAutogrow_Enabled  = StorageProfileSTATUSStorageAutogrow("Enabled")
 )
 
-type PrivateEndpointProperty_Status struct {
+type PrivateEndpointProperty_STATUS struct {
 	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointProperty_Status{}
+var _ genruntime.FromARMConverter = &PrivateEndpointProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *PrivateEndpointProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointProperty_StatusARM{}
+func (property *PrivateEndpointProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointProperty_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *PrivateEndpointProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointProperty_StatusARM)
+func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointProperty_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -3475,8 +3475,8 @@ func (property *PrivateEndpointProperty_Status) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointPropertyStatus populates our PrivateEndpointProperty_Status from the provided source PrivateEndpointProperty_Status
-func (property *PrivateEndpointProperty_Status) AssignPropertiesFromPrivateEndpointPropertyStatus(source *v20180601s.PrivateEndpointProperty_Status) error {
+// AssignPropertiesFromPrivateEndpointPropertySTATUS populates our PrivateEndpointProperty_STATUS from the provided source PrivateEndpointProperty_STATUS
+func (property *PrivateEndpointProperty_STATUS) AssignPropertiesFromPrivateEndpointPropertySTATUS(source *v20180601s.PrivateEndpointProperty_STATUS) error {
 
 	// Id
 	property.Id = genruntime.ClonePointerToString(source.Id)
@@ -3485,8 +3485,8 @@ func (property *PrivateEndpointProperty_Status) AssignPropertiesFromPrivateEndpo
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointPropertyStatus populates the provided destination PrivateEndpointProperty_Status from our PrivateEndpointProperty_Status
-func (property *PrivateEndpointProperty_Status) AssignPropertiesToPrivateEndpointPropertyStatus(destination *v20180601s.PrivateEndpointProperty_Status) error {
+// AssignPropertiesToPrivateEndpointPropertySTATUS populates the provided destination PrivateEndpointProperty_STATUS from our PrivateEndpointProperty_STATUS
+func (property *PrivateEndpointProperty_STATUS) AssignPropertiesToPrivateEndpointPropertySTATUS(destination *v20180601s.PrivateEndpointProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3504,39 +3504,39 @@ func (property *PrivateEndpointProperty_Status) AssignPropertiesToPrivateEndpoin
 	return nil
 }
 
-type ServerPrivateEndpointConnectionPropertiesStatusProvisioningState string
+type ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState string
 
 const (
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Approving = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Dropping  = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Failed    = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Ready     = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningState_Rejecting = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
+	ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState_Approving = ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState("Approving")
+	ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState_Dropping  = ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState("Dropping")
+	ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState_Failed    = ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState("Failed")
+	ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState_Ready     = ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState("Ready")
+	ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState_Rejecting = ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState("Rejecting")
 )
 
-type ServerPrivateLinkServiceConnectionStateProperty_Status struct {
+type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`
+	ActionsRequired *ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status,omitempty"`
+	Status *ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus `json:"status,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProperty_Status{}
+var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateLinkServiceConnectionStateProperty_StatusARM{}
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPrivateLinkServiceConnectionStateProperty_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateLinkServiceConnectionStateProperty_StatusARM)
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPrivateLinkServiceConnectionStateProperty_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ActionsRequired’:
@@ -3561,12 +3561,12 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) Populate
 	return nil
 }
 
-// AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertyStatus populates our ServerPrivateLinkServiceConnectionStateProperty_Status from the provided source ServerPrivateLinkServiceConnectionStateProperty_Status
-func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertyStatus(source *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_Status) error {
+// AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertySTATUS populates our ServerPrivateLinkServiceConnectionStateProperty_STATUS from the provided source ServerPrivateLinkServiceConnectionStateProperty_STATUS
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertySTATUS(source *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
-		actionsRequired := ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired(*source.ActionsRequired)
+		actionsRequired := ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired(*source.ActionsRequired)
 		property.ActionsRequired = &actionsRequired
 	} else {
 		property.ActionsRequired = nil
@@ -3577,7 +3577,7 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPr
 
 	// Status
 	if source.Status != nil {
-		status := ServerPrivateLinkServiceConnectionStatePropertyStatusStatus(*source.Status)
+		status := ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus(*source.Status)
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -3587,8 +3587,8 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPr
 	return nil
 }
 
-// AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertyStatus populates the provided destination ServerPrivateLinkServiceConnectionStateProperty_Status from our ServerPrivateLinkServiceConnectionStateProperty_Status
-func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertyStatus(destination *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_Status) error {
+// AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertySTATUS populates the provided destination ServerPrivateLinkServiceConnectionStateProperty_STATUS from our ServerPrivateLinkServiceConnectionStateProperty_STATUS
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPropertiesToServerPrivateLinkServiceConnectionStatePropertySTATUS(destination *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3779,17 +3779,17 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *v20
 	return nil
 }
 
-type ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired string
+type ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired string
 
-const ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired_None = ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
+const ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired_None = ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired("None")
 
-type ServerPrivateLinkServiceConnectionStatePropertyStatusStatus string
+type ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus string
 
 const (
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Approved     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Disconnected = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Pending      = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatus_Rejected     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
+	ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus_Approved     = ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus("Approved")
+	ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus_Disconnected = ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus("Disconnected")
+	ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus_Pending      = ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus("Pending")
+	ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus_Rejected     = ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus("Rejected")
 )
 
 func init() {

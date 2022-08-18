@@ -29,7 +29,7 @@ type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesTopics_Spec `json:"spec,omitempty"`
-	Status            SBTopic_Status        `json:"status,omitempty"`
+	Status            SBTopic_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -137,7 +137,7 @@ func (topic *NamespacesTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBTopic_Status{}
+	return &SBTopic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBTopic_Status); ok {
+	if st, ok := status.(*SBTopic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBTopic_Status
+	var st SBTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (topic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *alpha2
 	topic.Spec = spec
 
 	// Status
-	var status SBTopic_Status
-	err = status.AssignPropertiesFromSBTopicStatus(&source.Status)
+	var status SBTopic_STATUS
+	err = status.AssignPropertiesFromSBTopicSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicSTATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -303,10 +303,10 @@ func (topic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *alp
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210101ps.SBTopic_Status
-	err = topic.Status.AssignPropertiesToSBTopicStatus(&status)
+	var status alpha20210101ps.SBTopic_STATUS
+	err = topic.Status.AssignPropertiesToSBTopicSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBTopicStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSBTopicSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -804,14 +804,14 @@ func (topics *NamespacesTopics_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topics *NamespacesTopics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
-// Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead
-type SBTopic_Status struct {
+// Deprecated version of SBTopic_STATUS. Use v1beta20210101preview.SBTopic_STATUS instead
+type SBTopic_STATUS struct {
 	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_Status `json:"countDetails,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
 	CreatedAt                           *string                     `json:"createdAt,omitempty"`
 	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
@@ -823,33 +823,33 @@ type SBTopic_Status struct {
 	Name                                *string                     `json:"name,omitempty"`
 	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
 	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_Status        `json:"status,omitempty"`
+	Status                              *EntityStatus_STATUS        `json:"status,omitempty"`
 	SubscriptionCount                   *int                        `json:"subscriptionCount,omitempty"`
 	SupportOrdering                     *bool                       `json:"supportOrdering,omitempty"`
-	SystemData                          *SystemData_Status          `json:"systemData,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
 	Type                                *string                     `json:"type,omitempty"`
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBTopic_Status{}
+var _ genruntime.ConvertibleStatus = &SBTopic_STATUS{}
 
-// ConvertStatusFrom populates our SBTopic_Status from the provided source
-func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210101ps.SBTopic_Status)
+// ConvertStatusFrom populates our SBTopic_STATUS from the provided source
+func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210101ps.SBTopic_STATUS)
 	if ok {
 		// Populate our instance from source
-		return topic.AssignPropertiesFromSBTopicStatus(src)
+		return topic.AssignPropertiesFromSBTopicSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210101ps.SBTopic_Status{}
+	src = &alpha20210101ps.SBTopic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = topic.AssignPropertiesFromSBTopicStatus(src)
+	err = topic.AssignPropertiesFromSBTopicSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -857,17 +857,17 @@ func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SBTopic_Status
-func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210101ps.SBTopic_Status)
+// ConvertStatusTo populates the provided destination from our SBTopic_STATUS
+func (topic *SBTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210101ps.SBTopic_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return topic.AssignPropertiesToSBTopicStatus(dst)
+		return topic.AssignPropertiesToSBTopicSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210101ps.SBTopic_Status{}
-	err := topic.AssignPropertiesToSBTopicStatus(dst)
+	dst = &alpha20210101ps.SBTopic_STATUS{}
+	err := topic.AssignPropertiesToSBTopicSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -881,18 +881,18 @@ func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SBTopic_Status{}
+var _ genruntime.FromARMConverter = &SBTopic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (topic *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBTopic_StatusARM{}
+func (topic *SBTopic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBTopic_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBTopic_StatusARM)
+func (topic *SBTopic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SBTopic_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AccessedAt’:
@@ -919,7 +919,7 @@ func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CountDetails != nil {
-			var countDetails1 MessageCountDetails_Status
+			var countDetails1 MessageCountDetails_STATUS
 			err := countDetails1.PopulateFromARM(owner, *typedInput.Properties.CountDetails)
 			if err != nil {
 				return err
@@ -1051,7 +1051,7 @@ func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -1079,8 +1079,8 @@ func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSBTopicStatus populates our SBTopic_Status from the provided source SBTopic_Status
-func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha20210101ps.SBTopic_Status) error {
+// AssignPropertiesFromSBTopicSTATUS populates our SBTopic_STATUS from the provided source SBTopic_STATUS
+func (topic *SBTopic_STATUS) AssignPropertiesFromSBTopicSTATUS(source *alpha20210101ps.SBTopic_STATUS) error {
 
 	// AccessedAt
 	topic.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1093,10 +1093,10 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha2021
 
 	// CountDetails
 	if source.CountDetails != nil {
-		var countDetail MessageCountDetails_Status
-		err := countDetail.AssignPropertiesFromMessageCountDetailsStatus(source.CountDetails)
+		var countDetail MessageCountDetails_STATUS
+		err := countDetail.AssignPropertiesFromMessageCountDetailsSTATUS(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsStatus() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsSTATUS() to populate field CountDetails")
 		}
 		topic.CountDetails = &countDetail
 	} else {
@@ -1158,7 +1158,7 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha2021
 
 	// Status
 	if source.Status != nil {
-		status := EntityStatus_Status(*source.Status)
+		status := EntityStatus_STATUS(*source.Status)
 		topic.Status = &status
 	} else {
 		topic.Status = nil
@@ -1177,10 +1177,10 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha2021
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -1197,8 +1197,8 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha2021
 	return nil
 }
 
-// AssignPropertiesToSBTopicStatus populates the provided destination SBTopic_Status from our SBTopic_Status
-func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *alpha20210101ps.SBTopic_Status) error {
+// AssignPropertiesToSBTopicSTATUS populates the provided destination SBTopic_STATUS from our SBTopic_STATUS
+func (topic *SBTopic_STATUS) AssignPropertiesToSBTopicSTATUS(destination *alpha20210101ps.SBTopic_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1213,10 +1213,10 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *alpha2
 
 	// CountDetails
 	if topic.CountDetails != nil {
-		var countDetail alpha20210101ps.MessageCountDetails_Status
-		err := topic.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
+		var countDetail alpha20210101ps.MessageCountDetails_STATUS
+		err := topic.CountDetails.AssignPropertiesToMessageCountDetailsSTATUS(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsStatus() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsSTATUS() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -1297,10 +1297,10 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *alpha2
 
 	// SystemData
 	if topic.SystemData != nil {
-		var systemDatum alpha20210101ps.SystemData_Status
-		err := topic.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum alpha20210101ps.SystemData_STATUS
+		err := topic.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

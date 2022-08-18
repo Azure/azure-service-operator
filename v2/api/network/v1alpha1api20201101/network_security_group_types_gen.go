@@ -29,7 +29,7 @@ type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NetworkSecurityGroups_Spec                                           `json:"spec,omitempty"`
-	Status            NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
+	Status            NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroup{}
@@ -137,7 +137,7 @@ func (group *NetworkSecurityGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (group *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded); ok {
+	if st, ok := status.(*NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
+	var st NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (group *NetworkSecurityGroup) AssignPropertiesFromNetworkSecurityGroup(sour
 	group.Spec = spec
 
 	// Status
-	var status NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err = status.AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&source.Status)
+	var status NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err = status.AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
 	}
 	group.Status = status
 
@@ -303,10 +303,10 @@ func (group *NetworkSecurityGroup) AssignPropertiesToNetworkSecurityGroup(destin
 	destination.Spec = spec
 
 	// Status
-	var status alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err = group.Status.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&status)
+	var status alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err = group.Status.AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,44 +331,44 @@ type NetworkSecurityGroupList struct {
 	Items           []NetworkSecurityGroup `json:"items"`
 }
 
-// Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
-type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
+// Deprecated version of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
+type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
-	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
 	Etag                 *string                                                            `json:"etag,omitempty"`
-	FlowLogs             []FlowLog_Status_SubResourceEmbedded                               `json:"flowLogs,omitempty"`
+	FlowLogs             []FlowLog_STATUS_SubResourceEmbedded                               `json:"flowLogs,omitempty"`
 	Id                   *string                                                            `json:"id,omitempty"`
 	Location             *string                                                            `json:"location,omitempty"`
 	Name                 *string                                                            `json:"name,omitempty"`
-	NetworkInterfaces    []NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
-	ProvisioningState    *ProvisioningState_Status                                          `json:"provisioningState,omitempty"`
+	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
+	ProvisioningState    *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded     `json:"securityRules,omitempty"`
-	Subnets              []Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
+	SecurityRules        []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"securityRules,omitempty"`
+	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 
-// ConvertStatusFrom populates our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded)
+// ConvertStatusFrom populates our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(src)
+		return embedded.AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+	src = &alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(src)
+	err = embedded.AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -376,17 +376,17 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(dst)
+		return embedded.AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
-	err := embedded.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(dst)
+	dst = &alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
+	err := embedded.AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -400,18 +400,18 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM)
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -420,7 +420,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DefaultSecurityRules {
-			var item1 SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
+			var item1 SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -439,7 +439,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FlowLogs {
-			var item1 FlowLog_Status_SubResourceEmbedded
+			var item1 FlowLog_STATUS_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -470,7 +470,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NetworkInterfaces {
-			var item1 NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
+			var item1 NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -501,7 +501,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SecurityRules {
-			var item1 SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
+			var item1 SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -514,7 +514,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Subnets {
-			var item1 Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
+			var item1 Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -541,22 +541,22 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-// AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded populates our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded populates our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 
 	// Conditions
 	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DefaultSecurityRules
 	if source.DefaultSecurityRules != nil {
-		defaultSecurityRuleList := make([]SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded, len(source.DefaultSecurityRules))
+		defaultSecurityRuleList := make([]SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.DefaultSecurityRules))
 		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range source.DefaultSecurityRules {
 			// Shadow the loop variable to avoid aliasing
 			defaultSecurityRuleItem := defaultSecurityRuleItem
-			var defaultSecurityRule SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := defaultSecurityRule.AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRuleItem)
+			var defaultSecurityRule SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := defaultSecurityRule.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -570,14 +570,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// FlowLogs
 	if source.FlowLogs != nil {
-		flowLogList := make([]FlowLog_Status_SubResourceEmbedded, len(source.FlowLogs))
+		flowLogList := make([]FlowLog_STATUS_SubResourceEmbedded, len(source.FlowLogs))
 		for flowLogIndex, flowLogItem := range source.FlowLogs {
 			// Shadow the loop variable to avoid aliasing
 			flowLogItem := flowLogItem
-			var flowLog FlowLog_Status_SubResourceEmbedded
-			err := flowLog.AssignPropertiesFromFlowLogStatusSubResourceEmbedded(&flowLogItem)
+			var flowLog FlowLog_STATUS_SubResourceEmbedded
+			err := flowLog.AssignPropertiesFromFlowLogSTATUSSubResourceEmbedded(&flowLogItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromFlowLogStatusSubResourceEmbedded() to populate field FlowLogs")
+				return errors.Wrap(err, "calling AssignPropertiesFromFlowLogSTATUSSubResourceEmbedded() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -597,14 +597,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded, len(source.NetworkInterfaces))
+		networkInterfaceList := make([]NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := networkInterface.AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&networkInterfaceItem)
+			var networkInterface NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := networkInterface.AssignPropertiesFromNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -615,7 +615,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
 		embedded.ProvisioningState = &provisioningState
 	} else {
 		embedded.ProvisioningState = nil
@@ -626,14 +626,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// SecurityRules
 	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded, len(source.SecurityRules))
+		securityRuleList := make([]SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.SecurityRules))
 		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
 			// Shadow the loop variable to avoid aliasing
 			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := securityRule.AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&securityRuleItem)
+			var securityRule SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := securityRule.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(&securityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -644,14 +644,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// Subnets
 	if source.Subnets != nil {
-		subnetList := make([]Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded, len(source.Subnets))
+		subnetList := make([]Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.Subnets))
 		for subnetIndex, subnetItem := range source.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := subnet.AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&subnetItem)
+			var subnet Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := subnet.AssignPropertiesFromSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -670,8 +670,8 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
-// AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded populates the provided destination NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded from our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded populates the provided destination NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded from our NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -680,14 +680,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// DefaultSecurityRules
 	if embedded.DefaultSecurityRules != nil {
-		defaultSecurityRuleList := make([]alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.DefaultSecurityRules))
+		defaultSecurityRuleList := make([]alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.DefaultSecurityRules))
 		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range embedded.DefaultSecurityRules {
 			// Shadow the loop variable to avoid aliasing
 			defaultSecurityRuleItem := defaultSecurityRuleItem
-			var defaultSecurityRule alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := defaultSecurityRuleItem.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRule)
+			var defaultSecurityRule alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := defaultSecurityRuleItem.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -701,14 +701,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// FlowLogs
 	if embedded.FlowLogs != nil {
-		flowLogList := make([]alpha20201101s.FlowLog_Status_SubResourceEmbedded, len(embedded.FlowLogs))
+		flowLogList := make([]alpha20201101s.FlowLog_STATUS_SubResourceEmbedded, len(embedded.FlowLogs))
 		for flowLogIndex, flowLogItem := range embedded.FlowLogs {
 			// Shadow the loop variable to avoid aliasing
 			flowLogItem := flowLogItem
-			var flowLog alpha20201101s.FlowLog_Status_SubResourceEmbedded
-			err := flowLogItem.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&flowLog)
+			var flowLog alpha20201101s.FlowLog_STATUS_SubResourceEmbedded
+			err := flowLogItem.AssignPropertiesToFlowLogSTATUSSubResourceEmbedded(&flowLog)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToFlowLogStatusSubResourceEmbedded() to populate field FlowLogs")
+				return errors.Wrap(err, "calling AssignPropertiesToFlowLogSTATUSSubResourceEmbedded() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -728,14 +728,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// NetworkInterfaces
 	if embedded.NetworkInterfaces != nil {
-		networkInterfaceList := make([]alpha20201101s.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.NetworkInterfaces))
+		networkInterfaceList := make([]alpha20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range embedded.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface alpha20201101s.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&networkInterface)
+			var networkInterface alpha20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -757,14 +757,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// SecurityRules
 	if embedded.SecurityRules != nil {
-		securityRuleList := make([]alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.SecurityRules))
+		securityRuleList := make([]alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.SecurityRules))
 		for securityRuleIndex, securityRuleItem := range embedded.SecurityRules {
 			// Shadow the loop variable to avoid aliasing
 			securityRuleItem := securityRuleItem
-			var securityRule alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := securityRuleItem.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&securityRule)
+			var securityRule alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := securityRuleItem.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(&securityRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
+				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -775,14 +775,14 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// Subnets
 	if embedded.Subnets != nil {
-		subnetList := make([]alpha20201101s.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.Subnets))
+		subnetList := make([]alpha20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(embedded.Subnets))
 		for subnetIndex, subnetItem := range embedded.Subnets {
 			// Shadow the loop variable to avoid aliasing
 			subnetItem := subnetItem
-			var subnet alpha20201101s.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
-			err := subnetItem.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&subnet)
+			var subnet alpha20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+			err := subnetItem.AssignPropertiesToSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
+				return errors.Wrap(err, "calling AssignPropertiesToSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1008,23 +1008,23 @@ func (groups *NetworkSecurityGroups_Spec) SetAzureName(azureName string) {
 	groups.AzureName = azureName
 }
 
-// Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
-type FlowLog_Status_SubResourceEmbedded struct {
+// Deprecated version of FlowLog_STATUS_SubResourceEmbedded. Use v1beta20201101.FlowLog_STATUS_SubResourceEmbedded instead
+type FlowLog_STATUS_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &FlowLog_Status_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &FlowLog_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *FlowLog_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlowLog_Status_SubResourceEmbeddedARM{}
+func (embedded *FlowLog_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlowLog_STATUS_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *FlowLog_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlowLog_Status_SubResourceEmbeddedARM)
+func (embedded *FlowLog_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlowLog_STATUS_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlowLog_Status_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlowLog_STATUS_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1037,8 +1037,8 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromFlowLogStatusSubResourceEmbedded populates our FlowLog_Status_SubResourceEmbedded from the provided source FlowLog_Status_SubResourceEmbedded
-func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesFromFlowLogStatusSubResourceEmbedded(source *alpha20201101s.FlowLog_Status_SubResourceEmbedded) error {
+// AssignPropertiesFromFlowLogSTATUSSubResourceEmbedded populates our FlowLog_STATUS_SubResourceEmbedded from the provided source FlowLog_STATUS_SubResourceEmbedded
+func (embedded *FlowLog_STATUS_SubResourceEmbedded) AssignPropertiesFromFlowLogSTATUSSubResourceEmbedded(source *alpha20201101s.FlowLog_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1047,8 +1047,8 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesFromFlowLogS
 	return nil
 }
 
-// AssignPropertiesToFlowLogStatusSubResourceEmbedded populates the provided destination FlowLog_Status_SubResourceEmbedded from our FlowLog_Status_SubResourceEmbedded
-func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesToFlowLogStatusSubResourceEmbedded(destination *alpha20201101s.FlowLog_Status_SubResourceEmbedded) error {
+// AssignPropertiesToFlowLogSTATUSSubResourceEmbedded populates the provided destination FlowLog_STATUS_SubResourceEmbedded from our FlowLog_STATUS_SubResourceEmbedded
+func (embedded *FlowLog_STATUS_SubResourceEmbedded) AssignPropertiesToFlowLogSTATUSSubResourceEmbedded(destination *alpha20201101s.FlowLog_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1066,29 +1066,29 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesToFlowLogSta
 	return nil
 }
 
-// Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
-type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
+// Deprecated version of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
+type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
+	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 	Id               *string                  `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM)
+func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘ExtendedLocation’:
 	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation_Status
+		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
 		if err != nil {
 			return err
@@ -1107,15 +1107,15 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded populates our NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesFromNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded populates our NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_Status
-		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		var extendedLocation ExtendedLocation_STATUS
+		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -1129,17 +1129,17 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
-// AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded populates the provided destination NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded from our NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesToNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded populates the provided destination NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded from our NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
-		var extendedLocation alpha20201101s.ExtendedLocation_Status
-		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
+		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1160,23 +1160,23 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
-// Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
-type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
+// Deprecated version of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
+type SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM)
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1189,8 +1189,8 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) Po
 	return nil
 }
 
-// AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded populates our SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded populates our SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1199,8 +1199,8 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) As
 	return nil
 }
 
-// AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded populates the provided destination SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded from our SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded populates the provided destination SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded from our SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1218,23 +1218,23 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) As
 	return nil
 }
 
-// Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
-type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
+// Deprecated version of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
+type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
+func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM)
+func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1247,8 +1247,8 @@ func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) Populate
 	return nil
 }
 
-// AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded populates our Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesFromSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded populates our Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesFromSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded(source *alpha20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1257,8 +1257,8 @@ func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-// AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded populates the provided destination Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded from our Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (embedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) error {
+// AssignPropertiesToSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded populates the provided destination Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded from our Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPropertiesToSubnetSTATUSNetworkSecurityGroupSubResourceEmbedded(destination *alpha20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

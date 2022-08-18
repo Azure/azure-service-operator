@@ -297,14 +297,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
-type FakeResourcePropertiesARM struct {
-	Id       *string           `json:"id,omitempty"`
-	NsgIds   []string          `json:"nsgIds,omitempty"`
-	NsgMap   map[string]string `json:"nsgMap,omitempty"`
-	SubnetId *string           `json:"subnetId,omitempty"`
-}
-
 type FakeResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -506,6 +498,14 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+type FakeResourcePropertiesARM struct {
+	Id       *string           `json:"id,omitempty"`
+	NsgIds   []string          `json:"nsgIds,omitempty"`
+	NsgMap   map[string]string `json:"nsgMap,omitempty"`
+	SubnetId *string           `json:"subnetId,omitempty"`
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {

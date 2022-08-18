@@ -27,7 +27,7 @@ type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesAuthorizationRules_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_Status          `json:"status,omitempty"`
+	Status            AuthorizationRule_STATUS          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -76,7 +76,7 @@ func (rule *NamespacesAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AuthorizationRule_Status{}
+	return &AuthorizationRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AuthorizationRule_Status); ok {
+	if st, ok := status.(*AuthorizationRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AuthorizationRule_Status
+	var st AuthorizationRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,22 +129,22 @@ type NamespacesAuthorizationRuleList struct {
 	Items           []NamespacesAuthorizationRule `json:"items"`
 }
 
-// Storage version of v1beta20211101.AuthorizationRule_Status
-type AuthorizationRule_Status struct {
+// Storage version of v1beta20211101.AuthorizationRule_STATUS
+type AuthorizationRule_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	Location    *string                `json:"location,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rights      []string               `json:"rights,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AuthorizationRule_Status{}
+var _ genruntime.ConvertibleStatus = &AuthorizationRule_STATUS{}
 
-// ConvertStatusFrom populates our AuthorizationRule_Status from the provided source
-func (rule *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our AuthorizationRule_STATUS from the provided source
+func (rule *AuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -152,8 +152,8 @@ func (rule *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.Conver
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our AuthorizationRule_Status
-func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our AuthorizationRule_STATUS
+func (rule *AuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

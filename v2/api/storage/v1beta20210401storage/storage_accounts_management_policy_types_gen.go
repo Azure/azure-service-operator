@@ -27,7 +27,7 @@ type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              StorageAccountsManagementPolicies_Spec `json:"spec,omitempty"`
-	Status            ManagementPolicy_Status                `json:"status,omitempty"`
+	Status            ManagementPolicy_STATUS                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -76,7 +76,7 @@ func (policy *StorageAccountsManagementPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagementPolicy_Status{}
+	return &ManagementPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagementPolicy_Status); ok {
+	if st, ok := status.(*ManagementPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagementPolicy_Status
+	var st ManagementPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,21 +129,21 @@ type StorageAccountsManagementPolicyList struct {
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicy_Status
-type ManagementPolicy_Status struct {
+// Storage version of v1beta20210401.ManagementPolicy_STATUS
+type ManagementPolicy_STATUS struct {
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
 	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
 	Name             *string                        `json:"name,omitempty"`
-	Policy           *ManagementPolicySchema_Status `json:"policy,omitempty"`
+	Policy           *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
 	PropertyBag      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	Type             *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ManagementPolicy_Status{}
+var _ genruntime.ConvertibleStatus = &ManagementPolicy_STATUS{}
 
-// ConvertStatusFrom populates our ManagementPolicy_Status from the provided source
-func (policy *ManagementPolicy_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ManagementPolicy_STATUS from the provided source
+func (policy *ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -151,8 +151,8 @@ func (policy *ManagementPolicy_Status) ConvertStatusFrom(source genruntime.Conve
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our ManagementPolicy_Status
-func (policy *ManagementPolicy_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ManagementPolicy_STATUS
+func (policy *ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -201,10 +201,10 @@ type ManagementPolicySchema struct {
 	Rules       []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicySchema_Status
-type ManagementPolicySchema_Status struct {
+// Storage version of v1beta20210401.ManagementPolicySchema_STATUS
+type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Rules       []ManagementPolicyRule_Status `json:"rules,omitempty"`
+	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyRule
@@ -217,9 +217,9 @@ type ManagementPolicyRule struct {
 	Type        *string                     `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyRule_Status
-type ManagementPolicyRule_Status struct {
-	Definition  *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyRule_STATUS
+type ManagementPolicyRule_STATUS struct {
+	Definition  *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
 	Enabled     *bool                              `json:"enabled,omitempty"`
 	Name        *string                            `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -234,10 +234,10 @@ type ManagementPolicyDefinition struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyDefinition_Status
-type ManagementPolicyDefinition_Status struct {
-	Actions     *ManagementPolicyAction_Status `json:"actions,omitempty"`
-	Filters     *ManagementPolicyFilter_Status `json:"filters,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyDefinition_STATUS
+type ManagementPolicyDefinition_STATUS struct {
+	Actions     *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
+	Filters     *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
@@ -250,12 +250,12 @@ type ManagementPolicyAction struct {
 	Version     *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyAction_Status
-type ManagementPolicyAction_Status struct {
-	BaseBlob    *ManagementPolicyBaseBlob_Status `json:"baseBlob,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyAction_STATUS
+type ManagementPolicyAction_STATUS struct {
+	BaseBlob    *ManagementPolicyBaseBlob_STATUS `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Snapshot    *ManagementPolicySnapShot_Status `json:"snapshot,omitempty"`
-	Version     *ManagementPolicyVersion_Status  `json:"version,omitempty"`
+	Snapshot    *ManagementPolicySnapShot_STATUS `json:"snapshot,omitempty"`
+	Version     *ManagementPolicyVersion_STATUS  `json:"version,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyFilter
@@ -267,9 +267,9 @@ type ManagementPolicyFilter struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyFilter_Status
-type ManagementPolicyFilter_Status struct {
-	BlobIndexMatch []TagFilter_Status     `json:"blobIndexMatch,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyFilter_STATUS
+type ManagementPolicyFilter_STATUS struct {
+	BlobIndexMatch []TagFilter_STATUS     `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
 	PrefixMatch    []string               `json:"prefixMatch,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -285,13 +285,13 @@ type ManagementPolicyBaseBlob struct {
 	TierToCool                  *DateAfterModification `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyBaseBlob_Status
-type ManagementPolicyBaseBlob_Status struct {
-	Delete                      *DateAfterModification_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyBaseBlob_STATUS
+type ManagementPolicyBaseBlob_STATUS struct {
+	Delete                      *DateAfterModification_STATUS `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
 	PropertyBag                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	TierToArchive               *DateAfterModification_Status `json:"tierToArchive,omitempty"`
-	TierToCool                  *DateAfterModification_Status `json:"tierToCool,omitempty"`
+	TierToArchive               *DateAfterModification_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicySnapShot
@@ -303,12 +303,12 @@ type ManagementPolicySnapShot struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicySnapShot_Status
-type ManagementPolicySnapShot_Status struct {
-	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicySnapShot_STATUS
+type ManagementPolicySnapShot_STATUS struct {
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyVersion
@@ -320,12 +320,12 @@ type ManagementPolicyVersion struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyVersion_Status
-type ManagementPolicyVersion_Status struct {
-	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyVersion_STATUS
+type ManagementPolicyVersion_STATUS struct {
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.TagFilter
@@ -337,8 +337,8 @@ type TagFilter struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1beta20210401.TagFilter_Status
-type TagFilter_Status struct {
+// Storage version of v1beta20210401.TagFilter_STATUS
+type TagFilter_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -352,8 +352,8 @@ type DateAfterCreation struct {
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.DateAfterCreation_Status
-type DateAfterCreation_Status struct {
+// Storage version of v1beta20210401.DateAfterCreation_STATUS
+type DateAfterCreation_STATUS struct {
 	DaysAfterCreationGreaterThan *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -366,8 +366,8 @@ type DateAfterModification struct {
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.DateAfterModification_Status
-type DateAfterModification_Status struct {
+// Storage version of v1beta20210401.DateAfterModification_STATUS
+type DateAfterModification_STATUS struct {
 	DaysAfterLastAccessTimeGreaterThan *float64               `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

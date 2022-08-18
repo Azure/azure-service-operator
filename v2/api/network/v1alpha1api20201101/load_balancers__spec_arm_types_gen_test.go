@@ -20,7 +20,7 @@ import (
 func Test_LoadBalancers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -158,71 +158,10 @@ func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopt
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
-func Test_LoadBalancerSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoadBalancerSkuARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerSkuARM, LoadBalancerSkuARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForLoadBalancerSkuARM runs a test to see if a specific instance of LoadBalancerSkuARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerSkuARM(subject LoadBalancerSkuARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual LoadBalancerSkuARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of LoadBalancerSkuARM instances for property testing - lazily instantiated by LoadBalancerSkuARMGenerator()
-var loadBalancerSkuARMGenerator gopter.Gen
-
-// LoadBalancerSkuARMGenerator returns a generator of LoadBalancerSkuARM instances for property testing.
-func LoadBalancerSkuARMGenerator() gopter.Gen {
-	if loadBalancerSkuARMGenerator != nil {
-		return loadBalancerSkuARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(generators)
-	loadBalancerSkuARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSkuARM{}), generators)
-
-	return loadBalancerSkuARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLoadBalancerSkuARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuName_Basic, LoadBalancerSkuName_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuTier_Global, LoadBalancerSkuTier_Regional))
-}
-
 func Test_LoadBalancers_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -285,10 +224,71 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesARM(gens map[stri
 	gens["Probes"] = gen.SliceOf(LoadBalancersSpecPropertiesProbesARMGenerator())
 }
 
-func Test_LoadBalancers_Spec_Properties_BackendAddressPoolsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_LoadBalancerSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LoadBalancerSkuARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerSkuARM, LoadBalancerSkuARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLoadBalancerSkuARM runs a test to see if a specific instance of LoadBalancerSkuARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerSkuARM(subject LoadBalancerSkuARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LoadBalancerSkuARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LoadBalancerSkuARM instances for property testing - lazily instantiated by LoadBalancerSkuARMGenerator()
+var loadBalancerSkuARMGenerator gopter.Gen
+
+// LoadBalancerSkuARMGenerator returns a generator of LoadBalancerSkuARM instances for property testing.
+func LoadBalancerSkuARMGenerator() gopter.Gen {
+	if loadBalancerSkuARMGenerator != nil {
+		return loadBalancerSkuARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(generators)
+	loadBalancerSkuARMGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSkuARM{}), generators)
+
+	return loadBalancerSkuARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForLoadBalancerSkuARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuName_Basic, LoadBalancerSkuName_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuTier_Global, LoadBalancerSkuTier_Regional))
+}
+
+func Test_LoadBalancers_Spec_Properties_BackendAddressPoolsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -363,7 +363,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoo
 func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -439,7 +439,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigu
 func Test_LoadBalancers_Spec_Properties_InboundNatPoolsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -514,7 +514,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoolsAR
 func Test_LoadBalancers_Spec_Properties_LoadBalancingRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -589,7 +589,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRule
 func Test_LoadBalancers_Spec_Properties_OutboundRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -664,7 +664,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRulesARM(
 func Test_LoadBalancers_Spec_Properties_ProbesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -899,7 +899,7 @@ func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatARM(gens map[s
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -1202,7 +1202,7 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormatARM(gens map[string
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

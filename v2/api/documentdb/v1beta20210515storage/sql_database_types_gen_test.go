@@ -75,7 +75,7 @@ func SqlDatabaseGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesSpecGenerator()
-	gens["Status"] = SqlDatabaseGetResultsStatusGenerator()
+	gens["Status"] = SqlDatabaseGetResultsSTATUSGenerator()
 }
 
 func Test_DatabaseAccountsSqlDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -157,20 +157,20 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens map[st
 	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
 }
 
-func Test_SqlDatabaseGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlDatabaseGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlDatabaseGetResults_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetResultsStatus, SqlDatabaseGetResultsStatusGenerator()))
+		"Round trip of SqlDatabaseGetResults_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS, SqlDatabaseGetResultsSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlDatabaseGetResultsStatus runs a test to see if a specific instance of SqlDatabaseGetResults_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseGetResults_Status) string {
+// RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS runs a test to see if a specific instance of SqlDatabaseGetResults_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS(subject SqlDatabaseGetResults_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -178,7 +178,7 @@ func RunJSONSerializationTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseG
 	}
 
 	// Deserialize back into memory
-	var actual SqlDatabaseGetResults_Status
+	var actual SqlDatabaseGetResults_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -196,34 +196,34 @@ func RunJSONSerializationTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseG
 	return ""
 }
 
-// Generator of SqlDatabaseGetResults_Status instances for property testing - lazily instantiated by
-// SqlDatabaseGetResultsStatusGenerator()
-var sqlDatabaseGetResultsStatusGenerator gopter.Gen
+// Generator of SqlDatabaseGetResults_STATUS instances for property testing - lazily instantiated by
+// SqlDatabaseGetResultsSTATUSGenerator()
+var sqlDatabaseGetResultsSTATUSGenerator gopter.Gen
 
-// SqlDatabaseGetResultsStatusGenerator returns a generator of SqlDatabaseGetResults_Status instances for property testing.
-// We first initialize sqlDatabaseGetResultsStatusGenerator with a simplified generator based on the
+// SqlDatabaseGetResultsSTATUSGenerator returns a generator of SqlDatabaseGetResults_STATUS instances for property testing.
+// We first initialize sqlDatabaseGetResultsSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlDatabaseGetResultsStatusGenerator() gopter.Gen {
-	if sqlDatabaseGetResultsStatusGenerator != nil {
-		return sqlDatabaseGetResultsStatusGenerator
+func SqlDatabaseGetResultsSTATUSGenerator() gopter.Gen {
+	if sqlDatabaseGetResultsSTATUSGenerator != nil {
+		return sqlDatabaseGetResultsSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsStatus(generators)
-	sqlDatabaseGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
+	sqlDatabaseGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsStatus(generators)
-	AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsStatus(generators)
-	sqlDatabaseGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
+	AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
+	sqlDatabaseGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_STATUS{}), generators)
 
-	return sqlDatabaseGetResultsStatusGenerator
+	return sqlDatabaseGetResultsSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -231,26 +231,26 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsStatus(gens map[str
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsStatus(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(OptionsResourceStatusGenerator())
-	gens["Resource"] = gen.PtrOf(SqlDatabaseGetPropertiesStatusResourceGenerator())
+// AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(OptionsResourceSTATUSGenerator())
+	gens["Resource"] = gen.PtrOf(SqlDatabaseGetPropertiesSTATUSResourceGenerator())
 }
 
-func Test_SqlDatabaseGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlDatabaseGetProperties_STATUS_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlDatabaseGetProperties_Status_Resource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource, SqlDatabaseGetPropertiesStatusResourceGenerator()))
+		"Round trip of SqlDatabaseGetProperties_STATUS_Resource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource, SqlDatabaseGetPropertiesSTATUSResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource runs a test to see if a specific instance of SqlDatabaseGetProperties_Status_Resource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource(subject SqlDatabaseGetProperties_Status_Resource) string {
+// RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource runs a test to see if a specific instance of SqlDatabaseGetProperties_STATUS_Resource round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource(subject SqlDatabaseGetProperties_STATUS_Resource) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -258,7 +258,7 @@ func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource(subject S
 	}
 
 	// Deserialize back into memory
-	var actual SqlDatabaseGetProperties_Status_Resource
+	var actual SqlDatabaseGetProperties_STATUS_Resource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -276,25 +276,25 @@ func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource(subject S
 	return ""
 }
 
-// Generator of SqlDatabaseGetProperties_Status_Resource instances for property testing - lazily instantiated by
-// SqlDatabaseGetPropertiesStatusResourceGenerator()
-var sqlDatabaseGetPropertiesStatusResourceGenerator gopter.Gen
+// Generator of SqlDatabaseGetProperties_STATUS_Resource instances for property testing - lazily instantiated by
+// SqlDatabaseGetPropertiesSTATUSResourceGenerator()
+var sqlDatabaseGetPropertiesSTATUSResourceGenerator gopter.Gen
 
-// SqlDatabaseGetPropertiesStatusResourceGenerator returns a generator of SqlDatabaseGetProperties_Status_Resource instances for property testing.
-func SqlDatabaseGetPropertiesStatusResourceGenerator() gopter.Gen {
-	if sqlDatabaseGetPropertiesStatusResourceGenerator != nil {
-		return sqlDatabaseGetPropertiesStatusResourceGenerator
+// SqlDatabaseGetPropertiesSTATUSResourceGenerator returns a generator of SqlDatabaseGetProperties_STATUS_Resource instances for property testing.
+func SqlDatabaseGetPropertiesSTATUSResourceGenerator() gopter.Gen {
+	if sqlDatabaseGetPropertiesSTATUSResourceGenerator != nil {
+		return sqlDatabaseGetPropertiesSTATUSResourceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResource(generators)
-	sqlDatabaseGetPropertiesStatusResourceGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetProperties_Status_Resource{}), generators)
+	AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource(generators)
+	sqlDatabaseGetPropertiesSTATUSResourceGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetProperties_STATUS_Resource{}), generators)
 
-	return sqlDatabaseGetPropertiesStatusResourceGenerator
+	return sqlDatabaseGetPropertiesSTATUSResourceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResource(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource(gens map[string]gopter.Gen) {
 	gens["Colls"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())

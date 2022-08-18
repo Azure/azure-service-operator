@@ -27,7 +27,7 @@ type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RedisFirewallRules_Spec  `json:"spec,omitempty"`
-	Status            RedisFirewallRule_Status `json:"status,omitempty"`
+	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisFirewallRule{}
@@ -76,7 +76,7 @@ func (rule *RedisFirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *RedisFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisFirewallRule_Status{}
+	return &RedisFirewallRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (rule *RedisFirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *RedisFirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisFirewallRule_Status); ok {
+	if st, ok := status.(*RedisFirewallRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisFirewallRule_Status
+	var st RedisFirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,8 +129,8 @@ type RedisFirewallRuleList struct {
 	Items           []RedisFirewallRule `json:"items"`
 }
 
-// Storage version of v1beta20201201.RedisFirewallRule_Status
-type RedisFirewallRule_Status struct {
+// Storage version of v1beta20201201.RedisFirewallRule_STATUS
+type RedisFirewallRule_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	EndIP       *string                `json:"endIP,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -140,10 +140,10 @@ type RedisFirewallRule_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisFirewallRule_Status{}
+var _ genruntime.ConvertibleStatus = &RedisFirewallRule_STATUS{}
 
-// ConvertStatusFrom populates our RedisFirewallRule_Status from the provided source
-func (rule *RedisFirewallRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our RedisFirewallRule_STATUS from the provided source
+func (rule *RedisFirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -151,8 +151,8 @@ func (rule *RedisFirewallRule_Status) ConvertStatusFrom(source genruntime.Conver
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our RedisFirewallRule_Status
-func (rule *RedisFirewallRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our RedisFirewallRule_STATUS
+func (rule *RedisFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -161,7 +161,7 @@ func PrivateDnsZoneGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForPrivateDnsZone is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrivateDnsZonesSpecGenerator()
-	gens["Status"] = PrivateZoneStatusGenerator()
+	gens["Status"] = PrivateZoneSTATUSGenerator()
 }
 
 func Test_PrivateDnsZones_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -270,32 +270,32 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesSpec(gens map[string]gopt
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-func Test_PrivateZone_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_PrivateZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateZone_Status to PrivateZone_Status via AssignPropertiesToPrivateZoneStatus & AssignPropertiesFromPrivateZoneStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateZoneStatus, PrivateZoneStatusGenerator()))
+		"Round trip from PrivateZone_STATUS to PrivateZone_STATUS via AssignPropertiesToPrivateZoneSTATUS & AssignPropertiesFromPrivateZoneSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateZoneSTATUS, PrivateZoneSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateZoneStatus tests if a specific instance of PrivateZone_Status can be assigned to v1beta20180901storage and back losslessly
-func RunPropertyAssignmentTestForPrivateZoneStatus(subject PrivateZone_Status) string {
+// RunPropertyAssignmentTestForPrivateZoneSTATUS tests if a specific instance of PrivateZone_STATUS can be assigned to v1beta20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateZoneSTATUS(subject PrivateZone_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180901s.PrivateZone_Status
-	err := copied.AssignPropertiesToPrivateZoneStatus(&other)
+	var other v20180901s.PrivateZone_STATUS
+	err := copied.AssignPropertiesToPrivateZoneSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateZone_Status
-	err = actual.AssignPropertiesFromPrivateZoneStatus(&other)
+	var actual PrivateZone_STATUS
+	err = actual.AssignPropertiesFromPrivateZoneSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -312,20 +312,20 @@ func RunPropertyAssignmentTestForPrivateZoneStatus(subject PrivateZone_Status) s
 	return ""
 }
 
-func Test_PrivateZone_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateZone_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateZoneStatus, PrivateZoneStatusGenerator()))
+		"Round trip of PrivateZone_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateZoneSTATUS, PrivateZoneSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateZoneStatus runs a test to see if a specific instance of PrivateZone_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateZoneStatus(subject PrivateZone_Status) string {
+// RunJSONSerializationTestForPrivateZoneSTATUS runs a test to see if a specific instance of PrivateZone_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateZoneSTATUS(subject PrivateZone_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -333,7 +333,7 @@ func RunJSONSerializationTestForPrivateZoneStatus(subject PrivateZone_Status) st
 	}
 
 	// Deserialize back into memory
-	var actual PrivateZone_Status
+	var actual PrivateZone_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -351,24 +351,24 @@ func RunJSONSerializationTestForPrivateZoneStatus(subject PrivateZone_Status) st
 	return ""
 }
 
-// Generator of PrivateZone_Status instances for property testing - lazily instantiated by PrivateZoneStatusGenerator()
-var privateZoneStatusGenerator gopter.Gen
+// Generator of PrivateZone_STATUS instances for property testing - lazily instantiated by PrivateZoneSTATUSGenerator()
+var privateZoneSTATUSGenerator gopter.Gen
 
-// PrivateZoneStatusGenerator returns a generator of PrivateZone_Status instances for property testing.
-func PrivateZoneStatusGenerator() gopter.Gen {
-	if privateZoneStatusGenerator != nil {
-		return privateZoneStatusGenerator
+// PrivateZoneSTATUSGenerator returns a generator of PrivateZone_STATUS instances for property testing.
+func PrivateZoneSTATUSGenerator() gopter.Gen {
+	if privateZoneSTATUSGenerator != nil {
+		return privateZoneSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZoneStatus(generators)
-	privateZoneStatusGenerator = gen.Struct(reflect.TypeOf(PrivateZone_Status{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateZoneSTATUS(generators)
+	privateZoneSTATUSGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS{}), generators)
 
-	return privateZoneStatusGenerator
+	return privateZoneSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateZoneStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateZoneStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateZoneSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateZoneSTATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
@@ -377,10 +377,10 @@ func AddIndependentPropertyGeneratorsForPrivateZoneStatus(gens map[string]gopter
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZonePropertiesStatusProvisioningState_Canceled,
-		PrivateZonePropertiesStatusProvisioningState_Creating,
-		PrivateZonePropertiesStatusProvisioningState_Deleting,
-		PrivateZonePropertiesStatusProvisioningState_Failed,
-		PrivateZonePropertiesStatusProvisioningState_Succeeded,
-		PrivateZonePropertiesStatusProvisioningState_Updating))
+		PrivateZonePropertiesSTATUSProvisioningState_Canceled,
+		PrivateZonePropertiesSTATUSProvisioningState_Creating,
+		PrivateZonePropertiesSTATUSProvisioningState_Deleting,
+		PrivateZonePropertiesSTATUSProvisioningState_Failed,
+		PrivateZonePropertiesSTATUSProvisioningState_Succeeded,
+		PrivateZonePropertiesSTATUSProvisioningState_Updating))
 }
