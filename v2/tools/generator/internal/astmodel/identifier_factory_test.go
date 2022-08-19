@@ -175,8 +175,8 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		// Forbidden receiver suffixes
 		{"Address" + StatusSuffix, "address"},
 		{"Address" + SpecSuffix, "address"},
-		{"Address" + StatusSuffix + "ARM", "address"},
-		{"Address" + SpecSuffix + "ARM", "address"},
+		{"Address" + StatusSuffix + ArmSuffix, "address"},
+		{"Address" + SpecSuffix + ArmSuffix, "address"},
 		// Real world examples
 		{"EncryptionSettingsCollection", "collection"},
 		{"RedisLinkedServer", "server"},
@@ -189,7 +189,7 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		{"DatabaseAccountsMongodbDatabasesCollections" + SpecSuffix, "collections"},
 		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings" + SpecSuffix, "settings"},
 		// Very short receiver names need more detail
-		{"SignalR" + SpecSuffix + "ARM", "signalR"},
+		{"SignalR" + SpecSuffix + ArmSuffix, "signalR"},
 		{"PublicIPAddressSku" + StatusSuffix, "addressSku"},
 		{"SBSku" + StatusSuffix, "sbSku"},
 		{"ManagedClusterSKU", "clusterSKU"},
