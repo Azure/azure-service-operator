@@ -7,6 +7,7 @@ package embeddedresources
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
@@ -246,27 +247,3 @@ func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.TypeName {
 func makeContextualTypeName(original astmodel.TypeName, context string, suffix string, count string) astmodel.TypeName {
 	return astmodel.MakeTypeName(original.PackageReference, original.Name()+context+suffix+count)
 }
-
-/*
-func parseContextualTypeName(name astmodel.TypeName) (embeddedResourceTypeName, error) {
-	split := strings.Split(name.Name(), "_")
-	if len(split) < 4 {
-		return embeddedResourceTypeName{}, errors.Errorf("can't split embedded resource type name: %q didn't have 4 sections", name)
-	}
-
-	original := strings.Join(split[:len(split)-3], "_")
-	resource := split[len(split)-3]
-	suffix := split[len(split)-2]
-	count, err := strconv.Atoi(split[len(split)-1])
-	if err != nil {
-		return embeddedResourceTypeName{}, err
-	}
-
-	return embeddedResourceTypeName{
-		original: astmodel.MakeTypeName(name.PackageReference, original),
-		context:  resource,
-		suffix:   suffix,
-		count:    count,
-	}, nil
-}
-*/
