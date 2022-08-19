@@ -67,7 +67,7 @@ func Test_EventSubscription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscription to EventSubscription via AssignPropertiesToEventSubscription & AssignPropertiesFromEventSubscription returns original",
+		"Round trip from EventSubscription to EventSubscription via AssignProperties_To_EventSubscription & AssignProperties_From_EventSubscription returns original",
 		prop.ForAll(RunPropertyAssignmentTestForEventSubscription, EventSubscriptionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForEventSubscription(subject EventSubscription) st
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscription
-	err := copied.AssignPropertiesToEventSubscription(&other)
+	err := copied.AssignProperties_To_EventSubscription(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscription
-	err = actual.AssignPropertiesFromEventSubscription(&other)
+	err = actual.AssignProperties_From_EventSubscription(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,8 +160,8 @@ func EventSubscriptionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForEventSubscription is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscription(gens map[string]gopter.Gen) {
-	gens["Spec"] = EventSubscriptionsSpecGenerator()
-	gens["Status"] = EventSubscriptionSTATUSGenerator()
+	gens["Spec"] = EventSubscriptions_SpecGenerator()
+	gens["Status"] = EventSubscription_STATUSGenerator()
 }
 
 func Test_EventSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -170,26 +170,26 @@ func Test_EventSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscription_STATUS to EventSubscription_STATUS via AssignPropertiesToEventSubscriptionSTATUS & AssignPropertiesFromEventSubscriptionSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionSTATUS, EventSubscriptionSTATUSGenerator()))
+		"Round trip from EventSubscription_STATUS to EventSubscription_STATUS via AssignProperties_To_EventSubscription_STATUS & AssignProperties_From_EventSubscription_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscription_STATUS, EventSubscription_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionSTATUS tests if a specific instance of EventSubscription_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionSTATUS(subject EventSubscription_STATUS) string {
+// RunPropertyAssignmentTestForEventSubscription_STATUS tests if a specific instance of EventSubscription_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscription_STATUS(subject EventSubscription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscription_STATUS
-	err := copied.AssignPropertiesToEventSubscriptionSTATUS(&other)
+	err := copied.AssignProperties_To_EventSubscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscription_STATUS
-	err = actual.AssignPropertiesFromEventSubscriptionSTATUS(&other)
+	err = actual.AssignProperties_From_EventSubscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -214,12 +214,12 @@ func Test_EventSubscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscription_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionSTATUS, EventSubscriptionSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForEventSubscription_STATUS, EventSubscription_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionSTATUS runs a test to see if a specific instance of EventSubscription_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionSTATUS(subject EventSubscription_STATUS) string {
+// RunJSONSerializationTestForEventSubscription_STATUS runs a test to see if a specific instance of EventSubscription_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscription_STATUS(subject EventSubscription_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -246,57 +246,57 @@ func RunJSONSerializationTestForEventSubscriptionSTATUS(subject EventSubscriptio
 }
 
 // Generator of EventSubscription_STATUS instances for property testing - lazily instantiated by
-// EventSubscriptionSTATUSGenerator()
-var eventSubscriptionSTATUSGenerator gopter.Gen
+// EventSubscription_STATUSGenerator()
+var eventSubscription_STATUSGenerator gopter.Gen
 
-// EventSubscriptionSTATUSGenerator returns a generator of EventSubscription_STATUS instances for property testing.
-// We first initialize eventSubscriptionSTATUSGenerator with a simplified generator based on the
+// EventSubscription_STATUSGenerator returns a generator of EventSubscription_STATUS instances for property testing.
+// We first initialize eventSubscription_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EventSubscriptionSTATUSGenerator() gopter.Gen {
-	if eventSubscriptionSTATUSGenerator != nil {
-		return eventSubscriptionSTATUSGenerator
+func EventSubscription_STATUSGenerator() gopter.Gen {
+	if eventSubscription_STATUSGenerator != nil {
+		return eventSubscription_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionSTATUS(generators)
-	eventSubscriptionSTATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscription_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscription_STATUS(generators)
+	eventSubscription_STATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscription_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionSTATUS(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptionSTATUS(generators)
-	eventSubscriptionSTATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscription_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscription_STATUS(generators)
+	AddRelatedPropertyGeneratorsForEventSubscription_STATUS(generators)
+	eventSubscription_STATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscription_STATUS{}), generators)
 
-	return eventSubscriptionSTATUSGenerator
+	return eventSubscription_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionSTATUS(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesSTATUSEventDeliverySchema_CloudEventSchemaV10, EventSubscriptionPropertiesSTATUSEventDeliverySchema_CustomInputSchema, EventSubscriptionPropertiesSTATUSEventDeliverySchema_EventGridSchema))
+// AddIndependentPropertyGeneratorsForEventSubscription_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscription_STATUS(gens map[string]gopter.Gen) {
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_STATUS_EventDeliverySchema_CloudEventSchemaV1_0, EventSubscriptionProperties_STATUS_EventDeliverySchema_CustomInputSchema, EventSubscriptionProperties_STATUS_EventDeliverySchema_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionPropertiesSTATUSProvisioningState_AwaitingManualAction,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Canceled,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Creating,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Deleting,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Failed,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Succeeded,
-		EventSubscriptionPropertiesSTATUSProvisioningState_Updating))
+		EventSubscriptionProperties_STATUS_ProvisioningState_AwaitingManualAction,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Canceled,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Creating,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Deleting,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Failed,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Succeeded,
+		EventSubscriptionProperties_STATUS_ProvisioningState_Updating))
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionSTATUS(gens map[string]gopter.Gen) {
-	gens["DeadLetterDestination"] = gen.PtrOf(DeadLetterDestinationSTATUSGenerator())
-	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationSTATUSGenerator())
-	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterSTATUSGenerator())
-	gens["RetryPolicy"] = gen.PtrOf(RetryPolicySTATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForEventSubscription_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscription_STATUS(gens map[string]gopter.Gen) {
+	gens["DeadLetterDestination"] = gen.PtrOf(DeadLetterDestination_STATUSGenerator())
+	gens["Destination"] = gen.PtrOf(EventSubscriptionDestination_STATUSGenerator())
+	gens["Filter"] = gen.PtrOf(EventSubscriptionFilter_STATUSGenerator())
+	gens["RetryPolicy"] = gen.PtrOf(RetryPolicy_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_EventSubscriptions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -305,26 +305,26 @@ func Test_EventSubscriptions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptions_Spec to EventSubscriptions_Spec via AssignPropertiesToEventSubscriptionsSpec & AssignPropertiesFromEventSubscriptionsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionsSpec, EventSubscriptionsSpecGenerator()))
+		"Round trip from EventSubscriptions_Spec to EventSubscriptions_Spec via AssignProperties_To_EventSubscriptions_Spec & AssignProperties_From_EventSubscriptions_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptions_Spec, EventSubscriptions_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionsSpec tests if a specific instance of EventSubscriptions_Spec can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionsSpec(subject EventSubscriptions_Spec) string {
+// RunPropertyAssignmentTestForEventSubscriptions_Spec tests if a specific instance of EventSubscriptions_Spec can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptions_Spec(subject EventSubscriptions_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscriptions_Spec
-	err := copied.AssignPropertiesToEventSubscriptionsSpec(&other)
+	err := copied.AssignProperties_To_EventSubscriptions_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscriptions_Spec
-	err = actual.AssignPropertiesFromEventSubscriptionsSpec(&other)
+	err = actual.AssignProperties_From_EventSubscriptions_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -349,12 +349,12 @@ func Test_EventSubscriptions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptions_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionsSpec, EventSubscriptionsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptions_Spec, EventSubscriptions_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionsSpec runs a test to see if a specific instance of EventSubscriptions_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscriptions_Spec) string {
+// RunJSONSerializationTestForEventSubscriptions_Spec runs a test to see if a specific instance of EventSubscriptions_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptions_Spec(subject EventSubscriptions_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -381,43 +381,43 @@ func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscription
 }
 
 // Generator of EventSubscriptions_Spec instances for property testing - lazily instantiated by
-// EventSubscriptionsSpecGenerator()
-var eventSubscriptionsSpecGenerator gopter.Gen
+// EventSubscriptions_SpecGenerator()
+var eventSubscriptions_SpecGenerator gopter.Gen
 
-// EventSubscriptionsSpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
-// We first initialize eventSubscriptionsSpecGenerator with a simplified generator based on the
+// EventSubscriptions_SpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
+// We first initialize eventSubscriptions_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EventSubscriptionsSpecGenerator() gopter.Gen {
-	if eventSubscriptionsSpecGenerator != nil {
-		return eventSubscriptionsSpecGenerator
+func EventSubscriptions_SpecGenerator() gopter.Gen {
+	if eventSubscriptions_SpecGenerator != nil {
+		return eventSubscriptions_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	eventSubscriptionsSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(generators)
+	eventSubscriptions_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	eventSubscriptionsSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(generators)
+	AddRelatedPropertyGeneratorsForEventSubscriptions_Spec(generators)
+	eventSubscriptions_SpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
 
-	return eventSubscriptionsSpecGenerator
+	return eventSubscriptions_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEventSubscriptions_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptions_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesEventDeliverySchema_CloudEventSchemaV10, EventSubscriptionPropertiesEventDeliverySchema_CustomInputSchema, EventSubscriptionPropertiesEventDeliverySchema_EventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema, EventSubscriptionProperties_EventDeliverySchema_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionsSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForEventSubscriptions_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscriptions_Spec(gens map[string]gopter.Gen) {
 	gens["DeadLetterDestination"] = gen.PtrOf(StorageBlobDeadLetterDestinationGenerator())
 	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
 	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
@@ -430,26 +430,26 @@ func Test_DeadLetterDestination_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DeadLetterDestination_STATUS to DeadLetterDestination_STATUS via AssignPropertiesToDeadLetterDestinationSTATUS & AssignPropertiesFromDeadLetterDestinationSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeadLetterDestinationSTATUS, DeadLetterDestinationSTATUSGenerator()))
+		"Round trip from DeadLetterDestination_STATUS to DeadLetterDestination_STATUS via AssignProperties_To_DeadLetterDestination_STATUS & AssignProperties_From_DeadLetterDestination_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDeadLetterDestination_STATUS, DeadLetterDestination_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeadLetterDestinationSTATUS tests if a specific instance of DeadLetterDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForDeadLetterDestinationSTATUS(subject DeadLetterDestination_STATUS) string {
+// RunPropertyAssignmentTestForDeadLetterDestination_STATUS tests if a specific instance of DeadLetterDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForDeadLetterDestination_STATUS(subject DeadLetterDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.DeadLetterDestination_STATUS
-	err := copied.AssignPropertiesToDeadLetterDestinationSTATUS(&other)
+	err := copied.AssignProperties_To_DeadLetterDestination_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DeadLetterDestination_STATUS
-	err = actual.AssignPropertiesFromDeadLetterDestinationSTATUS(&other)
+	err = actual.AssignProperties_From_DeadLetterDestination_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -474,12 +474,12 @@ func Test_DeadLetterDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeadLetterDestination_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeadLetterDestinationSTATUS, DeadLetterDestinationSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDeadLetterDestination_STATUS, DeadLetterDestination_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDeadLetterDestinationSTATUS runs a test to see if a specific instance of DeadLetterDestination_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeadLetterDestinationSTATUS(subject DeadLetterDestination_STATUS) string {
+// RunJSONSerializationTestForDeadLetterDestination_STATUS runs a test to see if a specific instance of DeadLetterDestination_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDeadLetterDestination_STATUS(subject DeadLetterDestination_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -506,25 +506,25 @@ func RunJSONSerializationTestForDeadLetterDestinationSTATUS(subject DeadLetterDe
 }
 
 // Generator of DeadLetterDestination_STATUS instances for property testing - lazily instantiated by
-// DeadLetterDestinationSTATUSGenerator()
-var deadLetterDestinationSTATUSGenerator gopter.Gen
+// DeadLetterDestination_STATUSGenerator()
+var deadLetterDestination_STATUSGenerator gopter.Gen
 
-// DeadLetterDestinationSTATUSGenerator returns a generator of DeadLetterDestination_STATUS instances for property testing.
-func DeadLetterDestinationSTATUSGenerator() gopter.Gen {
-	if deadLetterDestinationSTATUSGenerator != nil {
-		return deadLetterDestinationSTATUSGenerator
+// DeadLetterDestination_STATUSGenerator returns a generator of DeadLetterDestination_STATUS instances for property testing.
+func DeadLetterDestination_STATUSGenerator() gopter.Gen {
+	if deadLetterDestination_STATUSGenerator != nil {
+		return deadLetterDestination_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeadLetterDestinationSTATUS(generators)
-	deadLetterDestinationSTATUSGenerator = gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS(generators)
+	deadLetterDestination_STATUSGenerator = gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS{}), generators)
 
-	return deadLetterDestinationSTATUSGenerator
+	return deadLetterDestination_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeadLetterDestinationSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeadLetterDestinationSTATUS(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestinationSTATUSEndpointType_StorageBlob))
+// AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_STATUS_EndpointType_StorageBlob))
 }
 
 func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -533,7 +533,7 @@ func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionDestination to EventSubscriptionDestination via AssignPropertiesToEventSubscriptionDestination & AssignPropertiesFromEventSubscriptionDestination returns original",
+		"Round trip from EventSubscriptionDestination to EventSubscriptionDestination via AssignProperties_To_EventSubscriptionDestination & AssignProperties_From_EventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionDestination, EventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -545,14 +545,14 @@ func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubsc
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscriptionDestination
-	err := copied.AssignPropertiesToEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_EventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscriptionDestination
-	err = actual.AssignPropertiesFromEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_EventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -664,26 +664,26 @@ func Test_EventSubscriptionDestination_STATUS_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionDestination_STATUS to EventSubscriptionDestination_STATUS via AssignPropertiesToEventSubscriptionDestinationSTATUS & AssignPropertiesFromEventSubscriptionDestinationSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionDestinationSTATUS, EventSubscriptionDestinationSTATUSGenerator()))
+		"Round trip from EventSubscriptionDestination_STATUS to EventSubscriptionDestination_STATUS via AssignProperties_To_EventSubscriptionDestination_STATUS & AssignProperties_From_EventSubscriptionDestination_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS, EventSubscriptionDestination_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionDestinationSTATUS tests if a specific instance of EventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionDestinationSTATUS(subject EventSubscriptionDestination_STATUS) string {
+// RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS tests if a specific instance of EventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS(subject EventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscriptionDestination_STATUS
-	err := copied.AssignPropertiesToEventSubscriptionDestinationSTATUS(&other)
+	err := copied.AssignProperties_To_EventSubscriptionDestination_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscriptionDestination_STATUS
-	err = actual.AssignPropertiesFromEventSubscriptionDestinationSTATUS(&other)
+	err = actual.AssignProperties_From_EventSubscriptionDestination_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -708,12 +708,12 @@ func Test_EventSubscriptionDestination_STATUS_WhenSerializedToJson_DeserializesA
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionDestination_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionDestinationSTATUS, EventSubscriptionDestinationSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionDestination_STATUS, EventSubscriptionDestination_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionDestinationSTATUS runs a test to see if a specific instance of EventSubscriptionDestination_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionDestinationSTATUS(subject EventSubscriptionDestination_STATUS) string {
+// RunJSONSerializationTestForEventSubscriptionDestination_STATUS runs a test to see if a specific instance of EventSubscriptionDestination_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionDestination_STATUS(subject EventSubscriptionDestination_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -740,32 +740,32 @@ func RunJSONSerializationTestForEventSubscriptionDestinationSTATUS(subject Event
 }
 
 // Generator of EventSubscriptionDestination_STATUS instances for property testing - lazily instantiated by
-// EventSubscriptionDestinationSTATUSGenerator()
-var eventSubscriptionDestinationSTATUSGenerator gopter.Gen
+// EventSubscriptionDestination_STATUSGenerator()
+var eventSubscriptionDestination_STATUSGenerator gopter.Gen
 
-// EventSubscriptionDestinationSTATUSGenerator returns a generator of EventSubscriptionDestination_STATUS instances for property testing.
-func EventSubscriptionDestinationSTATUSGenerator() gopter.Gen {
-	if eventSubscriptionDestinationSTATUSGenerator != nil {
-		return eventSubscriptionDestinationSTATUSGenerator
+// EventSubscriptionDestination_STATUSGenerator returns a generator of EventSubscriptionDestination_STATUS instances for property testing.
+func EventSubscriptionDestination_STATUSGenerator() gopter.Gen {
+	if eventSubscriptionDestination_STATUSGenerator != nil {
+		return eventSubscriptionDestination_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSTATUS(generators)
-	eventSubscriptionDestinationSTATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS(generators)
+	eventSubscriptionDestination_STATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS{}), generators)
 
-	return eventSubscriptionDestinationSTATUSGenerator
+	return eventSubscriptionDestination_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS(gens map[string]gopter.Gen) {
 	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionDestinationSTATUSEndpointType_AzureFunction,
-		EventSubscriptionDestinationSTATUSEndpointType_EventHub,
-		EventSubscriptionDestinationSTATUSEndpointType_HybridConnection,
-		EventSubscriptionDestinationSTATUSEndpointType_ServiceBusQueue,
-		EventSubscriptionDestinationSTATUSEndpointType_ServiceBusTopic,
-		EventSubscriptionDestinationSTATUSEndpointType_StorageQueue,
-		EventSubscriptionDestinationSTATUSEndpointType_WebHook))
+		EventSubscriptionDestination_STATUS_EndpointType_AzureFunction,
+		EventSubscriptionDestination_STATUS_EndpointType_EventHub,
+		EventSubscriptionDestination_STATUS_EndpointType_HybridConnection,
+		EventSubscriptionDestination_STATUS_EndpointType_ServiceBusQueue,
+		EventSubscriptionDestination_STATUS_EndpointType_ServiceBusTopic,
+		EventSubscriptionDestination_STATUS_EndpointType_StorageQueue,
+		EventSubscriptionDestination_STATUS_EndpointType_WebHook))
 }
 
 func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -774,7 +774,7 @@ func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionFilter to EventSubscriptionFilter via AssignPropertiesToEventSubscriptionFilter & AssignPropertiesFromEventSubscriptionFilter returns original",
+		"Round trip from EventSubscriptionFilter to EventSubscriptionFilter via AssignProperties_To_EventSubscriptionFilter & AssignProperties_From_EventSubscriptionFilter returns original",
 		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionFilter, EventSubscriptionFilterGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -786,14 +786,14 @@ func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscripti
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscriptionFilter
-	err := copied.AssignPropertiesToEventSubscriptionFilter(&other)
+	err := copied.AssignProperties_To_EventSubscriptionFilter(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscriptionFilter
-	err = actual.AssignPropertiesFromEventSubscriptionFilter(&other)
+	err = actual.AssignProperties_From_EventSubscriptionFilter(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -894,26 +894,26 @@ func Test_EventSubscriptionFilter_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionFilter_STATUS to EventSubscriptionFilter_STATUS via AssignPropertiesToEventSubscriptionFilterSTATUS & AssignPropertiesFromEventSubscriptionFilterSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionFilterSTATUS, EventSubscriptionFilterSTATUSGenerator()))
+		"Round trip from EventSubscriptionFilter_STATUS to EventSubscriptionFilter_STATUS via AssignProperties_To_EventSubscriptionFilter_STATUS & AssignProperties_From_EventSubscriptionFilter_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS, EventSubscriptionFilter_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionFilterSTATUS tests if a specific instance of EventSubscriptionFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionFilterSTATUS(subject EventSubscriptionFilter_STATUS) string {
+// RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS tests if a specific instance of EventSubscriptionFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS(subject EventSubscriptionFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventSubscriptionFilter_STATUS
-	err := copied.AssignPropertiesToEventSubscriptionFilterSTATUS(&other)
+	err := copied.AssignProperties_To_EventSubscriptionFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventSubscriptionFilter_STATUS
-	err = actual.AssignPropertiesFromEventSubscriptionFilterSTATUS(&other)
+	err = actual.AssignProperties_From_EventSubscriptionFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -938,12 +938,12 @@ func Test_EventSubscriptionFilter_STATUS_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionFilter_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionFilterSTATUS, EventSubscriptionFilterSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionFilter_STATUS, EventSubscriptionFilter_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionFilterSTATUS runs a test to see if a specific instance of EventSubscriptionFilter_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionFilterSTATUS(subject EventSubscriptionFilter_STATUS) string {
+// RunJSONSerializationTestForEventSubscriptionFilter_STATUS runs a test to see if a specific instance of EventSubscriptionFilter_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionFilter_STATUS(subject EventSubscriptionFilter_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -970,42 +970,42 @@ func RunJSONSerializationTestForEventSubscriptionFilterSTATUS(subject EventSubsc
 }
 
 // Generator of EventSubscriptionFilter_STATUS instances for property testing - lazily instantiated by
-// EventSubscriptionFilterSTATUSGenerator()
-var eventSubscriptionFilterSTATUSGenerator gopter.Gen
+// EventSubscriptionFilter_STATUSGenerator()
+var eventSubscriptionFilter_STATUSGenerator gopter.Gen
 
-// EventSubscriptionFilterSTATUSGenerator returns a generator of EventSubscriptionFilter_STATUS instances for property testing.
-// We first initialize eventSubscriptionFilterSTATUSGenerator with a simplified generator based on the
+// EventSubscriptionFilter_STATUSGenerator returns a generator of EventSubscriptionFilter_STATUS instances for property testing.
+// We first initialize eventSubscriptionFilter_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EventSubscriptionFilterSTATUSGenerator() gopter.Gen {
-	if eventSubscriptionFilterSTATUSGenerator != nil {
-		return eventSubscriptionFilterSTATUSGenerator
+func EventSubscriptionFilter_STATUSGenerator() gopter.Gen {
+	if eventSubscriptionFilter_STATUSGenerator != nil {
+		return eventSubscriptionFilter_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionFilterSTATUS(generators)
-	eventSubscriptionFilterSTATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionFilter_STATUS(generators)
+	eventSubscriptionFilter_STATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionFilterSTATUS(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptionFilterSTATUS(generators)
-	eventSubscriptionFilterSTATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionFilter_STATUS(generators)
+	AddRelatedPropertyGeneratorsForEventSubscriptionFilter_STATUS(generators)
+	eventSubscriptionFilter_STATUSGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_STATUS{}), generators)
 
-	return eventSubscriptionFilterSTATUSGenerator
+	return eventSubscriptionFilter_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionFilterSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionFilterSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEventSubscriptionFilter_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptionFilter_STATUS(gens map[string]gopter.Gen) {
 	gens["IncludedEventTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["IsSubjectCaseSensitive"] = gen.PtrOf(gen.Bool())
 	gens["SubjectBeginsWith"] = gen.PtrOf(gen.AlphaString())
 	gens["SubjectEndsWith"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionFilterSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionFilterSTATUS(gens map[string]gopter.Gen) {
-	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilterSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForEventSubscriptionFilter_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscriptionFilter_STATUS(gens map[string]gopter.Gen) {
+	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilter_STATUSGenerator())
 }
 
 func Test_RetryPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1014,7 +1014,7 @@ func Test_RetryPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RetryPolicy to RetryPolicy via AssignPropertiesToRetryPolicy & AssignPropertiesFromRetryPolicy returns original",
+		"Round trip from RetryPolicy to RetryPolicy via AssignProperties_To_RetryPolicy & AssignProperties_From_RetryPolicy returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRetryPolicy, RetryPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1026,14 +1026,14 @@ func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.RetryPolicy
-	err := copied.AssignPropertiesToRetryPolicy(&other)
+	err := copied.AssignProperties_To_RetryPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RetryPolicy
-	err = actual.AssignPropertiesFromRetryPolicy(&other)
+	err = actual.AssignProperties_From_RetryPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1117,26 +1117,26 @@ func Test_RetryPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RetryPolicy_STATUS to RetryPolicy_STATUS via AssignPropertiesToRetryPolicySTATUS & AssignPropertiesFromRetryPolicySTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRetryPolicySTATUS, RetryPolicySTATUSGenerator()))
+		"Round trip from RetryPolicy_STATUS to RetryPolicy_STATUS via AssignProperties_To_RetryPolicy_STATUS & AssignProperties_From_RetryPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRetryPolicy_STATUS, RetryPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetryPolicySTATUS tests if a specific instance of RetryPolicy_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForRetryPolicySTATUS(subject RetryPolicy_STATUS) string {
+// RunPropertyAssignmentTestForRetryPolicy_STATUS tests if a specific instance of RetryPolicy_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForRetryPolicy_STATUS(subject RetryPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.RetryPolicy_STATUS
-	err := copied.AssignPropertiesToRetryPolicySTATUS(&other)
+	err := copied.AssignProperties_To_RetryPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RetryPolicy_STATUS
-	err = actual.AssignPropertiesFromRetryPolicySTATUS(&other)
+	err = actual.AssignProperties_From_RetryPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1161,12 +1161,12 @@ func Test_RetryPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RetryPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRetryPolicySTATUS, RetryPolicySTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRetryPolicy_STATUS, RetryPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRetryPolicySTATUS runs a test to see if a specific instance of RetryPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRetryPolicySTATUS(subject RetryPolicy_STATUS) string {
+// RunJSONSerializationTestForRetryPolicy_STATUS runs a test to see if a specific instance of RetryPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRetryPolicy_STATUS(subject RetryPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1192,24 +1192,24 @@ func RunJSONSerializationTestForRetryPolicySTATUS(subject RetryPolicy_STATUS) st
 	return ""
 }
 
-// Generator of RetryPolicy_STATUS instances for property testing - lazily instantiated by RetryPolicySTATUSGenerator()
-var retryPolicySTATUSGenerator gopter.Gen
+// Generator of RetryPolicy_STATUS instances for property testing - lazily instantiated by RetryPolicy_STATUSGenerator()
+var retryPolicy_STATUSGenerator gopter.Gen
 
-// RetryPolicySTATUSGenerator returns a generator of RetryPolicy_STATUS instances for property testing.
-func RetryPolicySTATUSGenerator() gopter.Gen {
-	if retryPolicySTATUSGenerator != nil {
-		return retryPolicySTATUSGenerator
+// RetryPolicy_STATUSGenerator returns a generator of RetryPolicy_STATUS instances for property testing.
+func RetryPolicy_STATUSGenerator() gopter.Gen {
+	if retryPolicy_STATUSGenerator != nil {
+		return retryPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRetryPolicySTATUS(generators)
-	retryPolicySTATUSGenerator = gen.Struct(reflect.TypeOf(RetryPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRetryPolicy_STATUS(generators)
+	retryPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(RetryPolicy_STATUS{}), generators)
 
-	return retryPolicySTATUSGenerator
+	return retryPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRetryPolicySTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRetryPolicySTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRetryPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRetryPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["EventTimeToLiveInMinutes"] = gen.PtrOf(gen.Int())
 	gens["MaxDeliveryAttempts"] = gen.PtrOf(gen.Int())
 }
@@ -1220,7 +1220,7 @@ func Test_StorageBlobDeadLetterDestination_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageBlobDeadLetterDestination to StorageBlobDeadLetterDestination via AssignPropertiesToStorageBlobDeadLetterDestination & AssignPropertiesFromStorageBlobDeadLetterDestination returns original",
+		"Round trip from StorageBlobDeadLetterDestination to StorageBlobDeadLetterDestination via AssignProperties_To_StorageBlobDeadLetterDestination & AssignProperties_From_StorageBlobDeadLetterDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageBlobDeadLetterDestination, StorageBlobDeadLetterDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1232,14 +1232,14 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject Storag
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.StorageBlobDeadLetterDestination
-	err := copied.AssignPropertiesToStorageBlobDeadLetterDestination(&other)
+	err := copied.AssignProperties_To_StorageBlobDeadLetterDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageBlobDeadLetterDestination
-	err = actual.AssignPropertiesFromStorageBlobDeadLetterDestination(&other)
+	err = actual.AssignProperties_From_StorageBlobDeadLetterDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1323,7 +1323,7 @@ func StorageBlobDeadLetterDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointType_StorageBlob))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageBlobDeadLetterDestination_EndpointType_StorageBlob))
 }
 
 // AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination is a factory method for creating gopter generators
@@ -1337,7 +1337,7 @@ func Test_AdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter to AdvancedFilter via AssignPropertiesToAdvancedFilter & AssignPropertiesFromAdvancedFilter returns original",
+		"Round trip from AdvancedFilter to AdvancedFilter via AssignProperties_To_AdvancedFilter & AssignProperties_From_AdvancedFilter returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter, AdvancedFilterGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1349,14 +1349,14 @@ func RunPropertyAssignmentTestForAdvancedFilter(subject AdvancedFilter) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter
-	err := copied.AssignPropertiesToAdvancedFilter(&other)
+	err := copied.AssignProperties_To_AdvancedFilter(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter
-	err = actual.AssignPropertiesFromAdvancedFilter(&other)
+	err = actual.AssignProperties_From_AdvancedFilter(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1438,40 +1438,40 @@ func AdvancedFilterGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForAdvancedFilter is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAdvancedFilter(gens map[string]gopter.Gen) {
-	gens["BoolEquals"] = AdvancedFilterBoolEqualsGenerator().Map(func(it AdvancedFilter_BoolEquals) *AdvancedFilter_BoolEquals {
+	gens["BoolEquals"] = AdvancedFilter_BoolEqualsGenerator().Map(func(it AdvancedFilter_BoolEquals) *AdvancedFilter_BoolEquals {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberGreaterThan"] = AdvancedFilterNumberGreaterThanGenerator().Map(func(it AdvancedFilter_NumberGreaterThan) *AdvancedFilter_NumberGreaterThan {
+	gens["NumberGreaterThan"] = AdvancedFilter_NumberGreaterThanGenerator().Map(func(it AdvancedFilter_NumberGreaterThan) *AdvancedFilter_NumberGreaterThan {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberGreaterThanOrEquals"] = AdvancedFilterNumberGreaterThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberGreaterThanOrEquals) *AdvancedFilter_NumberGreaterThanOrEquals {
+	gens["NumberGreaterThanOrEquals"] = AdvancedFilter_NumberGreaterThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberGreaterThanOrEquals) *AdvancedFilter_NumberGreaterThanOrEquals {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberIn"] = AdvancedFilterNumberInGenerator().Map(func(it AdvancedFilter_NumberIn) *AdvancedFilter_NumberIn {
+	gens["NumberIn"] = AdvancedFilter_NumberInGenerator().Map(func(it AdvancedFilter_NumberIn) *AdvancedFilter_NumberIn {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberLessThan"] = AdvancedFilterNumberLessThanGenerator().Map(func(it AdvancedFilter_NumberLessThan) *AdvancedFilter_NumberLessThan {
+	gens["NumberLessThan"] = AdvancedFilter_NumberLessThanGenerator().Map(func(it AdvancedFilter_NumberLessThan) *AdvancedFilter_NumberLessThan {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberLessThanOrEquals"] = AdvancedFilterNumberLessThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberLessThanOrEquals) *AdvancedFilter_NumberLessThanOrEquals {
+	gens["NumberLessThanOrEquals"] = AdvancedFilter_NumberLessThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberLessThanOrEquals) *AdvancedFilter_NumberLessThanOrEquals {
 		return &it
 	}) // generate one case for OneOf type
-	gens["NumberNotIn"] = AdvancedFilterNumberNotInGenerator().Map(func(it AdvancedFilter_NumberNotIn) *AdvancedFilter_NumberNotIn {
+	gens["NumberNotIn"] = AdvancedFilter_NumberNotInGenerator().Map(func(it AdvancedFilter_NumberNotIn) *AdvancedFilter_NumberNotIn {
 		return &it
 	}) // generate one case for OneOf type
-	gens["StringBeginsWith"] = AdvancedFilterStringBeginsWithGenerator().Map(func(it AdvancedFilter_StringBeginsWith) *AdvancedFilter_StringBeginsWith {
+	gens["StringBeginsWith"] = AdvancedFilter_StringBeginsWithGenerator().Map(func(it AdvancedFilter_StringBeginsWith) *AdvancedFilter_StringBeginsWith {
 		return &it
 	}) // generate one case for OneOf type
-	gens["StringContains"] = AdvancedFilterStringContainsGenerator().Map(func(it AdvancedFilter_StringContains) *AdvancedFilter_StringContains {
+	gens["StringContains"] = AdvancedFilter_StringContainsGenerator().Map(func(it AdvancedFilter_StringContains) *AdvancedFilter_StringContains {
 		return &it
 	}) // generate one case for OneOf type
-	gens["StringEndsWith"] = AdvancedFilterStringEndsWithGenerator().Map(func(it AdvancedFilter_StringEndsWith) *AdvancedFilter_StringEndsWith {
+	gens["StringEndsWith"] = AdvancedFilter_StringEndsWithGenerator().Map(func(it AdvancedFilter_StringEndsWith) *AdvancedFilter_StringEndsWith {
 		return &it
 	}) // generate one case for OneOf type
-	gens["StringIn"] = AdvancedFilterStringInGenerator().Map(func(it AdvancedFilter_StringIn) *AdvancedFilter_StringIn {
+	gens["StringIn"] = AdvancedFilter_StringInGenerator().Map(func(it AdvancedFilter_StringIn) *AdvancedFilter_StringIn {
 		return &it
 	}) // generate one case for OneOf type
-	gens["StringNotIn"] = AdvancedFilterStringNotInGenerator().Map(func(it AdvancedFilter_StringNotIn) *AdvancedFilter_StringNotIn {
+	gens["StringNotIn"] = AdvancedFilter_StringNotInGenerator().Map(func(it AdvancedFilter_StringNotIn) *AdvancedFilter_StringNotIn {
 		return &it
 	}) // generate one case for OneOf type
 }
@@ -1482,26 +1482,26 @@ func Test_AdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_STATUS to AdvancedFilter_STATUS via AssignPropertiesToAdvancedFilterSTATUS & AssignPropertiesFromAdvancedFilterSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterSTATUS, AdvancedFilterSTATUSGenerator()))
+		"Round trip from AdvancedFilter_STATUS to AdvancedFilter_STATUS via AssignProperties_To_AdvancedFilter_STATUS & AssignProperties_From_AdvancedFilter_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_STATUS, AdvancedFilter_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterSTATUS tests if a specific instance of AdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterSTATUS(subject AdvancedFilter_STATUS) string {
+// RunPropertyAssignmentTestForAdvancedFilter_STATUS tests if a specific instance of AdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_STATUS(subject AdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_STATUS
-	err := copied.AssignPropertiesToAdvancedFilterSTATUS(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_STATUS
-	err = actual.AssignPropertiesFromAdvancedFilterSTATUS(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1526,12 +1526,12 @@ func Test_AdvancedFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterSTATUS, AdvancedFilterSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_STATUS, AdvancedFilter_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterSTATUS runs a test to see if a specific instance of AdvancedFilter_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterSTATUS(subject AdvancedFilter_STATUS) string {
+// RunJSONSerializationTestForAdvancedFilter_STATUS runs a test to see if a specific instance of AdvancedFilter_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_STATUS(subject AdvancedFilter_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1558,38 +1558,38 @@ func RunJSONSerializationTestForAdvancedFilterSTATUS(subject AdvancedFilter_STAT
 }
 
 // Generator of AdvancedFilter_STATUS instances for property testing - lazily instantiated by
-// AdvancedFilterSTATUSGenerator()
-var advancedFilterSTATUSGenerator gopter.Gen
+// AdvancedFilter_STATUSGenerator()
+var advancedFilter_STATUSGenerator gopter.Gen
 
-// AdvancedFilterSTATUSGenerator returns a generator of AdvancedFilter_STATUS instances for property testing.
-func AdvancedFilterSTATUSGenerator() gopter.Gen {
-	if advancedFilterSTATUSGenerator != nil {
-		return advancedFilterSTATUSGenerator
+// AdvancedFilter_STATUSGenerator returns a generator of AdvancedFilter_STATUS instances for property testing.
+func AdvancedFilter_STATUSGenerator() gopter.Gen {
+	if advancedFilter_STATUSGenerator != nil {
+		return advancedFilter_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterSTATUS(generators)
-	advancedFilterSTATUSGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS(generators)
+	advancedFilter_STATUSGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS{}), generators)
 
-	return advancedFilterSTATUSGenerator
+	return advancedFilter_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-		AdvancedFilterSTATUSOperatorType_BoolEquals,
-		AdvancedFilterSTATUSOperatorType_NumberGreaterThan,
-		AdvancedFilterSTATUSOperatorType_NumberGreaterThanOrEquals,
-		AdvancedFilterSTATUSOperatorType_NumberIn,
-		AdvancedFilterSTATUSOperatorType_NumberLessThan,
-		AdvancedFilterSTATUSOperatorType_NumberLessThanOrEquals,
-		AdvancedFilterSTATUSOperatorType_NumberNotIn,
-		AdvancedFilterSTATUSOperatorType_StringBeginsWith,
-		AdvancedFilterSTATUSOperatorType_StringContains,
-		AdvancedFilterSTATUSOperatorType_StringEndsWith,
-		AdvancedFilterSTATUSOperatorType_StringIn,
-		AdvancedFilterSTATUSOperatorType_StringNotIn))
+		AdvancedFilter_STATUS_OperatorType_BoolEquals,
+		AdvancedFilter_STATUS_OperatorType_NumberGreaterThan,
+		AdvancedFilter_STATUS_OperatorType_NumberGreaterThanOrEquals,
+		AdvancedFilter_STATUS_OperatorType_NumberIn,
+		AdvancedFilter_STATUS_OperatorType_NumberLessThan,
+		AdvancedFilter_STATUS_OperatorType_NumberLessThanOrEquals,
+		AdvancedFilter_STATUS_OperatorType_NumberNotIn,
+		AdvancedFilter_STATUS_OperatorType_StringBeginsWith,
+		AdvancedFilter_STATUS_OperatorType_StringContains,
+		AdvancedFilter_STATUS_OperatorType_StringEndsWith,
+		AdvancedFilter_STATUS_OperatorType_StringIn,
+		AdvancedFilter_STATUS_OperatorType_StringNotIn))
 }
 
 func Test_AzureFunctionEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1598,7 +1598,7 @@ func Test_AzureFunctionEventSubscriptionDestination_WhenPropertiesConverted_Roun
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AzureFunctionEventSubscriptionDestination to AzureFunctionEventSubscriptionDestination via AssignPropertiesToAzureFunctionEventSubscriptionDestination & AssignPropertiesFromAzureFunctionEventSubscriptionDestination returns original",
+		"Round trip from AzureFunctionEventSubscriptionDestination to AzureFunctionEventSubscriptionDestination via AssignProperties_To_AzureFunctionEventSubscriptionDestination & AssignProperties_From_AzureFunctionEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination, AzureFunctionEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1610,14 +1610,14 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination(subje
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AzureFunctionEventSubscriptionDestination
-	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_AzureFunctionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AzureFunctionEventSubscriptionDestination
-	err = actual.AssignPropertiesFromAzureFunctionEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_AzureFunctionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1701,7 +1701,7 @@ func AzureFunctionEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(AzureFunctionEventSubscriptionDestinationEndpointType_AzureFunction))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(AzureFunctionEventSubscriptionDestination_EndpointType_AzureFunction))
 }
 
 // AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination is a factory method for creating gopter generators
@@ -1715,7 +1715,7 @@ func Test_EventHubEventSubscriptionDestination_WhenPropertiesConverted_RoundTrip
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventHubEventSubscriptionDestination to EventHubEventSubscriptionDestination via AssignPropertiesToEventHubEventSubscriptionDestination & AssignPropertiesFromEventHubEventSubscriptionDestination returns original",
+		"Round trip from EventHubEventSubscriptionDestination to EventHubEventSubscriptionDestination via AssignProperties_To_EventHubEventSubscriptionDestination & AssignProperties_From_EventHubEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForEventHubEventSubscriptionDestination, EventHubEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1727,14 +1727,14 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination(subject Ev
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventHubEventSubscriptionDestination
-	err := copied.AssignPropertiesToEventHubEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_EventHubEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventHubEventSubscriptionDestination
-	err = actual.AssignPropertiesFromEventHubEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_EventHubEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1818,7 +1818,7 @@ func EventHubEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(EventHubEventSubscriptionDestinationEndpointType_EventHub))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(EventHubEventSubscriptionDestination_EndpointType_EventHub))
 }
 
 // AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination is a factory method for creating gopter generators
@@ -1832,7 +1832,7 @@ func Test_HybridConnectionEventSubscriptionDestination_WhenPropertiesConverted_R
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from HybridConnectionEventSubscriptionDestination to HybridConnectionEventSubscriptionDestination via AssignPropertiesToHybridConnectionEventSubscriptionDestination & AssignPropertiesFromHybridConnectionEventSubscriptionDestination returns original",
+		"Round trip from HybridConnectionEventSubscriptionDestination to HybridConnectionEventSubscriptionDestination via AssignProperties_To_HybridConnectionEventSubscriptionDestination & AssignProperties_From_HybridConnectionEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination, HybridConnectionEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1844,14 +1844,14 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination(su
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.HybridConnectionEventSubscriptionDestination
-	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_HybridConnectionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual HybridConnectionEventSubscriptionDestination
-	err = actual.AssignPropertiesFromHybridConnectionEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_HybridConnectionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1935,7 +1935,7 @@ func HybridConnectionEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(HybridConnectionEventSubscriptionDestinationEndpointType_HybridConnection))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(HybridConnectionEventSubscriptionDestination_EndpointType_HybridConnection))
 }
 
 // AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination is a factory method for creating gopter generators
@@ -1949,7 +1949,7 @@ func Test_ServiceBusQueueEventSubscriptionDestination_WhenPropertiesConverted_Ro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ServiceBusQueueEventSubscriptionDestination to ServiceBusQueueEventSubscriptionDestination via AssignPropertiesToServiceBusQueueEventSubscriptionDestination & AssignPropertiesFromServiceBusQueueEventSubscriptionDestination returns original",
+		"Round trip from ServiceBusQueueEventSubscriptionDestination to ServiceBusQueueEventSubscriptionDestination via AssignProperties_To_ServiceBusQueueEventSubscriptionDestination & AssignProperties_From_ServiceBusQueueEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination, ServiceBusQueueEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1961,14 +1961,14 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination(sub
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.ServiceBusQueueEventSubscriptionDestination
-	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServiceBusQueueEventSubscriptionDestination
-	err = actual.AssignPropertiesFromServiceBusQueueEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_ServiceBusQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2052,7 +2052,7 @@ func ServiceBusQueueEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(ServiceBusQueueEventSubscriptionDestinationEndpointType_ServiceBusQueue))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(ServiceBusQueueEventSubscriptionDestination_EndpointType_ServiceBusQueue))
 }
 
 // AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination is a factory method for creating gopter generators
@@ -2066,7 +2066,7 @@ func Test_ServiceBusTopicEventSubscriptionDestination_WhenPropertiesConverted_Ro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ServiceBusTopicEventSubscriptionDestination to ServiceBusTopicEventSubscriptionDestination via AssignPropertiesToServiceBusTopicEventSubscriptionDestination & AssignPropertiesFromServiceBusTopicEventSubscriptionDestination returns original",
+		"Round trip from ServiceBusTopicEventSubscriptionDestination to ServiceBusTopicEventSubscriptionDestination via AssignProperties_To_ServiceBusTopicEventSubscriptionDestination & AssignProperties_From_ServiceBusTopicEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination, ServiceBusTopicEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2078,14 +2078,14 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination(sub
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.ServiceBusTopicEventSubscriptionDestination
-	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServiceBusTopicEventSubscriptionDestination
-	err = actual.AssignPropertiesFromServiceBusTopicEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_ServiceBusTopicEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2169,7 +2169,7 @@ func ServiceBusTopicEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(ServiceBusTopicEventSubscriptionDestinationEndpointType_ServiceBusTopic))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(ServiceBusTopicEventSubscriptionDestination_EndpointType_ServiceBusTopic))
 }
 
 // AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination is a factory method for creating gopter generators
@@ -2183,7 +2183,7 @@ func Test_StorageBlobDeadLetterDestinationProperties_WhenPropertiesConverted_Rou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageBlobDeadLetterDestinationProperties to StorageBlobDeadLetterDestinationProperties via AssignPropertiesToStorageBlobDeadLetterDestinationProperties & AssignPropertiesFromStorageBlobDeadLetterDestinationProperties returns original",
+		"Round trip from StorageBlobDeadLetterDestinationProperties to StorageBlobDeadLetterDestinationProperties via AssignProperties_To_StorageBlobDeadLetterDestinationProperties & AssignProperties_From_StorageBlobDeadLetterDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties, StorageBlobDeadLetterDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2195,14 +2195,14 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties(subj
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.StorageBlobDeadLetterDestinationProperties
-	err := copied.AssignPropertiesToStorageBlobDeadLetterDestinationProperties(&other)
+	err := copied.AssignProperties_To_StorageBlobDeadLetterDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageBlobDeadLetterDestinationProperties
-	err = actual.AssignPropertiesFromStorageBlobDeadLetterDestinationProperties(&other)
+	err = actual.AssignProperties_From_StorageBlobDeadLetterDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2286,7 +2286,7 @@ func Test_StorageQueueEventSubscriptionDestination_WhenPropertiesConverted_Round
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageQueueEventSubscriptionDestination to StorageQueueEventSubscriptionDestination via AssignPropertiesToStorageQueueEventSubscriptionDestination & AssignPropertiesFromStorageQueueEventSubscriptionDestination returns original",
+		"Round trip from StorageQueueEventSubscriptionDestination to StorageQueueEventSubscriptionDestination via AssignProperties_To_StorageQueueEventSubscriptionDestination & AssignProperties_From_StorageQueueEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination, StorageQueueEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2298,14 +2298,14 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination(subjec
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.StorageQueueEventSubscriptionDestination
-	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_StorageQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageQueueEventSubscriptionDestination
-	err = actual.AssignPropertiesFromStorageQueueEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_StorageQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2389,7 +2389,7 @@ func StorageQueueEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue))
 }
 
 // AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination is a factory method for creating gopter generators
@@ -2403,7 +2403,7 @@ func Test_WebHookEventSubscriptionDestination_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebHookEventSubscriptionDestination to WebHookEventSubscriptionDestination via AssignPropertiesToWebHookEventSubscriptionDestination & AssignPropertiesFromWebHookEventSubscriptionDestination returns original",
+		"Round trip from WebHookEventSubscriptionDestination to WebHookEventSubscriptionDestination via AssignProperties_To_WebHookEventSubscriptionDestination & AssignProperties_From_WebHookEventSubscriptionDestination returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebHookEventSubscriptionDestination, WebHookEventSubscriptionDestinationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2415,14 +2415,14 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination(subject Web
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.WebHookEventSubscriptionDestination
-	err := copied.AssignPropertiesToWebHookEventSubscriptionDestination(&other)
+	err := copied.AssignProperties_To_WebHookEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebHookEventSubscriptionDestination
-	err = actual.AssignPropertiesFromWebHookEventSubscriptionDestination(&other)
+	err = actual.AssignProperties_From_WebHookEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2506,7 +2506,7 @@ func WebHookEventSubscriptionDestinationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(WebHookEventSubscriptionDestinationEndpointType_WebHook))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(WebHookEventSubscriptionDestination_EndpointType_WebHook))
 }
 
 // AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination is a factory method for creating gopter generators
@@ -2520,26 +2520,26 @@ func Test_AdvancedFilter_BoolEquals_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_BoolEquals to AdvancedFilter_BoolEquals via AssignPropertiesToAdvancedFilterBoolEquals & AssignPropertiesFromAdvancedFilterBoolEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterBoolEquals, AdvancedFilterBoolEqualsGenerator()))
+		"Round trip from AdvancedFilter_BoolEquals to AdvancedFilter_BoolEquals via AssignProperties_To_AdvancedFilter_BoolEquals & AssignProperties_From_AdvancedFilter_BoolEquals returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_BoolEquals, AdvancedFilter_BoolEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterBoolEquals tests if a specific instance of AdvancedFilter_BoolEquals can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterBoolEquals(subject AdvancedFilter_BoolEquals) string {
+// RunPropertyAssignmentTestForAdvancedFilter_BoolEquals tests if a specific instance of AdvancedFilter_BoolEquals can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_BoolEquals(subject AdvancedFilter_BoolEquals) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_BoolEquals
-	err := copied.AssignPropertiesToAdvancedFilterBoolEquals(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_BoolEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_BoolEquals
-	err = actual.AssignPropertiesFromAdvancedFilterBoolEquals(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_BoolEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2564,12 +2564,12 @@ func Test_AdvancedFilter_BoolEquals_WhenSerializedToJson_DeserializesAsEqual(t *
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_BoolEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterBoolEquals, AdvancedFilterBoolEqualsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_BoolEquals, AdvancedFilter_BoolEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterBoolEquals runs a test to see if a specific instance of AdvancedFilter_BoolEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterBoolEquals(subject AdvancedFilter_BoolEquals) string {
+// RunJSONSerializationTestForAdvancedFilter_BoolEquals runs a test to see if a specific instance of AdvancedFilter_BoolEquals round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_BoolEquals(subject AdvancedFilter_BoolEquals) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2596,26 +2596,26 @@ func RunJSONSerializationTestForAdvancedFilterBoolEquals(subject AdvancedFilter_
 }
 
 // Generator of AdvancedFilter_BoolEquals instances for property testing - lazily instantiated by
-// AdvancedFilterBoolEqualsGenerator()
-var advancedFilterBoolEqualsGenerator gopter.Gen
+// AdvancedFilter_BoolEqualsGenerator()
+var advancedFilter_BoolEqualsGenerator gopter.Gen
 
-// AdvancedFilterBoolEqualsGenerator returns a generator of AdvancedFilter_BoolEquals instances for property testing.
-func AdvancedFilterBoolEqualsGenerator() gopter.Gen {
-	if advancedFilterBoolEqualsGenerator != nil {
-		return advancedFilterBoolEqualsGenerator
+// AdvancedFilter_BoolEqualsGenerator returns a generator of AdvancedFilter_BoolEquals instances for property testing.
+func AdvancedFilter_BoolEqualsGenerator() gopter.Gen {
+	if advancedFilter_BoolEqualsGenerator != nil {
+		return advancedFilter_BoolEqualsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals(generators)
-	advancedFilterBoolEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_BoolEquals{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_BoolEquals(generators)
+	advancedFilter_BoolEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_BoolEquals{}), generators)
 
-	return advancedFilterBoolEqualsGenerator
+	return advancedFilter_BoolEqualsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_BoolEquals is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_BoolEquals(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterBoolEqualsOperatorType_BoolEquals))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_BoolEquals_OperatorType_BoolEquals))
 	gens["Value"] = gen.PtrOf(gen.Bool())
 }
 
@@ -2625,26 +2625,26 @@ func Test_AdvancedFilter_NumberGreaterThan_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberGreaterThan to AdvancedFilter_NumberGreaterThan via AssignPropertiesToAdvancedFilterNumberGreaterThan & AssignPropertiesFromAdvancedFilterNumberGreaterThan returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan, AdvancedFilterNumberGreaterThanGenerator()))
+		"Round trip from AdvancedFilter_NumberGreaterThan to AdvancedFilter_NumberGreaterThan via AssignProperties_To_AdvancedFilter_NumberGreaterThan & AssignProperties_From_AdvancedFilter_NumberGreaterThan returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThan, AdvancedFilter_NumberGreaterThanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan tests if a specific instance of AdvancedFilter_NumberGreaterThan can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThan tests if a specific instance of AdvancedFilter_NumberGreaterThan can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberGreaterThan
-	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThan(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberGreaterThan(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberGreaterThan
-	err = actual.AssignPropertiesFromAdvancedFilterNumberGreaterThan(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberGreaterThan(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2669,12 +2669,12 @@ func Test_AdvancedFilter_NumberGreaterThan_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberGreaterThan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberGreaterThan, AdvancedFilterNumberGreaterThanGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberGreaterThan, AdvancedFilter_NumberGreaterThanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberGreaterThan runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThan round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberGreaterThan runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThan round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2701,26 +2701,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThan(subject Advanced
 }
 
 // Generator of AdvancedFilter_NumberGreaterThan instances for property testing - lazily instantiated by
-// AdvancedFilterNumberGreaterThanGenerator()
-var advancedFilterNumberGreaterThanGenerator gopter.Gen
+// AdvancedFilter_NumberGreaterThanGenerator()
+var advancedFilter_NumberGreaterThanGenerator gopter.Gen
 
-// AdvancedFilterNumberGreaterThanGenerator returns a generator of AdvancedFilter_NumberGreaterThan instances for property testing.
-func AdvancedFilterNumberGreaterThanGenerator() gopter.Gen {
-	if advancedFilterNumberGreaterThanGenerator != nil {
-		return advancedFilterNumberGreaterThanGenerator
+// AdvancedFilter_NumberGreaterThanGenerator returns a generator of AdvancedFilter_NumberGreaterThan instances for property testing.
+func AdvancedFilter_NumberGreaterThanGenerator() gopter.Gen {
+	if advancedFilter_NumberGreaterThanGenerator != nil {
+		return advancedFilter_NumberGreaterThanGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan(generators)
-	advancedFilterNumberGreaterThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThan{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThan(generators)
+	advancedFilter_NumberGreaterThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThan{}), generators)
 
-	return advancedFilterNumberGreaterThanGenerator
+	return advancedFilter_NumberGreaterThanGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThan is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThan(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberGreaterThanOperatorType_NumberGreaterThan))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberGreaterThan_OperatorType_NumberGreaterThan))
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -2730,26 +2730,26 @@ func Test_AdvancedFilter_NumberGreaterThanOrEquals_WhenPropertiesConverted_Round
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberGreaterThanOrEquals to AdvancedFilter_NumberGreaterThanOrEquals via AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals & AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals, AdvancedFilterNumberGreaterThanOrEqualsGenerator()))
+		"Round trip from AdvancedFilter_NumberGreaterThanOrEquals to AdvancedFilter_NumberGreaterThanOrEquals via AssignProperties_To_AdvancedFilter_NumberGreaterThanOrEquals & AssignProperties_From_AdvancedFilter_NumberGreaterThanOrEquals returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThanOrEquals, AdvancedFilter_NumberGreaterThanOrEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals tests if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThanOrEquals tests if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberGreaterThanOrEquals
-	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberGreaterThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberGreaterThanOrEquals
-	err = actual.AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberGreaterThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2774,12 +2774,12 @@ func Test_AdvancedFilter_NumberGreaterThanOrEquals_WhenSerializedToJson_Deserial
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberGreaterThanOrEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals, AdvancedFilterNumberGreaterThanOrEqualsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberGreaterThanOrEquals, AdvancedFilter_NumberGreaterThanOrEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberGreaterThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2806,26 +2806,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals(subject 
 }
 
 // Generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing - lazily instantiated by
-// AdvancedFilterNumberGreaterThanOrEqualsGenerator()
-var advancedFilterNumberGreaterThanOrEqualsGenerator gopter.Gen
+// AdvancedFilter_NumberGreaterThanOrEqualsGenerator()
+var advancedFilter_NumberGreaterThanOrEqualsGenerator gopter.Gen
 
-// AdvancedFilterNumberGreaterThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing.
-func AdvancedFilterNumberGreaterThanOrEqualsGenerator() gopter.Gen {
-	if advancedFilterNumberGreaterThanOrEqualsGenerator != nil {
-		return advancedFilterNumberGreaterThanOrEqualsGenerator
+// AdvancedFilter_NumberGreaterThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing.
+func AdvancedFilter_NumberGreaterThanOrEqualsGenerator() gopter.Gen {
+	if advancedFilter_NumberGreaterThanOrEqualsGenerator != nil {
+		return advancedFilter_NumberGreaterThanOrEqualsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals(generators)
-	advancedFilterNumberGreaterThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThanOrEquals{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThanOrEquals(generators)
+	advancedFilter_NumberGreaterThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThanOrEquals{}), generators)
 
-	return advancedFilterNumberGreaterThanOrEqualsGenerator
+	return advancedFilter_NumberGreaterThanOrEqualsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThanOrEquals is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberGreaterThanOrEquals(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberGreaterThanOrEqualsOperatorType_NumberGreaterThanOrEquals))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberGreaterThanOrEquals_OperatorType_NumberGreaterThanOrEquals))
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -2835,26 +2835,26 @@ func Test_AdvancedFilter_NumberIn_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberIn to AdvancedFilter_NumberIn via AssignPropertiesToAdvancedFilterNumberIn & AssignPropertiesFromAdvancedFilterNumberIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberIn, AdvancedFilterNumberInGenerator()))
+		"Round trip from AdvancedFilter_NumberIn to AdvancedFilter_NumberIn via AssignProperties_To_AdvancedFilter_NumberIn & AssignProperties_From_AdvancedFilter_NumberIn returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberIn, AdvancedFilter_NumberInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberIn tests if a specific instance of AdvancedFilter_NumberIn can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberIn(subject AdvancedFilter_NumberIn) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberIn tests if a specific instance of AdvancedFilter_NumberIn can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberIn(subject AdvancedFilter_NumberIn) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberIn
-	err := copied.AssignPropertiesToAdvancedFilterNumberIn(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberIn(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberIn
-	err = actual.AssignPropertiesFromAdvancedFilterNumberIn(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberIn(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2879,12 +2879,12 @@ func Test_AdvancedFilter_NumberIn_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberIn, AdvancedFilterNumberInGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberIn, AdvancedFilter_NumberInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberIn runs a test to see if a specific instance of AdvancedFilter_NumberIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberIn(subject AdvancedFilter_NumberIn) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberIn runs a test to see if a specific instance of AdvancedFilter_NumberIn round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberIn(subject AdvancedFilter_NumberIn) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2911,26 +2911,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberIn(subject AdvancedFilter_Nu
 }
 
 // Generator of AdvancedFilter_NumberIn instances for property testing - lazily instantiated by
-// AdvancedFilterNumberInGenerator()
-var advancedFilterNumberInGenerator gopter.Gen
+// AdvancedFilter_NumberInGenerator()
+var advancedFilter_NumberInGenerator gopter.Gen
 
-// AdvancedFilterNumberInGenerator returns a generator of AdvancedFilter_NumberIn instances for property testing.
-func AdvancedFilterNumberInGenerator() gopter.Gen {
-	if advancedFilterNumberInGenerator != nil {
-		return advancedFilterNumberInGenerator
+// AdvancedFilter_NumberInGenerator returns a generator of AdvancedFilter_NumberIn instances for property testing.
+func AdvancedFilter_NumberInGenerator() gopter.Gen {
+	if advancedFilter_NumberInGenerator != nil {
+		return advancedFilter_NumberInGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn(generators)
-	advancedFilterNumberInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberIn{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberIn(generators)
+	advancedFilter_NumberInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberIn{}), generators)
 
-	return advancedFilterNumberInGenerator
+	return advancedFilter_NumberInGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberIn is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberIn(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberInOperatorType_NumberIn))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberIn_OperatorType_NumberIn))
 	gens["Values"] = gen.SliceOf(gen.Float64())
 }
 
@@ -2940,26 +2940,26 @@ func Test_AdvancedFilter_NumberLessThan_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberLessThan to AdvancedFilter_NumberLessThan via AssignPropertiesToAdvancedFilterNumberLessThan & AssignPropertiesFromAdvancedFilterNumberLessThan returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberLessThan, AdvancedFilterNumberLessThanGenerator()))
+		"Round trip from AdvancedFilter_NumberLessThan to AdvancedFilter_NumberLessThan via AssignProperties_To_AdvancedFilter_NumberLessThan & AssignProperties_From_AdvancedFilter_NumberLessThan returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberLessThan, AdvancedFilter_NumberLessThanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberLessThan tests if a specific instance of AdvancedFilter_NumberLessThan can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberLessThan(subject AdvancedFilter_NumberLessThan) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberLessThan tests if a specific instance of AdvancedFilter_NumberLessThan can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberLessThan(subject AdvancedFilter_NumberLessThan) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberLessThan
-	err := copied.AssignPropertiesToAdvancedFilterNumberLessThan(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberLessThan(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberLessThan
-	err = actual.AssignPropertiesFromAdvancedFilterNumberLessThan(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberLessThan(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2984,12 +2984,12 @@ func Test_AdvancedFilter_NumberLessThan_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberLessThan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberLessThan, AdvancedFilterNumberLessThanGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberLessThan, AdvancedFilter_NumberLessThanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberLessThan runs a test to see if a specific instance of AdvancedFilter_NumberLessThan round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberLessThan(subject AdvancedFilter_NumberLessThan) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberLessThan runs a test to see if a specific instance of AdvancedFilter_NumberLessThan round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberLessThan(subject AdvancedFilter_NumberLessThan) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3016,26 +3016,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThan(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_NumberLessThan instances for property testing - lazily instantiated by
-// AdvancedFilterNumberLessThanGenerator()
-var advancedFilterNumberLessThanGenerator gopter.Gen
+// AdvancedFilter_NumberLessThanGenerator()
+var advancedFilter_NumberLessThanGenerator gopter.Gen
 
-// AdvancedFilterNumberLessThanGenerator returns a generator of AdvancedFilter_NumberLessThan instances for property testing.
-func AdvancedFilterNumberLessThanGenerator() gopter.Gen {
-	if advancedFilterNumberLessThanGenerator != nil {
-		return advancedFilterNumberLessThanGenerator
+// AdvancedFilter_NumberLessThanGenerator returns a generator of AdvancedFilter_NumberLessThan instances for property testing.
+func AdvancedFilter_NumberLessThanGenerator() gopter.Gen {
+	if advancedFilter_NumberLessThanGenerator != nil {
+		return advancedFilter_NumberLessThanGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan(generators)
-	advancedFilterNumberLessThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThan{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThan(generators)
+	advancedFilter_NumberLessThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThan{}), generators)
 
-	return advancedFilterNumberLessThanGenerator
+	return advancedFilter_NumberLessThanGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThan is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThan(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberLessThanOperatorType_NumberLessThan))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberLessThan_OperatorType_NumberLessThan))
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -3045,26 +3045,26 @@ func Test_AdvancedFilter_NumberLessThanOrEquals_WhenPropertiesConverted_RoundTri
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberLessThanOrEquals to AdvancedFilter_NumberLessThanOrEquals via AssignPropertiesToAdvancedFilterNumberLessThanOrEquals & AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals, AdvancedFilterNumberLessThanOrEqualsGenerator()))
+		"Round trip from AdvancedFilter_NumberLessThanOrEquals to AdvancedFilter_NumberLessThanOrEquals via AssignProperties_To_AdvancedFilter_NumberLessThanOrEquals & AssignProperties_From_AdvancedFilter_NumberLessThanOrEquals returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberLessThanOrEquals, AdvancedFilter_NumberLessThanOrEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals tests if a specific instance of AdvancedFilter_NumberLessThanOrEquals can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberLessThanOrEquals tests if a specific instance of AdvancedFilter_NumberLessThanOrEquals can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberLessThanOrEquals
-	err := copied.AssignPropertiesToAdvancedFilterNumberLessThanOrEquals(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberLessThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberLessThanOrEquals
-	err = actual.AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberLessThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3089,12 +3089,12 @@ func Test_AdvancedFilter_NumberLessThanOrEquals_WhenSerializedToJson_Deserialize
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberLessThanOrEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals, AdvancedFilterNumberLessThanOrEqualsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberLessThanOrEquals, AdvancedFilter_NumberLessThanOrEqualsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberLessThanOrEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberLessThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberLessThanOrEquals round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3121,26 +3121,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals(subject Adv
 }
 
 // Generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing - lazily instantiated by
-// AdvancedFilterNumberLessThanOrEqualsGenerator()
-var advancedFilterNumberLessThanOrEqualsGenerator gopter.Gen
+// AdvancedFilter_NumberLessThanOrEqualsGenerator()
+var advancedFilter_NumberLessThanOrEqualsGenerator gopter.Gen
 
-// AdvancedFilterNumberLessThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing.
-func AdvancedFilterNumberLessThanOrEqualsGenerator() gopter.Gen {
-	if advancedFilterNumberLessThanOrEqualsGenerator != nil {
-		return advancedFilterNumberLessThanOrEqualsGenerator
+// AdvancedFilter_NumberLessThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing.
+func AdvancedFilter_NumberLessThanOrEqualsGenerator() gopter.Gen {
+	if advancedFilter_NumberLessThanOrEqualsGenerator != nil {
+		return advancedFilter_NumberLessThanOrEqualsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals(generators)
-	advancedFilterNumberLessThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThanOrEquals{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThanOrEquals(generators)
+	advancedFilter_NumberLessThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThanOrEquals{}), generators)
 
-	return advancedFilterNumberLessThanOrEqualsGenerator
+	return advancedFilter_NumberLessThanOrEqualsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThanOrEquals is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberLessThanOrEquals(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberLessThanOrEqualsOperatorType_NumberLessThanOrEquals))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberLessThanOrEquals_OperatorType_NumberLessThanOrEquals))
 	gens["Value"] = gen.PtrOf(gen.Float64())
 }
 
@@ -3150,26 +3150,26 @@ func Test_AdvancedFilter_NumberNotIn_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_NumberNotIn to AdvancedFilter_NumberNotIn via AssignPropertiesToAdvancedFilterNumberNotIn & AssignPropertiesFromAdvancedFilterNumberNotIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberNotIn, AdvancedFilterNumberNotInGenerator()))
+		"Round trip from AdvancedFilter_NumberNotIn to AdvancedFilter_NumberNotIn via AssignProperties_To_AdvancedFilter_NumberNotIn & AssignProperties_From_AdvancedFilter_NumberNotIn returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_NumberNotIn, AdvancedFilter_NumberNotInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterNumberNotIn tests if a specific instance of AdvancedFilter_NumberNotIn can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberNotIn(subject AdvancedFilter_NumberNotIn) string {
+// RunPropertyAssignmentTestForAdvancedFilter_NumberNotIn tests if a specific instance of AdvancedFilter_NumberNotIn can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_NumberNotIn(subject AdvancedFilter_NumberNotIn) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_NumberNotIn
-	err := copied.AssignPropertiesToAdvancedFilterNumberNotIn(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_NumberNotIn(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_NumberNotIn
-	err = actual.AssignPropertiesFromAdvancedFilterNumberNotIn(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_NumberNotIn(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3194,12 +3194,12 @@ func Test_AdvancedFilter_NumberNotIn_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberNotIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberNotIn, AdvancedFilterNumberNotInGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_NumberNotIn, AdvancedFilter_NumberNotInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterNumberNotIn runs a test to see if a specific instance of AdvancedFilter_NumberNotIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberNotIn(subject AdvancedFilter_NumberNotIn) string {
+// RunJSONSerializationTestForAdvancedFilter_NumberNotIn runs a test to see if a specific instance of AdvancedFilter_NumberNotIn round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_NumberNotIn(subject AdvancedFilter_NumberNotIn) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3226,26 +3226,26 @@ func RunJSONSerializationTestForAdvancedFilterNumberNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_NumberNotIn instances for property testing - lazily instantiated by
-// AdvancedFilterNumberNotInGenerator()
-var advancedFilterNumberNotInGenerator gopter.Gen
+// AdvancedFilter_NumberNotInGenerator()
+var advancedFilter_NumberNotInGenerator gopter.Gen
 
-// AdvancedFilterNumberNotInGenerator returns a generator of AdvancedFilter_NumberNotIn instances for property testing.
-func AdvancedFilterNumberNotInGenerator() gopter.Gen {
-	if advancedFilterNumberNotInGenerator != nil {
-		return advancedFilterNumberNotInGenerator
+// AdvancedFilter_NumberNotInGenerator returns a generator of AdvancedFilter_NumberNotIn instances for property testing.
+func AdvancedFilter_NumberNotInGenerator() gopter.Gen {
+	if advancedFilter_NumberNotInGenerator != nil {
+		return advancedFilter_NumberNotInGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn(generators)
-	advancedFilterNumberNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberNotIn{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_NumberNotIn(generators)
+	advancedFilter_NumberNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberNotIn{}), generators)
 
-	return advancedFilterNumberNotInGenerator
+	return advancedFilter_NumberNotInGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_NumberNotIn is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_NumberNotIn(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterNumberNotInOperatorType_NumberNotIn))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_NumberNotIn_OperatorType_NumberNotIn))
 	gens["Values"] = gen.SliceOf(gen.Float64())
 }
 
@@ -3255,26 +3255,26 @@ func Test_AdvancedFilter_StringBeginsWith_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_StringBeginsWith to AdvancedFilter_StringBeginsWith via AssignPropertiesToAdvancedFilterStringBeginsWith & AssignPropertiesFromAdvancedFilterStringBeginsWith returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith, AdvancedFilterStringBeginsWithGenerator()))
+		"Round trip from AdvancedFilter_StringBeginsWith to AdvancedFilter_StringBeginsWith via AssignProperties_To_AdvancedFilter_StringBeginsWith & AssignProperties_From_AdvancedFilter_StringBeginsWith returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_StringBeginsWith, AdvancedFilter_StringBeginsWithGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith tests if a specific instance of AdvancedFilter_StringBeginsWith can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
+// RunPropertyAssignmentTestForAdvancedFilter_StringBeginsWith tests if a specific instance of AdvancedFilter_StringBeginsWith can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_StringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_StringBeginsWith
-	err := copied.AssignPropertiesToAdvancedFilterStringBeginsWith(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_StringBeginsWith(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_StringBeginsWith
-	err = actual.AssignPropertiesFromAdvancedFilterStringBeginsWith(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_StringBeginsWith(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3299,12 +3299,12 @@ func Test_AdvancedFilter_StringBeginsWith_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringBeginsWith via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringBeginsWith, AdvancedFilterStringBeginsWithGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_StringBeginsWith, AdvancedFilter_StringBeginsWithGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterStringBeginsWith runs a test to see if a specific instance of AdvancedFilter_StringBeginsWith round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
+// RunJSONSerializationTestForAdvancedFilter_StringBeginsWith runs a test to see if a specific instance of AdvancedFilter_StringBeginsWith round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_StringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3331,26 +3331,26 @@ func RunJSONSerializationTestForAdvancedFilterStringBeginsWith(subject AdvancedF
 }
 
 // Generator of AdvancedFilter_StringBeginsWith instances for property testing - lazily instantiated by
-// AdvancedFilterStringBeginsWithGenerator()
-var advancedFilterStringBeginsWithGenerator gopter.Gen
+// AdvancedFilter_StringBeginsWithGenerator()
+var advancedFilter_StringBeginsWithGenerator gopter.Gen
 
-// AdvancedFilterStringBeginsWithGenerator returns a generator of AdvancedFilter_StringBeginsWith instances for property testing.
-func AdvancedFilterStringBeginsWithGenerator() gopter.Gen {
-	if advancedFilterStringBeginsWithGenerator != nil {
-		return advancedFilterStringBeginsWithGenerator
+// AdvancedFilter_StringBeginsWithGenerator returns a generator of AdvancedFilter_StringBeginsWith instances for property testing.
+func AdvancedFilter_StringBeginsWithGenerator() gopter.Gen {
+	if advancedFilter_StringBeginsWithGenerator != nil {
+		return advancedFilter_StringBeginsWithGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith(generators)
-	advancedFilterStringBeginsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringBeginsWith{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_StringBeginsWith(generators)
+	advancedFilter_StringBeginsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringBeginsWith{}), generators)
 
-	return advancedFilterStringBeginsWithGenerator
+	return advancedFilter_StringBeginsWithGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_StringBeginsWith is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_StringBeginsWith(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterStringBeginsWithOperatorType_StringBeginsWith))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_StringBeginsWith_OperatorType_StringBeginsWith))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -3360,26 +3360,26 @@ func Test_AdvancedFilter_StringContains_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_StringContains to AdvancedFilter_StringContains via AssignPropertiesToAdvancedFilterStringContains & AssignPropertiesFromAdvancedFilterStringContains returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringContains, AdvancedFilterStringContainsGenerator()))
+		"Round trip from AdvancedFilter_StringContains to AdvancedFilter_StringContains via AssignProperties_To_AdvancedFilter_StringContains & AssignProperties_From_AdvancedFilter_StringContains returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_StringContains, AdvancedFilter_StringContainsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterStringContains tests if a specific instance of AdvancedFilter_StringContains can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringContains(subject AdvancedFilter_StringContains) string {
+// RunPropertyAssignmentTestForAdvancedFilter_StringContains tests if a specific instance of AdvancedFilter_StringContains can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_StringContains(subject AdvancedFilter_StringContains) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_StringContains
-	err := copied.AssignPropertiesToAdvancedFilterStringContains(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_StringContains(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_StringContains
-	err = actual.AssignPropertiesFromAdvancedFilterStringContains(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_StringContains(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3404,12 +3404,12 @@ func Test_AdvancedFilter_StringContains_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringContains via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringContains, AdvancedFilterStringContainsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_StringContains, AdvancedFilter_StringContainsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterStringContains runs a test to see if a specific instance of AdvancedFilter_StringContains round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringContains(subject AdvancedFilter_StringContains) string {
+// RunJSONSerializationTestForAdvancedFilter_StringContains runs a test to see if a specific instance of AdvancedFilter_StringContains round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_StringContains(subject AdvancedFilter_StringContains) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3436,26 +3436,26 @@ func RunJSONSerializationTestForAdvancedFilterStringContains(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringContains instances for property testing - lazily instantiated by
-// AdvancedFilterStringContainsGenerator()
-var advancedFilterStringContainsGenerator gopter.Gen
+// AdvancedFilter_StringContainsGenerator()
+var advancedFilter_StringContainsGenerator gopter.Gen
 
-// AdvancedFilterStringContainsGenerator returns a generator of AdvancedFilter_StringContains instances for property testing.
-func AdvancedFilterStringContainsGenerator() gopter.Gen {
-	if advancedFilterStringContainsGenerator != nil {
-		return advancedFilterStringContainsGenerator
+// AdvancedFilter_StringContainsGenerator returns a generator of AdvancedFilter_StringContains instances for property testing.
+func AdvancedFilter_StringContainsGenerator() gopter.Gen {
+	if advancedFilter_StringContainsGenerator != nil {
+		return advancedFilter_StringContainsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringContains(generators)
-	advancedFilterStringContainsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringContains{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_StringContains(generators)
+	advancedFilter_StringContainsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringContains{}), generators)
 
-	return advancedFilterStringContainsGenerator
+	return advancedFilter_StringContainsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringContains is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringContains(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_StringContains is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_StringContains(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterStringContainsOperatorType_StringContains))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_StringContains_OperatorType_StringContains))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -3465,26 +3465,26 @@ func Test_AdvancedFilter_StringEndsWith_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_StringEndsWith to AdvancedFilter_StringEndsWith via AssignPropertiesToAdvancedFilterStringEndsWith & AssignPropertiesFromAdvancedFilterStringEndsWith returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringEndsWith, AdvancedFilterStringEndsWithGenerator()))
+		"Round trip from AdvancedFilter_StringEndsWith to AdvancedFilter_StringEndsWith via AssignProperties_To_AdvancedFilter_StringEndsWith & AssignProperties_From_AdvancedFilter_StringEndsWith returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_StringEndsWith, AdvancedFilter_StringEndsWithGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterStringEndsWith tests if a specific instance of AdvancedFilter_StringEndsWith can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringEndsWith(subject AdvancedFilter_StringEndsWith) string {
+// RunPropertyAssignmentTestForAdvancedFilter_StringEndsWith tests if a specific instance of AdvancedFilter_StringEndsWith can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_StringEndsWith(subject AdvancedFilter_StringEndsWith) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_StringEndsWith
-	err := copied.AssignPropertiesToAdvancedFilterStringEndsWith(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_StringEndsWith(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_StringEndsWith
-	err = actual.AssignPropertiesFromAdvancedFilterStringEndsWith(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_StringEndsWith(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3509,12 +3509,12 @@ func Test_AdvancedFilter_StringEndsWith_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringEndsWith via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringEndsWith, AdvancedFilterStringEndsWithGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_StringEndsWith, AdvancedFilter_StringEndsWithGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterStringEndsWith runs a test to see if a specific instance of AdvancedFilter_StringEndsWith round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringEndsWith(subject AdvancedFilter_StringEndsWith) string {
+// RunJSONSerializationTestForAdvancedFilter_StringEndsWith runs a test to see if a specific instance of AdvancedFilter_StringEndsWith round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_StringEndsWith(subject AdvancedFilter_StringEndsWith) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3541,26 +3541,26 @@ func RunJSONSerializationTestForAdvancedFilterStringEndsWith(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringEndsWith instances for property testing - lazily instantiated by
-// AdvancedFilterStringEndsWithGenerator()
-var advancedFilterStringEndsWithGenerator gopter.Gen
+// AdvancedFilter_StringEndsWithGenerator()
+var advancedFilter_StringEndsWithGenerator gopter.Gen
 
-// AdvancedFilterStringEndsWithGenerator returns a generator of AdvancedFilter_StringEndsWith instances for property testing.
-func AdvancedFilterStringEndsWithGenerator() gopter.Gen {
-	if advancedFilterStringEndsWithGenerator != nil {
-		return advancedFilterStringEndsWithGenerator
+// AdvancedFilter_StringEndsWithGenerator returns a generator of AdvancedFilter_StringEndsWith instances for property testing.
+func AdvancedFilter_StringEndsWithGenerator() gopter.Gen {
+	if advancedFilter_StringEndsWithGenerator != nil {
+		return advancedFilter_StringEndsWithGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith(generators)
-	advancedFilterStringEndsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringEndsWith{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_StringEndsWith(generators)
+	advancedFilter_StringEndsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringEndsWith{}), generators)
 
-	return advancedFilterStringEndsWithGenerator
+	return advancedFilter_StringEndsWithGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_StringEndsWith is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_StringEndsWith(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterStringEndsWithOperatorType_StringEndsWith))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_StringEndsWith_OperatorType_StringEndsWith))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -3570,26 +3570,26 @@ func Test_AdvancedFilter_StringIn_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_StringIn to AdvancedFilter_StringIn via AssignPropertiesToAdvancedFilterStringIn & AssignPropertiesFromAdvancedFilterStringIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringIn, AdvancedFilterStringInGenerator()))
+		"Round trip from AdvancedFilter_StringIn to AdvancedFilter_StringIn via AssignProperties_To_AdvancedFilter_StringIn & AssignProperties_From_AdvancedFilter_StringIn returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_StringIn, AdvancedFilter_StringInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterStringIn tests if a specific instance of AdvancedFilter_StringIn can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringIn(subject AdvancedFilter_StringIn) string {
+// RunPropertyAssignmentTestForAdvancedFilter_StringIn tests if a specific instance of AdvancedFilter_StringIn can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_StringIn(subject AdvancedFilter_StringIn) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_StringIn
-	err := copied.AssignPropertiesToAdvancedFilterStringIn(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_StringIn(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_StringIn
-	err = actual.AssignPropertiesFromAdvancedFilterStringIn(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_StringIn(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3614,12 +3614,12 @@ func Test_AdvancedFilter_StringIn_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringIn, AdvancedFilterStringInGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_StringIn, AdvancedFilter_StringInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterStringIn runs a test to see if a specific instance of AdvancedFilter_StringIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringIn(subject AdvancedFilter_StringIn) string {
+// RunJSONSerializationTestForAdvancedFilter_StringIn runs a test to see if a specific instance of AdvancedFilter_StringIn round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_StringIn(subject AdvancedFilter_StringIn) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3646,26 +3646,26 @@ func RunJSONSerializationTestForAdvancedFilterStringIn(subject AdvancedFilter_St
 }
 
 // Generator of AdvancedFilter_StringIn instances for property testing - lazily instantiated by
-// AdvancedFilterStringInGenerator()
-var advancedFilterStringInGenerator gopter.Gen
+// AdvancedFilter_StringInGenerator()
+var advancedFilter_StringInGenerator gopter.Gen
 
-// AdvancedFilterStringInGenerator returns a generator of AdvancedFilter_StringIn instances for property testing.
-func AdvancedFilterStringInGenerator() gopter.Gen {
-	if advancedFilterStringInGenerator != nil {
-		return advancedFilterStringInGenerator
+// AdvancedFilter_StringInGenerator returns a generator of AdvancedFilter_StringIn instances for property testing.
+func AdvancedFilter_StringInGenerator() gopter.Gen {
+	if advancedFilter_StringInGenerator != nil {
+		return advancedFilter_StringInGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringIn(generators)
-	advancedFilterStringInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringIn{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_StringIn(generators)
+	advancedFilter_StringInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringIn{}), generators)
 
-	return advancedFilterStringInGenerator
+	return advancedFilter_StringInGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringIn(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_StringIn is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_StringIn(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterStringInOperatorType_StringIn))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_StringIn_OperatorType_StringIn))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -3675,26 +3675,26 @@ func Test_AdvancedFilter_StringNotIn_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdvancedFilter_StringNotIn to AdvancedFilter_StringNotIn via AssignPropertiesToAdvancedFilterStringNotIn & AssignPropertiesFromAdvancedFilterStringNotIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringNotIn, AdvancedFilterStringNotInGenerator()))
+		"Round trip from AdvancedFilter_StringNotIn to AdvancedFilter_StringNotIn via AssignProperties_To_AdvancedFilter_StringNotIn & AssignProperties_From_AdvancedFilter_StringNotIn returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter_StringNotIn, AdvancedFilter_StringNotInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilterStringNotIn tests if a specific instance of AdvancedFilter_StringNotIn can be assigned to v1beta20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringNotIn(subject AdvancedFilter_StringNotIn) string {
+// RunPropertyAssignmentTestForAdvancedFilter_StringNotIn tests if a specific instance of AdvancedFilter_StringNotIn can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilter_StringNotIn(subject AdvancedFilter_StringNotIn) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AdvancedFilter_StringNotIn
-	err := copied.AssignPropertiesToAdvancedFilterStringNotIn(&other)
+	err := copied.AssignProperties_To_AdvancedFilter_StringNotIn(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdvancedFilter_StringNotIn
-	err = actual.AssignPropertiesFromAdvancedFilterStringNotIn(&other)
+	err = actual.AssignProperties_From_AdvancedFilter_StringNotIn(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3719,12 +3719,12 @@ func Test_AdvancedFilter_StringNotIn_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringNotIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringNotIn, AdvancedFilterStringNotInGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilter_StringNotIn, AdvancedFilter_StringNotInGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAdvancedFilterStringNotIn runs a test to see if a specific instance of AdvancedFilter_StringNotIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringNotIn(subject AdvancedFilter_StringNotIn) string {
+// RunJSONSerializationTestForAdvancedFilter_StringNotIn runs a test to see if a specific instance of AdvancedFilter_StringNotIn round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilter_StringNotIn(subject AdvancedFilter_StringNotIn) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3751,26 +3751,26 @@ func RunJSONSerializationTestForAdvancedFilterStringNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_StringNotIn instances for property testing - lazily instantiated by
-// AdvancedFilterStringNotInGenerator()
-var advancedFilterStringNotInGenerator gopter.Gen
+// AdvancedFilter_StringNotInGenerator()
+var advancedFilter_StringNotInGenerator gopter.Gen
 
-// AdvancedFilterStringNotInGenerator returns a generator of AdvancedFilter_StringNotIn instances for property testing.
-func AdvancedFilterStringNotInGenerator() gopter.Gen {
-	if advancedFilterStringNotInGenerator != nil {
-		return advancedFilterStringNotInGenerator
+// AdvancedFilter_StringNotInGenerator returns a generator of AdvancedFilter_StringNotIn instances for property testing.
+func AdvancedFilter_StringNotInGenerator() gopter.Gen {
+	if advancedFilter_StringNotInGenerator != nil {
+		return advancedFilter_StringNotInGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn(generators)
-	advancedFilterStringNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringNotIn{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilter_StringNotIn(generators)
+	advancedFilter_StringNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringNotIn{}), generators)
 
-	return advancedFilterStringNotInGenerator
+	return advancedFilter_StringNotInGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAdvancedFilter_StringNotIn is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilter_StringNotIn(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilterStringNotInOperatorType_StringNotIn))
+	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(AdvancedFilter_StringNotIn_OperatorType_StringNotIn))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -3780,7 +3780,7 @@ func Test_AzureFunctionEventSubscriptionDestinationProperties_WhenPropertiesConv
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AzureFunctionEventSubscriptionDestinationProperties to AzureFunctionEventSubscriptionDestinationProperties via AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties & AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties returns original",
+		"Round trip from AzureFunctionEventSubscriptionDestinationProperties to AzureFunctionEventSubscriptionDestinationProperties via AssignProperties_To_AzureFunctionEventSubscriptionDestinationProperties & AssignProperties_From_AzureFunctionEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProperties, AzureFunctionEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3792,14 +3792,14 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProper
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.AzureFunctionEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_AzureFunctionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AzureFunctionEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_AzureFunctionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3884,7 +3884,7 @@ func Test_EventHubEventSubscriptionDestinationProperties_WhenPropertiesConverted
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventHubEventSubscriptionDestinationProperties to EventHubEventSubscriptionDestinationProperties via AssignPropertiesToEventHubEventSubscriptionDestinationProperties & AssignPropertiesFromEventHubEventSubscriptionDestinationProperties returns original",
+		"Round trip from EventHubEventSubscriptionDestinationProperties to EventHubEventSubscriptionDestinationProperties via AssignProperties_To_EventHubEventSubscriptionDestinationProperties & AssignProperties_From_EventHubEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties, EventHubEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3896,14 +3896,14 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties(
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.EventHubEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToEventHubEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_EventHubEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EventHubEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromEventHubEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_EventHubEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3981,7 +3981,7 @@ func Test_HybridConnectionEventSubscriptionDestinationProperties_WhenPropertiesC
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from HybridConnectionEventSubscriptionDestinationProperties to HybridConnectionEventSubscriptionDestinationProperties via AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties & AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties returns original",
+		"Round trip from HybridConnectionEventSubscriptionDestinationProperties to HybridConnectionEventSubscriptionDestinationProperties via AssignProperties_To_HybridConnectionEventSubscriptionDestinationProperties & AssignProperties_From_HybridConnectionEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationProperties, HybridConnectionEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3993,14 +3993,14 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationPro
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.HybridConnectionEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_HybridConnectionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual HybridConnectionEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_HybridConnectionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4078,7 +4078,7 @@ func Test_ServiceBusQueueEventSubscriptionDestinationProperties_WhenPropertiesCo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ServiceBusQueueEventSubscriptionDestinationProperties to ServiceBusQueueEventSubscriptionDestinationProperties via AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties & AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties returns original",
+		"Round trip from ServiceBusQueueEventSubscriptionDestinationProperties to ServiceBusQueueEventSubscriptionDestinationProperties via AssignProperties_To_ServiceBusQueueEventSubscriptionDestinationProperties & AssignProperties_From_ServiceBusQueueEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProperties, ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4090,14 +4090,14 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProp
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.ServiceBusQueueEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_ServiceBusQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServiceBusQueueEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_ServiceBusQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4175,7 +4175,7 @@ func Test_ServiceBusTopicEventSubscriptionDestinationProperties_WhenPropertiesCo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ServiceBusTopicEventSubscriptionDestinationProperties to ServiceBusTopicEventSubscriptionDestinationProperties via AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties & AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties returns original",
+		"Round trip from ServiceBusTopicEventSubscriptionDestinationProperties to ServiceBusTopicEventSubscriptionDestinationProperties via AssignProperties_To_ServiceBusTopicEventSubscriptionDestinationProperties & AssignProperties_From_ServiceBusTopicEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProperties, ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4187,14 +4187,14 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProp
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.ServiceBusTopicEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_ServiceBusTopicEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServiceBusTopicEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_ServiceBusTopicEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4272,7 +4272,7 @@ func Test_StorageQueueEventSubscriptionDestinationProperties_WhenPropertiesConve
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageQueueEventSubscriptionDestinationProperties to StorageQueueEventSubscriptionDestinationProperties via AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties & AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties returns original",
+		"Round trip from StorageQueueEventSubscriptionDestinationProperties to StorageQueueEventSubscriptionDestinationProperties via AssignProperties_To_StorageQueueEventSubscriptionDestinationProperties & AssignProperties_From_StorageQueueEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationProperties, StorageQueueEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4284,14 +4284,14 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationPropert
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.StorageQueueEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_StorageQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageQueueEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_StorageQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4375,7 +4375,7 @@ func Test_WebHookEventSubscriptionDestinationProperties_WhenPropertiesConverted_
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebHookEventSubscriptionDestinationProperties to WebHookEventSubscriptionDestinationProperties via AssignPropertiesToWebHookEventSubscriptionDestinationProperties & AssignPropertiesFromWebHookEventSubscriptionDestinationProperties returns original",
+		"Round trip from WebHookEventSubscriptionDestinationProperties to WebHookEventSubscriptionDestinationProperties via AssignProperties_To_WebHookEventSubscriptionDestinationProperties & AssignProperties_From_WebHookEventSubscriptionDestinationProperties returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties, WebHookEventSubscriptionDestinationPropertiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4387,14 +4387,14 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties(s
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.WebHookEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToWebHookEventSubscriptionDestinationProperties(&other)
+	err := copied.AssignProperties_To_WebHookEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebHookEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromWebHookEventSubscriptionDestinationProperties(&other)
+	err = actual.AssignProperties_From_WebHookEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
 	}

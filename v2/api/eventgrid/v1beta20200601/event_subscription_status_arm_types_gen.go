@@ -28,7 +28,7 @@ type EventSubscriptionProperties_STATUSARM struct {
 	Destination *EventSubscriptionDestination_STATUSARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionPropertiesSTATUSEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *EventSubscriptionProperties_STATUS_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 
 	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -40,7 +40,7 @@ type EventSubscriptionProperties_STATUSARM struct {
 	Labels []string `json:"labels,omitempty"`
 
 	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EventSubscriptionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
@@ -52,12 +52,12 @@ type EventSubscriptionProperties_STATUSARM struct {
 
 type DeadLetterDestination_STATUSARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType *DeadLetterDestinationSTATUSEndpointType `json:"endpointType,omitempty"`
+	EndpointType *DeadLetterDestination_STATUS_EndpointType `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionDestination_STATUSARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *EventSubscriptionDestinationSTATUSEndpointType `json:"endpointType,omitempty"`
+	EndpointType *EventSubscriptionDestination_STATUS_EndpointType `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionFilter_STATUSARM struct {
@@ -95,5 +95,5 @@ type AdvancedFilter_STATUSARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType *AdvancedFilterSTATUSOperatorType `json:"operatorType,omitempty"`
+	OperatorType *AdvancedFilter_STATUS_OperatorType `json:"operatorType,omitempty"`
 }

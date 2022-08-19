@@ -25,12 +25,12 @@ func Test_Configuration_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Configuration_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationSTATUSARM, ConfigurationSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForConfiguration_STATUSARM, Configuration_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationSTATUSARM runs a test to see if a specific instance of Configuration_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationSTATUSARM(subject Configuration_STATUSARM) string {
+// RunJSONSerializationTestForConfiguration_STATUSARM runs a test to see if a specific instance of Configuration_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfiguration_STATUSARM(subject Configuration_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,42 +57,42 @@ func RunJSONSerializationTestForConfigurationSTATUSARM(subject Configuration_STA
 }
 
 // Generator of Configuration_STATUSARM instances for property testing - lazily instantiated by
-// ConfigurationSTATUSARMGenerator()
-var configurationSTATUSARMGenerator gopter.Gen
+// Configuration_STATUSARMGenerator()
+var configuration_STATUSARMGenerator gopter.Gen
 
-// ConfigurationSTATUSARMGenerator returns a generator of Configuration_STATUSARM instances for property testing.
-// We first initialize configurationSTATUSARMGenerator with a simplified generator based on the
+// Configuration_STATUSARMGenerator returns a generator of Configuration_STATUSARM instances for property testing.
+// We first initialize configuration_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ConfigurationSTATUSARMGenerator() gopter.Gen {
-	if configurationSTATUSARMGenerator != nil {
-		return configurationSTATUSARMGenerator
+func Configuration_STATUSARMGenerator() gopter.Gen {
+	if configuration_STATUSARMGenerator != nil {
+		return configuration_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationSTATUSARM(generators)
-	configurationSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForConfiguration_STATUSARM(generators)
+	configuration_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForConfigurationSTATUSARM(generators)
-	configurationSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForConfiguration_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForConfiguration_STATUSARM(generators)
+	configuration_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUSARM{}), generators)
 
-	return configurationSTATUSARMGenerator
+	return configuration_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfigurationSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConfiguration_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfiguration_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForConfigurationSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConfigurationSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ConfigurationPropertiesSTATUSARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForConfiguration_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfiguration_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ConfigurationProperties_STATUSARMGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
 func Test_ConfigurationProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -103,12 +103,12 @@ func Test_ConfigurationProperties_STATUSARM_WhenSerializedToJson_DeserializesAsE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ConfigurationProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationPropertiesSTATUSARM, ConfigurationPropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForConfigurationProperties_STATUSARM, ConfigurationProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConfigurationPropertiesSTATUSARM runs a test to see if a specific instance of ConfigurationProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationPropertiesSTATUSARM(subject ConfigurationProperties_STATUSARM) string {
+// RunJSONSerializationTestForConfigurationProperties_STATUSARM runs a test to see if a specific instance of ConfigurationProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationProperties_STATUSARM(subject ConfigurationProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -135,30 +135,30 @@ func RunJSONSerializationTestForConfigurationPropertiesSTATUSARM(subject Configu
 }
 
 // Generator of ConfigurationProperties_STATUSARM instances for property testing - lazily instantiated by
-// ConfigurationPropertiesSTATUSARMGenerator()
-var configurationPropertiesSTATUSARMGenerator gopter.Gen
+// ConfigurationProperties_STATUSARMGenerator()
+var configurationProperties_STATUSARMGenerator gopter.Gen
 
-// ConfigurationPropertiesSTATUSARMGenerator returns a generator of ConfigurationProperties_STATUSARM instances for property testing.
-func ConfigurationPropertiesSTATUSARMGenerator() gopter.Gen {
-	if configurationPropertiesSTATUSARMGenerator != nil {
-		return configurationPropertiesSTATUSARMGenerator
+// ConfigurationProperties_STATUSARMGenerator returns a generator of ConfigurationProperties_STATUSARM instances for property testing.
+func ConfigurationProperties_STATUSARMGenerator() gopter.Gen {
+	if configurationProperties_STATUSARMGenerator != nil {
+		return configurationProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationPropertiesSTATUSARM(generators)
-	configurationPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForConfigurationProperties_STATUSARM(generators)
+	configurationProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ConfigurationProperties_STATUSARM{}), generators)
 
-	return configurationPropertiesSTATUSARMGenerator
+	return configurationProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConfigurationPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationPropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConfigurationProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConfigurationProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationPropertiesSTATUSDataType_Boolean,
-		ConfigurationPropertiesSTATUSDataType_Enumeration,
-		ConfigurationPropertiesSTATUSDataType_Integer,
-		ConfigurationPropertiesSTATUSDataType_Numeric))
+		ConfigurationProperties_STATUS_DataType_Boolean,
+		ConfigurationProperties_STATUS_DataType_Enumeration,
+		ConfigurationProperties_STATUS_DataType_Integer,
+		ConfigurationProperties_STATUS_DataType_Numeric))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
@@ -178,12 +178,12 @@ func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SystemData_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemDataSTATUSARM, SystemDataSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUSARM, SystemData_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSystemDataSTATUSARM runs a test to see if a specific instance of SystemData_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemDataSTATUSARM(subject SystemData_STATUSARM) string {
+// RunJSONSerializationTestForSystemData_STATUSARM runs a test to see if a specific instance of SystemData_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUSARM(subject SystemData_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -210,36 +210,36 @@ func RunJSONSerializationTestForSystemDataSTATUSARM(subject SystemData_STATUSARM
 }
 
 // Generator of SystemData_STATUSARM instances for property testing - lazily instantiated by
-// SystemDataSTATUSARMGenerator()
-var systemDataSTATUSARMGenerator gopter.Gen
+// SystemData_STATUSARMGenerator()
+var systemData_STATUSARMGenerator gopter.Gen
 
-// SystemDataSTATUSARMGenerator returns a generator of SystemData_STATUSARM instances for property testing.
-func SystemDataSTATUSARMGenerator() gopter.Gen {
-	if systemDataSTATUSARMGenerator != nil {
-		return systemDataSTATUSARMGenerator
+// SystemData_STATUSARMGenerator returns a generator of SystemData_STATUSARM instances for property testing.
+func SystemData_STATUSARMGenerator() gopter.Gen {
+	if systemData_STATUSARMGenerator != nil {
+		return systemData_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemDataSTATUSARM(generators)
-	systemDataSTATUSARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSystemData_STATUSARM(generators)
+	systemData_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUSARM{}), generators)
 
-	return systemDataSTATUSARMGenerator
+	return systemData_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSystemDataSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemDataSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSystemData_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataSTATUSCreatedByType_Application,
-		SystemDataSTATUSCreatedByType_Key,
-		SystemDataSTATUSCreatedByType_ManagedIdentity,
-		SystemDataSTATUSCreatedByType_User))
+		SystemData_STATUS_CreatedByType_Application,
+		SystemData_STATUS_CreatedByType_Key,
+		SystemData_STATUS_CreatedByType_ManagedIdentity,
+		SystemData_STATUS_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemDataSTATUSLastModifiedByType_Application,
-		SystemDataSTATUSLastModifiedByType_Key,
-		SystemDataSTATUSLastModifiedByType_ManagedIdentity,
-		SystemDataSTATUSLastModifiedByType_User))
+		SystemData_STATUS_LastModifiedByType_Application,
+		SystemData_STATUS_LastModifiedByType_Key,
+		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
+		SystemData_STATUS_LastModifiedByType_User))
 }

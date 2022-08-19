@@ -50,10 +50,10 @@ type DeleteRetentionPolicy_STATUSARM struct {
 
 // Deprecated version of LastAccessTimeTrackingPolicy_STATUS. Use v1beta20210401.LastAccessTimeTrackingPolicy_STATUS instead
 type LastAccessTimeTrackingPolicy_STATUSARM struct {
-	BlobType                  []string                                `json:"blobType,omitempty"`
-	Enable                    *bool                                   `json:"enable,omitempty"`
-	Name                      *LastAccessTimeTrackingPolicySTATUSName `json:"name,omitempty"`
-	TrackingGranularityInDays *int                                    `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string                                  `json:"blobType,omitempty"`
+	Enable                    *bool                                     `json:"enable,omitempty"`
+	Name                      *LastAccessTimeTrackingPolicy_STATUS_Name `json:"name,omitempty"`
+	TrackingGranularityInDays *int                                      `json:"trackingGranularityInDays,omitempty"`
 }
 
 // Deprecated version of RestorePolicyProperties_STATUS. Use v1beta20210401.RestorePolicyProperties_STATUS instead
@@ -68,14 +68,14 @@ type RestorePolicyProperties_STATUSARM struct {
 type SkuName_STATUS string
 
 const (
-	SkuName_STATUS_PremiumLRS     = SkuName_STATUS("Premium_LRS")
-	SkuName_STATUS_PremiumZRS     = SkuName_STATUS("Premium_ZRS")
-	SkuName_STATUS_StandardGRS    = SkuName_STATUS("Standard_GRS")
-	SkuName_STATUS_StandardGZRS   = SkuName_STATUS("Standard_GZRS")
-	SkuName_STATUS_StandardLRS    = SkuName_STATUS("Standard_LRS")
-	SkuName_STATUS_StandardRAGRS  = SkuName_STATUS("Standard_RAGRS")
-	SkuName_STATUS_StandardRAGZRS = SkuName_STATUS("Standard_RAGZRS")
-	SkuName_STATUS_StandardZRS    = SkuName_STATUS("Standard_ZRS")
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
 )
 
 // Deprecated version of Tier_STATUS. Use v1beta20210401.Tier_STATUS instead
@@ -88,28 +88,28 @@ const (
 
 // Deprecated version of CorsRule_STATUS. Use v1beta20210401.CorsRule_STATUS instead
 type CorsRule_STATUSARM struct {
-	AllowedHeaders  []string                       `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRuleSTATUSAllowedMethods `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                       `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                       `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                           `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string                         `json:"allowedHeaders,omitempty"`
+	AllowedMethods  []CorsRule_STATUS_AllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedOrigins  []string                         `json:"allowedOrigins,omitempty"`
+	ExposedHeaders  []string                         `json:"exposedHeaders,omitempty"`
+	MaxAgeInSeconds *int                             `json:"maxAgeInSeconds,omitempty"`
 }
 
-// Deprecated version of LastAccessTimeTrackingPolicySTATUSName. Use v1beta20210401.LastAccessTimeTrackingPolicySTATUSName
-// instead
-type LastAccessTimeTrackingPolicySTATUSName string
+// Deprecated version of LastAccessTimeTrackingPolicy_STATUS_Name. Use
+// v1beta20210401.LastAccessTimeTrackingPolicy_STATUS_Name instead
+type LastAccessTimeTrackingPolicy_STATUS_Name string
 
-const LastAccessTimeTrackingPolicySTATUSName_AccessTimeTracking = LastAccessTimeTrackingPolicySTATUSName("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_STATUS_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_STATUS_Name("AccessTimeTracking")
 
-// Deprecated version of CorsRuleSTATUSAllowedMethods. Use v1beta20210401.CorsRuleSTATUSAllowedMethods instead
-type CorsRuleSTATUSAllowedMethods string
+// Deprecated version of CorsRule_STATUS_AllowedMethods. Use v1beta20210401.CorsRule_STATUS_AllowedMethods instead
+type CorsRule_STATUS_AllowedMethods string
 
 const (
-	CorsRuleSTATUSAllowedMethods_DELETE  = CorsRuleSTATUSAllowedMethods("DELETE")
-	CorsRuleSTATUSAllowedMethods_GET     = CorsRuleSTATUSAllowedMethods("GET")
-	CorsRuleSTATUSAllowedMethods_HEAD    = CorsRuleSTATUSAllowedMethods("HEAD")
-	CorsRuleSTATUSAllowedMethods_MERGE   = CorsRuleSTATUSAllowedMethods("MERGE")
-	CorsRuleSTATUSAllowedMethods_OPTIONS = CorsRuleSTATUSAllowedMethods("OPTIONS")
-	CorsRuleSTATUSAllowedMethods_POST    = CorsRuleSTATUSAllowedMethods("POST")
-	CorsRuleSTATUSAllowedMethods_PUT     = CorsRuleSTATUSAllowedMethods("PUT")
+	CorsRule_STATUS_AllowedMethods_DELETE  = CorsRule_STATUS_AllowedMethods("DELETE")
+	CorsRule_STATUS_AllowedMethods_GET     = CorsRule_STATUS_AllowedMethods("GET")
+	CorsRule_STATUS_AllowedMethods_HEAD    = CorsRule_STATUS_AllowedMethods("HEAD")
+	CorsRule_STATUS_AllowedMethods_MERGE   = CorsRule_STATUS_AllowedMethods("MERGE")
+	CorsRule_STATUS_AllowedMethods_OPTIONS = CorsRule_STATUS_AllowedMethods("OPTIONS")
+	CorsRule_STATUS_AllowedMethods_POST    = CorsRule_STATUS_AllowedMethods("POST")
+	CorsRule_STATUS_AllowedMethods_PUT     = CorsRule_STATUS_AllowedMethods("PUT")
 )

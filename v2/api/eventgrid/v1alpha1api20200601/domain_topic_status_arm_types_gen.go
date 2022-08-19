@@ -14,48 +14,49 @@ type DomainTopic_STATUSARM struct {
 
 // Deprecated version of DomainTopicProperties_STATUS. Use v1beta20200601.DomainTopicProperties_STATUS instead
 type DomainTopicProperties_STATUSARM struct {
-	ProvisioningState *DomainTopicPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainTopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20200601.SystemData_STATUS instead
 type SystemData_STATUSARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-// Deprecated version of DomainTopicPropertiesSTATUSProvisioningState. Use
-// v1beta20200601.DomainTopicPropertiesSTATUSProvisioningState instead
-type DomainTopicPropertiesSTATUSProvisioningState string
+// Deprecated version of DomainTopicProperties_STATUS_ProvisioningState. Use
+// v1beta20200601.DomainTopicProperties_STATUS_ProvisioningState instead
+type DomainTopicProperties_STATUS_ProvisioningState string
 
 const (
-	DomainTopicPropertiesSTATUSProvisioningState_Canceled  = DomainTopicPropertiesSTATUSProvisioningState("Canceled")
-	DomainTopicPropertiesSTATUSProvisioningState_Creating  = DomainTopicPropertiesSTATUSProvisioningState("Creating")
-	DomainTopicPropertiesSTATUSProvisioningState_Deleting  = DomainTopicPropertiesSTATUSProvisioningState("Deleting")
-	DomainTopicPropertiesSTATUSProvisioningState_Failed    = DomainTopicPropertiesSTATUSProvisioningState("Failed")
-	DomainTopicPropertiesSTATUSProvisioningState_Succeeded = DomainTopicPropertiesSTATUSProvisioningState("Succeeded")
-	DomainTopicPropertiesSTATUSProvisioningState_Updating  = DomainTopicPropertiesSTATUSProvisioningState("Updating")
+	DomainTopicProperties_STATUS_ProvisioningState_Canceled  = DomainTopicProperties_STATUS_ProvisioningState("Canceled")
+	DomainTopicProperties_STATUS_ProvisioningState_Creating  = DomainTopicProperties_STATUS_ProvisioningState("Creating")
+	DomainTopicProperties_STATUS_ProvisioningState_Deleting  = DomainTopicProperties_STATUS_ProvisioningState("Deleting")
+	DomainTopicProperties_STATUS_ProvisioningState_Failed    = DomainTopicProperties_STATUS_ProvisioningState("Failed")
+	DomainTopicProperties_STATUS_ProvisioningState_Succeeded = DomainTopicProperties_STATUS_ProvisioningState("Succeeded")
+	DomainTopicProperties_STATUS_ProvisioningState_Updating  = DomainTopicProperties_STATUS_ProvisioningState("Updating")
 )
 
-// Deprecated version of SystemDataSTATUSCreatedByType. Use v1beta20200601.SystemDataSTATUSCreatedByType instead
-type SystemDataSTATUSCreatedByType string
+// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20200601.SystemData_STATUS_CreatedByType instead
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-// Deprecated version of SystemDataSTATUSLastModifiedByType. Use v1beta20200601.SystemDataSTATUSLastModifiedByType instead
-type SystemDataSTATUSLastModifiedByType string
+// Deprecated version of SystemData_STATUS_LastModifiedByType. Use v1beta20200601.SystemData_STATUS_LastModifiedByType
+// instead
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )

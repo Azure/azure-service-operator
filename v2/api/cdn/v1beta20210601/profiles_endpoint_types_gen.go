@@ -28,8 +28,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProfilesEndpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS        `json:"status,omitempty"`
+	Spec              Profiles_Endpoints_Spec `json:"spec,omitempty"`
+	Status            Endpoint_STATUS         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -53,7 +53,7 @@ func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected cdn/v1beta20210601storage/ProfilesEndpoint but received %T instead", hub)
 	}
 
-	return endpoint.AssignPropertiesFromProfilesEndpoint(source)
+	return endpoint.AssignProperties_From_ProfilesEndpoint(source)
 }
 
 // ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
@@ -63,7 +63,7 @@ func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected cdn/v1beta20210601storage/ProfilesEndpoint but received %T instead", hub)
 	}
 
-	return endpoint.AssignPropertiesToProfilesEndpoint(destination)
+	return endpoint.AssignProperties_To_ProfilesEndpoint(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profilesendpoint,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profilesendpoints,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profilesendpoints.cdn.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (endpoint *ProfilesEndpoint) validateWriteOnceProperties(old runtime.Object
 	return genruntime.ValidateWriteOnceProperties(oldObj, endpoint)
 }
 
-// AssignPropertiesFromProfilesEndpoint populates our ProfilesEndpoint from the provided source ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignPropertiesFromProfilesEndpoint(source *v20210601s.ProfilesEndpoint) error {
+// AssignProperties_From_ProfilesEndpoint populates our ProfilesEndpoint from the provided source ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *v20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ProfilesEndpoints_Spec
-	err := spec.AssignPropertiesFromProfilesEndpointsSpec(&source.Spec)
+	var spec Profiles_Endpoints_Spec
+	err := spec.AssignProperties_From_Profiles_Endpoints_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
 	// Status
 	var status Endpoint_STATUS
-	err = status.AssignPropertiesFromEndpointSTATUS(&source.Status)
+	err = status.AssignProperties_From_Endpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEndpointSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Endpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -274,25 +274,25 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesFromProfilesEndpoint(source *v
 	return nil
 }
 
-// AssignPropertiesToProfilesEndpoint populates the provided destination ProfilesEndpoint from our ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignPropertiesToProfilesEndpoint(destination *v20210601s.ProfilesEndpoint) error {
+// AssignProperties_To_ProfilesEndpoint populates the provided destination ProfilesEndpoint from our ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *v20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.ProfilesEndpoints_Spec
-	err := endpoint.Spec.AssignPropertiesToProfilesEndpointsSpec(&spec)
+	var spec v20210601s.Profiles_Endpoints_Spec
+	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoints_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20210601s.Endpoint_STATUS
-	err = endpoint.Status.AssignPropertiesToEndpointSTATUS(&status)
+	err = endpoint.Status.AssignProperties_To_Endpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEndpointSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Endpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -388,7 +388,7 @@ type Endpoint_STATUS struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EndpointProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
@@ -396,8 +396,8 @@ type Endpoint_STATUS struct {
 	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesSTATUSResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData_STATUS                     `json:"systemData,omitempty"`
+	ResourceState *EndpointProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
+	SystemData    *SystemData_STATUS                       `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -419,7 +419,7 @@ func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src, ok := source.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignPropertiesFromEndpointSTATUS(src)
+		return endpoint.AssignProperties_From_Endpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -430,7 +430,7 @@ func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignPropertiesFromEndpointSTATUS(src)
+	err = endpoint.AssignProperties_From_Endpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -443,12 +443,12 @@ func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst, ok := destination.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignPropertiesToEndpointSTATUS(dst)
+		return endpoint.AssignProperties_To_Endpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210601s.Endpoint_STATUS{}
-	err := endpoint.AssignPropertiesToEndpointSTATUS(dst)
+	err := endpoint.AssignProperties_To_Endpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -739,8 +739,8 @@ func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromEndpointSTATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v20210601s.Endpoint_STATUS) error {
+// AssignProperties_From_Endpoint_STATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignProperties_From_Endpoint_STATUS(source *v20210601s.Endpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -755,9 +755,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
 			var customDomain CustomDomain_STATUS_SubResourceEmbedded
-			err := customDomain.AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded(&customDomainItem)
+			err := customDomain.AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -769,9 +769,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
 		var defaultOriginGroup ResourceReference_STATUS
-		err := defaultOriginGroup.AssignPropertiesFromResourceReferenceSTATUS(source.DefaultOriginGroup)
+		err := defaultOriginGroup.AssignProperties_From_ResourceReference_STATUS(source.DefaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceSTATUS() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field DefaultOriginGroup")
 		}
 		endpoint.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -781,9 +781,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 	// DeliveryPolicy
 	if source.DeliveryPolicy != nil {
 		var deliveryPolicy EndpointProperties_STATUS_DeliveryPolicy
-		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy(source.DeliveryPolicy)
+		err := deliveryPolicy.AssignProperties_From_EndpointProperties_STATUS_DeliveryPolicy(source.DeliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_STATUS_DeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		endpoint.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -797,9 +797,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter GeoFilter_STATUS
-			err := geoFilter.AssignPropertiesFromGeoFilterSTATUS(&geoFilterItem)
+			err := geoFilter.AssignProperties_From_GeoFilter_STATUS(&geoFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilterSTATUS() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignProperties_From_GeoFilter_STATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -859,9 +859,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
 			var originGroup DeepCreatedOriginGroup_STATUS
-			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroupSTATUS(&originGroupItem)
+			err := originGroup.AssignProperties_From_DeepCreatedOriginGroup_STATUS(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroupSTATUS() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_From_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -883,9 +883,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin DeepCreatedOrigin_STATUS
-			err := origin.AssignPropertiesFromDeepCreatedOriginSTATUS(&originItem)
+			err := origin.AssignProperties_From_DeepCreatedOrigin_STATUS(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginSTATUS() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_From_DeepCreatedOrigin_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -899,7 +899,7 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EndpointPropertiesSTATUSProvisioningState(*source.ProvisioningState)
+		provisioningState := EndpointProperties_STATUS_ProvisioningState(*source.ProvisioningState)
 		endpoint.ProvisioningState = &provisioningState
 	} else {
 		endpoint.ProvisioningState = nil
@@ -915,7 +915,7 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := EndpointPropertiesSTATUSResourceState(*source.ResourceState)
+		resourceState := EndpointProperties_STATUS_ResourceState(*source.ResourceState)
 		endpoint.ResourceState = &resourceState
 	} else {
 		endpoint.ResourceState = nil
@@ -924,9 +924,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		endpoint.SystemData = &systemDatum
 	} else {
@@ -946,9 +946,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey UrlSigningKey_STATUS
-			err := urlSigningKey.AssignPropertiesFromUrlSigningKeySTATUS(&urlSigningKeyItem)
+			err := urlSigningKey.AssignProperties_From_UrlSigningKey_STATUS(&urlSigningKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKeySTATUS() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -960,9 +960,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 	// WebApplicationFirewallPolicyLink
 	if source.WebApplicationFirewallPolicyLink != nil {
 		var webApplicationFirewallPolicyLink EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		err := webApplicationFirewallPolicyLink.AssignProperties_From_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignProperties_From_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -973,8 +973,8 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpointSTATUS(source *v202
 	return nil
 }
 
-// AssignPropertiesToEndpointSTATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v20210601s.Endpoint_STATUS) error {
+// AssignProperties_To_Endpoint_STATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignProperties_To_Endpoint_STATUS(destination *v20210601s.Endpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -991,9 +991,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
 			var customDomain v20210601s.CustomDomain_STATUS_SubResourceEmbedded
-			err := customDomainItem.AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded(&customDomain)
+			err := customDomainItem.AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1005,9 +1005,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
 		var defaultOriginGroup v20210601s.ResourceReference_STATUS
-		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReferenceSTATUS(&defaultOriginGroup)
+		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference_STATUS(&defaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceSTATUS() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field DefaultOriginGroup")
 		}
 		destination.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -1017,9 +1017,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
 		var deliveryPolicy v20210601s.EndpointProperties_STATUS_DeliveryPolicy
-		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy(&deliveryPolicy)
+		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_STATUS_DeliveryPolicy(&deliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_STATUS_DeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		destination.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1033,9 +1033,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter v20210601s.GeoFilter_STATUS
-			err := geoFilterItem.AssignPropertiesToGeoFilterSTATUS(&geoFilter)
+			err := geoFilterItem.AssignProperties_To_GeoFilter_STATUS(&geoFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToGeoFilterSTATUS() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter_STATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -1095,9 +1095,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
 			var originGroup v20210601s.DeepCreatedOriginGroup_STATUS
-			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroupSTATUS(&originGroup)
+			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup_STATUS(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroupSTATUS() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1119,9 +1119,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin v20210601s.DeepCreatedOrigin_STATUS
-			err := originItem.AssignPropertiesToDeepCreatedOriginSTATUS(&origin)
+			err := originItem.AssignProperties_To_DeepCreatedOrigin_STATUS(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginSTATUS() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -1160,9 +1160,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 	// SystemData
 	if endpoint.SystemData != nil {
 		var systemDatum v20210601s.SystemData_STATUS
-		err := endpoint.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1182,9 +1182,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey v20210601s.UrlSigningKey_STATUS
-			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKeySTATUS(&urlSigningKey)
+			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey_STATUS(&urlSigningKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKeySTATUS() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -1196,9 +1196,9 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
 		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
-		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -1216,7 +1216,7 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpointSTATUS(destination *v
 	return nil
 }
 
-type ProfilesEndpoints_Spec struct {
+type Profiles_Endpoints_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1252,10 +1252,10 @@ type ProfilesEndpoints_Spec struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *ProfilesEndpointsSpecPropertiesOptimizationType `json:"optimizationType,omitempty"`
+	OptimizationType *Profiles_Endpoints_Spec_Properties_OptimizationType `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []ProfilesEndpoints_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
+	OriginGroups []Profiles_Endpoints_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -1269,7 +1269,7 @@ type ProfilesEndpoints_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Origins: The source of the content being delivered via CDN.
-	Origins []ProfilesEndpoints_Spec_Properties_Origins `json:"origins,omitempty"`
+	Origins []Profiles_Endpoints_Spec_Properties_Origins `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -1285,7 +1285,7 @@ type ProfilesEndpoints_Spec struct {
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1297,14 +1297,14 @@ type ProfilesEndpoints_Spec struct {
 	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (endpoints *Profiles_Endpoints_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if endpoints == nil {
 		return nil, nil
 	}
-	result := &ProfilesEndpoints_SpecARM{}
+	result := &Profiles_Endpoints_SpecARM{}
 
 	// Set property ‘Location’:
 	if endpoints.Location != nil {
@@ -1332,7 +1332,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		endpoints.QueryStringCachingBehavior != nil ||
 		endpoints.UrlSigningKeys != nil ||
 		endpoints.WebApplicationFirewallPolicyLink != nil {
-		result.Properties = &ProfilesEndpoints_Spec_PropertiesARM{}
+		result.Properties = &Profiles_Endpoints_Spec_PropertiesARM{}
 	}
 	for _, item := range endpoints.ContentTypesToCompress {
 		result.Properties.ContentTypesToCompress = append(result.Properties.ContentTypesToCompress, item)
@@ -1381,7 +1381,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginGroupsARM))
+		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*Profiles_Endpoints_Spec_Properties_OriginGroupsARM))
 	}
 	if endpoints.OriginHostHeader != nil {
 		originHostHeader := *endpoints.OriginHostHeader
@@ -1396,7 +1396,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginsARM))
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*Profiles_Endpoints_Spec_Properties_OriginsARM))
 	}
 	if endpoints.ProbePath != nil {
 		probePath := *endpoints.ProbePath
@@ -1433,15 +1433,15 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoints *ProfilesEndpoints_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_SpecARM{}
+func (endpoints *Profiles_Endpoints_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoints_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_SpecARM)
+func (endpoints *Profiles_Endpoints_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoints_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -1542,7 +1542,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
-			var item1 ProfilesEndpoints_Spec_Properties_OriginGroups
+			var item1 Profiles_Endpoints_Spec_Properties_OriginGroups
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1573,7 +1573,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 ProfilesEndpoints_Spec_Properties_Origins
+			var item1 Profiles_Endpoints_Spec_Properties_Origins
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1644,25 +1644,25 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &ProfilesEndpoints_Spec{}
+var _ genruntime.ConvertibleSpec = &Profiles_Endpoints_Spec{}
 
-// ConvertSpecFrom populates our ProfilesEndpoints_Spec from the provided source
-func (endpoints *ProfilesEndpoints_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.ProfilesEndpoints_Spec)
+// ConvertSpecFrom populates our Profiles_Endpoints_Spec from the provided source
+func (endpoints *Profiles_Endpoints_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.Profiles_Endpoints_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoints.AssignPropertiesFromProfilesEndpointsSpec(src)
+		return endpoints.AssignProperties_From_Profiles_Endpoints_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.ProfilesEndpoints_Spec{}
+	src = &v20210601s.Profiles_Endpoints_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoints.AssignPropertiesFromProfilesEndpointsSpec(src)
+	err = endpoints.AssignProperties_From_Profiles_Endpoints_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1670,17 +1670,17 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertSpecFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.ProfilesEndpoints_Spec)
+// ConvertSpecTo populates the provided destination from our Profiles_Endpoints_Spec
+func (endpoints *Profiles_Endpoints_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.Profiles_Endpoints_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoints.AssignPropertiesToProfilesEndpointsSpec(dst)
+		return endpoints.AssignProperties_To_Profiles_Endpoints_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.ProfilesEndpoints_Spec{}
-	err := endpoints.AssignPropertiesToProfilesEndpointsSpec(dst)
+	dst = &v20210601s.Profiles_Endpoints_Spec{}
+	err := endpoints.AssignProperties_To_Profiles_Endpoints_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1694,8 +1694,8 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromProfilesEndpointsSpec populates our ProfilesEndpoints_Spec from the provided source ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSpec(source *v20210601s.ProfilesEndpoints_Spec) error {
+// AssignProperties_From_Profiles_Endpoints_Spec populates our Profiles_Endpoints_Spec from the provided source Profiles_Endpoints_Spec
+func (endpoints *Profiles_Endpoints_Spec) AssignProperties_From_Profiles_Endpoints_Spec(source *v20210601s.Profiles_Endpoints_Spec) error {
 
 	// AzureName
 	endpoints.AzureName = source.AzureName
@@ -1706,9 +1706,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
 		var defaultOriginGroup ResourceReference
-		err := defaultOriginGroup.AssignPropertiesFromResourceReference(source.DefaultOriginGroup)
+		err := defaultOriginGroup.AssignProperties_From_ResourceReference(source.DefaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field DefaultOriginGroup")
 		}
 		endpoints.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -1718,9 +1718,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 	// DeliveryPolicy
 	if source.DeliveryPolicy != nil {
 		var deliveryPolicy EndpointPropertiesUpdateParametersDeliveryPolicy
-		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy(source.DeliveryPolicy)
+		err := deliveryPolicy.AssignProperties_From_EndpointPropertiesUpdateParametersDeliveryPolicy(source.DeliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignProperties_From_EndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		endpoints.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1734,9 +1734,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter GeoFilter
-			err := geoFilter.AssignPropertiesFromGeoFilter(&geoFilterItem)
+			err := geoFilter.AssignProperties_From_GeoFilter(&geoFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilter() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignProperties_From_GeoFilter() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -1774,7 +1774,7 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := ProfilesEndpointsSpecPropertiesOptimizationType(*source.OptimizationType)
+		optimizationType := Profiles_Endpoints_Spec_Properties_OptimizationType(*source.OptimizationType)
 		endpoints.OptimizationType = &optimizationType
 	} else {
 		endpoints.OptimizationType = nil
@@ -1782,14 +1782,14 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 
 	// OriginGroups
 	if source.OriginGroups != nil {
-		originGroupList := make([]ProfilesEndpoints_Spec_Properties_OriginGroups, len(source.OriginGroups))
+		originGroupList := make([]Profiles_Endpoints_Spec_Properties_OriginGroups, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup ProfilesEndpoints_Spec_Properties_OriginGroups
-			err := originGroup.AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups(&originGroupItem)
+			var originGroup Profiles_Endpoints_Spec_Properties_OriginGroups
+			err := originGroup.AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1806,14 +1806,14 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]ProfilesEndpoints_Spec_Properties_Origins, len(source.Origins))
+		originList := make([]Profiles_Endpoints_Spec_Properties_Origins, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin ProfilesEndpoints_Spec_Properties_Origins
-			err := origin.AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins(&originItem)
+			var origin Profiles_Endpoints_Spec_Properties_Origins
+			err := origin.AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -1835,7 +1835,7 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
 		endpoints.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		endpoints.QueryStringCachingBehavior = nil
@@ -1851,9 +1851,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey UrlSigningKey
-			err := urlSigningKey.AssignPropertiesFromUrlSigningKey(&urlSigningKeyItem)
+			err := urlSigningKey.AssignProperties_From_UrlSigningKey(&urlSigningKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKey() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_UrlSigningKey() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -1865,9 +1865,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 	// WebApplicationFirewallPolicyLink
 	if source.WebApplicationFirewallPolicyLink != nil {
 		var webApplicationFirewallPolicyLink EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		err := webApplicationFirewallPolicyLink.AssignProperties_From_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignProperties_From_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		endpoints.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -1878,8 +1878,8 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 	return nil
 }
 
-// AssignPropertiesToProfilesEndpointsSpec populates the provided destination ProfilesEndpoints_Spec from our ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec(destination *v20210601s.ProfilesEndpoints_Spec) error {
+// AssignProperties_To_Profiles_Endpoints_Spec populates the provided destination Profiles_Endpoints_Spec from our Profiles_Endpoints_Spec
+func (endpoints *Profiles_Endpoints_Spec) AssignProperties_To_Profiles_Endpoints_Spec(destination *v20210601s.Profiles_Endpoints_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1892,9 +1892,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	// DefaultOriginGroup
 	if endpoints.DefaultOriginGroup != nil {
 		var defaultOriginGroup v20210601s.ResourceReference
-		err := endpoints.DefaultOriginGroup.AssignPropertiesToResourceReference(&defaultOriginGroup)
+		err := endpoints.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field DefaultOriginGroup")
 		}
 		destination.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -1904,9 +1904,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	// DeliveryPolicy
 	if endpoints.DeliveryPolicy != nil {
 		var deliveryPolicy v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy
-		err := endpoints.DeliveryPolicy.AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy(&deliveryPolicy)
+		err := endpoints.DeliveryPolicy.AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy(&deliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		destination.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1920,9 +1920,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter v20210601s.GeoFilter
-			err := geoFilterItem.AssignPropertiesToGeoFilter(&geoFilter)
+			err := geoFilterItem.AssignProperties_To_GeoFilter(&geoFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToGeoFilter() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -1968,14 +1968,14 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 
 	// OriginGroups
 	if endpoints.OriginGroups != nil {
-		originGroupList := make([]v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups, len(endpoints.OriginGroups))
+		originGroupList := make([]v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups, len(endpoints.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoints.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups
-			err := originGroupItem.AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups(&originGroup)
+			var originGroup v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups
+			err := originGroupItem.AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1995,14 +1995,14 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 
 	// Origins
 	if endpoints.Origins != nil {
-		originList := make([]v20210601s.ProfilesEndpoints_Spec_Properties_Origins, len(endpoints.Origins))
+		originList := make([]v20210601s.Profiles_Endpoints_Spec_Properties_Origins, len(endpoints.Origins))
 		for originIndex, originItem := range endpoints.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.ProfilesEndpoints_Spec_Properties_Origins
-			err := originItem.AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins(&origin)
+			var origin v20210601s.Profiles_Endpoints_Spec_Properties_Origins
+			err := originItem.AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2040,9 +2040,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey v20210601s.UrlSigningKey
-			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKey(&urlSigningKey)
+			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey(&urlSigningKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKey() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -2054,9 +2054,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	// WebApplicationFirewallPolicyLink
 	if endpoints.WebApplicationFirewallPolicyLink != nil {
 		var webApplicationFirewallPolicyLink v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-		err := endpoints.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		err := endpoints.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -2075,12 +2075,12 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoints *ProfilesEndpoints_Spec) OriginalVersion() string {
+func (endpoints *Profiles_Endpoints_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoints *ProfilesEndpoints_Spec) SetAzureName(azureName string) {
+func (endpoints *Profiles_Endpoints_Spec) SetAzureName(azureName string) {
 	endpoints.AzureName = azureName
 }
 
@@ -2125,8 +2125,8 @@ func (embedded *CustomDomain_STATUS_SubResourceEmbedded) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded populates our CustomDomain_STATUS_SubResourceEmbedded from the provided source CustomDomain_STATUS_SubResourceEmbedded
-func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesFromCustomDomainSTATUSSubResourceEmbedded(source *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded populates our CustomDomain_STATUS_SubResourceEmbedded from the provided source CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignProperties_From_CustomDomain_STATUS_SubResourceEmbedded(source *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -2134,9 +2134,9 @@ func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesFromCus
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		embedded.SystemData = &systemDatum
 	} else {
@@ -2147,8 +2147,8 @@ func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesFromCus
 	return nil
 }
 
-// AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded populates the provided destination CustomDomain_STATUS_SubResourceEmbedded from our CustomDomain_STATUS_SubResourceEmbedded
-func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesToCustomDomainSTATUSSubResourceEmbedded(destination *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded populates the provided destination CustomDomain_STATUS_SubResourceEmbedded from our CustomDomain_STATUS_SubResourceEmbedded
+func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignProperties_To_CustomDomain_STATUS_SubResourceEmbedded(destination *v20210601s.CustomDomain_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2158,9 +2158,9 @@ func (embedded *CustomDomain_STATUS_SubResourceEmbedded) AssignPropertiesToCusto
 	// SystemData
 	if embedded.SystemData != nil {
 		var systemDatum v20210601s.SystemData_STATUS
-		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2357,8 +2357,8 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDeepCreatedOriginSTATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesFromDeepCreatedOriginSTATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
+// AssignProperties_From_DeepCreatedOrigin_STATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2413,8 +2413,8 @@ func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesFromDeepCreatedOriginSTA
 	return nil
 }
 
-// AssignPropertiesToDeepCreatedOriginSTATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesToDeepCreatedOriginSTATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
+// AssignProperties_To_DeepCreatedOrigin_STATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2572,15 +2572,15 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromDeepCreatedOriginGroupSTATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOriginGroupSTATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+// AssignProperties_From_DeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
 		var healthProbeSetting HealthProbeParameters_STATUS
-		err := healthProbeSetting.AssignPropertiesFromHealthProbeParametersSTATUS(source.HealthProbeSettings)
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParametersSTATUS() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		group.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -2597,9 +2597,9 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOrigi
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin ResourceReference_STATUS
-			err := origin.AssignPropertiesFromResourceReferenceSTATUS(&originItem)
+			err := origin.AssignProperties_From_ResourceReference_STATUS(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceSTATUS() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2611,9 +2611,9 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOrigi
 	// ResponseBasedOriginErrorDetectionSettings
 	if source.ResponseBasedOriginErrorDetectionSettings != nil {
 		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_STATUS
-		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS(source.ResponseBasedOriginErrorDetectionSettings)
+		err := responseBasedOriginErrorDetectionSetting.AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source.ResponseBasedOriginErrorDetectionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -2627,17 +2627,17 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOrigi
 	return nil
 }
 
-// AssignPropertiesToDeepCreatedOriginGroupSTATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesToDeepCreatedOriginGroupSTATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+// AssignProperties_To_DeepCreatedOriginGroup_STATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
 		var healthProbeSetting v20210601s.HealthProbeParameters_STATUS
-		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParametersSTATUS(&healthProbeSetting)
+		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParametersSTATUS() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		destination.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -2654,9 +2654,9 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesToDeepCreatedOriginG
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin v20210601s.ResourceReference_STATUS
-			err := originItem.AssignPropertiesToResourceReferenceSTATUS(&origin)
+			err := originItem.AssignProperties_To_ResourceReference_STATUS(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceSTATUS() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2668,9 +2668,9 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesToDeepCreatedOriginG
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
 		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
-		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS(&responseBasedOriginErrorDetectionSetting)
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -2733,8 +2733,8 @@ func (policy *EndpointProperties_STATUS_DeliveryPolicy) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy populates our EndpointProperties_STATUS_DeliveryPolicy from the provided source EndpointProperties_STATUS_DeliveryPolicy
-func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesFromEndpointPropertiesSTATUSDeliveryPolicy(source *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
+// AssignProperties_From_EndpointProperties_STATUS_DeliveryPolicy populates our EndpointProperties_STATUS_DeliveryPolicy from the provided source EndpointProperties_STATUS_DeliveryPolicy
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignProperties_From_EndpointProperties_STATUS_DeliveryPolicy(source *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
@@ -2746,9 +2746,9 @@ func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesFromEndp
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule DeliveryRule_STATUS
-			err := rule.AssignPropertiesFromDeliveryRuleSTATUS(&ruleItem)
+			err := rule.AssignProperties_From_DeliveryRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSTATUS() to populate field Rules")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2761,8 +2761,8 @@ func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesFromEndp
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy populates the provided destination EndpointProperties_STATUS_DeliveryPolicy from our EndpointProperties_STATUS_DeliveryPolicy
-func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesToEndpointPropertiesSTATUSDeliveryPolicy(destination *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
+// AssignProperties_To_EndpointProperties_STATUS_DeliveryPolicy populates the provided destination EndpointProperties_STATUS_DeliveryPolicy from our EndpointProperties_STATUS_DeliveryPolicy
+func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignProperties_To_EndpointProperties_STATUS_DeliveryPolicy(destination *v20210601s.EndpointProperties_STATUS_DeliveryPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2776,9 +2776,9 @@ func (policy *EndpointProperties_STATUS_DeliveryPolicy) AssignPropertiesToEndpoi
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule v20210601s.DeliveryRule_STATUS
-			err := ruleItem.AssignPropertiesToDeliveryRuleSTATUS(&rule)
+			err := ruleItem.AssignProperties_To_DeliveryRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSTATUS() to populate field Rules")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2827,8 +2827,8 @@ func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) Populate
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink populates our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
+// AssignProperties_From_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink populates our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -2837,8 +2837,8 @@ func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignPr
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesSTATUSWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
+// AssignProperties_To_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_STATUS_WebApplicationFirewallPolicyLink from our EndpointProperties_STATUS_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_STATUS_WebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_STATUS_WebApplicationFirewallPolicyLink) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2924,8 +2924,8 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) PopulateFromARM(
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy populates our EndpointPropertiesUpdateParametersDeliveryPolicy from the provided source EndpointPropertiesUpdateParametersDeliveryPolicy
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy(source *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
+// AssignProperties_From_EndpointPropertiesUpdateParametersDeliveryPolicy populates our EndpointPropertiesUpdateParametersDeliveryPolicy from the provided source EndpointPropertiesUpdateParametersDeliveryPolicy
+func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties_From_EndpointPropertiesUpdateParametersDeliveryPolicy(source *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
@@ -2937,9 +2937,9 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule DeliveryRule
-			err := rule.AssignPropertiesFromDeliveryRule(&ruleItem)
+			err := rule.AssignProperties_From_DeliveryRule(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRule() to populate field Rules")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2952,8 +2952,8 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy populates the provided destination EndpointPropertiesUpdateParametersDeliveryPolicy from our EndpointPropertiesUpdateParametersDeliveryPolicy
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy(destination *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
+// AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy populates the provided destination EndpointPropertiesUpdateParametersDeliveryPolicy from our EndpointPropertiesUpdateParametersDeliveryPolicy
+func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties_To_EndpointPropertiesUpdateParametersDeliveryPolicy(destination *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2967,9 +2967,9 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule v20210601s.DeliveryRule
-			err := ruleItem.AssignPropertiesToDeliveryRule(&rule)
+			err := ruleItem.AssignProperties_To_DeliveryRule(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRule() to populate field Rules")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -3034,8 +3034,8 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from the provided source EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
+// AssignProperties_From_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from the provided source EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
+func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignProperties_From_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -3049,8 +3049,8 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates the provided destination EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
+// AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates the provided destination EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
+func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignProperties_To_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3077,7 +3077,7 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 type GeoFilter struct {
 	// +kubebuilder:validation:Required
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterAction `json:"action,omitempty"`
+	Action *GeoFilter_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
@@ -3149,12 +3149,12 @@ func (filter *GeoFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignPropertiesFromGeoFilter populates our GeoFilter from the provided source GeoFilter
-func (filter *GeoFilter) AssignPropertiesFromGeoFilter(source *v20210601s.GeoFilter) error {
+// AssignProperties_From_GeoFilter populates our GeoFilter from the provided source GeoFilter
+func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v20210601s.GeoFilter) error {
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilterAction(*source.Action)
+		action := GeoFilter_Action(*source.Action)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -3170,8 +3170,8 @@ func (filter *GeoFilter) AssignPropertiesFromGeoFilter(source *v20210601s.GeoFil
 	return nil
 }
 
-// AssignPropertiesToGeoFilter populates the provided destination GeoFilter from our GeoFilter
-func (filter *GeoFilter) AssignPropertiesToGeoFilter(destination *v20210601s.GeoFilter) error {
+// AssignProperties_To_GeoFilter populates the provided destination GeoFilter from our GeoFilter
+func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v20210601s.GeoFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3202,7 +3202,7 @@ func (filter *GeoFilter) AssignPropertiesToGeoFilter(destination *v20210601s.Geo
 
 type GeoFilter_STATUS struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterSTATUSAction `json:"action,omitempty"`
+	Action *GeoFilter_STATUS_Action `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -3246,12 +3246,12 @@ func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromGeoFilterSTATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignPropertiesFromGeoFilterSTATUS(source *v20210601s.GeoFilter_STATUS) error {
+// AssignProperties_From_GeoFilter_STATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v20210601s.GeoFilter_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilterSTATUSAction(*source.Action)
+		action := GeoFilter_STATUS_Action(*source.Action)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -3267,8 +3267,8 @@ func (filter *GeoFilter_STATUS) AssignPropertiesFromGeoFilterSTATUS(source *v202
 	return nil
 }
 
-// AssignPropertiesToGeoFilterSTATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignPropertiesToGeoFilterSTATUS(destination *v20210601s.GeoFilter_STATUS) error {
+// AssignProperties_To_GeoFilter_STATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *v20210601s.GeoFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3297,7 +3297,18 @@ func (filter *GeoFilter_STATUS) AssignPropertiesToGeoFilterSTATUS(destination *v
 	return nil
 }
 
-type ProfilesEndpoints_Spec_Properties_OriginGroups struct {
+// +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
+type Profiles_Endpoints_Spec_Properties_OptimizationType string
+
+const (
+	Profiles_Endpoints_Spec_Properties_OptimizationType_DynamicSiteAcceleration     = Profiles_Endpoints_Spec_Properties_OptimizationType("DynamicSiteAcceleration")
+	Profiles_Endpoints_Spec_Properties_OptimizationType_GeneralMediaStreaming       = Profiles_Endpoints_Spec_Properties_OptimizationType("GeneralMediaStreaming")
+	Profiles_Endpoints_Spec_Properties_OptimizationType_GeneralWebDelivery          = Profiles_Endpoints_Spec_Properties_OptimizationType("GeneralWebDelivery")
+	Profiles_Endpoints_Spec_Properties_OptimizationType_LargeFileDownload           = Profiles_Endpoints_Spec_Properties_OptimizationType("LargeFileDownload")
+	Profiles_Endpoints_Spec_Properties_OptimizationType_VideoOnDemandMediaStreaming = Profiles_Endpoints_Spec_Properties_OptimizationType("VideoOnDemandMediaStreaming")
+)
+
+type Profiles_Endpoints_Spec_Properties_OriginGroups struct {
 	// HealthProbeSettings: The JSON object that contains the properties to send health probes to origin.
 	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
 
@@ -3321,14 +3332,14 @@ type ProfilesEndpoints_Spec_Properties_OriginGroups struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec_Properties_OriginGroups{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec_Properties_OriginGroups{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if groups == nil {
 		return nil, nil
 	}
-	result := &ProfilesEndpoints_Spec_Properties_OriginGroupsARM{}
+	result := &Profiles_Endpoints_Spec_Properties_OriginGroupsARM{}
 
 	// Set property ‘Name’:
 	if groups.Name != nil {
@@ -3374,15 +3385,15 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resol
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_Spec_Properties_OriginGroupsARM{}
+func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoints_Spec_Properties_OriginGroupsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_Spec_Properties_OriginGroupsARM)
+func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoints_Spec_Properties_OriginGroupsARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_Spec_Properties_OriginGroupsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_Spec_Properties_OriginGroupsARM, got %T", armInput)
 	}
 
 	// Set property ‘HealthProbeSettings’:
@@ -3445,15 +3456,15 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) PopulateFromARM(ow
 	return nil
 }
 
-// AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups populates our ProfilesEndpoints_Spec_Properties_OriginGroups from the provided source ProfilesEndpoints_Spec_Properties_OriginGroups
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups(source *v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups) error {
+// AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups populates our Profiles_Endpoints_Spec_Properties_OriginGroups from the provided source Profiles_Endpoints_Spec_Properties_OriginGroups
+func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_From_Profiles_Endpoints_Spec_Properties_OriginGroups(source *v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
 		var healthProbeSetting HealthProbeParameters
-		err := healthProbeSetting.AssignPropertiesFromHealthProbeParameters(source.HealthProbeSettings)
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParameters() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_HealthProbeParameters() to populate field HealthProbeSettings")
 		}
 		groups.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -3470,9 +3481,9 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesFr
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin ResourceReference
-			err := origin.AssignPropertiesFromResourceReference(&originItem)
+			err := origin.AssignProperties_From_ResourceReference(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -3484,9 +3495,9 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesFr
 	// ResponseBasedOriginErrorDetectionSettings
 	if source.ResponseBasedOriginErrorDetectionSettings != nil {
 		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters
-		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParameters(source.ResponseBasedOriginErrorDetectionSettings)
+		err := responseBasedOriginErrorDetectionSetting.AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source.ResponseBasedOriginErrorDetectionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		groups.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -3505,17 +3516,17 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesFr
 	return nil
 }
 
-// AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups populates the provided destination ProfilesEndpoints_Spec_Properties_OriginGroups from our ProfilesEndpoints_Spec_Properties_OriginGroups
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups(destination *v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups) error {
+// AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups populates the provided destination Profiles_Endpoints_Spec_Properties_OriginGroups from our Profiles_Endpoints_Spec_Properties_OriginGroups
+func (groups *Profiles_Endpoints_Spec_Properties_OriginGroups) AssignProperties_To_Profiles_Endpoints_Spec_Properties_OriginGroups(destination *v20210601s.Profiles_Endpoints_Spec_Properties_OriginGroups) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HealthProbeSettings
 	if groups.HealthProbeSettings != nil {
 		var healthProbeSetting v20210601s.HealthProbeParameters
-		err := groups.HealthProbeSettings.AssignPropertiesToHealthProbeParameters(&healthProbeSetting)
+		err := groups.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParameters() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
 		}
 		destination.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -3532,9 +3543,9 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesTo
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
 			var origin v20210601s.ResourceReference
-			err := originItem.AssignPropertiesToResourceReference(&origin)
+			err := originItem.AssignProperties_To_ResourceReference(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field Origins")
+				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -3546,9 +3557,9 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesTo
 	// ResponseBasedOriginErrorDetectionSettings
 	if groups.ResponseBasedOriginErrorDetectionSettings != nil {
 		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters
-		err := groups.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
+		err := groups.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -3574,7 +3585,7 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesTo
 	return nil
 }
 
-type ProfilesEndpoints_Spec_Properties_Origins struct {
+type Profiles_Endpoints_Spec_Properties_Origins struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -3629,14 +3640,14 @@ type ProfilesEndpoints_Spec_Properties_Origins struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec_Properties_Origins{}
+var _ genruntime.ARMTransformer = &Profiles_Endpoints_Spec_Properties_Origins{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (origins *Profiles_Endpoints_Spec_Properties_Origins) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if origins == nil {
 		return nil, nil
 	}
-	result := &ProfilesEndpoints_Spec_Properties_OriginsARM{}
+	result := &Profiles_Endpoints_Spec_Properties_OriginsARM{}
 
 	// Set property ‘Name’:
 	if origins.Name != nil {
@@ -3714,15 +3725,15 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) ConvertToARM(resolved 
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_Spec_Properties_OriginsARM{}
+func (origins *Profiles_Endpoints_Spec_Properties_Origins) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profiles_Endpoints_Spec_Properties_OriginsARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_Spec_Properties_OriginsARM)
+func (origins *Profiles_Endpoints_Spec_Properties_Origins) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profiles_Endpoints_Spec_Properties_OriginsARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_Spec_Properties_OriginsARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoints_Spec_Properties_OriginsARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -3820,8 +3831,8 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) PopulateFromARM(owner 
 	return nil
 }
 
-// AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins populates our ProfilesEndpoints_Spec_Properties_Origins from the provided source ProfilesEndpoints_Spec_Properties_Origins
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins(source *v20210601s.ProfilesEndpoints_Spec_Properties_Origins) error {
+// AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins populates our Profiles_Endpoints_Spec_Properties_Origins from the provided source Profiles_Endpoints_Spec_Properties_Origins
+func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_From_Profiles_Endpoints_Spec_Properties_Origins(source *v20210601s.Profiles_Endpoints_Spec_Properties_Origins) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -3898,8 +3909,8 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesFromPr
 	return nil
 }
 
-// AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins populates the provided destination ProfilesEndpoints_Spec_Properties_Origins from our ProfilesEndpoints_Spec_Properties_Origins
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins(destination *v20210601s.ProfilesEndpoints_Spec_Properties_Origins) error {
+// AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins populates the provided destination Profiles_Endpoints_Spec_Properties_Origins from our Profiles_Endpoints_Spec_Properties_Origins
+func (origins *Profiles_Endpoints_Spec_Properties_Origins) AssignProperties_To_Profiles_Endpoints_Spec_Properties_Origins(destination *v20210601s.Profiles_Endpoints_Spec_Properties_Origins) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3985,25 +3996,14 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesToProf
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
-type ProfilesEndpointsSpecPropertiesOptimizationType string
-
-const (
-	ProfilesEndpointsSpecPropertiesOptimizationType_DynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
-	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
-	ProfilesEndpointsSpecPropertiesOptimizationType_GeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
-	ProfilesEndpointsSpecPropertiesOptimizationType_LargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
-	ProfilesEndpointsSpecPropertiesOptimizationType_VideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
-)
-
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
-type ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior string
+type Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior string
 
 const (
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_BypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_IgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_NotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior_UseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
+	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_BypassCaching     = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("BypassCaching")
+	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_IgnoreQueryString = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("IgnoreQueryString")
+	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_NotSet            = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("NotSet")
+	Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior_UseQueryString    = Profiles_Endpoints_Spec_Properties_QueryStringCachingBehavior("UseQueryString")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference
@@ -4051,8 +4051,8 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromResourceReference populates our ResourceReference from the provided source ResourceReference
-func (reference *ResourceReference) AssignPropertiesFromResourceReference(source *v20210601s.ResourceReference) error {
+// AssignProperties_From_ResourceReference populates our ResourceReference from the provided source ResourceReference
+func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v20210601s.ResourceReference) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -4066,8 +4066,8 @@ func (reference *ResourceReference) AssignPropertiesFromResourceReference(source
 	return nil
 }
 
-// AssignPropertiesToResourceReference populates the provided destination ResourceReference from our ResourceReference
-func (reference *ResourceReference) AssignPropertiesToResourceReference(destination *v20210601s.ResourceReference) error {
+// AssignProperties_To_ResourceReference populates the provided destination ResourceReference from our ResourceReference
+func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v20210601s.ResourceReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4119,8 +4119,8 @@ func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromResourceReferenceSTATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignPropertiesFromResourceReferenceSTATUS(source *v20210601s.ResourceReference_STATUS) error {
+// AssignProperties_From_ResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v20210601s.ResourceReference_STATUS) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -4129,8 +4129,8 @@ func (reference *ResourceReference_STATUS) AssignPropertiesFromResourceReference
 	return nil
 }
 
-// AssignPropertiesToResourceReferenceSTATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignPropertiesToResourceReferenceSTATUS(destination *v20210601s.ResourceReference_STATUS) error {
+// AssignProperties_To_ResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v20210601s.ResourceReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4220,8 +4220,8 @@ func (signingKey *UrlSigningKey) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningKey populates our UrlSigningKey from the provided source UrlSigningKey
-func (signingKey *UrlSigningKey) AssignPropertiesFromUrlSigningKey(source *v20210601s.UrlSigningKey) error {
+// AssignProperties_From_UrlSigningKey populates our UrlSigningKey from the provided source UrlSigningKey
+func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v20210601s.UrlSigningKey) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -4229,9 +4229,9 @@ func (signingKey *UrlSigningKey) AssignPropertiesFromUrlSigningKey(source *v2021
 	// KeySourceParameters
 	if source.KeySourceParameters != nil {
 		var keySourceParameter KeyVaultSigningKeyParameters
-		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParameters(source.KeySourceParameters)
+		err := keySourceParameter.AssignProperties_From_KeyVaultSigningKeyParameters(source.KeySourceParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParameters() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
 		}
 		signingKey.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4242,8 +4242,8 @@ func (signingKey *UrlSigningKey) AssignPropertiesFromUrlSigningKey(source *v2021
 	return nil
 }
 
-// AssignPropertiesToUrlSigningKey populates the provided destination UrlSigningKey from our UrlSigningKey
-func (signingKey *UrlSigningKey) AssignPropertiesToUrlSigningKey(destination *v20210601s.UrlSigningKey) error {
+// AssignProperties_To_UrlSigningKey populates the provided destination UrlSigningKey from our UrlSigningKey
+func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *v20210601s.UrlSigningKey) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4253,9 +4253,9 @@ func (signingKey *UrlSigningKey) AssignPropertiesToUrlSigningKey(destination *v2
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
 		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters
-		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParameters(&keySourceParameter)
+		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters(&keySourceParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParameters() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
 		}
 		destination.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4317,8 +4317,8 @@ func (signingKey *UrlSigningKey_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningKeySTATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignPropertiesFromUrlSigningKeySTATUS(source *v20210601s.UrlSigningKey_STATUS) error {
+// AssignProperties_From_UrlSigningKey_STATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *v20210601s.UrlSigningKey_STATUS) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -4326,9 +4326,9 @@ func (signingKey *UrlSigningKey_STATUS) AssignPropertiesFromUrlSigningKeySTATUS(
 	// KeySourceParameters
 	if source.KeySourceParameters != nil {
 		var keySourceParameter KeyVaultSigningKeyParameters_STATUS
-		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS(source.KeySourceParameters)
+		err := keySourceParameter.AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source.KeySourceParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
 		}
 		signingKey.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4339,8 +4339,8 @@ func (signingKey *UrlSigningKey_STATUS) AssignPropertiesFromUrlSigningKeySTATUS(
 	return nil
 }
 
-// AssignPropertiesToUrlSigningKeySTATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignPropertiesToUrlSigningKeySTATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
+// AssignProperties_To_UrlSigningKey_STATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4350,9 +4350,9 @@ func (signingKey *UrlSigningKey_STATUS) AssignPropertiesToUrlSigningKeySTATUS(de
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
 		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_STATUS
-		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParametersSTATUS(&keySourceParameter)
+		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(&keySourceParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParametersSTATUS() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
 		}
 		destination.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4478,8 +4478,8 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRule populates our DeliveryRule from the provided source DeliveryRule
-func (rule *DeliveryRule) AssignPropertiesFromDeliveryRule(source *v20210601s.DeliveryRule) error {
+// AssignProperties_From_DeliveryRule populates our DeliveryRule from the provided source DeliveryRule
+func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v20210601s.DeliveryRule) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -4488,9 +4488,9 @@ func (rule *DeliveryRule) AssignPropertiesFromDeliveryRule(source *v20210601s.De
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
 			var action DeliveryRuleAction1
-			err := action.AssignPropertiesFromDeliveryRuleAction1(&actionItem)
+			err := action.AssignProperties_From_DeliveryRuleAction1(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleAction1() to populate field Actions")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleAction1() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4506,9 +4506,9 @@ func (rule *DeliveryRule) AssignPropertiesFromDeliveryRule(source *v20210601s.De
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
 			var condition DeliveryRuleCondition
-			err := condition.AssignPropertiesFromDeliveryRuleCondition(&conditionItem)
+			err := condition.AssignProperties_From_DeliveryRuleCondition(&conditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCondition() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCondition() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4527,8 +4527,8 @@ func (rule *DeliveryRule) AssignPropertiesFromDeliveryRule(source *v20210601s.De
 	return nil
 }
 
-// AssignPropertiesToDeliveryRule populates the provided destination DeliveryRule from our DeliveryRule
-func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s.DeliveryRule) error {
+// AssignProperties_To_DeliveryRule populates the provided destination DeliveryRule from our DeliveryRule
+func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v20210601s.DeliveryRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4539,9 +4539,9 @@ func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
 			var action v20210601s.DeliveryRuleAction1
-			err := actionItem.AssignPropertiesToDeliveryRuleAction1(&action)
+			err := actionItem.AssignProperties_To_DeliveryRuleAction1(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleAction1() to populate field Actions")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction1() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4557,9 +4557,9 @@ func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
 			var condition v20210601s.DeliveryRuleCondition
-			err := conditionItem.AssignPropertiesToDeliveryRuleCondition(&condition)
+			err := conditionItem.AssignProperties_To_DeliveryRuleCondition(&condition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCondition() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4643,8 +4643,8 @@ func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleSTATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRuleSTATUS(source *v20210601s.DeliveryRule_STATUS) error {
+// AssignProperties_From_DeliveryRule_STATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *v20210601s.DeliveryRule_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -4653,9 +4653,9 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRuleSTATUS(source *
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
 			var action DeliveryRuleAction_STATUS
-			err := action.AssignPropertiesFromDeliveryRuleActionSTATUS(&actionItem)
+			err := action.AssignProperties_From_DeliveryRuleAction_STATUS(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleActionSTATUS() to populate field Actions")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4671,9 +4671,9 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRuleSTATUS(source *
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
 			var condition DeliveryRuleCondition_STATUS
-			err := condition.AssignPropertiesFromDeliveryRuleConditionSTATUS(&conditionItem)
+			err := condition.AssignProperties_From_DeliveryRuleCondition_STATUS(&conditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleConditionSTATUS() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCondition_STATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4692,8 +4692,8 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRuleSTATUS(source *
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleSTATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRuleSTATUS(destination *v20210601s.DeliveryRule_STATUS) error {
+// AssignProperties_To_DeliveryRule_STATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *v20210601s.DeliveryRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4704,9 +4704,9 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRuleSTATUS(destinatio
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
 			var action v20210601s.DeliveryRuleAction_STATUS
-			err := actionItem.AssignPropertiesToDeliveryRuleActionSTATUS(&action)
+			err := actionItem.AssignProperties_To_DeliveryRuleAction_STATUS(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleActionSTATUS() to populate field Actions")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4722,9 +4722,9 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRuleSTATUS(destinatio
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
 			var condition v20210601s.DeliveryRuleCondition_STATUS
-			err := conditionItem.AssignPropertiesToDeliveryRuleConditionSTATUS(&condition)
+			err := conditionItem.AssignProperties_To_DeliveryRuleCondition_STATUS(&condition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleConditionSTATUS() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition_STATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4751,11 +4751,11 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRuleSTATUS(destinatio
 }
 
 // +kubebuilder:validation:Enum={"Allow","Block"}
-type GeoFilterAction string
+type GeoFilter_Action string
 
 const (
-	GeoFilterAction_Allow = GeoFilterAction("Allow")
-	GeoFilterAction_Block = GeoFilterAction("Block")
+	GeoFilter_Action_Allow = GeoFilter_Action("Allow")
+	GeoFilter_Action_Block = GeoFilter_Action("Block")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HealthProbeParameters
@@ -4769,10 +4769,10 @@ type HealthProbeParameters struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HealthProbeParameters{}
@@ -4850,8 +4850,8 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromHealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParameters(source *v20210601s.HealthProbeParameters) error {
+// AssignProperties_From_HealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
+func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v20210601s.HealthProbeParameters) error {
 
 	// ProbeIntervalInSeconds
 	if source.ProbeIntervalInSeconds != nil {
@@ -4866,7 +4866,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParamete
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -4874,7 +4874,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParamete
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -4884,8 +4884,8 @@ func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParamete
 	return nil
 }
 
-// AssignPropertiesToHealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignPropertiesToHealthProbeParameters(destination *v20210601s.HealthProbeParameters) error {
+// AssignProperties_To_HealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
+func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v20210601s.HealthProbeParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4935,10 +4935,10 @@ type HealthProbeParameters_STATUS struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersSTATUSProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_STATUS_ProbeProtocol `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersSTATUSProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_STATUS_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HealthProbeParameters_STATUS{}
@@ -4983,8 +4983,8 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromHealthProbeParametersSTATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeParametersSTATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
+// AssignProperties_From_HealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
 	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
@@ -4994,7 +4994,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeP
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersSTATUSProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_STATUS_ProbeProtocol(*source.ProbeProtocol)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -5002,7 +5002,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeP
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersSTATUSProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_STATUS_ProbeRequestType(*source.ProbeRequestType)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -5012,8 +5012,8 @@ func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeP
 	return nil
 }
 
-// AssignPropertiesToHealthProbeParametersSTATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignPropertiesToHealthProbeParametersSTATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
+// AssignProperties_To_HealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5069,7 +5069,7 @@ type KeyVaultSigningKeyParameters struct {
 	SubscriptionId *string `json:"subscriptionId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *KeyVaultSigningKeyParametersTypeName `json:"typeName,omitempty"`
+	TypeName *KeyVaultSigningKeyParameters_TypeName `json:"typeName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// VaultName: The name of the user's Key Vault containing the secret
@@ -5175,8 +5175,8 @@ func (parameters *KeyVaultSigningKeyParameters) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSigningKeyParameters populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesFromKeyVaultSigningKeyParameters(source *v20210601s.KeyVaultSigningKeyParameters) error {
+// AssignProperties_From_KeyVaultSigningKeyParameters populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *v20210601s.KeyVaultSigningKeyParameters) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5192,7 +5192,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesFromKeyVaultSign
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersTypeName(*source.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -5205,8 +5205,8 @@ func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesFromKeyVaultSign
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSigningKeyParameters populates the provided destination KeyVaultSigningKeyParameters from our KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesToKeyVaultSigningKeyParameters(destination *v20210601s.KeyVaultSigningKeyParameters) error {
+// AssignProperties_To_KeyVaultSigningKeyParameters populates the provided destination KeyVaultSigningKeyParameters from our KeyVaultSigningKeyParameters
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *v20210601s.KeyVaultSigningKeyParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5255,8 +5255,8 @@ type KeyVaultSigningKeyParameters_STATUS struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersSTATUSTypeName `json:"typeName,omitempty"`
+	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
+	TypeName       *KeyVaultSigningKeyParameters_STATUS_TypeName `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
@@ -5316,8 +5316,8 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesFromKeyVaultSigningKeyParametersSTATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+// AssignProperties_From_KeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5333,7 +5333,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesFromKeyVa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersSTATUSTypeName(*source.TypeName)
+		typeName := KeyVaultSigningKeyParameters_STATUS_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -5346,8 +5346,8 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesFromKeyVa
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSigningKeyParametersSTATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesToKeyVaultSigningKeyParametersSTATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+// AssignProperties_To_KeyVaultSigningKeyParameters_STATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5403,7 +5403,7 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed
 	// unhealthy.
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=0
@@ -5481,8 +5481,8 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) PopulateFromARM(o
 	return nil
 }
 
-// AssignPropertiesFromResponseBasedOriginErrorDetectionParameters populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesFromResponseBasedOriginErrorDetectionParameters(source *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+// AssignProperties_From_ResponseBasedOriginErrorDetectionParameters populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
@@ -5491,9 +5491,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesF
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange HttpErrorRangeParameters
-			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParameters(&httpErrorRangeItem)
+			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters(&httpErrorRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParameters() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignProperties_From_HttpErrorRangeParameters() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5504,7 +5504,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesF
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -5522,8 +5522,8 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesF
 	return nil
 }
 
-// AssignPropertiesToResponseBasedOriginErrorDetectionParameters populates the provided destination ResponseBasedOriginErrorDetectionParameters from our ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesToResponseBasedOriginErrorDetectionParameters(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+// AssignProperties_To_ResponseBasedOriginErrorDetectionParameters populates the provided destination ResponseBasedOriginErrorDetectionParameters from our ResponseBasedOriginErrorDetectionParameters
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5534,9 +5534,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesT
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange v20210601s.HttpErrorRangeParameters
-			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParameters(&httpErrorRange)
+			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters(&httpErrorRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParameters() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5578,7 +5578,7 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	HttpErrorRanges []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
@@ -5624,8 +5624,8 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesFromResponseBasedOriginErrorDetectionParametersSTATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+// AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
@@ -5634,9 +5634,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange HttpErrorRangeParameters_STATUS
-			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParametersSTATUS(&httpErrorRangeItem)
+			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParametersSTATUS() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignProperties_From_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5647,7 +5647,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -5660,8 +5660,8 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	return nil
 }
 
-// AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesToResponseBasedOriginErrorDetectionParametersSTATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+// AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5672,9 +5672,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
 			var httpErrorRange v20210601s.HttpErrorRangeParameters_STATUS
-			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParametersSTATUS(&httpErrorRange)
+			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters_STATUS(&httpErrorRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParametersSTATUS() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5951,15 +5951,15 @@ func (action1 *DeliveryRuleAction1) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleAction1 populates our DeliveryRuleAction1 from the provided source DeliveryRuleAction1
-func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(source *v20210601s.DeliveryRuleAction1) error {
+// AssignProperties_From_DeliveryRuleAction1 populates our DeliveryRuleAction1 from the provided source DeliveryRuleAction1
+func (action1 *DeliveryRuleAction1) AssignProperties_From_DeliveryRuleAction1(source *v20210601s.DeliveryRuleAction1) error {
 
 	// DeliveryRuleCacheExpiration
 	if source.DeliveryRuleCacheExpiration != nil {
 		var deliveryRuleCacheExpiration DeliveryRuleCacheExpirationAction
-		err := deliveryRuleCacheExpiration.AssignPropertiesFromDeliveryRuleCacheExpirationAction(source.DeliveryRuleCacheExpiration)
+		err := deliveryRuleCacheExpiration.AssignProperties_From_DeliveryRuleCacheExpirationAction(source.DeliveryRuleCacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
 		}
 		action1.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
 	} else {
@@ -5969,9 +5969,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// DeliveryRuleCacheKeyQueryString
 	if source.DeliveryRuleCacheKeyQueryString != nil {
 		var deliveryRuleCacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction
-		err := deliveryRuleCacheKeyQueryString.AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction(source.DeliveryRuleCacheKeyQueryString)
+		err := deliveryRuleCacheKeyQueryString.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source.DeliveryRuleCacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
 		}
 		action1.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
 	} else {
@@ -5981,9 +5981,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// DeliveryRuleRequestHeader
 	if source.DeliveryRuleRequestHeader != nil {
 		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderAction
-		err := deliveryRuleRequestHeader.AssignPropertiesFromDeliveryRuleRequestHeaderAction(source.DeliveryRuleRequestHeader)
+		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderAction(source.DeliveryRuleRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
 		}
 		action1.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	} else {
@@ -5993,9 +5993,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// DeliveryRuleResponseHeader
 	if source.DeliveryRuleResponseHeader != nil {
 		var deliveryRuleResponseHeader DeliveryRuleResponseHeaderAction
-		err := deliveryRuleResponseHeader.AssignPropertiesFromDeliveryRuleResponseHeaderAction(source.DeliveryRuleResponseHeader)
+		err := deliveryRuleResponseHeader.AssignProperties_From_DeliveryRuleResponseHeaderAction(source.DeliveryRuleResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
 		}
 		action1.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
 	} else {
@@ -6005,9 +6005,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// DeliveryRuleRouteConfigurationOverride
 	if source.DeliveryRuleRouteConfigurationOverride != nil {
 		var deliveryRuleRouteConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction
-		err := deliveryRuleRouteConfigurationOverride.AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction(source.DeliveryRuleRouteConfigurationOverride)
+		err := deliveryRuleRouteConfigurationOverride.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source.DeliveryRuleRouteConfigurationOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
 		}
 		action1.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
 	} else {
@@ -6017,9 +6017,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// OriginGroupOverride
 	if source.OriginGroupOverride != nil {
 		var originGroupOverride OriginGroupOverrideAction
-		err := originGroupOverride.AssignPropertiesFromOriginGroupOverrideAction(source.OriginGroupOverride)
+		err := originGroupOverride.AssignProperties_From_OriginGroupOverrideAction(source.OriginGroupOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverrideAction() to populate field OriginGroupOverride")
+			return errors.Wrap(err, "calling AssignProperties_From_OriginGroupOverrideAction() to populate field OriginGroupOverride")
 		}
 		action1.OriginGroupOverride = &originGroupOverride
 	} else {
@@ -6029,9 +6029,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// UrlRedirect
 	if source.UrlRedirect != nil {
 		var urlRedirect UrlRedirectAction
-		err := urlRedirect.AssignPropertiesFromUrlRedirectAction(source.UrlRedirect)
+		err := urlRedirect.AssignProperties_From_UrlRedirectAction(source.UrlRedirect)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRedirectAction() to populate field UrlRedirect")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlRedirectAction() to populate field UrlRedirect")
 		}
 		action1.UrlRedirect = &urlRedirect
 	} else {
@@ -6041,9 +6041,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// UrlRewrite
 	if source.UrlRewrite != nil {
 		var urlRewrite UrlRewriteAction
-		err := urlRewrite.AssignPropertiesFromUrlRewriteAction(source.UrlRewrite)
+		err := urlRewrite.AssignProperties_From_UrlRewriteAction(source.UrlRewrite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRewriteAction() to populate field UrlRewrite")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlRewriteAction() to populate field UrlRewrite")
 		}
 		action1.UrlRewrite = &urlRewrite
 	} else {
@@ -6053,9 +6053,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	// UrlSigning
 	if source.UrlSigning != nil {
 		var urlSigning UrlSigningAction
-		err := urlSigning.AssignPropertiesFromUrlSigningAction(source.UrlSigning)
+		err := urlSigning.AssignProperties_From_UrlSigningAction(source.UrlSigning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningAction() to populate field UrlSigning")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlSigningAction() to populate field UrlSigning")
 		}
 		action1.UrlSigning = &urlSigning
 	} else {
@@ -6066,17 +6066,17 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(sour
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleAction1 populates the provided destination DeliveryRuleAction1 from our DeliveryRuleAction1
-func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destination *v20210601s.DeliveryRuleAction1) error {
+// AssignProperties_To_DeliveryRuleAction1 populates the provided destination DeliveryRuleAction1 from our DeliveryRuleAction1
+func (action1 *DeliveryRuleAction1) AssignProperties_To_DeliveryRuleAction1(destination *v20210601s.DeliveryRuleAction1) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DeliveryRuleCacheExpiration
 	if action1.DeliveryRuleCacheExpiration != nil {
 		var deliveryRuleCacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
-		err := action1.DeliveryRuleCacheExpiration.AssignPropertiesToDeliveryRuleCacheExpirationAction(&deliveryRuleCacheExpiration)
+		err := action1.DeliveryRuleCacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction(&deliveryRuleCacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
 		}
 		destination.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
 	} else {
@@ -6086,9 +6086,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// DeliveryRuleCacheKeyQueryString
 	if action1.DeliveryRuleCacheKeyQueryString != nil {
 		var deliveryRuleCacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
-		err := action1.DeliveryRuleCacheKeyQueryString.AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction(&deliveryRuleCacheKeyQueryString)
+		err := action1.DeliveryRuleCacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&deliveryRuleCacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
 		}
 		destination.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
 	} else {
@@ -6098,9 +6098,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// DeliveryRuleRequestHeader
 	if action1.DeliveryRuleRequestHeader != nil {
 		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
-		err := action1.DeliveryRuleRequestHeader.AssignPropertiesToDeliveryRuleRequestHeaderAction(&deliveryRuleRequestHeader)
+		err := action1.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction(&deliveryRuleRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
 		}
 		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	} else {
@@ -6110,9 +6110,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// DeliveryRuleResponseHeader
 	if action1.DeliveryRuleResponseHeader != nil {
 		var deliveryRuleResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
-		err := action1.DeliveryRuleResponseHeader.AssignPropertiesToDeliveryRuleResponseHeaderAction(&deliveryRuleResponseHeader)
+		err := action1.DeliveryRuleResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction(&deliveryRuleResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
 		}
 		destination.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
 	} else {
@@ -6122,9 +6122,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// DeliveryRuleRouteConfigurationOverride
 	if action1.DeliveryRuleRouteConfigurationOverride != nil {
 		var deliveryRuleRouteConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
-		err := action1.DeliveryRuleRouteConfigurationOverride.AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction(&deliveryRuleRouteConfigurationOverride)
+		err := action1.DeliveryRuleRouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&deliveryRuleRouteConfigurationOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
 		}
 		destination.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
 	} else {
@@ -6134,9 +6134,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// OriginGroupOverride
 	if action1.OriginGroupOverride != nil {
 		var originGroupOverride v20210601s.OriginGroupOverrideAction
-		err := action1.OriginGroupOverride.AssignPropertiesToOriginGroupOverrideAction(&originGroupOverride)
+		err := action1.OriginGroupOverride.AssignProperties_To_OriginGroupOverrideAction(&originGroupOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverrideAction() to populate field OriginGroupOverride")
+			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideAction() to populate field OriginGroupOverride")
 		}
 		destination.OriginGroupOverride = &originGroupOverride
 	} else {
@@ -6146,9 +6146,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// UrlRedirect
 	if action1.UrlRedirect != nil {
 		var urlRedirect v20210601s.UrlRedirectAction
-		err := action1.UrlRedirect.AssignPropertiesToUrlRedirectAction(&urlRedirect)
+		err := action1.UrlRedirect.AssignProperties_To_UrlRedirectAction(&urlRedirect)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRedirectAction() to populate field UrlRedirect")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectAction() to populate field UrlRedirect")
 		}
 		destination.UrlRedirect = &urlRedirect
 	} else {
@@ -6158,9 +6158,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// UrlRewrite
 	if action1.UrlRewrite != nil {
 		var urlRewrite v20210601s.UrlRewriteAction
-		err := action1.UrlRewrite.AssignPropertiesToUrlRewriteAction(&urlRewrite)
+		err := action1.UrlRewrite.AssignProperties_To_UrlRewriteAction(&urlRewrite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRewriteAction() to populate field UrlRewrite")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteAction() to populate field UrlRewrite")
 		}
 		destination.UrlRewrite = &urlRewrite
 	} else {
@@ -6170,9 +6170,9 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 	// UrlSigning
 	if action1.UrlSigning != nil {
 		var urlSigning v20210601s.UrlSigningAction
-		err := action1.UrlSigning.AssignPropertiesToUrlSigningAction(&urlSigning)
+		err := action1.UrlSigning.AssignProperties_To_UrlSigningAction(&urlSigning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlSigningAction() to populate field UrlSigning")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningAction() to populate field UrlSigning")
 		}
 		destination.UrlSigning = &urlSigning
 	} else {
@@ -6192,7 +6192,7 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 
 type DeliveryRuleAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionSTATUSName `json:"name,omitempty"`
+	Name *DeliveryRuleAction_STATUS_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleAction_STATUS{}
@@ -6219,12 +6219,12 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleActionSTATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignPropertiesFromDeliveryRuleActionSTATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
+// AssignProperties_From_DeliveryRuleAction_STATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleActionSTATUSName(*source.Name)
+		name := DeliveryRuleAction_STATUS_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -6234,8 +6234,8 @@ func (action *DeliveryRuleAction_STATUS) AssignPropertiesFromDeliveryRuleActionS
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleActionSTATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignPropertiesToDeliveryRuleActionSTATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
+// AssignProperties_To_DeliveryRuleAction_STATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_STATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6744,15 +6744,15 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
+// AssignProperties_From_DeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
+func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
 
 	// DeliveryRuleClientPort
 	if source.DeliveryRuleClientPort != nil {
 		var deliveryRuleClientPort DeliveryRuleClientPortCondition
-		err := deliveryRuleClientPort.AssignPropertiesFromDeliveryRuleClientPortCondition(source.DeliveryRuleClientPort)
+		err := deliveryRuleClientPort.AssignProperties_From_DeliveryRuleClientPortCondition(source.DeliveryRuleClientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
 		}
 		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
 	} else {
@@ -6762,9 +6762,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleCookies
 	if source.DeliveryRuleCookies != nil {
 		var deliveryRuleCooky DeliveryRuleCookiesCondition
-		err := deliveryRuleCooky.AssignPropertiesFromDeliveryRuleCookiesCondition(source.DeliveryRuleCookies)
+		err := deliveryRuleCooky.AssignProperties_From_DeliveryRuleCookiesCondition(source.DeliveryRuleCookies)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
 		}
 		condition.DeliveryRuleCookies = &deliveryRuleCooky
 	} else {
@@ -6774,9 +6774,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleHostName
 	if source.DeliveryRuleHostName != nil {
 		var deliveryRuleHostName DeliveryRuleHostNameCondition
-		err := deliveryRuleHostName.AssignPropertiesFromDeliveryRuleHostNameCondition(source.DeliveryRuleHostName)
+		err := deliveryRuleHostName.AssignProperties_From_DeliveryRuleHostNameCondition(source.DeliveryRuleHostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
 		}
 		condition.DeliveryRuleHostName = &deliveryRuleHostName
 	} else {
@@ -6786,9 +6786,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleHttpVersion
 	if source.DeliveryRuleHttpVersion != nil {
 		var deliveryRuleHttpVersion DeliveryRuleHttpVersionCondition
-		err := deliveryRuleHttpVersion.AssignPropertiesFromDeliveryRuleHttpVersionCondition(source.DeliveryRuleHttpVersion)
+		err := deliveryRuleHttpVersion.AssignProperties_From_DeliveryRuleHttpVersionCondition(source.DeliveryRuleHttpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
 		}
 		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
 	} else {
@@ -6798,9 +6798,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleIsDevice
 	if source.DeliveryRuleIsDevice != nil {
 		var deliveryRuleIsDevice DeliveryRuleIsDeviceCondition
-		err := deliveryRuleIsDevice.AssignPropertiesFromDeliveryRuleIsDeviceCondition(source.DeliveryRuleIsDevice)
+		err := deliveryRuleIsDevice.AssignProperties_From_DeliveryRuleIsDeviceCondition(source.DeliveryRuleIsDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
 		}
 		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
 	} else {
@@ -6810,9 +6810,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRulePostArgs
 	if source.DeliveryRulePostArgs != nil {
 		var deliveryRulePostArg DeliveryRulePostArgsCondition
-		err := deliveryRulePostArg.AssignPropertiesFromDeliveryRulePostArgsCondition(source.DeliveryRulePostArgs)
+		err := deliveryRulePostArg.AssignProperties_From_DeliveryRulePostArgsCondition(source.DeliveryRulePostArgs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
 		}
 		condition.DeliveryRulePostArgs = &deliveryRulePostArg
 	} else {
@@ -6822,9 +6822,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleQueryString
 	if source.DeliveryRuleQueryString != nil {
 		var deliveryRuleQueryString DeliveryRuleQueryStringCondition
-		err := deliveryRuleQueryString.AssignPropertiesFromDeliveryRuleQueryStringCondition(source.DeliveryRuleQueryString)
+		err := deliveryRuleQueryString.AssignProperties_From_DeliveryRuleQueryStringCondition(source.DeliveryRuleQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
 		}
 		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
 	} else {
@@ -6834,9 +6834,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRemoteAddress
 	if source.DeliveryRuleRemoteAddress != nil {
 		var deliveryRuleRemoteAddress DeliveryRuleRemoteAddressCondition
-		err := deliveryRuleRemoteAddress.AssignPropertiesFromDeliveryRuleRemoteAddressCondition(source.DeliveryRuleRemoteAddress)
+		err := deliveryRuleRemoteAddress.AssignProperties_From_DeliveryRuleRemoteAddressCondition(source.DeliveryRuleRemoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
 		}
 		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
 	} else {
@@ -6846,9 +6846,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRequestBody
 	if source.DeliveryRuleRequestBody != nil {
 		var deliveryRuleRequestBody DeliveryRuleRequestBodyCondition
-		err := deliveryRuleRequestBody.AssignPropertiesFromDeliveryRuleRequestBodyCondition(source.DeliveryRuleRequestBody)
+		err := deliveryRuleRequestBody.AssignProperties_From_DeliveryRuleRequestBodyCondition(source.DeliveryRuleRequestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
 		}
 		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
 	} else {
@@ -6858,9 +6858,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRequestHeader
 	if source.DeliveryRuleRequestHeader != nil {
 		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderCondition
-		err := deliveryRuleRequestHeader.AssignPropertiesFromDeliveryRuleRequestHeaderCondition(source.DeliveryRuleRequestHeader)
+		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderCondition(source.DeliveryRuleRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
 		}
 		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	} else {
@@ -6870,9 +6870,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRequestMethod
 	if source.DeliveryRuleRequestMethod != nil {
 		var deliveryRuleRequestMethod DeliveryRuleRequestMethodCondition
-		err := deliveryRuleRequestMethod.AssignPropertiesFromDeliveryRuleRequestMethodCondition(source.DeliveryRuleRequestMethod)
+		err := deliveryRuleRequestMethod.AssignProperties_From_DeliveryRuleRequestMethodCondition(source.DeliveryRuleRequestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
 		}
 		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
 	} else {
@@ -6882,9 +6882,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRequestScheme
 	if source.DeliveryRuleRequestScheme != nil {
 		var deliveryRuleRequestScheme DeliveryRuleRequestSchemeCondition
-		err := deliveryRuleRequestScheme.AssignPropertiesFromDeliveryRuleRequestSchemeCondition(source.DeliveryRuleRequestScheme)
+		err := deliveryRuleRequestScheme.AssignProperties_From_DeliveryRuleRequestSchemeCondition(source.DeliveryRuleRequestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
 		}
 		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
 	} else {
@@ -6894,9 +6894,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleRequestUri
 	if source.DeliveryRuleRequestUri != nil {
 		var deliveryRuleRequestUri DeliveryRuleRequestUriCondition
-		err := deliveryRuleRequestUri.AssignPropertiesFromDeliveryRuleRequestUriCondition(source.DeliveryRuleRequestUri)
+		err := deliveryRuleRequestUri.AssignProperties_From_DeliveryRuleRequestUriCondition(source.DeliveryRuleRequestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
 		}
 		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
 	} else {
@@ -6906,9 +6906,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleServerPort
 	if source.DeliveryRuleServerPort != nil {
 		var deliveryRuleServerPort DeliveryRuleServerPortCondition
-		err := deliveryRuleServerPort.AssignPropertiesFromDeliveryRuleServerPortCondition(source.DeliveryRuleServerPort)
+		err := deliveryRuleServerPort.AssignProperties_From_DeliveryRuleServerPortCondition(source.DeliveryRuleServerPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
 		}
 		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
 	} else {
@@ -6918,9 +6918,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleSocketAddr
 	if source.DeliveryRuleSocketAddr != nil {
 		var deliveryRuleSocketAddr DeliveryRuleSocketAddrCondition
-		err := deliveryRuleSocketAddr.AssignPropertiesFromDeliveryRuleSocketAddrCondition(source.DeliveryRuleSocketAddr)
+		err := deliveryRuleSocketAddr.AssignProperties_From_DeliveryRuleSocketAddrCondition(source.DeliveryRuleSocketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
 		}
 		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
 	} else {
@@ -6930,9 +6930,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleSslProtocol
 	if source.DeliveryRuleSslProtocol != nil {
 		var deliveryRuleSslProtocol DeliveryRuleSslProtocolCondition
-		err := deliveryRuleSslProtocol.AssignPropertiesFromDeliveryRuleSslProtocolCondition(source.DeliveryRuleSslProtocol)
+		err := deliveryRuleSslProtocol.AssignProperties_From_DeliveryRuleSslProtocolCondition(source.DeliveryRuleSslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
 		}
 		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
 	} else {
@@ -6942,9 +6942,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleUrlFileExtension
 	if source.DeliveryRuleUrlFileExtension != nil {
 		var deliveryRuleUrlFileExtension DeliveryRuleUrlFileExtensionCondition
-		err := deliveryRuleUrlFileExtension.AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition(source.DeliveryRuleUrlFileExtension)
+		err := deliveryRuleUrlFileExtension.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source.DeliveryRuleUrlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
 		}
 		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
 	} else {
@@ -6954,9 +6954,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleUrlFileName
 	if source.DeliveryRuleUrlFileName != nil {
 		var deliveryRuleUrlFileName DeliveryRuleUrlFileNameCondition
-		err := deliveryRuleUrlFileName.AssignPropertiesFromDeliveryRuleUrlFileNameCondition(source.DeliveryRuleUrlFileName)
+		err := deliveryRuleUrlFileName.AssignProperties_From_DeliveryRuleUrlFileNameCondition(source.DeliveryRuleUrlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
 		}
 		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
 	} else {
@@ -6966,9 +6966,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	// DeliveryRuleUrlPath
 	if source.DeliveryRuleUrlPath != nil {
 		var deliveryRuleUrlPath DeliveryRuleUrlPathCondition
-		err := deliveryRuleUrlPath.AssignPropertiesFromDeliveryRuleUrlPathCondition(source.DeliveryRuleUrlPath)
+		err := deliveryRuleUrlPath.AssignProperties_From_DeliveryRuleUrlPathCondition(source.DeliveryRuleUrlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
 		}
 		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
 	} else {
@@ -6979,17 +6979,17 @@ func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleConditio
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleCondition populates the provided destination DeliveryRuleCondition from our DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(destination *v20210601s.DeliveryRuleCondition) error {
+// AssignProperties_To_DeliveryRuleCondition populates the provided destination DeliveryRuleCondition from our DeliveryRuleCondition
+func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleCondition(destination *v20210601s.DeliveryRuleCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DeliveryRuleClientPort
 	if condition.DeliveryRuleClientPort != nil {
 		var deliveryRuleClientPort v20210601s.DeliveryRuleClientPortCondition
-		err := condition.DeliveryRuleClientPort.AssignPropertiesToDeliveryRuleClientPortCondition(&deliveryRuleClientPort)
+		err := condition.DeliveryRuleClientPort.AssignProperties_To_DeliveryRuleClientPortCondition(&deliveryRuleClientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
 		}
 		destination.DeliveryRuleClientPort = &deliveryRuleClientPort
 	} else {
@@ -6999,9 +6999,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleCookies
 	if condition.DeliveryRuleCookies != nil {
 		var deliveryRuleCooky v20210601s.DeliveryRuleCookiesCondition
-		err := condition.DeliveryRuleCookies.AssignPropertiesToDeliveryRuleCookiesCondition(&deliveryRuleCooky)
+		err := condition.DeliveryRuleCookies.AssignProperties_To_DeliveryRuleCookiesCondition(&deliveryRuleCooky)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
 		}
 		destination.DeliveryRuleCookies = &deliveryRuleCooky
 	} else {
@@ -7011,9 +7011,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleHostName
 	if condition.DeliveryRuleHostName != nil {
 		var deliveryRuleHostName v20210601s.DeliveryRuleHostNameCondition
-		err := condition.DeliveryRuleHostName.AssignPropertiesToDeliveryRuleHostNameCondition(&deliveryRuleHostName)
+		err := condition.DeliveryRuleHostName.AssignProperties_To_DeliveryRuleHostNameCondition(&deliveryRuleHostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
 		}
 		destination.DeliveryRuleHostName = &deliveryRuleHostName
 	} else {
@@ -7023,9 +7023,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleHttpVersion
 	if condition.DeliveryRuleHttpVersion != nil {
 		var deliveryRuleHttpVersion v20210601s.DeliveryRuleHttpVersionCondition
-		err := condition.DeliveryRuleHttpVersion.AssignPropertiesToDeliveryRuleHttpVersionCondition(&deliveryRuleHttpVersion)
+		err := condition.DeliveryRuleHttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition(&deliveryRuleHttpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
 		}
 		destination.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
 	} else {
@@ -7035,9 +7035,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleIsDevice
 	if condition.DeliveryRuleIsDevice != nil {
 		var deliveryRuleIsDevice v20210601s.DeliveryRuleIsDeviceCondition
-		err := condition.DeliveryRuleIsDevice.AssignPropertiesToDeliveryRuleIsDeviceCondition(&deliveryRuleIsDevice)
+		err := condition.DeliveryRuleIsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition(&deliveryRuleIsDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
 		}
 		destination.DeliveryRuleIsDevice = &deliveryRuleIsDevice
 	} else {
@@ -7047,9 +7047,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRulePostArgs
 	if condition.DeliveryRulePostArgs != nil {
 		var deliveryRulePostArg v20210601s.DeliveryRulePostArgsCondition
-		err := condition.DeliveryRulePostArgs.AssignPropertiesToDeliveryRulePostArgsCondition(&deliveryRulePostArg)
+		err := condition.DeliveryRulePostArgs.AssignProperties_To_DeliveryRulePostArgsCondition(&deliveryRulePostArg)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
 		}
 		destination.DeliveryRulePostArgs = &deliveryRulePostArg
 	} else {
@@ -7059,9 +7059,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleQueryString
 	if condition.DeliveryRuleQueryString != nil {
 		var deliveryRuleQueryString v20210601s.DeliveryRuleQueryStringCondition
-		err := condition.DeliveryRuleQueryString.AssignPropertiesToDeliveryRuleQueryStringCondition(&deliveryRuleQueryString)
+		err := condition.DeliveryRuleQueryString.AssignProperties_To_DeliveryRuleQueryStringCondition(&deliveryRuleQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
 		}
 		destination.DeliveryRuleQueryString = &deliveryRuleQueryString
 	} else {
@@ -7071,9 +7071,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRemoteAddress
 	if condition.DeliveryRuleRemoteAddress != nil {
 		var deliveryRuleRemoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
-		err := condition.DeliveryRuleRemoteAddress.AssignPropertiesToDeliveryRuleRemoteAddressCondition(&deliveryRuleRemoteAddress)
+		err := condition.DeliveryRuleRemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&deliveryRuleRemoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
 		}
 		destination.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
 	} else {
@@ -7083,9 +7083,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRequestBody
 	if condition.DeliveryRuleRequestBody != nil {
 		var deliveryRuleRequestBody v20210601s.DeliveryRuleRequestBodyCondition
-		err := condition.DeliveryRuleRequestBody.AssignPropertiesToDeliveryRuleRequestBodyCondition(&deliveryRuleRequestBody)
+		err := condition.DeliveryRuleRequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition(&deliveryRuleRequestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
 		}
 		destination.DeliveryRuleRequestBody = &deliveryRuleRequestBody
 	} else {
@@ -7095,9 +7095,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRequestHeader
 	if condition.DeliveryRuleRequestHeader != nil {
 		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderCondition
-		err := condition.DeliveryRuleRequestHeader.AssignPropertiesToDeliveryRuleRequestHeaderCondition(&deliveryRuleRequestHeader)
+		err := condition.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&deliveryRuleRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
 		}
 		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	} else {
@@ -7107,9 +7107,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRequestMethod
 	if condition.DeliveryRuleRequestMethod != nil {
 		var deliveryRuleRequestMethod v20210601s.DeliveryRuleRequestMethodCondition
-		err := condition.DeliveryRuleRequestMethod.AssignPropertiesToDeliveryRuleRequestMethodCondition(&deliveryRuleRequestMethod)
+		err := condition.DeliveryRuleRequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition(&deliveryRuleRequestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
 		}
 		destination.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
 	} else {
@@ -7119,9 +7119,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRequestScheme
 	if condition.DeliveryRuleRequestScheme != nil {
 		var deliveryRuleRequestScheme v20210601s.DeliveryRuleRequestSchemeCondition
-		err := condition.DeliveryRuleRequestScheme.AssignPropertiesToDeliveryRuleRequestSchemeCondition(&deliveryRuleRequestScheme)
+		err := condition.DeliveryRuleRequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&deliveryRuleRequestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
 		}
 		destination.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
 	} else {
@@ -7131,9 +7131,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleRequestUri
 	if condition.DeliveryRuleRequestUri != nil {
 		var deliveryRuleRequestUri v20210601s.DeliveryRuleRequestUriCondition
-		err := condition.DeliveryRuleRequestUri.AssignPropertiesToDeliveryRuleRequestUriCondition(&deliveryRuleRequestUri)
+		err := condition.DeliveryRuleRequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition(&deliveryRuleRequestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
 		}
 		destination.DeliveryRuleRequestUri = &deliveryRuleRequestUri
 	} else {
@@ -7143,9 +7143,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleServerPort
 	if condition.DeliveryRuleServerPort != nil {
 		var deliveryRuleServerPort v20210601s.DeliveryRuleServerPortCondition
-		err := condition.DeliveryRuleServerPort.AssignPropertiesToDeliveryRuleServerPortCondition(&deliveryRuleServerPort)
+		err := condition.DeliveryRuleServerPort.AssignProperties_To_DeliveryRuleServerPortCondition(&deliveryRuleServerPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
 		}
 		destination.DeliveryRuleServerPort = &deliveryRuleServerPort
 	} else {
@@ -7155,9 +7155,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleSocketAddr
 	if condition.DeliveryRuleSocketAddr != nil {
 		var deliveryRuleSocketAddr v20210601s.DeliveryRuleSocketAddrCondition
-		err := condition.DeliveryRuleSocketAddr.AssignPropertiesToDeliveryRuleSocketAddrCondition(&deliveryRuleSocketAddr)
+		err := condition.DeliveryRuleSocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition(&deliveryRuleSocketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
 		}
 		destination.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
 	} else {
@@ -7167,9 +7167,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleSslProtocol
 	if condition.DeliveryRuleSslProtocol != nil {
 		var deliveryRuleSslProtocol v20210601s.DeliveryRuleSslProtocolCondition
-		err := condition.DeliveryRuleSslProtocol.AssignPropertiesToDeliveryRuleSslProtocolCondition(&deliveryRuleSslProtocol)
+		err := condition.DeliveryRuleSslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition(&deliveryRuleSslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
 		}
 		destination.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
 	} else {
@@ -7179,9 +7179,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleUrlFileExtension
 	if condition.DeliveryRuleUrlFileExtension != nil {
 		var deliveryRuleUrlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
-		err := condition.DeliveryRuleUrlFileExtension.AssignPropertiesToDeliveryRuleUrlFileExtensionCondition(&deliveryRuleUrlFileExtension)
+		err := condition.DeliveryRuleUrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&deliveryRuleUrlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
 		}
 		destination.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
 	} else {
@@ -7191,9 +7191,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleUrlFileName
 	if condition.DeliveryRuleUrlFileName != nil {
 		var deliveryRuleUrlFileName v20210601s.DeliveryRuleUrlFileNameCondition
-		err := condition.DeliveryRuleUrlFileName.AssignPropertiesToDeliveryRuleUrlFileNameCondition(&deliveryRuleUrlFileName)
+		err := condition.DeliveryRuleUrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&deliveryRuleUrlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
 		}
 		destination.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
 	} else {
@@ -7203,9 +7203,9 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// DeliveryRuleUrlPath
 	if condition.DeliveryRuleUrlPath != nil {
 		var deliveryRuleUrlPath v20210601s.DeliveryRuleUrlPathCondition
-		err := condition.DeliveryRuleUrlPath.AssignPropertiesToDeliveryRuleUrlPathCondition(&deliveryRuleUrlPath)
+		err := condition.DeliveryRuleUrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition(&deliveryRuleUrlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
 		}
 		destination.DeliveryRuleUrlPath = &deliveryRuleUrlPath
 	} else {
@@ -7225,7 +7225,7 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 
 type DeliveryRuleCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionSTATUSName `json:"name,omitempty"`
+	Name *DeliveryRuleCondition_STATUS_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCondition_STATUS{}
@@ -7252,12 +7252,12 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleConditionSTATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesFromDeliveryRuleConditionSTATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
+// AssignProperties_From_DeliveryRuleCondition_STATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleConditionSTATUSName(*source.Name)
+		name := DeliveryRuleCondition_STATUS_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -7267,8 +7267,8 @@ func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesFromDeliveryRuleC
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleConditionSTATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesToDeliveryRuleConditionSTATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
+// AssignProperties_To_DeliveryRuleCondition_STATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleCondition_STATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7292,37 +7292,37 @@ func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesToDeliveryRuleCon
 }
 
 // +kubebuilder:validation:Enum={"Http","Https","NotSet"}
-type HealthProbeParametersProbeProtocol string
+type HealthProbeParameters_ProbeProtocol string
 
 const (
-	HealthProbeParametersProbeProtocol_Http   = HealthProbeParametersProbeProtocol("Http")
-	HealthProbeParametersProbeProtocol_Https  = HealthProbeParametersProbeProtocol("Https")
-	HealthProbeParametersProbeProtocol_NotSet = HealthProbeParametersProbeProtocol("NotSet")
+	HealthProbeParameters_ProbeProtocol_Http   = HealthProbeParameters_ProbeProtocol("Http")
+	HealthProbeParameters_ProbeProtocol_Https  = HealthProbeParameters_ProbeProtocol("Https")
+	HealthProbeParameters_ProbeProtocol_NotSet = HealthProbeParameters_ProbeProtocol("NotSet")
 )
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
-type HealthProbeParametersProbeRequestType string
+type HealthProbeParameters_ProbeRequestType string
 
 const (
-	HealthProbeParametersProbeRequestType_GET    = HealthProbeParametersProbeRequestType("GET")
-	HealthProbeParametersProbeRequestType_HEAD   = HealthProbeParametersProbeRequestType("HEAD")
-	HealthProbeParametersProbeRequestType_NotSet = HealthProbeParametersProbeRequestType("NotSet")
+	HealthProbeParameters_ProbeRequestType_GET    = HealthProbeParameters_ProbeRequestType("GET")
+	HealthProbeParameters_ProbeRequestType_HEAD   = HealthProbeParameters_ProbeRequestType("HEAD")
+	HealthProbeParameters_ProbeRequestType_NotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
-type HealthProbeParametersSTATUSProbeProtocol string
+type HealthProbeParameters_STATUS_ProbeProtocol string
 
 const (
-	HealthProbeParametersSTATUSProbeProtocol_Http   = HealthProbeParametersSTATUSProbeProtocol("Http")
-	HealthProbeParametersSTATUSProbeProtocol_Https  = HealthProbeParametersSTATUSProbeProtocol("Https")
-	HealthProbeParametersSTATUSProbeProtocol_NotSet = HealthProbeParametersSTATUSProbeProtocol("NotSet")
+	HealthProbeParameters_STATUS_ProbeProtocol_Http   = HealthProbeParameters_STATUS_ProbeProtocol("Http")
+	HealthProbeParameters_STATUS_ProbeProtocol_Https  = HealthProbeParameters_STATUS_ProbeProtocol("Https")
+	HealthProbeParameters_STATUS_ProbeProtocol_NotSet = HealthProbeParameters_STATUS_ProbeProtocol("NotSet")
 )
 
-type HealthProbeParametersSTATUSProbeRequestType string
+type HealthProbeParameters_STATUS_ProbeRequestType string
 
 const (
-	HealthProbeParametersSTATUSProbeRequestType_GET    = HealthProbeParametersSTATUSProbeRequestType("GET")
-	HealthProbeParametersSTATUSProbeRequestType_HEAD   = HealthProbeParametersSTATUSProbeRequestType("HEAD")
-	HealthProbeParametersSTATUSProbeRequestType_NotSet = HealthProbeParametersSTATUSProbeRequestType("NotSet")
+	HealthProbeParameters_STATUS_ProbeRequestType_GET    = HealthProbeParameters_STATUS_ProbeRequestType("GET")
+	HealthProbeParameters_STATUS_ProbeRequestType_HEAD   = HealthProbeParameters_STATUS_ProbeRequestType("HEAD")
+	HealthProbeParameters_STATUS_ProbeRequestType_NotSet = HealthProbeParameters_STATUS_ProbeRequestType("NotSet")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
@@ -7389,8 +7389,8 @@ func (parameters *HttpErrorRangeParameters) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromHttpErrorRangeParameters populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignPropertiesFromHttpErrorRangeParameters(source *v20210601s.HttpErrorRangeParameters) error {
+// AssignProperties_From_HttpErrorRangeParameters populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters
+func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *v20210601s.HttpErrorRangeParameters) error {
 
 	// Begin
 	if source.Begin != nil {
@@ -7412,8 +7412,8 @@ func (parameters *HttpErrorRangeParameters) AssignPropertiesFromHttpErrorRangePa
 	return nil
 }
 
-// AssignPropertiesToHttpErrorRangeParameters populates the provided destination HttpErrorRangeParameters from our HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignPropertiesToHttpErrorRangeParameters(destination *v20210601s.HttpErrorRangeParameters) error {
+// AssignProperties_To_HttpErrorRangeParameters populates the provided destination HttpErrorRangeParameters from our HttpErrorRangeParameters
+func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *v20210601s.HttpErrorRangeParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7482,8 +7482,8 @@ func (parameters *HttpErrorRangeParameters_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromHttpErrorRangeParametersSTATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesFromHttpErrorRangeParametersSTATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
+// AssignProperties_From_HttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
 
 	// Begin
 	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
@@ -7495,8 +7495,8 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesFromHttpError
 	return nil
 }
 
-// AssignPropertiesToHttpErrorRangeParametersSTATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesToHttpErrorRangeParametersSTATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
+// AssignProperties_To_HttpErrorRangeParameters_STATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7518,31 +7518,31 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesToHttpErrorRa
 }
 
 // +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
-type KeyVaultSigningKeyParametersTypeName string
+type KeyVaultSigningKeyParameters_TypeName string
 
-const KeyVaultSigningKeyParametersTypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersTypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
-type ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes string
+type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
-type ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes string
+type ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction
 type DeliveryRuleCacheExpirationAction struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCacheExpirationActionName `json:"name,omitempty"`
+	Name *DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the cache expiration action.
@@ -7605,12 +7605,12 @@ func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleCacheExpirationAction populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesFromDeliveryRuleCacheExpirationAction(source *v20210601s.DeliveryRuleCacheExpirationAction) error {
+// AssignProperties_From_DeliveryRuleCacheExpirationAction populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryRuleCacheExpirationAction(source *v20210601s.DeliveryRuleCacheExpirationAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationActionName(*source.Name)
+		name := DeliveryRuleCacheExpirationAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -7619,9 +7619,9 @@ func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesFromDeliveryRul
 	// Parameters
 	if source.Parameters != nil {
 		var parameter CacheExpirationActionParameters
-		err := parameter.AssignPropertiesFromCacheExpirationActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_CacheExpirationActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheExpirationActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_CacheExpirationActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -7632,8 +7632,8 @@ func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesFromDeliveryRul
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleCacheExpirationAction populates the provided destination DeliveryRuleCacheExpirationAction from our DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesToDeliveryRuleCacheExpirationAction(destination *v20210601s.DeliveryRuleCacheExpirationAction) error {
+// AssignProperties_To_DeliveryRuleCacheExpirationAction populates the provided destination DeliveryRuleCacheExpirationAction from our DeliveryRuleCacheExpirationAction
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRuleCacheExpirationAction(destination *v20210601s.DeliveryRuleCacheExpirationAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7648,9 +7648,9 @@ func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesToDeliveryRuleC
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.CacheExpirationActionParameters
-		err := action.Parameters.AssignPropertiesToCacheExpirationActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_CacheExpirationActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheExpirationActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_CacheExpirationActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -7671,7 +7671,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesToDeliveryRuleC
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheKeyQueryStringAction
 type DeliveryRuleCacheKeyQueryStringAction struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCacheKeyQueryStringActionName `json:"name,omitempty"`
+	Name *DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the cache-key query string action.
@@ -7734,12 +7734,12 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+// AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringActionName(*source.Name)
+		name := DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -7748,9 +7748,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesFromDeliver
 	// Parameters
 	if source.Parameters != nil {
 		var parameter CacheKeyQueryStringActionParameters
-		err := parameter.AssignPropertiesFromCacheKeyQueryStringActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_CacheKeyQueryStringActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheKeyQueryStringActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_CacheKeyQueryStringActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -7761,8 +7761,8 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesFromDeliver
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction populates the provided destination DeliveryRuleCacheKeyQueryStringAction from our DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+// AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction populates the provided destination DeliveryRuleCacheKeyQueryStringAction from our DeliveryRuleCacheKeyQueryStringAction
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7777,9 +7777,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesToDeliveryR
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.CacheKeyQueryStringActionParameters
-		err := action.Parameters.AssignPropertiesToCacheKeyQueryStringActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_CacheKeyQueryStringActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheKeyQueryStringActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_CacheKeyQueryStringActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -7800,7 +7800,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesToDeliveryR
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleClientPortCondition
 type DeliveryRuleClientPortCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleClientPortConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for ClientPort match conditions
@@ -7863,12 +7863,12 @@ func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleClientPortCondition populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignPropertiesFromDeliveryRuleClientPortCondition(source *v20210601s.DeliveryRuleClientPortCondition) error {
+// AssignProperties_From_DeliveryRuleClientPortCondition populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_DeliveryRuleClientPortCondition(source *v20210601s.DeliveryRuleClientPortCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortConditionName(*source.Name)
+		name := DeliveryRuleClientPortCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -7877,9 +7877,9 @@ func (condition *DeliveryRuleClientPortCondition) AssignPropertiesFromDeliveryRu
 	// Parameters
 	if source.Parameters != nil {
 		var parameter ClientPortMatchConditionParameters
-		err := parameter.AssignPropertiesFromClientPortMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_ClientPortMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromClientPortMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_ClientPortMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -7890,8 +7890,8 @@ func (condition *DeliveryRuleClientPortCondition) AssignPropertiesFromDeliveryRu
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleClientPortCondition populates the provided destination DeliveryRuleClientPortCondition from our DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignPropertiesToDeliveryRuleClientPortCondition(destination *v20210601s.DeliveryRuleClientPortCondition) error {
+// AssignProperties_To_DeliveryRuleClientPortCondition populates the provided destination DeliveryRuleClientPortCondition from our DeliveryRuleClientPortCondition
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRuleClientPortCondition(destination *v20210601s.DeliveryRuleClientPortCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7906,9 +7906,9 @@ func (condition *DeliveryRuleClientPortCondition) AssignPropertiesToDeliveryRule
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.ClientPortMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToClientPortMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_ClientPortMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToClientPortMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_ClientPortMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -7929,7 +7929,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignPropertiesToDeliveryRule
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCookiesCondition
 type DeliveryRuleCookiesCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCookiesConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for Cookies match conditions
@@ -7992,12 +7992,12 @@ func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleCookiesCondition populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignPropertiesFromDeliveryRuleCookiesCondition(source *v20210601s.DeliveryRuleCookiesCondition) error {
+// AssignProperties_From_DeliveryRuleCookiesCondition populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRuleCookiesCondition(source *v20210601s.DeliveryRuleCookiesCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesConditionName(*source.Name)
+		name := DeliveryRuleCookiesCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8006,9 +8006,9 @@ func (condition *DeliveryRuleCookiesCondition) AssignPropertiesFromDeliveryRuleC
 	// Parameters
 	if source.Parameters != nil {
 		var parameter CookiesMatchConditionParameters
-		err := parameter.AssignPropertiesFromCookiesMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_CookiesMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCookiesMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_CookiesMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8019,8 +8019,8 @@ func (condition *DeliveryRuleCookiesCondition) AssignPropertiesFromDeliveryRuleC
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleCookiesCondition populates the provided destination DeliveryRuleCookiesCondition from our DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignPropertiesToDeliveryRuleCookiesCondition(destination *v20210601s.DeliveryRuleCookiesCondition) error {
+// AssignProperties_To_DeliveryRuleCookiesCondition populates the provided destination DeliveryRuleCookiesCondition from our DeliveryRuleCookiesCondition
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleCookiesCondition(destination *v20210601s.DeliveryRuleCookiesCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8035,9 +8035,9 @@ func (condition *DeliveryRuleCookiesCondition) AssignPropertiesToDeliveryRuleCoo
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.CookiesMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToCookiesMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_CookiesMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCookiesMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_CookiesMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8058,7 +8058,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignPropertiesToDeliveryRuleCoo
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHostNameCondition
 type DeliveryRuleHostNameCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleHostNameConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for HostName match conditions
@@ -8121,12 +8121,12 @@ func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleHostNameCondition populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignPropertiesFromDeliveryRuleHostNameCondition(source *v20210601s.DeliveryRuleHostNameCondition) error {
+// AssignProperties_From_DeliveryRuleHostNameCondition populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRuleHostNameCondition(source *v20210601s.DeliveryRuleHostNameCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameConditionName(*source.Name)
+		name := DeliveryRuleHostNameCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8135,9 +8135,9 @@ func (condition *DeliveryRuleHostNameCondition) AssignPropertiesFromDeliveryRule
 	// Parameters
 	if source.Parameters != nil {
 		var parameter HostNameMatchConditionParameters
-		err := parameter.AssignPropertiesFromHostNameMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_HostNameMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHostNameMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_HostNameMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8148,8 +8148,8 @@ func (condition *DeliveryRuleHostNameCondition) AssignPropertiesFromDeliveryRule
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleHostNameCondition populates the provided destination DeliveryRuleHostNameCondition from our DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignPropertiesToDeliveryRuleHostNameCondition(destination *v20210601s.DeliveryRuleHostNameCondition) error {
+// AssignProperties_To_DeliveryRuleHostNameCondition populates the provided destination DeliveryRuleHostNameCondition from our DeliveryRuleHostNameCondition
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRuleHostNameCondition(destination *v20210601s.DeliveryRuleHostNameCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8164,9 +8164,9 @@ func (condition *DeliveryRuleHostNameCondition) AssignPropertiesToDeliveryRuleHo
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.HostNameMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToHostNameMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_HostNameMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHostNameMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_HostNameMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8187,7 +8187,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignPropertiesToDeliveryRuleHo
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHttpVersionCondition
 type DeliveryRuleHttpVersionCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleHttpVersionConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for HttpVersion match conditions
@@ -8250,12 +8250,12 @@ func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleHttpVersionCondition populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesFromDeliveryRuleHttpVersionCondition(source *v20210601s.DeliveryRuleHttpVersionCondition) error {
+// AssignProperties_From_DeliveryRuleHttpVersionCondition populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_DeliveryRuleHttpVersionCondition(source *v20210601s.DeliveryRuleHttpVersionCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionConditionName(*source.Name)
+		name := DeliveryRuleHttpVersionCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8264,9 +8264,9 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesFromDeliveryR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter HttpVersionMatchConditionParameters
-		err := parameter.AssignPropertiesFromHttpVersionMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_HttpVersionMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHttpVersionMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_HttpVersionMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8277,8 +8277,8 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesFromDeliveryR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleHttpVersionCondition populates the provided destination DeliveryRuleHttpVersionCondition from our DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesToDeliveryRuleHttpVersionCondition(destination *v20210601s.DeliveryRuleHttpVersionCondition) error {
+// AssignProperties_To_DeliveryRuleHttpVersionCondition populates the provided destination DeliveryRuleHttpVersionCondition from our DeliveryRuleHttpVersionCondition
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryRuleHttpVersionCondition(destination *v20210601s.DeliveryRuleHttpVersionCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8293,9 +8293,9 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesToDeliveryRul
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.HttpVersionMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToHttpVersionMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_HttpVersionMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHttpVersionMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_HttpVersionMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8316,7 +8316,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesToDeliveryRul
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleIsDeviceCondition
 type DeliveryRuleIsDeviceCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleIsDeviceConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for IsDevice match conditions
@@ -8379,12 +8379,12 @@ func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleIsDeviceCondition populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesFromDeliveryRuleIsDeviceCondition(source *v20210601s.DeliveryRuleIsDeviceCondition) error {
+// AssignProperties_From_DeliveryRuleIsDeviceCondition populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRuleIsDeviceCondition(source *v20210601s.DeliveryRuleIsDeviceCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceConditionName(*source.Name)
+		name := DeliveryRuleIsDeviceCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8393,9 +8393,9 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesFromDeliveryRule
 	// Parameters
 	if source.Parameters != nil {
 		var parameter IsDeviceMatchConditionParameters
-		err := parameter.AssignPropertiesFromIsDeviceMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_IsDeviceMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIsDeviceMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_IsDeviceMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8406,8 +8406,8 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesFromDeliveryRule
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleIsDeviceCondition populates the provided destination DeliveryRuleIsDeviceCondition from our DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesToDeliveryRuleIsDeviceCondition(destination *v20210601s.DeliveryRuleIsDeviceCondition) error {
+// AssignProperties_To_DeliveryRuleIsDeviceCondition populates the provided destination DeliveryRuleIsDeviceCondition from our DeliveryRuleIsDeviceCondition
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRuleIsDeviceCondition(destination *v20210601s.DeliveryRuleIsDeviceCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8422,9 +8422,9 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesToDeliveryRuleIs
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.IsDeviceMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToIsDeviceMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_IsDeviceMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIsDeviceMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_IsDeviceMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8445,7 +8445,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesToDeliveryRuleIs
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRulePostArgsCondition
 type DeliveryRulePostArgsCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRulePostArgsConditionName `json:"name,omitempty"`
+	Name *DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for PostArgs match conditions
@@ -8508,12 +8508,12 @@ func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRulePostArgsCondition populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignPropertiesFromDeliveryRulePostArgsCondition(source *v20210601s.DeliveryRulePostArgsCondition) error {
+// AssignProperties_From_DeliveryRulePostArgsCondition populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRulePostArgsCondition(source *v20210601s.DeliveryRulePostArgsCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsConditionName(*source.Name)
+		name := DeliveryRulePostArgsCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8522,9 +8522,9 @@ func (condition *DeliveryRulePostArgsCondition) AssignPropertiesFromDeliveryRule
 	// Parameters
 	if source.Parameters != nil {
 		var parameter PostArgsMatchConditionParameters
-		err := parameter.AssignPropertiesFromPostArgsMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_PostArgsMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPostArgsMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_PostArgsMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8535,8 +8535,8 @@ func (condition *DeliveryRulePostArgsCondition) AssignPropertiesFromDeliveryRule
 	return nil
 }
 
-// AssignPropertiesToDeliveryRulePostArgsCondition populates the provided destination DeliveryRulePostArgsCondition from our DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignPropertiesToDeliveryRulePostArgsCondition(destination *v20210601s.DeliveryRulePostArgsCondition) error {
+// AssignProperties_To_DeliveryRulePostArgsCondition populates the provided destination DeliveryRulePostArgsCondition from our DeliveryRulePostArgsCondition
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRulePostArgsCondition(destination *v20210601s.DeliveryRulePostArgsCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8551,9 +8551,9 @@ func (condition *DeliveryRulePostArgsCondition) AssignPropertiesToDeliveryRulePo
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.PostArgsMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToPostArgsMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_PostArgsMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPostArgsMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_PostArgsMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8574,7 +8574,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignPropertiesToDeliveryRulePo
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleQueryStringCondition
 type DeliveryRuleQueryStringCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleQueryStringConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for QueryString match conditions
@@ -8637,12 +8637,12 @@ func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleQueryStringCondition populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesFromDeliveryRuleQueryStringCondition(source *v20210601s.DeliveryRuleQueryStringCondition) error {
+// AssignProperties_From_DeliveryRuleQueryStringCondition populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_DeliveryRuleQueryStringCondition(source *v20210601s.DeliveryRuleQueryStringCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringConditionName(*source.Name)
+		name := DeliveryRuleQueryStringCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8651,9 +8651,9 @@ func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesFromDeliveryR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter QueryStringMatchConditionParameters
-		err := parameter.AssignPropertiesFromQueryStringMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_QueryStringMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromQueryStringMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_QueryStringMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8664,8 +8664,8 @@ func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesFromDeliveryR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleQueryStringCondition populates the provided destination DeliveryRuleQueryStringCondition from our DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesToDeliveryRuleQueryStringCondition(destination *v20210601s.DeliveryRuleQueryStringCondition) error {
+// AssignProperties_To_DeliveryRuleQueryStringCondition populates the provided destination DeliveryRuleQueryStringCondition from our DeliveryRuleQueryStringCondition
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryRuleQueryStringCondition(destination *v20210601s.DeliveryRuleQueryStringCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8680,9 +8680,9 @@ func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesToDeliveryRul
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.QueryStringMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToQueryStringMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_QueryStringMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToQueryStringMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_QueryStringMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8703,7 +8703,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesToDeliveryRul
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRemoteAddressCondition
 type DeliveryRuleRemoteAddressCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRemoteAddressConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RemoteAddress match conditions
@@ -8766,12 +8766,12 @@ func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRemoteAddressCondition populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesFromDeliveryRuleRemoteAddressCondition(source *v20210601s.DeliveryRuleRemoteAddressCondition) error {
+// AssignProperties_From_DeliveryRuleRemoteAddressCondition populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_DeliveryRuleRemoteAddressCondition(source *v20210601s.DeliveryRuleRemoteAddressCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressConditionName(*source.Name)
+		name := DeliveryRuleRemoteAddressCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8780,9 +8780,9 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesFromDeliver
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RemoteAddressMatchConditionParameters
-		err := parameter.AssignPropertiesFromRemoteAddressMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RemoteAddressMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRemoteAddressMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RemoteAddressMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8793,8 +8793,8 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesFromDeliver
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRemoteAddressCondition populates the provided destination DeliveryRuleRemoteAddressCondition from our DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesToDeliveryRuleRemoteAddressCondition(destination *v20210601s.DeliveryRuleRemoteAddressCondition) error {
+// AssignProperties_To_DeliveryRuleRemoteAddressCondition populates the provided destination DeliveryRuleRemoteAddressCondition from our DeliveryRuleRemoteAddressCondition
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_DeliveryRuleRemoteAddressCondition(destination *v20210601s.DeliveryRuleRemoteAddressCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8809,9 +8809,9 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesToDeliveryR
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RemoteAddressMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRemoteAddressMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RemoteAddressMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRemoteAddressMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RemoteAddressMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8832,7 +8832,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesToDeliveryR
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestBodyCondition
 type DeliveryRuleRequestBodyCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestBodyConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RequestBody match conditions
@@ -8895,12 +8895,12 @@ func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestBodyCondition populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesFromDeliveryRuleRequestBodyCondition(source *v20210601s.DeliveryRuleRequestBodyCondition) error {
+// AssignProperties_From_DeliveryRuleRequestBodyCondition populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_DeliveryRuleRequestBodyCondition(source *v20210601s.DeliveryRuleRequestBodyCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyConditionName(*source.Name)
+		name := DeliveryRuleRequestBodyCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -8909,9 +8909,9 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesFromDeliveryR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RequestBodyMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestBodyMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RequestBodyMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestBodyMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RequestBodyMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -8922,8 +8922,8 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesFromDeliveryR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestBodyCondition populates the provided destination DeliveryRuleRequestBodyCondition from our DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesToDeliveryRuleRequestBodyCondition(destination *v20210601s.DeliveryRuleRequestBodyCondition) error {
+// AssignProperties_To_DeliveryRuleRequestBodyCondition populates the provided destination DeliveryRuleRequestBodyCondition from our DeliveryRuleRequestBodyCondition
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryRuleRequestBodyCondition(destination *v20210601s.DeliveryRuleRequestBodyCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8938,9 +8938,9 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesToDeliveryRul
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RequestBodyMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestBodyMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RequestBodyMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestBodyMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RequestBodyMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -8961,7 +8961,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesToDeliveryRul
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderAction
 type DeliveryRuleRequestHeaderAction struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestHeaderActionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the request header action.
@@ -9024,12 +9024,12 @@ func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestHeaderAction populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesFromDeliveryRuleRequestHeaderAction(source *v20210601s.DeliveryRuleRequestHeaderAction) error {
+// AssignProperties_From_DeliveryRuleRequestHeaderAction populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRuleRequestHeaderAction(source *v20210601s.DeliveryRuleRequestHeaderAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderActionName(*source.Name)
+		name := DeliveryRuleRequestHeaderAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -9038,9 +9038,9 @@ func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesFromDeliveryRuleR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter HeaderActionParameters
-		err := parameter.AssignPropertiesFromHeaderActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_HeaderActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHeaderActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_HeaderActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -9051,8 +9051,8 @@ func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesFromDeliveryRuleR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestHeaderAction populates the provided destination DeliveryRuleRequestHeaderAction from our DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesToDeliveryRuleRequestHeaderAction(destination *v20210601s.DeliveryRuleRequestHeaderAction) error {
+// AssignProperties_To_DeliveryRuleRequestHeaderAction populates the provided destination DeliveryRuleRequestHeaderAction from our DeliveryRuleRequestHeaderAction
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleRequestHeaderAction(destination *v20210601s.DeliveryRuleRequestHeaderAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9067,9 +9067,9 @@ func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesToDeliveryRuleReq
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.HeaderActionParameters
-		err := action.Parameters.AssignPropertiesToHeaderActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHeaderActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9090,7 +9090,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesToDeliveryRuleReq
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderCondition
 type DeliveryRuleRequestHeaderCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestHeaderConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RequestHeader match conditions
@@ -9153,12 +9153,12 @@ func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestHeaderCondition populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesFromDeliveryRuleRequestHeaderCondition(source *v20210601s.DeliveryRuleRequestHeaderCondition) error {
+// AssignProperties_From_DeliveryRuleRequestHeaderCondition populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_DeliveryRuleRequestHeaderCondition(source *v20210601s.DeliveryRuleRequestHeaderCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderConditionName(*source.Name)
+		name := DeliveryRuleRequestHeaderCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -9167,9 +9167,9 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesFromDeliver
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RequestHeaderMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestHeaderMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RequestHeaderMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestHeaderMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RequestHeaderMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -9180,8 +9180,8 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesFromDeliver
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestHeaderCondition populates the provided destination DeliveryRuleRequestHeaderCondition from our DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesToDeliveryRuleRequestHeaderCondition(destination *v20210601s.DeliveryRuleRequestHeaderCondition) error {
+// AssignProperties_To_DeliveryRuleRequestHeaderCondition populates the provided destination DeliveryRuleRequestHeaderCondition from our DeliveryRuleRequestHeaderCondition
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_DeliveryRuleRequestHeaderCondition(destination *v20210601s.DeliveryRuleRequestHeaderCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9196,9 +9196,9 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesToDeliveryR
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RequestHeaderMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestHeaderMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RequestHeaderMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestHeaderMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RequestHeaderMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9219,7 +9219,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesToDeliveryR
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestMethodCondition
 type DeliveryRuleRequestMethodCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestMethodConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RequestMethod match conditions
@@ -9282,12 +9282,12 @@ func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestMethodCondition populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesFromDeliveryRuleRequestMethodCondition(source *v20210601s.DeliveryRuleRequestMethodCondition) error {
+// AssignProperties_From_DeliveryRuleRequestMethodCondition populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_DeliveryRuleRequestMethodCondition(source *v20210601s.DeliveryRuleRequestMethodCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodConditionName(*source.Name)
+		name := DeliveryRuleRequestMethodCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -9296,9 +9296,9 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesFromDeliver
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RequestMethodMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestMethodMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RequestMethodMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestMethodMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RequestMethodMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -9309,8 +9309,8 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesFromDeliver
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestMethodCondition populates the provided destination DeliveryRuleRequestMethodCondition from our DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesToDeliveryRuleRequestMethodCondition(destination *v20210601s.DeliveryRuleRequestMethodCondition) error {
+// AssignProperties_To_DeliveryRuleRequestMethodCondition populates the provided destination DeliveryRuleRequestMethodCondition from our DeliveryRuleRequestMethodCondition
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_DeliveryRuleRequestMethodCondition(destination *v20210601s.DeliveryRuleRequestMethodCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9325,9 +9325,9 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesToDeliveryR
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RequestMethodMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestMethodMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RequestMethodMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestMethodMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RequestMethodMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9348,7 +9348,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesToDeliveryR
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestSchemeCondition
 type DeliveryRuleRequestSchemeCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestSchemeConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RequestScheme match conditions
@@ -9411,12 +9411,12 @@ func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestSchemeCondition populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesFromDeliveryRuleRequestSchemeCondition(source *v20210601s.DeliveryRuleRequestSchemeCondition) error {
+// AssignProperties_From_DeliveryRuleRequestSchemeCondition populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_DeliveryRuleRequestSchemeCondition(source *v20210601s.DeliveryRuleRequestSchemeCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeConditionName(*source.Name)
+		name := DeliveryRuleRequestSchemeCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -9425,9 +9425,9 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesFromDeliver
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RequestSchemeMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestSchemeMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RequestSchemeMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestSchemeMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RequestSchemeMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -9438,8 +9438,8 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesFromDeliver
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestSchemeCondition populates the provided destination DeliveryRuleRequestSchemeCondition from our DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesToDeliveryRuleRequestSchemeCondition(destination *v20210601s.DeliveryRuleRequestSchemeCondition) error {
+// AssignProperties_To_DeliveryRuleRequestSchemeCondition populates the provided destination DeliveryRuleRequestSchemeCondition from our DeliveryRuleRequestSchemeCondition
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_DeliveryRuleRequestSchemeCondition(destination *v20210601s.DeliveryRuleRequestSchemeCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9454,9 +9454,9 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesToDeliveryR
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RequestSchemeMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestSchemeMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RequestSchemeMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestSchemeMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RequestSchemeMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9477,7 +9477,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesToDeliveryR
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestUriCondition
 type DeliveryRuleRequestUriCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestUriConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for RequestUri match conditions
@@ -9540,12 +9540,12 @@ func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRequestUriCondition populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesFromDeliveryRuleRequestUriCondition(source *v20210601s.DeliveryRuleRequestUriCondition) error {
+// AssignProperties_From_DeliveryRuleRequestUriCondition populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_DeliveryRuleRequestUriCondition(source *v20210601s.DeliveryRuleRequestUriCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriConditionName(*source.Name)
+		name := DeliveryRuleRequestUriCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -9554,9 +9554,9 @@ func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesFromDeliveryRu
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RequestUriMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestUriMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RequestUriMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestUriMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RequestUriMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -9567,8 +9567,8 @@ func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesFromDeliveryRu
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRequestUriCondition populates the provided destination DeliveryRuleRequestUriCondition from our DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesToDeliveryRuleRequestUriCondition(destination *v20210601s.DeliveryRuleRequestUriCondition) error {
+// AssignProperties_To_DeliveryRuleRequestUriCondition populates the provided destination DeliveryRuleRequestUriCondition from our DeliveryRuleRequestUriCondition
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRuleRequestUriCondition(destination *v20210601s.DeliveryRuleRequestUriCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9583,9 +9583,9 @@ func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesToDeliveryRule
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.RequestUriMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestUriMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_RequestUriMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestUriMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RequestUriMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9606,7 +9606,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesToDeliveryRule
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleResponseHeaderAction
 type DeliveryRuleResponseHeaderAction struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleResponseHeaderActionName `json:"name,omitempty"`
+	Name *DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the request header action.
@@ -9669,12 +9669,12 @@ func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleResponseHeaderAction populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesFromDeliveryRuleResponseHeaderAction(source *v20210601s.DeliveryRuleResponseHeaderAction) error {
+// AssignProperties_From_DeliveryRuleResponseHeaderAction populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRuleResponseHeaderAction(source *v20210601s.DeliveryRuleResponseHeaderAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderActionName(*source.Name)
+		name := DeliveryRuleResponseHeaderAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -9683,9 +9683,9 @@ func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesFromDeliveryRule
 	// Parameters
 	if source.Parameters != nil {
 		var parameter HeaderActionParameters
-		err := parameter.AssignPropertiesFromHeaderActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_HeaderActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHeaderActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_HeaderActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -9696,8 +9696,8 @@ func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesFromDeliveryRule
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleResponseHeaderAction populates the provided destination DeliveryRuleResponseHeaderAction from our DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesToDeliveryRuleResponseHeaderAction(destination *v20210601s.DeliveryRuleResponseHeaderAction) error {
+// AssignProperties_To_DeliveryRuleResponseHeaderAction populates the provided destination DeliveryRuleResponseHeaderAction from our DeliveryRuleResponseHeaderAction
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRuleResponseHeaderAction(destination *v20210601s.DeliveryRuleResponseHeaderAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9712,9 +9712,9 @@ func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesToDeliveryRuleRe
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.HeaderActionParameters
-		err := action.Parameters.AssignPropertiesToHeaderActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHeaderActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9735,7 +9735,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesToDeliveryRuleRe
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRouteConfigurationOverrideAction
 type DeliveryRuleRouteConfigurationOverrideAction struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRouteConfigurationOverrideActionName `json:"name,omitempty"`
+	Name *DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the route configuration override action.
@@ -9798,12 +9798,12 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owne
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+// AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideActionName(*source.Name)
+		name := DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -9812,9 +9812,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesFrom
 	// Parameters
 	if source.Parameters != nil {
 		var parameter RouteConfigurationOverrideActionParameters
-		err := parameter.AssignPropertiesFromRouteConfigurationOverrideActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_RouteConfigurationOverrideActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteConfigurationOverrideActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_RouteConfigurationOverrideActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -9825,8 +9825,8 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesFrom
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction populates the provided destination DeliveryRuleRouteConfigurationOverrideAction from our DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+// AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction populates the provided destination DeliveryRuleRouteConfigurationOverrideAction from our DeliveryRuleRouteConfigurationOverrideAction
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9841,9 +9841,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesToDe
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.RouteConfigurationOverrideActionParameters
-		err := action.Parameters.AssignPropertiesToRouteConfigurationOverrideActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_RouteConfigurationOverrideActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteConfigurationOverrideActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_RouteConfigurationOverrideActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9864,7 +9864,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesToDe
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleServerPortCondition
 type DeliveryRuleServerPortCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleServerPortConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for ServerPort match conditions
@@ -9927,12 +9927,12 @@ func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleServerPortCondition populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignPropertiesFromDeliveryRuleServerPortCondition(source *v20210601s.DeliveryRuleServerPortCondition) error {
+// AssignProperties_From_DeliveryRuleServerPortCondition populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_DeliveryRuleServerPortCondition(source *v20210601s.DeliveryRuleServerPortCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortConditionName(*source.Name)
+		name := DeliveryRuleServerPortCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -9941,9 +9941,9 @@ func (condition *DeliveryRuleServerPortCondition) AssignPropertiesFromDeliveryRu
 	// Parameters
 	if source.Parameters != nil {
 		var parameter ServerPortMatchConditionParameters
-		err := parameter.AssignPropertiesFromServerPortMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_ServerPortMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServerPortMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPortMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -9954,8 +9954,8 @@ func (condition *DeliveryRuleServerPortCondition) AssignPropertiesFromDeliveryRu
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleServerPortCondition populates the provided destination DeliveryRuleServerPortCondition from our DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignPropertiesToDeliveryRuleServerPortCondition(destination *v20210601s.DeliveryRuleServerPortCondition) error {
+// AssignProperties_To_DeliveryRuleServerPortCondition populates the provided destination DeliveryRuleServerPortCondition from our DeliveryRuleServerPortCondition
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRuleServerPortCondition(destination *v20210601s.DeliveryRuleServerPortCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9970,9 +9970,9 @@ func (condition *DeliveryRuleServerPortCondition) AssignPropertiesToDeliveryRule
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.ServerPortMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToServerPortMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_ServerPortMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServerPortMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPortMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -9993,7 +9993,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignPropertiesToDeliveryRule
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSocketAddrCondition
 type DeliveryRuleSocketAddrCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleSocketAddrConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for SocketAddress match conditions
@@ -10056,12 +10056,12 @@ func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleSocketAddrCondition populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesFromDeliveryRuleSocketAddrCondition(source *v20210601s.DeliveryRuleSocketAddrCondition) error {
+// AssignProperties_From_DeliveryRuleSocketAddrCondition populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_DeliveryRuleSocketAddrCondition(source *v20210601s.DeliveryRuleSocketAddrCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrConditionName(*source.Name)
+		name := DeliveryRuleSocketAddrCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10070,9 +10070,9 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesFromDeliveryRu
 	// Parameters
 	if source.Parameters != nil {
 		var parameter SocketAddrMatchConditionParameters
-		err := parameter.AssignPropertiesFromSocketAddrMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_SocketAddrMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSocketAddrMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_SocketAddrMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -10083,8 +10083,8 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesFromDeliveryRu
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleSocketAddrCondition populates the provided destination DeliveryRuleSocketAddrCondition from our DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesToDeliveryRuleSocketAddrCondition(destination *v20210601s.DeliveryRuleSocketAddrCondition) error {
+// AssignProperties_To_DeliveryRuleSocketAddrCondition populates the provided destination DeliveryRuleSocketAddrCondition from our DeliveryRuleSocketAddrCondition
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRuleSocketAddrCondition(destination *v20210601s.DeliveryRuleSocketAddrCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10099,9 +10099,9 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesToDeliveryRule
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.SocketAddrMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToSocketAddrMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_SocketAddrMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSocketAddrMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_SocketAddrMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10122,7 +10122,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesToDeliveryRule
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSslProtocolCondition
 type DeliveryRuleSslProtocolCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleSslProtocolConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for SslProtocol match conditions
@@ -10185,12 +10185,12 @@ func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleSslProtocolCondition populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesFromDeliveryRuleSslProtocolCondition(source *v20210601s.DeliveryRuleSslProtocolCondition) error {
+// AssignProperties_From_DeliveryRuleSslProtocolCondition populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_DeliveryRuleSslProtocolCondition(source *v20210601s.DeliveryRuleSslProtocolCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolConditionName(*source.Name)
+		name := DeliveryRuleSslProtocolCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10199,9 +10199,9 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesFromDeliveryR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter SslProtocolMatchConditionParameters
-		err := parameter.AssignPropertiesFromSslProtocolMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_SslProtocolMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSslProtocolMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_SslProtocolMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -10212,8 +10212,8 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesFromDeliveryR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleSslProtocolCondition populates the provided destination DeliveryRuleSslProtocolCondition from our DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesToDeliveryRuleSslProtocolCondition(destination *v20210601s.DeliveryRuleSslProtocolCondition) error {
+// AssignProperties_To_DeliveryRuleSslProtocolCondition populates the provided destination DeliveryRuleSslProtocolCondition from our DeliveryRuleSslProtocolCondition
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryRuleSslProtocolCondition(destination *v20210601s.DeliveryRuleSslProtocolCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10228,9 +10228,9 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesToDeliveryRul
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.SslProtocolMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToSslProtocolMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_SslProtocolMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSslProtocolMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_SslProtocolMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10251,7 +10251,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesToDeliveryRul
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileExtensionCondition
 type DeliveryRuleUrlFileExtensionCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlFileExtensionConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for UrlFileExtension match conditions
@@ -10314,12 +10314,12 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition(source *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+// AssignProperties_From_DeliveryRuleUrlFileExtensionCondition populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionConditionName(*source.Name)
+		name := DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10328,9 +10328,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesFromDeli
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlFileExtensionMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlFileExtensionMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlFileExtensionMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlFileExtensionMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlFileExtensionMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -10341,8 +10341,8 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesFromDeli
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleUrlFileExtensionCondition populates the provided destination DeliveryRuleUrlFileExtensionCondition from our DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesToDeliveryRuleUrlFileExtensionCondition(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+// AssignProperties_To_DeliveryRuleUrlFileExtensionCondition populates the provided destination DeliveryRuleUrlFileExtensionCondition from our DeliveryRuleUrlFileExtensionCondition
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10357,9 +10357,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesToDelive
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.UrlFileExtensionMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlFileExtensionMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlFileExtensionMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlFileExtensionMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10380,7 +10380,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesToDelive
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileNameCondition
 type DeliveryRuleUrlFileNameCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlFileNameConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for UrlFilename match conditions
@@ -10443,12 +10443,12 @@ func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleUrlFileNameCondition populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesFromDeliveryRuleUrlFileNameCondition(source *v20210601s.DeliveryRuleUrlFileNameCondition) error {
+// AssignProperties_From_DeliveryRuleUrlFileNameCondition populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_DeliveryRuleUrlFileNameCondition(source *v20210601s.DeliveryRuleUrlFileNameCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameConditionName(*source.Name)
+		name := DeliveryRuleUrlFileNameCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10457,9 +10457,9 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesFromDeliveryR
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlFileNameMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlFileNameMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlFileNameMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlFileNameMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlFileNameMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -10470,8 +10470,8 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesFromDeliveryR
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleUrlFileNameCondition populates the provided destination DeliveryRuleUrlFileNameCondition from our DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesToDeliveryRuleUrlFileNameCondition(destination *v20210601s.DeliveryRuleUrlFileNameCondition) error {
+// AssignProperties_To_DeliveryRuleUrlFileNameCondition populates the provided destination DeliveryRuleUrlFileNameCondition from our DeliveryRuleUrlFileNameCondition
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryRuleUrlFileNameCondition(destination *v20210601s.DeliveryRuleUrlFileNameCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10486,9 +10486,9 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesToDeliveryRul
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.UrlFileNameMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlFileNameMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_UrlFileNameMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlFileNameMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlFileNameMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10509,7 +10509,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesToDeliveryRul
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlPathCondition
 type DeliveryRuleUrlPathCondition struct {
 	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlPathConditionName `json:"name,omitempty"`
+	Name *DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for UrlPath match conditions
@@ -10572,12 +10572,12 @@ func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleUrlPathCondition populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesFromDeliveryRuleUrlPathCondition(source *v20210601s.DeliveryRuleUrlPathCondition) error {
+// AssignProperties_From_DeliveryRuleUrlPathCondition populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRuleUrlPathCondition(source *v20210601s.DeliveryRuleUrlPathCondition) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathConditionName(*source.Name)
+		name := DeliveryRuleUrlPathCondition_Name(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -10586,9 +10586,9 @@ func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesFromDeliveryRuleU
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlPathMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlPathMatchConditionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlPathMatchConditionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlPathMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlPathMatchConditionParameters() to populate field Parameters")
 		}
 		condition.Parameters = &parameter
 	} else {
@@ -10599,8 +10599,8 @@ func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesFromDeliveryRuleU
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleUrlPathCondition populates the provided destination DeliveryRuleUrlPathCondition from our DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesToDeliveryRuleUrlPathCondition(destination *v20210601s.DeliveryRuleUrlPathCondition) error {
+// AssignProperties_To_DeliveryRuleUrlPathCondition populates the provided destination DeliveryRuleUrlPathCondition from our DeliveryRuleUrlPathCondition
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleUrlPathCondition(destination *v20210601s.DeliveryRuleUrlPathCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10615,9 +10615,9 @@ func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesToDeliveryRuleUrl
 	// Parameters
 	if condition.Parameters != nil {
 		var parameter v20210601s.UrlPathMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlPathMatchConditionParameters(&parameter)
+		err := condition.Parameters.AssignProperties_To_UrlPathMatchConditionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlPathMatchConditionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlPathMatchConditionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10638,7 +10638,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesToDeliveryRuleUrl
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideAction
 type OriginGroupOverrideAction struct {
 	// +kubebuilder:validation:Required
-	Name *OriginGroupOverrideActionName `json:"name,omitempty"`
+	Name *OriginGroupOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the origin group override action.
@@ -10701,12 +10701,12 @@ func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromOriginGroupOverrideAction populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignPropertiesFromOriginGroupOverrideAction(source *v20210601s.OriginGroupOverrideAction) error {
+// AssignProperties_From_OriginGroupOverrideAction populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction
+func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverrideAction(source *v20210601s.OriginGroupOverrideAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideActionName(*source.Name)
+		name := OriginGroupOverrideAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -10715,9 +10715,9 @@ func (action *OriginGroupOverrideAction) AssignPropertiesFromOriginGroupOverride
 	// Parameters
 	if source.Parameters != nil {
 		var parameter OriginGroupOverrideActionParameters
-		err := parameter.AssignPropertiesFromOriginGroupOverrideActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_OriginGroupOverrideActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverrideActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_OriginGroupOverrideActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -10728,8 +10728,8 @@ func (action *OriginGroupOverrideAction) AssignPropertiesFromOriginGroupOverride
 	return nil
 }
 
-// AssignPropertiesToOriginGroupOverrideAction populates the provided destination OriginGroupOverrideAction from our OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignPropertiesToOriginGroupOverrideAction(destination *v20210601s.OriginGroupOverrideAction) error {
+// AssignProperties_To_OriginGroupOverrideAction populates the provided destination OriginGroupOverrideAction from our OriginGroupOverrideAction
+func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverrideAction(destination *v20210601s.OriginGroupOverrideAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10744,9 +10744,9 @@ func (action *OriginGroupOverrideAction) AssignPropertiesToOriginGroupOverrideAc
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.OriginGroupOverrideActionParameters
-		err := action.Parameters.AssignPropertiesToOriginGroupOverrideActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_OriginGroupOverrideActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverrideActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10767,7 +10767,7 @@ func (action *OriginGroupOverrideAction) AssignPropertiesToOriginGroupOverrideAc
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectAction
 type UrlRedirectAction struct {
 	// +kubebuilder:validation:Required
-	Name *UrlRedirectActionName `json:"name,omitempty"`
+	Name *UrlRedirectAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the url redirect action.
@@ -10830,12 +10830,12 @@ func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromUrlRedirectAction populates our UrlRedirectAction from the provided source UrlRedirectAction
-func (action *UrlRedirectAction) AssignPropertiesFromUrlRedirectAction(source *v20210601s.UrlRedirectAction) error {
+// AssignProperties_From_UrlRedirectAction populates our UrlRedirectAction from the provided source UrlRedirectAction
+func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source *v20210601s.UrlRedirectAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectActionName(*source.Name)
+		name := UrlRedirectAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -10844,9 +10844,9 @@ func (action *UrlRedirectAction) AssignPropertiesFromUrlRedirectAction(source *v
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlRedirectActionParameters
-		err := parameter.AssignPropertiesFromUrlRedirectActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlRedirectActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRedirectActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlRedirectActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -10857,8 +10857,8 @@ func (action *UrlRedirectAction) AssignPropertiesFromUrlRedirectAction(source *v
 	return nil
 }
 
-// AssignPropertiesToUrlRedirectAction populates the provided destination UrlRedirectAction from our UrlRedirectAction
-func (action *UrlRedirectAction) AssignPropertiesToUrlRedirectAction(destination *v20210601s.UrlRedirectAction) error {
+// AssignProperties_To_UrlRedirectAction populates the provided destination UrlRedirectAction from our UrlRedirectAction
+func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destination *v20210601s.UrlRedirectAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10873,9 +10873,9 @@ func (action *UrlRedirectAction) AssignPropertiesToUrlRedirectAction(destination
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.UrlRedirectActionParameters
-		err := action.Parameters.AssignPropertiesToUrlRedirectActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_UrlRedirectActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRedirectActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -10896,7 +10896,7 @@ func (action *UrlRedirectAction) AssignPropertiesToUrlRedirectAction(destination
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteAction
 type UrlRewriteAction struct {
 	// +kubebuilder:validation:Required
-	Name *UrlRewriteActionName `json:"name,omitempty"`
+	Name *UrlRewriteAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the url rewrite action.
@@ -10959,12 +10959,12 @@ func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromUrlRewriteAction populates our UrlRewriteAction from the provided source UrlRewriteAction
-func (action *UrlRewriteAction) AssignPropertiesFromUrlRewriteAction(source *v20210601s.UrlRewriteAction) error {
+// AssignProperties_From_UrlRewriteAction populates our UrlRewriteAction from the provided source UrlRewriteAction
+func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v20210601s.UrlRewriteAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteActionName(*source.Name)
+		name := UrlRewriteAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -10973,9 +10973,9 @@ func (action *UrlRewriteAction) AssignPropertiesFromUrlRewriteAction(source *v20
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlRewriteActionParameters
-		err := parameter.AssignPropertiesFromUrlRewriteActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlRewriteActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRewriteActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlRewriteActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -10986,8 +10986,8 @@ func (action *UrlRewriteAction) AssignPropertiesFromUrlRewriteAction(source *v20
 	return nil
 }
 
-// AssignPropertiesToUrlRewriteAction populates the provided destination UrlRewriteAction from our UrlRewriteAction
-func (action *UrlRewriteAction) AssignPropertiesToUrlRewriteAction(destination *v20210601s.UrlRewriteAction) error {
+// AssignProperties_To_UrlRewriteAction populates the provided destination UrlRewriteAction from our UrlRewriteAction
+func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination *v20210601s.UrlRewriteAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11002,9 +11002,9 @@ func (action *UrlRewriteAction) AssignPropertiesToUrlRewriteAction(destination *
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.UrlRewriteActionParameters
-		err := action.Parameters.AssignPropertiesToUrlRewriteActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_UrlRewriteActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRewriteActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -11025,7 +11025,7 @@ func (action *UrlRewriteAction) AssignPropertiesToUrlRewriteAction(destination *
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningAction
 type UrlSigningAction struct {
 	// +kubebuilder:validation:Required
-	Name *UrlSigningActionName `json:"name,omitempty"`
+	Name *UrlSigningAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the Url Signing action.
@@ -11088,12 +11088,12 @@ func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningAction populates our UrlSigningAction from the provided source UrlSigningAction
-func (action *UrlSigningAction) AssignPropertiesFromUrlSigningAction(source *v20210601s.UrlSigningAction) error {
+// AssignProperties_From_UrlSigningAction populates our UrlSigningAction from the provided source UrlSigningAction
+func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v20210601s.UrlSigningAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningActionName(*source.Name)
+		name := UrlSigningAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -11102,9 +11102,9 @@ func (action *UrlSigningAction) AssignPropertiesFromUrlSigningAction(source *v20
 	// Parameters
 	if source.Parameters != nil {
 		var parameter UrlSigningActionParameters
-		err := parameter.AssignPropertiesFromUrlSigningActionParameters(source.Parameters)
+		err := parameter.AssignProperties_From_UrlSigningActionParameters(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_From_UrlSigningActionParameters() to populate field Parameters")
 		}
 		action.Parameters = &parameter
 	} else {
@@ -11115,8 +11115,8 @@ func (action *UrlSigningAction) AssignPropertiesFromUrlSigningAction(source *v20
 	return nil
 }
 
-// AssignPropertiesToUrlSigningAction populates the provided destination UrlSigningAction from our UrlSigningAction
-func (action *UrlSigningAction) AssignPropertiesToUrlSigningAction(destination *v20210601s.UrlSigningAction) error {
+// AssignProperties_To_UrlSigningAction populates the provided destination UrlSigningAction from our UrlSigningAction
+func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination *v20210601s.UrlSigningAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11131,9 +11131,9 @@ func (action *UrlSigningAction) AssignPropertiesToUrlSigningAction(destination *
 	// Parameters
 	if action.Parameters != nil {
 		var parameter v20210601s.UrlSigningActionParameters
-		err := action.Parameters.AssignPropertiesToUrlSigningActionParameters(&parameter)
+		err := action.Parameters.AssignProperties_To_UrlSigningActionParameters(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlSigningActionParameters() to populate field Parameters")
+			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningActionParameters() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -11155,17 +11155,17 @@ func (action *UrlSigningAction) AssignPropertiesToUrlSigningAction(destination *
 type CacheExpirationActionParameters struct {
 	// +kubebuilder:validation:Required
 	// CacheBehavior: Caching behavior for the requests.
-	CacheBehavior *CacheExpirationActionParametersCacheBehavior `json:"cacheBehavior,omitempty"`
+	CacheBehavior *CacheExpirationActionParameters_CacheBehavior `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
 	CacheDuration *string `json:"cacheDuration,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// CacheType: The level at which the content needs to be cached.
-	CacheType *CacheExpirationActionParametersCacheType `json:"cacheType,omitempty"`
+	CacheType *CacheExpirationActionParameters_CacheType `json:"cacheType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *CacheExpirationActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *CacheExpirationActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CacheExpirationActionParameters{}
@@ -11243,12 +11243,12 @@ func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromCacheExpirationActionParameters populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignPropertiesFromCacheExpirationActionParameters(source *v20210601s.CacheExpirationActionParameters) error {
+// AssignProperties_From_CacheExpirationActionParameters populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters
+func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheExpirationActionParameters(source *v20210601s.CacheExpirationActionParameters) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParametersCacheBehavior(*source.CacheBehavior)
+		cacheBehavior := CacheExpirationActionParameters_CacheBehavior(*source.CacheBehavior)
 		parameters.CacheBehavior = &cacheBehavior
 	} else {
 		parameters.CacheBehavior = nil
@@ -11259,7 +11259,7 @@ func (parameters *CacheExpirationActionParameters) AssignPropertiesFromCacheExpi
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParametersCacheType(*source.CacheType)
+		cacheType := CacheExpirationActionParameters_CacheType(*source.CacheType)
 		parameters.CacheType = &cacheType
 	} else {
 		parameters.CacheType = nil
@@ -11267,7 +11267,7 @@ func (parameters *CacheExpirationActionParameters) AssignPropertiesFromCacheExpi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParametersTypeName(*source.TypeName)
+		typeName := CacheExpirationActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -11277,8 +11277,8 @@ func (parameters *CacheExpirationActionParameters) AssignPropertiesFromCacheExpi
 	return nil
 }
 
-// AssignPropertiesToCacheExpirationActionParameters populates the provided destination CacheExpirationActionParameters from our CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignPropertiesToCacheExpirationActionParameters(destination *v20210601s.CacheExpirationActionParameters) error {
+// AssignProperties_To_CacheExpirationActionParameters populates the provided destination CacheExpirationActionParameters from our CacheExpirationActionParameters
+func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpirationActionParameters(destination *v20210601s.CacheExpirationActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11327,10 +11327,10 @@ type CacheKeyQueryStringActionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// QueryStringBehavior: Caching behavior for the requests.
-	QueryStringBehavior *CacheKeyQueryStringActionParametersQueryStringBehavior `json:"queryStringBehavior,omitempty"`
+	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior `json:"queryStringBehavior,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *CacheKeyQueryStringActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *CacheKeyQueryStringActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CacheKeyQueryStringActionParameters{}
@@ -11396,15 +11396,15 @@ func (parameters *CacheKeyQueryStringActionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromCacheKeyQueryStringActionParameters populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesFromCacheKeyQueryStringActionParameters(source *v20210601s.CacheKeyQueryStringActionParameters) error {
+// AssignProperties_From_CacheKeyQueryStringActionParameters populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_CacheKeyQueryStringActionParameters(source *v20210601s.CacheKeyQueryStringActionParameters) error {
 
 	// QueryParameters
 	parameters.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParametersQueryStringBehavior(*source.QueryStringBehavior)
+		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior(*source.QueryStringBehavior)
 		parameters.QueryStringBehavior = &queryStringBehavior
 	} else {
 		parameters.QueryStringBehavior = nil
@@ -11412,7 +11412,7 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesFromCache
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParametersTypeName(*source.TypeName)
+		typeName := CacheKeyQueryStringActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -11422,8 +11422,8 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesFromCache
 	return nil
 }
 
-// AssignPropertiesToCacheKeyQueryStringActionParameters populates the provided destination CacheKeyQueryStringActionParameters from our CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesToCacheKeyQueryStringActionParameters(destination *v20210601s.CacheKeyQueryStringActionParameters) error {
+// AssignProperties_To_CacheKeyQueryStringActionParameters populates the provided destination CacheKeyQueryStringActionParameters from our CacheKeyQueryStringActionParameters
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_CacheKeyQueryStringActionParameters(destination *v20210601s.CacheKeyQueryStringActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11467,13 +11467,13 @@ type ClientPortMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *ClientPortMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *ClientPortMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []ClientPortMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []ClientPortMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *ClientPortMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *ClientPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ClientPortMatchConditionParameters{}
@@ -11559,8 +11559,8 @@ func (parameters *ClientPortMatchConditionParameters) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromClientPortMatchConditionParameters populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClientPortMatchConditionParameters(source *v20210601s.ClientPortMatchConditionParameters) error {
+// AssignProperties_From_ClientPortMatchConditionParameters populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_ClientPortMatchConditionParameters(source *v20210601s.ClientPortMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -11575,7 +11575,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClient
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParametersOperator(*source.Operator)
+		operator := ClientPortMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -11583,11 +11583,11 @@ func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClient
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]ClientPortMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]ClientPortMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = ClientPortMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = ClientPortMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -11596,7 +11596,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClient
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParametersTypeName(*source.TypeName)
+		typeName := ClientPortMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -11606,8 +11606,8 @@ func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClient
 	return nil
 }
 
-// AssignPropertiesToClientPortMatchConditionParameters populates the provided destination ClientPortMatchConditionParameters from our ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignPropertiesToClientPortMatchConditionParameters(destination *v20210601s.ClientPortMatchConditionParameters) error {
+// AssignProperties_To_ClientPortMatchConditionParameters populates the provided destination ClientPortMatchConditionParameters from our ClientPortMatchConditionParameters
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_ClientPortMatchConditionParameters(destination *v20210601s.ClientPortMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11672,16 +11672,16 @@ type CookiesMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *CookiesMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *CookiesMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of Cookies to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []CookiesMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []CookiesMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *CookiesMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *CookiesMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CookiesMatchConditionParameters{}
@@ -11779,8 +11779,8 @@ func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromCookiesMatchConditionParameters populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMatchConditionParameters(source *v20210601s.CookiesMatchConditionParameters) error {
+// AssignProperties_From_CookiesMatchConditionParameters populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters
+func (parameters *CookiesMatchConditionParameters) AssignProperties_From_CookiesMatchConditionParameters(source *v20210601s.CookiesMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -11795,7 +11795,7 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMa
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParametersOperator(*source.Operator)
+		operator := CookiesMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -11806,11 +11806,11 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMa
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]CookiesMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]CookiesMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = CookiesMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = CookiesMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -11819,7 +11819,7 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParametersTypeName(*source.TypeName)
+		typeName := CookiesMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -11829,8 +11829,8 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMa
 	return nil
 }
 
-// AssignPropertiesToCookiesMatchConditionParameters populates the provided destination CookiesMatchConditionParameters from our CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignPropertiesToCookiesMatchConditionParameters(destination *v20210601s.CookiesMatchConditionParameters) error {
+// AssignProperties_To_CookiesMatchConditionParameters populates the provided destination CookiesMatchConditionParameters from our CookiesMatchConditionParameters
+func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMatchConditionParameters(destination *v20210601s.CookiesMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11889,137 +11889,137 @@ func (parameters *CookiesMatchConditionParameters) AssignPropertiesToCookiesMatc
 }
 
 // +kubebuilder:validation:Enum={"CacheExpiration"}
-type DeliveryRuleCacheExpirationActionName string
+type DeliveryRuleCacheExpirationAction_Name string
 
-const DeliveryRuleCacheExpirationActionName_CacheExpiration = DeliveryRuleCacheExpirationActionName("CacheExpiration")
+const DeliveryRuleCacheExpirationAction_Name_CacheExpiration = DeliveryRuleCacheExpirationAction_Name("CacheExpiration")
 
 // +kubebuilder:validation:Enum={"CacheKeyQueryString"}
-type DeliveryRuleCacheKeyQueryStringActionName string
+type DeliveryRuleCacheKeyQueryStringAction_Name string
 
-const DeliveryRuleCacheKeyQueryStringActionName_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringActionName("CacheKeyQueryString")
+const DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name("CacheKeyQueryString")
 
 // +kubebuilder:validation:Enum={"ClientPort"}
-type DeliveryRuleClientPortConditionName string
+type DeliveryRuleClientPortCondition_Name string
 
-const DeliveryRuleClientPortConditionName_ClientPort = DeliveryRuleClientPortConditionName("ClientPort")
+const DeliveryRuleClientPortCondition_Name_ClientPort = DeliveryRuleClientPortCondition_Name("ClientPort")
 
 // +kubebuilder:validation:Enum={"Cookies"}
-type DeliveryRuleCookiesConditionName string
+type DeliveryRuleCookiesCondition_Name string
 
-const DeliveryRuleCookiesConditionName_Cookies = DeliveryRuleCookiesConditionName("Cookies")
+const DeliveryRuleCookiesCondition_Name_Cookies = DeliveryRuleCookiesCondition_Name("Cookies")
 
 // +kubebuilder:validation:Enum={"HostName"}
-type DeliveryRuleHostNameConditionName string
+type DeliveryRuleHostNameCondition_Name string
 
-const DeliveryRuleHostNameConditionName_HostName = DeliveryRuleHostNameConditionName("HostName")
+const DeliveryRuleHostNameCondition_Name_HostName = DeliveryRuleHostNameCondition_Name("HostName")
 
 // +kubebuilder:validation:Enum={"HttpVersion"}
-type DeliveryRuleHttpVersionConditionName string
+type DeliveryRuleHttpVersionCondition_Name string
 
-const DeliveryRuleHttpVersionConditionName_HttpVersion = DeliveryRuleHttpVersionConditionName("HttpVersion")
+const DeliveryRuleHttpVersionCondition_Name_HttpVersion = DeliveryRuleHttpVersionCondition_Name("HttpVersion")
 
 // +kubebuilder:validation:Enum={"IsDevice"}
-type DeliveryRuleIsDeviceConditionName string
+type DeliveryRuleIsDeviceCondition_Name string
 
-const DeliveryRuleIsDeviceConditionName_IsDevice = DeliveryRuleIsDeviceConditionName("IsDevice")
+const DeliveryRuleIsDeviceCondition_Name_IsDevice = DeliveryRuleIsDeviceCondition_Name("IsDevice")
 
 // +kubebuilder:validation:Enum={"PostArgs"}
-type DeliveryRulePostArgsConditionName string
+type DeliveryRulePostArgsCondition_Name string
 
-const DeliveryRulePostArgsConditionName_PostArgs = DeliveryRulePostArgsConditionName("PostArgs")
+const DeliveryRulePostArgsCondition_Name_PostArgs = DeliveryRulePostArgsCondition_Name("PostArgs")
 
 // +kubebuilder:validation:Enum={"QueryString"}
-type DeliveryRuleQueryStringConditionName string
+type DeliveryRuleQueryStringCondition_Name string
 
-const DeliveryRuleQueryStringConditionName_QueryString = DeliveryRuleQueryStringConditionName("QueryString")
+const DeliveryRuleQueryStringCondition_Name_QueryString = DeliveryRuleQueryStringCondition_Name("QueryString")
 
 // +kubebuilder:validation:Enum={"RemoteAddress"}
-type DeliveryRuleRemoteAddressConditionName string
+type DeliveryRuleRemoteAddressCondition_Name string
 
-const DeliveryRuleRemoteAddressConditionName_RemoteAddress = DeliveryRuleRemoteAddressConditionName("RemoteAddress")
+const DeliveryRuleRemoteAddressCondition_Name_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name("RemoteAddress")
 
 // +kubebuilder:validation:Enum={"RequestBody"}
-type DeliveryRuleRequestBodyConditionName string
+type DeliveryRuleRequestBodyCondition_Name string
 
-const DeliveryRuleRequestBodyConditionName_RequestBody = DeliveryRuleRequestBodyConditionName("RequestBody")
+const DeliveryRuleRequestBodyCondition_Name_RequestBody = DeliveryRuleRequestBodyCondition_Name("RequestBody")
 
 // +kubebuilder:validation:Enum={"ModifyRequestHeader"}
-type DeliveryRuleRequestHeaderActionName string
+type DeliveryRuleRequestHeaderAction_Name string
 
-const DeliveryRuleRequestHeaderActionName_ModifyRequestHeader = DeliveryRuleRequestHeaderActionName("ModifyRequestHeader")
+const DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name("ModifyRequestHeader")
 
 // +kubebuilder:validation:Enum={"RequestHeader"}
-type DeliveryRuleRequestHeaderConditionName string
+type DeliveryRuleRequestHeaderCondition_Name string
 
-const DeliveryRuleRequestHeaderConditionName_RequestHeader = DeliveryRuleRequestHeaderConditionName("RequestHeader")
+const DeliveryRuleRequestHeaderCondition_Name_RequestHeader = DeliveryRuleRequestHeaderCondition_Name("RequestHeader")
 
 // +kubebuilder:validation:Enum={"RequestMethod"}
-type DeliveryRuleRequestMethodConditionName string
+type DeliveryRuleRequestMethodCondition_Name string
 
-const DeliveryRuleRequestMethodConditionName_RequestMethod = DeliveryRuleRequestMethodConditionName("RequestMethod")
+const DeliveryRuleRequestMethodCondition_Name_RequestMethod = DeliveryRuleRequestMethodCondition_Name("RequestMethod")
 
 // +kubebuilder:validation:Enum={"RequestScheme"}
-type DeliveryRuleRequestSchemeConditionName string
+type DeliveryRuleRequestSchemeCondition_Name string
 
-const DeliveryRuleRequestSchemeConditionName_RequestScheme = DeliveryRuleRequestSchemeConditionName("RequestScheme")
+const DeliveryRuleRequestSchemeCondition_Name_RequestScheme = DeliveryRuleRequestSchemeCondition_Name("RequestScheme")
 
 // +kubebuilder:validation:Enum={"RequestUri"}
-type DeliveryRuleRequestUriConditionName string
+type DeliveryRuleRequestUriCondition_Name string
 
-const DeliveryRuleRequestUriConditionName_RequestUri = DeliveryRuleRequestUriConditionName("RequestUri")
+const DeliveryRuleRequestUriCondition_Name_RequestUri = DeliveryRuleRequestUriCondition_Name("RequestUri")
 
 // +kubebuilder:validation:Enum={"ModifyResponseHeader"}
-type DeliveryRuleResponseHeaderActionName string
+type DeliveryRuleResponseHeaderAction_Name string
 
-const DeliveryRuleResponseHeaderActionName_ModifyResponseHeader = DeliveryRuleResponseHeaderActionName("ModifyResponseHeader")
+const DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name("ModifyResponseHeader")
 
 // +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
-type DeliveryRuleRouteConfigurationOverrideActionName string
+type DeliveryRuleRouteConfigurationOverrideAction_Name string
 
-const DeliveryRuleRouteConfigurationOverrideActionName_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideActionName("RouteConfigurationOverride")
+const DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name("RouteConfigurationOverride")
 
 // +kubebuilder:validation:Enum={"ServerPort"}
-type DeliveryRuleServerPortConditionName string
+type DeliveryRuleServerPortCondition_Name string
 
-const DeliveryRuleServerPortConditionName_ServerPort = DeliveryRuleServerPortConditionName("ServerPort")
+const DeliveryRuleServerPortCondition_Name_ServerPort = DeliveryRuleServerPortCondition_Name("ServerPort")
 
 // +kubebuilder:validation:Enum={"SocketAddr"}
-type DeliveryRuleSocketAddrConditionName string
+type DeliveryRuleSocketAddrCondition_Name string
 
-const DeliveryRuleSocketAddrConditionName_SocketAddr = DeliveryRuleSocketAddrConditionName("SocketAddr")
+const DeliveryRuleSocketAddrCondition_Name_SocketAddr = DeliveryRuleSocketAddrCondition_Name("SocketAddr")
 
 // +kubebuilder:validation:Enum={"SslProtocol"}
-type DeliveryRuleSslProtocolConditionName string
+type DeliveryRuleSslProtocolCondition_Name string
 
-const DeliveryRuleSslProtocolConditionName_SslProtocol = DeliveryRuleSslProtocolConditionName("SslProtocol")
+const DeliveryRuleSslProtocolCondition_Name_SslProtocol = DeliveryRuleSslProtocolCondition_Name("SslProtocol")
 
 // +kubebuilder:validation:Enum={"UrlFileExtension"}
-type DeliveryRuleUrlFileExtensionConditionName string
+type DeliveryRuleUrlFileExtensionCondition_Name string
 
-const DeliveryRuleUrlFileExtensionConditionName_UrlFileExtension = DeliveryRuleUrlFileExtensionConditionName("UrlFileExtension")
+const DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name("UrlFileExtension")
 
 // +kubebuilder:validation:Enum={"UrlFileName"}
-type DeliveryRuleUrlFileNameConditionName string
+type DeliveryRuleUrlFileNameCondition_Name string
 
-const DeliveryRuleUrlFileNameConditionName_UrlFileName = DeliveryRuleUrlFileNameConditionName("UrlFileName")
+const DeliveryRuleUrlFileNameCondition_Name_UrlFileName = DeliveryRuleUrlFileNameCondition_Name("UrlFileName")
 
 // +kubebuilder:validation:Enum={"UrlPath"}
-type DeliveryRuleUrlPathConditionName string
+type DeliveryRuleUrlPathCondition_Name string
 
-const DeliveryRuleUrlPathConditionName_UrlPath = DeliveryRuleUrlPathConditionName("UrlPath")
+const DeliveryRuleUrlPathCondition_Name_UrlPath = DeliveryRuleUrlPathCondition_Name("UrlPath")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HeaderActionParameters
 type HeaderActionParameters struct {
 	// +kubebuilder:validation:Required
 	// HeaderAction: Action to perform.
-	HeaderAction *HeaderActionParametersHeaderAction `json:"headerAction,omitempty"`
+	HeaderAction *HeaderActionParameters_HeaderAction `json:"headerAction,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// HeaderName: Name of the header to modify
 	HeaderName *string `json:"headerName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *HeaderActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *HeaderActionParameters_TypeName `json:"typeName,omitempty"`
 
 	// Value: Value for the specified action
 	Value *string `json:"value,omitempty"`
@@ -12100,12 +12100,12 @@ func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromHeaderActionParameters populates our HeaderActionParameters from the provided source HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignPropertiesFromHeaderActionParameters(source *v20210601s.HeaderActionParameters) error {
+// AssignProperties_From_HeaderActionParameters populates our HeaderActionParameters from the provided source HeaderActionParameters
+func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionParameters(source *v20210601s.HeaderActionParameters) error {
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParametersHeaderAction(*source.HeaderAction)
+		headerAction := HeaderActionParameters_HeaderAction(*source.HeaderAction)
 		parameters.HeaderAction = &headerAction
 	} else {
 		parameters.HeaderAction = nil
@@ -12116,7 +12116,7 @@ func (parameters *HeaderActionParameters) AssignPropertiesFromHeaderActionParame
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParametersTypeName(*source.TypeName)
+		typeName := HeaderActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -12129,8 +12129,8 @@ func (parameters *HeaderActionParameters) AssignPropertiesFromHeaderActionParame
 	return nil
 }
 
-// AssignPropertiesToHeaderActionParameters populates the provided destination HeaderActionParameters from our HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignPropertiesToHeaderActionParameters(destination *v20210601s.HeaderActionParameters) error {
+// AssignProperties_To_HeaderActionParameters populates the provided destination HeaderActionParameters from our HeaderActionParameters
+func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParameters(destination *v20210601s.HeaderActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12177,13 +12177,13 @@ type HostNameMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *HostNameMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *HostNameMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []HostNameMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []HostNameMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *HostNameMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *HostNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HostNameMatchConditionParameters{}
@@ -12269,8 +12269,8 @@ func (parameters *HostNameMatchConditionParameters) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromHostNameMatchConditionParameters populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostNameMatchConditionParameters(source *v20210601s.HostNameMatchConditionParameters) error {
+// AssignProperties_From_HostNameMatchConditionParameters populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters
+func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNameMatchConditionParameters(source *v20210601s.HostNameMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -12285,7 +12285,7 @@ func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostName
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParametersOperator(*source.Operator)
+		operator := HostNameMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -12293,11 +12293,11 @@ func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostName
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]HostNameMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]HostNameMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = HostNameMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = HostNameMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12306,7 +12306,7 @@ func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostName
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParametersTypeName(*source.TypeName)
+		typeName := HostNameMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -12316,8 +12316,8 @@ func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostName
 	return nil
 }
 
-// AssignPropertiesToHostNameMatchConditionParameters populates the provided destination HostNameMatchConditionParameters from our HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignPropertiesToHostNameMatchConditionParameters(destination *v20210601s.HostNameMatchConditionParameters) error {
+// AssignProperties_To_HostNameMatchConditionParameters populates the provided destination HostNameMatchConditionParameters from our HostNameMatchConditionParameters
+func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostNameMatchConditionParameters(destination *v20210601s.HostNameMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12382,13 +12382,13 @@ type HttpVersionMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *HttpVersionMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []HttpVersionMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []HttpVersionMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *HttpVersionMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *HttpVersionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HttpVersionMatchConditionParameters{}
@@ -12474,8 +12474,8 @@ func (parameters *HttpVersionMatchConditionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromHttpVersionMatchConditionParameters populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpVersionMatchConditionParameters(source *v20210601s.HttpVersionMatchConditionParameters) error {
+// AssignProperties_From_HttpVersionMatchConditionParameters populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_HttpVersionMatchConditionParameters(source *v20210601s.HttpVersionMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -12490,7 +12490,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpV
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParametersOperator(*source.Operator)
+		operator := HttpVersionMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -12498,11 +12498,11 @@ func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpV
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]HttpVersionMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]HttpVersionMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = HttpVersionMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = HttpVersionMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12511,7 +12511,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpV
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParametersTypeName(*source.TypeName)
+		typeName := HttpVersionMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -12521,8 +12521,8 @@ func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpV
 	return nil
 }
 
-// AssignPropertiesToHttpVersionMatchConditionParameters populates the provided destination HttpVersionMatchConditionParameters from our HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesToHttpVersionMatchConditionParameters(destination *v20210601s.HttpVersionMatchConditionParameters) error {
+// AssignProperties_To_HttpVersionMatchConditionParameters populates the provided destination HttpVersionMatchConditionParameters from our HttpVersionMatchConditionParameters
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpVersionMatchConditionParameters(destination *v20210601s.HttpVersionMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12580,20 +12580,20 @@ func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesToHttpVer
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/IsDeviceMatchConditionParameters
 type IsDeviceMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
+	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *IsDeviceMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []IsDeviceMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []IsDeviceMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *IsDeviceMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *IsDeviceMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IsDeviceMatchConditionParameters{}
@@ -12679,16 +12679,16 @@ func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromIsDeviceMatchConditionParameters populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDeviceMatchConditionParameters(source *v20210601s.IsDeviceMatchConditionParameters) error {
+// AssignProperties_From_IsDeviceMatchConditionParameters populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDeviceMatchConditionParameters(source *v20210601s.IsDeviceMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
-		matchValueList := make([]IsDeviceMatchConditionParametersMatchValues, len(source.MatchValues))
+		matchValueList := make([]IsDeviceMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParametersMatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = IsDeviceMatchConditionParameters_MatchValues(matchValueItem)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -12705,7 +12705,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDevice
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParametersOperator(*source.Operator)
+		operator := IsDeviceMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -12713,11 +12713,11 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDevice
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]IsDeviceMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]IsDeviceMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = IsDeviceMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = IsDeviceMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12726,7 +12726,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDevice
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParametersTypeName(*source.TypeName)
+		typeName := IsDeviceMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -12736,8 +12736,8 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDevice
 	return nil
 }
 
-// AssignPropertiesToIsDeviceMatchConditionParameters populates the provided destination IsDeviceMatchConditionParameters from our IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesToIsDeviceMatchConditionParameters(destination *v20210601s.IsDeviceMatchConditionParameters) error {
+// AssignProperties_To_IsDeviceMatchConditionParameters populates the provided destination IsDeviceMatchConditionParameters from our IsDeviceMatchConditionParameters
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDeviceMatchConditionParameters(destination *v20210601s.IsDeviceMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12803,9 +12803,9 @@ func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesToIsDeviceMa
 }
 
 // +kubebuilder:validation:Enum={"OriginGroupOverride"}
-type OriginGroupOverrideActionName string
+type OriginGroupOverrideAction_Name string
 
-const OriginGroupOverrideActionName_OriginGroupOverride = OriginGroupOverrideActionName("OriginGroupOverride")
+const OriginGroupOverrideAction_Name_OriginGroupOverride = OriginGroupOverrideAction_Name("OriginGroupOverride")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideActionParameters
 type OriginGroupOverrideActionParameters struct {
@@ -12814,7 +12814,7 @@ type OriginGroupOverrideActionParameters struct {
 	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *OriginGroupOverrideActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *OriginGroupOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OriginGroupOverrideActionParameters{}
@@ -12877,15 +12877,15 @@ func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromOriginGroupOverrideActionParameters populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesFromOriginGroupOverrideActionParameters(source *v20210601s.OriginGroupOverrideActionParameters) error {
+// AssignProperties_From_OriginGroupOverrideActionParameters populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_OriginGroupOverrideActionParameters(source *v20210601s.OriginGroupOverrideActionParameters) error {
 
 	// OriginGroup
 	if source.OriginGroup != nil {
 		var originGroup ResourceReference
-		err := originGroup.AssignPropertiesFromResourceReference(source.OriginGroup)
+		err := originGroup.AssignProperties_From_ResourceReference(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field OriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
 		}
 		parameters.OriginGroup = &originGroup
 	} else {
@@ -12894,7 +12894,7 @@ func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesFromOrigi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParametersTypeName(*source.TypeName)
+		typeName := OriginGroupOverrideActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -12904,17 +12904,17 @@ func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesFromOrigi
 	return nil
 }
 
-// AssignPropertiesToOriginGroupOverrideActionParameters populates the provided destination OriginGroupOverrideActionParameters from our OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesToOriginGroupOverrideActionParameters(destination *v20210601s.OriginGroupOverrideActionParameters) error {
+// AssignProperties_To_OriginGroupOverrideActionParameters populates the provided destination OriginGroupOverrideActionParameters from our OriginGroupOverrideActionParameters
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_OriginGroupOverrideActionParameters(destination *v20210601s.OriginGroupOverrideActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// OriginGroup
 	if parameters.OriginGroup != nil {
 		var originGroup v20210601s.ResourceReference
-		err := parameters.OriginGroup.AssignPropertiesToResourceReference(&originGroup)
+		err := parameters.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field OriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -12950,16 +12950,16 @@ type PostArgsMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *PostArgsMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *PostArgsMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of PostArg to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []PostArgsMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []PostArgsMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *PostArgsMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *PostArgsMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PostArgsMatchConditionParameters{}
@@ -13057,8 +13057,8 @@ func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromPostArgsMatchConditionParameters populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgsMatchConditionParameters(source *v20210601s.PostArgsMatchConditionParameters) error {
+// AssignProperties_From_PostArgsMatchConditionParameters populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostArgsMatchConditionParameters(source *v20210601s.PostArgsMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -13073,7 +13073,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgs
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParametersOperator(*source.Operator)
+		operator := PostArgsMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -13084,11 +13084,11 @@ func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgs
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]PostArgsMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]PostArgsMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = PostArgsMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = PostArgsMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13097,7 +13097,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgs
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParametersTypeName(*source.TypeName)
+		typeName := PostArgsMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -13107,8 +13107,8 @@ func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgs
 	return nil
 }
 
-// AssignPropertiesToPostArgsMatchConditionParameters populates the provided destination PostArgsMatchConditionParameters from our PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignPropertiesToPostArgsMatchConditionParameters(destination *v20210601s.PostArgsMatchConditionParameters) error {
+// AssignProperties_To_PostArgsMatchConditionParameters populates the provided destination PostArgsMatchConditionParameters from our PostArgsMatchConditionParameters
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgsMatchConditionParameters(destination *v20210601s.PostArgsMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13176,13 +13176,13 @@ type QueryStringMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *QueryStringMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *QueryStringMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []QueryStringMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []QueryStringMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *QueryStringMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *QueryStringMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &QueryStringMatchConditionParameters{}
@@ -13268,8 +13268,8 @@ func (parameters *QueryStringMatchConditionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromQueryStringMatchConditionParameters populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQueryStringMatchConditionParameters(source *v20210601s.QueryStringMatchConditionParameters) error {
+// AssignProperties_From_QueryStringMatchConditionParameters populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_QueryStringMatchConditionParameters(source *v20210601s.QueryStringMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -13284,7 +13284,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQuery
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParametersOperator(*source.Operator)
+		operator := QueryStringMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -13292,11 +13292,11 @@ func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQuery
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]QueryStringMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]QueryStringMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = QueryStringMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = QueryStringMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13305,7 +13305,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQuery
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParametersTypeName(*source.TypeName)
+		typeName := QueryStringMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -13315,8 +13315,8 @@ func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQuery
 	return nil
 }
 
-// AssignPropertiesToQueryStringMatchConditionParameters populates the provided destination QueryStringMatchConditionParameters from our QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignPropertiesToQueryStringMatchConditionParameters(destination *v20210601s.QueryStringMatchConditionParameters) error {
+// AssignProperties_To_QueryStringMatchConditionParameters populates the provided destination QueryStringMatchConditionParameters from our QueryStringMatchConditionParameters
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_QueryStringMatchConditionParameters(destination *v20210601s.QueryStringMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13382,13 +13382,13 @@ type RemoteAddressMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *RemoteAddressMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RemoteAddressMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RemoteAddressMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RemoteAddressMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RemoteAddressMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RemoteAddressMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RemoteAddressMatchConditionParameters{}
@@ -13474,8 +13474,8 @@ func (parameters *RemoteAddressMatchConditionParameters) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromRemoteAddressMatchConditionParameters populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRemoteAddressMatchConditionParameters(source *v20210601s.RemoteAddressMatchConditionParameters) error {
+// AssignProperties_From_RemoteAddressMatchConditionParameters populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_RemoteAddressMatchConditionParameters(source *v20210601s.RemoteAddressMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -13490,7 +13490,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRem
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParametersOperator(*source.Operator)
+		operator := RemoteAddressMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -13498,11 +13498,11 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRem
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RemoteAddressMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RemoteAddressMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RemoteAddressMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RemoteAddressMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13511,7 +13511,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRem
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RemoteAddressMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -13521,8 +13521,8 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRem
 	return nil
 }
 
-// AssignPropertiesToRemoteAddressMatchConditionParameters populates the provided destination RemoteAddressMatchConditionParameters from our RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesToRemoteAddressMatchConditionParameters(destination *v20210601s.RemoteAddressMatchConditionParameters) error {
+// AssignProperties_To_RemoteAddressMatchConditionParameters populates the provided destination RemoteAddressMatchConditionParameters from our RemoteAddressMatchConditionParameters
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_RemoteAddressMatchConditionParameters(destination *v20210601s.RemoteAddressMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13587,13 +13587,13 @@ type RequestBodyMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *RequestBodyMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RequestBodyMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestBodyMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RequestBodyMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RequestBodyMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RequestBodyMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RequestBodyMatchConditionParameters{}
@@ -13679,8 +13679,8 @@ func (parameters *RequestBodyMatchConditionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromRequestBodyMatchConditionParameters populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromRequestBodyMatchConditionParameters(source *v20210601s.RequestBodyMatchConditionParameters) error {
+// AssignProperties_From_RequestBodyMatchConditionParameters populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_RequestBodyMatchConditionParameters(source *v20210601s.RequestBodyMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -13695,7 +13695,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromReque
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParametersOperator(*source.Operator)
+		operator := RequestBodyMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -13703,11 +13703,11 @@ func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromReque
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RequestBodyMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RequestBodyMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RequestBodyMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RequestBodyMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13716,7 +13716,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromReque
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RequestBodyMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -13726,8 +13726,8 @@ func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromReque
 	return nil
 }
 
-// AssignPropertiesToRequestBodyMatchConditionParameters populates the provided destination RequestBodyMatchConditionParameters from our RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesToRequestBodyMatchConditionParameters(destination *v20210601s.RequestBodyMatchConditionParameters) error {
+// AssignProperties_To_RequestBodyMatchConditionParameters populates the provided destination RequestBodyMatchConditionParameters from our RequestBodyMatchConditionParameters
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_RequestBodyMatchConditionParameters(destination *v20210601s.RequestBodyMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13792,16 +13792,16 @@ type RequestHeaderMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *RequestHeaderMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RequestHeaderMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of Header to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestHeaderMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RequestHeaderMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RequestHeaderMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RequestHeaderMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RequestHeaderMatchConditionParameters{}
@@ -13899,8 +13899,8 @@ func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromRequestHeaderMatchConditionParameters populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromRequestHeaderMatchConditionParameters(source *v20210601s.RequestHeaderMatchConditionParameters) error {
+// AssignProperties_From_RequestHeaderMatchConditionParameters populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_RequestHeaderMatchConditionParameters(source *v20210601s.RequestHeaderMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -13915,7 +13915,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromReq
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParametersOperator(*source.Operator)
+		operator := RequestHeaderMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -13926,11 +13926,11 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromReq
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RequestHeaderMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RequestHeaderMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RequestHeaderMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RequestHeaderMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13939,7 +13939,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromReq
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RequestHeaderMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -13949,8 +13949,8 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromReq
 	return nil
 }
 
-// AssignPropertiesToRequestHeaderMatchConditionParameters populates the provided destination RequestHeaderMatchConditionParameters from our RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesToRequestHeaderMatchConditionParameters(destination *v20210601s.RequestHeaderMatchConditionParameters) error {
+// AssignProperties_To_RequestHeaderMatchConditionParameters populates the provided destination RequestHeaderMatchConditionParameters from our RequestHeaderMatchConditionParameters
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_RequestHeaderMatchConditionParameters(destination *v20210601s.RequestHeaderMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14011,20 +14011,20 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesToReque
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestMethodMatchConditionParameters
 type RequestMethodMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
+	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RequestMethodMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestMethodMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RequestMethodMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RequestMethodMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RequestMethodMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RequestMethodMatchConditionParameters{}
@@ -14110,16 +14110,16 @@ func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromRequestMethodMatchConditionParameters populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromRequestMethodMatchConditionParameters(source *v20210601s.RequestMethodMatchConditionParameters) error {
+// AssignProperties_From_RequestMethodMatchConditionParameters populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_RequestMethodMatchConditionParameters(source *v20210601s.RequestMethodMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
-		matchValueList := make([]RequestMethodMatchConditionParametersMatchValues, len(source.MatchValues))
+		matchValueList := make([]RequestMethodMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParametersMatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = RequestMethodMatchConditionParameters_MatchValues(matchValueItem)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -14136,7 +14136,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromReq
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParametersOperator(*source.Operator)
+		operator := RequestMethodMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -14144,11 +14144,11 @@ func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromReq
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RequestMethodMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RequestMethodMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RequestMethodMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RequestMethodMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14157,7 +14157,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromReq
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RequestMethodMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -14167,8 +14167,8 @@ func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromReq
 	return nil
 }
 
-// AssignPropertiesToRequestMethodMatchConditionParameters populates the provided destination RequestMethodMatchConditionParameters from our RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesToRequestMethodMatchConditionParameters(destination *v20210601s.RequestMethodMatchConditionParameters) error {
+// AssignProperties_To_RequestMethodMatchConditionParameters populates the provided destination RequestMethodMatchConditionParameters from our RequestMethodMatchConditionParameters
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_RequestMethodMatchConditionParameters(destination *v20210601s.RequestMethodMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14236,20 +14236,20 @@ func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesToReque
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestSchemeMatchConditionParameters
 type RequestSchemeMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
+	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RequestSchemeMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestSchemeMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RequestSchemeMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RequestSchemeMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RequestSchemeMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RequestSchemeMatchConditionParameters{}
@@ -14335,16 +14335,16 @@ func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromRequestSchemeMatchConditionParameters populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromRequestSchemeMatchConditionParameters(source *v20210601s.RequestSchemeMatchConditionParameters) error {
+// AssignProperties_From_RequestSchemeMatchConditionParameters populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_RequestSchemeMatchConditionParameters(source *v20210601s.RequestSchemeMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
-		matchValueList := make([]RequestSchemeMatchConditionParametersMatchValues, len(source.MatchValues))
+		matchValueList := make([]RequestSchemeMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParametersMatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParameters_MatchValues(matchValueItem)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -14361,7 +14361,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromReq
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParametersOperator(*source.Operator)
+		operator := RequestSchemeMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -14369,11 +14369,11 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromReq
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RequestSchemeMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RequestSchemeMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RequestSchemeMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RequestSchemeMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14382,7 +14382,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromReq
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RequestSchemeMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -14392,8 +14392,8 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromReq
 	return nil
 }
 
-// AssignPropertiesToRequestSchemeMatchConditionParameters populates the provided destination RequestSchemeMatchConditionParameters from our RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesToRequestSchemeMatchConditionParameters(destination *v20210601s.RequestSchemeMatchConditionParameters) error {
+// AssignProperties_To_RequestSchemeMatchConditionParameters populates the provided destination RequestSchemeMatchConditionParameters from our RequestSchemeMatchConditionParameters
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_RequestSchemeMatchConditionParameters(destination *v20210601s.RequestSchemeMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14468,13 +14468,13 @@ type RequestUriMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *RequestUriMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *RequestUriMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestUriMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []RequestUriMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RequestUriMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RequestUriMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RequestUriMatchConditionParameters{}
@@ -14560,8 +14560,8 @@ func (parameters *RequestUriMatchConditionParameters) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromRequestUriMatchConditionParameters populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromRequestUriMatchConditionParameters(source *v20210601s.RequestUriMatchConditionParameters) error {
+// AssignProperties_From_RequestUriMatchConditionParameters populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_RequestUriMatchConditionParameters(source *v20210601s.RequestUriMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -14576,7 +14576,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromReques
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParametersOperator(*source.Operator)
+		operator := RequestUriMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -14584,11 +14584,11 @@ func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromReques
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]RequestUriMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]RequestUriMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = RequestUriMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = RequestUriMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14597,7 +14597,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromReques
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParametersTypeName(*source.TypeName)
+		typeName := RequestUriMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -14607,8 +14607,8 @@ func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromReques
 	return nil
 }
 
-// AssignPropertiesToRequestUriMatchConditionParameters populates the provided destination RequestUriMatchConditionParameters from our RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignPropertiesToRequestUriMatchConditionParameters(destination *v20210601s.RequestUriMatchConditionParameters) error {
+// AssignProperties_To_RequestUriMatchConditionParameters populates the provided destination RequestUriMatchConditionParameters from our RequestUriMatchConditionParameters
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_RequestUriMatchConditionParameters(destination *v20210601s.RequestUriMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14673,7 +14673,7 @@ type RouteConfigurationOverrideActionParameters struct {
 	OriginGroupOverride *OriginGroupOverride `json:"originGroupOverride,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *RouteConfigurationOverrideActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *RouteConfigurationOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RouteConfigurationOverrideActionParameters{}
@@ -14757,15 +14757,15 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 	return nil
 }
 
-// AssignPropertiesFromRouteConfigurationOverrideActionParameters populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesFromRouteConfigurationOverrideActionParameters(source *v20210601s.RouteConfigurationOverrideActionParameters) error {
+// AssignProperties_From_RouteConfigurationOverrideActionParameters populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_From_RouteConfigurationOverrideActionParameters(source *v20210601s.RouteConfigurationOverrideActionParameters) error {
 
 	// CacheConfiguration
 	if source.CacheConfiguration != nil {
 		var cacheConfiguration CacheConfiguration
-		err := cacheConfiguration.AssignPropertiesFromCacheConfiguration(source.CacheConfiguration)
+		err := cacheConfiguration.AssignProperties_From_CacheConfiguration(source.CacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheConfiguration() to populate field CacheConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_CacheConfiguration() to populate field CacheConfiguration")
 		}
 		parameters.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -14775,9 +14775,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesFr
 	// OriginGroupOverride
 	if source.OriginGroupOverride != nil {
 		var originGroupOverride OriginGroupOverride
-		err := originGroupOverride.AssignPropertiesFromOriginGroupOverride(source.OriginGroupOverride)
+		err := originGroupOverride.AssignProperties_From_OriginGroupOverride(source.OriginGroupOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverride() to populate field OriginGroupOverride")
+			return errors.Wrap(err, "calling AssignProperties_From_OriginGroupOverride() to populate field OriginGroupOverride")
 		}
 		parameters.OriginGroupOverride = &originGroupOverride
 	} else {
@@ -14786,7 +14786,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesFr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParametersTypeName(*source.TypeName)
+		typeName := RouteConfigurationOverrideActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -14796,17 +14796,17 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesFr
 	return nil
 }
 
-// AssignPropertiesToRouteConfigurationOverrideActionParameters populates the provided destination RouteConfigurationOverrideActionParameters from our RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesToRouteConfigurationOverrideActionParameters(destination *v20210601s.RouteConfigurationOverrideActionParameters) error {
+// AssignProperties_To_RouteConfigurationOverrideActionParameters populates the provided destination RouteConfigurationOverrideActionParameters from our RouteConfigurationOverrideActionParameters
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_To_RouteConfigurationOverrideActionParameters(destination *v20210601s.RouteConfigurationOverrideActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CacheConfiguration
 	if parameters.CacheConfiguration != nil {
 		var cacheConfiguration v20210601s.CacheConfiguration
-		err := parameters.CacheConfiguration.AssignPropertiesToCacheConfiguration(&cacheConfiguration)
+		err := parameters.CacheConfiguration.AssignProperties_To_CacheConfiguration(&cacheConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheConfiguration() to populate field CacheConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_CacheConfiguration() to populate field CacheConfiguration")
 		}
 		destination.CacheConfiguration = &cacheConfiguration
 	} else {
@@ -14816,9 +14816,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesTo
 	// OriginGroupOverride
 	if parameters.OriginGroupOverride != nil {
 		var originGroupOverride v20210601s.OriginGroupOverride
-		err := parameters.OriginGroupOverride.AssignPropertiesToOriginGroupOverride(&originGroupOverride)
+		err := parameters.OriginGroupOverride.AssignProperties_To_OriginGroupOverride(&originGroupOverride)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverride() to populate field OriginGroupOverride")
+			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverride() to populate field OriginGroupOverride")
 		}
 		destination.OriginGroupOverride = &originGroupOverride
 	} else {
@@ -14854,13 +14854,13 @@ type ServerPortMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *ServerPortMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *ServerPortMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []ServerPortMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []ServerPortMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *ServerPortMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *ServerPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPortMatchConditionParameters{}
@@ -14946,8 +14946,8 @@ func (parameters *ServerPortMatchConditionParameters) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromServerPortMatchConditionParameters populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServerPortMatchConditionParameters(source *v20210601s.ServerPortMatchConditionParameters) error {
+// AssignProperties_From_ServerPortMatchConditionParameters populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_ServerPortMatchConditionParameters(source *v20210601s.ServerPortMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -14962,7 +14962,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServer
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParametersOperator(*source.Operator)
+		operator := ServerPortMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -14970,11 +14970,11 @@ func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServer
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]ServerPortMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]ServerPortMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = ServerPortMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = ServerPortMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14983,7 +14983,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServer
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParametersTypeName(*source.TypeName)
+		typeName := ServerPortMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -14993,8 +14993,8 @@ func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServer
 	return nil
 }
 
-// AssignPropertiesToServerPortMatchConditionParameters populates the provided destination ServerPortMatchConditionParameters from our ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignPropertiesToServerPortMatchConditionParameters(destination *v20210601s.ServerPortMatchConditionParameters) error {
+// AssignProperties_To_ServerPortMatchConditionParameters populates the provided destination ServerPortMatchConditionParameters from our ServerPortMatchConditionParameters
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_ServerPortMatchConditionParameters(destination *v20210601s.ServerPortMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15059,13 +15059,13 @@ type SocketAddrMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *SocketAddrMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *SocketAddrMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []SocketAddrMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []SocketAddrMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *SocketAddrMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *SocketAddrMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SocketAddrMatchConditionParameters{}
@@ -15151,8 +15151,8 @@ func (parameters *SocketAddrMatchConditionParameters) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromSocketAddrMatchConditionParameters populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocketAddrMatchConditionParameters(source *v20210601s.SocketAddrMatchConditionParameters) error {
+// AssignProperties_From_SocketAddrMatchConditionParameters populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_SocketAddrMatchConditionParameters(source *v20210601s.SocketAddrMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15167,7 +15167,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocket
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParametersOperator(*source.Operator)
+		operator := SocketAddrMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -15175,11 +15175,11 @@ func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocket
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]SocketAddrMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]SocketAddrMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = SocketAddrMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = SocketAddrMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15188,7 +15188,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocket
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParametersTypeName(*source.TypeName)
+		typeName := SocketAddrMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -15198,8 +15198,8 @@ func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocket
 	return nil
 }
 
-// AssignPropertiesToSocketAddrMatchConditionParameters populates the provided destination SocketAddrMatchConditionParameters from our SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesToSocketAddrMatchConditionParameters(destination *v20210601s.SocketAddrMatchConditionParameters) error {
+// AssignProperties_To_SocketAddrMatchConditionParameters populates the provided destination SocketAddrMatchConditionParameters from our SocketAddrMatchConditionParameters
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_SocketAddrMatchConditionParameters(destination *v20210601s.SocketAddrMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15257,20 +15257,20 @@ func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesToSocketAd
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SslProtocolMatchConditionParameters
 type SslProtocolMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocolMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
+	MatchValues []SslProtocolMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *SslProtocolMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []SslProtocolMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []SslProtocolMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *SslProtocolMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *SslProtocolMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SslProtocolMatchConditionParameters{}
@@ -15356,16 +15356,16 @@ func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromSslProtocolMatchConditionParameters populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslProtocolMatchConditionParameters(source *v20210601s.SslProtocolMatchConditionParameters) error {
+// AssignProperties_From_SslProtocolMatchConditionParameters populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_SslProtocolMatchConditionParameters(source *v20210601s.SslProtocolMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
-		matchValueList := make([]SslProtocolMatchConditionParametersMatchValues, len(source.MatchValues))
+		matchValueList := make([]SslProtocolMatchConditionParameters_MatchValues, len(source.MatchValues))
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocolMatchConditionParametersMatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = SslProtocolMatchConditionParameters_MatchValues(matchValueItem)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -15382,7 +15382,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslPr
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParametersOperator(*source.Operator)
+		operator := SslProtocolMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -15390,11 +15390,11 @@ func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslPr
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]SslProtocolMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]SslProtocolMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = SslProtocolMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = SslProtocolMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15403,7 +15403,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslPr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParametersTypeName(*source.TypeName)
+		typeName := SslProtocolMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -15413,8 +15413,8 @@ func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslPr
 	return nil
 }
 
-// AssignPropertiesToSslProtocolMatchConditionParameters populates the provided destination SslProtocolMatchConditionParameters from our SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesToSslProtocolMatchConditionParameters(destination *v20210601s.SslProtocolMatchConditionParameters) error {
+// AssignProperties_To_SslProtocolMatchConditionParameters populates the provided destination SslProtocolMatchConditionParameters from our SslProtocolMatchConditionParameters
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslProtocolMatchConditionParameters(destination *v20210601s.SslProtocolMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15489,13 +15489,13 @@ type UrlFileExtensionMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *UrlFileExtensionMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *UrlFileExtensionMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlFileExtensionMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []UrlFileExtensionMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlFileExtensionMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlFileExtensionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlFileExtensionMatchConditionParameters{}
@@ -15581,8 +15581,8 @@ func (parameters *UrlFileExtensionMatchConditionParameters) PopulateFromARM(owne
 	return nil
 }
 
-// AssignPropertiesFromUrlFileExtensionMatchConditionParameters populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFromUrlFileExtensionMatchConditionParameters(source *v20210601s.UrlFileExtensionMatchConditionParameters) error {
+// AssignProperties_From_UrlFileExtensionMatchConditionParameters populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_From_UrlFileExtensionMatchConditionParameters(source *v20210601s.UrlFileExtensionMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15597,7 +15597,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFrom
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParametersOperator(*source.Operator)
+		operator := UrlFileExtensionMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -15605,11 +15605,11 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFrom
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]UrlFileExtensionMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]UrlFileExtensionMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = UrlFileExtensionMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = UrlFileExtensionMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15618,7 +15618,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFrom
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParametersTypeName(*source.TypeName)
+		typeName := UrlFileExtensionMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -15628,8 +15628,8 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFrom
 	return nil
 }
 
-// AssignPropertiesToUrlFileExtensionMatchConditionParameters populates the provided destination UrlFileExtensionMatchConditionParameters from our UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesToUrlFileExtensionMatchConditionParameters(destination *v20210601s.UrlFileExtensionMatchConditionParameters) error {
+// AssignProperties_To_UrlFileExtensionMatchConditionParameters populates the provided destination UrlFileExtensionMatchConditionParameters from our UrlFileExtensionMatchConditionParameters
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_UrlFileExtensionMatchConditionParameters(destination *v20210601s.UrlFileExtensionMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15694,13 +15694,13 @@ type UrlFileNameMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *UrlFileNameMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *UrlFileNameMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlFileNameMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []UrlFileNameMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlFileNameMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlFileNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlFileNameMatchConditionParameters{}
@@ -15786,8 +15786,8 @@ func (parameters *UrlFileNameMatchConditionParameters) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromUrlFileNameMatchConditionParameters populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFileNameMatchConditionParameters(source *v20210601s.UrlFileNameMatchConditionParameters) error {
+// AssignProperties_From_UrlFileNameMatchConditionParameters populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_UrlFileNameMatchConditionParameters(source *v20210601s.UrlFileNameMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15802,7 +15802,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFi
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParametersOperator(*source.Operator)
+		operator := UrlFileNameMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -15810,11 +15810,11 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFi
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]UrlFileNameMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]UrlFileNameMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = UrlFileNameMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = UrlFileNameMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15823,7 +15823,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParametersTypeName(*source.TypeName)
+		typeName := UrlFileNameMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -15833,8 +15833,8 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFi
 	return nil
 }
 
-// AssignPropertiesToUrlFileNameMatchConditionParameters populates the provided destination UrlFileNameMatchConditionParameters from our UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesToUrlFileNameMatchConditionParameters(destination *v20210601s.UrlFileNameMatchConditionParameters) error {
+// AssignProperties_To_UrlFileNameMatchConditionParameters populates the provided destination UrlFileNameMatchConditionParameters from our UrlFileNameMatchConditionParameters
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFileNameMatchConditionParameters(destination *v20210601s.UrlFileNameMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15899,13 +15899,13 @@ type UrlPathMatchConditionParameters struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Describes operator to be matched.
-	Operator *UrlPathMatchConditionParametersOperator `json:"operator,omitempty"`
+	Operator *UrlPathMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlPathMatchConditionParametersTransforms `json:"transforms,omitempty"`
+	Transforms []UrlPathMatchConditionParameters_Transforms `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlPathMatchConditionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlPathMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlPathMatchConditionParameters{}
@@ -15991,8 +15991,8 @@ func (parameters *UrlPathMatchConditionParameters) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromUrlPathMatchConditionParameters populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMatchConditionParameters(source *v20210601s.UrlPathMatchConditionParameters) error {
+// AssignProperties_From_UrlPathMatchConditionParameters populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPathMatchConditionParameters(source *v20210601s.UrlPathMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -16007,7 +16007,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMa
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParametersOperator(*source.Operator)
+		operator := UrlPathMatchConditionParameters_Operator(*source.Operator)
 		parameters.Operator = &operator
 	} else {
 		parameters.Operator = nil
@@ -16015,11 +16015,11 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMa
 
 	// Transforms
 	if source.Transforms != nil {
-		transformList := make([]UrlPathMatchConditionParametersTransforms, len(source.Transforms))
+		transformList := make([]UrlPathMatchConditionParameters_Transforms, len(source.Transforms))
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = UrlPathMatchConditionParametersTransforms(transformItem)
+			transformList[transformIndex] = UrlPathMatchConditionParameters_Transforms(transformItem)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -16028,7 +16028,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParametersTypeName(*source.TypeName)
+		typeName := UrlPathMatchConditionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -16038,8 +16038,8 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMa
 	return nil
 }
 
-// AssignPropertiesToUrlPathMatchConditionParameters populates the provided destination UrlPathMatchConditionParameters from our UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignPropertiesToUrlPathMatchConditionParameters(destination *v20210601s.UrlPathMatchConditionParameters) error {
+// AssignProperties_To_UrlPathMatchConditionParameters populates the provided destination UrlPathMatchConditionParameters from our UrlPathMatchConditionParameters
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMatchConditionParameters(destination *v20210601s.UrlPathMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16095,9 +16095,9 @@ func (parameters *UrlPathMatchConditionParameters) AssignPropertiesToUrlPathMatc
 }
 
 // +kubebuilder:validation:Enum={"UrlRedirect"}
-type UrlRedirectActionName string
+type UrlRedirectAction_Name string
 
-const UrlRedirectActionName_UrlRedirect = UrlRedirectActionName("UrlRedirect")
+const UrlRedirectAction_Name_UrlRedirect = UrlRedirectAction_Name("UrlRedirect")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectActionParameters
 type UrlRedirectActionParameters struct {
@@ -16118,14 +16118,14 @@ type UrlRedirectActionParameters struct {
 	CustomQueryString *string `json:"customQueryString,omitempty"`
 
 	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest.
-	DestinationProtocol *UrlRedirectActionParametersDestinationProtocol `json:"destinationProtocol,omitempty"`
+	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol `json:"destinationProtocol,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// RedirectType: The redirect type the rule will use when redirecting traffic.
-	RedirectType *UrlRedirectActionParametersRedirectType `json:"redirectType,omitempty"`
+	RedirectType *UrlRedirectActionParameters_RedirectType `json:"redirectType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlRedirectActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlRedirectActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlRedirectActionParameters{}
@@ -16239,8 +16239,8 @@ func (parameters *UrlRedirectActionParameters) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromUrlRedirectActionParameters populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectActionParameters(source *v20210601s.UrlRedirectActionParameters) error {
+// AssignProperties_From_UrlRedirectActionParameters populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters
+func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirectActionParameters(source *v20210601s.UrlRedirectActionParameters) error {
 
 	// CustomFragment
 	parameters.CustomFragment = genruntime.ClonePointerToString(source.CustomFragment)
@@ -16256,7 +16256,7 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectAc
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParametersDestinationProtocol(*source.DestinationProtocol)
+		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol(*source.DestinationProtocol)
 		parameters.DestinationProtocol = &destinationProtocol
 	} else {
 		parameters.DestinationProtocol = nil
@@ -16264,7 +16264,7 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectAc
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParametersRedirectType(*source.RedirectType)
+		redirectType := UrlRedirectActionParameters_RedirectType(*source.RedirectType)
 		parameters.RedirectType = &redirectType
 	} else {
 		parameters.RedirectType = nil
@@ -16272,7 +16272,7 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectAc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParametersTypeName(*source.TypeName)
+		typeName := UrlRedirectActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -16282,8 +16282,8 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectAc
 	return nil
 }
 
-// AssignPropertiesToUrlRedirectActionParameters populates the provided destination UrlRedirectActionParameters from our UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignPropertiesToUrlRedirectActionParameters(destination *v20210601s.UrlRedirectActionParameters) error {
+// AssignProperties_To_UrlRedirectActionParameters populates the provided destination UrlRedirectActionParameters from our UrlRedirectActionParameters
+func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectActionParameters(destination *v20210601s.UrlRedirectActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16335,9 +16335,9 @@ func (parameters *UrlRedirectActionParameters) AssignPropertiesToUrlRedirectActi
 }
 
 // +kubebuilder:validation:Enum={"UrlRewrite"}
-type UrlRewriteActionName string
+type UrlRewriteAction_Name string
 
-const UrlRewriteActionName_UrlRewrite = UrlRewriteActionName("UrlRewrite")
+const UrlRewriteAction_Name_UrlRewrite = UrlRewriteAction_Name("UrlRewrite")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteActionParameters
 type UrlRewriteActionParameters struct {
@@ -16354,7 +16354,7 @@ type UrlRewriteActionParameters struct {
 	SourcePattern *string `json:"sourcePattern,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlRewriteActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlRewriteActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlRewriteActionParameters{}
@@ -16432,8 +16432,8 @@ func (parameters *UrlRewriteActionParameters) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromUrlRewriteActionParameters populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignPropertiesFromUrlRewriteActionParameters(source *v20210601s.UrlRewriteActionParameters) error {
+// AssignProperties_From_UrlRewriteActionParameters populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters
+func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteActionParameters(source *v20210601s.UrlRewriteActionParameters) error {
 
 	// Destination
 	parameters.Destination = genruntime.ClonePointerToString(source.Destination)
@@ -16451,7 +16451,7 @@ func (parameters *UrlRewriteActionParameters) AssignPropertiesFromUrlRewriteActi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParametersTypeName(*source.TypeName)
+		typeName := UrlRewriteActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -16461,8 +16461,8 @@ func (parameters *UrlRewriteActionParameters) AssignPropertiesFromUrlRewriteActi
 	return nil
 }
 
-// AssignPropertiesToUrlRewriteActionParameters populates the provided destination UrlRewriteActionParameters from our UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignPropertiesToUrlRewriteActionParameters(destination *v20210601s.UrlRewriteActionParameters) error {
+// AssignProperties_To_UrlRewriteActionParameters populates the provided destination UrlRewriteActionParameters from our UrlRewriteActionParameters
+func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActionParameters(destination *v20210601s.UrlRewriteActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16500,20 +16500,20 @@ func (parameters *UrlRewriteActionParameters) AssignPropertiesToUrlRewriteAction
 }
 
 // +kubebuilder:validation:Enum={"UrlSigning"}
-type UrlSigningActionName string
+type UrlSigningAction_Name string
 
-const UrlSigningActionName_UrlSigning = UrlSigningActionName("UrlSigning")
+const UrlSigningAction_Name_UrlSigning = UrlSigningAction_Name("UrlSigning")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningActionParameters
 type UrlSigningActionParameters struct {
 	// Algorithm: Algorithm to use for URL signing.
-	Algorithm *UrlSigningActionParametersAlgorithm `json:"algorithm,omitempty"`
+	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
 
 	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
 	ParameterNameOverride []UrlSigningParamIdentifier `json:"parameterNameOverride,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *UrlSigningActionParametersTypeName `json:"typeName,omitempty"`
+	TypeName *UrlSigningActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UrlSigningActionParameters{}
@@ -16586,12 +16586,12 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningActionParameters populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignPropertiesFromUrlSigningActionParameters(source *v20210601s.UrlSigningActionParameters) error {
+// AssignProperties_From_UrlSigningActionParameters populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters
+func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningActionParameters(source *v20210601s.UrlSigningActionParameters) error {
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParametersAlgorithm(*source.Algorithm)
+		algorithm := UrlSigningActionParameters_Algorithm(*source.Algorithm)
 		parameters.Algorithm = &algorithm
 	} else {
 		parameters.Algorithm = nil
@@ -16604,9 +16604,9 @@ func (parameters *UrlSigningActionParameters) AssignPropertiesFromUrlSigningActi
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride UrlSigningParamIdentifier
-			err := parameterNameOverride.AssignPropertiesFromUrlSigningParamIdentifier(&parameterNameOverrideItem)
+			err := parameterNameOverride.AssignProperties_From_UrlSigningParamIdentifier(&parameterNameOverrideItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningParamIdentifier() to populate field ParameterNameOverride")
+				return errors.Wrap(err, "calling AssignProperties_From_UrlSigningParamIdentifier() to populate field ParameterNameOverride")
 			}
 			parameterNameOverrideList[parameterNameOverrideIndex] = parameterNameOverride
 		}
@@ -16617,7 +16617,7 @@ func (parameters *UrlSigningActionParameters) AssignPropertiesFromUrlSigningActi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParametersTypeName(*source.TypeName)
+		typeName := UrlSigningActionParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -16627,8 +16627,8 @@ func (parameters *UrlSigningActionParameters) AssignPropertiesFromUrlSigningActi
 	return nil
 }
 
-// AssignPropertiesToUrlSigningActionParameters populates the provided destination UrlSigningActionParameters from our UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignPropertiesToUrlSigningActionParameters(destination *v20210601s.UrlSigningActionParameters) error {
+// AssignProperties_To_UrlSigningActionParameters populates the provided destination UrlSigningActionParameters from our UrlSigningActionParameters
+func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActionParameters(destination *v20210601s.UrlSigningActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16647,9 +16647,9 @@ func (parameters *UrlSigningActionParameters) AssignPropertiesToUrlSigningAction
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
 			var parameterNameOverride v20210601s.UrlSigningParamIdentifier
-			err := parameterNameOverrideItem.AssignPropertiesToUrlSigningParamIdentifier(&parameterNameOverride)
+			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier(&parameterNameOverride)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningParamIdentifier() to populate field ParameterNameOverride")
+				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningParamIdentifier() to populate field ParameterNameOverride")
 			}
 			parameterNameOverrideList[parameterNameOverrideIndex] = parameterNameOverride
 		}
@@ -16680,7 +16680,7 @@ func (parameters *UrlSigningActionParameters) AssignPropertiesToUrlSigningAction
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheConfiguration
 type CacheConfiguration struct {
 	// CacheBehavior: Caching behavior for the requests.
-	CacheBehavior *CacheConfigurationCacheBehavior `json:"cacheBehavior,omitempty"`
+	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
 	CacheDuration *string `json:"cacheDuration,omitempty"`
@@ -16688,7 +16688,7 @@ type CacheConfiguration struct {
 	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
 	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
 	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfigurationIsCompressionEnabled `json:"isCompressionEnabled,omitempty"`
+	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled `json:"isCompressionEnabled,omitempty"`
 
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -16696,7 +16696,7 @@ type CacheConfiguration struct {
 	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
 	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
 	// strings.
-	QueryStringCachingBehavior *CacheConfigurationQueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CacheConfiguration{}
@@ -16786,12 +16786,12 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromCacheConfiguration populates our CacheConfiguration from the provided source CacheConfiguration
-func (configuration *CacheConfiguration) AssignPropertiesFromCacheConfiguration(source *v20210601s.CacheConfiguration) error {
+// AssignProperties_From_CacheConfiguration populates our CacheConfiguration from the provided source CacheConfiguration
+func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguration(source *v20210601s.CacheConfiguration) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfigurationCacheBehavior(*source.CacheBehavior)
+		cacheBehavior := CacheConfiguration_CacheBehavior(*source.CacheBehavior)
 		configuration.CacheBehavior = &cacheBehavior
 	} else {
 		configuration.CacheBehavior = nil
@@ -16802,7 +16802,7 @@ func (configuration *CacheConfiguration) AssignPropertiesFromCacheConfiguration(
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfigurationIsCompressionEnabled(*source.IsCompressionEnabled)
+		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled(*source.IsCompressionEnabled)
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	} else {
 		configuration.IsCompressionEnabled = nil
@@ -16813,7 +16813,7 @@ func (configuration *CacheConfiguration) AssignPropertiesFromCacheConfiguration(
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfigurationQueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		configuration.QueryStringCachingBehavior = nil
@@ -16823,8 +16823,8 @@ func (configuration *CacheConfiguration) AssignPropertiesFromCacheConfiguration(
 	return nil
 }
 
-// AssignPropertiesToCacheConfiguration populates the provided destination CacheConfiguration from our CacheConfiguration
-func (configuration *CacheConfiguration) AssignPropertiesToCacheConfiguration(destination *v20210601s.CacheConfiguration) error {
+// AssignProperties_To_CacheConfiguration populates the provided destination CacheConfiguration from our CacheConfiguration
+func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(destination *v20210601s.CacheConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16870,208 +16870,208 @@ func (configuration *CacheConfiguration) AssignPropertiesToCacheConfiguration(de
 }
 
 // +kubebuilder:validation:Enum={"BypassCache","Override","SetIfMissing"}
-type CacheExpirationActionParametersCacheBehavior string
+type CacheExpirationActionParameters_CacheBehavior string
 
 const (
-	CacheExpirationActionParametersCacheBehavior_BypassCache  = CacheExpirationActionParametersCacheBehavior("BypassCache")
-	CacheExpirationActionParametersCacheBehavior_Override     = CacheExpirationActionParametersCacheBehavior("Override")
-	CacheExpirationActionParametersCacheBehavior_SetIfMissing = CacheExpirationActionParametersCacheBehavior("SetIfMissing")
+	CacheExpirationActionParameters_CacheBehavior_BypassCache  = CacheExpirationActionParameters_CacheBehavior("BypassCache")
+	CacheExpirationActionParameters_CacheBehavior_Override     = CacheExpirationActionParameters_CacheBehavior("Override")
+	CacheExpirationActionParameters_CacheBehavior_SetIfMissing = CacheExpirationActionParameters_CacheBehavior("SetIfMissing")
 )
 
 // +kubebuilder:validation:Enum={"All"}
-type CacheExpirationActionParametersCacheType string
+type CacheExpirationActionParameters_CacheType string
 
-const CacheExpirationActionParametersCacheType_All = CacheExpirationActionParametersCacheType("All")
+const CacheExpirationActionParameters_CacheType_All = CacheExpirationActionParameters_CacheType("All")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
-type CacheExpirationActionParametersTypeName string
+type CacheExpirationActionParameters_TypeName string
 
-const CacheExpirationActionParametersTypeName_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParametersTypeName("DeliveryRuleCacheExpirationActionParameters")
+const CacheExpirationActionParameters_TypeName_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName("DeliveryRuleCacheExpirationActionParameters")
 
 // +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
-type CacheKeyQueryStringActionParametersQueryStringBehavior string
+type CacheKeyQueryStringActionParameters_QueryStringBehavior string
 
 const (
-	CacheKeyQueryStringActionParametersQueryStringBehavior_Exclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Exclude")
-	CacheKeyQueryStringActionParametersQueryStringBehavior_ExcludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("ExcludeAll")
-	CacheKeyQueryStringActionParametersQueryStringBehavior_Include    = CacheKeyQueryStringActionParametersQueryStringBehavior("Include")
-	CacheKeyQueryStringActionParametersQueryStringBehavior_IncludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("IncludeAll")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_Exclude    = CacheKeyQueryStringActionParameters_QueryStringBehavior("Exclude")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_ExcludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior("ExcludeAll")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_Include    = CacheKeyQueryStringActionParameters_QueryStringBehavior("Include")
+	CacheKeyQueryStringActionParameters_QueryStringBehavior_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior("IncludeAll")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
-type CacheKeyQueryStringActionParametersTypeName string
+type CacheKeyQueryStringActionParameters_TypeName string
 
-const CacheKeyQueryStringActionParametersTypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParametersTypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
+const CacheKeyQueryStringActionParameters_TypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type ClientPortMatchConditionParametersOperator string
+type ClientPortMatchConditionParameters_Operator string
 
 const (
-	ClientPortMatchConditionParametersOperator_Any                = ClientPortMatchConditionParametersOperator("Any")
-	ClientPortMatchConditionParametersOperator_BeginsWith         = ClientPortMatchConditionParametersOperator("BeginsWith")
-	ClientPortMatchConditionParametersOperator_Contains           = ClientPortMatchConditionParametersOperator("Contains")
-	ClientPortMatchConditionParametersOperator_EndsWith           = ClientPortMatchConditionParametersOperator("EndsWith")
-	ClientPortMatchConditionParametersOperator_Equal              = ClientPortMatchConditionParametersOperator("Equal")
-	ClientPortMatchConditionParametersOperator_GreaterThan        = ClientPortMatchConditionParametersOperator("GreaterThan")
-	ClientPortMatchConditionParametersOperator_GreaterThanOrEqual = ClientPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ClientPortMatchConditionParametersOperator_LessThan           = ClientPortMatchConditionParametersOperator("LessThan")
-	ClientPortMatchConditionParametersOperator_LessThanOrEqual    = ClientPortMatchConditionParametersOperator("LessThanOrEqual")
-	ClientPortMatchConditionParametersOperator_RegEx              = ClientPortMatchConditionParametersOperator("RegEx")
+	ClientPortMatchConditionParameters_Operator_Any                = ClientPortMatchConditionParameters_Operator("Any")
+	ClientPortMatchConditionParameters_Operator_BeginsWith         = ClientPortMatchConditionParameters_Operator("BeginsWith")
+	ClientPortMatchConditionParameters_Operator_Contains           = ClientPortMatchConditionParameters_Operator("Contains")
+	ClientPortMatchConditionParameters_Operator_EndsWith           = ClientPortMatchConditionParameters_Operator("EndsWith")
+	ClientPortMatchConditionParameters_Operator_Equal              = ClientPortMatchConditionParameters_Operator("Equal")
+	ClientPortMatchConditionParameters_Operator_GreaterThan        = ClientPortMatchConditionParameters_Operator("GreaterThan")
+	ClientPortMatchConditionParameters_Operator_GreaterThanOrEqual = ClientPortMatchConditionParameters_Operator("GreaterThanOrEqual")
+	ClientPortMatchConditionParameters_Operator_LessThan           = ClientPortMatchConditionParameters_Operator("LessThan")
+	ClientPortMatchConditionParameters_Operator_LessThanOrEqual    = ClientPortMatchConditionParameters_Operator("LessThanOrEqual")
+	ClientPortMatchConditionParameters_Operator_RegEx              = ClientPortMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type ClientPortMatchConditionParametersTransforms string
+type ClientPortMatchConditionParameters_Transforms string
 
 const (
-	ClientPortMatchConditionParametersTransforms_Lowercase   = ClientPortMatchConditionParametersTransforms("Lowercase")
-	ClientPortMatchConditionParametersTransforms_RemoveNulls = ClientPortMatchConditionParametersTransforms("RemoveNulls")
-	ClientPortMatchConditionParametersTransforms_Trim        = ClientPortMatchConditionParametersTransforms("Trim")
-	ClientPortMatchConditionParametersTransforms_Uppercase   = ClientPortMatchConditionParametersTransforms("Uppercase")
-	ClientPortMatchConditionParametersTransforms_UrlDecode   = ClientPortMatchConditionParametersTransforms("UrlDecode")
-	ClientPortMatchConditionParametersTransforms_UrlEncode   = ClientPortMatchConditionParametersTransforms("UrlEncode")
+	ClientPortMatchConditionParameters_Transforms_Lowercase   = ClientPortMatchConditionParameters_Transforms("Lowercase")
+	ClientPortMatchConditionParameters_Transforms_RemoveNulls = ClientPortMatchConditionParameters_Transforms("RemoveNulls")
+	ClientPortMatchConditionParameters_Transforms_Trim        = ClientPortMatchConditionParameters_Transforms("Trim")
+	ClientPortMatchConditionParameters_Transforms_Uppercase   = ClientPortMatchConditionParameters_Transforms("Uppercase")
+	ClientPortMatchConditionParameters_Transforms_UrlDecode   = ClientPortMatchConditionParameters_Transforms("UrlDecode")
+	ClientPortMatchConditionParameters_Transforms_UrlEncode   = ClientPortMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
-type ClientPortMatchConditionParametersTypeName string
+type ClientPortMatchConditionParameters_TypeName string
 
-const ClientPortMatchConditionParametersTypeName_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParametersTypeName("DeliveryRuleClientPortConditionParameters")
+const ClientPortMatchConditionParameters_TypeName_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName("DeliveryRuleClientPortConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type CookiesMatchConditionParametersOperator string
+type CookiesMatchConditionParameters_Operator string
 
 const (
-	CookiesMatchConditionParametersOperator_Any                = CookiesMatchConditionParametersOperator("Any")
-	CookiesMatchConditionParametersOperator_BeginsWith         = CookiesMatchConditionParametersOperator("BeginsWith")
-	CookiesMatchConditionParametersOperator_Contains           = CookiesMatchConditionParametersOperator("Contains")
-	CookiesMatchConditionParametersOperator_EndsWith           = CookiesMatchConditionParametersOperator("EndsWith")
-	CookiesMatchConditionParametersOperator_Equal              = CookiesMatchConditionParametersOperator("Equal")
-	CookiesMatchConditionParametersOperator_GreaterThan        = CookiesMatchConditionParametersOperator("GreaterThan")
-	CookiesMatchConditionParametersOperator_GreaterThanOrEqual = CookiesMatchConditionParametersOperator("GreaterThanOrEqual")
-	CookiesMatchConditionParametersOperator_LessThan           = CookiesMatchConditionParametersOperator("LessThan")
-	CookiesMatchConditionParametersOperator_LessThanOrEqual    = CookiesMatchConditionParametersOperator("LessThanOrEqual")
-	CookiesMatchConditionParametersOperator_RegEx              = CookiesMatchConditionParametersOperator("RegEx")
+	CookiesMatchConditionParameters_Operator_Any                = CookiesMatchConditionParameters_Operator("Any")
+	CookiesMatchConditionParameters_Operator_BeginsWith         = CookiesMatchConditionParameters_Operator("BeginsWith")
+	CookiesMatchConditionParameters_Operator_Contains           = CookiesMatchConditionParameters_Operator("Contains")
+	CookiesMatchConditionParameters_Operator_EndsWith           = CookiesMatchConditionParameters_Operator("EndsWith")
+	CookiesMatchConditionParameters_Operator_Equal              = CookiesMatchConditionParameters_Operator("Equal")
+	CookiesMatchConditionParameters_Operator_GreaterThan        = CookiesMatchConditionParameters_Operator("GreaterThan")
+	CookiesMatchConditionParameters_Operator_GreaterThanOrEqual = CookiesMatchConditionParameters_Operator("GreaterThanOrEqual")
+	CookiesMatchConditionParameters_Operator_LessThan           = CookiesMatchConditionParameters_Operator("LessThan")
+	CookiesMatchConditionParameters_Operator_LessThanOrEqual    = CookiesMatchConditionParameters_Operator("LessThanOrEqual")
+	CookiesMatchConditionParameters_Operator_RegEx              = CookiesMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type CookiesMatchConditionParametersTransforms string
+type CookiesMatchConditionParameters_Transforms string
 
 const (
-	CookiesMatchConditionParametersTransforms_Lowercase   = CookiesMatchConditionParametersTransforms("Lowercase")
-	CookiesMatchConditionParametersTransforms_RemoveNulls = CookiesMatchConditionParametersTransforms("RemoveNulls")
-	CookiesMatchConditionParametersTransforms_Trim        = CookiesMatchConditionParametersTransforms("Trim")
-	CookiesMatchConditionParametersTransforms_Uppercase   = CookiesMatchConditionParametersTransforms("Uppercase")
-	CookiesMatchConditionParametersTransforms_UrlDecode   = CookiesMatchConditionParametersTransforms("UrlDecode")
-	CookiesMatchConditionParametersTransforms_UrlEncode   = CookiesMatchConditionParametersTransforms("UrlEncode")
+	CookiesMatchConditionParameters_Transforms_Lowercase   = CookiesMatchConditionParameters_Transforms("Lowercase")
+	CookiesMatchConditionParameters_Transforms_RemoveNulls = CookiesMatchConditionParameters_Transforms("RemoveNulls")
+	CookiesMatchConditionParameters_Transforms_Trim        = CookiesMatchConditionParameters_Transforms("Trim")
+	CookiesMatchConditionParameters_Transforms_Uppercase   = CookiesMatchConditionParameters_Transforms("Uppercase")
+	CookiesMatchConditionParameters_Transforms_UrlDecode   = CookiesMatchConditionParameters_Transforms("UrlDecode")
+	CookiesMatchConditionParameters_Transforms_UrlEncode   = CookiesMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
-type CookiesMatchConditionParametersTypeName string
+type CookiesMatchConditionParameters_TypeName string
 
-const CookiesMatchConditionParametersTypeName_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParametersTypeName("DeliveryRuleCookiesConditionParameters")
+const CookiesMatchConditionParameters_TypeName_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName("DeliveryRuleCookiesConditionParameters")
 
 // +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
-type HeaderActionParametersHeaderAction string
+type HeaderActionParameters_HeaderAction string
 
 const (
-	HeaderActionParametersHeaderAction_Append    = HeaderActionParametersHeaderAction("Append")
-	HeaderActionParametersHeaderAction_Delete    = HeaderActionParametersHeaderAction("Delete")
-	HeaderActionParametersHeaderAction_Overwrite = HeaderActionParametersHeaderAction("Overwrite")
+	HeaderActionParameters_HeaderAction_Append    = HeaderActionParameters_HeaderAction("Append")
+	HeaderActionParameters_HeaderAction_Delete    = HeaderActionParameters_HeaderAction("Delete")
+	HeaderActionParameters_HeaderAction_Overwrite = HeaderActionParameters_HeaderAction("Overwrite")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
-type HeaderActionParametersTypeName string
+type HeaderActionParameters_TypeName string
 
-const HeaderActionParametersTypeName_DeliveryRuleHeaderActionParameters = HeaderActionParametersTypeName("DeliveryRuleHeaderActionParameters")
+const HeaderActionParameters_TypeName_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName("DeliveryRuleHeaderActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type HostNameMatchConditionParametersOperator string
+type HostNameMatchConditionParameters_Operator string
 
 const (
-	HostNameMatchConditionParametersOperator_Any                = HostNameMatchConditionParametersOperator("Any")
-	HostNameMatchConditionParametersOperator_BeginsWith         = HostNameMatchConditionParametersOperator("BeginsWith")
-	HostNameMatchConditionParametersOperator_Contains           = HostNameMatchConditionParametersOperator("Contains")
-	HostNameMatchConditionParametersOperator_EndsWith           = HostNameMatchConditionParametersOperator("EndsWith")
-	HostNameMatchConditionParametersOperator_Equal              = HostNameMatchConditionParametersOperator("Equal")
-	HostNameMatchConditionParametersOperator_GreaterThan        = HostNameMatchConditionParametersOperator("GreaterThan")
-	HostNameMatchConditionParametersOperator_GreaterThanOrEqual = HostNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	HostNameMatchConditionParametersOperator_LessThan           = HostNameMatchConditionParametersOperator("LessThan")
-	HostNameMatchConditionParametersOperator_LessThanOrEqual    = HostNameMatchConditionParametersOperator("LessThanOrEqual")
-	HostNameMatchConditionParametersOperator_RegEx              = HostNameMatchConditionParametersOperator("RegEx")
+	HostNameMatchConditionParameters_Operator_Any                = HostNameMatchConditionParameters_Operator("Any")
+	HostNameMatchConditionParameters_Operator_BeginsWith         = HostNameMatchConditionParameters_Operator("BeginsWith")
+	HostNameMatchConditionParameters_Operator_Contains           = HostNameMatchConditionParameters_Operator("Contains")
+	HostNameMatchConditionParameters_Operator_EndsWith           = HostNameMatchConditionParameters_Operator("EndsWith")
+	HostNameMatchConditionParameters_Operator_Equal              = HostNameMatchConditionParameters_Operator("Equal")
+	HostNameMatchConditionParameters_Operator_GreaterThan        = HostNameMatchConditionParameters_Operator("GreaterThan")
+	HostNameMatchConditionParameters_Operator_GreaterThanOrEqual = HostNameMatchConditionParameters_Operator("GreaterThanOrEqual")
+	HostNameMatchConditionParameters_Operator_LessThan           = HostNameMatchConditionParameters_Operator("LessThan")
+	HostNameMatchConditionParameters_Operator_LessThanOrEqual    = HostNameMatchConditionParameters_Operator("LessThanOrEqual")
+	HostNameMatchConditionParameters_Operator_RegEx              = HostNameMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type HostNameMatchConditionParametersTransforms string
+type HostNameMatchConditionParameters_Transforms string
 
 const (
-	HostNameMatchConditionParametersTransforms_Lowercase   = HostNameMatchConditionParametersTransforms("Lowercase")
-	HostNameMatchConditionParametersTransforms_RemoveNulls = HostNameMatchConditionParametersTransforms("RemoveNulls")
-	HostNameMatchConditionParametersTransforms_Trim        = HostNameMatchConditionParametersTransforms("Trim")
-	HostNameMatchConditionParametersTransforms_Uppercase   = HostNameMatchConditionParametersTransforms("Uppercase")
-	HostNameMatchConditionParametersTransforms_UrlDecode   = HostNameMatchConditionParametersTransforms("UrlDecode")
-	HostNameMatchConditionParametersTransforms_UrlEncode   = HostNameMatchConditionParametersTransforms("UrlEncode")
+	HostNameMatchConditionParameters_Transforms_Lowercase   = HostNameMatchConditionParameters_Transforms("Lowercase")
+	HostNameMatchConditionParameters_Transforms_RemoveNulls = HostNameMatchConditionParameters_Transforms("RemoveNulls")
+	HostNameMatchConditionParameters_Transforms_Trim        = HostNameMatchConditionParameters_Transforms("Trim")
+	HostNameMatchConditionParameters_Transforms_Uppercase   = HostNameMatchConditionParameters_Transforms("Uppercase")
+	HostNameMatchConditionParameters_Transforms_UrlDecode   = HostNameMatchConditionParameters_Transforms("UrlDecode")
+	HostNameMatchConditionParameters_Transforms_UrlEncode   = HostNameMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
-type HostNameMatchConditionParametersTypeName string
+type HostNameMatchConditionParameters_TypeName string
 
-const HostNameMatchConditionParametersTypeName_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParametersTypeName("DeliveryRuleHostNameConditionParameters")
+const HostNameMatchConditionParameters_TypeName_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName("DeliveryRuleHostNameConditionParameters")
 
 // +kubebuilder:validation:Enum={"Equal"}
-type HttpVersionMatchConditionParametersOperator string
+type HttpVersionMatchConditionParameters_Operator string
 
-const HttpVersionMatchConditionParametersOperator_Equal = HttpVersionMatchConditionParametersOperator("Equal")
+const HttpVersionMatchConditionParameters_Operator_Equal = HttpVersionMatchConditionParameters_Operator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type HttpVersionMatchConditionParametersTransforms string
+type HttpVersionMatchConditionParameters_Transforms string
 
 const (
-	HttpVersionMatchConditionParametersTransforms_Lowercase   = HttpVersionMatchConditionParametersTransforms("Lowercase")
-	HttpVersionMatchConditionParametersTransforms_RemoveNulls = HttpVersionMatchConditionParametersTransforms("RemoveNulls")
-	HttpVersionMatchConditionParametersTransforms_Trim        = HttpVersionMatchConditionParametersTransforms("Trim")
-	HttpVersionMatchConditionParametersTransforms_Uppercase   = HttpVersionMatchConditionParametersTransforms("Uppercase")
-	HttpVersionMatchConditionParametersTransforms_UrlDecode   = HttpVersionMatchConditionParametersTransforms("UrlDecode")
-	HttpVersionMatchConditionParametersTransforms_UrlEncode   = HttpVersionMatchConditionParametersTransforms("UrlEncode")
+	HttpVersionMatchConditionParameters_Transforms_Lowercase   = HttpVersionMatchConditionParameters_Transforms("Lowercase")
+	HttpVersionMatchConditionParameters_Transforms_RemoveNulls = HttpVersionMatchConditionParameters_Transforms("RemoveNulls")
+	HttpVersionMatchConditionParameters_Transforms_Trim        = HttpVersionMatchConditionParameters_Transforms("Trim")
+	HttpVersionMatchConditionParameters_Transforms_Uppercase   = HttpVersionMatchConditionParameters_Transforms("Uppercase")
+	HttpVersionMatchConditionParameters_Transforms_UrlDecode   = HttpVersionMatchConditionParameters_Transforms("UrlDecode")
+	HttpVersionMatchConditionParameters_Transforms_UrlEncode   = HttpVersionMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
-type HttpVersionMatchConditionParametersTypeName string
+type HttpVersionMatchConditionParameters_TypeName string
 
-const HttpVersionMatchConditionParametersTypeName_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParametersTypeName("DeliveryRuleHttpVersionConditionParameters")
+const HttpVersionMatchConditionParameters_TypeName_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName("DeliveryRuleHttpVersionConditionParameters")
 
 // +kubebuilder:validation:Enum={"Desktop","Mobile"}
-type IsDeviceMatchConditionParametersMatchValues string
+type IsDeviceMatchConditionParameters_MatchValues string
 
 const (
-	IsDeviceMatchConditionParametersMatchValues_Desktop = IsDeviceMatchConditionParametersMatchValues("Desktop")
-	IsDeviceMatchConditionParametersMatchValues_Mobile  = IsDeviceMatchConditionParametersMatchValues("Mobile")
+	IsDeviceMatchConditionParameters_MatchValues_Desktop = IsDeviceMatchConditionParameters_MatchValues("Desktop")
+	IsDeviceMatchConditionParameters_MatchValues_Mobile  = IsDeviceMatchConditionParameters_MatchValues("Mobile")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
-type IsDeviceMatchConditionParametersOperator string
+type IsDeviceMatchConditionParameters_Operator string
 
-const IsDeviceMatchConditionParametersOperator_Equal = IsDeviceMatchConditionParametersOperator("Equal")
+const IsDeviceMatchConditionParameters_Operator_Equal = IsDeviceMatchConditionParameters_Operator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type IsDeviceMatchConditionParametersTransforms string
+type IsDeviceMatchConditionParameters_Transforms string
 
 const (
-	IsDeviceMatchConditionParametersTransforms_Lowercase   = IsDeviceMatchConditionParametersTransforms("Lowercase")
-	IsDeviceMatchConditionParametersTransforms_RemoveNulls = IsDeviceMatchConditionParametersTransforms("RemoveNulls")
-	IsDeviceMatchConditionParametersTransforms_Trim        = IsDeviceMatchConditionParametersTransforms("Trim")
-	IsDeviceMatchConditionParametersTransforms_Uppercase   = IsDeviceMatchConditionParametersTransforms("Uppercase")
-	IsDeviceMatchConditionParametersTransforms_UrlDecode   = IsDeviceMatchConditionParametersTransforms("UrlDecode")
-	IsDeviceMatchConditionParametersTransforms_UrlEncode   = IsDeviceMatchConditionParametersTransforms("UrlEncode")
+	IsDeviceMatchConditionParameters_Transforms_Lowercase   = IsDeviceMatchConditionParameters_Transforms("Lowercase")
+	IsDeviceMatchConditionParameters_Transforms_RemoveNulls = IsDeviceMatchConditionParameters_Transforms("RemoveNulls")
+	IsDeviceMatchConditionParameters_Transforms_Trim        = IsDeviceMatchConditionParameters_Transforms("Trim")
+	IsDeviceMatchConditionParameters_Transforms_Uppercase   = IsDeviceMatchConditionParameters_Transforms("Uppercase")
+	IsDeviceMatchConditionParameters_Transforms_UrlDecode   = IsDeviceMatchConditionParameters_Transforms("UrlDecode")
+	IsDeviceMatchConditionParameters_Transforms_UrlEncode   = IsDeviceMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
-type IsDeviceMatchConditionParametersTypeName string
+type IsDeviceMatchConditionParameters_TypeName string
 
-const IsDeviceMatchConditionParametersTypeName_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParametersTypeName("DeliveryRuleIsDeviceConditionParameters")
+const IsDeviceMatchConditionParameters_TypeName_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName("DeliveryRuleIsDeviceConditionParameters")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverride
 type OriginGroupOverride struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
-	ForwardingProtocol *OriginGroupOverrideForwardingProtocol `json:"forwardingProtocol,omitempty"`
+	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
 
 	// OriginGroup: Reference to another resource.
 	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
@@ -17137,12 +17137,12 @@ func (override *OriginGroupOverride) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromOriginGroupOverride populates our OriginGroupOverride from the provided source OriginGroupOverride
-func (override *OriginGroupOverride) AssignPropertiesFromOriginGroupOverride(source *v20210601s.OriginGroupOverride) error {
+// AssignProperties_From_OriginGroupOverride populates our OriginGroupOverride from the provided source OriginGroupOverride
+func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(source *v20210601s.OriginGroupOverride) error {
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverrideForwardingProtocol(*source.ForwardingProtocol)
+		forwardingProtocol := OriginGroupOverride_ForwardingProtocol(*source.ForwardingProtocol)
 		override.ForwardingProtocol = &forwardingProtocol
 	} else {
 		override.ForwardingProtocol = nil
@@ -17151,9 +17151,9 @@ func (override *OriginGroupOverride) AssignPropertiesFromOriginGroupOverride(sou
 	// OriginGroup
 	if source.OriginGroup != nil {
 		var originGroup ResourceReference
-		err := originGroup.AssignPropertiesFromResourceReference(source.OriginGroup)
+		err := originGroup.AssignProperties_From_ResourceReference(source.OriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field OriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field OriginGroup")
 		}
 		override.OriginGroup = &originGroup
 	} else {
@@ -17164,8 +17164,8 @@ func (override *OriginGroupOverride) AssignPropertiesFromOriginGroupOverride(sou
 	return nil
 }
 
-// AssignPropertiesToOriginGroupOverride populates the provided destination OriginGroupOverride from our OriginGroupOverride
-func (override *OriginGroupOverride) AssignPropertiesToOriginGroupOverride(destination *v20210601s.OriginGroupOverride) error {
+// AssignProperties_To_OriginGroupOverride populates the provided destination OriginGroupOverride from our OriginGroupOverride
+func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(destination *v20210601s.OriginGroupOverride) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17180,9 +17180,9 @@ func (override *OriginGroupOverride) AssignPropertiesToOriginGroupOverride(desti
 	// OriginGroup
 	if override.OriginGroup != nil {
 		var originGroup v20210601s.ResourceReference
-		err := override.OriginGroup.AssignPropertiesToResourceReference(&originGroup)
+		err := override.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field OriginGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
 		}
 		destination.OriginGroup = &originGroup
 	} else {
@@ -17201,504 +17201,504 @@ func (override *OriginGroupOverride) AssignPropertiesToOriginGroupOverride(desti
 }
 
 // +kubebuilder:validation:Enum={"DeliveryRuleOriginGroupOverrideActionParameters"}
-type OriginGroupOverrideActionParametersTypeName string
+type OriginGroupOverrideActionParameters_TypeName string
 
-const OriginGroupOverrideActionParametersTypeName_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParametersTypeName("DeliveryRuleOriginGroupOverrideActionParameters")
+const OriginGroupOverrideActionParameters_TypeName_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName("DeliveryRuleOriginGroupOverrideActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type PostArgsMatchConditionParametersOperator string
+type PostArgsMatchConditionParameters_Operator string
 
 const (
-	PostArgsMatchConditionParametersOperator_Any                = PostArgsMatchConditionParametersOperator("Any")
-	PostArgsMatchConditionParametersOperator_BeginsWith         = PostArgsMatchConditionParametersOperator("BeginsWith")
-	PostArgsMatchConditionParametersOperator_Contains           = PostArgsMatchConditionParametersOperator("Contains")
-	PostArgsMatchConditionParametersOperator_EndsWith           = PostArgsMatchConditionParametersOperator("EndsWith")
-	PostArgsMatchConditionParametersOperator_Equal              = PostArgsMatchConditionParametersOperator("Equal")
-	PostArgsMatchConditionParametersOperator_GreaterThan        = PostArgsMatchConditionParametersOperator("GreaterThan")
-	PostArgsMatchConditionParametersOperator_GreaterThanOrEqual = PostArgsMatchConditionParametersOperator("GreaterThanOrEqual")
-	PostArgsMatchConditionParametersOperator_LessThan           = PostArgsMatchConditionParametersOperator("LessThan")
-	PostArgsMatchConditionParametersOperator_LessThanOrEqual    = PostArgsMatchConditionParametersOperator("LessThanOrEqual")
-	PostArgsMatchConditionParametersOperator_RegEx              = PostArgsMatchConditionParametersOperator("RegEx")
+	PostArgsMatchConditionParameters_Operator_Any                = PostArgsMatchConditionParameters_Operator("Any")
+	PostArgsMatchConditionParameters_Operator_BeginsWith         = PostArgsMatchConditionParameters_Operator("BeginsWith")
+	PostArgsMatchConditionParameters_Operator_Contains           = PostArgsMatchConditionParameters_Operator("Contains")
+	PostArgsMatchConditionParameters_Operator_EndsWith           = PostArgsMatchConditionParameters_Operator("EndsWith")
+	PostArgsMatchConditionParameters_Operator_Equal              = PostArgsMatchConditionParameters_Operator("Equal")
+	PostArgsMatchConditionParameters_Operator_GreaterThan        = PostArgsMatchConditionParameters_Operator("GreaterThan")
+	PostArgsMatchConditionParameters_Operator_GreaterThanOrEqual = PostArgsMatchConditionParameters_Operator("GreaterThanOrEqual")
+	PostArgsMatchConditionParameters_Operator_LessThan           = PostArgsMatchConditionParameters_Operator("LessThan")
+	PostArgsMatchConditionParameters_Operator_LessThanOrEqual    = PostArgsMatchConditionParameters_Operator("LessThanOrEqual")
+	PostArgsMatchConditionParameters_Operator_RegEx              = PostArgsMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type PostArgsMatchConditionParametersTransforms string
+type PostArgsMatchConditionParameters_Transforms string
 
 const (
-	PostArgsMatchConditionParametersTransforms_Lowercase   = PostArgsMatchConditionParametersTransforms("Lowercase")
-	PostArgsMatchConditionParametersTransforms_RemoveNulls = PostArgsMatchConditionParametersTransforms("RemoveNulls")
-	PostArgsMatchConditionParametersTransforms_Trim        = PostArgsMatchConditionParametersTransforms("Trim")
-	PostArgsMatchConditionParametersTransforms_Uppercase   = PostArgsMatchConditionParametersTransforms("Uppercase")
-	PostArgsMatchConditionParametersTransforms_UrlDecode   = PostArgsMatchConditionParametersTransforms("UrlDecode")
-	PostArgsMatchConditionParametersTransforms_UrlEncode   = PostArgsMatchConditionParametersTransforms("UrlEncode")
+	PostArgsMatchConditionParameters_Transforms_Lowercase   = PostArgsMatchConditionParameters_Transforms("Lowercase")
+	PostArgsMatchConditionParameters_Transforms_RemoveNulls = PostArgsMatchConditionParameters_Transforms("RemoveNulls")
+	PostArgsMatchConditionParameters_Transforms_Trim        = PostArgsMatchConditionParameters_Transforms("Trim")
+	PostArgsMatchConditionParameters_Transforms_Uppercase   = PostArgsMatchConditionParameters_Transforms("Uppercase")
+	PostArgsMatchConditionParameters_Transforms_UrlDecode   = PostArgsMatchConditionParameters_Transforms("UrlDecode")
+	PostArgsMatchConditionParameters_Transforms_UrlEncode   = PostArgsMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
-type PostArgsMatchConditionParametersTypeName string
+type PostArgsMatchConditionParameters_TypeName string
 
-const PostArgsMatchConditionParametersTypeName_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParametersTypeName("DeliveryRulePostArgsConditionParameters")
+const PostArgsMatchConditionParameters_TypeName_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName("DeliveryRulePostArgsConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type QueryStringMatchConditionParametersOperator string
+type QueryStringMatchConditionParameters_Operator string
 
 const (
-	QueryStringMatchConditionParametersOperator_Any                = QueryStringMatchConditionParametersOperator("Any")
-	QueryStringMatchConditionParametersOperator_BeginsWith         = QueryStringMatchConditionParametersOperator("BeginsWith")
-	QueryStringMatchConditionParametersOperator_Contains           = QueryStringMatchConditionParametersOperator("Contains")
-	QueryStringMatchConditionParametersOperator_EndsWith           = QueryStringMatchConditionParametersOperator("EndsWith")
-	QueryStringMatchConditionParametersOperator_Equal              = QueryStringMatchConditionParametersOperator("Equal")
-	QueryStringMatchConditionParametersOperator_GreaterThan        = QueryStringMatchConditionParametersOperator("GreaterThan")
-	QueryStringMatchConditionParametersOperator_GreaterThanOrEqual = QueryStringMatchConditionParametersOperator("GreaterThanOrEqual")
-	QueryStringMatchConditionParametersOperator_LessThan           = QueryStringMatchConditionParametersOperator("LessThan")
-	QueryStringMatchConditionParametersOperator_LessThanOrEqual    = QueryStringMatchConditionParametersOperator("LessThanOrEqual")
-	QueryStringMatchConditionParametersOperator_RegEx              = QueryStringMatchConditionParametersOperator("RegEx")
+	QueryStringMatchConditionParameters_Operator_Any                = QueryStringMatchConditionParameters_Operator("Any")
+	QueryStringMatchConditionParameters_Operator_BeginsWith         = QueryStringMatchConditionParameters_Operator("BeginsWith")
+	QueryStringMatchConditionParameters_Operator_Contains           = QueryStringMatchConditionParameters_Operator("Contains")
+	QueryStringMatchConditionParameters_Operator_EndsWith           = QueryStringMatchConditionParameters_Operator("EndsWith")
+	QueryStringMatchConditionParameters_Operator_Equal              = QueryStringMatchConditionParameters_Operator("Equal")
+	QueryStringMatchConditionParameters_Operator_GreaterThan        = QueryStringMatchConditionParameters_Operator("GreaterThan")
+	QueryStringMatchConditionParameters_Operator_GreaterThanOrEqual = QueryStringMatchConditionParameters_Operator("GreaterThanOrEqual")
+	QueryStringMatchConditionParameters_Operator_LessThan           = QueryStringMatchConditionParameters_Operator("LessThan")
+	QueryStringMatchConditionParameters_Operator_LessThanOrEqual    = QueryStringMatchConditionParameters_Operator("LessThanOrEqual")
+	QueryStringMatchConditionParameters_Operator_RegEx              = QueryStringMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type QueryStringMatchConditionParametersTransforms string
+type QueryStringMatchConditionParameters_Transforms string
 
 const (
-	QueryStringMatchConditionParametersTransforms_Lowercase   = QueryStringMatchConditionParametersTransforms("Lowercase")
-	QueryStringMatchConditionParametersTransforms_RemoveNulls = QueryStringMatchConditionParametersTransforms("RemoveNulls")
-	QueryStringMatchConditionParametersTransforms_Trim        = QueryStringMatchConditionParametersTransforms("Trim")
-	QueryStringMatchConditionParametersTransforms_Uppercase   = QueryStringMatchConditionParametersTransforms("Uppercase")
-	QueryStringMatchConditionParametersTransforms_UrlDecode   = QueryStringMatchConditionParametersTransforms("UrlDecode")
-	QueryStringMatchConditionParametersTransforms_UrlEncode   = QueryStringMatchConditionParametersTransforms("UrlEncode")
+	QueryStringMatchConditionParameters_Transforms_Lowercase   = QueryStringMatchConditionParameters_Transforms("Lowercase")
+	QueryStringMatchConditionParameters_Transforms_RemoveNulls = QueryStringMatchConditionParameters_Transforms("RemoveNulls")
+	QueryStringMatchConditionParameters_Transforms_Trim        = QueryStringMatchConditionParameters_Transforms("Trim")
+	QueryStringMatchConditionParameters_Transforms_Uppercase   = QueryStringMatchConditionParameters_Transforms("Uppercase")
+	QueryStringMatchConditionParameters_Transforms_UrlDecode   = QueryStringMatchConditionParameters_Transforms("UrlDecode")
+	QueryStringMatchConditionParameters_Transforms_UrlEncode   = QueryStringMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
-type QueryStringMatchConditionParametersTypeName string
+type QueryStringMatchConditionParameters_TypeName string
 
-const QueryStringMatchConditionParametersTypeName_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParametersTypeName("DeliveryRuleQueryStringConditionParameters")
+const QueryStringMatchConditionParameters_TypeName_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName("DeliveryRuleQueryStringConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
-type RemoteAddressMatchConditionParametersOperator string
+type RemoteAddressMatchConditionParameters_Operator string
 
 const (
-	RemoteAddressMatchConditionParametersOperator_Any      = RemoteAddressMatchConditionParametersOperator("Any")
-	RemoteAddressMatchConditionParametersOperator_GeoMatch = RemoteAddressMatchConditionParametersOperator("GeoMatch")
-	RemoteAddressMatchConditionParametersOperator_IPMatch  = RemoteAddressMatchConditionParametersOperator("IPMatch")
+	RemoteAddressMatchConditionParameters_Operator_Any      = RemoteAddressMatchConditionParameters_Operator("Any")
+	RemoteAddressMatchConditionParameters_Operator_GeoMatch = RemoteAddressMatchConditionParameters_Operator("GeoMatch")
+	RemoteAddressMatchConditionParameters_Operator_IPMatch  = RemoteAddressMatchConditionParameters_Operator("IPMatch")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RemoteAddressMatchConditionParametersTransforms string
+type RemoteAddressMatchConditionParameters_Transforms string
 
 const (
-	RemoteAddressMatchConditionParametersTransforms_Lowercase   = RemoteAddressMatchConditionParametersTransforms("Lowercase")
-	RemoteAddressMatchConditionParametersTransforms_RemoveNulls = RemoteAddressMatchConditionParametersTransforms("RemoveNulls")
-	RemoteAddressMatchConditionParametersTransforms_Trim        = RemoteAddressMatchConditionParametersTransforms("Trim")
-	RemoteAddressMatchConditionParametersTransforms_Uppercase   = RemoteAddressMatchConditionParametersTransforms("Uppercase")
-	RemoteAddressMatchConditionParametersTransforms_UrlDecode   = RemoteAddressMatchConditionParametersTransforms("UrlDecode")
-	RemoteAddressMatchConditionParametersTransforms_UrlEncode   = RemoteAddressMatchConditionParametersTransforms("UrlEncode")
+	RemoteAddressMatchConditionParameters_Transforms_Lowercase   = RemoteAddressMatchConditionParameters_Transforms("Lowercase")
+	RemoteAddressMatchConditionParameters_Transforms_RemoveNulls = RemoteAddressMatchConditionParameters_Transforms("RemoveNulls")
+	RemoteAddressMatchConditionParameters_Transforms_Trim        = RemoteAddressMatchConditionParameters_Transforms("Trim")
+	RemoteAddressMatchConditionParameters_Transforms_Uppercase   = RemoteAddressMatchConditionParameters_Transforms("Uppercase")
+	RemoteAddressMatchConditionParameters_Transforms_UrlDecode   = RemoteAddressMatchConditionParameters_Transforms("UrlDecode")
+	RemoteAddressMatchConditionParameters_Transforms_UrlEncode   = RemoteAddressMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
-type RemoteAddressMatchConditionParametersTypeName string
+type RemoteAddressMatchConditionParameters_TypeName string
 
-const RemoteAddressMatchConditionParametersTypeName_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParametersTypeName("DeliveryRuleRemoteAddressConditionParameters")
+const RemoteAddressMatchConditionParameters_TypeName_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName("DeliveryRuleRemoteAddressConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestBodyMatchConditionParametersOperator string
+type RequestBodyMatchConditionParameters_Operator string
 
 const (
-	RequestBodyMatchConditionParametersOperator_Any                = RequestBodyMatchConditionParametersOperator("Any")
-	RequestBodyMatchConditionParametersOperator_BeginsWith         = RequestBodyMatchConditionParametersOperator("BeginsWith")
-	RequestBodyMatchConditionParametersOperator_Contains           = RequestBodyMatchConditionParametersOperator("Contains")
-	RequestBodyMatchConditionParametersOperator_EndsWith           = RequestBodyMatchConditionParametersOperator("EndsWith")
-	RequestBodyMatchConditionParametersOperator_Equal              = RequestBodyMatchConditionParametersOperator("Equal")
-	RequestBodyMatchConditionParametersOperator_GreaterThan        = RequestBodyMatchConditionParametersOperator("GreaterThan")
-	RequestBodyMatchConditionParametersOperator_GreaterThanOrEqual = RequestBodyMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestBodyMatchConditionParametersOperator_LessThan           = RequestBodyMatchConditionParametersOperator("LessThan")
-	RequestBodyMatchConditionParametersOperator_LessThanOrEqual    = RequestBodyMatchConditionParametersOperator("LessThanOrEqual")
-	RequestBodyMatchConditionParametersOperator_RegEx              = RequestBodyMatchConditionParametersOperator("RegEx")
+	RequestBodyMatchConditionParameters_Operator_Any                = RequestBodyMatchConditionParameters_Operator("Any")
+	RequestBodyMatchConditionParameters_Operator_BeginsWith         = RequestBodyMatchConditionParameters_Operator("BeginsWith")
+	RequestBodyMatchConditionParameters_Operator_Contains           = RequestBodyMatchConditionParameters_Operator("Contains")
+	RequestBodyMatchConditionParameters_Operator_EndsWith           = RequestBodyMatchConditionParameters_Operator("EndsWith")
+	RequestBodyMatchConditionParameters_Operator_Equal              = RequestBodyMatchConditionParameters_Operator("Equal")
+	RequestBodyMatchConditionParameters_Operator_GreaterThan        = RequestBodyMatchConditionParameters_Operator("GreaterThan")
+	RequestBodyMatchConditionParameters_Operator_GreaterThanOrEqual = RequestBodyMatchConditionParameters_Operator("GreaterThanOrEqual")
+	RequestBodyMatchConditionParameters_Operator_LessThan           = RequestBodyMatchConditionParameters_Operator("LessThan")
+	RequestBodyMatchConditionParameters_Operator_LessThanOrEqual    = RequestBodyMatchConditionParameters_Operator("LessThanOrEqual")
+	RequestBodyMatchConditionParameters_Operator_RegEx              = RequestBodyMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestBodyMatchConditionParametersTransforms string
+type RequestBodyMatchConditionParameters_Transforms string
 
 const (
-	RequestBodyMatchConditionParametersTransforms_Lowercase   = RequestBodyMatchConditionParametersTransforms("Lowercase")
-	RequestBodyMatchConditionParametersTransforms_RemoveNulls = RequestBodyMatchConditionParametersTransforms("RemoveNulls")
-	RequestBodyMatchConditionParametersTransforms_Trim        = RequestBodyMatchConditionParametersTransforms("Trim")
-	RequestBodyMatchConditionParametersTransforms_Uppercase   = RequestBodyMatchConditionParametersTransforms("Uppercase")
-	RequestBodyMatchConditionParametersTransforms_UrlDecode   = RequestBodyMatchConditionParametersTransforms("UrlDecode")
-	RequestBodyMatchConditionParametersTransforms_UrlEncode   = RequestBodyMatchConditionParametersTransforms("UrlEncode")
+	RequestBodyMatchConditionParameters_Transforms_Lowercase   = RequestBodyMatchConditionParameters_Transforms("Lowercase")
+	RequestBodyMatchConditionParameters_Transforms_RemoveNulls = RequestBodyMatchConditionParameters_Transforms("RemoveNulls")
+	RequestBodyMatchConditionParameters_Transforms_Trim        = RequestBodyMatchConditionParameters_Transforms("Trim")
+	RequestBodyMatchConditionParameters_Transforms_Uppercase   = RequestBodyMatchConditionParameters_Transforms("Uppercase")
+	RequestBodyMatchConditionParameters_Transforms_UrlDecode   = RequestBodyMatchConditionParameters_Transforms("UrlDecode")
+	RequestBodyMatchConditionParameters_Transforms_UrlEncode   = RequestBodyMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
-type RequestBodyMatchConditionParametersTypeName string
+type RequestBodyMatchConditionParameters_TypeName string
 
-const RequestBodyMatchConditionParametersTypeName_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParametersTypeName("DeliveryRuleRequestBodyConditionParameters")
+const RequestBodyMatchConditionParameters_TypeName_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName("DeliveryRuleRequestBodyConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestHeaderMatchConditionParametersOperator string
+type RequestHeaderMatchConditionParameters_Operator string
 
 const (
-	RequestHeaderMatchConditionParametersOperator_Any                = RequestHeaderMatchConditionParametersOperator("Any")
-	RequestHeaderMatchConditionParametersOperator_BeginsWith         = RequestHeaderMatchConditionParametersOperator("BeginsWith")
-	RequestHeaderMatchConditionParametersOperator_Contains           = RequestHeaderMatchConditionParametersOperator("Contains")
-	RequestHeaderMatchConditionParametersOperator_EndsWith           = RequestHeaderMatchConditionParametersOperator("EndsWith")
-	RequestHeaderMatchConditionParametersOperator_Equal              = RequestHeaderMatchConditionParametersOperator("Equal")
-	RequestHeaderMatchConditionParametersOperator_GreaterThan        = RequestHeaderMatchConditionParametersOperator("GreaterThan")
-	RequestHeaderMatchConditionParametersOperator_GreaterThanOrEqual = RequestHeaderMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestHeaderMatchConditionParametersOperator_LessThan           = RequestHeaderMatchConditionParametersOperator("LessThan")
-	RequestHeaderMatchConditionParametersOperator_LessThanOrEqual    = RequestHeaderMatchConditionParametersOperator("LessThanOrEqual")
-	RequestHeaderMatchConditionParametersOperator_RegEx              = RequestHeaderMatchConditionParametersOperator("RegEx")
+	RequestHeaderMatchConditionParameters_Operator_Any                = RequestHeaderMatchConditionParameters_Operator("Any")
+	RequestHeaderMatchConditionParameters_Operator_BeginsWith         = RequestHeaderMatchConditionParameters_Operator("BeginsWith")
+	RequestHeaderMatchConditionParameters_Operator_Contains           = RequestHeaderMatchConditionParameters_Operator("Contains")
+	RequestHeaderMatchConditionParameters_Operator_EndsWith           = RequestHeaderMatchConditionParameters_Operator("EndsWith")
+	RequestHeaderMatchConditionParameters_Operator_Equal              = RequestHeaderMatchConditionParameters_Operator("Equal")
+	RequestHeaderMatchConditionParameters_Operator_GreaterThan        = RequestHeaderMatchConditionParameters_Operator("GreaterThan")
+	RequestHeaderMatchConditionParameters_Operator_GreaterThanOrEqual = RequestHeaderMatchConditionParameters_Operator("GreaterThanOrEqual")
+	RequestHeaderMatchConditionParameters_Operator_LessThan           = RequestHeaderMatchConditionParameters_Operator("LessThan")
+	RequestHeaderMatchConditionParameters_Operator_LessThanOrEqual    = RequestHeaderMatchConditionParameters_Operator("LessThanOrEqual")
+	RequestHeaderMatchConditionParameters_Operator_RegEx              = RequestHeaderMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestHeaderMatchConditionParametersTransforms string
+type RequestHeaderMatchConditionParameters_Transforms string
 
 const (
-	RequestHeaderMatchConditionParametersTransforms_Lowercase   = RequestHeaderMatchConditionParametersTransforms("Lowercase")
-	RequestHeaderMatchConditionParametersTransforms_RemoveNulls = RequestHeaderMatchConditionParametersTransforms("RemoveNulls")
-	RequestHeaderMatchConditionParametersTransforms_Trim        = RequestHeaderMatchConditionParametersTransforms("Trim")
-	RequestHeaderMatchConditionParametersTransforms_Uppercase   = RequestHeaderMatchConditionParametersTransforms("Uppercase")
-	RequestHeaderMatchConditionParametersTransforms_UrlDecode   = RequestHeaderMatchConditionParametersTransforms("UrlDecode")
-	RequestHeaderMatchConditionParametersTransforms_UrlEncode   = RequestHeaderMatchConditionParametersTransforms("UrlEncode")
+	RequestHeaderMatchConditionParameters_Transforms_Lowercase   = RequestHeaderMatchConditionParameters_Transforms("Lowercase")
+	RequestHeaderMatchConditionParameters_Transforms_RemoveNulls = RequestHeaderMatchConditionParameters_Transforms("RemoveNulls")
+	RequestHeaderMatchConditionParameters_Transforms_Trim        = RequestHeaderMatchConditionParameters_Transforms("Trim")
+	RequestHeaderMatchConditionParameters_Transforms_Uppercase   = RequestHeaderMatchConditionParameters_Transforms("Uppercase")
+	RequestHeaderMatchConditionParameters_Transforms_UrlDecode   = RequestHeaderMatchConditionParameters_Transforms("UrlDecode")
+	RequestHeaderMatchConditionParameters_Transforms_UrlEncode   = RequestHeaderMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
-type RequestHeaderMatchConditionParametersTypeName string
+type RequestHeaderMatchConditionParameters_TypeName string
 
-const RequestHeaderMatchConditionParametersTypeName_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParametersTypeName("DeliveryRuleRequestHeaderConditionParameters")
+const RequestHeaderMatchConditionParameters_TypeName_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName("DeliveryRuleRequestHeaderConditionParameters")
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
-type RequestMethodMatchConditionParametersMatchValues string
+type RequestMethodMatchConditionParameters_MatchValues string
 
 const (
-	RequestMethodMatchConditionParametersMatchValues_DELETE  = RequestMethodMatchConditionParametersMatchValues("DELETE")
-	RequestMethodMatchConditionParametersMatchValues_GET     = RequestMethodMatchConditionParametersMatchValues("GET")
-	RequestMethodMatchConditionParametersMatchValues_HEAD    = RequestMethodMatchConditionParametersMatchValues("HEAD")
-	RequestMethodMatchConditionParametersMatchValues_OPTIONS = RequestMethodMatchConditionParametersMatchValues("OPTIONS")
-	RequestMethodMatchConditionParametersMatchValues_POST    = RequestMethodMatchConditionParametersMatchValues("POST")
-	RequestMethodMatchConditionParametersMatchValues_PUT     = RequestMethodMatchConditionParametersMatchValues("PUT")
-	RequestMethodMatchConditionParametersMatchValues_TRACE   = RequestMethodMatchConditionParametersMatchValues("TRACE")
+	RequestMethodMatchConditionParameters_MatchValues_DELETE  = RequestMethodMatchConditionParameters_MatchValues("DELETE")
+	RequestMethodMatchConditionParameters_MatchValues_GET     = RequestMethodMatchConditionParameters_MatchValues("GET")
+	RequestMethodMatchConditionParameters_MatchValues_HEAD    = RequestMethodMatchConditionParameters_MatchValues("HEAD")
+	RequestMethodMatchConditionParameters_MatchValues_OPTIONS = RequestMethodMatchConditionParameters_MatchValues("OPTIONS")
+	RequestMethodMatchConditionParameters_MatchValues_POST    = RequestMethodMatchConditionParameters_MatchValues("POST")
+	RequestMethodMatchConditionParameters_MatchValues_PUT     = RequestMethodMatchConditionParameters_MatchValues("PUT")
+	RequestMethodMatchConditionParameters_MatchValues_TRACE   = RequestMethodMatchConditionParameters_MatchValues("TRACE")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
-type RequestMethodMatchConditionParametersOperator string
+type RequestMethodMatchConditionParameters_Operator string
 
-const RequestMethodMatchConditionParametersOperator_Equal = RequestMethodMatchConditionParametersOperator("Equal")
+const RequestMethodMatchConditionParameters_Operator_Equal = RequestMethodMatchConditionParameters_Operator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestMethodMatchConditionParametersTransforms string
+type RequestMethodMatchConditionParameters_Transforms string
 
 const (
-	RequestMethodMatchConditionParametersTransforms_Lowercase   = RequestMethodMatchConditionParametersTransforms("Lowercase")
-	RequestMethodMatchConditionParametersTransforms_RemoveNulls = RequestMethodMatchConditionParametersTransforms("RemoveNulls")
-	RequestMethodMatchConditionParametersTransforms_Trim        = RequestMethodMatchConditionParametersTransforms("Trim")
-	RequestMethodMatchConditionParametersTransforms_Uppercase   = RequestMethodMatchConditionParametersTransforms("Uppercase")
-	RequestMethodMatchConditionParametersTransforms_UrlDecode   = RequestMethodMatchConditionParametersTransforms("UrlDecode")
-	RequestMethodMatchConditionParametersTransforms_UrlEncode   = RequestMethodMatchConditionParametersTransforms("UrlEncode")
+	RequestMethodMatchConditionParameters_Transforms_Lowercase   = RequestMethodMatchConditionParameters_Transforms("Lowercase")
+	RequestMethodMatchConditionParameters_Transforms_RemoveNulls = RequestMethodMatchConditionParameters_Transforms("RemoveNulls")
+	RequestMethodMatchConditionParameters_Transforms_Trim        = RequestMethodMatchConditionParameters_Transforms("Trim")
+	RequestMethodMatchConditionParameters_Transforms_Uppercase   = RequestMethodMatchConditionParameters_Transforms("Uppercase")
+	RequestMethodMatchConditionParameters_Transforms_UrlDecode   = RequestMethodMatchConditionParameters_Transforms("UrlDecode")
+	RequestMethodMatchConditionParameters_Transforms_UrlEncode   = RequestMethodMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
-type RequestMethodMatchConditionParametersTypeName string
+type RequestMethodMatchConditionParameters_TypeName string
 
-const RequestMethodMatchConditionParametersTypeName_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParametersTypeName("DeliveryRuleRequestMethodConditionParameters")
+const RequestMethodMatchConditionParameters_TypeName_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName("DeliveryRuleRequestMethodConditionParameters")
 
 // +kubebuilder:validation:Enum={"HTTP","HTTPS"}
-type RequestSchemeMatchConditionParametersMatchValues string
+type RequestSchemeMatchConditionParameters_MatchValues string
 
 const (
-	RequestSchemeMatchConditionParametersMatchValues_HTTP  = RequestSchemeMatchConditionParametersMatchValues("HTTP")
-	RequestSchemeMatchConditionParametersMatchValues_HTTPS = RequestSchemeMatchConditionParametersMatchValues("HTTPS")
+	RequestSchemeMatchConditionParameters_MatchValues_HTTP  = RequestSchemeMatchConditionParameters_MatchValues("HTTP")
+	RequestSchemeMatchConditionParameters_MatchValues_HTTPS = RequestSchemeMatchConditionParameters_MatchValues("HTTPS")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
-type RequestSchemeMatchConditionParametersOperator string
+type RequestSchemeMatchConditionParameters_Operator string
 
-const RequestSchemeMatchConditionParametersOperator_Equal = RequestSchemeMatchConditionParametersOperator("Equal")
+const RequestSchemeMatchConditionParameters_Operator_Equal = RequestSchemeMatchConditionParameters_Operator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestSchemeMatchConditionParametersTransforms string
+type RequestSchemeMatchConditionParameters_Transforms string
 
 const (
-	RequestSchemeMatchConditionParametersTransforms_Lowercase   = RequestSchemeMatchConditionParametersTransforms("Lowercase")
-	RequestSchemeMatchConditionParametersTransforms_RemoveNulls = RequestSchemeMatchConditionParametersTransforms("RemoveNulls")
-	RequestSchemeMatchConditionParametersTransforms_Trim        = RequestSchemeMatchConditionParametersTransforms("Trim")
-	RequestSchemeMatchConditionParametersTransforms_Uppercase   = RequestSchemeMatchConditionParametersTransforms("Uppercase")
-	RequestSchemeMatchConditionParametersTransforms_UrlDecode   = RequestSchemeMatchConditionParametersTransforms("UrlDecode")
-	RequestSchemeMatchConditionParametersTransforms_UrlEncode   = RequestSchemeMatchConditionParametersTransforms("UrlEncode")
+	RequestSchemeMatchConditionParameters_Transforms_Lowercase   = RequestSchemeMatchConditionParameters_Transforms("Lowercase")
+	RequestSchemeMatchConditionParameters_Transforms_RemoveNulls = RequestSchemeMatchConditionParameters_Transforms("RemoveNulls")
+	RequestSchemeMatchConditionParameters_Transforms_Trim        = RequestSchemeMatchConditionParameters_Transforms("Trim")
+	RequestSchemeMatchConditionParameters_Transforms_Uppercase   = RequestSchemeMatchConditionParameters_Transforms("Uppercase")
+	RequestSchemeMatchConditionParameters_Transforms_UrlDecode   = RequestSchemeMatchConditionParameters_Transforms("UrlDecode")
+	RequestSchemeMatchConditionParameters_Transforms_UrlEncode   = RequestSchemeMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
-type RequestSchemeMatchConditionParametersTypeName string
+type RequestSchemeMatchConditionParameters_TypeName string
 
-const RequestSchemeMatchConditionParametersTypeName_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParametersTypeName("DeliveryRuleRequestSchemeConditionParameters")
+const RequestSchemeMatchConditionParameters_TypeName_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName("DeliveryRuleRequestSchemeConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestUriMatchConditionParametersOperator string
+type RequestUriMatchConditionParameters_Operator string
 
 const (
-	RequestUriMatchConditionParametersOperator_Any                = RequestUriMatchConditionParametersOperator("Any")
-	RequestUriMatchConditionParametersOperator_BeginsWith         = RequestUriMatchConditionParametersOperator("BeginsWith")
-	RequestUriMatchConditionParametersOperator_Contains           = RequestUriMatchConditionParametersOperator("Contains")
-	RequestUriMatchConditionParametersOperator_EndsWith           = RequestUriMatchConditionParametersOperator("EndsWith")
-	RequestUriMatchConditionParametersOperator_Equal              = RequestUriMatchConditionParametersOperator("Equal")
-	RequestUriMatchConditionParametersOperator_GreaterThan        = RequestUriMatchConditionParametersOperator("GreaterThan")
-	RequestUriMatchConditionParametersOperator_GreaterThanOrEqual = RequestUriMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestUriMatchConditionParametersOperator_LessThan           = RequestUriMatchConditionParametersOperator("LessThan")
-	RequestUriMatchConditionParametersOperator_LessThanOrEqual    = RequestUriMatchConditionParametersOperator("LessThanOrEqual")
-	RequestUriMatchConditionParametersOperator_RegEx              = RequestUriMatchConditionParametersOperator("RegEx")
+	RequestUriMatchConditionParameters_Operator_Any                = RequestUriMatchConditionParameters_Operator("Any")
+	RequestUriMatchConditionParameters_Operator_BeginsWith         = RequestUriMatchConditionParameters_Operator("BeginsWith")
+	RequestUriMatchConditionParameters_Operator_Contains           = RequestUriMatchConditionParameters_Operator("Contains")
+	RequestUriMatchConditionParameters_Operator_EndsWith           = RequestUriMatchConditionParameters_Operator("EndsWith")
+	RequestUriMatchConditionParameters_Operator_Equal              = RequestUriMatchConditionParameters_Operator("Equal")
+	RequestUriMatchConditionParameters_Operator_GreaterThan        = RequestUriMatchConditionParameters_Operator("GreaterThan")
+	RequestUriMatchConditionParameters_Operator_GreaterThanOrEqual = RequestUriMatchConditionParameters_Operator("GreaterThanOrEqual")
+	RequestUriMatchConditionParameters_Operator_LessThan           = RequestUriMatchConditionParameters_Operator("LessThan")
+	RequestUriMatchConditionParameters_Operator_LessThanOrEqual    = RequestUriMatchConditionParameters_Operator("LessThanOrEqual")
+	RequestUriMatchConditionParameters_Operator_RegEx              = RequestUriMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestUriMatchConditionParametersTransforms string
+type RequestUriMatchConditionParameters_Transforms string
 
 const (
-	RequestUriMatchConditionParametersTransforms_Lowercase   = RequestUriMatchConditionParametersTransforms("Lowercase")
-	RequestUriMatchConditionParametersTransforms_RemoveNulls = RequestUriMatchConditionParametersTransforms("RemoveNulls")
-	RequestUriMatchConditionParametersTransforms_Trim        = RequestUriMatchConditionParametersTransforms("Trim")
-	RequestUriMatchConditionParametersTransforms_Uppercase   = RequestUriMatchConditionParametersTransforms("Uppercase")
-	RequestUriMatchConditionParametersTransforms_UrlDecode   = RequestUriMatchConditionParametersTransforms("UrlDecode")
-	RequestUriMatchConditionParametersTransforms_UrlEncode   = RequestUriMatchConditionParametersTransforms("UrlEncode")
+	RequestUriMatchConditionParameters_Transforms_Lowercase   = RequestUriMatchConditionParameters_Transforms("Lowercase")
+	RequestUriMatchConditionParameters_Transforms_RemoveNulls = RequestUriMatchConditionParameters_Transforms("RemoveNulls")
+	RequestUriMatchConditionParameters_Transforms_Trim        = RequestUriMatchConditionParameters_Transforms("Trim")
+	RequestUriMatchConditionParameters_Transforms_Uppercase   = RequestUriMatchConditionParameters_Transforms("Uppercase")
+	RequestUriMatchConditionParameters_Transforms_UrlDecode   = RequestUriMatchConditionParameters_Transforms("UrlDecode")
+	RequestUriMatchConditionParameters_Transforms_UrlEncode   = RequestUriMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
-type RequestUriMatchConditionParametersTypeName string
+type RequestUriMatchConditionParameters_TypeName string
 
-const RequestUriMatchConditionParametersTypeName_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParametersTypeName("DeliveryRuleRequestUriConditionParameters")
+const RequestUriMatchConditionParameters_TypeName_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName("DeliveryRuleRequestUriConditionParameters")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
-type RouteConfigurationOverrideActionParametersTypeName string
+type RouteConfigurationOverrideActionParameters_TypeName string
 
-const RouteConfigurationOverrideActionParametersTypeName_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParametersTypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
+const RouteConfigurationOverrideActionParameters_TypeName_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type ServerPortMatchConditionParametersOperator string
+type ServerPortMatchConditionParameters_Operator string
 
 const (
-	ServerPortMatchConditionParametersOperator_Any                = ServerPortMatchConditionParametersOperator("Any")
-	ServerPortMatchConditionParametersOperator_BeginsWith         = ServerPortMatchConditionParametersOperator("BeginsWith")
-	ServerPortMatchConditionParametersOperator_Contains           = ServerPortMatchConditionParametersOperator("Contains")
-	ServerPortMatchConditionParametersOperator_EndsWith           = ServerPortMatchConditionParametersOperator("EndsWith")
-	ServerPortMatchConditionParametersOperator_Equal              = ServerPortMatchConditionParametersOperator("Equal")
-	ServerPortMatchConditionParametersOperator_GreaterThan        = ServerPortMatchConditionParametersOperator("GreaterThan")
-	ServerPortMatchConditionParametersOperator_GreaterThanOrEqual = ServerPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ServerPortMatchConditionParametersOperator_LessThan           = ServerPortMatchConditionParametersOperator("LessThan")
-	ServerPortMatchConditionParametersOperator_LessThanOrEqual    = ServerPortMatchConditionParametersOperator("LessThanOrEqual")
-	ServerPortMatchConditionParametersOperator_RegEx              = ServerPortMatchConditionParametersOperator("RegEx")
+	ServerPortMatchConditionParameters_Operator_Any                = ServerPortMatchConditionParameters_Operator("Any")
+	ServerPortMatchConditionParameters_Operator_BeginsWith         = ServerPortMatchConditionParameters_Operator("BeginsWith")
+	ServerPortMatchConditionParameters_Operator_Contains           = ServerPortMatchConditionParameters_Operator("Contains")
+	ServerPortMatchConditionParameters_Operator_EndsWith           = ServerPortMatchConditionParameters_Operator("EndsWith")
+	ServerPortMatchConditionParameters_Operator_Equal              = ServerPortMatchConditionParameters_Operator("Equal")
+	ServerPortMatchConditionParameters_Operator_GreaterThan        = ServerPortMatchConditionParameters_Operator("GreaterThan")
+	ServerPortMatchConditionParameters_Operator_GreaterThanOrEqual = ServerPortMatchConditionParameters_Operator("GreaterThanOrEqual")
+	ServerPortMatchConditionParameters_Operator_LessThan           = ServerPortMatchConditionParameters_Operator("LessThan")
+	ServerPortMatchConditionParameters_Operator_LessThanOrEqual    = ServerPortMatchConditionParameters_Operator("LessThanOrEqual")
+	ServerPortMatchConditionParameters_Operator_RegEx              = ServerPortMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type ServerPortMatchConditionParametersTransforms string
+type ServerPortMatchConditionParameters_Transforms string
 
 const (
-	ServerPortMatchConditionParametersTransforms_Lowercase   = ServerPortMatchConditionParametersTransforms("Lowercase")
-	ServerPortMatchConditionParametersTransforms_RemoveNulls = ServerPortMatchConditionParametersTransforms("RemoveNulls")
-	ServerPortMatchConditionParametersTransforms_Trim        = ServerPortMatchConditionParametersTransforms("Trim")
-	ServerPortMatchConditionParametersTransforms_Uppercase   = ServerPortMatchConditionParametersTransforms("Uppercase")
-	ServerPortMatchConditionParametersTransforms_UrlDecode   = ServerPortMatchConditionParametersTransforms("UrlDecode")
-	ServerPortMatchConditionParametersTransforms_UrlEncode   = ServerPortMatchConditionParametersTransforms("UrlEncode")
+	ServerPortMatchConditionParameters_Transforms_Lowercase   = ServerPortMatchConditionParameters_Transforms("Lowercase")
+	ServerPortMatchConditionParameters_Transforms_RemoveNulls = ServerPortMatchConditionParameters_Transforms("RemoveNulls")
+	ServerPortMatchConditionParameters_Transforms_Trim        = ServerPortMatchConditionParameters_Transforms("Trim")
+	ServerPortMatchConditionParameters_Transforms_Uppercase   = ServerPortMatchConditionParameters_Transforms("Uppercase")
+	ServerPortMatchConditionParameters_Transforms_UrlDecode   = ServerPortMatchConditionParameters_Transforms("UrlDecode")
+	ServerPortMatchConditionParameters_Transforms_UrlEncode   = ServerPortMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
-type ServerPortMatchConditionParametersTypeName string
+type ServerPortMatchConditionParameters_TypeName string
 
-const ServerPortMatchConditionParametersTypeName_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParametersTypeName("DeliveryRuleServerPortConditionParameters")
+const ServerPortMatchConditionParameters_TypeName_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName("DeliveryRuleServerPortConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","IPMatch"}
-type SocketAddrMatchConditionParametersOperator string
+type SocketAddrMatchConditionParameters_Operator string
 
 const (
-	SocketAddrMatchConditionParametersOperator_Any     = SocketAddrMatchConditionParametersOperator("Any")
-	SocketAddrMatchConditionParametersOperator_IPMatch = SocketAddrMatchConditionParametersOperator("IPMatch")
+	SocketAddrMatchConditionParameters_Operator_Any     = SocketAddrMatchConditionParameters_Operator("Any")
+	SocketAddrMatchConditionParameters_Operator_IPMatch = SocketAddrMatchConditionParameters_Operator("IPMatch")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type SocketAddrMatchConditionParametersTransforms string
+type SocketAddrMatchConditionParameters_Transforms string
 
 const (
-	SocketAddrMatchConditionParametersTransforms_Lowercase   = SocketAddrMatchConditionParametersTransforms("Lowercase")
-	SocketAddrMatchConditionParametersTransforms_RemoveNulls = SocketAddrMatchConditionParametersTransforms("RemoveNulls")
-	SocketAddrMatchConditionParametersTransforms_Trim        = SocketAddrMatchConditionParametersTransforms("Trim")
-	SocketAddrMatchConditionParametersTransforms_Uppercase   = SocketAddrMatchConditionParametersTransforms("Uppercase")
-	SocketAddrMatchConditionParametersTransforms_UrlDecode   = SocketAddrMatchConditionParametersTransforms("UrlDecode")
-	SocketAddrMatchConditionParametersTransforms_UrlEncode   = SocketAddrMatchConditionParametersTransforms("UrlEncode")
+	SocketAddrMatchConditionParameters_Transforms_Lowercase   = SocketAddrMatchConditionParameters_Transforms("Lowercase")
+	SocketAddrMatchConditionParameters_Transforms_RemoveNulls = SocketAddrMatchConditionParameters_Transforms("RemoveNulls")
+	SocketAddrMatchConditionParameters_Transforms_Trim        = SocketAddrMatchConditionParameters_Transforms("Trim")
+	SocketAddrMatchConditionParameters_Transforms_Uppercase   = SocketAddrMatchConditionParameters_Transforms("Uppercase")
+	SocketAddrMatchConditionParameters_Transforms_UrlDecode   = SocketAddrMatchConditionParameters_Transforms("UrlDecode")
+	SocketAddrMatchConditionParameters_Transforms_UrlEncode   = SocketAddrMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
-type SocketAddrMatchConditionParametersTypeName string
+type SocketAddrMatchConditionParameters_TypeName string
 
-const SocketAddrMatchConditionParametersTypeName_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParametersTypeName("DeliveryRuleSocketAddrConditionParameters")
+const SocketAddrMatchConditionParameters_TypeName_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName("DeliveryRuleSocketAddrConditionParameters")
 
 // +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
-type SslProtocolMatchConditionParametersMatchValues string
+type SslProtocolMatchConditionParameters_MatchValues string
 
 const (
-	SslProtocolMatchConditionParametersMatchValues_TLSv1  = SslProtocolMatchConditionParametersMatchValues("TLSv1")
-	SslProtocolMatchConditionParametersMatchValues_TLSv11 = SslProtocolMatchConditionParametersMatchValues("TLSv1.1")
-	SslProtocolMatchConditionParametersMatchValues_TLSv12 = SslProtocolMatchConditionParametersMatchValues("TLSv1.2")
+	SslProtocolMatchConditionParameters_MatchValues_TLSv1  = SslProtocolMatchConditionParameters_MatchValues("TLSv1")
+	SslProtocolMatchConditionParameters_MatchValues_TLSv11 = SslProtocolMatchConditionParameters_MatchValues("TLSv1.1")
+	SslProtocolMatchConditionParameters_MatchValues_TLSv12 = SslProtocolMatchConditionParameters_MatchValues("TLSv1.2")
 )
 
 // +kubebuilder:validation:Enum={"Equal"}
-type SslProtocolMatchConditionParametersOperator string
+type SslProtocolMatchConditionParameters_Operator string
 
-const SslProtocolMatchConditionParametersOperator_Equal = SslProtocolMatchConditionParametersOperator("Equal")
+const SslProtocolMatchConditionParameters_Operator_Equal = SslProtocolMatchConditionParameters_Operator("Equal")
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type SslProtocolMatchConditionParametersTransforms string
+type SslProtocolMatchConditionParameters_Transforms string
 
 const (
-	SslProtocolMatchConditionParametersTransforms_Lowercase   = SslProtocolMatchConditionParametersTransforms("Lowercase")
-	SslProtocolMatchConditionParametersTransforms_RemoveNulls = SslProtocolMatchConditionParametersTransforms("RemoveNulls")
-	SslProtocolMatchConditionParametersTransforms_Trim        = SslProtocolMatchConditionParametersTransforms("Trim")
-	SslProtocolMatchConditionParametersTransforms_Uppercase   = SslProtocolMatchConditionParametersTransforms("Uppercase")
-	SslProtocolMatchConditionParametersTransforms_UrlDecode   = SslProtocolMatchConditionParametersTransforms("UrlDecode")
-	SslProtocolMatchConditionParametersTransforms_UrlEncode   = SslProtocolMatchConditionParametersTransforms("UrlEncode")
+	SslProtocolMatchConditionParameters_Transforms_Lowercase   = SslProtocolMatchConditionParameters_Transforms("Lowercase")
+	SslProtocolMatchConditionParameters_Transforms_RemoveNulls = SslProtocolMatchConditionParameters_Transforms("RemoveNulls")
+	SslProtocolMatchConditionParameters_Transforms_Trim        = SslProtocolMatchConditionParameters_Transforms("Trim")
+	SslProtocolMatchConditionParameters_Transforms_Uppercase   = SslProtocolMatchConditionParameters_Transforms("Uppercase")
+	SslProtocolMatchConditionParameters_Transforms_UrlDecode   = SslProtocolMatchConditionParameters_Transforms("UrlDecode")
+	SslProtocolMatchConditionParameters_Transforms_UrlEncode   = SslProtocolMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
-type SslProtocolMatchConditionParametersTypeName string
+type SslProtocolMatchConditionParameters_TypeName string
 
-const SslProtocolMatchConditionParametersTypeName_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParametersTypeName("DeliveryRuleSslProtocolConditionParameters")
+const SslProtocolMatchConditionParameters_TypeName_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName("DeliveryRuleSslProtocolConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type UrlFileExtensionMatchConditionParametersOperator string
+type UrlFileExtensionMatchConditionParameters_Operator string
 
 const (
-	UrlFileExtensionMatchConditionParametersOperator_Any                = UrlFileExtensionMatchConditionParametersOperator("Any")
-	UrlFileExtensionMatchConditionParametersOperator_BeginsWith         = UrlFileExtensionMatchConditionParametersOperator("BeginsWith")
-	UrlFileExtensionMatchConditionParametersOperator_Contains           = UrlFileExtensionMatchConditionParametersOperator("Contains")
-	UrlFileExtensionMatchConditionParametersOperator_EndsWith           = UrlFileExtensionMatchConditionParametersOperator("EndsWith")
-	UrlFileExtensionMatchConditionParametersOperator_Equal              = UrlFileExtensionMatchConditionParametersOperator("Equal")
-	UrlFileExtensionMatchConditionParametersOperator_GreaterThan        = UrlFileExtensionMatchConditionParametersOperator("GreaterThan")
-	UrlFileExtensionMatchConditionParametersOperator_GreaterThanOrEqual = UrlFileExtensionMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperator_LessThan           = UrlFileExtensionMatchConditionParametersOperator("LessThan")
-	UrlFileExtensionMatchConditionParametersOperator_LessThanOrEqual    = UrlFileExtensionMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperator_RegEx              = UrlFileExtensionMatchConditionParametersOperator("RegEx")
+	UrlFileExtensionMatchConditionParameters_Operator_Any                = UrlFileExtensionMatchConditionParameters_Operator("Any")
+	UrlFileExtensionMatchConditionParameters_Operator_BeginsWith         = UrlFileExtensionMatchConditionParameters_Operator("BeginsWith")
+	UrlFileExtensionMatchConditionParameters_Operator_Contains           = UrlFileExtensionMatchConditionParameters_Operator("Contains")
+	UrlFileExtensionMatchConditionParameters_Operator_EndsWith           = UrlFileExtensionMatchConditionParameters_Operator("EndsWith")
+	UrlFileExtensionMatchConditionParameters_Operator_Equal              = UrlFileExtensionMatchConditionParameters_Operator("Equal")
+	UrlFileExtensionMatchConditionParameters_Operator_GreaterThan        = UrlFileExtensionMatchConditionParameters_Operator("GreaterThan")
+	UrlFileExtensionMatchConditionParameters_Operator_GreaterThanOrEqual = UrlFileExtensionMatchConditionParameters_Operator("GreaterThanOrEqual")
+	UrlFileExtensionMatchConditionParameters_Operator_LessThan           = UrlFileExtensionMatchConditionParameters_Operator("LessThan")
+	UrlFileExtensionMatchConditionParameters_Operator_LessThanOrEqual    = UrlFileExtensionMatchConditionParameters_Operator("LessThanOrEqual")
+	UrlFileExtensionMatchConditionParameters_Operator_RegEx              = UrlFileExtensionMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlFileExtensionMatchConditionParametersTransforms string
+type UrlFileExtensionMatchConditionParameters_Transforms string
 
 const (
-	UrlFileExtensionMatchConditionParametersTransforms_Lowercase   = UrlFileExtensionMatchConditionParametersTransforms("Lowercase")
-	UrlFileExtensionMatchConditionParametersTransforms_RemoveNulls = UrlFileExtensionMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileExtensionMatchConditionParametersTransforms_Trim        = UrlFileExtensionMatchConditionParametersTransforms("Trim")
-	UrlFileExtensionMatchConditionParametersTransforms_Uppercase   = UrlFileExtensionMatchConditionParametersTransforms("Uppercase")
-	UrlFileExtensionMatchConditionParametersTransforms_UrlDecode   = UrlFileExtensionMatchConditionParametersTransforms("UrlDecode")
-	UrlFileExtensionMatchConditionParametersTransforms_UrlEncode   = UrlFileExtensionMatchConditionParametersTransforms("UrlEncode")
+	UrlFileExtensionMatchConditionParameters_Transforms_Lowercase   = UrlFileExtensionMatchConditionParameters_Transforms("Lowercase")
+	UrlFileExtensionMatchConditionParameters_Transforms_RemoveNulls = UrlFileExtensionMatchConditionParameters_Transforms("RemoveNulls")
+	UrlFileExtensionMatchConditionParameters_Transforms_Trim        = UrlFileExtensionMatchConditionParameters_Transforms("Trim")
+	UrlFileExtensionMatchConditionParameters_Transforms_Uppercase   = UrlFileExtensionMatchConditionParameters_Transforms("Uppercase")
+	UrlFileExtensionMatchConditionParameters_Transforms_UrlDecode   = UrlFileExtensionMatchConditionParameters_Transforms("UrlDecode")
+	UrlFileExtensionMatchConditionParameters_Transforms_UrlEncode   = UrlFileExtensionMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
-type UrlFileExtensionMatchConditionParametersTypeName string
+type UrlFileExtensionMatchConditionParameters_TypeName string
 
-const UrlFileExtensionMatchConditionParametersTypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParametersTypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
+const UrlFileExtensionMatchConditionParameters_TypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type UrlFileNameMatchConditionParametersOperator string
+type UrlFileNameMatchConditionParameters_Operator string
 
 const (
-	UrlFileNameMatchConditionParametersOperator_Any                = UrlFileNameMatchConditionParametersOperator("Any")
-	UrlFileNameMatchConditionParametersOperator_BeginsWith         = UrlFileNameMatchConditionParametersOperator("BeginsWith")
-	UrlFileNameMatchConditionParametersOperator_Contains           = UrlFileNameMatchConditionParametersOperator("Contains")
-	UrlFileNameMatchConditionParametersOperator_EndsWith           = UrlFileNameMatchConditionParametersOperator("EndsWith")
-	UrlFileNameMatchConditionParametersOperator_Equal              = UrlFileNameMatchConditionParametersOperator("Equal")
-	UrlFileNameMatchConditionParametersOperator_GreaterThan        = UrlFileNameMatchConditionParametersOperator("GreaterThan")
-	UrlFileNameMatchConditionParametersOperator_GreaterThanOrEqual = UrlFileNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileNameMatchConditionParametersOperator_LessThan           = UrlFileNameMatchConditionParametersOperator("LessThan")
-	UrlFileNameMatchConditionParametersOperator_LessThanOrEqual    = UrlFileNameMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileNameMatchConditionParametersOperator_RegEx              = UrlFileNameMatchConditionParametersOperator("RegEx")
+	UrlFileNameMatchConditionParameters_Operator_Any                = UrlFileNameMatchConditionParameters_Operator("Any")
+	UrlFileNameMatchConditionParameters_Operator_BeginsWith         = UrlFileNameMatchConditionParameters_Operator("BeginsWith")
+	UrlFileNameMatchConditionParameters_Operator_Contains           = UrlFileNameMatchConditionParameters_Operator("Contains")
+	UrlFileNameMatchConditionParameters_Operator_EndsWith           = UrlFileNameMatchConditionParameters_Operator("EndsWith")
+	UrlFileNameMatchConditionParameters_Operator_Equal              = UrlFileNameMatchConditionParameters_Operator("Equal")
+	UrlFileNameMatchConditionParameters_Operator_GreaterThan        = UrlFileNameMatchConditionParameters_Operator("GreaterThan")
+	UrlFileNameMatchConditionParameters_Operator_GreaterThanOrEqual = UrlFileNameMatchConditionParameters_Operator("GreaterThanOrEqual")
+	UrlFileNameMatchConditionParameters_Operator_LessThan           = UrlFileNameMatchConditionParameters_Operator("LessThan")
+	UrlFileNameMatchConditionParameters_Operator_LessThanOrEqual    = UrlFileNameMatchConditionParameters_Operator("LessThanOrEqual")
+	UrlFileNameMatchConditionParameters_Operator_RegEx              = UrlFileNameMatchConditionParameters_Operator("RegEx")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlFileNameMatchConditionParametersTransforms string
+type UrlFileNameMatchConditionParameters_Transforms string
 
 const (
-	UrlFileNameMatchConditionParametersTransforms_Lowercase   = UrlFileNameMatchConditionParametersTransforms("Lowercase")
-	UrlFileNameMatchConditionParametersTransforms_RemoveNulls = UrlFileNameMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileNameMatchConditionParametersTransforms_Trim        = UrlFileNameMatchConditionParametersTransforms("Trim")
-	UrlFileNameMatchConditionParametersTransforms_Uppercase   = UrlFileNameMatchConditionParametersTransforms("Uppercase")
-	UrlFileNameMatchConditionParametersTransforms_UrlDecode   = UrlFileNameMatchConditionParametersTransforms("UrlDecode")
-	UrlFileNameMatchConditionParametersTransforms_UrlEncode   = UrlFileNameMatchConditionParametersTransforms("UrlEncode")
+	UrlFileNameMatchConditionParameters_Transforms_Lowercase   = UrlFileNameMatchConditionParameters_Transforms("Lowercase")
+	UrlFileNameMatchConditionParameters_Transforms_RemoveNulls = UrlFileNameMatchConditionParameters_Transforms("RemoveNulls")
+	UrlFileNameMatchConditionParameters_Transforms_Trim        = UrlFileNameMatchConditionParameters_Transforms("Trim")
+	UrlFileNameMatchConditionParameters_Transforms_Uppercase   = UrlFileNameMatchConditionParameters_Transforms("Uppercase")
+	UrlFileNameMatchConditionParameters_Transforms_UrlDecode   = UrlFileNameMatchConditionParameters_Transforms("UrlDecode")
+	UrlFileNameMatchConditionParameters_Transforms_UrlEncode   = UrlFileNameMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
-type UrlFileNameMatchConditionParametersTypeName string
+type UrlFileNameMatchConditionParameters_TypeName string
 
-const UrlFileNameMatchConditionParametersTypeName_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParametersTypeName("DeliveryRuleUrlFilenameConditionParameters")
+const UrlFileNameMatchConditionParameters_TypeName_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName("DeliveryRuleUrlFilenameConditionParameters")
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
-type UrlPathMatchConditionParametersOperator string
+type UrlPathMatchConditionParameters_Operator string
 
 const (
-	UrlPathMatchConditionParametersOperator_Any                = UrlPathMatchConditionParametersOperator("Any")
-	UrlPathMatchConditionParametersOperator_BeginsWith         = UrlPathMatchConditionParametersOperator("BeginsWith")
-	UrlPathMatchConditionParametersOperator_Contains           = UrlPathMatchConditionParametersOperator("Contains")
-	UrlPathMatchConditionParametersOperator_EndsWith           = UrlPathMatchConditionParametersOperator("EndsWith")
-	UrlPathMatchConditionParametersOperator_Equal              = UrlPathMatchConditionParametersOperator("Equal")
-	UrlPathMatchConditionParametersOperator_GreaterThan        = UrlPathMatchConditionParametersOperator("GreaterThan")
-	UrlPathMatchConditionParametersOperator_GreaterThanOrEqual = UrlPathMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlPathMatchConditionParametersOperator_LessThan           = UrlPathMatchConditionParametersOperator("LessThan")
-	UrlPathMatchConditionParametersOperator_LessThanOrEqual    = UrlPathMatchConditionParametersOperator("LessThanOrEqual")
-	UrlPathMatchConditionParametersOperator_RegEx              = UrlPathMatchConditionParametersOperator("RegEx")
-	UrlPathMatchConditionParametersOperator_Wildcard           = UrlPathMatchConditionParametersOperator("Wildcard")
+	UrlPathMatchConditionParameters_Operator_Any                = UrlPathMatchConditionParameters_Operator("Any")
+	UrlPathMatchConditionParameters_Operator_BeginsWith         = UrlPathMatchConditionParameters_Operator("BeginsWith")
+	UrlPathMatchConditionParameters_Operator_Contains           = UrlPathMatchConditionParameters_Operator("Contains")
+	UrlPathMatchConditionParameters_Operator_EndsWith           = UrlPathMatchConditionParameters_Operator("EndsWith")
+	UrlPathMatchConditionParameters_Operator_Equal              = UrlPathMatchConditionParameters_Operator("Equal")
+	UrlPathMatchConditionParameters_Operator_GreaterThan        = UrlPathMatchConditionParameters_Operator("GreaterThan")
+	UrlPathMatchConditionParameters_Operator_GreaterThanOrEqual = UrlPathMatchConditionParameters_Operator("GreaterThanOrEqual")
+	UrlPathMatchConditionParameters_Operator_LessThan           = UrlPathMatchConditionParameters_Operator("LessThan")
+	UrlPathMatchConditionParameters_Operator_LessThanOrEqual    = UrlPathMatchConditionParameters_Operator("LessThanOrEqual")
+	UrlPathMatchConditionParameters_Operator_RegEx              = UrlPathMatchConditionParameters_Operator("RegEx")
+	UrlPathMatchConditionParameters_Operator_Wildcard           = UrlPathMatchConditionParameters_Operator("Wildcard")
 )
 
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlPathMatchConditionParametersTransforms string
+type UrlPathMatchConditionParameters_Transforms string
 
 const (
-	UrlPathMatchConditionParametersTransforms_Lowercase   = UrlPathMatchConditionParametersTransforms("Lowercase")
-	UrlPathMatchConditionParametersTransforms_RemoveNulls = UrlPathMatchConditionParametersTransforms("RemoveNulls")
-	UrlPathMatchConditionParametersTransforms_Trim        = UrlPathMatchConditionParametersTransforms("Trim")
-	UrlPathMatchConditionParametersTransforms_Uppercase   = UrlPathMatchConditionParametersTransforms("Uppercase")
-	UrlPathMatchConditionParametersTransforms_UrlDecode   = UrlPathMatchConditionParametersTransforms("UrlDecode")
-	UrlPathMatchConditionParametersTransforms_UrlEncode   = UrlPathMatchConditionParametersTransforms("UrlEncode")
+	UrlPathMatchConditionParameters_Transforms_Lowercase   = UrlPathMatchConditionParameters_Transforms("Lowercase")
+	UrlPathMatchConditionParameters_Transforms_RemoveNulls = UrlPathMatchConditionParameters_Transforms("RemoveNulls")
+	UrlPathMatchConditionParameters_Transforms_Trim        = UrlPathMatchConditionParameters_Transforms("Trim")
+	UrlPathMatchConditionParameters_Transforms_Uppercase   = UrlPathMatchConditionParameters_Transforms("Uppercase")
+	UrlPathMatchConditionParameters_Transforms_UrlDecode   = UrlPathMatchConditionParameters_Transforms("UrlDecode")
+	UrlPathMatchConditionParameters_Transforms_UrlEncode   = UrlPathMatchConditionParameters_Transforms("UrlEncode")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
-type UrlPathMatchConditionParametersTypeName string
+type UrlPathMatchConditionParameters_TypeName string
 
-const UrlPathMatchConditionParametersTypeName_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParametersTypeName("DeliveryRuleUrlPathMatchConditionParameters")
+const UrlPathMatchConditionParameters_TypeName_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName("DeliveryRuleUrlPathMatchConditionParameters")
 
 // +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
-type UrlRedirectActionParametersDestinationProtocol string
+type UrlRedirectActionParameters_DestinationProtocol string
 
 const (
-	UrlRedirectActionParametersDestinationProtocol_Http         = UrlRedirectActionParametersDestinationProtocol("Http")
-	UrlRedirectActionParametersDestinationProtocol_Https        = UrlRedirectActionParametersDestinationProtocol("Https")
-	UrlRedirectActionParametersDestinationProtocol_MatchRequest = UrlRedirectActionParametersDestinationProtocol("MatchRequest")
+	UrlRedirectActionParameters_DestinationProtocol_Http         = UrlRedirectActionParameters_DestinationProtocol("Http")
+	UrlRedirectActionParameters_DestinationProtocol_Https        = UrlRedirectActionParameters_DestinationProtocol("Https")
+	UrlRedirectActionParameters_DestinationProtocol_MatchRequest = UrlRedirectActionParameters_DestinationProtocol("MatchRequest")
 )
 
 // +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
-type UrlRedirectActionParametersRedirectType string
+type UrlRedirectActionParameters_RedirectType string
 
 const (
-	UrlRedirectActionParametersRedirectType_Found             = UrlRedirectActionParametersRedirectType("Found")
-	UrlRedirectActionParametersRedirectType_Moved             = UrlRedirectActionParametersRedirectType("Moved")
-	UrlRedirectActionParametersRedirectType_PermanentRedirect = UrlRedirectActionParametersRedirectType("PermanentRedirect")
-	UrlRedirectActionParametersRedirectType_TemporaryRedirect = UrlRedirectActionParametersRedirectType("TemporaryRedirect")
+	UrlRedirectActionParameters_RedirectType_Found             = UrlRedirectActionParameters_RedirectType("Found")
+	UrlRedirectActionParameters_RedirectType_Moved             = UrlRedirectActionParameters_RedirectType("Moved")
+	UrlRedirectActionParameters_RedirectType_PermanentRedirect = UrlRedirectActionParameters_RedirectType("PermanentRedirect")
+	UrlRedirectActionParameters_RedirectType_TemporaryRedirect = UrlRedirectActionParameters_RedirectType("TemporaryRedirect")
 )
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
-type UrlRedirectActionParametersTypeName string
+type UrlRedirectActionParameters_TypeName string
 
-const UrlRedirectActionParametersTypeName_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParametersTypeName("DeliveryRuleUrlRedirectActionParameters")
+const UrlRedirectActionParameters_TypeName_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName("DeliveryRuleUrlRedirectActionParameters")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
-type UrlRewriteActionParametersTypeName string
+type UrlRewriteActionParameters_TypeName string
 
-const UrlRewriteActionParametersTypeName_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParametersTypeName("DeliveryRuleUrlRewriteActionParameters")
+const UrlRewriteActionParameters_TypeName_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName("DeliveryRuleUrlRewriteActionParameters")
 
 // +kubebuilder:validation:Enum={"SHA256"}
-type UrlSigningActionParametersAlgorithm string
+type UrlSigningActionParameters_Algorithm string
 
-const UrlSigningActionParametersAlgorithm_SHA256 = UrlSigningActionParametersAlgorithm("SHA256")
+const UrlSigningActionParameters_Algorithm_SHA256 = UrlSigningActionParameters_Algorithm("SHA256")
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
-type UrlSigningActionParametersTypeName string
+type UrlSigningActionParameters_TypeName string
 
-const UrlSigningActionParametersTypeName_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParametersTypeName("DeliveryRuleUrlSigningActionParameters")
+const UrlSigningActionParameters_TypeName_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName("DeliveryRuleUrlSigningActionParameters")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningParamIdentifier
 type UrlSigningParamIdentifier struct {
 	// +kubebuilder:validation:Required
 	// ParamIndicator: Indicates the purpose of the parameter.
-	ParamIndicator *UrlSigningParamIdentifierParamIndicator `json:"paramIndicator,omitempty"`
+	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator `json:"paramIndicator,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// ParamName: Parameter name
@@ -17756,12 +17756,12 @@ func (identifier *UrlSigningParamIdentifier) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningParamIdentifier populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignPropertiesFromUrlSigningParamIdentifier(source *v20210601s.UrlSigningParamIdentifier) error {
+// AssignProperties_From_UrlSigningParamIdentifier populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier
+func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningParamIdentifier(source *v20210601s.UrlSigningParamIdentifier) error {
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifierParamIndicator(*source.ParamIndicator)
+		paramIndicator := UrlSigningParamIdentifier_ParamIndicator(*source.ParamIndicator)
 		identifier.ParamIndicator = &paramIndicator
 	} else {
 		identifier.ParamIndicator = nil
@@ -17774,8 +17774,8 @@ func (identifier *UrlSigningParamIdentifier) AssignPropertiesFromUrlSigningParam
 	return nil
 }
 
-// AssignPropertiesToUrlSigningParamIdentifier populates the provided destination UrlSigningParamIdentifier from our UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignPropertiesToUrlSigningParamIdentifier(destination *v20210601s.UrlSigningParamIdentifier) error {
+// AssignProperties_To_UrlSigningParamIdentifier populates the provided destination UrlSigningParamIdentifier from our UrlSigningParamIdentifier
+func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParamIdentifier(destination *v20210601s.UrlSigningParamIdentifier) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17802,48 +17802,48 @@ func (identifier *UrlSigningParamIdentifier) AssignPropertiesToUrlSigningParamId
 }
 
 // +kubebuilder:validation:Enum={"HonorOrigin","OverrideAlways","OverrideIfOriginMissing"}
-type CacheConfigurationCacheBehavior string
+type CacheConfiguration_CacheBehavior string
 
 const (
-	CacheConfigurationCacheBehavior_HonorOrigin             = CacheConfigurationCacheBehavior("HonorOrigin")
-	CacheConfigurationCacheBehavior_OverrideAlways          = CacheConfigurationCacheBehavior("OverrideAlways")
-	CacheConfigurationCacheBehavior_OverrideIfOriginMissing = CacheConfigurationCacheBehavior("OverrideIfOriginMissing")
+	CacheConfiguration_CacheBehavior_HonorOrigin             = CacheConfiguration_CacheBehavior("HonorOrigin")
+	CacheConfiguration_CacheBehavior_OverrideAlways          = CacheConfiguration_CacheBehavior("OverrideAlways")
+	CacheConfiguration_CacheBehavior_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior("OverrideIfOriginMissing")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type CacheConfigurationIsCompressionEnabled string
+type CacheConfiguration_IsCompressionEnabled string
 
 const (
-	CacheConfigurationIsCompressionEnabled_Disabled = CacheConfigurationIsCompressionEnabled("Disabled")
-	CacheConfigurationIsCompressionEnabled_Enabled  = CacheConfigurationIsCompressionEnabled("Enabled")
+	CacheConfiguration_IsCompressionEnabled_Disabled = CacheConfiguration_IsCompressionEnabled("Disabled")
+	CacheConfiguration_IsCompressionEnabled_Enabled  = CacheConfiguration_IsCompressionEnabled("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
-type CacheConfigurationQueryStringCachingBehavior string
+type CacheConfiguration_QueryStringCachingBehavior string
 
 const (
-	CacheConfigurationQueryStringCachingBehavior_IgnoreQueryString            = CacheConfigurationQueryStringCachingBehavior("IgnoreQueryString")
-	CacheConfigurationQueryStringCachingBehavior_IgnoreSpecifiedQueryStrings  = CacheConfigurationQueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehavior_IncludeSpecifiedQueryStrings = CacheConfigurationQueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehavior_UseQueryString               = CacheConfigurationQueryStringCachingBehavior("UseQueryString")
+	CacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString            = CacheConfiguration_QueryStringCachingBehavior("IgnoreQueryString")
+	CacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings  = CacheConfiguration_QueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
+	CacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings = CacheConfiguration_QueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
+	CacheConfiguration_QueryStringCachingBehavior_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior("UseQueryString")
 )
 
 // +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
-type OriginGroupOverrideForwardingProtocol string
+type OriginGroupOverride_ForwardingProtocol string
 
 const (
-	OriginGroupOverrideForwardingProtocol_HttpOnly     = OriginGroupOverrideForwardingProtocol("HttpOnly")
-	OriginGroupOverrideForwardingProtocol_HttpsOnly    = OriginGroupOverrideForwardingProtocol("HttpsOnly")
-	OriginGroupOverrideForwardingProtocol_MatchRequest = OriginGroupOverrideForwardingProtocol("MatchRequest")
+	OriginGroupOverride_ForwardingProtocol_HttpOnly     = OriginGroupOverride_ForwardingProtocol("HttpOnly")
+	OriginGroupOverride_ForwardingProtocol_HttpsOnly    = OriginGroupOverride_ForwardingProtocol("HttpsOnly")
+	OriginGroupOverride_ForwardingProtocol_MatchRequest = OriginGroupOverride_ForwardingProtocol("MatchRequest")
 )
 
 // +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
-type UrlSigningParamIdentifierParamIndicator string
+type UrlSigningParamIdentifier_ParamIndicator string
 
 const (
-	UrlSigningParamIdentifierParamIndicator_Expires   = UrlSigningParamIdentifierParamIndicator("Expires")
-	UrlSigningParamIdentifierParamIndicator_KeyId     = UrlSigningParamIdentifierParamIndicator("KeyId")
-	UrlSigningParamIdentifierParamIndicator_Signature = UrlSigningParamIdentifierParamIndicator("Signature")
+	UrlSigningParamIdentifier_ParamIndicator_Expires   = UrlSigningParamIdentifier_ParamIndicator("Expires")
+	UrlSigningParamIdentifier_ParamIndicator_KeyId     = UrlSigningParamIdentifier_ParamIndicator("KeyId")
+	UrlSigningParamIdentifier_ParamIndicator_Signature = UrlSigningParamIdentifier_ParamIndicator("Signature")
 )
 
 func init() {

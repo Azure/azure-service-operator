@@ -56,7 +56,7 @@ func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = namespace.AssignPropertiesFromNamespace(&source)
+	err = namespace.AssignProperties_From_Namespace(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to namespace")
 	}
@@ -68,7 +68,7 @@ func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20210101ps.Namespace
-	err := namespace.AssignPropertiesToNamespace(&destination)
+	err := namespace.AssignProperties_To_Namespace(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from namespace")
 	}
@@ -262,25 +262,25 @@ func (namespace *Namespace) validateWriteOnceProperties(old runtime.Object) erro
 	return genruntime.ValidateWriteOnceProperties(oldObj, namespace)
 }
 
-// AssignPropertiesFromNamespace populates our Namespace from the provided source Namespace
-func (namespace *Namespace) AssignPropertiesFromNamespace(source *alpha20210101ps.Namespace) error {
+// AssignProperties_From_Namespace populates our Namespace from the provided source Namespace
+func (namespace *Namespace) AssignProperties_From_Namespace(source *alpha20210101ps.Namespace) error {
 
 	// ObjectMeta
 	namespace.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Namespaces_Spec
-	err := spec.AssignPropertiesFromNamespacesSpec(&source.Spec)
+	err := spec.AssignProperties_From_Namespaces_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Spec() to populate field Spec")
 	}
 	namespace.Spec = spec
 
 	// Status
 	var status SBNamespace_STATUS
-	err = status.AssignPropertiesFromSBNamespaceSTATUS(&source.Status)
+	err = status.AssignProperties_From_SBNamespace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBNamespaceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_SBNamespace_STATUS() to populate field Status")
 	}
 	namespace.Status = status
 
@@ -288,25 +288,25 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *alpha20210101p
 	return nil
 }
 
-// AssignPropertiesToNamespace populates the provided destination Namespace from our Namespace
-func (namespace *Namespace) AssignPropertiesToNamespace(destination *alpha20210101ps.Namespace) error {
+// AssignProperties_To_Namespace populates the provided destination Namespace from our Namespace
+func (namespace *Namespace) AssignProperties_To_Namespace(destination *alpha20210101ps.Namespace) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *namespace.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec alpha20210101ps.Namespaces_Spec
-	err := namespace.Spec.AssignPropertiesToNamespacesSpec(&spec)
+	err := namespace.Spec.AssignProperties_To_Namespaces_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status alpha20210101ps.SBNamespace_STATUS
-	err = namespace.Status.AssignPropertiesToSBNamespaceSTATUS(&status)
+	err = namespace.Status.AssignProperties_To_SBNamespace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBNamespaceSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_SBNamespace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -510,7 +510,7 @@ func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src, ok := source.(*alpha20210101ps.Namespaces_Spec)
 	if ok {
 		// Populate our instance from source
-		return namespaces.AssignPropertiesFromNamespacesSpec(src)
+		return namespaces.AssignProperties_From_Namespaces_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -521,7 +521,7 @@ func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = namespaces.AssignPropertiesFromNamespacesSpec(src)
+	err = namespaces.AssignProperties_From_Namespaces_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -534,12 +534,12 @@ func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst, ok := destination.(*alpha20210101ps.Namespaces_Spec)
 	if ok {
 		// Populate destination from our instance
-		return namespaces.AssignPropertiesToNamespacesSpec(dst)
+		return namespaces.AssignProperties_To_Namespaces_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20210101ps.Namespaces_Spec{}
-	err := namespaces.AssignPropertiesToNamespacesSpec(dst)
+	err := namespaces.AssignProperties_To_Namespaces_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -553,8 +553,8 @@ func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromNamespacesSpec populates our Namespaces_Spec from the provided source Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *alpha20210101ps.Namespaces_Spec) error {
+// AssignProperties_From_Namespaces_Spec populates our Namespaces_Spec from the provided source Namespaces_Spec
+func (namespaces *Namespaces_Spec) AssignProperties_From_Namespaces_Spec(source *alpha20210101ps.Namespaces_Spec) error {
 
 	// AzureName
 	namespaces.AzureName = source.AzureName
@@ -562,9 +562,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *al
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption
-		err := encryption.AssignPropertiesFromEncryption(source.Encryption)
+		err := encryption.AssignProperties_From_Encryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryption() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignProperties_From_Encryption() to populate field Encryption")
 		}
 		namespaces.Encryption = &encryption
 	} else {
@@ -574,9 +574,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *al
 	// Identity
 	if source.Identity != nil {
 		var identity Identity
-		err := identity.AssignPropertiesFromIdentity(source.Identity)
+		err := identity.AssignProperties_From_Identity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
 		}
 		namespaces.Identity = &identity
 	} else {
@@ -597,9 +597,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *al
 	// Sku
 	if source.Sku != nil {
 		var sku SBSku
-		err := sku.AssignPropertiesFromSBSku(source.Sku)
+		err := sku.AssignProperties_From_SBSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSBSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_SBSku() to populate field Sku")
 		}
 		namespaces.Sku = &sku
 	} else {
@@ -621,8 +621,8 @@ func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *al
 	return nil
 }
 
-// AssignPropertiesToNamespacesSpec populates the provided destination Namespaces_Spec from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination *alpha20210101ps.Namespaces_Spec) error {
+// AssignProperties_To_Namespaces_Spec populates the provided destination Namespaces_Spec from our Namespaces_Spec
+func (namespaces *Namespaces_Spec) AssignProperties_To_Namespaces_Spec(destination *alpha20210101ps.Namespaces_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -632,9 +632,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	// Encryption
 	if namespaces.Encryption != nil {
 		var encryption alpha20210101ps.Encryption
-		err := namespaces.Encryption.AssignPropertiesToEncryption(&encryption)
+		err := namespaces.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -644,9 +644,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	// Identity
 	if namespaces.Identity != nil {
 		var identity alpha20210101ps.Identity
-		err := namespaces.Identity.AssignPropertiesToIdentity(&identity)
+		err := namespaces.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -670,9 +670,9 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	// Sku
 	if namespaces.Sku != nil {
 		var sku alpha20210101ps.SBSku
-		err := namespaces.Sku.AssignPropertiesToSBSku(&sku)
+		err := namespaces.Sku.AssignProperties_To_SBSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSBSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_SBSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -739,7 +739,7 @@ func (namespace *SBNamespace_STATUS) ConvertStatusFrom(source genruntime.Convert
 	src, ok := source.(*alpha20210101ps.SBNamespace_STATUS)
 	if ok {
 		// Populate our instance from source
-		return namespace.AssignPropertiesFromSBNamespaceSTATUS(src)
+		return namespace.AssignProperties_From_SBNamespace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -750,7 +750,7 @@ func (namespace *SBNamespace_STATUS) ConvertStatusFrom(source genruntime.Convert
 	}
 
 	// Update our instance from src
-	err = namespace.AssignPropertiesFromSBNamespaceSTATUS(src)
+	err = namespace.AssignProperties_From_SBNamespace_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -763,12 +763,12 @@ func (namespace *SBNamespace_STATUS) ConvertStatusTo(destination genruntime.Conv
 	dst, ok := destination.(*alpha20210101ps.SBNamespace_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return namespace.AssignPropertiesToSBNamespaceSTATUS(dst)
+		return namespace.AssignProperties_To_SBNamespace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20210101ps.SBNamespace_STATUS{}
-	err := namespace.AssignPropertiesToSBNamespaceSTATUS(dst)
+	err := namespace.AssignProperties_To_SBNamespace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -957,8 +957,8 @@ func (namespace *SBNamespace_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromSBNamespaceSTATUS populates our SBNamespace_STATUS from the provided source SBNamespace_STATUS
-func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(source *alpha20210101ps.SBNamespace_STATUS) error {
+// AssignProperties_From_SBNamespace_STATUS populates our SBNamespace_STATUS from the provided source SBNamespace_STATUS
+func (namespace *SBNamespace_STATUS) AssignProperties_From_SBNamespace_STATUS(source *alpha20210101ps.SBNamespace_STATUS) error {
 
 	// Conditions
 	namespace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -969,9 +969,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption_STATUS
-		err := encryption.AssignPropertiesFromEncryptionSTATUS(source.Encryption)
+		err := encryption.AssignProperties_From_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSTATUS() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignProperties_From_Encryption_STATUS() to populate field Encryption")
 		}
 		namespace.Encryption = &encryption
 	} else {
@@ -984,9 +984,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_STATUS
-		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
+		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
 		}
 		namespace.Identity = &identity
 	} else {
@@ -1009,9 +1009,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1029,9 +1029,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 	// Sku
 	if source.Sku != nil {
 		var sku SBSku_STATUS
-		err := sku.AssignPropertiesFromSBSkuSTATUS(source.Sku)
+		err := sku.AssignProperties_From_SBSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSBSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_SBSku_STATUS() to populate field Sku")
 		}
 		namespace.Sku = &sku
 	} else {
@@ -1044,9 +1044,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		namespace.SystemData = &systemDatum
 	} else {
@@ -1074,8 +1074,8 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespaceSTATUS(sourc
 	return nil
 }
 
-// AssignPropertiesToSBNamespaceSTATUS populates the provided destination SBNamespace_STATUS from our SBNamespace_STATUS
-func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destination *alpha20210101ps.SBNamespace_STATUS) error {
+// AssignProperties_To_SBNamespace_STATUS populates the provided destination SBNamespace_STATUS from our SBNamespace_STATUS
+func (namespace *SBNamespace_STATUS) AssignProperties_To_SBNamespace_STATUS(destination *alpha20210101ps.SBNamespace_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1088,9 +1088,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 	// Encryption
 	if namespace.Encryption != nil {
 		var encryption alpha20210101ps.Encryption_STATUS
-		err := namespace.Encryption.AssignPropertiesToEncryptionSTATUS(&encryption)
+		err := namespace.Encryption.AssignProperties_To_Encryption_STATUS(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSTATUS() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1103,9 +1103,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 	// Identity
 	if namespace.Identity != nil {
 		var identity alpha20210101ps.Identity_STATUS
-		err := namespace.Identity.AssignPropertiesToIdentitySTATUS(&identity)
+		err := namespace.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1128,9 +1128,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection alpha20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1148,9 +1148,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 	// Sku
 	if namespace.Sku != nil {
 		var sku alpha20210101ps.SBSku_STATUS
-		err := namespace.Sku.AssignPropertiesToSBSkuSTATUS(&sku)
+		err := namespace.Sku.AssignProperties_To_SBSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSBSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_SBSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1163,9 +1163,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 	// SystemData
 	if namespace.SystemData != nil {
 		var systemDatum alpha20210101ps.SystemData_STATUS
-		err := namespace.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := namespace.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1202,9 +1202,9 @@ func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespaceSTATUS(destina
 
 // Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
 type Encryption struct {
-	KeySource                       *EncryptionKeySource `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
-	RequireInfrastructureEncryption *bool                `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_KeySource `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties  `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                 `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -1277,12 +1277,12 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromEncryption populates our Encryption from the provided source Encryption
-func (encryption *Encryption) AssignPropertiesFromEncryption(source *alpha20210101ps.Encryption) error {
+// AssignProperties_From_Encryption populates our Encryption from the provided source Encryption
+func (encryption *Encryption) AssignProperties_From_Encryption(source *alpha20210101ps.Encryption) error {
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionKeySource(*source.KeySource)
+		keySource := Encryption_KeySource(*source.KeySource)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -1295,9 +1295,9 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *alpha202101
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
 			var keyVaultProperty KeyVaultProperties
-			err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(&keyVaultPropertyItem)
+			err := keyVaultProperty.AssignProperties_From_KeyVaultProperties(&keyVaultPropertyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1318,8 +1318,8 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *alpha202101
 	return nil
 }
 
-// AssignPropertiesToEncryption populates the provided destination Encryption from our Encryption
-func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha20210101ps.Encryption) error {
+// AssignProperties_To_Encryption populates the provided destination Encryption from our Encryption
+func (encryption *Encryption) AssignProperties_To_Encryption(destination *alpha20210101ps.Encryption) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1338,9 +1338,9 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
 			var keyVaultProperty alpha20210101ps.KeyVaultProperties
-			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
+			err := keyVaultPropertyItem.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1370,9 +1370,9 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 
 // Deprecated version of Encryption_STATUS. Use v1beta20210101preview.Encryption_STATUS instead
 type Encryption_STATUS struct {
-	KeySource                       *EncryptionSTATUSKeySource  `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
-	RequireInfrastructureEncryption *bool                       `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_STATUS_KeySource `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_STATUS  `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                        `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_STATUS{}
@@ -1415,12 +1415,12 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromEncryptionSTATUS populates our Encryption_STATUS from the provided source Encryption_STATUS
-func (encryption *Encryption_STATUS) AssignPropertiesFromEncryptionSTATUS(source *alpha20210101ps.Encryption_STATUS) error {
+// AssignProperties_From_Encryption_STATUS populates our Encryption_STATUS from the provided source Encryption_STATUS
+func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(source *alpha20210101ps.Encryption_STATUS) error {
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionSTATUSKeySource(*source.KeySource)
+		keySource := Encryption_STATUS_KeySource(*source.KeySource)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -1433,9 +1433,9 @@ func (encryption *Encryption_STATUS) AssignPropertiesFromEncryptionSTATUS(source
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
 			var keyVaultProperty KeyVaultProperties_STATUS
-			err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSTATUS(&keyVaultPropertyItem)
+			err := keyVaultProperty.AssignProperties_From_KeyVaultProperties_STATUS(&keyVaultPropertyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignProperties_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1456,8 +1456,8 @@ func (encryption *Encryption_STATUS) AssignPropertiesFromEncryptionSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToEncryptionSTATUS populates the provided destination Encryption_STATUS from our Encryption_STATUS
-func (encryption *Encryption_STATUS) AssignPropertiesToEncryptionSTATUS(destination *alpha20210101ps.Encryption_STATUS) error {
+// AssignProperties_To_Encryption_STATUS populates the provided destination Encryption_STATUS from our Encryption_STATUS
+func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(destination *alpha20210101ps.Encryption_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1476,9 +1476,9 @@ func (encryption *Encryption_STATUS) AssignPropertiesToEncryptionSTATUS(destinat
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
 			var keyVaultProperty alpha20210101ps.KeyVaultProperties_STATUS
-			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultPropertiesSTATUS(&keyVaultProperty)
+			err := keyVaultPropertyItem.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1508,7 +1508,7 @@ func (encryption *Encryption_STATUS) AssignPropertiesToEncryptionSTATUS(destinat
 
 // Deprecated version of Identity. Use v1beta20210101preview.Identity instead
 type Identity struct {
-	Type *IdentityType `json:"type,omitempty"`
+	Type *Identity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Identity{}
@@ -1550,12 +1550,12 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromIdentity populates our Identity from the provided source Identity
-func (identity *Identity) AssignPropertiesFromIdentity(source *alpha20210101ps.Identity) error {
+// AssignProperties_From_Identity populates our Identity from the provided source Identity
+func (identity *Identity) AssignProperties_From_Identity(source *alpha20210101ps.Identity) error {
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityType(*source.Type)
+		typeVar := Identity_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -1565,8 +1565,8 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *alpha20210101ps.I
 	return nil
 }
 
-// AssignPropertiesToIdentity populates the provided destination Identity from our Identity
-func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210101ps.Identity) error {
+// AssignProperties_To_Identity populates the provided destination Identity from our Identity
+func (identity *Identity) AssignProperties_To_Identity(destination *alpha20210101ps.Identity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1593,7 +1593,7 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210101p
 type Identity_STATUS struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	TenantId               *string                           `json:"tenantId,omitempty"`
-	Type                   *IdentitySTATUSType               `json:"type,omitempty"`
+	Type                   *Identity_STATUS_Type             `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -1646,8 +1646,8 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIdentitySTATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *alpha20210101ps.Identity_STATUS) error {
+// AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
+func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *alpha20210101ps.Identity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1657,7 +1657,7 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *alph
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentitySTATUSType(*source.Type)
+		typeVar := Identity_STATUS_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -1670,9 +1670,9 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *alph
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity DictionaryValue_STATUS
-			err := userAssignedIdentity.AssignPropertiesFromDictionaryValueSTATUS(&userAssignedIdentityValue)
+			err := userAssignedIdentity.AssignProperties_From_DictionaryValue_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDictionaryValueSTATUS() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_DictionaryValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1685,8 +1685,8 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *alph
 	return nil
 }
 
-// AssignPropertiesToIdentitySTATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *alpha20210101ps.Identity_STATUS) error {
+// AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
+func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *alpha20210101ps.Identity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1711,9 +1711,9 @@ func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *a
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity alpha20210101ps.DictionaryValue_STATUS
-			err := userAssignedIdentityValue.AssignPropertiesToDictionaryValueSTATUS(&userAssignedIdentity)
+			err := userAssignedIdentityValue.AssignProperties_To_DictionaryValue_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDictionaryValueSTATUS() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_DictionaryValue_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1774,8 +1774,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *alpha20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(source *alpha20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1783,9 +1783,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		embedded.SystemData = &systemDatum
 	} else {
@@ -1796,8 +1796,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *alpha20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(destination *alpha20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1807,9 +1807,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// SystemData
 	if embedded.SystemData != nil {
 		var systemDatum alpha20210101ps.SystemData_STATUS
-		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1832,8 +1832,8 @@ type SBSku struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name *SBSkuName `json:"name,omitempty"`
-	Tier *SBSkuTier `json:"tier,omitempty"`
+	Name *SBSku_Name `json:"name,omitempty"`
+	Tier *SBSku_Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SBSku{}
@@ -1899,15 +1899,15 @@ func (sbSku *SBSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	return nil
 }
 
-// AssignPropertiesFromSBSku populates our SBSku from the provided source SBSku
-func (sbSku *SBSku) AssignPropertiesFromSBSku(source *alpha20210101ps.SBSku) error {
+// AssignProperties_From_SBSku populates our SBSku from the provided source SBSku
+func (sbSku *SBSku) AssignProperties_From_SBSku(source *alpha20210101ps.SBSku) error {
 
 	// Capacity
 	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		name := SBSkuName(*source.Name)
+		name := SBSku_Name(*source.Name)
 		sbSku.Name = &name
 	} else {
 		sbSku.Name = nil
@@ -1915,7 +1915,7 @@ func (sbSku *SBSku) AssignPropertiesFromSBSku(source *alpha20210101ps.SBSku) err
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSkuTier(*source.Tier)
+		tier := SBSku_Tier(*source.Tier)
 		sbSku.Tier = &tier
 	} else {
 		sbSku.Tier = nil
@@ -1925,8 +1925,8 @@ func (sbSku *SBSku) AssignPropertiesFromSBSku(source *alpha20210101ps.SBSku) err
 	return nil
 }
 
-// AssignPropertiesToSBSku populates the provided destination SBSku from our SBSku
-func (sbSku *SBSku) AssignPropertiesToSBSku(destination *alpha20210101ps.SBSku) error {
+// AssignProperties_To_SBSku populates the provided destination SBSku from our SBSku
+func (sbSku *SBSku) AssignProperties_To_SBSku(destination *alpha20210101ps.SBSku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1962,9 +1962,9 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *alpha20210101ps.SBSku) 
 
 // Deprecated version of SBSku_STATUS. Use v1beta20210101preview.SBSku_STATUS instead
 type SBSku_STATUS struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Name     *SBSkuSTATUSName `json:"name,omitempty"`
-	Tier     *SBSkuSTATUSTier `json:"tier,omitempty"`
+	Capacity *int               `json:"capacity,omitempty"`
+	Name     *SBSku_STATUS_Name `json:"name,omitempty"`
+	Tier     *SBSku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SBSku_STATUS{}
@@ -2003,15 +2003,15 @@ func (sbSku *SBSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromSBSkuSTATUS populates our SBSku_STATUS from the provided source SBSku_STATUS
-func (sbSku *SBSku_STATUS) AssignPropertiesFromSBSkuSTATUS(source *alpha20210101ps.SBSku_STATUS) error {
+// AssignProperties_From_SBSku_STATUS populates our SBSku_STATUS from the provided source SBSku_STATUS
+func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *alpha20210101ps.SBSku_STATUS) error {
 
 	// Capacity
 	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		name := SBSkuSTATUSName(*source.Name)
+		name := SBSku_STATUS_Name(*source.Name)
 		sbSku.Name = &name
 	} else {
 		sbSku.Name = nil
@@ -2019,7 +2019,7 @@ func (sbSku *SBSku_STATUS) AssignPropertiesFromSBSkuSTATUS(source *alpha20210101
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSkuSTATUSTier(*source.Tier)
+		tier := SBSku_STATUS_Tier(*source.Tier)
 		sbSku.Tier = &tier
 	} else {
 		sbSku.Tier = nil
@@ -2029,8 +2029,8 @@ func (sbSku *SBSku_STATUS) AssignPropertiesFromSBSkuSTATUS(source *alpha20210101
 	return nil
 }
 
-// AssignPropertiesToSBSkuSTATUS populates the provided destination SBSku_STATUS from our SBSku_STATUS
-func (sbSku *SBSku_STATUS) AssignPropertiesToSBSkuSTATUS(destination *alpha20210101ps.SBSku_STATUS) error {
+// AssignProperties_To_SBSku_STATUS populates the provided destination SBSku_STATUS from our SBSku_STATUS
+func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *alpha20210101ps.SBSku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2066,12 +2066,12 @@ func (sbSku *SBSku_STATUS) AssignPropertiesToSBSkuSTATUS(destination *alpha20210
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210101preview.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_STATUS{}
@@ -2128,8 +2128,8 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *alpha20210101ps.SystemData_STATUS) error {
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *alpha20210101ps.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -2139,7 +2139,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *alph
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
+		createdByType := SystemData_STATUS_CreatedByType(*source.CreatedByType)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -2153,7 +2153,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *alph
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := SystemData_STATUS_LastModifiedByType(*source.LastModifiedByType)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -2163,8 +2163,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *alph
 	return nil
 }
 
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *alpha20210101ps.SystemData_STATUS) error {
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *alpha20210101ps.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2243,8 +2243,8 @@ func (value *DictionaryValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromDictionaryValueSTATUS populates our DictionaryValue_STATUS from the provided source DictionaryValue_STATUS
-func (value *DictionaryValue_STATUS) AssignPropertiesFromDictionaryValueSTATUS(source *alpha20210101ps.DictionaryValue_STATUS) error {
+// AssignProperties_From_DictionaryValue_STATUS populates our DictionaryValue_STATUS from the provided source DictionaryValue_STATUS
+func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATUS(source *alpha20210101ps.DictionaryValue_STATUS) error {
 
 	// ClientId
 	value.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -2256,8 +2256,8 @@ func (value *DictionaryValue_STATUS) AssignPropertiesFromDictionaryValueSTATUS(s
 	return nil
 }
 
-// AssignPropertiesToDictionaryValueSTATUS populates the provided destination DictionaryValue_STATUS from our DictionaryValue_STATUS
-func (value *DictionaryValue_STATUS) AssignPropertiesToDictionaryValueSTATUS(destination *alpha20210101ps.DictionaryValue_STATUS) error {
+// AssignProperties_To_DictionaryValue_STATUS populates the provided destination DictionaryValue_STATUS from our DictionaryValue_STATUS
+func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(destination *alpha20210101ps.DictionaryValue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2278,16 +2278,16 @@ func (value *DictionaryValue_STATUS) AssignPropertiesToDictionaryValueSTATUS(des
 	return nil
 }
 
-// Deprecated version of EncryptionKeySource. Use v1beta20210101preview.EncryptionKeySource instead
+// Deprecated version of Encryption_KeySource. Use v1beta20210101preview.Encryption_KeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
-type EncryptionKeySource string
+type Encryption_KeySource string
 
-const EncryptionKeySource_MicrosoftKeyVault = EncryptionKeySource("Microsoft.KeyVault")
+const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
-// Deprecated version of EncryptionSTATUSKeySource. Use v1beta20210101preview.EncryptionSTATUSKeySource instead
-type EncryptionSTATUSKeySource string
+// Deprecated version of Encryption_STATUS_KeySource. Use v1beta20210101preview.Encryption_STATUS_KeySource instead
+type Encryption_STATUS_KeySource string
 
-const EncryptionSTATUSKeySource_MicrosoftKeyVault = EncryptionSTATUSKeySource("Microsoft.KeyVault")
+const Encryption_STATUS_KeySource_MicrosoftKeyVault = Encryption_STATUS_KeySource("Microsoft.KeyVault")
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultProperties struct {
@@ -2381,15 +2381,15 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(source *alpha20210101ps.KeyVaultProperties) error {
+// AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
+func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *alpha20210101ps.KeyVaultProperties) error {
 
 	// Identity
 	if source.Identity != nil {
 		var identity UserAssignedIdentityProperties
-		err := identity.AssignPropertiesFromUserAssignedIdentityProperties(source.Identity)
+		err := identity.AssignProperties_From_UserAssignedIdentityProperties(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityProperties() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityProperties() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -2409,17 +2409,17 @@ func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(sou
 	return nil
 }
 
-// AssignPropertiesToKeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(destination *alpha20210101ps.KeyVaultProperties) error {
+// AssignProperties_To_KeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
+func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *alpha20210101ps.KeyVaultProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if properties.Identity != nil {
 		var identity alpha20210101ps.UserAssignedIdentityProperties
-		err := properties.Identity.AssignPropertiesToUserAssignedIdentityProperties(&identity)
+		err := properties.Identity.AssignProperties_To_UserAssignedIdentityProperties(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityProperties() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityProperties() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2501,15 +2501,15 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultPropertiesSTATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropertiesSTATUS(source *alpha20210101ps.KeyVaultProperties_STATUS) error {
+// AssignProperties_From_KeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *alpha20210101ps.KeyVaultProperties_STATUS) error {
 
 	// Identity
 	if source.Identity != nil {
 		var identity UserAssignedIdentityProperties_STATUS
-		err := identity.AssignPropertiesFromUserAssignedIdentityPropertiesSTATUS(source.Identity)
+		err := identity.AssignProperties_From_UserAssignedIdentityProperties_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityPropertiesSTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityProperties_STATUS() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -2529,17 +2529,17 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
-// AssignPropertiesToKeyVaultPropertiesSTATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertiesSTATUS(destination *alpha20210101ps.KeyVaultProperties_STATUS) error {
+// AssignProperties_To_KeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *alpha20210101ps.KeyVaultProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if properties.Identity != nil {
 		var identity alpha20210101ps.UserAssignedIdentityProperties_STATUS
-		err := properties.Identity.AssignPropertiesToUserAssignedIdentityPropertiesSTATUS(&identity)
+		err := properties.Identity.AssignProperties_To_UserAssignedIdentityProperties_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityPropertiesSTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityProperties_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2610,8 +2610,8 @@ func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssignedIdentityProperties(source *alpha20210101ps.UserAssignedIdentityProperties) error {
+// AssignProperties_From_UserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
+func (properties *UserAssignedIdentityProperties) AssignProperties_From_UserAssignedIdentityProperties(source *alpha20210101ps.UserAssignedIdentityProperties) error {
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
@@ -2625,8 +2625,8 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssign
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentityProperties populates the provided destination UserAssignedIdentityProperties from our UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssignedIdentityProperties(destination *alpha20210101ps.UserAssignedIdentityProperties) error {
+// AssignProperties_To_UserAssignedIdentityProperties populates the provided destination UserAssignedIdentityProperties from our UserAssignedIdentityProperties
+func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssignedIdentityProperties(destination *alpha20210101ps.UserAssignedIdentityProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2678,8 +2678,8 @@ func (properties *UserAssignedIdentityProperties_STATUS) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentityPropertiesSTATUS populates our UserAssignedIdentityProperties_STATUS from the provided source UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties_STATUS) AssignPropertiesFromUserAssignedIdentityPropertiesSTATUS(source *alpha20210101ps.UserAssignedIdentityProperties_STATUS) error {
+// AssignProperties_From_UserAssignedIdentityProperties_STATUS populates our UserAssignedIdentityProperties_STATUS from the provided source UserAssignedIdentityProperties_STATUS
+func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_From_UserAssignedIdentityProperties_STATUS(source *alpha20210101ps.UserAssignedIdentityProperties_STATUS) error {
 
 	// UserAssignedIdentity
 	properties.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -2688,8 +2688,8 @@ func (properties *UserAssignedIdentityProperties_STATUS) AssignPropertiesFromUse
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentityPropertiesSTATUS populates the provided destination UserAssignedIdentityProperties_STATUS from our UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties_STATUS) AssignPropertiesToUserAssignedIdentityPropertiesSTATUS(destination *alpha20210101ps.UserAssignedIdentityProperties_STATUS) error {
+// AssignProperties_To_UserAssignedIdentityProperties_STATUS populates the provided destination UserAssignedIdentityProperties_STATUS from our UserAssignedIdentityProperties_STATUS
+func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_To_UserAssignedIdentityProperties_STATUS(destination *alpha20210101ps.UserAssignedIdentityProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -32,9 +32,9 @@ type VirtualMachineExtension_STATUSARM struct {
 
 // Deprecated version of VirtualMachineIdentity_STATUS. Use v1beta20201201.VirtualMachineIdentity_STATUS instead
 type VirtualMachineIdentity_STATUSARM struct {
-	PrincipalId *string                           `json:"principalId,omitempty"`
-	TenantId    *string                           `json:"tenantId,omitempty"`
-	Type        *VirtualMachineIdentitySTATUSType `json:"type,omitempty"`
+	PrincipalId *string                             `json:"principalId,omitempty"`
+	TenantId    *string                             `json:"tenantId,omitempty"`
+	Type        *VirtualMachineIdentity_STATUS_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualMachineProperties_STATUS. Use v1beta20201201.VirtualMachineProperties_STATUS instead
@@ -74,7 +74,7 @@ type DiagnosticsProfile_STATUSARM struct {
 
 // Deprecated version of HardwareProfile_STATUS. Use v1beta20201201.HardwareProfile_STATUS instead
 type HardwareProfile_STATUSARM struct {
-	VmSize *HardwareProfileSTATUSVmSize `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_STATUS_VmSize `json:"vmSize,omitempty"`
 }
 
 // Deprecated version of NetworkProfile_STATUS. Use v1beta20201201.NetworkProfile_STATUS instead
@@ -96,9 +96,9 @@ type OSProfile_STATUSARM struct {
 
 // Deprecated version of SecurityProfile_STATUS. Use v1beta20201201.SecurityProfile_STATUS instead
 type SecurityProfile_STATUSARM struct {
-	EncryptionAtHost *bool                              `json:"encryptionAtHost,omitempty"`
-	SecurityType     *SecurityProfileSTATUSSecurityType `json:"securityType,omitempty"`
-	UefiSettings     *UefiSettings_STATUSARM            `json:"uefiSettings,omitempty"`
+	EncryptionAtHost *bool                                `json:"encryptionAtHost,omitempty"`
+	SecurityType     *SecurityProfile_STATUS_SecurityType `json:"securityType,omitempty"`
+	UefiSettings     *UefiSettings_STATUSARM              `json:"uefiSettings,omitempty"`
 }
 
 // Deprecated version of StorageProfile_STATUS. Use v1beta20201201.StorageProfile_STATUS instead
@@ -122,34 +122,34 @@ type VirtualMachineExtensionProperties_STATUSARM struct {
 	TypeHandlerVersion      *string                                        `json:"typeHandlerVersion,omitempty"`
 }
 
-// Deprecated version of VirtualMachineIdentitySTATUSType. Use v1beta20201201.VirtualMachineIdentitySTATUSType instead
-type VirtualMachineIdentitySTATUSType string
+// Deprecated version of VirtualMachineIdentity_STATUS_Type. Use v1beta20201201.VirtualMachineIdentity_STATUS_Type instead
+type VirtualMachineIdentity_STATUS_Type string
 
 const (
-	VirtualMachineIdentitySTATUSType_None                       = VirtualMachineIdentitySTATUSType("None")
-	VirtualMachineIdentitySTATUSType_SystemAssigned             = VirtualMachineIdentitySTATUSType("SystemAssigned")
-	VirtualMachineIdentitySTATUSType_SystemAssignedUserAssigned = VirtualMachineIdentitySTATUSType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentitySTATUSType_UserAssigned               = VirtualMachineIdentitySTATUSType("UserAssigned")
+	VirtualMachineIdentity_STATUS_Type_None                       = VirtualMachineIdentity_STATUS_Type("None")
+	VirtualMachineIdentity_STATUS_Type_SystemAssigned             = VirtualMachineIdentity_STATUS_Type("SystemAssigned")
+	VirtualMachineIdentity_STATUS_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_STATUS_Type("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_STATUS_Type_UserAssigned               = VirtualMachineIdentity_STATUS_Type("UserAssigned")
 )
 
 // Deprecated version of VirtualMachineInstanceView_STATUS. Use v1beta20201201.VirtualMachineInstanceView_STATUS instead
 type VirtualMachineInstanceView_STATUSARM struct {
-	AssignedHost              *string                                           `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView_STATUSARM            `json:"bootDiagnostics,omitempty"`
-	ComputerName              *string                                           `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView_STATUSARM                      `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView_STATUSARM   `json:"extensions,omitempty"`
-	HyperVGeneration          *VirtualMachineInstanceViewSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUSARM              `json:"maintenanceRedeployStatus,omitempty"`
-	OsName                    *string                                           `json:"osName,omitempty"`
-	OsVersion                 *string                                           `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus_STATUSARM              `json:"patchStatus,omitempty"`
-	PlatformFaultDomain       *int                                              `json:"platformFaultDomain,omitempty"`
-	PlatformUpdateDomain      *int                                              `json:"platformUpdateDomain,omitempty"`
-	RdpThumbPrint             *string                                           `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus_STATUSARM                    `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView_STATUSARM        `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus_STATUSARM             `json:"vmHealth,omitempty"`
+	AssignedHost              *string                                             `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView_STATUSARM              `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                                             `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView_STATUSARM                        `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView_STATUSARM     `json:"extensions,omitempty"`
+	HyperVGeneration          *VirtualMachineInstanceView_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUSARM                `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                                             `json:"osName,omitempty"`
+	OsVersion                 *string                                             `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus_STATUSARM                `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                                `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                                `json:"platformUpdateDomain,omitempty"`
+	RdpThumbPrint             *string                                             `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus_STATUSARM                      `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView_STATUSARM          `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus_STATUSARM               `json:"vmHealth,omitempty"`
 }
 
 // Deprecated version of BootDiagnostics_STATUS. Use v1beta20201201.BootDiagnostics_STATUS instead
@@ -201,11 +201,11 @@ type ImageReference_STATUSARM struct {
 
 // Deprecated version of InstanceViewStatus_STATUS. Use v1beta20201201.InstanceViewStatus_STATUS instead
 type InstanceViewStatus_STATUSARM struct {
-	Code          *string                        `json:"code,omitempty"`
-	DisplayStatus *string                        `json:"displayStatus,omitempty"`
-	Level         *InstanceViewStatusSTATUSLevel `json:"level,omitempty"`
-	Message       *string                        `json:"message,omitempty"`
-	Time          *string                        `json:"time,omitempty"`
+	Code          *string                          `json:"code,omitempty"`
+	DisplayStatus *string                          `json:"displayStatus,omitempty"`
+	Level         *InstanceViewStatus_STATUS_Level `json:"level,omitempty"`
+	Message       *string                          `json:"message,omitempty"`
+	Time          *string                          `json:"time,omitempty"`
 }
 
 // Deprecated version of LinuxConfiguration_STATUS. Use v1beta20201201.LinuxConfiguration_STATUS instead
@@ -218,13 +218,13 @@ type LinuxConfiguration_STATUSARM struct {
 
 // Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1beta20201201.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUSARM struct {
-	IsCustomerInitiatedMaintenanceAllowed *bool                                                   `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-	LastOperationMessage                  *string                                                 `json:"lastOperationMessage,omitempty"`
-	LastOperationResultCode               *MaintenanceRedeployStatusSTATUSLastOperationResultCode `json:"lastOperationResultCode,omitempty"`
-	MaintenanceWindowEndTime              *string                                                 `json:"maintenanceWindowEndTime,omitempty"`
-	MaintenanceWindowStartTime            *string                                                 `json:"maintenanceWindowStartTime,omitempty"`
-	PreMaintenanceWindowEndTime           *string                                                 `json:"preMaintenanceWindowEndTime,omitempty"`
-	PreMaintenanceWindowStartTime         *string                                                 `json:"preMaintenanceWindowStartTime,omitempty"`
+	IsCustomerInitiatedMaintenanceAllowed *bool                                                     `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
+	LastOperationMessage                  *string                                                   `json:"lastOperationMessage,omitempty"`
+	LastOperationResultCode               *MaintenanceRedeployStatus_STATUS_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
+	MaintenanceWindowEndTime              *string                                                   `json:"maintenanceWindowEndTime,omitempty"`
+	MaintenanceWindowStartTime            *string                                                   `json:"maintenanceWindowStartTime,omitempty"`
+	PreMaintenanceWindowEndTime           *string                                                   `json:"preMaintenanceWindowEndTime,omitempty"`
+	PreMaintenanceWindowStartTime         *string                                                   `json:"preMaintenanceWindowStartTime,omitempty"`
 }
 
 // Deprecated version of NetworkInterfaceReference_STATUS. Use v1beta20201201.NetworkInterfaceReference_STATUS instead
@@ -243,7 +243,7 @@ type OSDisk_STATUSARM struct {
 	Image                   *VirtualHardDisk_STATUSARM        `json:"image,omitempty"`
 	ManagedDisk             *ManagedDiskParameters_STATUSARM  `json:"managedDisk,omitempty"`
 	Name                    *string                           `json:"name,omitempty"`
-	OsType                  *OSDiskSTATUSOsType               `json:"osType,omitempty"`
+	OsType                  *OSDisk_STATUS_OsType             `json:"osType,omitempty"`
 	Vhd                     *VirtualHardDisk_STATUSARM        `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                             `json:"writeAcceleratorEnabled,omitempty"`
 }
@@ -300,22 +300,22 @@ type WindowsConfiguration_STATUSARM struct {
 
 // Deprecated version of AdditionalUnattendContent_STATUS. Use v1beta20201201.AdditionalUnattendContent_STATUS instead
 type AdditionalUnattendContent_STATUSARM struct {
-	ComponentName *AdditionalUnattendContentSTATUSComponentName `json:"componentName,omitempty"`
-	Content       *string                                       `json:"content,omitempty"`
-	PassName      *AdditionalUnattendContentSTATUSPassName      `json:"passName,omitempty"`
-	SettingName   *AdditionalUnattendContentSTATUSSettingName   `json:"settingName,omitempty"`
+	ComponentName *AdditionalUnattendContent_STATUS_ComponentName `json:"componentName,omitempty"`
+	Content       *string                                         `json:"content,omitempty"`
+	PassName      *AdditionalUnattendContent_STATUS_PassName      `json:"passName,omitempty"`
+	SettingName   *AdditionalUnattendContent_STATUS_SettingName   `json:"settingName,omitempty"`
 }
 
 // Deprecated version of AvailablePatchSummary_STATUS. Use v1beta20201201.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUSARM struct {
-	AssessmentActivityId          *string                            `json:"assessmentActivityId,omitempty"`
-	CriticalAndSecurityPatchCount *int                               `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError_STATUSARM                `json:"error,omitempty"`
-	LastModifiedTime              *string                            `json:"lastModifiedTime,omitempty"`
-	OtherPatchCount               *int                               `json:"otherPatchCount,omitempty"`
-	RebootPending                 *bool                              `json:"rebootPending,omitempty"`
-	StartTime                     *string                            `json:"startTime,omitempty"`
-	Status                        *AvailablePatchSummarySTATUSStatus `json:"status,omitempty"`
+	AssessmentActivityId          *string                              `json:"assessmentActivityId,omitempty"`
+	CriticalAndSecurityPatchCount *int                                 `json:"criticalAndSecurityPatchCount,omitempty"`
+	Error                         *ApiError_STATUSARM                  `json:"error,omitempty"`
+	LastModifiedTime              *string                              `json:"lastModifiedTime,omitempty"`
+	OtherPatchCount               *int                                 `json:"otherPatchCount,omitempty"`
+	RebootPending                 *bool                                `json:"rebootPending,omitempty"`
+	StartTime                     *string                              `json:"startTime,omitempty"`
+	Status                        *AvailablePatchSummary_STATUS_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of DiffDiskSettings_STATUS. Use v1beta20201201.DiffDiskSettings_STATUS instead
@@ -333,22 +333,22 @@ type DiskEncryptionSettings_STATUSARM struct {
 
 // Deprecated version of LastPatchInstallationSummary_STATUS. Use v1beta20201201.LastPatchInstallationSummary_STATUS instead
 type LastPatchInstallationSummary_STATUSARM struct {
-	Error                     *ApiError_STATUSARM                       `json:"error,omitempty"`
-	ExcludedPatchCount        *int                                      `json:"excludedPatchCount,omitempty"`
-	FailedPatchCount          *int                                      `json:"failedPatchCount,omitempty"`
-	InstallationActivityId    *string                                   `json:"installationActivityId,omitempty"`
-	InstalledPatchCount       *int                                      `json:"installedPatchCount,omitempty"`
-	LastModifiedTime          *string                                   `json:"lastModifiedTime,omitempty"`
-	MaintenanceWindowExceeded *bool                                     `json:"maintenanceWindowExceeded,omitempty"`
-	NotSelectedPatchCount     *int                                      `json:"notSelectedPatchCount,omitempty"`
-	PendingPatchCount         *int                                      `json:"pendingPatchCount,omitempty"`
-	StartTime                 *string                                   `json:"startTime,omitempty"`
-	Status                    *LastPatchInstallationSummarySTATUSStatus `json:"status,omitempty"`
+	Error                     *ApiError_STATUSARM                         `json:"error,omitempty"`
+	ExcludedPatchCount        *int                                        `json:"excludedPatchCount,omitempty"`
+	FailedPatchCount          *int                                        `json:"failedPatchCount,omitempty"`
+	InstallationActivityId    *string                                     `json:"installationActivityId,omitempty"`
+	InstalledPatchCount       *int                                        `json:"installedPatchCount,omitempty"`
+	LastModifiedTime          *string                                     `json:"lastModifiedTime,omitempty"`
+	MaintenanceWindowExceeded *bool                                       `json:"maintenanceWindowExceeded,omitempty"`
+	NotSelectedPatchCount     *int                                        `json:"notSelectedPatchCount,omitempty"`
+	PendingPatchCount         *int                                        `json:"pendingPatchCount,omitempty"`
+	StartTime                 *string                                     `json:"startTime,omitempty"`
+	Status                    *LastPatchInstallationSummary_STATUS_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of LinuxPatchSettings_STATUS. Use v1beta20201201.LinuxPatchSettings_STATUS instead
 type LinuxPatchSettings_STATUSARM struct {
-	PatchMode *LinuxPatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
 }
 
 // Deprecated version of ManagedDiskParameters_STATUS. Use v1beta20201201.ManagedDiskParameters_STATUS instead
@@ -365,8 +365,8 @@ type NetworkInterfaceReferenceProperties_STATUSARM struct {
 
 // Deprecated version of PatchSettings_STATUS. Use v1beta20201201.PatchSettings_STATUS instead
 type PatchSettings_STATUSARM struct {
-	EnableHotpatching *bool                         `json:"enableHotpatching,omitempty"`
-	PatchMode         *PatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
+	EnableHotpatching *bool                           `json:"enableHotpatching,omitempty"`
+	PatchMode         *PatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
 }
 
 // Deprecated version of SshConfiguration_STATUS. Use v1beta20201201.SshConfiguration_STATUS instead
@@ -426,8 +426,8 @@ type SshPublicKey_STATUSARM struct {
 
 // Deprecated version of WinRMListener_STATUS. Use v1beta20201201.WinRMListener_STATUS instead
 type WinRMListener_STATUSARM struct {
-	CertificateUrl *string                      `json:"certificateUrl,omitempty"`
-	Protocol       *WinRMListenerSTATUSProtocol `json:"protocol,omitempty"`
+	CertificateUrl *string                        `json:"certificateUrl,omitempty"`
+	Protocol       *WinRMListener_STATUS_Protocol `json:"protocol,omitempty"`
 }
 
 // Deprecated version of ApiErrorBase_STATUS. Use v1beta20201201.ApiErrorBase_STATUS instead

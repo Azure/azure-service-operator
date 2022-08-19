@@ -26,8 +26,8 @@ import (
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureGetResults_STATUS                         `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec `json:"spec,omitempty"`
+	Status            SqlStoredProcedureGetResults_STATUS                            `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -129,8 +129,8 @@ type SqlDatabaseContainerStoredProcedureList struct {
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec
+type DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -148,10 +148,10 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from the provided source
-func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec from the provided source
+func (procedures *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == procedures {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -159,8 +159,8 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 	return source.ConvertSpecTo(procedures)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec
+func (procedures *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == procedures {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

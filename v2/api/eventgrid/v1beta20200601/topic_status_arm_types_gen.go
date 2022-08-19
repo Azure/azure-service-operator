@@ -35,7 +35,7 @@ type TopicProperties_STATUSARM struct {
 	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicPropertiesSTATUSInputSchema `json:"inputSchema,omitempty"`
+	InputSchema *TopicProperties_STATUS_InputSchema `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
 	// various properties of a source schema to various required properties of the EventGridEvent schema.
@@ -46,12 +46,12 @@ type TopicProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *TopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
-	PublicNetworkAccess *TopicPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *TopicProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM struct {

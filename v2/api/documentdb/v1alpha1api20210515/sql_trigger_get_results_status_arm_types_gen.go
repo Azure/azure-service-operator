@@ -20,11 +20,11 @@ type SqlTriggerGetProperties_STATUSARM struct {
 
 // Deprecated version of SqlTriggerGetProperties_STATUS_Resource. Use v1beta20210515.SqlTriggerGetProperties_STATUS_Resource instead
 type SqlTriggerGetProperties_STATUS_ResourceARM struct {
-	Body             *string                                                `json:"body,omitempty"`
-	Etag             *string                                                `json:"_etag,omitempty"`
-	Id               *string                                                `json:"id,omitempty"`
-	Rid              *string                                                `json:"_rid,omitempty"`
-	TriggerOperation *SqlTriggerGetPropertiesSTATUSResourceTriggerOperation `json:"triggerOperation,omitempty"`
-	TriggerType      *SqlTriggerGetPropertiesSTATUSResourceTriggerType      `json:"triggerType,omitempty"`
-	Ts               *float64                                               `json:"_ts,omitempty"`
+	Body             *string                                                   `json:"body,omitempty"`
+	Etag             *string                                                   `json:"_etag,omitempty"`
+	Id               *string                                                   `json:"id,omitempty"`
+	Rid              *string                                                   `json:"_rid,omitempty"`
+	TriggerOperation *SqlTriggerGetProperties_STATUS_Resource_TriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerType      *SqlTriggerGetProperties_STATUS_Resource_TriggerType      `json:"triggerType,omitempty"`
+	Ts               *float64                                                  `json:"_ts,omitempty"`
 }

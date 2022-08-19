@@ -26,8 +26,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClustersAgentPools_Spec `json:"spec,omitempty"`
-	Status            AgentPool_STATUS               `json:"status,omitempty"`
+	Spec              ManagedClusters_AgentPools_Spec `json:"spec,omitempty"`
+	Status            AgentPool_STATUS                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -194,8 +194,8 @@ func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.Convertible
 	return destination.ConvertStatusFrom(pool)
 }
 
-// Storage version of v1beta20210501.ManagedClustersAgentPools_Spec
-type ManagedClustersAgentPools_Spec struct {
+// Storage version of v1beta20210501.ManagedClusters_AgentPools_Spec
+type ManagedClusters_AgentPools_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -255,10 +255,10 @@ type ManagedClustersAgentPools_Spec struct {
 	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_Spec{}
+var _ genruntime.ConvertibleSpec = &ManagedClusters_AgentPools_Spec{}
 
-// ConvertSpecFrom populates our ManagedClustersAgentPools_Spec from the provided source
-func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ManagedClusters_AgentPools_Spec from the provided source
+func (pools *ManagedClusters_AgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == pools {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -266,8 +266,8 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.C
 	return source.ConvertSpecTo(pools)
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_Spec
-func (pools *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ManagedClusters_AgentPools_Spec
+func (pools *ManagedClusters_AgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == pools {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

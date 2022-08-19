@@ -81,7 +81,7 @@ type DiskProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *DiskPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *DiskProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
@@ -89,7 +89,7 @@ type DiskProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *DiskPropertiesSTATUSOsType `json:"osType,omitempty"`
+	OsType *DiskProperties_STATUS_OsType `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -115,7 +115,7 @@ type DiskProperties_STATUSARM struct {
 
 type DiskSku_STATUSARM struct {
 	// Name: The sku name.
-	Name *DiskSkuSTATUSName `json:"name,omitempty"`
+	Name *DiskSku_STATUS_Name `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
@@ -131,7 +131,7 @@ type ExtendedLocation_STATUSARM struct {
 
 type CreationData_STATUSARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption *CreationDataSTATUSCreateOption `json:"createOption,omitempty"`
+	CreateOption *CreationData_STATUS_CreateOption `json:"createOption,omitempty"`
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
@@ -162,13 +162,13 @@ type CreationData_STATUSARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-type DiskSkuSTATUSName string
+type DiskSku_STATUS_Name string
 
 const (
-	DiskSkuSTATUSName_PremiumLRS     = DiskSkuSTATUSName("Premium_LRS")
-	DiskSkuSTATUSName_StandardLRS    = DiskSkuSTATUSName("Standard_LRS")
-	DiskSkuSTATUSName_StandardSSDLRS = DiskSkuSTATUSName("StandardSSD_LRS")
-	DiskSkuSTATUSName_UltraSSDLRS    = DiskSkuSTATUSName("UltraSSD_LRS")
+	DiskSku_STATUS_Name_Premium_LRS     = DiskSku_STATUS_Name("Premium_LRS")
+	DiskSku_STATUS_Name_StandardSSD_LRS = DiskSku_STATUS_Name("StandardSSD_LRS")
+	DiskSku_STATUS_Name_Standard_LRS    = DiskSku_STATUS_Name("Standard_LRS")
+	DiskSku_STATUS_Name_UltraSSD_LRS    = DiskSku_STATUS_Name("UltraSSD_LRS")
 )
 
 type Encryption_STATUSARM struct {

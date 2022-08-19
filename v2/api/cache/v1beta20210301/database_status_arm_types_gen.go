@@ -21,13 +21,13 @@ type Database_STATUSARM struct {
 type DatabaseProperties_STATUSARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
-	ClientProtocol *DatabasePropertiesSTATUSClientProtocol `json:"clientProtocol,omitempty"`
+	ClientProtocol *DatabaseProperties_STATUS_ClientProtocol `json:"clientProtocol,omitempty"`
 
 	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
-	ClusteringPolicy *DatabasePropertiesSTATUSClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *DatabaseProperties_STATUS_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabasePropertiesSTATUSEvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *DatabaseProperties_STATUS_EvictionPolicy `json:"evictionPolicy,omitempty"`
 
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_STATUSARM `json:"modules,omitempty"`
@@ -45,31 +45,31 @@ type DatabaseProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
-type DatabasePropertiesSTATUSClientProtocol string
+type DatabaseProperties_STATUS_ClientProtocol string
 
 const (
-	DatabasePropertiesSTATUSClientProtocol_Encrypted = DatabasePropertiesSTATUSClientProtocol("Encrypted")
-	DatabasePropertiesSTATUSClientProtocol_Plaintext = DatabasePropertiesSTATUSClientProtocol("Plaintext")
+	DatabaseProperties_STATUS_ClientProtocol_Encrypted = DatabaseProperties_STATUS_ClientProtocol("Encrypted")
+	DatabaseProperties_STATUS_ClientProtocol_Plaintext = DatabaseProperties_STATUS_ClientProtocol("Plaintext")
 )
 
-type DatabasePropertiesSTATUSClusteringPolicy string
+type DatabaseProperties_STATUS_ClusteringPolicy string
 
 const (
-	DatabasePropertiesSTATUSClusteringPolicy_EnterpriseCluster = DatabasePropertiesSTATUSClusteringPolicy("EnterpriseCluster")
-	DatabasePropertiesSTATUSClusteringPolicy_OSSCluster        = DatabasePropertiesSTATUSClusteringPolicy("OSSCluster")
+	DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_STATUS_ClusteringPolicy("EnterpriseCluster")
+	DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster        = DatabaseProperties_STATUS_ClusteringPolicy("OSSCluster")
 )
 
-type DatabasePropertiesSTATUSEvictionPolicy string
+type DatabaseProperties_STATUS_EvictionPolicy string
 
 const (
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysLFU     = DatabasePropertiesSTATUSEvictionPolicy("AllKeysLFU")
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysLRU     = DatabasePropertiesSTATUSEvictionPolicy("AllKeysLRU")
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysRandom  = DatabasePropertiesSTATUSEvictionPolicy("AllKeysRandom")
-	DatabasePropertiesSTATUSEvictionPolicy_NoEviction     = DatabasePropertiesSTATUSEvictionPolicy("NoEviction")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileLFU    = DatabasePropertiesSTATUSEvictionPolicy("VolatileLFU")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileLRU    = DatabasePropertiesSTATUSEvictionPolicy("VolatileLRU")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileRandom = DatabasePropertiesSTATUSEvictionPolicy("VolatileRandom")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileTTL    = DatabasePropertiesSTATUSEvictionPolicy("VolatileTTL")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom  = DatabaseProperties_STATUS_EvictionPolicy("AllKeysRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_NoEviction     = DatabaseProperties_STATUS_EvictionPolicy("NoEviction")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom = DatabaseProperties_STATUS_EvictionPolicy("VolatileRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL    = DatabaseProperties_STATUS_EvictionPolicy("VolatileTTL")
 )
 
 type Module_STATUSARM struct {
@@ -88,26 +88,26 @@ type Persistence_STATUSARM struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	// AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *PersistenceSTATUSAofFrequency `json:"aofFrequency,omitempty"`
+	AofFrequency *Persistence_STATUS_AofFrequency `json:"aofFrequency,omitempty"`
 
 	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *PersistenceSTATUSRdbFrequency `json:"rdbFrequency,omitempty"`
+	RdbFrequency *Persistence_STATUS_RdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
-type PersistenceSTATUSAofFrequency string
+type Persistence_STATUS_AofFrequency string
 
 const (
-	PersistenceSTATUSAofFrequency_1S     = PersistenceSTATUSAofFrequency("1s")
-	PersistenceSTATUSAofFrequency_Always = PersistenceSTATUSAofFrequency("always")
+	Persistence_STATUS_AofFrequency_1S     = Persistence_STATUS_AofFrequency("1s")
+	Persistence_STATUS_AofFrequency_Always = Persistence_STATUS_AofFrequency("always")
 )
 
-type PersistenceSTATUSRdbFrequency string
+type Persistence_STATUS_RdbFrequency string
 
 const (
-	PersistenceSTATUSRdbFrequency_12H = PersistenceSTATUSRdbFrequency("12h")
-	PersistenceSTATUSRdbFrequency_1H  = PersistenceSTATUSRdbFrequency("1h")
-	PersistenceSTATUSRdbFrequency_6H  = PersistenceSTATUSRdbFrequency("6h")
+	Persistence_STATUS_RdbFrequency_12H = Persistence_STATUS_RdbFrequency("12h")
+	Persistence_STATUS_RdbFrequency_1H  = Persistence_STATUS_RdbFrequency("1h")
+	Persistence_STATUS_RdbFrequency_6H  = Persistence_STATUS_RdbFrequency("6h")
 )

@@ -28,8 +28,8 @@ import (
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WorkspacesConnections_Spec `json:"spec,omitempty"`
-	Status            WorkspaceConnection_STATUS `json:"status,omitempty"`
+	Spec              Workspaces_Connections_Spec `json:"spec,omitempty"`
+	Status            WorkspaceConnection_STATUS  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -53,7 +53,7 @@ func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesConnection but received %T instead", hub)
 	}
 
-	return connection.AssignPropertiesFromWorkspacesConnection(source)
+	return connection.AssignProperties_From_WorkspacesConnection(source)
 }
 
 // ConvertTo populates the provided hub WorkspacesConnection from our WorkspacesConnection
@@ -63,7 +63,7 @@ func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesConnection but received %T instead", hub)
 	}
 
-	return connection.AssignPropertiesToWorkspacesConnection(destination)
+	return connection.AssignProperties_To_WorkspacesConnection(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspacesconnection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspacesconnections.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (connection *WorkspacesConnection) validateWriteOnceProperties(old runtime.
 	return genruntime.ValidateWriteOnceProperties(oldObj, connection)
 }
 
-// AssignPropertiesFromWorkspacesConnection populates our WorkspacesConnection from the provided source WorkspacesConnection
-func (connection *WorkspacesConnection) AssignPropertiesFromWorkspacesConnection(source *v20210701s.WorkspacesConnection) error {
+// AssignProperties_From_WorkspacesConnection populates our WorkspacesConnection from the provided source WorkspacesConnection
+func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnection(source *v20210701s.WorkspacesConnection) error {
 
 	// ObjectMeta
 	connection.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec WorkspacesConnections_Spec
-	err := spec.AssignPropertiesFromWorkspacesConnectionsSpec(&source.Spec)
+	var spec Workspaces_Connections_Spec
+	err := spec.AssignProperties_From_Workspaces_Connections_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspacesConnectionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Connections_Spec() to populate field Spec")
 	}
 	connection.Spec = spec
 
 	// Status
 	var status WorkspaceConnection_STATUS
-	err = status.AssignPropertiesFromWorkspaceConnectionSTATUS(&source.Status)
+	err = status.AssignProperties_From_WorkspaceConnection_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceConnectionSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_WorkspaceConnection_STATUS() to populate field Status")
 	}
 	connection.Status = status
 
@@ -274,25 +274,25 @@ func (connection *WorkspacesConnection) AssignPropertiesFromWorkspacesConnection
 	return nil
 }
 
-// AssignPropertiesToWorkspacesConnection populates the provided destination WorkspacesConnection from our WorkspacesConnection
-func (connection *WorkspacesConnection) AssignPropertiesToWorkspacesConnection(destination *v20210701s.WorkspacesConnection) error {
+// AssignProperties_To_WorkspacesConnection populates the provided destination WorkspacesConnection from our WorkspacesConnection
+func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection(destination *v20210701s.WorkspacesConnection) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *connection.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210701s.WorkspacesConnections_Spec
-	err := connection.Spec.AssignPropertiesToWorkspacesConnectionsSpec(&spec)
+	var spec v20210701s.Workspaces_Connections_Spec
+	err := connection.Spec.AssignProperties_To_Workspaces_Connections_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspacesConnectionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connections_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20210701s.WorkspaceConnection_STATUS
-	err = connection.Status.AssignPropertiesToWorkspaceConnectionSTATUS(&status)
+	err = connection.Status.AssignProperties_To_WorkspaceConnection_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceConnectionSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_WorkspaceConnection_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -343,7 +343,7 @@ type WorkspaceConnection_STATUS struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
-	ValueFormat *WorkspaceConnectionPropsSTATUSValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_STATUS_ValueFormat `json:"valueFormat,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &WorkspaceConnection_STATUS{}
@@ -353,7 +353,7 @@ func (connection *WorkspaceConnection_STATUS) ConvertStatusFrom(source genruntim
 	src, ok := source.(*v20210701s.WorkspaceConnection_STATUS)
 	if ok {
 		// Populate our instance from source
-		return connection.AssignPropertiesFromWorkspaceConnectionSTATUS(src)
+		return connection.AssignProperties_From_WorkspaceConnection_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -364,7 +364,7 @@ func (connection *WorkspaceConnection_STATUS) ConvertStatusFrom(source genruntim
 	}
 
 	// Update our instance from src
-	err = connection.AssignPropertiesFromWorkspaceConnectionSTATUS(src)
+	err = connection.AssignProperties_From_WorkspaceConnection_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -377,12 +377,12 @@ func (connection *WorkspaceConnection_STATUS) ConvertStatusTo(destination genrun
 	dst, ok := destination.(*v20210701s.WorkspaceConnection_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return connection.AssignPropertiesToWorkspaceConnectionSTATUS(dst)
+		return connection.AssignProperties_To_WorkspaceConnection_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210701s.WorkspaceConnection_STATUS{}
-	err := connection.AssignPropertiesToWorkspaceConnectionSTATUS(dst)
+	err := connection.AssignProperties_To_WorkspaceConnection_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -479,8 +479,8 @@ func (connection *WorkspaceConnection_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceConnectionSTATUS populates our WorkspaceConnection_STATUS from the provided source WorkspaceConnection_STATUS
-func (connection *WorkspaceConnection_STATUS) AssignPropertiesFromWorkspaceConnectionSTATUS(source *v20210701s.WorkspaceConnection_STATUS) error {
+// AssignProperties_From_WorkspaceConnection_STATUS populates our WorkspaceConnection_STATUS from the provided source WorkspaceConnection_STATUS
+func (connection *WorkspaceConnection_STATUS) AssignProperties_From_WorkspaceConnection_STATUS(source *v20210701s.WorkspaceConnection_STATUS) error {
 
 	// AuthType
 	connection.AuthType = genruntime.ClonePointerToString(source.AuthType)
@@ -508,7 +508,7 @@ func (connection *WorkspaceConnection_STATUS) AssignPropertiesFromWorkspaceConne
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionPropsSTATUSValueFormat(*source.ValueFormat)
+		valueFormat := WorkspaceConnectionProps_STATUS_ValueFormat(*source.ValueFormat)
 		connection.ValueFormat = &valueFormat
 	} else {
 		connection.ValueFormat = nil
@@ -518,8 +518,8 @@ func (connection *WorkspaceConnection_STATUS) AssignPropertiesFromWorkspaceConne
 	return nil
 }
 
-// AssignPropertiesToWorkspaceConnectionSTATUS populates the provided destination WorkspaceConnection_STATUS from our WorkspaceConnection_STATUS
-func (connection *WorkspaceConnection_STATUS) AssignPropertiesToWorkspaceConnectionSTATUS(destination *v20210701s.WorkspaceConnection_STATUS) error {
+// AssignProperties_To_WorkspaceConnection_STATUS populates the provided destination WorkspaceConnection_STATUS from our WorkspaceConnection_STATUS
+func (connection *WorkspaceConnection_STATUS) AssignProperties_To_WorkspaceConnection_STATUS(destination *v20210701s.WorkspaceConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -566,7 +566,7 @@ func (connection *WorkspaceConnection_STATUS) AssignPropertiesToWorkspaceConnect
 	return nil
 }
 
-type WorkspacesConnections_Spec struct {
+type Workspaces_Connections_Spec struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
 
@@ -596,17 +596,17 @@ type WorkspacesConnections_Spec struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value.
-	ValueFormat *WorkspaceConnectionPropsValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_ValueFormat `json:"valueFormat,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &WorkspacesConnections_Spec{}
+var _ genruntime.ARMTransformer = &Workspaces_Connections_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (connections *WorkspacesConnections_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (connections *Workspaces_Connections_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if connections == nil {
 		return nil, nil
 	}
-	result := &WorkspacesConnections_SpecARM{}
+	result := &Workspaces_Connections_SpecARM{}
 
 	// Set property ‘Location’:
 	if connections.Location != nil {
@@ -657,15 +657,15 @@ func (connections *WorkspacesConnections_Spec) ConvertToARM(resolved genruntime.
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connections *WorkspacesConnections_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspacesConnections_SpecARM{}
+func (connections *Workspaces_Connections_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspaces_Connections_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connections *WorkspacesConnections_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspacesConnections_SpecARM)
+func (connections *Workspaces_Connections_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspaces_Connections_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspacesConnections_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connections_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AuthType’:
@@ -739,25 +739,25 @@ func (connections *WorkspacesConnections_Spec) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &WorkspacesConnections_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_Connections_Spec{}
 
-// ConvertSpecFrom populates our WorkspacesConnections_Spec from the provided source
-func (connections *WorkspacesConnections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210701s.WorkspacesConnections_Spec)
+// ConvertSpecFrom populates our Workspaces_Connections_Spec from the provided source
+func (connections *Workspaces_Connections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210701s.Workspaces_Connections_Spec)
 	if ok {
 		// Populate our instance from source
-		return connections.AssignPropertiesFromWorkspacesConnectionsSpec(src)
+		return connections.AssignProperties_From_Workspaces_Connections_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.WorkspacesConnections_Spec{}
+	src = &v20210701s.Workspaces_Connections_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = connections.AssignPropertiesFromWorkspacesConnectionsSpec(src)
+	err = connections.AssignProperties_From_Workspaces_Connections_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -765,17 +765,17 @@ func (connections *WorkspacesConnections_Spec) ConvertSpecFrom(source genruntime
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our WorkspacesConnections_Spec
-func (connections *WorkspacesConnections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210701s.WorkspacesConnections_Spec)
+// ConvertSpecTo populates the provided destination from our Workspaces_Connections_Spec
+func (connections *Workspaces_Connections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210701s.Workspaces_Connections_Spec)
 	if ok {
 		// Populate destination from our instance
-		return connections.AssignPropertiesToWorkspacesConnectionsSpec(dst)
+		return connections.AssignProperties_To_Workspaces_Connections_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.WorkspacesConnections_Spec{}
-	err := connections.AssignPropertiesToWorkspacesConnectionsSpec(dst)
+	dst = &v20210701s.Workspaces_Connections_Spec{}
+	err := connections.AssignProperties_To_Workspaces_Connections_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -789,8 +789,8 @@ func (connections *WorkspacesConnections_Spec) ConvertSpecTo(destination genrunt
 	return nil
 }
 
-// AssignPropertiesFromWorkspacesConnectionsSpec populates our WorkspacesConnections_Spec from the provided source WorkspacesConnections_Spec
-func (connections *WorkspacesConnections_Spec) AssignPropertiesFromWorkspacesConnectionsSpec(source *v20210701s.WorkspacesConnections_Spec) error {
+// AssignProperties_From_Workspaces_Connections_Spec populates our Workspaces_Connections_Spec from the provided source Workspaces_Connections_Spec
+func (connections *Workspaces_Connections_Spec) AssignProperties_From_Workspaces_Connections_Spec(source *v20210701s.Workspaces_Connections_Spec) error {
 
 	// AuthType
 	connections.AuthType = genruntime.ClonePointerToString(source.AuthType)
@@ -823,7 +823,7 @@ func (connections *WorkspacesConnections_Spec) AssignPropertiesFromWorkspacesCon
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionPropsValueFormat(*source.ValueFormat)
+		valueFormat := WorkspaceConnectionProps_ValueFormat(*source.ValueFormat)
 		connections.ValueFormat = &valueFormat
 	} else {
 		connections.ValueFormat = nil
@@ -833,8 +833,8 @@ func (connections *WorkspacesConnections_Spec) AssignPropertiesFromWorkspacesCon
 	return nil
 }
 
-// AssignPropertiesToWorkspacesConnectionsSpec populates the provided destination WorkspacesConnections_Spec from our WorkspacesConnections_Spec
-func (connections *WorkspacesConnections_Spec) AssignPropertiesToWorkspacesConnectionsSpec(destination *v20210701s.WorkspacesConnections_Spec) error {
+// AssignProperties_To_Workspaces_Connections_Spec populates the provided destination Workspaces_Connections_Spec from our Workspaces_Connections_Spec
+func (connections *Workspaces_Connections_Spec) AssignProperties_To_Workspaces_Connections_Spec(destination *v20210701s.Workspaces_Connections_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -890,19 +890,19 @@ func (connections *WorkspacesConnections_Spec) AssignPropertiesToWorkspacesConne
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (connections *WorkspacesConnections_Spec) OriginalVersion() string {
+func (connections *Workspaces_Connections_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (connections *WorkspacesConnections_Spec) SetAzureName(azureName string) {
+func (connections *Workspaces_Connections_Spec) SetAzureName(azureName string) {
 	connections.AzureName = azureName
 }
 
 // +kubebuilder:validation:Enum={"JSON"}
-type WorkspaceConnectionPropsValueFormat string
+type WorkspaceConnectionProps_ValueFormat string
 
-const WorkspaceConnectionPropsValueFormat_JSON = WorkspaceConnectionPropsValueFormat("JSON")
+const WorkspaceConnectionProps_ValueFormat_JSON = WorkspaceConnectionProps_ValueFormat("JSON")
 
 func init() {
 	SchemeBuilder.Register(&WorkspacesConnection{}, &WorkspacesConnectionList{})

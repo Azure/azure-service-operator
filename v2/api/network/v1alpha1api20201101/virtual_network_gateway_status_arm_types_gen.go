@@ -17,23 +17,23 @@ type VirtualNetworkGateway_STATUSARM struct {
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_STATUS. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat_STATUS instead
 type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
-	ActiveActive                   *bool                                                            `json:"activeActive,omitempty"`
-	BgpSettings                    *BgpSettings_STATUSARM                                           `json:"bgpSettings,omitempty"`
-	CustomRoutes                   *AddressSpace_STATUSARM                                          `json:"customRoutes,omitempty"`
-	EnableBgp                      *bool                                                            `json:"enableBgp,omitempty"`
-	EnableDnsForwarding            *bool                                                            `json:"enableDnsForwarding,omitempty"`
-	EnablePrivateIpAddress         *bool                                                            `json:"enablePrivateIpAddress,omitempty"`
-	GatewayDefaultSite             *SubResource_STATUSARM                                           `json:"gatewayDefaultSite,omitempty"`
-	GatewayType                    *VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType          `json:"gatewayType,omitempty"`
-	InboundDnsForwardingEndpoint   *string                                                          `json:"inboundDnsForwardingEndpoint,omitempty"`
-	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUSARM                 `json:"ipConfigurations,omitempty"`
-	ProvisioningState              *ProvisioningState_STATUS                                        `json:"provisioningState,omitempty"`
-	ResourceGuid                   *string                                                          `json:"resourceGuid,omitempty"`
-	Sku                            *VirtualNetworkGatewaySku_STATUSARM                              `json:"sku,omitempty"`
-	VNetExtendedLocationResourceId *string                                                          `json:"vNetExtendedLocationResourceId,omitempty"`
-	VpnClientConfiguration         *VpnClientConfiguration_STATUSARM                                `json:"vpnClientConfiguration,omitempty"`
-	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
-	VpnType                        *VirtualNetworkGatewayPropertiesFormatSTATUSVpnType              `json:"vpnType,omitempty"`
+	ActiveActive                   *bool                                                              `json:"activeActive,omitempty"`
+	BgpSettings                    *BgpSettings_STATUSARM                                             `json:"bgpSettings,omitempty"`
+	CustomRoutes                   *AddressSpace_STATUSARM                                            `json:"customRoutes,omitempty"`
+	EnableBgp                      *bool                                                              `json:"enableBgp,omitempty"`
+	EnableDnsForwarding            *bool                                                              `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress         *bool                                                              `json:"enablePrivateIpAddress,omitempty"`
+	GatewayDefaultSite             *SubResource_STATUSARM                                             `json:"gatewayDefaultSite,omitempty"`
+	GatewayType                    *VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType          `json:"gatewayType,omitempty"`
+	InboundDnsForwardingEndpoint   *string                                                            `json:"inboundDnsForwardingEndpoint,omitempty"`
+	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUSARM                   `json:"ipConfigurations,omitempty"`
+	ProvisioningState              *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
+	ResourceGuid                   *string                                                            `json:"resourceGuid,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_STATUSARM                                `json:"sku,omitempty"`
+	VNetExtendedLocationResourceId *string                                                            `json:"vNetExtendedLocationResourceId,omitempty"`
+	VpnClientConfiguration         *VpnClientConfiguration_STATUSARM                                  `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType              `json:"vpnType,omitempty"`
 }
 
 // Deprecated version of AddressSpace_STATUS. Use v1beta20201101.AddressSpace_STATUS instead
@@ -59,25 +59,25 @@ type VirtualNetworkGatewayIPConfiguration_STATUSARM struct {
 
 // Deprecated version of VirtualNetworkGatewaySku_STATUS. Use v1beta20201101.VirtualNetworkGatewaySku_STATUS instead
 type VirtualNetworkGatewaySku_STATUSARM struct {
-	Capacity *int                                `json:"capacity,omitempty"`
-	Name     *VirtualNetworkGatewaySkuSTATUSName `json:"name,omitempty"`
-	Tier     *VirtualNetworkGatewaySkuSTATUSTier `json:"tier,omitempty"`
+	Capacity *int                                  `json:"capacity,omitempty"`
+	Name     *VirtualNetworkGatewaySku_STATUS_Name `json:"name,omitempty"`
+	Tier     *VirtualNetworkGatewaySku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of VpnClientConfiguration_STATUS. Use v1beta20201101.VpnClientConfiguration_STATUS instead
 type VpnClientConfiguration_STATUSARM struct {
-	AadAudience                  *string                                              `json:"aadAudience,omitempty"`
-	AadIssuer                    *string                                              `json:"aadIssuer,omitempty"`
-	AadTenant                    *string                                              `json:"aadTenant,omitempty"`
-	RadiusServerAddress          *string                                              `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                                              `json:"radiusServerSecret,omitempty"`
-	RadiusServers                []RadiusServer_STATUSARM                             `json:"radiusServers,omitempty"`
-	VpnAuthenticationTypes       []VpnClientConfigurationSTATUSVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
-	VpnClientAddressPool         *AddressSpace_STATUSARM                              `json:"vpnClientAddressPool,omitempty"`
-	VpnClientIpsecPolicies       []IpsecPolicy_STATUSARM                              `json:"vpnClientIpsecPolicies,omitempty"`
-	VpnClientProtocols           []VpnClientConfigurationSTATUSVpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
-	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUSARM              `json:"vpnClientRevokedCertificates,omitempty"`
-	VpnClientRootCertificates    []VpnClientRootCertificate_STATUSARM                 `json:"vpnClientRootCertificates,omitempty"`
+	AadAudience                  *string                                                `json:"aadAudience,omitempty"`
+	AadIssuer                    *string                                                `json:"aadIssuer,omitempty"`
+	AadTenant                    *string                                                `json:"aadTenant,omitempty"`
+	RadiusServerAddress          *string                                                `json:"radiusServerAddress,omitempty"`
+	RadiusServerSecret           *string                                                `json:"radiusServerSecret,omitempty"`
+	RadiusServers                []RadiusServer_STATUSARM                               `json:"radiusServers,omitempty"`
+	VpnAuthenticationTypes       []VpnClientConfiguration_STATUS_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace_STATUSARM                                `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy_STATUSARM                                `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []VpnClientConfiguration_STATUS_VpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUSARM                `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRootCertificates    []VpnClientRootCertificate_STATUSARM                   `json:"vpnClientRootCertificates,omitempty"`
 }
 
 // Deprecated version of IPConfigurationBgpPeeringAddress_STATUS. Use v1beta20201101.IPConfigurationBgpPeeringAddress_STATUS instead

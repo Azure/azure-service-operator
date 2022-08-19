@@ -90,7 +90,7 @@ type LastAccessTimeTrackingPolicy_STATUSARM struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicySTATUSName `json:"name,omitempty"`
+	Name *LastAccessTimeTrackingPolicy_STATUS_Name `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -114,14 +114,14 @@ type RestorePolicyProperties_STATUSARM struct {
 type SkuName_STATUS string
 
 const (
-	SkuName_STATUS_PremiumLRS     = SkuName_STATUS("Premium_LRS")
-	SkuName_STATUS_PremiumZRS     = SkuName_STATUS("Premium_ZRS")
-	SkuName_STATUS_StandardGRS    = SkuName_STATUS("Standard_GRS")
-	SkuName_STATUS_StandardGZRS   = SkuName_STATUS("Standard_GZRS")
-	SkuName_STATUS_StandardLRS    = SkuName_STATUS("Standard_LRS")
-	SkuName_STATUS_StandardRAGRS  = SkuName_STATUS("Standard_RAGRS")
-	SkuName_STATUS_StandardRAGZRS = SkuName_STATUS("Standard_RAGZRS")
-	SkuName_STATUS_StandardZRS    = SkuName_STATUS("Standard_ZRS")
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
 )
 
 type Tier_STATUS string
@@ -138,7 +138,7 @@ type CorsRule_STATUSARM struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRuleSTATUSAllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedMethods []CorsRule_STATUS_AllowedMethods `json:"allowedMethods,omitempty"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -152,18 +152,18 @@ type CorsRule_STATUSARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-type LastAccessTimeTrackingPolicySTATUSName string
+type LastAccessTimeTrackingPolicy_STATUS_Name string
 
-const LastAccessTimeTrackingPolicySTATUSName_AccessTimeTracking = LastAccessTimeTrackingPolicySTATUSName("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_STATUS_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_STATUS_Name("AccessTimeTracking")
 
-type CorsRuleSTATUSAllowedMethods string
+type CorsRule_STATUS_AllowedMethods string
 
 const (
-	CorsRuleSTATUSAllowedMethods_DELETE  = CorsRuleSTATUSAllowedMethods("DELETE")
-	CorsRuleSTATUSAllowedMethods_GET     = CorsRuleSTATUSAllowedMethods("GET")
-	CorsRuleSTATUSAllowedMethods_HEAD    = CorsRuleSTATUSAllowedMethods("HEAD")
-	CorsRuleSTATUSAllowedMethods_MERGE   = CorsRuleSTATUSAllowedMethods("MERGE")
-	CorsRuleSTATUSAllowedMethods_OPTIONS = CorsRuleSTATUSAllowedMethods("OPTIONS")
-	CorsRuleSTATUSAllowedMethods_POST    = CorsRuleSTATUSAllowedMethods("POST")
-	CorsRuleSTATUSAllowedMethods_PUT     = CorsRuleSTATUSAllowedMethods("PUT")
+	CorsRule_STATUS_AllowedMethods_DELETE  = CorsRule_STATUS_AllowedMethods("DELETE")
+	CorsRule_STATUS_AllowedMethods_GET     = CorsRule_STATUS_AllowedMethods("GET")
+	CorsRule_STATUS_AllowedMethods_HEAD    = CorsRule_STATUS_AllowedMethods("HEAD")
+	CorsRule_STATUS_AllowedMethods_MERGE   = CorsRule_STATUS_AllowedMethods("MERGE")
+	CorsRule_STATUS_AllowedMethods_OPTIONS = CorsRule_STATUS_AllowedMethods("OPTIONS")
+	CorsRule_STATUS_AllowedMethods_POST    = CorsRule_STATUS_AllowedMethods("POST")
+	CorsRule_STATUS_AllowedMethods_PUT     = CorsRule_STATUS_AllowedMethods("PUT")
 )

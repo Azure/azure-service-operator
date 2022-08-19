@@ -140,7 +140,7 @@ const (
 
 // Deprecated version of PowerState_STATUS. Use v1beta20210501.PowerState_STATUS instead
 type PowerState_STATUSARM struct {
-	Code *PowerStateSTATUSCode `json:"code,omitempty"`
+	Code *PowerState_STATUS_Code `json:"code,omitempty"`
 }
 
 // Deprecated version of ScaleSetEvictionPolicy_STATUS. Use v1beta20210501.ScaleSetEvictionPolicy_STATUS instead
@@ -159,12 +159,12 @@ const (
 	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
 
-// Deprecated version of PowerStateSTATUSCode. Use v1beta20210501.PowerStateSTATUSCode instead
-type PowerStateSTATUSCode string
+// Deprecated version of PowerState_STATUS_Code. Use v1beta20210501.PowerState_STATUS_Code instead
+type PowerState_STATUS_Code string
 
 const (
-	PowerStateSTATUSCode_Running = PowerStateSTATUSCode("Running")
-	PowerStateSTATUSCode_Stopped = PowerStateSTATUSCode("Stopped")
+	PowerState_STATUS_Code_Running = PowerState_STATUS_Code("Running")
+	PowerState_STATUS_Code_Stopped = PowerState_STATUS_Code("Stopped")
 )
 
 // Deprecated version of SysctlConfig_STATUS. Use v1beta20210501.SysctlConfig_STATUS instead

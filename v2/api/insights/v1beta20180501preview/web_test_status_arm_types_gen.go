@@ -39,7 +39,7 @@ type WebTestProperties_STATUSARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestPropertiesSTATUSKind `json:"Kind,omitempty"`
+	Kind *WebTestProperties_STATUS_Kind `json:"Kind,omitempty"`
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
@@ -79,6 +79,15 @@ type WebTestProperties_STATUS_ConfigurationARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
+type WebTestProperties_STATUS_Kind string
+
+const (
+	WebTestProperties_STATUS_Kind_Basic     = WebTestProperties_STATUS_Kind("basic")
+	WebTestProperties_STATUS_Kind_Multistep = WebTestProperties_STATUS_Kind("multistep")
+	WebTestProperties_STATUS_Kind_Ping      = WebTestProperties_STATUS_Kind("ping")
+	WebTestProperties_STATUS_Kind_Standard  = WebTestProperties_STATUS_Kind("standard")
+)
+
 type WebTestProperties_STATUS_RequestARM struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
@@ -116,15 +125,6 @@ type WebTestProperties_STATUS_ValidationRulesARM struct {
 	// SSLCheck: Checks to see if the SSL cert is still valid.
 	SSLCheck *bool `json:"SSLCheck,omitempty"`
 }
-
-type WebTestPropertiesSTATUSKind string
-
-const (
-	WebTestPropertiesSTATUSKind_Basic     = WebTestPropertiesSTATUSKind("basic")
-	WebTestPropertiesSTATUSKind_Multistep = WebTestPropertiesSTATUSKind("multistep")
-	WebTestPropertiesSTATUSKind_Ping      = WebTestPropertiesSTATUSKind("ping")
-	WebTestPropertiesSTATUSKind_Standard  = WebTestPropertiesSTATUSKind("standard")
-)
 
 type HeaderField_STATUSARM struct {
 	// Key: The name of the header.

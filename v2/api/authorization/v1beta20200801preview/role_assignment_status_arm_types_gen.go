@@ -42,7 +42,7 @@ type RoleAssignmentProperties_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentPropertiesSTATUSPrincipalType `json:"principalType,omitempty"`
+	PrincipalType *RoleAssignmentProperties_STATUS_PrincipalType `json:"principalType,omitempty"`
 
 	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`

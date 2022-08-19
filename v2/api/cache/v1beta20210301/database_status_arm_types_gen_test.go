@@ -25,12 +25,12 @@ func Test_Database_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Database_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseSTATUSARM, DatabaseSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabase_STATUSARM, Database_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseSTATUSARM runs a test to see if a specific instance of Database_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseSTATUSARM(subject Database_STATUSARM) string {
+// RunJSONSerializationTestForDatabase_STATUSARM runs a test to see if a specific instance of Database_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabase_STATUSARM(subject Database_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,41 +56,41 @@ func RunJSONSerializationTestForDatabaseSTATUSARM(subject Database_STATUSARM) st
 	return ""
 }
 
-// Generator of Database_STATUSARM instances for property testing - lazily instantiated by DatabaseSTATUSARMGenerator()
-var databaseSTATUSARMGenerator gopter.Gen
+// Generator of Database_STATUSARM instances for property testing - lazily instantiated by Database_STATUSARMGenerator()
+var database_STATUSARMGenerator gopter.Gen
 
-// DatabaseSTATUSARMGenerator returns a generator of Database_STATUSARM instances for property testing.
-// We first initialize databaseSTATUSARMGenerator with a simplified generator based on the
+// Database_STATUSARMGenerator returns a generator of Database_STATUSARM instances for property testing.
+// We first initialize database_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseSTATUSARMGenerator() gopter.Gen {
-	if databaseSTATUSARMGenerator != nil {
-		return databaseSTATUSARMGenerator
+func Database_STATUSARMGenerator() gopter.Gen {
+	if database_STATUSARMGenerator != nil {
+		return database_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseSTATUSARM(generators)
-	databaseSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabase_STATUSARM(generators)
+	database_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseSTATUSARM(generators)
-	databaseSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabase_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForDatabase_STATUSARM(generators)
+	database_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUSARM{}), generators)
 
-	return databaseSTATUSARMGenerator
+	return database_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabase_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabase_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DatabasePropertiesSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForDatabase_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabase_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DatabaseProperties_STATUSARMGenerator())
 }
 
 func Test_DatabaseProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +101,12 @@ func Test_DatabaseProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabasePropertiesSTATUSARM, DatabasePropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDatabaseProperties_STATUSARM, DatabaseProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabasePropertiesSTATUSARM runs a test to see if a specific instance of DatabaseProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabasePropertiesSTATUSARM(subject DatabaseProperties_STATUSARM) string {
+// RunJSONSerializationTestForDatabaseProperties_STATUSARM runs a test to see if a specific instance of DatabaseProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseProperties_STATUSARM(subject DatabaseProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,44 +133,44 @@ func RunJSONSerializationTestForDatabasePropertiesSTATUSARM(subject DatabaseProp
 }
 
 // Generator of DatabaseProperties_STATUSARM instances for property testing - lazily instantiated by
-// DatabasePropertiesSTATUSARMGenerator()
-var databasePropertiesSTATUSARMGenerator gopter.Gen
+// DatabaseProperties_STATUSARMGenerator()
+var databaseProperties_STATUSARMGenerator gopter.Gen
 
-// DatabasePropertiesSTATUSARMGenerator returns a generator of DatabaseProperties_STATUSARM instances for property testing.
-// We first initialize databasePropertiesSTATUSARMGenerator with a simplified generator based on the
+// DatabaseProperties_STATUSARMGenerator returns a generator of DatabaseProperties_STATUSARM instances for property testing.
+// We first initialize databaseProperties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabasePropertiesSTATUSARMGenerator() gopter.Gen {
-	if databasePropertiesSTATUSARMGenerator != nil {
-		return databasePropertiesSTATUSARMGenerator
+func DatabaseProperties_STATUSARMGenerator() gopter.Gen {
+	if databaseProperties_STATUSARMGenerator != nil {
+		return databaseProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabasePropertiesSTATUSARM(generators)
-	databasePropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseProperties_STATUSARM(generators)
+	databaseProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabasePropertiesSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabasePropertiesSTATUSARM(generators)
-	databasePropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseProperties_STATUSARM(generators)
+	databaseProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseProperties_STATUSARM{}), generators)
 
-	return databasePropertiesSTATUSARMGenerator
+	return databaseProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabasePropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabasePropertiesSTATUSARM(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesSTATUSClientProtocol_Encrypted, DatabasePropertiesSTATUSClientProtocol_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesSTATUSClusteringPolicy_EnterpriseCluster, DatabasePropertiesSTATUSClusteringPolicy_OSSCluster))
+// AddIndependentPropertyGeneratorsForDatabaseProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_STATUS_ClientProtocol_Encrypted, DatabaseProperties_STATUS_ClientProtocol_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster, DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabasePropertiesSTATUSEvictionPolicy_AllKeysLFU,
-		DatabasePropertiesSTATUSEvictionPolicy_AllKeysLRU,
-		DatabasePropertiesSTATUSEvictionPolicy_AllKeysRandom,
-		DatabasePropertiesSTATUSEvictionPolicy_NoEviction,
-		DatabasePropertiesSTATUSEvictionPolicy_VolatileLFU,
-		DatabasePropertiesSTATUSEvictionPolicy_VolatileLRU,
-		DatabasePropertiesSTATUSEvictionPolicy_VolatileRandom,
-		DatabasePropertiesSTATUSEvictionPolicy_VolatileTTL))
+		DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU,
+		DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU,
+		DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom,
+		DatabaseProperties_STATUS_EvictionPolicy_NoEviction,
+		DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU,
+		DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU,
+		DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom,
+		DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Canceled,
@@ -194,10 +194,10 @@ func AddIndependentPropertyGeneratorsForDatabasePropertiesSTATUSARM(gens map[str
 		ResourceState_STATUS_Updating))
 }
 
-// AddRelatedPropertyGeneratorsForDatabasePropertiesSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabasePropertiesSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Modules"] = gen.SliceOf(ModuleSTATUSARMGenerator())
-	gens["Persistence"] = gen.PtrOf(PersistenceSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForDatabaseProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Modules"] = gen.SliceOf(Module_STATUSARMGenerator())
+	gens["Persistence"] = gen.PtrOf(Persistence_STATUSARMGenerator())
 }
 
 func Test_Module_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -208,12 +208,12 @@ func Test_Module_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Module_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForModuleSTATUSARM, ModuleSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForModule_STATUSARM, Module_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForModuleSTATUSARM runs a test to see if a specific instance of Module_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForModuleSTATUSARM(subject Module_STATUSARM) string {
+// RunJSONSerializationTestForModule_STATUSARM runs a test to see if a specific instance of Module_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForModule_STATUSARM(subject Module_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -239,24 +239,24 @@ func RunJSONSerializationTestForModuleSTATUSARM(subject Module_STATUSARM) string
 	return ""
 }
 
-// Generator of Module_STATUSARM instances for property testing - lazily instantiated by ModuleSTATUSARMGenerator()
-var moduleSTATUSARMGenerator gopter.Gen
+// Generator of Module_STATUSARM instances for property testing - lazily instantiated by Module_STATUSARMGenerator()
+var module_STATUSARMGenerator gopter.Gen
 
-// ModuleSTATUSARMGenerator returns a generator of Module_STATUSARM instances for property testing.
-func ModuleSTATUSARMGenerator() gopter.Gen {
-	if moduleSTATUSARMGenerator != nil {
-		return moduleSTATUSARMGenerator
+// Module_STATUSARMGenerator returns a generator of Module_STATUSARM instances for property testing.
+func Module_STATUSARMGenerator() gopter.Gen {
+	if module_STATUSARMGenerator != nil {
+		return module_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForModuleSTATUSARM(generators)
-	moduleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Module_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForModule_STATUSARM(generators)
+	module_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Module_STATUSARM{}), generators)
 
-	return moduleSTATUSARMGenerator
+	return module_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForModuleSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForModuleSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForModule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForModule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
@@ -270,12 +270,12 @@ func Test_Persistence_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Persistence_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPersistenceSTATUSARM, PersistenceSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPersistence_STATUSARM, Persistence_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPersistenceSTATUSARM runs a test to see if a specific instance of Persistence_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPersistenceSTATUSARM(subject Persistence_STATUSARM) string {
+// RunJSONSerializationTestForPersistence_STATUSARM runs a test to see if a specific instance of Persistence_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPersistence_STATUSARM(subject Persistence_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -302,26 +302,26 @@ func RunJSONSerializationTestForPersistenceSTATUSARM(subject Persistence_STATUSA
 }
 
 // Generator of Persistence_STATUSARM instances for property testing - lazily instantiated by
-// PersistenceSTATUSARMGenerator()
-var persistenceSTATUSARMGenerator gopter.Gen
+// Persistence_STATUSARMGenerator()
+var persistence_STATUSARMGenerator gopter.Gen
 
-// PersistenceSTATUSARMGenerator returns a generator of Persistence_STATUSARM instances for property testing.
-func PersistenceSTATUSARMGenerator() gopter.Gen {
-	if persistenceSTATUSARMGenerator != nil {
-		return persistenceSTATUSARMGenerator
+// Persistence_STATUSARMGenerator returns a generator of Persistence_STATUSARM instances for property testing.
+func Persistence_STATUSARMGenerator() gopter.Gen {
+	if persistence_STATUSARMGenerator != nil {
+		return persistence_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPersistenceSTATUSARM(generators)
-	persistenceSTATUSARMGenerator = gen.Struct(reflect.TypeOf(Persistence_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPersistence_STATUSARM(generators)
+	persistence_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Persistence_STATUSARM{}), generators)
 
-	return persistenceSTATUSARMGenerator
+	return persistence_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPersistenceSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPersistenceSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPersistence_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPersistence_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceSTATUSAofFrequency_1S, PersistenceSTATUSAofFrequency_Always))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_STATUS_AofFrequency_1S, Persistence_STATUS_AofFrequency_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceSTATUSRdbFrequency_12H, PersistenceSTATUSRdbFrequency_1H, PersistenceSTATUSRdbFrequency_6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_STATUS_RdbFrequency_12H, Persistence_STATUS_RdbFrequency_1H, Persistence_STATUS_RdbFrequency_6H))
 }

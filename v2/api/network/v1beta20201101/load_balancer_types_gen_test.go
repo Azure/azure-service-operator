@@ -67,7 +67,7 @@ func Test_LoadBalancer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancer to LoadBalancer via AssignPropertiesToLoadBalancer & AssignPropertiesFromLoadBalancer returns original",
+		"Round trip from LoadBalancer to LoadBalancer via AssignProperties_To_LoadBalancer & AssignProperties_From_LoadBalancer returns original",
 		prop.ForAll(RunPropertyAssignmentTestForLoadBalancer, LoadBalancerGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancer
-	err := copied.AssignPropertiesToLoadBalancer(&other)
+	err := copied.AssignProperties_To_LoadBalancer(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancer
-	err = actual.AssignPropertiesFromLoadBalancer(&other)
+	err = actual.AssignProperties_From_LoadBalancer(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,8 +160,8 @@ func LoadBalancerGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForLoadBalancer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancer(gens map[string]gopter.Gen) {
-	gens["Spec"] = LoadBalancersSpecGenerator()
-	gens["Status"] = LoadBalancerSTATUSGenerator()
+	gens["Spec"] = LoadBalancers_SpecGenerator()
+	gens["Status"] = LoadBalancer_STATUSGenerator()
 }
 
 func Test_LoadBalancer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -170,26 +170,26 @@ func Test_LoadBalancer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancer_STATUS to LoadBalancer_STATUS via AssignPropertiesToLoadBalancerSTATUS & AssignPropertiesFromLoadBalancerSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSTATUS, LoadBalancerSTATUSGenerator()))
+		"Round trip from LoadBalancer_STATUS to LoadBalancer_STATUS via AssignProperties_To_LoadBalancer_STATUS & AssignProperties_From_LoadBalancer_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancer_STATUS, LoadBalancer_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerSTATUS tests if a specific instance of LoadBalancer_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancerSTATUS(subject LoadBalancer_STATUS) string {
+// RunPropertyAssignmentTestForLoadBalancer_STATUS tests if a specific instance of LoadBalancer_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancer_STATUS(subject LoadBalancer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancer_STATUS
-	err := copied.AssignPropertiesToLoadBalancerSTATUS(&other)
+	err := copied.AssignProperties_To_LoadBalancer_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancer_STATUS
-	err = actual.AssignPropertiesFromLoadBalancerSTATUS(&other)
+	err = actual.AssignProperties_From_LoadBalancer_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -214,12 +214,12 @@ func Test_LoadBalancer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancer_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerSTATUS, LoadBalancerSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancer_STATUS, LoadBalancer_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancerSTATUS runs a test to see if a specific instance of LoadBalancer_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerSTATUS(subject LoadBalancer_STATUS) string {
+// RunJSONSerializationTestForLoadBalancer_STATUS runs a test to see if a specific instance of LoadBalancer_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancer_STATUS(subject LoadBalancer_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -245,33 +245,34 @@ func RunJSONSerializationTestForLoadBalancerSTATUS(subject LoadBalancer_STATUS) 
 	return ""
 }
 
-// Generator of LoadBalancer_STATUS instances for property testing - lazily instantiated by LoadBalancerSTATUSGenerator()
-var loadBalancerSTATUSGenerator gopter.Gen
+// Generator of LoadBalancer_STATUS instances for property testing - lazily instantiated by
+// LoadBalancer_STATUSGenerator()
+var loadBalancer_STATUSGenerator gopter.Gen
 
-// LoadBalancerSTATUSGenerator returns a generator of LoadBalancer_STATUS instances for property testing.
-// We first initialize loadBalancerSTATUSGenerator with a simplified generator based on the
+// LoadBalancer_STATUSGenerator returns a generator of LoadBalancer_STATUS instances for property testing.
+// We first initialize loadBalancer_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancerSTATUSGenerator() gopter.Gen {
-	if loadBalancerSTATUSGenerator != nil {
-		return loadBalancerSTATUSGenerator
+func LoadBalancer_STATUSGenerator() gopter.Gen {
+	if loadBalancer_STATUSGenerator != nil {
+		return loadBalancer_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancerSTATUS(generators)
-	loadBalancerSTATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancer_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancer_STATUS(generators)
+	loadBalancer_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancer_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancerSTATUS(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancerSTATUS(generators)
-	loadBalancerSTATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancer_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancer_STATUS(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancer_STATUS(generators)
+	loadBalancer_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancer_STATUS{}), generators)
 
-	return loadBalancerSTATUSGenerator
+	return loadBalancer_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancerSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancerSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancer_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancer_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -286,17 +287,17 @@ func AddIndependentPropertyGeneratorsForLoadBalancerSTATUS(gens map[string]gopte
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancerSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancerSTATUS(gens map[string]gopter.Gen) {
-	gens["BackendAddressPools"] = gen.SliceOf(BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator())
-	gens["InboundNatPools"] = gen.SliceOf(InboundNatPoolSTATUSGenerator())
-	gens["InboundNatRules"] = gen.SliceOf(InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator())
-	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRuleSTATUSGenerator())
-	gens["OutboundRules"] = gen.SliceOf(OutboundRuleSTATUSGenerator())
-	gens["Probes"] = gen.SliceOf(ProbeSTATUSGenerator())
-	gens["Sku"] = gen.PtrOf(LoadBalancerSkuSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancer_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancer_STATUS(gens map[string]gopter.Gen) {
+	gens["BackendAddressPools"] = gen.SliceOf(BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
+	gens["InboundNatPools"] = gen.SliceOf(InboundNatPool_STATUSGenerator())
+	gens["InboundNatRules"] = gen.SliceOf(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
+	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRule_STATUSGenerator())
+	gens["OutboundRules"] = gen.SliceOf(OutboundRule_STATUSGenerator())
+	gens["Probes"] = gen.SliceOf(Probe_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(LoadBalancerSku_STATUSGenerator())
 }
 
 func Test_LoadBalancers_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -305,26 +306,26 @@ func Test_LoadBalancers_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec to LoadBalancers_Spec via AssignPropertiesToLoadBalancersSpec & AssignPropertiesFromLoadBalancersSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpec, LoadBalancersSpecGenerator()))
+		"Round trip from LoadBalancers_Spec to LoadBalancers_Spec via AssignProperties_To_LoadBalancers_Spec & AssignProperties_From_LoadBalancers_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec, LoadBalancers_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpec tests if a specific instance of LoadBalancers_Spec can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpec(subject LoadBalancers_Spec) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec tests if a specific instance of LoadBalancers_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec(subject LoadBalancers_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec
-	err := copied.AssignPropertiesToLoadBalancersSpec(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec
-	err = actual.AssignPropertiesFromLoadBalancersSpec(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -349,12 +350,12 @@ func Test_LoadBalancers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpec, LoadBalancersSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec, LoadBalancers_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpec runs a test to see if a specific instance of LoadBalancers_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpec(subject LoadBalancers_Spec) string {
+// RunJSONSerializationTestForLoadBalancers_Spec runs a test to see if a specific instance of LoadBalancers_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec(subject LoadBalancers_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -380,47 +381,47 @@ func RunJSONSerializationTestForLoadBalancersSpec(subject LoadBalancers_Spec) st
 	return ""
 }
 
-// Generator of LoadBalancers_Spec instances for property testing - lazily instantiated by LoadBalancersSpecGenerator()
-var loadBalancersSpecGenerator gopter.Gen
+// Generator of LoadBalancers_Spec instances for property testing - lazily instantiated by LoadBalancers_SpecGenerator()
+var loadBalancers_SpecGenerator gopter.Gen
 
-// LoadBalancersSpecGenerator returns a generator of LoadBalancers_Spec instances for property testing.
-// We first initialize loadBalancersSpecGenerator with a simplified generator based on the
+// LoadBalancers_SpecGenerator returns a generator of LoadBalancers_Spec instances for property testing.
+// We first initialize loadBalancers_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecGenerator() gopter.Gen {
-	if loadBalancersSpecGenerator != nil {
-		return loadBalancersSpecGenerator
+func LoadBalancers_SpecGenerator() gopter.Gen {
+	if loadBalancers_SpecGenerator != nil {
+		return loadBalancers_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpec(generators)
-	loadBalancersSpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec(generators)
+	loadBalancers_SpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpec(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpec(generators)
-	loadBalancersSpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec(generators)
+	loadBalancers_SpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec{}), generators)
 
-	return loadBalancersSpecGenerator
+	return loadBalancers_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpec(gens map[string]gopter.Gen) {
-	gens["BackendAddressPools"] = gen.SliceOf(LoadBalancersSpecPropertiesBackendAddressPoolsGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec(gens map[string]gopter.Gen) {
+	gens["BackendAddressPools"] = gen.SliceOf(LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator())
-	gens["InboundNatPools"] = gen.SliceOf(LoadBalancersSpecPropertiesInboundNatPoolsGenerator())
-	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancersSpecPropertiesLoadBalancingRulesGenerator())
-	gens["OutboundRules"] = gen.SliceOf(LoadBalancersSpecPropertiesOutboundRulesGenerator())
-	gens["Probes"] = gen.SliceOf(LoadBalancersSpecPropertiesProbesGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator())
+	gens["InboundNatPools"] = gen.SliceOf(LoadBalancers_Spec_Properties_InboundNatPoolsGenerator())
+	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator())
+	gens["OutboundRules"] = gen.SliceOf(LoadBalancers_Spec_Properties_OutboundRulesGenerator())
+	gens["Probes"] = gen.SliceOf(LoadBalancers_Spec_Properties_ProbesGenerator())
 	gens["Sku"] = gen.PtrOf(LoadBalancerSkuGenerator())
 }
 
@@ -430,26 +431,26 @@ func Test_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded to BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded via AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded & AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded, BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		"Round trip from BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded to BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded via AssignProperties_To_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded & AssignProperties_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(subject BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(subject BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-	err := copied.AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err := copied.AssignProperties_To_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-	err = actual.AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -474,12 +475,12 @@ func Test_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_WhenSeriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded, BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded runs a test to see if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(subject BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunJSONSerializationTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(subject BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -506,24 +507,24 @@ func RunJSONSerializationTestForBackendAddressPoolSTATUSLoadBalancerSubResourceE
 }
 
 // Generator of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator()
-var backendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
+// instantiated by BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()
+var backendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
-// BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator returns a generator of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
-func BackendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
-	if backendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator != nil {
-		return backendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator
+// BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+func BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if backendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return backendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(generators)
-	backendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	backendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
-	return backendAddressPoolSTATUSLoadBalancerSubResourceEmbeddedGenerator
+	return backendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -533,7 +534,7 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ExtendedLocation to ExtendedLocation via AssignPropertiesToExtendedLocation & AssignPropertiesFromExtendedLocation returns original",
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignProperties_To_ExtendedLocation & AssignProperties_From_ExtendedLocation returns original",
 		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -545,14 +546,14 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.ExtendedLocation
-	err := copied.AssignPropertiesToExtendedLocation(&other)
+	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ExtendedLocation
-	err = actual.AssignPropertiesFromExtendedLocation(&other)
+	err = actual.AssignProperties_From_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -627,7 +628,7 @@ func ExtendedLocationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocation_Type_EdgeZone))
 }
 
 func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -636,26 +637,26 @@ func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignPropertiesToExtendedLocationSTATUS & AssignPropertiesFromExtendedLocationSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExtendedLocationSTATUS, ExtendedLocationSTATUSGenerator()))
+		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignProperties_To_ExtendedLocation_STATUS & AssignProperties_From_ExtendedLocation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocationSTATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForExtendedLocationSTATUS(subject ExtendedLocation_STATUS) string {
+// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.ExtendedLocation_STATUS
-	err := copied.AssignPropertiesToExtendedLocationSTATUS(&other)
+	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ExtendedLocation_STATUS
-	err = actual.AssignPropertiesFromExtendedLocationSTATUS(&other)
+	err = actual.AssignProperties_From_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -680,12 +681,12 @@ func Test_ExtendedLocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocationSTATUS, ExtendedLocationSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocationSTATUS runs a test to see if a specific instance of ExtendedLocation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocationSTATUS(subject ExtendedLocation_STATUS) string {
+// RunJSONSerializationTestForExtendedLocation_STATUS runs a test to see if a specific instance of ExtendedLocation_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -712,24 +713,24 @@ func RunJSONSerializationTestForExtendedLocationSTATUS(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_STATUS instances for property testing - lazily instantiated by
-// ExtendedLocationSTATUSGenerator()
-var extendedLocationSTATUSGenerator gopter.Gen
+// ExtendedLocation_STATUSGenerator()
+var extendedLocation_STATUSGenerator gopter.Gen
 
-// ExtendedLocationSTATUSGenerator returns a generator of ExtendedLocation_STATUS instances for property testing.
-func ExtendedLocationSTATUSGenerator() gopter.Gen {
-	if extendedLocationSTATUSGenerator != nil {
-		return extendedLocationSTATUSGenerator
+// ExtendedLocation_STATUSGenerator returns a generator of ExtendedLocation_STATUS instances for property testing.
+func ExtendedLocation_STATUSGenerator() gopter.Gen {
+	if extendedLocation_STATUSGenerator != nil {
+		return extendedLocation_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocationSTATUS(generators)
-	extendedLocationSTATUSGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(generators)
+	extendedLocation_STATUSGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_STATUS{}), generators)
 
-	return extendedLocationSTATUSGenerator
+	return extendedLocation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocationSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocationSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocation_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
 }
@@ -740,26 +741,26 @@ func Test_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_WhenPr
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded to FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded via AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded & AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded, FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		"Round trip from FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded to FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded via AssignProperties_To_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded & AssignProperties_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(subject FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(subject FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-	err := copied.AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err := copied.AssignProperties_To_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-	err = actual.AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -784,12 +785,12 @@ func Test_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_WhenSe
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded, FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded runs a test to see if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(subject FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunJSONSerializationTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(subject FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -816,33 +817,33 @@ func RunJSONSerializationTestForFrontendIPConfigurationSTATUSLoadBalancerSubReso
 }
 
 // Generator of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator()
-var frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
+// instantiated by FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()
+var frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
-// FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator returns a generator of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
-// We first initialize frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator with a simplified generator based on the
+// FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+// We first initialize frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
-	if frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator != nil {
-		return frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator
+func FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(generators)
-	frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(generators)
-	frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
-	return frontendIPConfigurationSTATUSLoadBalancerSubResourceEmbeddedGenerator
+	return frontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -858,15 +859,15 @@ func AddIndependentPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalance
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["InboundNatPools"] = gen.SliceOf(SubResourceSTATUSGenerator())
-	gens["InboundNatRules"] = gen.SliceOf(SubResourceSTATUSGenerator())
-	gens["LoadBalancingRules"] = gen.SliceOf(SubResourceSTATUSGenerator())
-	gens["OutboundRules"] = gen.SliceOf(SubResourceSTATUSGenerator())
-	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator())
-	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["Subnet"] = gen.PtrOf(SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator())
+// AddRelatedPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["InboundNatPools"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["InboundNatRules"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["LoadBalancingRules"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["OutboundRules"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
 }
 
 func Test_InboundNatPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -875,26 +876,26 @@ func Test_InboundNatPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from InboundNatPool_STATUS to InboundNatPool_STATUS via AssignPropertiesToInboundNatPoolSTATUS & AssignPropertiesFromInboundNatPoolSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForInboundNatPoolSTATUS, InboundNatPoolSTATUSGenerator()))
+		"Round trip from InboundNatPool_STATUS to InboundNatPool_STATUS via AssignProperties_To_InboundNatPool_STATUS & AssignProperties_From_InboundNatPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatPool_STATUS, InboundNatPool_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatPoolSTATUS tests if a specific instance of InboundNatPool_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForInboundNatPoolSTATUS(subject InboundNatPool_STATUS) string {
+// RunPropertyAssignmentTestForInboundNatPool_STATUS tests if a specific instance of InboundNatPool_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatPool_STATUS(subject InboundNatPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.InboundNatPool_STATUS
-	err := copied.AssignPropertiesToInboundNatPoolSTATUS(&other)
+	err := copied.AssignProperties_To_InboundNatPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual InboundNatPool_STATUS
-	err = actual.AssignPropertiesFromInboundNatPoolSTATUS(&other)
+	err = actual.AssignProperties_From_InboundNatPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -919,12 +920,12 @@ func Test_InboundNatPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatPoolSTATUS, InboundNatPoolSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForInboundNatPool_STATUS, InboundNatPool_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatPoolSTATUS runs a test to see if a specific instance of InboundNatPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatPoolSTATUS(subject InboundNatPool_STATUS) string {
+// RunJSONSerializationTestForInboundNatPool_STATUS runs a test to see if a specific instance of InboundNatPool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatPool_STATUS(subject InboundNatPool_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -951,33 +952,33 @@ func RunJSONSerializationTestForInboundNatPoolSTATUS(subject InboundNatPool_STAT
 }
 
 // Generator of InboundNatPool_STATUS instances for property testing - lazily instantiated by
-// InboundNatPoolSTATUSGenerator()
-var inboundNatPoolSTATUSGenerator gopter.Gen
+// InboundNatPool_STATUSGenerator()
+var inboundNatPool_STATUSGenerator gopter.Gen
 
-// InboundNatPoolSTATUSGenerator returns a generator of InboundNatPool_STATUS instances for property testing.
-// We first initialize inboundNatPoolSTATUSGenerator with a simplified generator based on the
+// InboundNatPool_STATUSGenerator returns a generator of InboundNatPool_STATUS instances for property testing.
+// We first initialize inboundNatPool_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InboundNatPoolSTATUSGenerator() gopter.Gen {
-	if inboundNatPoolSTATUSGenerator != nil {
-		return inboundNatPoolSTATUSGenerator
+func InboundNatPool_STATUSGenerator() gopter.Gen {
+	if inboundNatPool_STATUSGenerator != nil {
+		return inboundNatPool_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolSTATUS(generators)
-	inboundNatPoolSTATUSGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPool_STATUS(generators)
+	inboundNatPool_STATUSGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatPoolSTATUS(generators)
-	AddRelatedPropertyGeneratorsForInboundNatPoolSTATUS(generators)
-	inboundNatPoolSTATUSGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatPool_STATUS(generators)
+	AddRelatedPropertyGeneratorsForInboundNatPool_STATUS(generators)
+	inboundNatPool_STATUSGenerator = gen.Struct(reflect.TypeOf(InboundNatPool_STATUS{}), generators)
 
-	return inboundNatPoolSTATUSGenerator
+	return inboundNatPool_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatPoolSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatPoolSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatPool_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatPool_STATUS(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
@@ -996,9 +997,9 @@ func AddIndependentPropertyGeneratorsForInboundNatPoolSTATUS(gens map[string]gop
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForInboundNatPoolSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInboundNatPoolSTATUS(gens map[string]gopter.Gen) {
-	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForInboundNatPool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatPool_STATUS(gens map[string]gopter.Gen) {
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1007,26 +1008,26 @@ func Test_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesC
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded to InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded via AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded & AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded, InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		"Round trip from InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded to InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded via AssignProperties_To_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded & AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(subject InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-	err := copied.AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err := copied.AssignProperties_To_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-	err = actual.AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1051,12 +1052,12 @@ func Test_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_WhenSerializedT
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded, InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded runs a test to see if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(subject InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunJSONSerializationTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1083,24 +1084,24 @@ func RunJSONSerializationTestForInboundNatRuleSTATUSLoadBalancerSubResourceEmbed
 }
 
 // Generator of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator()
-var inboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
+// instantiated by InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()
+var inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
-// InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator returns a generator of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
-func InboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
-	if inboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator != nil {
-		return inboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator
+// InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+func InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(generators)
-	inboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
-	return inboundNatRuleSTATUSLoadBalancerSubResourceEmbeddedGenerator
+	return inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1110,26 +1111,26 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_WhenPropertiesConver
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools to LoadBalancers_Spec_Properties_BackendAddressPools via AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools & AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools, LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools to LoadBalancers_Spec_Properties_BackendAddressPools via AssignProperties_To_LoadBalancers_Spec_Properties_BackendAddressPools & AssignProperties_From_LoadBalancers_Spec_Properties_BackendAddressPools returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools, LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools(subject LoadBalancers_Spec_Properties_BackendAddressPools) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools(subject LoadBalancers_Spec_Properties_BackendAddressPools) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_BackendAddressPools
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_BackendAddressPools(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_BackendAddressPools
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_BackendAddressPools(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1154,12 +1155,12 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_WhenSerializedToJson
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_BackendAddressPools via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPools, LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools, LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPools runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPools(subject LoadBalancers_Spec_Properties_BackendAddressPools) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools(subject LoadBalancers_Spec_Properties_BackendAddressPools) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1186,40 +1187,40 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPools(s
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools instances for property testing - lazily instantiated
-// by LoadBalancersSpecPropertiesBackendAddressPoolsGenerator()
-var loadBalancersSpecPropertiesBackendAddressPoolsGenerator gopter.Gen
+// by LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator()
+var loadBalancers_Spec_Properties_BackendAddressPoolsGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesBackendAddressPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools instances for property testing.
-// We first initialize loadBalancersSpecPropertiesBackendAddressPoolsGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_BackendAddressPoolsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesBackendAddressPoolsGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesBackendAddressPoolsGenerator != nil {
-		return loadBalancersSpecPropertiesBackendAddressPoolsGenerator
+func LoadBalancers_Spec_Properties_BackendAddressPoolsGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_BackendAddressPoolsGenerator != nil {
+		return loadBalancers_Spec_Properties_BackendAddressPoolsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(generators)
-	loadBalancersSpecPropertiesBackendAddressPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools(generators)
+	loadBalancers_Spec_Properties_BackendAddressPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(generators)
-	loadBalancersSpecPropertiesBackendAddressPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools(generators)
+	loadBalancers_Spec_Properties_BackendAddressPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools{}), generators)
 
-	return loadBalancersSpecPropertiesBackendAddressPoolsGenerator
+	return loadBalancers_Spec_Properties_BackendAddressPoolsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPools(gens map[string]gopter.Gen) {
-	gens["LoadBalancerBackendAddresses"] = gen.SliceOf(LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools(gens map[string]gopter.Gen) {
+	gens["LoadBalancerBackendAddresses"] = gen.SliceOf(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator())
 }
 
 func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1228,26 +1229,26 @@ func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenPropertiesC
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_FrontendIPConfigurations to LoadBalancers_Spec_Properties_FrontendIPConfigurations via AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations & AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations, LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_FrontendIPConfigurations to LoadBalancers_Spec_Properties_FrontendIPConfigurations via AssignProperties_To_LoadBalancers_Spec_Properties_FrontendIPConfigurations & AssignProperties_From_LoadBalancers_Spec_Properties_FrontendIPConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations, LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations tests if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurations can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurations(subject LoadBalancers_Spec_Properties_FrontendIPConfigurations) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations tests if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurations can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations(subject LoadBalancers_Spec_Properties_FrontendIPConfigurations) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_FrontendIPConfigurations
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_FrontendIPConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_FrontendIPConfigurations
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_FrontendIPConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1272,12 +1273,12 @@ func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenSerializedT
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_FrontendIPConfigurations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurations, LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations, LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurations runs a test to see if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurations round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurations(subject LoadBalancers_Spec_Properties_FrontendIPConfigurations) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations runs a test to see if a specific instance of LoadBalancers_Spec_Properties_FrontendIPConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_FrontendIPConfigurations(subject LoadBalancers_Spec_Properties_FrontendIPConfigurations) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1304,42 +1305,42 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurati
 }
 
 // Generator of LoadBalancers_Spec_Properties_FrontendIPConfigurations instances for property testing - lazily
-// instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator()
-var loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator gopter.Gen
+// instantiated by LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator()
+var loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator returns a generator of LoadBalancers_Spec_Properties_FrontendIPConfigurations instances for property testing.
-// We first initialize loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator returns a generator of LoadBalancers_Spec_Properties_FrontendIPConfigurations instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesFrontendIPConfigurationsGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator != nil {
-		return loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator
+func LoadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator != nil {
+		return loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(generators)
-	loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_FrontendIPConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations(generators)
+	loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_FrontendIPConfigurations{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(generators)
-	loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_FrontendIPConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations(generators)
+	loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_FrontendIPConfigurations{}), generators)
 
-	return loadBalancersSpecPropertiesFrontendIPConfigurationsGenerator
+	return loadBalancers_Spec_Properties_FrontendIPConfigurationsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv4, FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic, FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv4, FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic, FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static))
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigurations(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_FrontendIPConfigurations(gens map[string]gopter.Gen) {
 	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())
 	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
@@ -1351,26 +1352,26 @@ func Test_LoadBalancers_Spec_Properties_InboundNatPools_WhenPropertiesConverted_
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_InboundNatPools to LoadBalancers_Spec_Properties_InboundNatPools via AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools & AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools, LoadBalancersSpecPropertiesInboundNatPoolsGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_InboundNatPools to LoadBalancers_Spec_Properties_InboundNatPools via AssignProperties_To_LoadBalancers_Spec_Properties_InboundNatPools & AssignProperties_From_LoadBalancers_Spec_Properties_InboundNatPools returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_InboundNatPools, LoadBalancers_Spec_Properties_InboundNatPoolsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools tests if a specific instance of LoadBalancers_Spec_Properties_InboundNatPools can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools(subject LoadBalancers_Spec_Properties_InboundNatPools) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_InboundNatPools tests if a specific instance of LoadBalancers_Spec_Properties_InboundNatPools can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_InboundNatPools(subject LoadBalancers_Spec_Properties_InboundNatPools) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_InboundNatPools
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_InboundNatPools(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_InboundNatPools
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_InboundNatPools(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1395,12 +1396,12 @@ func Test_LoadBalancers_Spec_Properties_InboundNatPools_WhenSerializedToJson_Des
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_InboundNatPools via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPools, LoadBalancersSpecPropertiesInboundNatPoolsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_InboundNatPools, LoadBalancers_Spec_Properties_InboundNatPoolsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPools runs a test to see if a specific instance of LoadBalancers_Spec_Properties_InboundNatPools round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPools(subject LoadBalancers_Spec_Properties_InboundNatPools) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_InboundNatPools runs a test to see if a specific instance of LoadBalancers_Spec_Properties_InboundNatPools round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_InboundNatPools(subject LoadBalancers_Spec_Properties_InboundNatPools) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1427,33 +1428,33 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPools(subje
 }
 
 // Generator of LoadBalancers_Spec_Properties_InboundNatPools instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesInboundNatPoolsGenerator()
-var loadBalancersSpecPropertiesInboundNatPoolsGenerator gopter.Gen
+// LoadBalancers_Spec_Properties_InboundNatPoolsGenerator()
+var loadBalancers_Spec_Properties_InboundNatPoolsGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesInboundNatPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_InboundNatPools instances for property testing.
-// We first initialize loadBalancersSpecPropertiesInboundNatPoolsGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_InboundNatPoolsGenerator returns a generator of LoadBalancers_Spec_Properties_InboundNatPools instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_InboundNatPoolsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesInboundNatPoolsGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesInboundNatPoolsGenerator != nil {
-		return loadBalancersSpecPropertiesInboundNatPoolsGenerator
+func LoadBalancers_Spec_Properties_InboundNatPoolsGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_InboundNatPoolsGenerator != nil {
+		return loadBalancers_Spec_Properties_InboundNatPoolsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(generators)
-	loadBalancersSpecPropertiesInboundNatPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_InboundNatPools{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools(generators)
+	loadBalancers_Spec_Properties_InboundNatPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_InboundNatPools{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(generators)
-	loadBalancersSpecPropertiesInboundNatPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_InboundNatPools{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools(generators)
+	loadBalancers_Spec_Properties_InboundNatPoolsGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_InboundNatPools{}), generators)
 
-	return loadBalancersSpecPropertiesInboundNatPoolsGenerator
+	return loadBalancers_Spec_Properties_InboundNatPoolsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
@@ -1461,11 +1462,11 @@ func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoo
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(InboundNatPoolPropertiesFormatProtocol_All, InboundNatPoolPropertiesFormatProtocol_Tcp, InboundNatPoolPropertiesFormatProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(InboundNatPoolPropertiesFormat_Protocol_All, InboundNatPoolPropertiesFormat_Protocol_Tcp, InboundNatPoolPropertiesFormat_Protocol_Udp))
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPools(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_InboundNatPools(gens map[string]gopter.Gen) {
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
 }
 
@@ -1475,26 +1476,26 @@ func Test_LoadBalancers_Spec_Properties_LoadBalancingRules_WhenPropertiesConvert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_LoadBalancingRules to LoadBalancers_Spec_Properties_LoadBalancingRules via AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules & AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules, LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_LoadBalancingRules to LoadBalancers_Spec_Properties_LoadBalancingRules via AssignProperties_To_LoadBalancers_Spec_Properties_LoadBalancingRules & AssignProperties_From_LoadBalancers_Spec_Properties_LoadBalancingRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_LoadBalancingRules, LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules tests if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRules can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules(subject LoadBalancers_Spec_Properties_LoadBalancingRules) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_LoadBalancingRules tests if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRules can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_LoadBalancingRules(subject LoadBalancers_Spec_Properties_LoadBalancingRules) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_LoadBalancingRules
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_LoadBalancingRules(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_LoadBalancingRules
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_LoadBalancingRules(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1519,12 +1520,12 @@ func Test_LoadBalancers_Spec_Properties_LoadBalancingRules_WhenSerializedToJson_
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_LoadBalancingRules via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRules, LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_LoadBalancingRules, LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRules runs a test to see if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRules round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRules(subject LoadBalancers_Spec_Properties_LoadBalancingRules) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_LoadBalancingRules runs a test to see if a specific instance of LoadBalancers_Spec_Properties_LoadBalancingRules round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_LoadBalancingRules(subject LoadBalancers_Spec_Properties_LoadBalancingRules) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1551,46 +1552,46 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRules(su
 }
 
 // Generator of LoadBalancers_Spec_Properties_LoadBalancingRules instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesLoadBalancingRulesGenerator()
-var loadBalancersSpecPropertiesLoadBalancingRulesGenerator gopter.Gen
+// LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator()
+var loadBalancers_Spec_Properties_LoadBalancingRulesGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesLoadBalancingRulesGenerator returns a generator of LoadBalancers_Spec_Properties_LoadBalancingRules instances for property testing.
-// We first initialize loadBalancersSpecPropertiesLoadBalancingRulesGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator returns a generator of LoadBalancers_Spec_Properties_LoadBalancingRules instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_LoadBalancingRulesGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesLoadBalancingRulesGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesLoadBalancingRulesGenerator != nil {
-		return loadBalancersSpecPropertiesLoadBalancingRulesGenerator
+func LoadBalancers_Spec_Properties_LoadBalancingRulesGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_LoadBalancingRulesGenerator != nil {
+		return loadBalancers_Spec_Properties_LoadBalancingRulesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules(generators)
-	loadBalancersSpecPropertiesLoadBalancingRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_LoadBalancingRules{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules(generators)
+	loadBalancers_Spec_Properties_LoadBalancingRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_LoadBalancingRules{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules(generators)
-	loadBalancersSpecPropertiesLoadBalancingRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_LoadBalancingRules{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules(generators)
+	loadBalancers_Spec_Properties_LoadBalancingRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_LoadBalancingRules{}), generators)
 
-	return loadBalancersSpecPropertiesLoadBalancingRulesGenerator
+	return loadBalancers_Spec_Properties_LoadBalancingRulesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["DisableOutboundSnat"] = gen.PtrOf(gen.Bool())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatLoadDistribution_Default, LoadBalancingRulePropertiesFormatLoadDistribution_SourceIP, LoadBalancingRulePropertiesFormatLoadDistribution_SourceIPProtocol))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatProtocol_All, LoadBalancingRulePropertiesFormatProtocol_Tcp, LoadBalancingRulePropertiesFormatProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_Protocol_All, LoadBalancingRulePropertiesFormat_Protocol_Tcp, LoadBalancingRulePropertiesFormat_Protocol_Udp))
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRules(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_LoadBalancingRules(gens map[string]gopter.Gen) {
 	gens["BackendAddressPool"] = gen.PtrOf(SubResourceGenerator())
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
 	gens["Probe"] = gen.PtrOf(SubResourceGenerator())
@@ -1602,26 +1603,26 @@ func Test_LoadBalancers_Spec_Properties_OutboundRules_WhenPropertiesConverted_Ro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_OutboundRules to LoadBalancers_Spec_Properties_OutboundRules via AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules & AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules, LoadBalancersSpecPropertiesOutboundRulesGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_OutboundRules to LoadBalancers_Spec_Properties_OutboundRules via AssignProperties_To_LoadBalancers_Spec_Properties_OutboundRules & AssignProperties_From_LoadBalancers_Spec_Properties_OutboundRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_OutboundRules, LoadBalancers_Spec_Properties_OutboundRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules tests if a specific instance of LoadBalancers_Spec_Properties_OutboundRules can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules(subject LoadBalancers_Spec_Properties_OutboundRules) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_OutboundRules tests if a specific instance of LoadBalancers_Spec_Properties_OutboundRules can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_OutboundRules(subject LoadBalancers_Spec_Properties_OutboundRules) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_OutboundRules
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_OutboundRules(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_OutboundRules
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_OutboundRules(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1646,12 +1647,12 @@ func Test_LoadBalancers_Spec_Properties_OutboundRules_WhenSerializedToJson_Deser
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_OutboundRules via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRules, LoadBalancersSpecPropertiesOutboundRulesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_OutboundRules, LoadBalancers_Spec_Properties_OutboundRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRules runs a test to see if a specific instance of LoadBalancers_Spec_Properties_OutboundRules round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRules(subject LoadBalancers_Spec_Properties_OutboundRules) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_OutboundRules runs a test to see if a specific instance of LoadBalancers_Spec_Properties_OutboundRules round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_OutboundRules(subject LoadBalancers_Spec_Properties_OutboundRules) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1678,42 +1679,42 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRules(subject
 }
 
 // Generator of LoadBalancers_Spec_Properties_OutboundRules instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesOutboundRulesGenerator()
-var loadBalancersSpecPropertiesOutboundRulesGenerator gopter.Gen
+// LoadBalancers_Spec_Properties_OutboundRulesGenerator()
+var loadBalancers_Spec_Properties_OutboundRulesGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesOutboundRulesGenerator returns a generator of LoadBalancers_Spec_Properties_OutboundRules instances for property testing.
-// We first initialize loadBalancersSpecPropertiesOutboundRulesGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_OutboundRulesGenerator returns a generator of LoadBalancers_Spec_Properties_OutboundRules instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_OutboundRulesGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesOutboundRulesGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesOutboundRulesGenerator != nil {
-		return loadBalancersSpecPropertiesOutboundRulesGenerator
+func LoadBalancers_Spec_Properties_OutboundRulesGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_OutboundRulesGenerator != nil {
+		return loadBalancers_Spec_Properties_OutboundRulesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(generators)
-	loadBalancersSpecPropertiesOutboundRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_OutboundRules{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules(generators)
+	loadBalancers_Spec_Properties_OutboundRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_OutboundRules{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(generators)
-	loadBalancersSpecPropertiesOutboundRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_OutboundRules{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules(generators)
+	loadBalancers_Spec_Properties_OutboundRulesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_OutboundRules{}), generators)
 
-	return loadBalancersSpecPropertiesOutboundRulesGenerator
+	return loadBalancers_Spec_Properties_OutboundRulesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormatProtocol_All, OutboundRulePropertiesFormatProtocol_Tcp, OutboundRulePropertiesFormatProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_All, OutboundRulePropertiesFormat_Protocol_Tcp, OutboundRulePropertiesFormat_Protocol_Udp))
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRules(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_OutboundRules(gens map[string]gopter.Gen) {
 	gens["BackendAddressPool"] = gen.PtrOf(SubResourceGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceGenerator())
 }
@@ -1724,26 +1725,26 @@ func Test_LoadBalancers_Spec_Properties_Probes_WhenPropertiesConverted_RoundTrip
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_Probes to LoadBalancers_Spec_Properties_Probes via AssignPropertiesToLoadBalancersSpecPropertiesProbes & AssignPropertiesFromLoadBalancersSpecPropertiesProbes returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes, LoadBalancersSpecPropertiesProbesGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_Probes to LoadBalancers_Spec_Properties_Probes via AssignProperties_To_LoadBalancers_Spec_Properties_Probes & AssignProperties_From_LoadBalancers_Spec_Properties_Probes returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_Probes, LoadBalancers_Spec_Properties_ProbesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes tests if a specific instance of LoadBalancers_Spec_Properties_Probes can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes(subject LoadBalancers_Spec_Properties_Probes) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_Probes tests if a specific instance of LoadBalancers_Spec_Properties_Probes can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_Probes(subject LoadBalancers_Spec_Properties_Probes) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_Probes
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesProbes(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_Probes(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_Probes
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesProbes(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_Probes(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1768,12 +1769,12 @@ func Test_LoadBalancers_Spec_Properties_Probes_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_Probes via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesProbes, LoadBalancersSpecPropertiesProbesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_Probes, LoadBalancers_Spec_Properties_ProbesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesProbes runs a test to see if a specific instance of LoadBalancers_Spec_Properties_Probes round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbes(subject LoadBalancers_Spec_Properties_Probes) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_Probes runs a test to see if a specific instance of LoadBalancers_Spec_Properties_Probes round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_Probes(subject LoadBalancers_Spec_Properties_Probes) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1800,29 +1801,29 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbes(subject LoadBa
 }
 
 // Generator of LoadBalancers_Spec_Properties_Probes instances for property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesProbesGenerator()
-var loadBalancersSpecPropertiesProbesGenerator gopter.Gen
+// LoadBalancers_Spec_Properties_ProbesGenerator()
+var loadBalancers_Spec_Properties_ProbesGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesProbesGenerator returns a generator of LoadBalancers_Spec_Properties_Probes instances for property testing.
-func LoadBalancersSpecPropertiesProbesGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesProbesGenerator != nil {
-		return loadBalancersSpecPropertiesProbesGenerator
+// LoadBalancers_Spec_Properties_ProbesGenerator returns a generator of LoadBalancers_Spec_Properties_Probes instances for property testing.
+func LoadBalancers_Spec_Properties_ProbesGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_ProbesGenerator != nil {
+		return loadBalancers_Spec_Properties_ProbesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes(generators)
-	loadBalancersSpecPropertiesProbesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_Probes{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_Probes(generators)
+	loadBalancers_Spec_Properties_ProbesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_Probes{}), generators)
 
-	return loadBalancersSpecPropertiesProbesGenerator
+	return loadBalancers_Spec_Properties_ProbesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesProbes(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_Probes is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_Probes(gens map[string]gopter.Gen) {
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormatProtocol_Http, ProbePropertiesFormatProtocol_Https, ProbePropertiesFormatProtocol_Tcp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_Http, ProbePropertiesFormat_Protocol_Https, ProbePropertiesFormat_Protocol_Tcp))
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1832,7 +1833,7 @@ func Test_LoadBalancerSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancerSku to LoadBalancerSku via AssignPropertiesToLoadBalancerSku & AssignPropertiesFromLoadBalancerSku returns original",
+		"Round trip from LoadBalancerSku to LoadBalancerSku via AssignProperties_To_LoadBalancerSku & AssignProperties_From_LoadBalancerSku returns original",
 		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSku, LoadBalancerSkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1844,14 +1845,14 @@ func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancerSku
-	err := copied.AssignPropertiesToLoadBalancerSku(&other)
+	err := copied.AssignProperties_To_LoadBalancerSku(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancerSku
-	err = actual.AssignPropertiesFromLoadBalancerSku(&other)
+	err = actual.AssignProperties_From_LoadBalancerSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1925,8 +1926,8 @@ func LoadBalancerSkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancerSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuName_Basic, LoadBalancerSkuName_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuTier_Global, LoadBalancerSkuTier_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_Basic, LoadBalancerSku_Name_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_Global, LoadBalancerSku_Tier_Regional))
 }
 
 func Test_LoadBalancerSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1935,26 +1936,26 @@ func Test_LoadBalancerSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancerSku_STATUS to LoadBalancerSku_STATUS via AssignPropertiesToLoadBalancerSkuSTATUS & AssignPropertiesFromLoadBalancerSkuSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSkuSTATUS, LoadBalancerSkuSTATUSGenerator()))
+		"Round trip from LoadBalancerSku_STATUS to LoadBalancerSku_STATUS via AssignProperties_To_LoadBalancerSku_STATUS & AssignProperties_From_LoadBalancerSku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancerSku_STATUS, LoadBalancerSku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerSkuSTATUS tests if a specific instance of LoadBalancerSku_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancerSkuSTATUS(subject LoadBalancerSku_STATUS) string {
+// RunPropertyAssignmentTestForLoadBalancerSku_STATUS tests if a specific instance of LoadBalancerSku_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancerSku_STATUS(subject LoadBalancerSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancerSku_STATUS
-	err := copied.AssignPropertiesToLoadBalancerSkuSTATUS(&other)
+	err := copied.AssignProperties_To_LoadBalancerSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancerSku_STATUS
-	err = actual.AssignPropertiesFromLoadBalancerSkuSTATUS(&other)
+	err = actual.AssignProperties_From_LoadBalancerSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1979,12 +1980,12 @@ func Test_LoadBalancerSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerSku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancerSkuSTATUS, LoadBalancerSkuSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancerSku_STATUS, LoadBalancerSku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancerSkuSTATUS runs a test to see if a specific instance of LoadBalancerSku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancerSkuSTATUS(subject LoadBalancerSku_STATUS) string {
+// RunJSONSerializationTestForLoadBalancerSku_STATUS runs a test to see if a specific instance of LoadBalancerSku_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancerSku_STATUS(subject LoadBalancerSku_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2011,26 +2012,26 @@ func RunJSONSerializationTestForLoadBalancerSkuSTATUS(subject LoadBalancerSku_ST
 }
 
 // Generator of LoadBalancerSku_STATUS instances for property testing - lazily instantiated by
-// LoadBalancerSkuSTATUSGenerator()
-var loadBalancerSkuSTATUSGenerator gopter.Gen
+// LoadBalancerSku_STATUSGenerator()
+var loadBalancerSku_STATUSGenerator gopter.Gen
 
-// LoadBalancerSkuSTATUSGenerator returns a generator of LoadBalancerSku_STATUS instances for property testing.
-func LoadBalancerSkuSTATUSGenerator() gopter.Gen {
-	if loadBalancerSkuSTATUSGenerator != nil {
-		return loadBalancerSkuSTATUSGenerator
+// LoadBalancerSku_STATUSGenerator returns a generator of LoadBalancerSku_STATUS instances for property testing.
+func LoadBalancerSku_STATUSGenerator() gopter.Gen {
+	if loadBalancerSku_STATUSGenerator != nil {
+		return loadBalancerSku_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancerSkuSTATUS(generators)
-	loadBalancerSkuSTATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSku_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUS(generators)
+	loadBalancerSku_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancerSku_STATUS{}), generators)
 
-	return loadBalancerSkuSTATUSGenerator
+	return loadBalancerSku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancerSkuSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancerSkuSTATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuSTATUSName_Basic, LoadBalancerSkuSTATUSName_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSkuSTATUSTier_Global, LoadBalancerSkuSTATUSTier_Regional))
+// AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUS(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_STATUS_Name_Basic, LoadBalancerSku_STATUS_Name_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_STATUS_Tier_Global, LoadBalancerSku_STATUS_Tier_Regional))
 }
 
 func Test_LoadBalancingRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2039,26 +2040,26 @@ func Test_LoadBalancingRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancingRule_STATUS to LoadBalancingRule_STATUS via AssignPropertiesToLoadBalancingRuleSTATUS & AssignPropertiesFromLoadBalancingRuleSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingRuleSTATUS, LoadBalancingRuleSTATUSGenerator()))
+		"Round trip from LoadBalancingRule_STATUS to LoadBalancingRule_STATUS via AssignProperties_To_LoadBalancingRule_STATUS & AssignProperties_From_LoadBalancingRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingRule_STATUS, LoadBalancingRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancingRuleSTATUS tests if a specific instance of LoadBalancingRule_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancingRuleSTATUS(subject LoadBalancingRule_STATUS) string {
+// RunPropertyAssignmentTestForLoadBalancingRule_STATUS tests if a specific instance of LoadBalancingRule_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancingRule_STATUS(subject LoadBalancingRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancingRule_STATUS
-	err := copied.AssignPropertiesToLoadBalancingRuleSTATUS(&other)
+	err := copied.AssignProperties_To_LoadBalancingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancingRule_STATUS
-	err = actual.AssignPropertiesFromLoadBalancingRuleSTATUS(&other)
+	err = actual.AssignProperties_From_LoadBalancingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2083,12 +2084,12 @@ func Test_LoadBalancingRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingRuleSTATUS, LoadBalancingRuleSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancingRule_STATUS, LoadBalancingRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancingRuleSTATUS runs a test to see if a specific instance of LoadBalancingRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingRuleSTATUS(subject LoadBalancingRule_STATUS) string {
+// RunJSONSerializationTestForLoadBalancingRule_STATUS runs a test to see if a specific instance of LoadBalancingRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancingRule_STATUS(subject LoadBalancingRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2115,33 +2116,33 @@ func RunJSONSerializationTestForLoadBalancingRuleSTATUS(subject LoadBalancingRul
 }
 
 // Generator of LoadBalancingRule_STATUS instances for property testing - lazily instantiated by
-// LoadBalancingRuleSTATUSGenerator()
-var loadBalancingRuleSTATUSGenerator gopter.Gen
+// LoadBalancingRule_STATUSGenerator()
+var loadBalancingRule_STATUSGenerator gopter.Gen
 
-// LoadBalancingRuleSTATUSGenerator returns a generator of LoadBalancingRule_STATUS instances for property testing.
-// We first initialize loadBalancingRuleSTATUSGenerator with a simplified generator based on the
+// LoadBalancingRule_STATUSGenerator returns a generator of LoadBalancingRule_STATUS instances for property testing.
+// We first initialize loadBalancingRule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancingRuleSTATUSGenerator() gopter.Gen {
-	if loadBalancingRuleSTATUSGenerator != nil {
-		return loadBalancingRuleSTATUSGenerator
+func LoadBalancingRule_STATUSGenerator() gopter.Gen {
+	if loadBalancingRule_STATUSGenerator != nil {
+		return loadBalancingRule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS(generators)
-	loadBalancingRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRule_STATUS(generators)
+	loadBalancingRule_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancingRuleSTATUS(generators)
-	loadBalancingRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancingRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancingRule_STATUS(generators)
+	loadBalancingRule_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingRule_STATUS{}), generators)
 
-	return loadBalancingRuleSTATUSGenerator
+	return loadBalancingRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancingRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancingRule_STATUS(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["DisableOutboundSnat"] = gen.PtrOf(gen.Bool())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
@@ -2150,7 +2151,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS(gens map[string]
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormatSTATUSLoadDistribution_Default, LoadBalancingRulePropertiesFormatSTATUSLoadDistribution_SourceIP, LoadBalancingRulePropertiesFormatSTATUSLoadDistribution_SourceIPProtocol))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_Default, LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_SourceIP, LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_SourceIPProtocol))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
@@ -2161,11 +2162,11 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRuleSTATUS(gens map[string]
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancingRuleSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancingRuleSTATUS(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["Probe"] = gen.PtrOf(SubResourceSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForLoadBalancingRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancingRule_STATUS(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["Probe"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_OutboundRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2174,26 +2175,26 @@ func Test_OutboundRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from OutboundRule_STATUS to OutboundRule_STATUS via AssignPropertiesToOutboundRuleSTATUS & AssignPropertiesFromOutboundRuleSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOutboundRuleSTATUS, OutboundRuleSTATUSGenerator()))
+		"Round trip from OutboundRule_STATUS to OutboundRule_STATUS via AssignProperties_To_OutboundRule_STATUS & AssignProperties_From_OutboundRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForOutboundRule_STATUS, OutboundRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForOutboundRuleSTATUS tests if a specific instance of OutboundRule_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForOutboundRuleSTATUS(subject OutboundRule_STATUS) string {
+// RunPropertyAssignmentTestForOutboundRule_STATUS tests if a specific instance of OutboundRule_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForOutboundRule_STATUS(subject OutboundRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.OutboundRule_STATUS
-	err := copied.AssignPropertiesToOutboundRuleSTATUS(&other)
+	err := copied.AssignProperties_To_OutboundRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual OutboundRule_STATUS
-	err = actual.AssignPropertiesFromOutboundRuleSTATUS(&other)
+	err = actual.AssignProperties_From_OutboundRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2218,12 +2219,12 @@ func Test_OutboundRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOutboundRuleSTATUS, OutboundRuleSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForOutboundRule_STATUS, OutboundRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForOutboundRuleSTATUS runs a test to see if a specific instance of OutboundRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOutboundRuleSTATUS(subject OutboundRule_STATUS) string {
+// RunJSONSerializationTestForOutboundRule_STATUS runs a test to see if a specific instance of OutboundRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForOutboundRule_STATUS(subject OutboundRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2249,40 +2250,41 @@ func RunJSONSerializationTestForOutboundRuleSTATUS(subject OutboundRule_STATUS) 
 	return ""
 }
 
-// Generator of OutboundRule_STATUS instances for property testing - lazily instantiated by OutboundRuleSTATUSGenerator()
-var outboundRuleSTATUSGenerator gopter.Gen
+// Generator of OutboundRule_STATUS instances for property testing - lazily instantiated by
+// OutboundRule_STATUSGenerator()
+var outboundRule_STATUSGenerator gopter.Gen
 
-// OutboundRuleSTATUSGenerator returns a generator of OutboundRule_STATUS instances for property testing.
-// We first initialize outboundRuleSTATUSGenerator with a simplified generator based on the
+// OutboundRule_STATUSGenerator returns a generator of OutboundRule_STATUS instances for property testing.
+// We first initialize outboundRule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func OutboundRuleSTATUSGenerator() gopter.Gen {
-	if outboundRuleSTATUSGenerator != nil {
-		return outboundRuleSTATUSGenerator
+func OutboundRule_STATUSGenerator() gopter.Gen {
+	if outboundRule_STATUSGenerator != nil {
+		return outboundRule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRuleSTATUS(generators)
-	outboundRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(OutboundRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRule_STATUS(generators)
+	outboundRule_STATUSGenerator = gen.Struct(reflect.TypeOf(OutboundRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOutboundRuleSTATUS(generators)
-	AddRelatedPropertyGeneratorsForOutboundRuleSTATUS(generators)
-	outboundRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(OutboundRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForOutboundRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForOutboundRule_STATUS(generators)
+	outboundRule_STATUSGenerator = gen.Struct(reflect.TypeOf(OutboundRule_STATUS{}), generators)
 
-	return outboundRuleSTATUSGenerator
+	return outboundRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOutboundRuleSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOutboundRuleSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForOutboundRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOutboundRule_STATUS(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormatSTATUSProtocol_All, OutboundRulePropertiesFormatSTATUSProtocol_Tcp, OutboundRulePropertiesFormatSTATUSProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_STATUS_Protocol_All, OutboundRulePropertiesFormat_STATUS_Protocol_Tcp, OutboundRulePropertiesFormat_STATUS_Protocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,
 		ProvisioningState_STATUS_Failed,
@@ -2291,10 +2293,10 @@ func AddIndependentPropertyGeneratorsForOutboundRuleSTATUS(gens map[string]gopte
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForOutboundRuleSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOutboundRuleSTATUS(gens map[string]gopter.Gen) {
-	gens["BackendAddressPool"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResourceSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForOutboundRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOutboundRule_STATUS(gens map[string]gopter.Gen) {
+	gens["BackendAddressPool"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["FrontendIPConfigurations"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
 func Test_Probe_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2303,26 +2305,26 @@ func Test_Probe_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Probe_STATUS to Probe_STATUS via AssignPropertiesToProbeSTATUS & AssignPropertiesFromProbeSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProbeSTATUS, ProbeSTATUSGenerator()))
+		"Round trip from Probe_STATUS to Probe_STATUS via AssignProperties_To_Probe_STATUS & AssignProperties_From_Probe_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProbe_STATUS, Probe_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProbeSTATUS tests if a specific instance of Probe_STATUS can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForProbeSTATUS(subject Probe_STATUS) string {
+// RunPropertyAssignmentTestForProbe_STATUS tests if a specific instance of Probe_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForProbe_STATUS(subject Probe_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.Probe_STATUS
-	err := copied.AssignPropertiesToProbeSTATUS(&other)
+	err := copied.AssignProperties_To_Probe_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Probe_STATUS
-	err = actual.AssignPropertiesFromProbeSTATUS(&other)
+	err = actual.AssignProperties_From_Probe_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2347,12 +2349,12 @@ func Test_Probe_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Probe_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProbeSTATUS, ProbeSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForProbe_STATUS, Probe_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProbeSTATUS runs a test to see if a specific instance of Probe_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProbeSTATUS(subject Probe_STATUS) string {
+// RunJSONSerializationTestForProbe_STATUS runs a test to see if a specific instance of Probe_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProbe_STATUS(subject Probe_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2378,40 +2380,40 @@ func RunJSONSerializationTestForProbeSTATUS(subject Probe_STATUS) string {
 	return ""
 }
 
-// Generator of Probe_STATUS instances for property testing - lazily instantiated by ProbeSTATUSGenerator()
-var probeSTATUSGenerator gopter.Gen
+// Generator of Probe_STATUS instances for property testing - lazily instantiated by Probe_STATUSGenerator()
+var probe_STATUSGenerator gopter.Gen
 
-// ProbeSTATUSGenerator returns a generator of Probe_STATUS instances for property testing.
-// We first initialize probeSTATUSGenerator with a simplified generator based on the
+// Probe_STATUSGenerator returns a generator of Probe_STATUS instances for property testing.
+// We first initialize probe_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ProbeSTATUSGenerator() gopter.Gen {
-	if probeSTATUSGenerator != nil {
-		return probeSTATUSGenerator
+func Probe_STATUSGenerator() gopter.Gen {
+	if probe_STATUSGenerator != nil {
+		return probe_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProbeSTATUS(generators)
-	probeSTATUSGenerator = gen.Struct(reflect.TypeOf(Probe_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForProbe_STATUS(generators)
+	probe_STATUSGenerator = gen.Struct(reflect.TypeOf(Probe_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProbeSTATUS(generators)
-	AddRelatedPropertyGeneratorsForProbeSTATUS(generators)
-	probeSTATUSGenerator = gen.Struct(reflect.TypeOf(Probe_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForProbe_STATUS(generators)
+	AddRelatedPropertyGeneratorsForProbe_STATUS(generators)
+	probe_STATUSGenerator = gen.Struct(reflect.TypeOf(Probe_STATUS{}), generators)
 
-	return probeSTATUSGenerator
+	return probe_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProbeSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProbeSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProbe_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProbe_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormatSTATUSProtocol_Http, ProbePropertiesFormatSTATUSProtocol_Https, ProbePropertiesFormatSTATUSProtocol_Tcp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_STATUS_Protocol_Http, ProbePropertiesFormat_STATUS_Protocol_Https, ProbePropertiesFormat_STATUS_Protocol_Tcp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_STATUS_Deleting,
 		ProvisioningState_STATUS_Failed,
@@ -2421,9 +2423,9 @@ func AddIndependentPropertyGeneratorsForProbeSTATUS(gens map[string]gopter.Gen) 
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProbeSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProbeSTATUS(gens map[string]gopter.Gen) {
-	gens["LoadBalancingRules"] = gen.SliceOf(SubResourceSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForProbe_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProbe_STATUS(gens map[string]gopter.Gen) {
+	gens["LoadBalancingRules"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2432,26 +2434,26 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalan
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses to LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses via AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses & AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses, LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()))
+		"Round trip from LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses to LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses via AssignProperties_To_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses & AssignProperties_From_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) string {
+// RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses tests if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-	err := copied.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&other)
+	err := copied.AssignProperties_To_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-	err = actual.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&other)
+	err = actual.AssignProperties_From_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2476,12 +2478,12 @@ func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalan
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses, LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) string {
+// RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses runs a test to see if a specific instance of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(subject LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2509,39 +2511,39 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instances for
 // property testing - lazily instantiated by
-// LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator()
-var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator gopter.Gen
+// LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator()
+var loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator gopter.Gen
 
-// LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instances for property testing.
-// We first initialize loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator with a simplified generator based on the
+// LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instances for property testing.
+// We first initialize loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator() gopter.Gen {
-	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator != nil {
-		return loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator
+func LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator() gopter.Gen {
+	if loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator != nil {
+		return loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(generators)
-	loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(generators)
+	loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(generators)
-	AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(generators)
-	loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses{}), generators)
+	AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(generators)
+	AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(generators)
+	loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator = gen.Struct(reflect.TypeOf(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses{}), generators)
 
-	return loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesGenerator
+	return loadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(gens map[string]gopter.Gen) {
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses(gens map[string]gopter.Gen) {
 	gens["LoadBalancerFrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
 	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 	gens["VirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
@@ -2553,26 +2555,26 @@ func Test_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_WhenProperties
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded to PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded via AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded & AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded, PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		"Round trip from PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded to PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded via AssignProperties_To_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded & AssignProperties_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded, PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(subject PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(subject PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-	err := copied.AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err := copied.AssignProperties_To_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-	err = actual.AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2597,12 +2599,12 @@ func Test_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_WhenSerialized
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded, PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded, PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(subject PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunJSONSerializationTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(subject PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2629,41 +2631,41 @@ func RunJSONSerializationTestForPublicIPAddressSTATUSLoadBalancerSubResourceEmbe
 }
 
 // Generator of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator()
-var publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
+// instantiated by PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()
+var publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
-// PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
-// We first initialize publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator with a simplified generator based on the
+// PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+// We first initialize publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PublicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
-	if publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator != nil {
-		return publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator
+func PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(generators)
-	publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(generators)
-	publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
-	return publicIPAddressSTATUSLoadBalancerSubResourceEmbeddedGenerator
+	return publicIPAddress_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSGenerator())
-	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_STATUSGenerator())
 }
 
 func Test_Subnet_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2672,26 +2674,26 @@ func Test_Subnet_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Subnet_STATUS_LoadBalancer_SubResourceEmbedded to Subnet_STATUS_LoadBalancer_SubResourceEmbedded via AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded & AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubnetSTATUSLoadBalancerSubResourceEmbedded, SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		"Round trip from Subnet_STATUS_LoadBalancer_SubResourceEmbedded to Subnet_STATUS_LoadBalancer_SubResourceEmbedded via AssignProperties_To_Subnet_STATUS_LoadBalancer_SubResourceEmbedded & AssignProperties_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded, Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnetSTATUSLoadBalancerSubResourceEmbedded tests if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForSubnetSTATUSLoadBalancerSubResourceEmbedded(subject Subnet_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(subject Subnet_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-	err := copied.AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err := copied.AssignProperties_To_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded(&other)
+	err = actual.AssignProperties_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2716,12 +2718,12 @@ func Test_Subnet_STATUS_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_De
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_STATUS_LoadBalancer_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnetSTATUSLoadBalancerSubResourceEmbedded, SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded, Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubnetSTATUSLoadBalancerSubResourceEmbedded runs a test to see if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnetSTATUSLoadBalancerSubResourceEmbedded(subject Subnet_STATUS_LoadBalancer_SubResourceEmbedded) string {
+// RunJSONSerializationTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(subject Subnet_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2748,23 +2750,23 @@ func RunJSONSerializationTestForSubnetSTATUSLoadBalancerSubResourceEmbedded(subj
 }
 
 // Generator of Subnet_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing - lazily instantiated by
-// SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator()
-var subnetSTATUSLoadBalancerSubResourceEmbeddedGenerator gopter.Gen
+// Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator()
+var subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
-// SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator returns a generator of Subnet_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
-func SubnetSTATUSLoadBalancerSubResourceEmbeddedGenerator() gopter.Gen {
-	if subnetSTATUSLoadBalancerSubResourceEmbeddedGenerator != nil {
-		return subnetSTATUSLoadBalancerSubResourceEmbeddedGenerator
+// Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of Subnet_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+func Subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetSTATUSLoadBalancerSubResourceEmbedded(generators)
-	subnetSTATUSLoadBalancerSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
-	return subnetSTATUSLoadBalancerSubResourceEmbeddedGenerator
+	return subnet_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubnetSTATUSLoadBalancerSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnetSTATUSLoadBalancerSubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSubnet_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

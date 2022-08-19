@@ -20,36 +20,36 @@ type Server_STATUSARM struct {
 
 // Deprecated version of Identity_STATUS. Use v1beta20210501.Identity_STATUS instead
 type Identity_STATUSARM struct {
-	PrincipalId            *string             `json:"principalId,omitempty"`
-	TenantId               *string             `json:"tenantId,omitempty"`
-	Type                   *IdentitySTATUSType `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON  `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string               `json:"principalId,omitempty"`
+	TenantId               *string               `json:"tenantId,omitempty"`
+	Type                   *Identity_STATUS_Type `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON    `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ServerProperties_STATUS. Use v1beta20210501.ServerProperties_STATUS instead
 type ServerProperties_STATUSARM struct {
-	AdministratorLogin       *string                           `json:"administratorLogin,omitempty"`
-	AvailabilityZone         *string                           `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_STATUSARM                 `json:"backup,omitempty"`
-	CreateMode               *ServerPropertiesSTATUSCreateMode `json:"createMode,omitempty"`
-	DataEncryption           *DataEncryption_STATUSARM         `json:"dataEncryption,omitempty"`
-	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_STATUSARM       `json:"highAvailability,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_STATUSARM      `json:"maintenanceWindow,omitempty"`
-	Network                  *Network_STATUSARM                `json:"network,omitempty"`
-	ReplicaCapacity          *int                              `json:"replicaCapacity,omitempty"`
-	ReplicationRole          *ReplicationRole_STATUS           `json:"replicationRole,omitempty"`
-	RestorePointInTime       *string                           `json:"restorePointInTime,omitempty"`
-	SourceServerResourceId   *string                           `json:"sourceServerResourceId,omitempty"`
-	State                    *ServerPropertiesSTATUSState      `json:"state,omitempty"`
-	Storage                  *Storage_STATUSARM                `json:"storage,omitempty"`
-	Version                  *ServerVersion_STATUS             `json:"version,omitempty"`
+	AdministratorLogin       *string                             `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                             `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_STATUSARM                   `json:"backup,omitempty"`
+	CreateMode               *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
+	DataEncryption           *DataEncryption_STATUSARM           `json:"dataEncryption,omitempty"`
+	FullyQualifiedDomainName *string                             `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_STATUSARM         `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUSARM        `json:"maintenanceWindow,omitempty"`
+	Network                  *Network_STATUSARM                  `json:"network,omitempty"`
+	ReplicaCapacity          *int                                `json:"replicaCapacity,omitempty"`
+	ReplicationRole          *ReplicationRole_STATUS             `json:"replicationRole,omitempty"`
+	RestorePointInTime       *string                             `json:"restorePointInTime,omitempty"`
+	SourceServerResourceId   *string                             `json:"sourceServerResourceId,omitempty"`
+	State                    *ServerProperties_STATUS_State      `json:"state,omitempty"`
+	Storage                  *Storage_STATUSARM                  `json:"storage,omitempty"`
+	Version                  *ServerVersion_STATUS               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210501.Sku_STATUS instead
 type Sku_STATUSARM struct {
-	Name *string        `json:"name,omitempty"`
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+	Name *string          `json:"name,omitempty"`
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of Backup_STATUS. Use v1beta20210501.Backup_STATUS instead
@@ -61,24 +61,24 @@ type Backup_STATUSARM struct {
 
 // Deprecated version of DataEncryption_STATUS. Use v1beta20210501.DataEncryption_STATUS instead
 type DataEncryption_STATUSARM struct {
-	GeoBackupKeyUri                 *string                   `json:"geoBackupKeyUri,omitempty"`
-	GeoBackupUserAssignedIdentityId *string                   `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyUri                   *string                   `json:"primaryKeyUri,omitempty"`
-	PrimaryUserAssignedIdentityId   *string                   `json:"primaryUserAssignedIdentityId,omitempty"`
-	Type                            *DataEncryptionSTATUSType `json:"type,omitempty"`
+	GeoBackupKeyUri                 *string                     `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string                     `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	PrimaryKeyUri                   *string                     `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId   *string                     `json:"primaryUserAssignedIdentityId,omitempty"`
+	Type                            *DataEncryption_STATUS_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of HighAvailability_STATUS. Use v1beta20210501.HighAvailability_STATUS instead
 type HighAvailability_STATUSARM struct {
-	Mode                    *HighAvailabilitySTATUSMode  `json:"mode,omitempty"`
-	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailabilitySTATUSState `json:"state,omitempty"`
+	Mode                    *HighAvailability_STATUS_Mode  `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string                        `json:"standbyAvailabilityZone,omitempty"`
+	State                   *HighAvailability_STATUS_State `json:"state,omitempty"`
 }
 
-// Deprecated version of IdentitySTATUSType. Use v1beta20210501.IdentitySTATUSType instead
-type IdentitySTATUSType string
+// Deprecated version of Identity_STATUS_Type. Use v1beta20210501.Identity_STATUS_Type instead
+type Identity_STATUS_Type string
 
-const IdentitySTATUSType_UserAssigned = IdentitySTATUSType("UserAssigned")
+const Identity_STATUS_Type_UserAssigned = Identity_STATUS_Type("UserAssigned")
 
 // Deprecated version of MaintenanceWindow_STATUS. Use v1beta20210501.MaintenanceWindow_STATUS instead
 type MaintenanceWindow_STATUSARM struct {
@@ -95,13 +95,13 @@ type Network_STATUSARM struct {
 	PublicNetworkAccess       *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-// Deprecated version of SkuSTATUSTier. Use v1beta20210501.SkuSTATUSTier instead
-type SkuSTATUSTier string
+// Deprecated version of Sku_STATUS_Tier. Use v1beta20210501.Sku_STATUS_Tier instead
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Burstable       = SkuSTATUSTier("Burstable")
-	SkuSTATUSTier_GeneralPurpose  = SkuSTATUSTier("GeneralPurpose")
-	SkuSTATUSTier_MemoryOptimized = SkuSTATUSTier("MemoryOptimized")
+	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
+	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
+	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
 )
 
 // Deprecated version of Storage_STATUS. Use v1beta20210501.Storage_STATUS instead
