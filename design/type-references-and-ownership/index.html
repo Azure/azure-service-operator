@@ -673,7 +673,7 @@ Most types do not embed the dependent resource directly in the owning resource. 
 <h3 id="relatedlinked-resources-1">Related/Linked resources</h3>
 <h4 id="what-does-arm-do">What does ARM do?</h4>
 <p>These are just properties (often but not always called <code>id</code>) which refer to the fully qualified ARM ID of another resource. For example see a
-<a href="https://github.com/Azure/azure-quickstart-templates/blob/master/201-vmss-existing-vnet/azuredeploy.json#L136">sample deployment template for a VMSS refering to an existing vnet</a>.</p>
+<a href="https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.compute/vmss-existing-vnet/azuredeploy.json#L145">sample deployment template for a VMSS refering to an existing vnet</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
   <span style="color:#f92672">&#34;subnet&#34;</span>: {
     <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;[resourceId(parameters(&#39;existingVnetResourceGroupName&#39;), &#39;Microsoft.Network/virtualNetworks/subnets&#39;, parameters(&#39;existingVnetName&#39;), parameters(&#39;existingSubNetName&#39;))]&#34;</span>
