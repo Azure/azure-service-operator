@@ -13,7 +13,6 @@ type RoleAssignment_STATUSARM struct {
 
 // Deprecated version of RoleAssignmentProperties_STATUS. Use v1beta20200801preview.RoleAssignmentProperties_STATUS instead
 type RoleAssignmentProperties_STATUSARM struct {
-<<<<<<<< HEAD:v2/api/authorization/v1alpha1api20200801preview/role_assignment_statusarm_types_gen.go
 	Condition                          *string                                        `json:"condition,omitempty"`
 	ConditionVersion                   *string                                        `json:"conditionVersion,omitempty"`
 	CreatedBy                          *string                                        `json:"createdBy,omitempty"`
@@ -26,18 +25,4 @@ type RoleAssignmentProperties_STATUSARM struct {
 	Scope                              *string                                        `json:"scope,omitempty"`
 	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`
 	UpdatedOn                          *string                                        `json:"updatedOn,omitempty"`
-========
-	Condition                          *string                                      `json:"condition,omitempty"`
-	ConditionVersion                   *string                                      `json:"conditionVersion,omitempty"`
-	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
-	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
-	DelegatedManagedIdentityResourceId *string                                      `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string                                      `json:"description,omitempty"`
-	PrincipalId                        *string                                      `json:"principalId,omitempty"`
-	PrincipalType                      *RoleAssignmentPropertiesSTATUSPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId                   *string                                      `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                                      `json:"scope,omitempty"`
-	UpdatedBy                          *string                                      `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                                      `json:"updatedOn,omitempty"`
->>>>>>>> main:v2/api/authorization/v1alpha1api20200801preview/role_assignment_status_arm_types_gen.go
 }

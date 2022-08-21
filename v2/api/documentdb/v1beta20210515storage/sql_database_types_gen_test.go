@@ -74,19 +74,93 @@ func SqlDatabaseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSqlDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabase(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = DatabaseAccountsSqlDatabase_SpecGenerator()
 	gens["Status"] = DatabaseAccountsSqlDatabase_STATUSGenerator()
-=======
-	gens["Spec"] = DatabaseAccountsSqlDatabasesSpecGenerator()
-	gens["Status"] = SqlDatabaseGetResultsSTATUSGenerator()
->>>>>>> main
+}
+
+func Test_DatabaseAccountsSqlDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseAccountsSqlDatabase_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec, DatabaseAccountsSqlDatabase_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec runs a test to see if a specific instance of DatabaseAccountsSqlDatabase_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec(subject DatabaseAccountsSqlDatabase_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseAccountsSqlDatabase_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseAccountsSqlDatabase_Spec instances for property testing - lazily instantiated by
+// DatabaseAccountsSqlDatabase_SpecGenerator()
+var databaseAccountsSqlDatabase_SpecGenerator gopter.Gen
+
+// DatabaseAccountsSqlDatabase_SpecGenerator returns a generator of DatabaseAccountsSqlDatabase_Spec instances for property testing.
+// We first initialize databaseAccountsSqlDatabase_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DatabaseAccountsSqlDatabase_SpecGenerator() gopter.Gen {
+	if databaseAccountsSqlDatabase_SpecGenerator != nil {
+		return databaseAccountsSqlDatabase_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
+	databaseAccountsSqlDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabase_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
+	databaseAccountsSqlDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabase_Spec{}), generators)
+
+	return databaseAccountsSqlDatabase_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
+	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
 }
 
 func Test_DatabaseAccountsSqlDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -148,92 +222,8 @@ func DatabaseAccountsSqlDatabase_STATUSGenerator() gopter.Gen {
 	return databaseAccountsSqlDatabase_STATUSGenerator
 }
 
-<<<<<<< HEAD
 // AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_STATUS(gens map[string]gopter.Gen) {
-=======
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
-}
-
-func Test_SqlDatabaseGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SqlDatabaseGetResults_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS, SqlDatabaseGetResultsSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS runs a test to see if a specific instance of SqlDatabaseGetResults_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlDatabaseGetResultsSTATUS(subject SqlDatabaseGetResults_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SqlDatabaseGetResults_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SqlDatabaseGetResults_STATUS instances for property testing - lazily instantiated by
-// SqlDatabaseGetResultsSTATUSGenerator()
-var sqlDatabaseGetResultsSTATUSGenerator gopter.Gen
-
-// SqlDatabaseGetResultsSTATUSGenerator returns a generator of SqlDatabaseGetResults_STATUS instances for property testing.
-// We first initialize sqlDatabaseGetResultsSTATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SqlDatabaseGetResultsSTATUSGenerator() gopter.Gen {
-	if sqlDatabaseGetResultsSTATUSGenerator != nil {
-		return sqlDatabaseGetResultsSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
-	sqlDatabaseGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
-	AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(generators)
-	sqlDatabaseGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetResults_STATUS{}), generators)
-
-	return sqlDatabaseGetResultsSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -241,120 +231,16 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(gens map[str
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_STATUS(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(OptionsResource_STATUSGenerator())
 	gens["Resource"] = gen.PtrOf(SqlDatabaseGetProperties_Resource_STATUSGenerator())
 }
 
-func Test_DatabaseAccountsSqlDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-=======
-// AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsSTATUS(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(OptionsResourceSTATUSGenerator())
-	gens["Resource"] = gen.PtrOf(SqlDatabaseGetPropertiesSTATUSResourceGenerator())
-}
-
-func Test_SqlDatabaseGetProperties_STATUS_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
->>>>>>> main
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-<<<<<<< HEAD
-		"Round trip of DatabaseAccountsSqlDatabase_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec, DatabaseAccountsSqlDatabase_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec runs a test to see if a specific instance of DatabaseAccountsSqlDatabase_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabase_Spec(subject DatabaseAccountsSqlDatabase_Spec) string {
-=======
-		"Round trip of SqlDatabaseGetProperties_STATUS_Resource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource, SqlDatabaseGetPropertiesSTATUSResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource runs a test to see if a specific instance of SqlDatabaseGetProperties_STATUS_Resource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlDatabaseGetPropertiesSTATUSResource(subject SqlDatabaseGetProperties_STATUS_Resource) string {
->>>>>>> main
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-<<<<<<< HEAD
-	var actual DatabaseAccountsSqlDatabase_Spec
-=======
-	var actual SqlDatabaseGetProperties_STATUS_Resource
->>>>>>> main
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-<<<<<<< HEAD
-// Generator of DatabaseAccountsSqlDatabase_Spec instances for property testing - lazily instantiated by
-// DatabaseAccountsSqlDatabase_SpecGenerator()
-var databaseAccountsSqlDatabase_SpecGenerator gopter.Gen
-
-// DatabaseAccountsSqlDatabase_SpecGenerator returns a generator of DatabaseAccountsSqlDatabase_Spec instances for property testing.
-// We first initialize databaseAccountsSqlDatabase_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabase_SpecGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabase_SpecGenerator != nil {
-		return databaseAccountsSqlDatabase_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
-	databaseAccountsSqlDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabase_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(generators)
-	databaseAccountsSqlDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabase_Spec{}), generators)
-
-	return databaseAccountsSqlDatabase_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = gen.PtrOf(SqlDatabaseResourceGenerator())
-}
-
 func Test_SqlDatabaseGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -409,27 +295,6 @@ func SqlDatabaseGetProperties_Resource_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of SqlDatabaseGetProperties_STATUS_Resource instances for property testing - lazily instantiated by
-// SqlDatabaseGetPropertiesSTATUSResourceGenerator()
-var sqlDatabaseGetPropertiesSTATUSResourceGenerator gopter.Gen
-
-// SqlDatabaseGetPropertiesSTATUSResourceGenerator returns a generator of SqlDatabaseGetProperties_STATUS_Resource instances for property testing.
-func SqlDatabaseGetPropertiesSTATUSResourceGenerator() gopter.Gen {
-	if sqlDatabaseGetPropertiesSTATUSResourceGenerator != nil {
-		return sqlDatabaseGetPropertiesSTATUSResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource(generators)
-	sqlDatabaseGetPropertiesSTATUSResourceGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseGetProperties_STATUS_Resource{}), generators)
-
-	return sqlDatabaseGetPropertiesSTATUSResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesSTATUSResource(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Colls"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())

@@ -18,26 +18,57 @@ type Domain_STATUSARM struct {
 type DomainProperties_STATUSARM struct {
 	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_STATUSARM                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *DomainPropertiesSTATUSInputSchema                               `json:"inputSchema,omitempty"`
+	InputSchema                *DomainProperties_InputSchema_STATUS                             `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_STATUSARM                                    `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *DomainPropertiesSTATUSProvisioningState                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *DomainPropertiesSTATUSPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *DomainProperties_ProvisioningState_STATUS                       `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *DomainProperties_PublicNetworkAccess_STATUS                     `json:"publicNetworkAccess,omitempty"`
+}
+
+// Deprecated version of SystemData_STATUS. Use v1beta20200601.SystemData_STATUS instead
+type SystemData_STATUSARM struct {
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of InboundIpRule_STATUS. Use v1beta20200601.InboundIpRule_STATUS instead
 type InboundIpRule_STATUSARM struct {
-	Action *InboundIpRuleSTATUSAction `json:"action,omitempty"`
-	IpMask *string                    `json:"ipMask,omitempty"`
+	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
+	IpMask *string                      `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUSARM struct {
-	InputSchemaMappingType *InputSchemaMappingSTATUSInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
+
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1beta20200601.SystemData_CreatedByType_STATUS instead
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20200601.SystemData_LastModifiedByType_STATUS
+// instead
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+)

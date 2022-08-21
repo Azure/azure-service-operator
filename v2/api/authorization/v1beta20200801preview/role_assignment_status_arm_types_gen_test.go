@@ -25,12 +25,12 @@ func Test_RoleAssignment_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignment_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentSTATUSARM, RoleAssignmentSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRoleAssignment_STATUSARM, RoleAssignment_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentSTATUSARM runs a test to see if a specific instance of RoleAssignment_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentSTATUSARM(subject RoleAssignment_STATUSARM) string {
+// RunJSONSerializationTestForRoleAssignment_STATUSARM runs a test to see if a specific instance of RoleAssignment_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignment_STATUSARM(subject RoleAssignment_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,41 +57,41 @@ func RunJSONSerializationTestForRoleAssignmentSTATUSARM(subject RoleAssignment_S
 }
 
 // Generator of RoleAssignment_STATUSARM instances for property testing - lazily instantiated by
-// RoleAssignmentSTATUSARMGenerator()
-var roleAssignmentSTATUSARMGenerator gopter.Gen
+// RoleAssignment_STATUSARMGenerator()
+var roleAssignment_STATUSARMGenerator gopter.Gen
 
-// RoleAssignmentSTATUSARMGenerator returns a generator of RoleAssignment_STATUSARM instances for property testing.
-// We first initialize roleAssignmentSTATUSARMGenerator with a simplified generator based on the
+// RoleAssignment_STATUSARMGenerator returns a generator of RoleAssignment_STATUSARM instances for property testing.
+// We first initialize roleAssignment_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RoleAssignmentSTATUSARMGenerator() gopter.Gen {
-	if roleAssignmentSTATUSARMGenerator != nil {
-		return roleAssignmentSTATUSARMGenerator
+func RoleAssignment_STATUSARMGenerator() gopter.Gen {
+	if roleAssignment_STATUSARMGenerator != nil {
+		return roleAssignment_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentSTATUSARM(generators)
-	roleAssignmentSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
+	roleAssignment_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForRoleAssignmentSTATUSARM(generators)
-	roleAssignmentSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
+	roleAssignment_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
 
-	return roleAssignmentSTATUSARMGenerator
+	return roleAssignment_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignmentSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRoleAssignmentSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleAssignmentSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RoleAssignmentPropertiesSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(RoleAssignmentProperties_STATUSARMGenerator())
 }
 
 func Test_RoleAssignmentProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_RoleAssignmentProperties_STATUSARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignmentProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentPropertiesSTATUSARM, RoleAssignmentPropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRoleAssignmentProperties_STATUSARM, RoleAssignmentProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentPropertiesSTATUSARM runs a test to see if a specific instance of RoleAssignmentProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentPropertiesSTATUSARM(subject RoleAssignmentProperties_STATUSARM) string {
+// RunJSONSerializationTestForRoleAssignmentProperties_STATUSARM runs a test to see if a specific instance of RoleAssignmentProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignmentProperties_STATUSARM(subject RoleAssignmentProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,24 +134,24 @@ func RunJSONSerializationTestForRoleAssignmentPropertiesSTATUSARM(subject RoleAs
 }
 
 // Generator of RoleAssignmentProperties_STATUSARM instances for property testing - lazily instantiated by
-// RoleAssignmentPropertiesSTATUSARMGenerator()
-var roleAssignmentPropertiesSTATUSARMGenerator gopter.Gen
+// RoleAssignmentProperties_STATUSARMGenerator()
+var roleAssignmentProperties_STATUSARMGenerator gopter.Gen
 
-// RoleAssignmentPropertiesSTATUSARMGenerator returns a generator of RoleAssignmentProperties_STATUSARM instances for property testing.
-func RoleAssignmentPropertiesSTATUSARMGenerator() gopter.Gen {
-	if roleAssignmentPropertiesSTATUSARMGenerator != nil {
-		return roleAssignmentPropertiesSTATUSARMGenerator
+// RoleAssignmentProperties_STATUSARMGenerator returns a generator of RoleAssignmentProperties_STATUSARM instances for property testing.
+func RoleAssignmentProperties_STATUSARMGenerator() gopter.Gen {
+	if roleAssignmentProperties_STATUSARMGenerator != nil {
+		return roleAssignmentProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesSTATUSARM(generators)
-	roleAssignmentPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignmentProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignmentProperties_STATUSARM(generators)
+	roleAssignmentProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignmentProperties_STATUSARM{}), generators)
 
-	return roleAssignmentPropertiesSTATUSARMGenerator
+	return roleAssignmentProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoleAssignmentProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignmentProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
@@ -160,10 +160,10 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesSTATUSARM(gens m
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		RoleAssignmentPropertiesSTATUSPrincipalType_ForeignGroup,
-		RoleAssignmentPropertiesSTATUSPrincipalType_Group,
-		RoleAssignmentPropertiesSTATUSPrincipalType_ServicePrincipal,
-		RoleAssignmentPropertiesSTATUSPrincipalType_User))
+		RoleAssignmentProperties_PrincipalType_ForeignGroup_STATUS,
+		RoleAssignmentProperties_PrincipalType_Group_STATUS,
+		RoleAssignmentProperties_PrincipalType_ServicePrincipal_STATUS,
+		RoleAssignmentProperties_PrincipalType_User_STATUS))
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())

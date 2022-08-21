@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 | Type Definitions in package "eventhub"                        | v1alpha1api20211101 | v1beta20211101 |
 |---------------------------------------------------------------|---------------------|----------------|
 | APIVersion                                                    | v1alpha1api20211101 | v1beta20211101 |
@@ -67,67 +66,3 @@
 | UserAssignedIdentityProperties                                | v1alpha1api20211101 | v1beta20211101 |
 | UserAssignedIdentityProperties_STATUS                         | v1alpha1api20211101 | v1beta20211101 |
 | UserAssignedIdentity_STATUS                                   | v1alpha1api20211101 | v1beta20211101 |
-=======
-| Type Definitions in package "eventhub"                             | v1alpha1api20211101 | v1beta20211101 |
-|--------------------------------------------------------------------|---------------------|----------------|
-| APIVersion                                                         | v1alpha1api20211101 | v1beta20211101 |
-| AuthorizationRuleProperties                                        | v1alpha1api20211101 | v1beta20211101 |
-| AuthorizationRulePropertiesRights                                  | v1alpha1api20211101 | v1beta20211101 |
-| AuthorizationRuleSTATUSPropertiesRights                            | v1alpha1api20211101 | v1beta20211101 |
-| AuthorizationRule_STATUS                                           | v1alpha1api20211101 | v1beta20211101 |
-| AuthorizationRule_STATUS_Properties                                | v1alpha1api20211101 | v1beta20211101 |
-| CaptureDescriptionSTATUSEncoding                                   | v1alpha1api20211101 | v1beta20211101 |
-| CaptureDescription_STATUS                                          | v1alpha1api20211101 | v1beta20211101 |
-| ConsumerGroupProperties                                            | v1alpha1api20211101 | v1beta20211101 |
-| ConsumerGroup_STATUS                                               | v1alpha1api20211101 | v1beta20211101 |
-| ConsumerGroup_STATUS_Properties                                    | v1alpha1api20211101 | v1beta20211101 |
-| DestinationProperties                                              | v1alpha1api20211101 | v1beta20211101 |
-| Destination_STATUS                                                 | v1alpha1api20211101 | v1beta20211101 |
-| Destination_STATUS_Properties                                      | v1alpha1api20211101 | v1beta20211101 |
-| EHNamespace_STATUS                                                 | v1alpha1api20211101 | v1beta20211101 |
-| EHNamespace_STATUS_Properties                                      | v1alpha1api20211101 | v1beta20211101 |
-| Encryption                                                         | v1alpha1api20211101 | v1beta20211101 |
-| EncryptionKeySource                                                | v1alpha1api20211101 | v1beta20211101 |
-| EncryptionSTATUSKeySource                                          | v1alpha1api20211101 | v1beta20211101 |
-| Encryption_STATUS                                                  | v1alpha1api20211101 | v1beta20211101 |
-| EventhubSTATUSPropertiesStatus                                     | v1alpha1api20211101 | v1beta20211101 |
-| Eventhub_STATUS                                                    | v1alpha1api20211101 | v1beta20211101 |
-| Eventhub_STATUS_Properties                                         | v1alpha1api20211101 | v1beta20211101 |
-| Identity                                                           | v1alpha1api20211101 | v1beta20211101 |
-| IdentitySTATUSType                                                 | v1alpha1api20211101 | v1beta20211101 |
-| IdentityType                                                       | v1alpha1api20211101 | v1beta20211101 |
-| Identity_STATUS                                                    | v1alpha1api20211101 | v1beta20211101 |
-| KeyVaultProperties                                                 | v1alpha1api20211101 | v1beta20211101 |
-| KeyVaultProperties_STATUS                                          | v1alpha1api20211101 | v1beta20211101 |
-| Namespace                                                          | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesAuthorizationRule                                        | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesAuthorizationRules_Spec                                  | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhub                                                 | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsAuthorizationRule                               | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsAuthorizationRules_Spec                         | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsConsumerGroup                                   | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsConsumergroups_Spec                             | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding        | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubs_Spec                                           | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubs_Spec_Properties                                | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubs_Spec_Properties_CaptureDescription             | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination | v1alpha1api20211101 | v1beta20211101 |
-| Namespaces_Spec                                                    | v1alpha1api20211101 | v1beta20211101 |
-| Namespaces_Spec_Properties                                         | v1alpha1api20211101 | v1beta20211101 |
-| Namespaces_Spec_Properties_PrivateEndpointConnections              | v1alpha1api20211101 | v1beta20211101 |
-| PrivateEndpoint                                                    | v1alpha1api20211101 | v1beta20211101 |
-| PrivateEndpointConnectionProperties                                | v1alpha1api20211101 | v1beta20211101 |
-| PrivateEndpointConnection_STATUS_SubResourceEmbedded               | v1alpha1api20211101 | v1beta20211101 |
-| Sku                                                                | v1alpha1api20211101 | v1beta20211101 |
-| SkuName                                                            | v1alpha1api20211101 | v1beta20211101 |
-| SkuSTATUSName                                                      | v1alpha1api20211101 | v1beta20211101 |
-| SkuSTATUSTier                                                      | v1alpha1api20211101 | v1beta20211101 |
-| SkuTier                                                            | v1alpha1api20211101 | v1beta20211101 |
-| Sku_STATUS                                                         | v1alpha1api20211101 | v1beta20211101 |
-| SystemDataSTATUSCreatedByType                                      | v1alpha1api20211101 | v1beta20211101 |
-| SystemDataSTATUSLastModifiedByType                                 | v1alpha1api20211101 | v1beta20211101 |
-| SystemData_STATUS                                                  | v1alpha1api20211101 | v1beta20211101 |
-| UserAssignedIdentityProperties                                     | v1alpha1api20211101 | v1beta20211101 |
-| UserAssignedIdentityProperties_STATUS                              | v1alpha1api20211101 | v1beta20211101 |
-| UserAssignedIdentity_STATUS                                        | v1alpha1api20211101 | v1beta20211101 |
->>>>>>> main

@@ -54,11 +54,7 @@ type SnapshotProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/snapshot_statusarm_types_gen.go
 	HyperVGeneration *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-========
-	HyperVGeneration *SnapshotPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/snapshot_status_arm_types_gen.go
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
@@ -66,11 +62,7 @@ type SnapshotProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/snapshot_statusarm_types_gen.go
 	OsType *SnapshotProperties_OsType_STATUS `json:"osType,omitempty"`
-========
-	OsType *SnapshotPropertiesSTATUSOsType `json:"osType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/snapshot_status_arm_types_gen.go
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -87,29 +79,16 @@ type SnapshotProperties_STATUSARM struct {
 
 type SnapshotSku_STATUSARM struct {
 	// Name: The sku name.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/snapshot_statusarm_types_gen.go
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
-========
-	Name *SnapshotSkuSTATUSName `json:"name,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/snapshot_status_arm_types_gen.go
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/snapshot_statusarm_types_gen.go
 type SnapshotSku_Name_STATUS string
 
 const (
 	SnapshotSku_Name_Premium_LRS_STATUS  = SnapshotSku_Name_STATUS("Premium_LRS")
 	SnapshotSku_Name_Standard_LRS_STATUS = SnapshotSku_Name_STATUS("Standard_LRS")
 	SnapshotSku_Name_Standard_ZRS_STATUS = SnapshotSku_Name_STATUS("Standard_ZRS")
-========
-type SnapshotSkuSTATUSName string
-
-const (
-	SnapshotSkuSTATUSName_PremiumLRS  = SnapshotSkuSTATUSName("Premium_LRS")
-	SnapshotSkuSTATUSName_StandardLRS = SnapshotSkuSTATUSName("Standard_LRS")
-	SnapshotSkuSTATUSName_StandardZRS = SnapshotSkuSTATUSName("Standard_ZRS")
->>>>>>>> main:v2/api/compute/v1beta20200930/snapshot_status_arm_types_gen.go
 )

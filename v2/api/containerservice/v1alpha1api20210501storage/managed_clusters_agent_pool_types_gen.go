@@ -25,13 +25,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
 	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
-=======
-	Spec              ManagedClustersAgentPools_Spec `json:"spec,omitempty"`
-	Status            AgentPool_STATUS               `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -102,11 +97,7 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &ManagedClustersAgentPool_STATUS{}
-=======
-	return &AgentPool_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -122,21 +113,13 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
-=======
-	if st, ok := status.(*AgentPool_STATUS); ok {
->>>>>>> main
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st ManagedClustersAgentPool_STATUS
-=======
-	var st AgentPool_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -161,17 +144,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPo
 	pool.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status ManagedClustersAgentPool_STATUS
 	err = status.AssignPropertiesFromManagedClustersAgentPool_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromManagedClustersAgentPool_STATUS() to populate field Status")
-=======
-	var status AgentPool_STATUS
-	err = status.AssignPropertiesFromAgentPoolSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolSTATUS() to populate field Status")
->>>>>>> main
 	}
 	pool.Status = status
 
@@ -194,17 +170,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status v20210501s.ManagedClustersAgentPool_STATUS
 	err = pool.Status.AssignPropertiesToManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPool_STATUS() to populate field Status")
-=======
-	var status v20210501s.AgentPool_STATUS
-	err = pool.Status.AssignPropertiesToAgentPoolSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAgentPoolSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -228,603 +197,6 @@ type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
-}
-
-<<<<<<< HEAD
-// Storage version of v1alpha1api20210501.ManagedClustersAgentPool_STATUS
-// Deprecated version of ManagedClustersAgentPool_STATUS. Use v1beta20210501.ManagedClustersAgentPool_STATUS instead
-type ManagedClustersAgentPool_STATUS struct {
-=======
-// Storage version of v1alpha1api20210501.AgentPool_STATUS
-// Deprecated version of AgentPool_STATUS. Use v1beta20210501.AgentPool_STATUS instead
-type AgentPool_STATUS struct {
->>>>>>> main
-	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
-	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
-	Count                     *int                             `json:"count,omitempty"`
-	EnableAutoScaling         *bool                            `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost    *bool                            `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS                *bool                            `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP        *bool                            `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD            *bool                            `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *string                          `json:"gpuInstanceProfile,omitempty"`
-	Id                        *string                          `json:"id,omitempty"`
-	KubeletConfig             *KubeletConfig_STATUS            `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *string                          `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig             *LinuxOSConfig_STATUS            `json:"linuxOSConfig,omitempty"`
-	MaxCount                  *int                             `json:"maxCount,omitempty"`
-	MaxPods                   *int                             `json:"maxPods,omitempty"`
-	MinCount                  *int                             `json:"minCount,omitempty"`
-	Mode                      *string                          `json:"mode,omitempty"`
-	Name                      *string                          `json:"name,omitempty"`
-	NodeImageVersion          *string                          `json:"nodeImageVersion,omitempty"`
-	NodeLabels                map[string]string                `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixID      *string                          `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
-	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *string                          `json:"osDiskType,omitempty"`
-	OsSKU                     *string                          `json:"osSKU,omitempty"`
-	OsType                    *string                          `json:"osType,omitempty"`
-	PodSubnetID               *string                          `json:"podSubnetID,omitempty"`
-	PowerState                *PowerState_STATUS               `json:"powerState,omitempty"`
-	PropertiesType            *string                          `json:"properties_type,omitempty"`
-	PropertyBag               genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                          `json:"provisioningState,omitempty"`
-	ProximityPlacementGroupID *string                          `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *string                          `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *string                          `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                         `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                `json:"tags,omitempty"`
-	Type                      *string                          `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings_STATUS `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                          `json:"vmSize,omitempty"`
-	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
-
-// ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
-func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.ManagedClustersAgentPool_STATUS)
-	if ok {
-		// Populate our instance from source
-		return pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210501s.ManagedClustersAgentPool_STATUS{}
-=======
-var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
-
-// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
-func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.AgentPool_STATUS)
-	if ok {
-		// Populate our instance from source
-		return pool.AssignPropertiesFromAgentPoolSTATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210501s.AgentPool_STATUS{}
->>>>>>> main
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
-=======
-	err = pool.AssignPropertiesFromAgentPoolSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
-func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.ManagedClustersAgentPool_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.ManagedClustersAgentPool_STATUS{}
-	err := pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
-=======
-// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.AgentPool_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return pool.AssignPropertiesToAgentPoolSTATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.AgentPool_STATUS{}
-	err := pool.AssignPropertiesToAgentPoolSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
-func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClustersAgentPool_STATUS(source *v20210501s.ManagedClustersAgentPool_STATUS) error {
-=======
-// AssignPropertiesFromAgentPoolSTATUS populates our AgentPool_STATUS from the provided source AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPoolSTATUS(source *v20210501s.AgentPool_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AvailabilityZones
-	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
-
-	// Conditions
-	pool.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Count
-	pool.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// EnableAutoScaling
-	if source.EnableAutoScaling != nil {
-		enableAutoScaling := *source.EnableAutoScaling
-		pool.EnableAutoScaling = &enableAutoScaling
-	} else {
-		pool.EnableAutoScaling = nil
-	}
-
-	// EnableEncryptionAtHost
-	if source.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *source.EnableEncryptionAtHost
-		pool.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		pool.EnableEncryptionAtHost = nil
-	}
-
-	// EnableFIPS
-	if source.EnableFIPS != nil {
-		enableFIPS := *source.EnableFIPS
-		pool.EnableFIPS = &enableFIPS
-	} else {
-		pool.EnableFIPS = nil
-	}
-
-	// EnableNodePublicIP
-	if source.EnableNodePublicIP != nil {
-		enableNodePublicIP := *source.EnableNodePublicIP
-		pool.EnableNodePublicIP = &enableNodePublicIP
-	} else {
-		pool.EnableNodePublicIP = nil
-	}
-
-	// EnableUltraSSD
-	if source.EnableUltraSSD != nil {
-		enableUltraSSD := *source.EnableUltraSSD
-		pool.EnableUltraSSD = &enableUltraSSD
-	} else {
-		pool.EnableUltraSSD = nil
-	}
-
-	// GpuInstanceProfile
-	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
-
-	// Id
-	pool.Id = genruntime.ClonePointerToString(source.Id)
-
-	// KubeletConfig
-	if source.KubeletConfig != nil {
-		var kubeletConfig KubeletConfig_STATUS
-<<<<<<< HEAD
-		err := kubeletConfig.AssignPropertiesFromKubeletConfig_STATUS(source.KubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfig_STATUS() to populate field KubeletConfig")
-=======
-		err := kubeletConfig.AssignPropertiesFromKubeletConfigSTATUS(source.KubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfigSTATUS() to populate field KubeletConfig")
->>>>>>> main
-		}
-		pool.KubeletConfig = &kubeletConfig
-	} else {
-		pool.KubeletConfig = nil
-	}
-
-	// KubeletDiskType
-	pool.KubeletDiskType = genruntime.ClonePointerToString(source.KubeletDiskType)
-
-	// LinuxOSConfig
-	if source.LinuxOSConfig != nil {
-		var linuxOSConfig LinuxOSConfig_STATUS
-<<<<<<< HEAD
-		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfig_STATUS(source.LinuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
-=======
-		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfigSTATUS(source.LinuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfigSTATUS() to populate field LinuxOSConfig")
->>>>>>> main
-		}
-		pool.LinuxOSConfig = &linuxOSConfig
-	} else {
-		pool.LinuxOSConfig = nil
-	}
-
-	// MaxCount
-	pool.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
-
-	// MaxPods
-	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
-
-	// MinCount
-	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
-
-	// Mode
-	pool.Mode = genruntime.ClonePointerToString(source.Mode)
-
-	// Name
-	pool.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NodeImageVersion
-	pool.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
-
-	// NodeLabels
-	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
-
-	// NodePublicIPPrefixID
-	pool.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
-
-	// NodeTaints
-	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
-
-	// OrchestratorVersion
-	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
-
-	// OsDiskSizeGB
-	pool.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
-
-	// OsDiskType
-	pool.OsDiskType = genruntime.ClonePointerToString(source.OsDiskType)
-
-	// OsSKU
-	pool.OsSKU = genruntime.ClonePointerToString(source.OsSKU)
-
-	// OsType
-	pool.OsType = genruntime.ClonePointerToString(source.OsType)
-
-	// PodSubnetID
-	pool.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
-
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState_STATUS
-<<<<<<< HEAD
-		err := powerState.AssignPropertiesFromPowerState_STATUS(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerState_STATUS() to populate field PowerState")
-=======
-		err := powerState.AssignPropertiesFromPowerStateSTATUS(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerStateSTATUS() to populate field PowerState")
->>>>>>> main
-		}
-		pool.PowerState = &powerState
-	} else {
-		pool.PowerState = nil
-	}
-
-	// PropertiesType
-	pool.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// ProvisioningState
-	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ProximityPlacementGroupID
-	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
-
-	// ScaleSetEvictionPolicy
-	pool.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(source.ScaleSetEvictionPolicy)
-
-	// ScaleSetPriority
-	pool.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
-
-	// SpotMaxPrice
-	if source.SpotMaxPrice != nil {
-		spotMaxPrice := *source.SpotMaxPrice
-		pool.SpotMaxPrice = &spotMaxPrice
-	} else {
-		pool.SpotMaxPrice = nil
-	}
-
-	// Tags
-	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	pool.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpgradeSettings
-	if source.UpgradeSettings != nil {
-		var upgradeSetting AgentPoolUpgradeSettings_STATUS
-<<<<<<< HEAD
-		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettings_STATUS(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
-=======
-		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS() to populate field UpgradeSettings")
->>>>>>> main
-		}
-		pool.UpgradeSettings = &upgradeSetting
-	} else {
-		pool.UpgradeSettings = nil
-	}
-
-	// VmSize
-	pool.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// VnetSubnetID
-	pool.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		pool.PropertyBag = propertyBag
-	} else {
-		pool.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
-func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAgentPool_STATUS(destination *v20210501s.ManagedClustersAgentPool_STATUS) error {
-=======
-// AssignPropertiesToAgentPoolSTATUS populates the provided destination AgentPool_STATUS from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesToAgentPoolSTATUS(destination *v20210501s.AgentPool_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
-
-	// AvailabilityZones
-	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(pool.Conditions)
-
-	// Count
-	destination.Count = genruntime.ClonePointerToInt(pool.Count)
-
-	// EnableAutoScaling
-	if pool.EnableAutoScaling != nil {
-		enableAutoScaling := *pool.EnableAutoScaling
-		destination.EnableAutoScaling = &enableAutoScaling
-	} else {
-		destination.EnableAutoScaling = nil
-	}
-
-	// EnableEncryptionAtHost
-	if pool.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
-		destination.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		destination.EnableEncryptionAtHost = nil
-	}
-
-	// EnableFIPS
-	if pool.EnableFIPS != nil {
-		enableFIPS := *pool.EnableFIPS
-		destination.EnableFIPS = &enableFIPS
-	} else {
-		destination.EnableFIPS = nil
-	}
-
-	// EnableNodePublicIP
-	if pool.EnableNodePublicIP != nil {
-		enableNodePublicIP := *pool.EnableNodePublicIP
-		destination.EnableNodePublicIP = &enableNodePublicIP
-	} else {
-		destination.EnableNodePublicIP = nil
-	}
-
-	// EnableUltraSSD
-	if pool.EnableUltraSSD != nil {
-		enableUltraSSD := *pool.EnableUltraSSD
-		destination.EnableUltraSSD = &enableUltraSSD
-	} else {
-		destination.EnableUltraSSD = nil
-	}
-
-	// GpuInstanceProfile
-	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(pool.Id)
-
-	// KubeletConfig
-	if pool.KubeletConfig != nil {
-		var kubeletConfig v20210501s.KubeletConfig_STATUS
-<<<<<<< HEAD
-		err := pool.KubeletConfig.AssignPropertiesToKubeletConfig_STATUS(&kubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig_STATUS() to populate field KubeletConfig")
-=======
-		err := pool.KubeletConfig.AssignPropertiesToKubeletConfigSTATUS(&kubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfigSTATUS() to populate field KubeletConfig")
->>>>>>> main
-		}
-		destination.KubeletConfig = &kubeletConfig
-	} else {
-		destination.KubeletConfig = nil
-	}
-
-	// KubeletDiskType
-	destination.KubeletDiskType = genruntime.ClonePointerToString(pool.KubeletDiskType)
-
-	// LinuxOSConfig
-	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v20210501s.LinuxOSConfig_STATUS
-<<<<<<< HEAD
-		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfig_STATUS(&linuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
-=======
-		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfigSTATUS(&linuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfigSTATUS() to populate field LinuxOSConfig")
->>>>>>> main
-		}
-		destination.LinuxOSConfig = &linuxOSConfig
-	} else {
-		destination.LinuxOSConfig = nil
-	}
-
-	// MaxCount
-	destination.MaxCount = genruntime.ClonePointerToInt(pool.MaxCount)
-
-	// MaxPods
-	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
-
-	// MinCount
-	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
-
-	// Mode
-	destination.Mode = genruntime.ClonePointerToString(pool.Mode)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(pool.Name)
-
-	// NodeImageVersion
-	destination.NodeImageVersion = genruntime.ClonePointerToString(pool.NodeImageVersion)
-
-	// NodeLabels
-	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
-
-	// NodePublicIPPrefixID
-	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(pool.NodePublicIPPrefixID)
-
-	// NodeTaints
-	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
-
-	// OrchestratorVersion
-	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
-
-	// OsDiskSizeGB
-	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(pool.OsDiskSizeGB)
-
-	// OsDiskType
-	destination.OsDiskType = genruntime.ClonePointerToString(pool.OsDiskType)
-
-	// OsSKU
-	destination.OsSKU = genruntime.ClonePointerToString(pool.OsSKU)
-
-	// OsType
-	destination.OsType = genruntime.ClonePointerToString(pool.OsType)
-
-	// PodSubnetID
-	destination.PodSubnetID = genruntime.ClonePointerToString(pool.PodSubnetID)
-
-	// PowerState
-	if pool.PowerState != nil {
-		var powerState v20210501s.PowerState_STATUS
-<<<<<<< HEAD
-		err := pool.PowerState.AssignPropertiesToPowerState_STATUS(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerState_STATUS() to populate field PowerState")
-=======
-		err := pool.PowerState.AssignPropertiesToPowerStateSTATUS(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerStateSTATUS() to populate field PowerState")
->>>>>>> main
-		}
-		destination.PowerState = &powerState
-	} else {
-		destination.PowerState = nil
-	}
-
-	// PropertiesType
-	destination.PropertiesType = genruntime.ClonePointerToString(pool.PropertiesType)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
-
-	// ProximityPlacementGroupID
-	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
-
-	// ScaleSetEvictionPolicy
-	destination.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(pool.ScaleSetEvictionPolicy)
-
-	// ScaleSetPriority
-	destination.ScaleSetPriority = genruntime.ClonePointerToString(pool.ScaleSetPriority)
-
-	// SpotMaxPrice
-	if pool.SpotMaxPrice != nil {
-		spotMaxPrice := *pool.SpotMaxPrice
-		destination.SpotMaxPrice = &spotMaxPrice
-	} else {
-		destination.SpotMaxPrice = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(pool.Type)
-
-	// UpgradeSettings
-	if pool.UpgradeSettings != nil {
-		var upgradeSetting v20210501s.AgentPoolUpgradeSettings_STATUS
-<<<<<<< HEAD
-		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings_STATUS(&upgradeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
-=======
-		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettingsSTATUS(&upgradeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettingsSTATUS() to populate field UpgradeSettings")
->>>>>>> main
-		}
-		destination.UpgradeSettings = &upgradeSetting
-	} else {
-		destination.UpgradeSettings = nil
-	}
-
-	// VmSize
-	destination.VmSize = genruntime.ClonePointerToString(pool.VmSize)
-
-	// VnetSubnetID
-	destination.VnetSubnetID = genruntime.ClonePointerToString(pool.VnetSubnetID)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
 }
 
 // Storage version of v1alpha1api20210501.ManagedClustersAgentPool_Spec
@@ -1328,6 +700,506 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	return nil
 }
 
+// Storage version of v1alpha1api20210501.ManagedClustersAgentPool_STATUS
+// Deprecated version of ManagedClustersAgentPool_STATUS. Use v1beta20210501.ManagedClustersAgentPool_STATUS instead
+type ManagedClustersAgentPool_STATUS struct {
+	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
+	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
+	Count                     *int                             `json:"count,omitempty"`
+	EnableAutoScaling         *bool                            `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost    *bool                            `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                *bool                            `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP        *bool                            `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD            *bool                            `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile        *string                          `json:"gpuInstanceProfile,omitempty"`
+	Id                        *string                          `json:"id,omitempty"`
+	KubeletConfig             *KubeletConfig_STATUS            `json:"kubeletConfig,omitempty"`
+	KubeletDiskType           *string                          `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig_STATUS            `json:"linuxOSConfig,omitempty"`
+	MaxCount                  *int                             `json:"maxCount,omitempty"`
+	MaxPods                   *int                             `json:"maxPods,omitempty"`
+	MinCount                  *int                             `json:"minCount,omitempty"`
+	Mode                      *string                          `json:"mode,omitempty"`
+	Name                      *string                          `json:"name,omitempty"`
+	NodeImageVersion          *string                          `json:"nodeImageVersion,omitempty"`
+	NodeLabels                map[string]string                `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixID      *string                          `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
+	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                *string                          `json:"osDiskType,omitempty"`
+	OsSKU                     *string                          `json:"osSKU,omitempty"`
+	OsType                    *string                          `json:"osType,omitempty"`
+	PodSubnetID               *string                          `json:"podSubnetID,omitempty"`
+	PowerState                *PowerState_STATUS               `json:"powerState,omitempty"`
+	PropertiesType            *string                          `json:"properties_type,omitempty"`
+	PropertyBag               genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	ProvisioningState         *string                          `json:"provisioningState,omitempty"`
+	ProximityPlacementGroupID *string                          `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *string                          `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                          `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                         `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string                `json:"tags,omitempty"`
+	Type                      *string                          `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings_STATUS `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                          `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
+
+// ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.ManagedClustersAgentPool_STATUS)
+	if ok {
+		// Populate our instance from source
+		return pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210501s.ManagedClustersAgentPool_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.ManagedClustersAgentPool_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210501s.ManagedClustersAgentPool_STATUS{}
+	err := pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClustersAgentPool_STATUS(source *v20210501s.ManagedClustersAgentPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AvailabilityZones
+	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
+
+	// Conditions
+	pool.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Count
+	pool.Count = genruntime.ClonePointerToInt(source.Count)
+
+	// EnableAutoScaling
+	if source.EnableAutoScaling != nil {
+		enableAutoScaling := *source.EnableAutoScaling
+		pool.EnableAutoScaling = &enableAutoScaling
+	} else {
+		pool.EnableAutoScaling = nil
+	}
+
+	// EnableEncryptionAtHost
+	if source.EnableEncryptionAtHost != nil {
+		enableEncryptionAtHost := *source.EnableEncryptionAtHost
+		pool.EnableEncryptionAtHost = &enableEncryptionAtHost
+	} else {
+		pool.EnableEncryptionAtHost = nil
+	}
+
+	// EnableFIPS
+	if source.EnableFIPS != nil {
+		enableFIPS := *source.EnableFIPS
+		pool.EnableFIPS = &enableFIPS
+	} else {
+		pool.EnableFIPS = nil
+	}
+
+	// EnableNodePublicIP
+	if source.EnableNodePublicIP != nil {
+		enableNodePublicIP := *source.EnableNodePublicIP
+		pool.EnableNodePublicIP = &enableNodePublicIP
+	} else {
+		pool.EnableNodePublicIP = nil
+	}
+
+	// EnableUltraSSD
+	if source.EnableUltraSSD != nil {
+		enableUltraSSD := *source.EnableUltraSSD
+		pool.EnableUltraSSD = &enableUltraSSD
+	} else {
+		pool.EnableUltraSSD = nil
+	}
+
+	// GpuInstanceProfile
+	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
+
+	// Id
+	pool.Id = genruntime.ClonePointerToString(source.Id)
+
+	// KubeletConfig
+	if source.KubeletConfig != nil {
+		var kubeletConfig KubeletConfig_STATUS
+		err := kubeletConfig.AssignPropertiesFromKubeletConfig_STATUS(source.KubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfig_STATUS() to populate field KubeletConfig")
+		}
+		pool.KubeletConfig = &kubeletConfig
+	} else {
+		pool.KubeletConfig = nil
+	}
+
+	// KubeletDiskType
+	pool.KubeletDiskType = genruntime.ClonePointerToString(source.KubeletDiskType)
+
+	// LinuxOSConfig
+	if source.LinuxOSConfig != nil {
+		var linuxOSConfig LinuxOSConfig_STATUS
+		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfig_STATUS(source.LinuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+		}
+		pool.LinuxOSConfig = &linuxOSConfig
+	} else {
+		pool.LinuxOSConfig = nil
+	}
+
+	// MaxCount
+	pool.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
+
+	// MaxPods
+	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
+
+	// MinCount
+	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
+
+	// Mode
+	pool.Mode = genruntime.ClonePointerToString(source.Mode)
+
+	// Name
+	pool.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NodeImageVersion
+	pool.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
+
+	// NodeLabels
+	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
+
+	// NodePublicIPPrefixID
+	pool.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
+
+	// NodeTaints
+	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
+
+	// OrchestratorVersion
+	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
+
+	// OsDiskSizeGB
+	pool.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
+
+	// OsDiskType
+	pool.OsDiskType = genruntime.ClonePointerToString(source.OsDiskType)
+
+	// OsSKU
+	pool.OsSKU = genruntime.ClonePointerToString(source.OsSKU)
+
+	// OsType
+	pool.OsType = genruntime.ClonePointerToString(source.OsType)
+
+	// PodSubnetID
+	pool.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
+
+	// PowerState
+	if source.PowerState != nil {
+		var powerState PowerState_STATUS
+		err := powerState.AssignPropertiesFromPowerState_STATUS(source.PowerState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPowerState_STATUS() to populate field PowerState")
+		}
+		pool.PowerState = &powerState
+	} else {
+		pool.PowerState = nil
+	}
+
+	// PropertiesType
+	pool.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
+
+	// ProvisioningState
+	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ProximityPlacementGroupID
+	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
+
+	// ScaleSetEvictionPolicy
+	pool.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(source.ScaleSetEvictionPolicy)
+
+	// ScaleSetPriority
+	pool.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
+
+	// SpotMaxPrice
+	if source.SpotMaxPrice != nil {
+		spotMaxPrice := *source.SpotMaxPrice
+		pool.SpotMaxPrice = &spotMaxPrice
+	} else {
+		pool.SpotMaxPrice = nil
+	}
+
+	// Tags
+	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	pool.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpgradeSettings
+	if source.UpgradeSettings != nil {
+		var upgradeSetting AgentPoolUpgradeSettings_STATUS
+		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettings_STATUS(source.UpgradeSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+		}
+		pool.UpgradeSettings = &upgradeSetting
+	} else {
+		pool.UpgradeSettings = nil
+	}
+
+	// VmSize
+	pool.VmSize = genruntime.ClonePointerToString(source.VmSize)
+
+	// VnetSubnetID
+	pool.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pool.PropertyBag = propertyBag
+	} else {
+		pool.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAgentPool_STATUS(destination *v20210501s.ManagedClustersAgentPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// AvailabilityZones
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(pool.Conditions)
+
+	// Count
+	destination.Count = genruntime.ClonePointerToInt(pool.Count)
+
+	// EnableAutoScaling
+	if pool.EnableAutoScaling != nil {
+		enableAutoScaling := *pool.EnableAutoScaling
+		destination.EnableAutoScaling = &enableAutoScaling
+	} else {
+		destination.EnableAutoScaling = nil
+	}
+
+	// EnableEncryptionAtHost
+	if pool.EnableEncryptionAtHost != nil {
+		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
+		destination.EnableEncryptionAtHost = &enableEncryptionAtHost
+	} else {
+		destination.EnableEncryptionAtHost = nil
+	}
+
+	// EnableFIPS
+	if pool.EnableFIPS != nil {
+		enableFIPS := *pool.EnableFIPS
+		destination.EnableFIPS = &enableFIPS
+	} else {
+		destination.EnableFIPS = nil
+	}
+
+	// EnableNodePublicIP
+	if pool.EnableNodePublicIP != nil {
+		enableNodePublicIP := *pool.EnableNodePublicIP
+		destination.EnableNodePublicIP = &enableNodePublicIP
+	} else {
+		destination.EnableNodePublicIP = nil
+	}
+
+	// EnableUltraSSD
+	if pool.EnableUltraSSD != nil {
+		enableUltraSSD := *pool.EnableUltraSSD
+		destination.EnableUltraSSD = &enableUltraSSD
+	} else {
+		destination.EnableUltraSSD = nil
+	}
+
+	// GpuInstanceProfile
+	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(pool.Id)
+
+	// KubeletConfig
+	if pool.KubeletConfig != nil {
+		var kubeletConfig v20210501s.KubeletConfig_STATUS
+		err := pool.KubeletConfig.AssignPropertiesToKubeletConfig_STATUS(&kubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig_STATUS() to populate field KubeletConfig")
+		}
+		destination.KubeletConfig = &kubeletConfig
+	} else {
+		destination.KubeletConfig = nil
+	}
+
+	// KubeletDiskType
+	destination.KubeletDiskType = genruntime.ClonePointerToString(pool.KubeletDiskType)
+
+	// LinuxOSConfig
+	if pool.LinuxOSConfig != nil {
+		var linuxOSConfig v20210501s.LinuxOSConfig_STATUS
+		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfig_STATUS(&linuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+		}
+		destination.LinuxOSConfig = &linuxOSConfig
+	} else {
+		destination.LinuxOSConfig = nil
+	}
+
+	// MaxCount
+	destination.MaxCount = genruntime.ClonePointerToInt(pool.MaxCount)
+
+	// MaxPods
+	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
+
+	// MinCount
+	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
+
+	// Mode
+	destination.Mode = genruntime.ClonePointerToString(pool.Mode)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(pool.Name)
+
+	// NodeImageVersion
+	destination.NodeImageVersion = genruntime.ClonePointerToString(pool.NodeImageVersion)
+
+	// NodeLabels
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
+
+	// NodePublicIPPrefixID
+	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(pool.NodePublicIPPrefixID)
+
+	// NodeTaints
+	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
+
+	// OrchestratorVersion
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
+
+	// OsDiskSizeGB
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(pool.OsDiskSizeGB)
+
+	// OsDiskType
+	destination.OsDiskType = genruntime.ClonePointerToString(pool.OsDiskType)
+
+	// OsSKU
+	destination.OsSKU = genruntime.ClonePointerToString(pool.OsSKU)
+
+	// OsType
+	destination.OsType = genruntime.ClonePointerToString(pool.OsType)
+
+	// PodSubnetID
+	destination.PodSubnetID = genruntime.ClonePointerToString(pool.PodSubnetID)
+
+	// PowerState
+	if pool.PowerState != nil {
+		var powerState v20210501s.PowerState_STATUS
+		err := pool.PowerState.AssignPropertiesToPowerState_STATUS(&powerState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPowerState_STATUS() to populate field PowerState")
+		}
+		destination.PowerState = &powerState
+	} else {
+		destination.PowerState = nil
+	}
+
+	// PropertiesType
+	destination.PropertiesType = genruntime.ClonePointerToString(pool.PropertiesType)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
+
+	// ProximityPlacementGroupID
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
+
+	// ScaleSetEvictionPolicy
+	destination.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(pool.ScaleSetEvictionPolicy)
+
+	// ScaleSetPriority
+	destination.ScaleSetPriority = genruntime.ClonePointerToString(pool.ScaleSetPriority)
+
+	// SpotMaxPrice
+	if pool.SpotMaxPrice != nil {
+		spotMaxPrice := *pool.SpotMaxPrice
+		destination.SpotMaxPrice = &spotMaxPrice
+	} else {
+		destination.SpotMaxPrice = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(pool.Type)
+
+	// UpgradeSettings
+	if pool.UpgradeSettings != nil {
+		var upgradeSetting v20210501s.AgentPoolUpgradeSettings_STATUS
+		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings_STATUS(&upgradeSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+		}
+		destination.UpgradeSettings = &upgradeSetting
+	} else {
+		destination.UpgradeSettings = nil
+	}
+
+	// VmSize
+	destination.VmSize = genruntime.ClonePointerToString(pool.VmSize)
+
+	// VnetSubnetID
+	destination.VnetSubnetID = genruntime.ClonePointerToString(pool.VnetSubnetID)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings
 // Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
 type AgentPoolUpgradeSettings struct {
@@ -1380,13 +1252,8 @@ type AgentPoolUpgradeSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromAgentPoolUpgradeSettings_STATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
 func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUpgradeSettings_STATUS(source *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
-=======
-// AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS(source *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1404,13 +1271,8 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUp
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToAgentPoolUpgradeSettings_STATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
 func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesToAgentPoolUpgradeSettings_STATUS(destination *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
-=======
-// AssignPropertiesToAgentPoolUpgradeSettingsSTATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesToAgentPoolUpgradeSettingsSTATUS(destination *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1580,13 +1442,8 @@ type KubeletConfig_STATUS struct {
 	TopologyManagerPolicy *string                `json:"topologyManagerPolicy,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromKubeletConfig_STATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
 func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfig_STATUS(source *v20210501s.KubeletConfig_STATUS) error {
-=======
-// AssignPropertiesFromKubeletConfigSTATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfigSTATUS(source *v20210501s.KubeletConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1644,13 +1501,8 @@ func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfigSTATUS(sour
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToKubeletConfig_STATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
 func (config *KubeletConfig_STATUS) AssignPropertiesToKubeletConfig_STATUS(destination *v20210501s.KubeletConfig_STATUS) error {
-=======
-// AssignPropertiesToKubeletConfigSTATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignPropertiesToKubeletConfigSTATUS(destination *v20210501s.KubeletConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1802,13 +1654,8 @@ type LinuxOSConfig_STATUS struct {
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromLinuxOSConfig_STATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
 func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfig_STATUS(source *v20210501s.LinuxOSConfig_STATUS) error {
-=======
-// AssignPropertiesFromLinuxOSConfigSTATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfigSTATUS(source *v20210501s.LinuxOSConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1818,15 +1665,9 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfigSTATUS(sour
 	// Sysctls
 	if source.Sysctls != nil {
 		var sysctl SysctlConfig_STATUS
-<<<<<<< HEAD
 		err := sysctl.AssignPropertiesFromSysctlConfig_STATUS(source.Sysctls)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfig_STATUS() to populate field Sysctls")
-=======
-		err := sysctl.AssignPropertiesFromSysctlConfigSTATUS(source.Sysctls)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfigSTATUS() to populate field Sysctls")
->>>>>>> main
 		}
 		config.Sysctls = &sysctl
 	} else {
@@ -1850,13 +1691,8 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfigSTATUS(sour
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToLinuxOSConfig_STATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
 func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfig_STATUS(destination *v20210501s.LinuxOSConfig_STATUS) error {
-=======
-// AssignPropertiesToLinuxOSConfigSTATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfigSTATUS(destination *v20210501s.LinuxOSConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1866,15 +1702,9 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfigSTATUS(destin
 	// Sysctls
 	if config.Sysctls != nil {
 		var sysctl v20210501s.SysctlConfig_STATUS
-<<<<<<< HEAD
 		err := config.Sysctls.AssignPropertiesToSysctlConfig_STATUS(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfig_STATUS() to populate field Sysctls")
-=======
-		err := config.Sysctls.AssignPropertiesToSysctlConfigSTATUS(&sysctl)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfigSTATUS() to populate field Sysctls")
->>>>>>> main
 		}
 		destination.Sysctls = &sysctl
 	} else {
@@ -2176,13 +2006,8 @@ type SysctlConfig_STATUS struct {
 	VmVfsCachePressure             *int                   `json:"vmVfsCachePressure,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSysctlConfig_STATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
 func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfig_STATUS(source *v20210501s.SysctlConfig_STATUS) error {
-=======
-// AssignPropertiesFromSysctlConfigSTATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfigSTATUS(source *v20210501s.SysctlConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2286,13 +2111,8 @@ func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfigSTATUS(source
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSysctlConfig_STATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
 func (config *SysctlConfig_STATUS) AssignPropertiesToSysctlConfig_STATUS(destination *v20210501s.SysctlConfig_STATUS) error {
-=======
-// AssignPropertiesToSysctlConfigSTATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignPropertiesToSysctlConfigSTATUS(destination *v20210501s.SysctlConfig_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 

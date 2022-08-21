@@ -30,13 +30,8 @@ import (
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              ServersConfiguration_Spec   `json:"spec,omitempty"`
 	Status            ServersConfiguration_STATUS `json:"status,omitempty"`
-=======
-	Spec              ServersConfigurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS       `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -130,11 +125,7 @@ func (configuration *Configuration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *Configuration) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &ServersConfiguration_STATUS{}
-=======
-	return &Configuration_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -150,21 +141,13 @@ func (configuration *Configuration) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*ServersConfiguration_STATUS); ok {
-=======
-	if st, ok := status.(*Configuration_STATUS); ok {
->>>>>>> main
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st ServersConfiguration_STATUS
-=======
-	var st Configuration_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -282,17 +265,10 @@ func (configuration *Configuration) AssignPropertiesFromConfiguration(source *v2
 	configuration.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status ServersConfiguration_STATUS
 	err = status.AssignPropertiesFromServersConfiguration_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromServersConfiguration_STATUS() to populate field Status")
-=======
-	var status Configuration_STATUS
-	err = status.AssignPropertiesFromConfigurationSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationSTATUS() to populate field Status")
->>>>>>> main
 	}
 	configuration.Status = status
 
@@ -315,17 +291,10 @@ func (configuration *Configuration) AssignPropertiesToConfiguration(destination 
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status v20180601s.ServersConfiguration_STATUS
 	err = configuration.Status.AssignPropertiesToServersConfiguration_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToServersConfiguration_STATUS() to populate field Status")
-=======
-	var status v20180601s.Configuration_STATUS
-	err = configuration.Status.AssignPropertiesToConfigurationSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToConfigurationSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -356,326 +325,6 @@ type ConfigurationList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-06-01")
-
-<<<<<<< HEAD
-type ServersConfiguration_STATUS struct {
-=======
-type Configuration_STATUS struct {
->>>>>>> main
-	// AllowedValues: Allowed values of the configuration.
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DataType: Data type of the configuration.
-	DataType *string `json:"dataType,omitempty"`
-
-	// DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	// Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &ServersConfiguration_STATUS{}
-
-// ConvertStatusFrom populates our ServersConfiguration_STATUS from the provided source
-func (configuration *ServersConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180601s.ServersConfiguration_STATUS)
-	if ok {
-		// Populate our instance from source
-		return configuration.AssignPropertiesFromServersConfiguration_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180601s.ServersConfiguration_STATUS{}
-=======
-var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
-
-// ConvertStatusFrom populates our Configuration_STATUS from the provided source
-func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180601s.Configuration_STATUS)
-	if ok {
-		// Populate our instance from source
-		return configuration.AssignPropertiesFromConfigurationSTATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180601s.Configuration_STATUS{}
->>>>>>> main
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = configuration.AssignPropertiesFromServersConfiguration_STATUS(src)
-=======
-	err = configuration.AssignPropertiesFromConfigurationSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our ServersConfiguration_STATUS
-func (configuration *ServersConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180601s.ServersConfiguration_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return configuration.AssignPropertiesToServersConfiguration_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180601s.ServersConfiguration_STATUS{}
-	err := configuration.AssignPropertiesToServersConfiguration_STATUS(dst)
-=======
-// ConvertStatusTo populates the provided destination from our Configuration_STATUS
-func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180601s.Configuration_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return configuration.AssignPropertiesToConfigurationSTATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180601s.Configuration_STATUS{}
-	err := configuration.AssignPropertiesToConfigurationSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-var _ genruntime.FromARMConverter = &ServersConfiguration_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *ServersConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersConfiguration_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *ServersConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersConfiguration_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersConfiguration_STATUSARM, got %T", armInput)
-=======
-var _ genruntime.FromARMConverter = &Configuration_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Configuration_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Configuration_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_STATUSARM, got %T", armInput)
->>>>>>> main
-	}
-
-	// Set property ‘AllowedValues’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AllowedValues != nil {
-			allowedValues := *typedInput.Properties.AllowedValues
-			configuration.AllowedValues = &allowedValues
-		}
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘DataType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DataType != nil {
-			dataType := *typedInput.Properties.DataType
-			configuration.DataType = &dataType
-		}
-	}
-
-	// Set property ‘DefaultValue’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DefaultValue != nil {
-			defaultValue := *typedInput.Properties.DefaultValue
-			configuration.DefaultValue = &defaultValue
-		}
-	}
-
-	// Set property ‘Description’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Description != nil {
-			description := *typedInput.Properties.Description
-			configuration.Description = &description
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		configuration.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		configuration.Name = &name
-	}
-
-	// Set property ‘Source’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Source != nil {
-			source := *typedInput.Properties.Source
-			configuration.Source = &source
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		configuration.Type = &typeVar
-	}
-
-	// Set property ‘Value’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Value != nil {
-			value := *typedInput.Properties.Value
-			configuration.Value = &value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromServersConfiguration_STATUS populates our ServersConfiguration_STATUS from the provided source ServersConfiguration_STATUS
-func (configuration *ServersConfiguration_STATUS) AssignPropertiesFromServersConfiguration_STATUS(source *v20180601s.ServersConfiguration_STATUS) error {
-=======
-// AssignPropertiesFromConfigurationSTATUS populates our Configuration_STATUS from the provided source Configuration_STATUS
-func (configuration *Configuration_STATUS) AssignPropertiesFromConfigurationSTATUS(source *v20180601s.Configuration_STATUS) error {
->>>>>>> main
-
-	// AllowedValues
-	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
-
-	// Conditions
-	configuration.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// DataType
-	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
-
-	// DefaultValue
-	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// Description
-	configuration.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Source
-	configuration.Source = genruntime.ClonePointerToString(source.Source)
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Value
-	configuration.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToServersConfiguration_STATUS populates the provided destination ServersConfiguration_STATUS from our ServersConfiguration_STATUS
-func (configuration *ServersConfiguration_STATUS) AssignPropertiesToServersConfiguration_STATUS(destination *v20180601s.ServersConfiguration_STATUS) error {
-=======
-// AssignPropertiesToConfigurationSTATUS populates the provided destination Configuration_STATUS from our Configuration_STATUS
-func (configuration *Configuration_STATUS) AssignPropertiesToConfigurationSTATUS(destination *v20180601s.Configuration_STATUS) error {
->>>>>>> main
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AllowedValues
-	destination.AllowedValues = genruntime.ClonePointerToString(configuration.AllowedValues)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(configuration.Conditions)
-
-	// DataType
-	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
-
-	// DefaultValue
-	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(configuration.Description)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// Source
-	destination.Source = genruntime.ClonePointerToString(configuration.Source)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
-	// Value
-	destination.Value = genruntime.ClonePointerToString(configuration.Value)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type ServersConfiguration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -885,6 +534,264 @@ func (configuration *ServersConfiguration_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (configuration *ServersConfiguration_Spec) SetAzureName(azureName string) {
 	configuration.AzureName = azureName
+}
+
+type ServersConfiguration_STATUS struct {
+	// AllowedValues: Allowed values of the configuration.
+	AllowedValues *string `json:"allowedValues,omitempty"`
+
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// DataType: Data type of the configuration.
+	DataType *string `json:"dataType,omitempty"`
+
+	// DefaultValue: Default value of the configuration.
+	DefaultValue *string `json:"defaultValue,omitempty"`
+
+	// Description: Description of the configuration.
+	Description *string `json:"description,omitempty"`
+
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
+	// Source: Source of the configuration.
+	Source *string `json:"source,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
+
+	// Value: Value of the configuration.
+	Value *string `json:"value,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &ServersConfiguration_STATUS{}
+
+// ConvertStatusFrom populates our ServersConfiguration_STATUS from the provided source
+func (configuration *ServersConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180601s.ServersConfiguration_STATUS)
+	if ok {
+		// Populate our instance from source
+		return configuration.AssignPropertiesFromServersConfiguration_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20180601s.ServersConfiguration_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = configuration.AssignPropertiesFromServersConfiguration_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our ServersConfiguration_STATUS
+func (configuration *ServersConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180601s.ServersConfiguration_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return configuration.AssignPropertiesToServersConfiguration_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20180601s.ServersConfiguration_STATUS{}
+	err := configuration.AssignPropertiesToServersConfiguration_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &ServersConfiguration_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configuration *ServersConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersConfiguration_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configuration *ServersConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersConfiguration_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersConfiguration_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AllowedValues’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowedValues != nil {
+			allowedValues := *typedInput.Properties.AllowedValues
+			configuration.AllowedValues = &allowedValues
+		}
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘DataType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataType != nil {
+			dataType := *typedInput.Properties.DataType
+			configuration.DataType = &dataType
+		}
+	}
+
+	// Set property ‘DefaultValue’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultValue != nil {
+			defaultValue := *typedInput.Properties.DefaultValue
+			configuration.DefaultValue = &defaultValue
+		}
+	}
+
+	// Set property ‘Description’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			configuration.Description = &description
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
+
+	// Set property ‘Source’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Source != nil {
+			source := *typedInput.Properties.Source
+			configuration.Source = &source
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		configuration.Type = &typeVar
+	}
+
+	// Set property ‘Value’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Value != nil {
+			value := *typedInput.Properties.Value
+			configuration.Value = &value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromServersConfiguration_STATUS populates our ServersConfiguration_STATUS from the provided source ServersConfiguration_STATUS
+func (configuration *ServersConfiguration_STATUS) AssignPropertiesFromServersConfiguration_STATUS(source *v20180601s.ServersConfiguration_STATUS) error {
+
+	// AllowedValues
+	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
+
+	// Conditions
+	configuration.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DataType
+	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
+
+	// DefaultValue
+	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
+
+	// Description
+	configuration.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Source
+	configuration.Source = genruntime.ClonePointerToString(source.Source)
+
+	// Type
+	configuration.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Value
+	configuration.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToServersConfiguration_STATUS populates the provided destination ServersConfiguration_STATUS from our ServersConfiguration_STATUS
+func (configuration *ServersConfiguration_STATUS) AssignPropertiesToServersConfiguration_STATUS(destination *v20180601s.ServersConfiguration_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AllowedValues
+	destination.AllowedValues = genruntime.ClonePointerToString(configuration.AllowedValues)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(configuration.Conditions)
+
+	// DataType
+	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
+
+	// DefaultValue
+	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(configuration.Description)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// Source
+	destination.Source = genruntime.ClonePointerToString(configuration.Source)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(configuration.Type)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(configuration.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

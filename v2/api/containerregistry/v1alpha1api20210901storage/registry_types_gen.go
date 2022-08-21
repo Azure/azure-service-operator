@@ -25,11 +25,7 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Registry_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Registries_Spec `json:"spec,omitempty"`
->>>>>>> main
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -149,15 +145,9 @@ func (registry *Registry) AssignPropertiesFromRegistry(source *v20210901s.Regist
 
 	// Status
 	var status Registry_STATUS
-<<<<<<< HEAD
 	err = status.AssignPropertiesFromRegistry_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRegistry_STATUS() to populate field Status")
-=======
-	err = status.AssignPropertiesFromRegistrySTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRegistrySTATUS() to populate field Status")
->>>>>>> main
 	}
 	registry.Status = status
 
@@ -181,15 +171,9 @@ func (registry *Registry) AssignPropertiesToRegistry(destination *v20210901s.Reg
 
 	// Status
 	var status v20210901s.Registry_STATUS
-<<<<<<< HEAD
 	err = registry.Status.AssignPropertiesToRegistry_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRegistry_STATUS() to populate field Status")
-=======
-	err = registry.Status.AssignPropertiesToRegistrySTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRegistrySTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -221,883 +205,6 @@ type RegistryList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
-
-// Storage version of v1alpha1api20210901.Registry_STATUS
-// Deprecated version of Registry_STATUS. Use v1beta20210901.Registry_STATUS instead
-type Registry_STATUS struct {
-	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
-	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
-	CreationDate               *string                            `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                              `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                           `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUS         `json:"encryption,omitempty"`
-	Id                         *string                            `json:"id,omitempty"`
-	Identity                   *IdentityProperties_STATUS         `json:"identity,omitempty"`
-	Location                   *string                            `json:"location,omitempty"`
-	LoginServer                *string                            `json:"loginServer,omitempty"`
-	Name                       *string                            `json:"name,omitempty"`
-	NetworkRuleBypassOptions   *string                            `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUS             `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUS                   `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
-	Status                     *Status_STATUS                     `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	ZoneRedundancy             *string                            `json:"zoneRedundancy,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
-
-// ConvertStatusFrom populates our Registry_STATUS from the provided source
-func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210901s.Registry_STATUS)
-	if ok {
-		// Populate our instance from source
-		return registry.AssignPropertiesFromRegistry_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-<<<<<<< HEAD
-=======
-	src = &v20210901s.Registries_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = registries.AssignPropertiesFromRegistriesSpec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Registries_Spec
-func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210901s.Registries_Spec)
-	if ok {
-		// Populate destination from our instance
-		return registries.AssignPropertiesToRegistriesSpec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210901s.Registries_Spec{}
-	err := registries.AssignPropertiesToRegistriesSpec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignPropertiesFromRegistriesSpec populates our Registries_Spec from the provided source Registries_Spec
-func (registries *Registries_Spec) AssignPropertiesFromRegistriesSpec(source *v20210901s.Registries_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdminUserEnabled
-	if source.AdminUserEnabled != nil {
-		adminUserEnabled := *source.AdminUserEnabled
-		registries.AdminUserEnabled = &adminUserEnabled
-	} else {
-		registries.AdminUserEnabled = nil
-	}
-
-	// AzureName
-	registries.AzureName = source.AzureName
-
-	// DataEndpointEnabled
-	if source.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *source.DataEndpointEnabled
-		registries.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		registries.DataEndpointEnabled = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty
-		err := encryption.AssignPropertiesFromEncryptionProperty(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty() to populate field Encryption")
-		}
-		registries.Encryption = &encryption
-	} else {
-		registries.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity IdentityProperties
-		err := identity.AssignPropertiesFromIdentityProperties(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityProperties() to populate field Identity")
-		}
-		registries.Identity = &identity
-	} else {
-		registries.Identity = nil
-	}
-
-	// Location
-	registries.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkRuleBypassOptions
-	registries.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
-
-	// NetworkRuleSet
-	if source.NetworkRuleSet != nil {
-		var networkRuleSet NetworkRuleSet
-		err := networkRuleSet.AssignPropertiesFromNetworkRuleSet(source.NetworkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet() to populate field NetworkRuleSet")
-		}
-		registries.NetworkRuleSet = &networkRuleSet
-	} else {
-		registries.NetworkRuleSet = nil
-	}
-
-	// OriginalVersion
-	registries.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		registries.Owner = &owner
-	} else {
-		registries.Owner = nil
-	}
-
-	// Policies
-	if source.Policies != nil {
-		var policy Policies
-		err := policy.AssignPropertiesFromPolicies(source.Policies)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPolicies() to populate field Policies")
-		}
-		registries.Policies = &policy
-	} else {
-		registries.Policies = nil
-	}
-
-	// PublicNetworkAccess
-	registries.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
-		}
-		registries.Sku = &sku
-	} else {
-		registries.Sku = nil
-	}
-
-	// Tags
-	registries.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundancy
-	registries.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		registries.PropertyBag = propertyBag
-	} else {
-		registries.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRegistriesSpec populates the provided destination Registries_Spec from our Registries_Spec
-func (registries *Registries_Spec) AssignPropertiesToRegistriesSpec(destination *v20210901s.Registries_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(registries.PropertyBag)
-
-	// AdminUserEnabled
-	if registries.AdminUserEnabled != nil {
-		adminUserEnabled := *registries.AdminUserEnabled
-		destination.AdminUserEnabled = &adminUserEnabled
-	} else {
-		destination.AdminUserEnabled = nil
-	}
-
-	// AzureName
-	destination.AzureName = registries.AzureName
-
-	// DataEndpointEnabled
-	if registries.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *registries.DataEndpointEnabled
-		destination.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		destination.DataEndpointEnabled = nil
-	}
-
-	// Encryption
-	if registries.Encryption != nil {
-		var encryption v20210901s.EncryptionProperty
-		err := registries.Encryption.AssignPropertiesToEncryptionProperty(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty() to populate field Encryption")
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// Identity
-	if registries.Identity != nil {
-		var identity v20210901s.IdentityProperties
-		err := registries.Identity.AssignPropertiesToIdentityProperties(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityProperties() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(registries.Location)
-
-	// NetworkRuleBypassOptions
-	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registries.NetworkRuleBypassOptions)
-
-	// NetworkRuleSet
-	if registries.NetworkRuleSet != nil {
-		var networkRuleSet v20210901s.NetworkRuleSet
-		err := registries.NetworkRuleSet.AssignPropertiesToNetworkRuleSet(&networkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet() to populate field NetworkRuleSet")
-		}
-		destination.NetworkRuleSet = &networkRuleSet
-	} else {
-		destination.NetworkRuleSet = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = registries.OriginalVersion
-
-	// Owner
-	if registries.Owner != nil {
-		owner := registries.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Policies
-	if registries.Policies != nil {
-		var policy v20210901s.Policies
-		err := registries.Policies.AssignPropertiesToPolicies(&policy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPolicies() to populate field Policies")
-		}
-		destination.Policies = &policy
-	} else {
-		destination.Policies = nil
-	}
-
-	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registries.PublicNetworkAccess)
-
-	// Sku
-	if registries.Sku != nil {
-		var sku v20210901s.Sku
-		err := registries.Sku.AssignPropertiesToSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(registries.Tags)
-
-	// ZoneRedundancy
-	destination.ZoneRedundancy = genruntime.ClonePointerToString(registries.ZoneRedundancy)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210901.Registry_STATUS
-// Deprecated version of Registry_STATUS. Use v1beta20210901.Registry_STATUS instead
-type Registry_STATUS struct {
-	AdminUserEnabled           *bool                                                  `json:"adminUserEnabled,omitempty"`
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationDate               *string                                                `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *IdentityProperties_STATUS                             `json:"identity,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	LoginServer                *string                                                `json:"loginServer,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	NetworkRuleBypassOptions   *string                                                `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUS                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUS                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	Status                     *Status_STATUS                                         `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	ZoneRedundancy             *string                                                `json:"zoneRedundancy,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
-
-// ConvertStatusFrom populates our Registry_STATUS from the provided source
-func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210901s.Registry_STATUS)
-	if ok {
-		// Populate our instance from source
-		return registry.AssignPropertiesFromRegistrySTATUS(src)
-	}
-
-	// Convert to an intermediate form
->>>>>>> main
-	src = &v20210901s.Registry_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = registry.AssignPropertiesFromRegistry_STATUS(src)
-=======
-	err = registry.AssignPropertiesFromRegistrySTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our Registry_STATUS
-func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210901s.Registry_STATUS)
-	if ok {
-		// Populate destination from our instance
-<<<<<<< HEAD
-		return registry.AssignPropertiesToRegistry_STATUS(dst)
-=======
-		return registry.AssignPropertiesToRegistrySTATUS(dst)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210901s.Registry_STATUS{}
-<<<<<<< HEAD
-	err := registry.AssignPropertiesToRegistry_STATUS(dst)
-=======
-	err := registry.AssignPropertiesToRegistrySTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromRegistry_STATUS populates our Registry_STATUS from the provided source Registry_STATUS
-func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *v20210901s.Registry_STATUS) error {
-=======
-// AssignPropertiesFromRegistrySTATUS populates our Registry_STATUS from the provided source Registry_STATUS
-func (registry *Registry_STATUS) AssignPropertiesFromRegistrySTATUS(source *v20210901s.Registry_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdminUserEnabled
-	if source.AdminUserEnabled != nil {
-		adminUserEnabled := *source.AdminUserEnabled
-		registry.AdminUserEnabled = &adminUserEnabled
-	} else {
-		registry.AdminUserEnabled = nil
-	}
-
-	// Conditions
-	registry.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// CreationDate
-	registry.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
-
-	// DataEndpointEnabled
-	if source.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *source.DataEndpointEnabled
-		registry.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		registry.DataEndpointEnabled = nil
-	}
-
-	// DataEndpointHostNames
-	registry.DataEndpointHostNames = genruntime.CloneSliceOfString(source.DataEndpointHostNames)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty_STATUS
-<<<<<<< HEAD
-		err := encryption.AssignPropertiesFromEncryptionProperty_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty_STATUS() to populate field Encryption")
-=======
-		err := encryption.AssignPropertiesFromEncryptionPropertySTATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertySTATUS() to populate field Encryption")
->>>>>>> main
-		}
-		registry.Encryption = &encryption
-	} else {
-		registry.Encryption = nil
-	}
-
-	// Id
-	registry.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		var identity IdentityProperties_STATUS
-<<<<<<< HEAD
-		err := identity.AssignPropertiesFromIdentityProperties_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityProperties_STATUS() to populate field Identity")
-=======
-		err := identity.AssignPropertiesFromIdentityPropertiesSTATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityPropertiesSTATUS() to populate field Identity")
->>>>>>> main
-		}
-		registry.Identity = &identity
-	} else {
-		registry.Identity = nil
-	}
-
-	// Location
-	registry.Location = genruntime.ClonePointerToString(source.Location)
-
-	// LoginServer
-	registry.LoginServer = genruntime.ClonePointerToString(source.LoginServer)
-
-	// Name
-	registry.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkRuleBypassOptions
-	registry.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
-
-	// NetworkRuleSet
-	if source.NetworkRuleSet != nil {
-		var networkRuleSet NetworkRuleSet_STATUS
-<<<<<<< HEAD
-		err := networkRuleSet.AssignPropertiesFromNetworkRuleSet_STATUS(source.NetworkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
-=======
-		err := networkRuleSet.AssignPropertiesFromNetworkRuleSetSTATUS(source.NetworkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetSTATUS() to populate field NetworkRuleSet")
->>>>>>> main
-		}
-		registry.NetworkRuleSet = &networkRuleSet
-	} else {
-		registry.NetworkRuleSet = nil
-	}
-
-	// Policies
-	if source.Policies != nil {
-		var policy Policies_STATUS
-<<<<<<< HEAD
-		err := policy.AssignPropertiesFromPolicies_STATUS(source.Policies)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPolicies_STATUS() to populate field Policies")
-=======
-		err := policy.AssignPropertiesFromPoliciesSTATUS(source.Policies)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPoliciesSTATUS() to populate field Policies")
->>>>>>> main
-		}
-		registry.Policies = &policy
-	} else {
-		registry.Policies = nil
-	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-<<<<<<< HEAD
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-=======
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
->>>>>>> main
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		registry.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		registry.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	registry.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// PublicNetworkAccess
-	registry.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku_STATUS
-<<<<<<< HEAD
-		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
-=======
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		registry.Sku = &sku
-	} else {
-		registry.Sku = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		var status Status_STATUS
-<<<<<<< HEAD
-		err := status.AssignPropertiesFromStatus_STATUS(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStatus_STATUS() to populate field Status")
-=======
-		err := status.AssignPropertiesFromStatusSTATUS(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStatusSTATUS() to populate field Status")
->>>>>>> main
-		}
-		registry.Status = &status
-	} else {
-		registry.Status = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
-		}
-		registry.SystemData = &systemDatum
-	} else {
-		registry.SystemData = nil
-	}
-
-	// Tags
-	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	registry.Type = genruntime.ClonePointerToString(source.Type)
-
-	// ZoneRedundancy
-	registry.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		registry.PropertyBag = propertyBag
-	} else {
-		registry.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToRegistry_STATUS populates the provided destination Registry_STATUS from our Registry_STATUS
-func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *v20210901s.Registry_STATUS) error {
-=======
-// AssignPropertiesToRegistrySTATUS populates the provided destination Registry_STATUS from our Registry_STATUS
-func (registry *Registry_STATUS) AssignPropertiesToRegistrySTATUS(destination *v20210901s.Registry_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(registry.PropertyBag)
-
-	// AdminUserEnabled
-	if registry.AdminUserEnabled != nil {
-		adminUserEnabled := *registry.AdminUserEnabled
-		destination.AdminUserEnabled = &adminUserEnabled
-	} else {
-		destination.AdminUserEnabled = nil
-	}
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(registry.Conditions)
-
-	// CreationDate
-	destination.CreationDate = genruntime.ClonePointerToString(registry.CreationDate)
-
-	// DataEndpointEnabled
-	if registry.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *registry.DataEndpointEnabled
-		destination.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		destination.DataEndpointEnabled = nil
-	}
-
-	// DataEndpointHostNames
-	destination.DataEndpointHostNames = genruntime.CloneSliceOfString(registry.DataEndpointHostNames)
-
-	// Encryption
-	if registry.Encryption != nil {
-		var encryption v20210901s.EncryptionProperty_STATUS
-<<<<<<< HEAD
-		err := registry.Encryption.AssignPropertiesToEncryptionProperty_STATUS(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty_STATUS() to populate field Encryption")
-=======
-		err := registry.Encryption.AssignPropertiesToEncryptionPropertySTATUS(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertySTATUS() to populate field Encryption")
->>>>>>> main
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(registry.Id)
-
-	// Identity
-	if registry.Identity != nil {
-		var identity v20210901s.IdentityProperties_STATUS
-<<<<<<< HEAD
-		err := registry.Identity.AssignPropertiesToIdentityProperties_STATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityProperties_STATUS() to populate field Identity")
-=======
-		err := registry.Identity.AssignPropertiesToIdentityPropertiesSTATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityPropertiesSTATUS() to populate field Identity")
->>>>>>> main
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(registry.Location)
-
-	// LoginServer
-	destination.LoginServer = genruntime.ClonePointerToString(registry.LoginServer)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(registry.Name)
-
-	// NetworkRuleBypassOptions
-	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registry.NetworkRuleBypassOptions)
-
-	// NetworkRuleSet
-	if registry.NetworkRuleSet != nil {
-		var networkRuleSet v20210901s.NetworkRuleSet_STATUS
-<<<<<<< HEAD
-		err := registry.NetworkRuleSet.AssignPropertiesToNetworkRuleSet_STATUS(&networkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
-=======
-		err := registry.NetworkRuleSet.AssignPropertiesToNetworkRuleSetSTATUS(&networkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetSTATUS() to populate field NetworkRuleSet")
->>>>>>> main
-		}
-		destination.NetworkRuleSet = &networkRuleSet
-	} else {
-		destination.NetworkRuleSet = nil
-	}
-
-	// Policies
-	if registry.Policies != nil {
-		var policy v20210901s.Policies_STATUS
-<<<<<<< HEAD
-		err := registry.Policies.AssignPropertiesToPolicies_STATUS(&policy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPolicies_STATUS() to populate field Policies")
-=======
-		err := registry.Policies.AssignPropertiesToPoliciesSTATUS(&policy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPoliciesSTATUS() to populate field Policies")
->>>>>>> main
-		}
-		destination.Policies = &policy
-	} else {
-		destination.Policies = nil
-	}
-
-	// PrivateEndpointConnections
-	if registry.PrivateEndpointConnections != nil {
-<<<<<<< HEAD
-		privateEndpointConnectionList := make([]v20210901s.PrivateEndpointConnection_STATUS, len(registry.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210901s.PrivateEndpointConnection_STATUS
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-=======
-		privateEndpointConnectionList := make([]v20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(registry.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
->>>>>>> main
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(registry.ProvisioningState)
-
-	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registry.PublicNetworkAccess)
-
-	// Sku
-	if registry.Sku != nil {
-		var sku v20210901s.Sku_STATUS
-<<<<<<< HEAD
-		err := registry.Sku.AssignPropertiesToSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
-=======
-		err := registry.Sku.AssignPropertiesToSkuSTATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Status
-	if registry.Status != nil {
-		var status v20210901s.Status_STATUS
-<<<<<<< HEAD
-		err := registry.Status.AssignPropertiesToStatus_STATUS(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStatus_STATUS() to populate field Status")
-=======
-		err := registry.Status.AssignPropertiesToStatusSTATUS(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStatusSTATUS() to populate field Status")
->>>>>>> main
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// SystemData
-	if registry.SystemData != nil {
-		var systemDatum v20210901s.SystemData_STATUS
-<<<<<<< HEAD
-		err := registry.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
-		err := registry.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(registry.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(registry.Type)
-
-	// ZoneRedundancy
-	destination.ZoneRedundancy = genruntime.ClonePointerToString(registry.ZoneRedundancy)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Storage version of v1alpha1api20210901.Registry_Spec
 type Registry_Spec struct {
@@ -1419,6 +526,431 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *v202
 	return nil
 }
 
+// Storage version of v1alpha1api20210901.Registry_STATUS
+// Deprecated version of Registry_STATUS. Use v1beta20210901.Registry_STATUS instead
+type Registry_STATUS struct {
+	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	CreationDate               *string                            `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                              `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                           `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS         `json:"encryption,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Identity                   *IdentityProperties_STATUS         `json:"identity,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	LoginServer                *string                            `json:"loginServer,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	NetworkRuleBypassOptions   *string                            `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS             `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS                   `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	Status                     *Status_STATUS                     `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	ZoneRedundancy             *string                            `json:"zoneRedundancy,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
+
+// ConvertStatusFrom populates our Registry_STATUS from the provided source
+func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210901s.Registry_STATUS)
+	if ok {
+		// Populate our instance from source
+		return registry.AssignPropertiesFromRegistry_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210901s.Registry_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = registry.AssignPropertiesFromRegistry_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our Registry_STATUS
+func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210901s.Registry_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return registry.AssignPropertiesToRegistry_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210901s.Registry_STATUS{}
+	err := registry.AssignPropertiesToRegistry_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromRegistry_STATUS populates our Registry_STATUS from the provided source Registry_STATUS
+func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *v20210901s.Registry_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminUserEnabled
+	if source.AdminUserEnabled != nil {
+		adminUserEnabled := *source.AdminUserEnabled
+		registry.AdminUserEnabled = &adminUserEnabled
+	} else {
+		registry.AdminUserEnabled = nil
+	}
+
+	// Conditions
+	registry.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationDate
+	registry.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
+
+	// DataEndpointEnabled
+	if source.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *source.DataEndpointEnabled
+		registry.DataEndpointEnabled = &dataEndpointEnabled
+	} else {
+		registry.DataEndpointEnabled = nil
+	}
+
+	// DataEndpointHostNames
+	registry.DataEndpointHostNames = genruntime.CloneSliceOfString(source.DataEndpointHostNames)
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperty_STATUS
+		err := encryption.AssignPropertiesFromEncryptionProperty_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty_STATUS() to populate field Encryption")
+		}
+		registry.Encryption = &encryption
+	} else {
+		registry.Encryption = nil
+	}
+
+	// Id
+	registry.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity IdentityProperties_STATUS
+		err := identity.AssignPropertiesFromIdentityProperties_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityProperties_STATUS() to populate field Identity")
+		}
+		registry.Identity = &identity
+	} else {
+		registry.Identity = nil
+	}
+
+	// Location
+	registry.Location = genruntime.ClonePointerToString(source.Location)
+
+	// LoginServer
+	registry.LoginServer = genruntime.ClonePointerToString(source.LoginServer)
+
+	// Name
+	registry.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkRuleBypassOptions
+	registry.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
+
+	// NetworkRuleSet
+	if source.NetworkRuleSet != nil {
+		var networkRuleSet NetworkRuleSet_STATUS
+		err := networkRuleSet.AssignPropertiesFromNetworkRuleSet_STATUS(source.NetworkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+		}
+		registry.NetworkRuleSet = &networkRuleSet
+	} else {
+		registry.NetworkRuleSet = nil
+	}
+
+	// Policies
+	if source.Policies != nil {
+		var policy Policies_STATUS
+		err := policy.AssignPropertiesFromPolicies_STATUS(source.Policies)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPolicies_STATUS() to populate field Policies")
+		}
+		registry.Policies = &policy
+	} else {
+		registry.Policies = nil
+	}
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		registry.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		registry.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	registry.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// PublicNetworkAccess
+	registry.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
+		}
+		registry.Sku = &sku
+	} else {
+		registry.Sku = nil
+	}
+
+	// Status
+	if source.Status != nil {
+		var status Status_STATUS
+		err := status.AssignPropertiesFromStatus_STATUS(source.Status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStatus_STATUS() to populate field Status")
+		}
+		registry.Status = &status
+	} else {
+		registry.Status = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		registry.SystemData = &systemDatum
+	} else {
+		registry.SystemData = nil
+	}
+
+	// Tags
+	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	registry.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ZoneRedundancy
+	registry.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		registry.PropertyBag = propertyBag
+	} else {
+		registry.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRegistry_STATUS populates the provided destination Registry_STATUS from our Registry_STATUS
+func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *v20210901s.Registry_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(registry.PropertyBag)
+
+	// AdminUserEnabled
+	if registry.AdminUserEnabled != nil {
+		adminUserEnabled := *registry.AdminUserEnabled
+		destination.AdminUserEnabled = &adminUserEnabled
+	} else {
+		destination.AdminUserEnabled = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(registry.Conditions)
+
+	// CreationDate
+	destination.CreationDate = genruntime.ClonePointerToString(registry.CreationDate)
+
+	// DataEndpointEnabled
+	if registry.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registry.DataEndpointEnabled
+		destination.DataEndpointEnabled = &dataEndpointEnabled
+	} else {
+		destination.DataEndpointEnabled = nil
+	}
+
+	// DataEndpointHostNames
+	destination.DataEndpointHostNames = genruntime.CloneSliceOfString(registry.DataEndpointHostNames)
+
+	// Encryption
+	if registry.Encryption != nil {
+		var encryption v20210901s.EncryptionProperty_STATUS
+		err := registry.Encryption.AssignPropertiesToEncryptionProperty_STATUS(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty_STATUS() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(registry.Id)
+
+	// Identity
+	if registry.Identity != nil {
+		var identity v20210901s.IdentityProperties_STATUS
+		err := registry.Identity.AssignPropertiesToIdentityProperties_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityProperties_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(registry.Location)
+
+	// LoginServer
+	destination.LoginServer = genruntime.ClonePointerToString(registry.LoginServer)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(registry.Name)
+
+	// NetworkRuleBypassOptions
+	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registry.NetworkRuleBypassOptions)
+
+	// NetworkRuleSet
+	if registry.NetworkRuleSet != nil {
+		var networkRuleSet v20210901s.NetworkRuleSet_STATUS
+		err := registry.NetworkRuleSet.AssignPropertiesToNetworkRuleSet_STATUS(&networkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+		}
+		destination.NetworkRuleSet = &networkRuleSet
+	} else {
+		destination.NetworkRuleSet = nil
+	}
+
+	// Policies
+	if registry.Policies != nil {
+		var policy v20210901s.Policies_STATUS
+		err := registry.Policies.AssignPropertiesToPolicies_STATUS(&policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPolicies_STATUS() to populate field Policies")
+		}
+		destination.Policies = &policy
+	} else {
+		destination.Policies = nil
+	}
+
+	// PrivateEndpointConnections
+	if registry.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20210901s.PrivateEndpointConnection_STATUS, len(registry.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v20210901s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(registry.ProvisioningState)
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registry.PublicNetworkAccess)
+
+	// Sku
+	if registry.Sku != nil {
+		var sku v20210901s.Sku_STATUS
+		err := registry.Sku.AssignPropertiesToSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Status
+	if registry.Status != nil {
+		var status v20210901s.Status_STATUS
+		err := registry.Status.AssignPropertiesToStatus_STATUS(&status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStatus_STATUS() to populate field Status")
+		}
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// SystemData
+	if registry.SystemData != nil {
+		var systemDatum v20210901s.SystemData_STATUS
+		err := registry.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(registry.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(registry.Type)
+
+	// ZoneRedundancy
+	destination.ZoneRedundancy = genruntime.ClonePointerToString(registry.ZoneRedundancy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210901.EncryptionProperty
 // Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
 type EncryptionProperty struct {
@@ -1497,28 +1029,17 @@ type EncryptionProperty_STATUS struct {
 	Status             *string                    `json:"status,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromEncryptionProperty_STATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionProperty_STATUS(source *v20210901s.EncryptionProperty_STATUS) error {
-=======
-// AssignPropertiesFromEncryptionPropertySTATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropertySTATUS(source *v20210901s.EncryptionProperty_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
 		var keyVaultProperty KeyVaultProperties_STATUS
-<<<<<<< HEAD
 		err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-=======
-		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSTATUS(source.KeyVaultProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
->>>>>>> main
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -1539,28 +1060,17 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToEncryptionProperty_STATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionProperty_STATUS(destination *v20210901s.EncryptionProperty_STATUS) error {
-=======
-// AssignPropertiesToEncryptionPropertySTATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionPropertySTATUS(destination *v20210901s.EncryptionProperty_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
 		var keyVaultProperty v20210901s.KeyVaultProperties_STATUS
-<<<<<<< HEAD
 		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-=======
-		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesSTATUS(&keyVaultProperty)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
->>>>>>> main
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -1687,13 +1197,8 @@ type IdentityProperties_STATUS struct {
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromIdentityProperties_STATUS populates our IdentityProperties_STATUS from the provided source IdentityProperties_STATUS
 func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityProperties_STATUS(source *v20210901s.IdentityProperties_STATUS) error {
-=======
-// AssignPropertiesFromIdentityPropertiesSTATUS populates our IdentityProperties_STATUS from the provided source IdentityProperties_STATUS
-func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropertiesSTATUS(source *v20210901s.IdentityProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1713,15 +1218,9 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropert
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserIdentityProperties_STATUS
-<<<<<<< HEAD
 			err := userAssignedIdentity.AssignPropertiesFromUserIdentityProperties_STATUS(&userAssignedIdentityValue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
-=======
-			err := userAssignedIdentity.AssignPropertiesFromUserIdentityPropertiesSTATUS(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserIdentityPropertiesSTATUS() to populate field UserAssignedIdentities")
->>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1741,13 +1240,8 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropert
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToIdentityProperties_STATUS populates the provided destination IdentityProperties_STATUS from our IdentityProperties_STATUS
 func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityProperties_STATUS(destination *v20210901s.IdentityProperties_STATUS) error {
-=======
-// AssignPropertiesToIdentityPropertiesSTATUS populates the provided destination IdentityProperties_STATUS from our IdentityProperties_STATUS
-func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityPropertiesSTATUS(destination *v20210901s.IdentityProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1767,15 +1261,9 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityPropertie
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity v20210901s.UserIdentityProperties_STATUS
-<<<<<<< HEAD
 			err := userAssignedIdentityValue.AssignPropertiesToUserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
-=======
-			err := userAssignedIdentityValue.AssignPropertiesToUserIdentityPropertiesSTATUS(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserIdentityPropertiesSTATUS() to populate field UserAssignedIdentities")
->>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1885,13 +1373,8 @@ type NetworkRuleSet_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromNetworkRuleSet_STATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(source *v20210901s.NetworkRuleSet_STATUS) error {
-=======
-// AssignPropertiesFromNetworkRuleSetSTATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSetSTATUS(source *v20210901s.NetworkRuleSet_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1905,15 +1388,9 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSetSTATUS(s
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule IPRule_STATUS
-<<<<<<< HEAD
 			err := ipRule.AssignPropertiesFromIPRule_STATUS(&ipRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromIPRule_STATUS() to populate field IpRules")
-=======
-			err := ipRule.AssignPropertiesFromIPRuleSTATUS(&ipRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleSTATUS() to populate field IpRules")
->>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -1933,13 +1410,8 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSetSTATUS(s
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToNetworkRuleSet_STATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(destination *v20210901s.NetworkRuleSet_STATUS) error {
-=======
-// AssignPropertiesToNetworkRuleSetSTATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSetSTATUS(destination *v20210901s.NetworkRuleSet_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ruleSet.PropertyBag)
 
@@ -1953,15 +1425,9 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSetSTATUS(des
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule v20210901s.IPRule_STATUS
-<<<<<<< HEAD
 			err := ipRuleItem.AssignPropertiesToIPRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIPRule_STATUS() to populate field IpRules")
-=======
-			err := ipRuleItem.AssignPropertiesToIPRuleSTATUS(&ipRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIPRuleSTATUS() to populate field IpRules")
->>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2129,28 +1595,17 @@ type Policies_STATUS struct {
 	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromPolicies_STATUS populates our Policies_STATUS from the provided source Policies_STATUS
 func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *v20210901s.Policies_STATUS) error {
-=======
-// AssignPropertiesFromPoliciesSTATUS populates our Policies_STATUS from the provided source Policies_STATUS
-func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *v20210901s.Policies_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ExportPolicy
 	if source.ExportPolicy != nil {
 		var exportPolicy ExportPolicy_STATUS
-<<<<<<< HEAD
 		err := exportPolicy.AssignPropertiesFromExportPolicy_STATUS(source.ExportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExportPolicy_STATUS() to populate field ExportPolicy")
-=======
-		err := exportPolicy.AssignPropertiesFromExportPolicySTATUS(source.ExportPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExportPolicySTATUS() to populate field ExportPolicy")
->>>>>>> main
 		}
 		policies.ExportPolicy = &exportPolicy
 	} else {
@@ -2160,15 +1615,9 @@ func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *v202
 	// QuarantinePolicy
 	if source.QuarantinePolicy != nil {
 		var quarantinePolicy QuarantinePolicy_STATUS
-<<<<<<< HEAD
 		err := quarantinePolicy.AssignPropertiesFromQuarantinePolicy_STATUS(source.QuarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromQuarantinePolicy_STATUS() to populate field QuarantinePolicy")
-=======
-		err := quarantinePolicy.AssignPropertiesFromQuarantinePolicySTATUS(source.QuarantinePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromQuarantinePolicySTATUS() to populate field QuarantinePolicy")
->>>>>>> main
 		}
 		policies.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -2178,15 +1627,9 @@ func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *v202
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
 		var retentionPolicy RetentionPolicy_STATUS
-<<<<<<< HEAD
 		err := retentionPolicy.AssignPropertiesFromRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromRetentionPolicy_STATUS() to populate field RetentionPolicy")
-=======
-		err := retentionPolicy.AssignPropertiesFromRetentionPolicySTATUS(source.RetentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRetentionPolicySTATUS() to populate field RetentionPolicy")
->>>>>>> main
 		}
 		policies.RetentionPolicy = &retentionPolicy
 	} else {
@@ -2196,15 +1639,9 @@ func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *v202
 	// TrustPolicy
 	if source.TrustPolicy != nil {
 		var trustPolicy TrustPolicy_STATUS
-<<<<<<< HEAD
 		err := trustPolicy.AssignPropertiesFromTrustPolicy_STATUS(source.TrustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromTrustPolicy_STATUS() to populate field TrustPolicy")
-=======
-		err := trustPolicy.AssignPropertiesFromTrustPolicySTATUS(source.TrustPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTrustPolicySTATUS() to populate field TrustPolicy")
->>>>>>> main
 		}
 		policies.TrustPolicy = &trustPolicy
 	} else {
@@ -2222,28 +1659,17 @@ func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *v202
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToPolicies_STATUS populates the provided destination Policies_STATUS from our Policies_STATUS
 func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *v20210901s.Policies_STATUS) error {
-=======
-// AssignPropertiesToPoliciesSTATUS populates the provided destination Policies_STATUS from our Policies_STATUS
-func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *v20210901s.Policies_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policies.PropertyBag)
 
 	// ExportPolicy
 	if policies.ExportPolicy != nil {
 		var exportPolicy v20210901s.ExportPolicy_STATUS
-<<<<<<< HEAD
 		err := policies.ExportPolicy.AssignPropertiesToExportPolicy_STATUS(&exportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExportPolicy_STATUS() to populate field ExportPolicy")
-=======
-		err := policies.ExportPolicy.AssignPropertiesToExportPolicySTATUS(&exportPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExportPolicySTATUS() to populate field ExportPolicy")
->>>>>>> main
 		}
 		destination.ExportPolicy = &exportPolicy
 	} else {
@@ -2253,15 +1679,9 @@ func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *v
 	// QuarantinePolicy
 	if policies.QuarantinePolicy != nil {
 		var quarantinePolicy v20210901s.QuarantinePolicy_STATUS
-<<<<<<< HEAD
 		err := policies.QuarantinePolicy.AssignPropertiesToQuarantinePolicy_STATUS(&quarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToQuarantinePolicy_STATUS() to populate field QuarantinePolicy")
-=======
-		err := policies.QuarantinePolicy.AssignPropertiesToQuarantinePolicySTATUS(&quarantinePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToQuarantinePolicySTATUS() to populate field QuarantinePolicy")
->>>>>>> main
 		}
 		destination.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -2271,15 +1691,9 @@ func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *v
 	// RetentionPolicy
 	if policies.RetentionPolicy != nil {
 		var retentionPolicy v20210901s.RetentionPolicy_STATUS
-<<<<<<< HEAD
 		err := policies.RetentionPolicy.AssignPropertiesToRetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToRetentionPolicy_STATUS() to populate field RetentionPolicy")
-=======
-		err := policies.RetentionPolicy.AssignPropertiesToRetentionPolicySTATUS(&retentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRetentionPolicySTATUS() to populate field RetentionPolicy")
->>>>>>> main
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -2289,15 +1703,9 @@ func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *v
 	// TrustPolicy
 	if policies.TrustPolicy != nil {
 		var trustPolicy v20210901s.TrustPolicy_STATUS
-<<<<<<< HEAD
 		err := policies.TrustPolicy.AssignPropertiesToTrustPolicy_STATUS(&trustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTrustPolicy_STATUS() to populate field TrustPolicy")
-=======
-		err := policies.TrustPolicy.AssignPropertiesToTrustPolicySTATUS(&trustPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTrustPolicySTATUS() to populate field TrustPolicy")
->>>>>>> main
 		}
 		destination.TrustPolicy = &trustPolicy
 	} else {
@@ -2315,27 +1723,16 @@ func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *v
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20210901.PrivateEndpointConnection_STATUS
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210901.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-=======
-// Storage version of v1alpha1api20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
->>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210901s.PrivateEndpointConnection_STATUS) error {
-=======
-// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2345,15 +1742,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
 		}
 		connection.SystemData = &systemDatum
 	} else {
@@ -2371,13 +1762,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210901s.PrivateEndpointConnection_STATUS) error {
-=======
-// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -2385,19 +1771,11 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// SystemData
-<<<<<<< HEAD
 	if connection.SystemData != nil {
 		var systemDatum v20210901s.SystemData_STATUS
 		err := connection.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
-	if embedded.SystemData != nil {
-		var systemDatum v20210901s.SystemData_STATUS
-		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2468,13 +1846,8 @@ type Sku_STATUS struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210901s.Sku_STATUS) error {
-=======
-// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210901s.Sku_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2495,13 +1868,8 @@ func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210901s.Sku_STAT
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210901s.Sku_STATUS) error {
-=======
-// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210901s.Sku_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -2531,13 +1899,8 @@ type Status_STATUS struct {
 	Timestamp     *string                `json:"timestamp,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromStatus_STATUS populates our Status_STATUS from the provided source Status_STATUS
 func (status *Status_STATUS) AssignPropertiesFromStatus_STATUS(source *v20210901s.Status_STATUS) error {
-=======
-// AssignPropertiesFromStatusSTATUS populates our Status_STATUS from the provided source Status_STATUS
-func (status *Status_STATUS) AssignPropertiesFromStatusSTATUS(source *v20210901s.Status_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2561,13 +1924,8 @@ func (status *Status_STATUS) AssignPropertiesFromStatusSTATUS(source *v20210901s
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToStatus_STATUS populates the provided destination Status_STATUS from our Status_STATUS
 func (status *Status_STATUS) AssignPropertiesToStatus_STATUS(destination *v20210901s.Status_STATUS) error {
-=======
-// AssignPropertiesToStatusSTATUS populates the provided destination Status_STATUS from our Status_STATUS
-func (status *Status_STATUS) AssignPropertiesToStatusSTATUS(destination *v20210901s.Status_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
 
@@ -2603,13 +1961,8 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20210901s.SystemData_STATUS) error {
-=======
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20210901s.SystemData_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2642,13 +1995,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20210901s.SystemData_STATUS) error {
-=======
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20210901s.SystemData_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -2733,13 +2081,8 @@ type ExportPolicy_STATUS struct {
 	Status      *string                `json:"status,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromExportPolicy_STATUS populates our ExportPolicy_STATUS from the provided source ExportPolicy_STATUS
 func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicy_STATUS(source *v20210901s.ExportPolicy_STATUS) error {
-=======
-// AssignPropertiesFromExportPolicySTATUS populates our ExportPolicy_STATUS from the provided source ExportPolicy_STATUS
-func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicySTATUS(source *v20210901s.ExportPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2757,13 +2100,8 @@ func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicySTATUS(source
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToExportPolicy_STATUS populates the provided destination ExportPolicy_STATUS from our ExportPolicy_STATUS
 func (policy *ExportPolicy_STATUS) AssignPropertiesToExportPolicy_STATUS(destination *v20210901s.ExportPolicy_STATUS) error {
-=======
-// AssignPropertiesToExportPolicySTATUS populates the provided destination ExportPolicy_STATUS from our ExportPolicy_STATUS
-func (policy *ExportPolicy_STATUS) AssignPropertiesToExportPolicySTATUS(destination *v20210901s.ExportPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -2841,13 +2179,8 @@ type IPRule_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromIPRule_STATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesFromIPRule_STATUS(source *v20210901s.IPRule_STATUS) error {
-=======
-// AssignPropertiesFromIPRuleSTATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
-func (rule *IPRule_STATUS) AssignPropertiesFromIPRuleSTATUS(source *v20210901s.IPRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2868,13 +2201,8 @@ func (rule *IPRule_STATUS) AssignPropertiesFromIPRuleSTATUS(source *v20210901s.I
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToIPRule_STATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *v20210901s.IPRule_STATUS) error {
-=======
-// AssignPropertiesToIPRuleSTATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
-func (rule *IPRule_STATUS) AssignPropertiesToIPRuleSTATUS(destination *v20210901s.IPRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -2958,13 +2286,8 @@ type KeyVaultProperties_STATUS struct {
 	VersionedKeyIdentifier   *string                `json:"versionedKeyIdentifier,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromKeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultProperties_STATUS(source *v20210901s.KeyVaultProperties_STATUS) error {
-=======
-// AssignPropertiesFromKeyVaultPropertiesSTATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropertiesSTATUS(source *v20210901s.KeyVaultProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2999,13 +2322,8 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToKeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultProperties_STATUS(destination *v20210901s.KeyVaultProperties_STATUS) error {
-=======
-// AssignPropertiesToKeyVaultPropertiesSTATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertiesSTATUS(destination *v20210901s.KeyVaultProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -3092,13 +2410,8 @@ type QuarantinePolicy_STATUS struct {
 	Status      *string                `json:"status,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromQuarantinePolicy_STATUS populates our QuarantinePolicy_STATUS from the provided source QuarantinePolicy_STATUS
 func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicy_STATUS(source *v20210901s.QuarantinePolicy_STATUS) error {
-=======
-// AssignPropertiesFromQuarantinePolicySTATUS populates our QuarantinePolicy_STATUS from the provided source QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicySTATUS(source *v20210901s.QuarantinePolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3116,13 +2429,8 @@ func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicySTATU
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToQuarantinePolicy_STATUS populates the provided destination QuarantinePolicy_STATUS from our QuarantinePolicy_STATUS
 func (policy *QuarantinePolicy_STATUS) AssignPropertiesToQuarantinePolicy_STATUS(destination *v20210901s.QuarantinePolicy_STATUS) error {
-=======
-// AssignPropertiesToQuarantinePolicySTATUS populates the provided destination QuarantinePolicy_STATUS from our QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy_STATUS) AssignPropertiesToQuarantinePolicySTATUS(destination *v20210901s.QuarantinePolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -3201,13 +2509,8 @@ type RetentionPolicy_STATUS struct {
 	Status          *string                `json:"status,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromRetentionPolicy_STATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
 func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicy_STATUS(source *v20210901s.RetentionPolicy_STATUS) error {
-=======
-// AssignPropertiesFromRetentionPolicySTATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicySTATUS(source *v20210901s.RetentionPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3231,13 +2534,8 @@ func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicySTATUS(
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToRetentionPolicy_STATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
 func (policy *RetentionPolicy_STATUS) AssignPropertiesToRetentionPolicy_STATUS(destination *v20210901s.RetentionPolicy_STATUS) error {
-=======
-// AssignPropertiesToRetentionPolicySTATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignPropertiesToRetentionPolicySTATUS(destination *v20210901s.RetentionPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -3321,13 +2619,8 @@ type TrustPolicy_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromTrustPolicy_STATUS populates our TrustPolicy_STATUS from the provided source TrustPolicy_STATUS
 func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicy_STATUS(source *v20210901s.TrustPolicy_STATUS) error {
-=======
-// AssignPropertiesFromTrustPolicySTATUS populates our TrustPolicy_STATUS from the provided source TrustPolicy_STATUS
-func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicySTATUS(source *v20210901s.TrustPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3348,13 +2641,8 @@ func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicySTATUS(source *
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToTrustPolicy_STATUS populates the provided destination TrustPolicy_STATUS from our TrustPolicy_STATUS
 func (policy *TrustPolicy_STATUS) AssignPropertiesToTrustPolicy_STATUS(destination *v20210901s.TrustPolicy_STATUS) error {
-=======
-// AssignPropertiesToTrustPolicySTATUS populates the provided destination TrustPolicy_STATUS from our TrustPolicy_STATUS
-func (policy *TrustPolicy_STATUS) AssignPropertiesToTrustPolicySTATUS(destination *v20210901s.TrustPolicy_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -3435,13 +2723,8 @@ type UserIdentityProperties_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromUserIdentityProperties_STATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
 func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentityProperties_STATUS(source *v20210901s.UserIdentityProperties_STATUS) error {
-=======
-// AssignPropertiesFromUserIdentityPropertiesSTATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentityPropertiesSTATUS(source *v20210901s.UserIdentityProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3462,13 +2745,8 @@ func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentit
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToUserIdentityProperties_STATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
 func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityProperties_STATUS(destination *v20210901s.UserIdentityProperties_STATUS) error {
-=======
-// AssignPropertiesToUserIdentityPropertiesSTATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityPropertiesSTATUS(destination *v20210901s.UserIdentityProperties_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 

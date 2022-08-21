@@ -52,6 +52,18 @@ type SkuARM struct {
 	Tier *Tier    `json:"tier,omitempty"`
 }
 
+// Deprecated version of StorageAccount_Spec_Kind. Use v1beta20210401.StorageAccount_Spec_Kind instead
+// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
+type StorageAccount_Spec_Kind string
+
+const (
+	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
+	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
+	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
+	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
+	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
+)
+
 // Deprecated version of StorageAccountPropertiesCreateParameters. Use v1beta20210401.StorageAccountPropertiesCreateParameters instead
 type StorageAccountPropertiesCreateParametersARM struct {
 	AccessTier                            *StorageAccountPropertiesCreateParameters_AccessTier           `json:"accessTier,omitempty"`
@@ -71,18 +83,6 @@ type StorageAccountPropertiesCreateParametersARM struct {
 	SasPolicy                             *SasPolicyARM                                                  `json:"sasPolicy,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                                          `json:"supportsHttpsTrafficOnly,omitempty"`
 }
-
-// Deprecated version of StorageAccount_Spec_Kind. Use v1beta20210401.StorageAccount_Spec_Kind instead
-// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccount_Spec_Kind string
-
-const (
-	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
-	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
-	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
-	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
-	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
-)
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
 type AzureFilesIdentityBasedAuthenticationARM struct {

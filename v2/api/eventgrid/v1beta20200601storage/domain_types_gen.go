@@ -28,11 +28,7 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Domain_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Domains_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
@@ -143,46 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
-// Storage version of v1beta20200601.Domain_STATUS
-type Domain_STATUS struct {
-	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
-	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
-	Id                         *string                                                       `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_STATUS                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_STATUS                                    `json:"inputSchemaMapping,omitempty"`
-	Location                   *string                                                       `json:"location,omitempty"`
-	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
-	Name                       *string                                                       `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_STATUS                                            `json:"systemData,omitempty"`
-	Tags                       map[string]string                                             `json:"tags,omitempty"`
-	Type                       *string                                                       `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
-
-// ConvertStatusFrom populates our Domain_STATUS from the provided source
-func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(domain)
-}
-
-// ConvertStatusTo populates the provided destination from our Domain_STATUS
-func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == domain {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(domain)
-}
-
 // Storage version of v1beta20200601.Domain_Spec
 type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -224,6 +180,46 @@ func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return destination.ConvertSpecFrom(domain)
 }
 
+// Storage version of v1beta20200601.Domain_STATUS
+type Domain_STATUS struct {
+	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
+	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
+	Id                         *string                                                       `json:"id,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                        `json:"inboundIpRules,omitempty"`
+	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                    `json:"inputSchemaMapping,omitempty"`
+	Location                   *string                                                       `json:"location,omitempty"`
+	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
+	Name                       *string                                                       `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData_STATUS                                            `json:"systemData,omitempty"`
+	Tags                       map[string]string                                             `json:"tags,omitempty"`
+	Type                       *string                                                       `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
+
+// ConvertStatusFrom populates our Domain_STATUS from the provided source
+func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(domain)
+}
+
+// ConvertStatusTo populates the provided destination from our Domain_STATUS
+func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == domain {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(domain)
+}
+
 // Storage version of v1beta20200601.InboundIpRule
 type InboundIpRule struct {
 	Action      *string                `json:"action,omitempty"`
@@ -238,13 +234,8 @@ type InboundIpRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20200601.InputSchemaMapping
 type InputSchemaMapping struct {
-=======
-// Storage version of v1beta20200601.InputSchemaMapping_STATUS
-type InputSchemaMapping_STATUS struct {
->>>>>>> main
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

@@ -3,11 +3,6 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
-========
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 type VirtualMachineScaleSet_STATUSARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
@@ -93,11 +88,7 @@ type VirtualMachineScaleSetIdentity_STATUSARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	Type *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
-========
-	Type *VirtualMachineScaleSetIdentitySTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 }
 
 type VirtualMachineScaleSetProperties_STATUSARM struct {
@@ -178,11 +169,7 @@ type AutomaticRepairsPolicy_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
-========
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 
 type ScaleInPolicy_STATUSARM struct {
 	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
@@ -196,11 +183,7 @@ type ScaleInPolicy_STATUSARM struct {
 	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
 	// scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
 	// zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	Rules []ScaleInPolicy_Rules_STATUS `json:"rules,omitempty"`
-========
-	Rules []ScaleInPolicySTATUSRules `json:"rules,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 }
 
 type SubResource_STATUSARM struct {
@@ -217,17 +200,12 @@ type UpgradePolicy_STATUSARM struct {
 	// Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
 	// manualUpgrade action.
 	// Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	Mode *UpgradePolicy_Mode_STATUS `json:"mode,omitempty"`
-========
-	Mode *UpgradePolicySTATUSMode `json:"mode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_STATUSARM `json:"rollingUpgradePolicy,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 type VirtualMachineScaleSetIdentity_Type_STATUS string
 
 const (
@@ -235,15 +213,6 @@ const (
 	VirtualMachineScaleSetIdentity_Type_SystemAssigned_STATUS             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
 	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_UserAssigned_STATUS               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
-========
-type VirtualMachineScaleSetIdentitySTATUSType string
-
-const (
-	VirtualMachineScaleSetIdentitySTATUSType_None                       = VirtualMachineScaleSetIdentitySTATUSType("None")
-	VirtualMachineScaleSetIdentitySTATUSType_SystemAssigned             = VirtualMachineScaleSetIdentitySTATUSType("SystemAssigned")
-	VirtualMachineScaleSetIdentitySTATUSType_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentitySTATUSType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentitySTATUSType_UserAssigned               = VirtualMachineScaleSetIdentitySTATUSType("UserAssigned")
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 )
 
 type VirtualMachineScaleSetVMProfile_STATUSARM struct {
@@ -479,16 +448,6 @@ type VirtualMachineScaleSetDataDisk_STATUSARM struct {
 type VirtualMachineScaleSetExtension_STATUSARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
-========
-
-	// Name: The name of the extension.
-	Name       *string                                              `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetExtensionProperties_STATUSARM `json:"properties,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 }
 
 type VirtualMachineScaleSetNetworkConfiguration_STATUSARM struct {
@@ -538,11 +497,7 @@ type VirtualMachineScaleSetOSDisk_STATUSARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	OsType *VirtualMachineScaleSetOSDisk_OsType_STATUS `json:"osType,omitempty"`
-========
-	OsType *VirtualMachineScaleSetOSDiskSTATUSOsType `json:"osType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 
 	// VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
@@ -551,46 +506,6 @@ type VirtualMachineScaleSetOSDisk_STATUSARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
-========
-type VirtualMachineScaleSetExtensionProperties_STATUSARM struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	// newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// ForceUpdateTag: If a value is provided and is different from the previous value, the extension handler will be forced to
-	// update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
-	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 type VirtualMachineScaleSetManagedDiskParameters_STATUSARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource_STATUSARM `json:"diskEncryptionSet,omitempty"`
@@ -661,11 +576,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_STATUSARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-========
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesSTATUSPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -692,11 +603,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM stru
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<<< HEAD:v2/api/compute/v1beta20201201/virtual_machine_scale_set_statusarm_types_gen.go
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
-========
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesSTATUSPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20201201/virtual_machine_scale_set_status_arm_types_gen.go
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`

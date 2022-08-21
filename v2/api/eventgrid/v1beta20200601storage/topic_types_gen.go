@@ -28,11 +28,7 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Topic_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Topics_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
@@ -137,46 +133,6 @@ type TopicList struct {
 	Items           []Topic `json:"items"`
 }
 
-// Storage version of v1beta20200601.Topic_STATUS
-type Topic_STATUS struct {
-	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
-	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
-	Id                         *string                                                      `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_STATUS                                       `json:"inboundIpRules,omitempty"`
-	InputSchema                *string                                                      `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_STATUS                                   `json:"inputSchemaMapping,omitempty"`
-	Location                   *string                                                      `json:"location,omitempty"`
-	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
-	Name                       *string                                                      `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                      `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                      `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_STATUS                                           `json:"systemData,omitempty"`
-	Tags                       map[string]string                                            `json:"tags,omitempty"`
-	Type                       *string                                                      `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
-
-// ConvertStatusFrom populates our Topic_STATUS from the provided source
-func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(topic)
-}
-
-// ConvertStatusTo populates the provided destination from our Topic_STATUS
-func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(topic)
-}
-
 // Storage version of v1beta20200601.Topic_Spec
 type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -216,6 +172,46 @@ func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	}
 
 	return destination.ConvertSpecFrom(topic)
+}
+
+// Storage version of v1beta20200601.Topic_STATUS
+type Topic_STATUS struct {
+	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
+	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
+	Id                         *string                                                      `json:"id,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                       `json:"inboundIpRules,omitempty"`
+	InputSchema                *string                                                      `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                   `json:"inputSchemaMapping,omitempty"`
+	Location                   *string                                                      `json:"location,omitempty"`
+	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
+	Name                       *string                                                      `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                      `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                      `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData_STATUS                                           `json:"systemData,omitempty"`
+	Tags                       map[string]string                                            `json:"tags,omitempty"`
+	Type                       *string                                                      `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
+
+// ConvertStatusFrom populates our Topic_STATUS from the provided source
+func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(topic)
+}
+
+// ConvertStatusTo populates the provided destination from our Topic_STATUS
+func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(topic)
 }
 
 // Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded

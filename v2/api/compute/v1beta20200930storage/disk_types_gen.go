@@ -29,11 +29,7 @@ import (
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Disk_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Disks_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Disk_STATUS `json:"status,omitempty"`
 }
 
@@ -144,64 +140,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-09-30")
 
-// Storage version of v1beta20200930.Disk_STATUS
-type Disk_STATUS struct {
-	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
-	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
-	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
-	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
-	DiskIOPSReadOnly             *int                                 `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                                 `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                                 `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                                 `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
-	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
-	DiskState                    *string                              `json:"diskState,omitempty"`
-	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
-	Id                           *string                              `json:"id,omitempty"`
-	Location                     *string                              `json:"location,omitempty"`
-	ManagedBy                    *string                              `json:"managedBy,omitempty"`
-	ManagedByExtended            []string                             `json:"managedByExtended,omitempty"`
-	MaxShares                    *int                                 `json:"maxShares,omitempty"`
-	Name                         *string                              `json:"name,omitempty"`
-	NetworkAccessPolicy          *string                              `json:"networkAccessPolicy,omitempty"`
-	OsType                       *string                              `json:"osType,omitempty"`
-	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
-	ShareInfo                    []ShareInfoElement_STATUS            `json:"shareInfo,omitempty"`
-	Sku                          *DiskSku_STATUS                      `json:"sku,omitempty"`
-	Tags                         map[string]string                    `json:"tags,omitempty"`
-	Tier                         *string                              `json:"tier,omitempty"`
-	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
-	Type                         *string                              `json:"type,omitempty"`
-	UniqueId                     *string                              `json:"uniqueId,omitempty"`
-	Zones                        []string                             `json:"zones,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Disk_STATUS{}
-
-// ConvertStatusFrom populates our Disk_STATUS from the provided source
-func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(disk)
-}
-
-// ConvertStatusTo populates the provided destination from our Disk_STATUS
-func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == disk {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(disk)
-}
-
 // Storage version of v1beta20200930.Disk_Spec
 type Disk_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -258,6 +196,64 @@ func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 	}
 
 	return destination.ConvertSpecFrom(disk)
+}
+
+// Storage version of v1beta20200930.Disk_STATUS
+type Disk_STATUS struct {
+	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
+	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
+	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
+	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
+	DiskIOPSReadOnly             *int                                 `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                                 `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                                 `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                                 `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *string                              `json:"diskState,omitempty"`
+	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
+	Id                           *string                              `json:"id,omitempty"`
+	Location                     *string                              `json:"location,omitempty"`
+	ManagedBy                    *string                              `json:"managedBy,omitempty"`
+	ManagedByExtended            []string                             `json:"managedByExtended,omitempty"`
+	MaxShares                    *int                                 `json:"maxShares,omitempty"`
+	Name                         *string                              `json:"name,omitempty"`
+	NetworkAccessPolicy          *string                              `json:"networkAccessPolicy,omitempty"`
+	OsType                       *string                              `json:"osType,omitempty"`
+	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	ShareInfo                    []ShareInfoElement_STATUS            `json:"shareInfo,omitempty"`
+	Sku                          *DiskSku_STATUS                      `json:"sku,omitempty"`
+	Tags                         map[string]string                    `json:"tags,omitempty"`
+	Tier                         *string                              `json:"tier,omitempty"`
+	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
+	Type                         *string                              `json:"type,omitempty"`
+	UniqueId                     *string                              `json:"uniqueId,omitempty"`
+	Zones                        []string                             `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Disk_STATUS{}
+
+// ConvertStatusFrom populates our Disk_STATUS from the provided source
+func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == disk {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(disk)
+}
+
+// ConvertStatusTo populates the provided destination from our Disk_STATUS
+func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == disk {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(disk)
 }
 
 // Storage version of v1beta20200930.CreationData
@@ -333,16 +329,6 @@ type EncryptionSettingsCollection_STATUS struct {
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20200930.Encryption_STATUS
-type Encryption_STATUS struct {
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                *string                `json:"type,omitempty"`
-}
-
-=======
->>>>>>> main
 // Storage version of v1beta20200930.ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
@@ -401,13 +387,8 @@ type ExtendedLocation_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *v20201201s.ExtendedLocation_STATUS) error {
-=======
-// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *v20201201s.ExtendedLocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -428,13 +409,8 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTA
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
-=======
-// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 

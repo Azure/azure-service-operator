@@ -28,11 +28,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Workspace_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -143,50 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
 
-// Storage version of v1beta20210601.Workspace_STATUS
-type Workspace_STATUS struct {
-	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
-	CreatedDate                     *string                            `json:"createdDate,omitempty"`
-	CustomerId                      *string                            `json:"customerId,omitempty"`
-	Etag                            *string                            `json:"etag,omitempty"`
-	Features                        *WorkspaceFeatures_STATUS          `json:"features,omitempty"`
-	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
-	Id                              *string                            `json:"id,omitempty"`
-	Location                        *string                            `json:"location,omitempty"`
-	ModifiedDate                    *string                            `json:"modifiedDate,omitempty"`
-	Name                            *string                            `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
-	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_STATUS               `json:"sku,omitempty"`
-	Tags                            map[string]string                  `json:"tags,omitempty"`
-	Type                            *string                            `json:"type,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_STATUS           `json:"workspaceCapping,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
-
-// ConvertStatusFrom populates our Workspace_STATUS from the provided source
-func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(workspace)
-}
-
-// ConvertStatusTo populates the provided destination from our Workspace_STATUS
-func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(workspace)
-}
-
 // Storage version of v1beta20210601.Workspace_Spec
 type Workspace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -231,6 +183,50 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	}
 
 	return destination.ConvertSpecFrom(workspace)
+}
+
+// Storage version of v1beta20210601.Workspace_STATUS
+type Workspace_STATUS struct {
+	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
+	CreatedDate                     *string                            `json:"createdDate,omitempty"`
+	CustomerId                      *string                            `json:"customerId,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
+	Features                        *WorkspaceFeatures_STATUS          `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
+	Id                              *string                            `json:"id,omitempty"`
+	Location                        *string                            `json:"location,omitempty"`
+	ModifiedDate                    *string                            `json:"modifiedDate,omitempty"`
+	Name                            *string                            `json:"name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
+	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku_STATUS               `json:"sku,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
+	Type                            *string                            `json:"type,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_STATUS           `json:"workspaceCapping,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
+
+// ConvertStatusFrom populates our Workspace_STATUS from the provided source
+func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(workspace)
+}
+
+// ConvertStatusTo populates the provided destination from our Workspace_STATUS
+func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(workspace)
 }
 
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS

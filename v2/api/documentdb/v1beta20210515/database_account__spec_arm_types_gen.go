@@ -36,6 +36,15 @@ func (account *DatabaseAccount_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
+// +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
+type DatabaseAccount_Spec_Kind string
+
+const (
+	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
+	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
+	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
+)
+
 type DatabaseAccountCreateUpdatePropertiesARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -110,15 +119,6 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
 	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccount_Spec_Kind string
-
-const (
-	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
-	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
-	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
-)
 
 type ManagedServiceIdentityARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly

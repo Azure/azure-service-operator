@@ -3,11 +3,6 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type VirtualMachine_STATUSARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
@@ -30,12 +25,6 @@ type VirtualMachine_STATUSARM struct {
 	// programmatically, Get Started ->. Enter any required information and then click Save.
 	Plan       *Plan_STATUSARM                     `json:"plan,omitempty"`
 	Properties *VirtualMachineProperties_STATUSARM `json:"properties,omitempty"`
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
-
-	// Resources: The virtual machine child extension resources.
-	Resources []VirtualMachineExtension_STATUSARM `json:"resources,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -47,27 +36,6 @@ type VirtualMachine_STATUSARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
-type VirtualMachineExtension_STATUSARM struct {
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name       *string                                      `json:"name,omitempty"`
-	Properties *VirtualMachineExtensionProperties_STATUSARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-}
-
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type VirtualMachineIdentity_STATUSARM struct {
 	// PrincipalId: The principal id of virtual machine identity. This property will only be provided for a system assigned
 	// identity.
@@ -80,11 +48,7 @@ type VirtualMachineIdentity_STATUSARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
-========
-	Type *VirtualMachineIdentitySTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type VirtualMachineProperties_STATUSARM struct {
@@ -266,11 +230,7 @@ type HardwareProfile_STATUSARM struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
-========
-	VmSize *HardwareProfileSTATUSVmSize `json:"vmSize,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2021-07-01.
@@ -282,11 +242,7 @@ type HardwareProfile_STATUSARM struct {
 type NetworkProfile_STATUSARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS `json:"networkApiVersion,omitempty"`
-========
-	NetworkApiVersion *NetworkProfileSTATUSNetworkApiVersion `json:"networkApiVersion,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
@@ -363,11 +319,7 @@ type SecurityProfile_STATUSARM struct {
 	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
 	// UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
-========
-	SecurityType *SecurityProfileSTATUSSecurityType `json:"securityType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -391,7 +343,6 @@ type StorageProfile_STATUSARM struct {
 	OsDisk *OSDisk_STATUSARM `json:"osDisk,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 type VirtualMachineIdentity_Type_STATUS string
 
 const (
@@ -399,59 +350,6 @@ const (
 	VirtualMachineIdentity_Type_SystemAssigned_STATUS             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
 	VirtualMachineIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineIdentity_Type_UserAssigned_STATUS               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
-========
-type VirtualMachineExtensionProperties_STATUSARM struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	// newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// ForceUpdateTag: How the extension handler should be forced to update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	// InstanceView: The virtual machine extension instance view.
-	InstanceView *VirtualMachineExtensionInstanceView_STATUSARM `json:"instanceView,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
-	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// SuppressFailures: Indicates whether failures stemming from the extension will be suppressed (Operational failures such
-	// as not connecting to the VM will not be suppressed regardless of this value). The default is false.
-	SuppressFailures *bool `json:"suppressFailures,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineIdentitySTATUSType string
-
-const (
-	VirtualMachineIdentitySTATUSType_None                       = VirtualMachineIdentitySTATUSType("None")
-	VirtualMachineIdentitySTATUSType_SystemAssigned             = VirtualMachineIdentitySTATUSType("SystemAssigned")
-	VirtualMachineIdentitySTATUSType_SystemAssignedUserAssigned = VirtualMachineIdentitySTATUSType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentitySTATUSType_UserAssigned               = VirtualMachineIdentitySTATUSType("UserAssigned")
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 )
 
 type VirtualMachineInstanceView_STATUSARM struct {
@@ -476,11 +374,7 @@ type VirtualMachineInstanceView_STATUSARM struct {
 	Extensions []VirtualMachineExtensionInstanceView_STATUSARM `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-========
-	HyperVGeneration *VirtualMachineInstanceViewSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUSARM `json:"maintenanceRedeployStatus,omitempty"`
@@ -513,8 +407,6 @@ type VirtualMachineInstanceView_STATUSARM struct {
 	VmHealth *VirtualMachineHealthStatus_STATUSARM `json:"vmHealth,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
 type BootDiagnostics_STATUSARM struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -524,7 +416,6 @@ type BootDiagnostics_STATUSARM struct {
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type BootDiagnosticsInstanceView_STATUSARM struct {
 	// ConsoleScreenshotBlobUri: The console screenshot blob URI.
 	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
@@ -539,18 +430,6 @@ type BootDiagnosticsInstanceView_STATUSARM struct {
 	Status *InstanceViewStatus_STATUSARM `json:"status,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-type BootDiagnostics_STATUSARM struct {
-	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// StorageUri: Uri of the storage account to use for placing the console output and screenshot.
-	// If storageUri is not specified while enabling boot diagnostics, managed storage will be used.
-	StorageUri *string `json:"storageUri,omitempty"`
-}
-
-========
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type DataDisk_STATUSARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -679,11 +558,7 @@ type InstanceViewStatus_STATUSARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
-========
-	Level *InstanceViewStatusSTATUSLevel `json:"level,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -716,11 +591,7 @@ type MaintenanceRedeployStatus_STATUSARM struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
-========
-	LastOperationResultCode *MaintenanceRedeployStatusSTATUSLastOperationResultCode `json:"lastOperationResultCode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -793,11 +664,7 @@ type OSDisk_STATUSARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
-========
-	OsType *OSDiskSTATUSOsType `json:"osType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_STATUSARM `json:"vhd,omitempty"`
@@ -826,8 +693,6 @@ type UefiSettings_STATUSARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
 type VaultSecretGroup_STATUSARM struct {
 	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResource_STATUSARM `json:"sourceVault,omitempty"`
@@ -886,7 +751,6 @@ type VirtualMachinePatchStatus_STATUSARM struct {
 	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUSARM `json:"lastPatchInstallationSummary,omitempty"`
 }
 
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type VMGalleryApplication_STATUSARM struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
 	// package if provided
@@ -926,67 +790,6 @@ type VMSizeProperties_STATUSARM struct {
 	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-type VaultSecretGroup_STATUSARM struct {
-	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
-	SourceVault *SubResource_STATUSARM `json:"sourceVault,omitempty"`
-
-	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
-	VaultCertificates []VaultCertificate_STATUSARM `json:"vaultCertificates,omitempty"`
-}
-
-type VirtualMachineAgentInstanceView_STATUSARM struct {
-	// ExtensionHandlers: The virtual machine extension handler instance view.
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUSARM `json:"extensionHandlers,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUSARM `json:"statuses,omitempty"`
-
-	// VmAgentVersion: The VM Agent full version.
-	VmAgentVersion *string `json:"vmAgentVersion,omitempty"`
-}
-
-type VirtualMachineExtensionInstanceView_STATUSARM struct {
-	// Name: The virtual machine extension name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUSARM `json:"statuses,omitempty"`
-
-	// Substatuses: The resource status information.
-	Substatuses []InstanceViewStatus_STATUSARM `json:"substatuses,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineHealthStatus_STATUSARM struct {
-	// Status: The health status information for the VM.
-	Status *InstanceViewStatus_STATUSARM `json:"status,omitempty"`
-}
-
-type VirtualMachineNetworkInterfaceConfiguration_STATUSARM struct {
-	// Name: The network interface configuration name.
-	Name       *string                                                          `json:"name,omitempty"`
-	Properties *VirtualMachineNetworkInterfaceConfigurationProperties_STATUSARM `json:"properties,omitempty"`
-}
-
-type VirtualMachinePatchStatus_STATUSARM struct {
-	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
-	AvailablePatchSummary *AvailablePatchSummary_STATUSARM `json:"availablePatchSummary,omitempty"`
-
-	// ConfigurationStatuses: The enablement status of the specified patchMode
-	ConfigurationStatuses []InstanceViewStatus_STATUSARM `json:"configurationStatuses,omitempty"`
-
-	// LastPatchInstallationSummary: The installation summary of the latest installation operation for the virtual machine.
-	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUSARM `json:"lastPatchInstallationSummary,omitempty"`
-}
-
-========
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type WindowsConfiguration_STATUSARM struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -1018,11 +821,7 @@ type WindowsConfiguration_STATUSARM struct {
 
 type AdditionalUnattendContent_STATUSARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
-========
-	ComponentName *AdditionalUnattendContentSTATUSComponentName `json:"componentName,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -1030,19 +829,11 @@ type AdditionalUnattendContent_STATUSARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
 	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
-========
-	PassName *AdditionalUnattendContentSTATUSPassName `json:"passName,omitempty"`
-
-	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
-	// AutoLogon.
-	SettingName *AdditionalUnattendContentSTATUSSettingName `json:"settingName,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type AvailablePatchSummary_STATUSARM struct {
@@ -1072,11 +863,7 @@ type AvailablePatchSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
-========
-	Status *AvailablePatchSummarySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type DiffDiskSettings_STATUSARM struct {
@@ -1141,11 +928,7 @@ type LastPatchInstallationSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
-========
-	Status *LastPatchInstallationSummarySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type LinuxPatchSettings_STATUSARM struct {
@@ -1153,11 +936,7 @@ type LinuxPatchSettings_STATUSARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-========
-	AssessmentMode *LinuxPatchSettingsSTATUSAssessmentMode `json:"assessmentMode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Linux.
@@ -1169,11 +948,7 @@ type LinuxPatchSettings_STATUSARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-========
-	PatchMode *LinuxPatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type ManagedDiskParameters_STATUSARM struct {
@@ -1193,11 +968,7 @@ type ManagedDiskParameters_STATUSARM struct {
 
 type NetworkInterfaceReferenceProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-========
-	DeleteOption *NetworkInterfaceReferencePropertiesSTATUSDeleteOption `json:"deleteOption,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -1208,11 +979,7 @@ type PatchSettings_STATUSARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	AssessmentMode *PatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-========
-	AssessmentMode *PatchSettingsSTATUSAssessmentMode `json:"assessmentMode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Windows.
@@ -1232,11 +999,7 @@ type PatchSettings_STATUSARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-========
-	PatchMode *PatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type SshConfiguration_STATUSARM struct {
@@ -1285,11 +1048,7 @@ type VirtualMachineExtensionHandlerInstanceView_STATUSARM struct {
 
 type VirtualMachineNetworkInterfaceConfigurationProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-========
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationPropertiesSTATUSDeleteOption `json:"deleteOption,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM `json:"dnsSettings,omitempty"`
@@ -1354,11 +1113,7 @@ type KeyVaultSecretReference_STATUSARM struct {
 
 type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUSARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
-========
-	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettingsSTATUSRebootSetting `json:"rebootSetting,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type SshPublicKey_STATUSARM struct {
@@ -1373,8 +1128,6 @@ type SshPublicKey_STATUSARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
-========
 type VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1386,7 +1139,6 @@ type VirtualMachineNetworkInterfaceIPConfiguration_STATUSARM struct {
 	Properties *VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUSARM `json:"properties,omitempty"`
 }
 
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type VMDiskSecurityProfile_STATUSARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk that is used for
 	// Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
@@ -1396,31 +1148,14 @@ type VMDiskSecurityProfile_STATUSARM struct {
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
 	// for encryption of just the VMGuestState blob.
 	// NOTE: It can be set for only Confidential VMs.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS `json:"securityEncryptionType,omitempty"`
-}
-
-type VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM struct {
-	// DnsServers: List of DNS servers IP addresses
-	DnsServers []string `json:"dnsServers,omitempty"`
-}
-
-type VirtualMachineNetworkInterfaceIPConfiguration_STATUSARM struct {
-	// Name: The IP configuration name.
-	Name       *string                                                            `json:"name,omitempty"`
-	Properties *VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUSARM `json:"properties,omitempty"`
-}
-
-========
-	SecurityEncryptionType *VMDiskSecurityProfileSTATUSSecurityEncryptionType `json:"securityEncryptionType,omitempty"`
 }
 
 type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettingsSTATUSRebootSetting `json:"rebootSetting,omitempty"`
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
 }
 
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type WinRMListener_STATUSARM struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
 	// the Key Vault, see [Add a key or secret to the key
@@ -1440,20 +1175,9 @@ type WinRMListener_STATUSARM struct {
 	// Possible values are:
 	// http
 	// https
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
-type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
-}
-
-========
-	Protocol *WinRMListenerSTATUSProtocol `json:"protocol,omitempty"`
-}
-
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 type ApiErrorBase_STATUSARM struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -1492,11 +1216,7 @@ type VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUSARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-========
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationPropertiesSTATUSPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_STATUSARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -1514,26 +1234,15 @@ type VirtualMachinePublicIPAddressConfiguration_STATUSARM struct {
 
 type PublicIPAddressSku_STATUSARM struct {
 	// Name: Specify public IP sku name
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Specify public IP sku tier
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
-========
-	Name *PublicIPAddressSkuSTATUSName `json:"name,omitempty"`
-
-	// Tier: Specify public IP sku tier
-	Tier *PublicIPAddressSkuSTATUSTier `json:"tier,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 }
 
 type VirtualMachinePublicIPAddressConfigurationProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-========
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationPropertiesSTATUSDeleteOption `json:"deleteOption,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUSARM `json:"dnsSettings,omitempty"`
@@ -1546,17 +1255,10 @@ type VirtualMachinePublicIPAddressConfigurationProperties_STATUSARM struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_statusarm_types_gen.go
 	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: Specify the public IP allocation type
 	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
-========
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationPropertiesSTATUSPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: Specify the public IP allocation type
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationPropertiesSTATUSPublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_status_arm_types_gen.go
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`

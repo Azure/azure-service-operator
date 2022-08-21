@@ -64,11 +64,7 @@ type ServerProperties_STATUSARM struct {
 	StorageProfile *StorageProfile_STATUSARM `json:"storageProfile,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
-========
-	UserVisibleState *ServerPropertiesSTATUSUserVisibleState `json:"userVisibleState,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 
 	// Version: Server version.
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
@@ -88,11 +84,7 @@ type Sku_STATUSARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
-========
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 }
 
 type ServerPrivateEndpointConnection_STATUSARM struct {
@@ -103,21 +95,12 @@ type ServerPrivateEndpointConnection_STATUSARM struct {
 	Properties *ServerPrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 type Sku_Tier_STATUS string
 
 const (
 	Sku_Tier_Basic_STATUS           = Sku_Tier_STATUS("Basic")
 	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
 	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
-========
-type SkuSTATUSTier string
-
-const (
-	SkuSTATUSTier_Basic           = SkuSTATUSTier("Basic")
-	SkuSTATUSTier_GeneralPurpose  = SkuSTATUSTier("GeneralPurpose")
-	SkuSTATUSTier_MemoryOptimized = SkuSTATUSTier("MemoryOptimized")
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 )
 
 type StorageProfile_STATUSARM struct {
@@ -125,17 +108,10 @@ type StorageProfile_STATUSARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
 	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS `json:"storageAutogrow,omitempty"`
-========
-	GeoRedundantBackup *StorageProfileSTATUSGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfileSTATUSStorageAutogrow `json:"storageAutogrow,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
@@ -149,11 +125,7 @@ type ServerPrivateEndpointConnectionProperties_STATUSARM struct {
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-========
-	ProvisioningState *ServerPrivateEndpointConnectionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 }
 
 type PrivateEndpointProperty_STATUSARM struct {
@@ -163,19 +135,11 @@ type PrivateEndpointProperty_STATUSARM struct {
 
 type ServerPrivateLinkServiceConnectionStateProperty_STATUSARM struct {
 	// ActionsRequired: The actions required for private link service connection.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
-========
-	ActionsRequired *ServerPrivateLinkServiceConnectionStatePropertySTATUSActionsRequired `json:"actionsRequired,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-<<<<<<<< HEAD:v2/api/dbformariadb/v1beta20180601/server_statusarm_types_gen.go
 	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
-========
-	Status *ServerPrivateLinkServiceConnectionStatePropertySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/dbformariadb/v1beta20180601/server_status_arm_types_gen.go
 }

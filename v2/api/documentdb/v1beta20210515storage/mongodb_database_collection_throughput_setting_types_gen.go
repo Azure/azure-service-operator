@@ -28,13 +28,8 @@ import (
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                                `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -83,11 +78,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
-=======
-	return &ThroughputSettingsGetResults_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS); ok {
-=======
-	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
->>>>>>> main
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-=======
-	var st ThroughputSettingsGetResults_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -148,38 +131,6 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
-}
-
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct {
-	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
-	Id          *string                                          `json:"id,omitempty"`
-	Location    *string                                          `json:"location,omitempty"`
-	Name        *string                                          `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                                `json:"tags,omitempty"`
-	Type        *string                                          `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
-
-// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from the provided source
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(setting)
-}
-
-// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == setting {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(setting)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
@@ -220,45 +171,40 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	return destination.ConvertSpecFrom(setting)
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS
-type ThroughputSettingsGetProperties_Resource_STATUS struct {
-=======
-// Storage version of v1beta20210515.ThroughputSettingsGetResults_STATUS
-type ThroughputSettingsGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
+type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
 	Name        *string                                          `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags        map[string]string                                `json:"tags,omitempty"`
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our ThroughputSettingsGetResults_STATUS from the provided source
-func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_STATUS
-func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(setting)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetProperties_STATUS_Resource
-type ThroughputSettingsGetProperties_STATUS_Resource struct {
->>>>>>> main
+// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS
+type ThroughputSettingsGetProperties_Resource_STATUS struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
 	Etag                *string                           `json:"_etag,omitempty"`
 	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`

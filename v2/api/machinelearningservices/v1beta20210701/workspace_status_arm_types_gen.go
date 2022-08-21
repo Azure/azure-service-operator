@@ -33,7 +33,6 @@ type Workspace_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 type Identity_STATUSARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -76,8 +75,6 @@ type SystemData_STATUSARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-========
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 type WorkspaceProperties_STATUSARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -122,28 +119,17 @@ type WorkspaceProperties_STATUSARM struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
-========
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 
 	// PrivateLinkCount: Count of private connections in the workspace
 	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
 
 	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
 	// resource provisioning.
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
 	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-========
-	ProvisioningState *WorkspacePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspacePropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
 	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUSARM `json:"serviceManagedResourcesSettings,omitempty"`
@@ -177,7 +163,6 @@ type EncryptionProperty_STATUSARM struct {
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
@@ -190,11 +175,6 @@ const (
 	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
 )
 
-========
-	Status *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
-}
-
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 type NotebookResourceInfo_STATUSARM struct {
 	Fqdn *string `json:"fqdn,omitempty"`
 
@@ -205,11 +185,7 @@ type NotebookResourceInfo_STATUSARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 type PrivateEndpointConnection_STATUSARM struct {
-========
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -237,7 +213,6 @@ type SharedPrivateLinkResource_STATUSARM struct {
 	Properties *SharedPrivateLinkResourceProperty_STATUSARM `json:"properties,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspace_statusarm_types_gen.go
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -267,8 +242,6 @@ type UserAssignedIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-========
->>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_status_arm_types_gen.go
 type CosmosDbSettings_STATUSARM struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`

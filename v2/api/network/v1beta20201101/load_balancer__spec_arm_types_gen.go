@@ -51,11 +51,7 @@ type ExtendedLocationARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer__spec_arm_types_gen.go
 type LoadBalancerPropertiesFormatARM struct {
-=======
-type LoadBalancers_Spec_PropertiesARM struct {
->>>>>>> main:v2/api/network/v1beta20201101/load_balancers__spec_arm_types_gen.go
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM `json:"backendAddressPools,omitempty"`
 
@@ -97,36 +93,14 @@ type BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku
-type LoadBalancerSkuARM struct {
-	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSkuName `json:"name,omitempty"`
-
-	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
-}
-
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
-<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer__spec_arm_types_gen.go
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 
-=======
-type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
-	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-	// name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of load balancer backend address pool.
-	Properties *LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM `json:"properties,omitempty"`
-}
-
-type LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM struct {
->>>>>>> main:v2/api/network/v1beta20201101/load_balancers__spec_arm_types_gen.go
 	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	// This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -202,28 +176,7 @@ type ProbeARM struct {
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer__spec_arm_types_gen.go
 type FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM struct {
-=======
-// +kubebuilder:validation:Enum={"Basic","Standard"}
-type LoadBalancerSkuName string
-
-const (
-	LoadBalancerSkuName_Basic    = LoadBalancerSkuName("Basic")
-	LoadBalancerSkuName_Standard = LoadBalancerSkuName("Standard")
-)
-
-// +kubebuilder:validation:Enum={"Global","Regional"}
-type LoadBalancerSkuTier string
-
-const (
-	LoadBalancerSkuTier_Global   = LoadBalancerSkuTier("Global")
-	LoadBalancerSkuTier_Regional = LoadBalancerSkuTier("Regional")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/FrontendIPConfigurationPropertiesFormat
-type FrontendIPConfigurationPropertiesFormatARM struct {
->>>>>>> main:v2/api/network/v1beta20201101/load_balancers__spec_arm_types_gen.go
 	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 

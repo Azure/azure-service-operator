@@ -32,10 +32,10 @@ type DiskProperties_STATUSARM struct {
 	DiskState                    *DiskState_STATUS                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption_STATUSARM                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
-	HyperVGeneration             *DiskPropertiesSTATUSHyperVGeneration   `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration             *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 	MaxShares                    *int                                    `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS             `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskPropertiesSTATUSOsType             `json:"osType,omitempty"`
+	OsType                       *DiskProperties_OsType_STATUS           `json:"osType,omitempty"`
 	ProvisioningState            *string                                 `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlan_STATUSARM                 `json:"purchasePlan,omitempty"`
 	ShareInfo                    []ShareInfoElement_STATUSARM            `json:"shareInfo,omitempty"`
@@ -46,8 +46,8 @@ type DiskProperties_STATUSARM struct {
 
 // Deprecated version of DiskSku_STATUS. Use v1beta20200930.DiskSku_STATUS instead
 type DiskSku_STATUSARM struct {
-	Name *DiskSkuSTATUSName `json:"name,omitempty"`
-	Tier *string            `json:"tier,omitempty"`
+	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
+	Tier *string              `json:"tier,omitempty"`
 }
 
 // Deprecated version of ExtendedLocation_STATUS. Use v1beta20200930.ExtendedLocation_STATUS instead
@@ -58,25 +58,25 @@ type ExtendedLocation_STATUSARM struct {
 
 // Deprecated version of CreationData_STATUS. Use v1beta20200930.CreationData_STATUS instead
 type CreationData_STATUSARM struct {
-	CreateOption          *CreationDataSTATUSCreateOption `json:"createOption,omitempty"`
-	GalleryImageReference *ImageDiskReference_STATUSARM   `json:"galleryImageReference,omitempty"`
-	ImageReference        *ImageDiskReference_STATUSARM   `json:"imageReference,omitempty"`
-	LogicalSectorSize     *int                            `json:"logicalSectorSize,omitempty"`
-	SourceResourceId      *string                         `json:"sourceResourceId,omitempty"`
-	SourceUniqueId        *string                         `json:"sourceUniqueId,omitempty"`
-	SourceUri             *string                         `json:"sourceUri,omitempty"`
-	StorageAccountId      *string                         `json:"storageAccountId,omitempty"`
-	UploadSizeBytes       *int                            `json:"uploadSizeBytes,omitempty"`
+	CreateOption          *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
+	GalleryImageReference *ImageDiskReference_STATUSARM     `json:"galleryImageReference,omitempty"`
+	ImageReference        *ImageDiskReference_STATUSARM     `json:"imageReference,omitempty"`
+	LogicalSectorSize     *int                              `json:"logicalSectorSize,omitempty"`
+	SourceResourceId      *string                           `json:"sourceResourceId,omitempty"`
+	SourceUniqueId        *string                           `json:"sourceUniqueId,omitempty"`
+	SourceUri             *string                           `json:"sourceUri,omitempty"`
+	StorageAccountId      *string                           `json:"storageAccountId,omitempty"`
+	UploadSizeBytes       *int                              `json:"uploadSizeBytes,omitempty"`
 }
 
-// Deprecated version of DiskSkuSTATUSName. Use v1beta20200930.DiskSkuSTATUSName instead
-type DiskSkuSTATUSName string
+// Deprecated version of DiskSku_Name_STATUS. Use v1beta20200930.DiskSku_Name_STATUS instead
+type DiskSku_Name_STATUS string
 
 const (
-	DiskSkuSTATUSName_PremiumLRS     = DiskSkuSTATUSName("Premium_LRS")
-	DiskSkuSTATUSName_StandardLRS    = DiskSkuSTATUSName("Standard_LRS")
-	DiskSkuSTATUSName_StandardSSDLRS = DiskSkuSTATUSName("StandardSSD_LRS")
-	DiskSkuSTATUSName_UltraSSDLRS    = DiskSkuSTATUSName("UltraSSD_LRS")
+	DiskSku_Name_Premium_LRS_STATUS     = DiskSku_Name_STATUS("Premium_LRS")
+	DiskSku_Name_StandardSSD_LRS_STATUS = DiskSku_Name_STATUS("StandardSSD_LRS")
+	DiskSku_Name_Standard_LRS_STATUS    = DiskSku_Name_STATUS("Standard_LRS")
+	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
 // Deprecated version of Encryption_STATUS. Use v1beta20200930.Encryption_STATUS instead
@@ -95,7 +95,7 @@ type EncryptionSettingsCollection_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20200930.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of PurchasePlan_STATUS. Use v1beta20200930.PurchasePlan_STATUS instead
 type PurchasePlan_STATUSARM struct {

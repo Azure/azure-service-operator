@@ -28,13 +28,8 @@ import (
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              NamespacesAuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            NamespacesAuthorizationRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              NamespacesAuthorizationRules_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_STATUS          `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -83,11 +78,7 @@ func (rule *NamespacesAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &NamespacesAuthorizationRule_STATUS{}
-=======
-	return &AuthorizationRule_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*NamespacesAuthorizationRule_STATUS); ok {
-=======
-	if st, ok := status.(*AuthorizationRule_STATUS); ok {
->>>>>>> main
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st NamespacesAuthorizationRule_STATUS
-=======
-	var st AuthorizationRule_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -148,55 +131,6 @@ type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesAuthorizationRule `json:"items"`
-}
-
-<<<<<<< HEAD
-// Storage version of v1beta20211101.NamespacesAuthorizationRule_STATUS
-type NamespacesAuthorizationRule_STATUS struct {
-=======
-// Storage version of v1beta20211101.AuthorizationRule_STATUS
-type AuthorizationRule_STATUS struct {
->>>>>>> main
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Location    *string                `json:"location,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rights      []string               `json:"rights,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &NamespacesAuthorizationRule_STATUS{}
-
-// ConvertStatusFrom populates our NamespacesAuthorizationRule_STATUS from the provided source
-func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-=======
-var _ genruntime.ConvertibleStatus = &AuthorizationRule_STATUS{}
-
-// ConvertStatusFrom populates our AuthorizationRule_STATUS from the provided source
-func (rule *AuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(rule)
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-=======
-// ConvertStatusTo populates the provided destination from our AuthorizationRule_STATUS
-func (rule *AuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(rule)
 }
 
 // Storage version of v1beta20211101.NamespacesAuthorizationRule_Spec
@@ -233,6 +167,38 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genrunti
 	}
 
 	return destination.ConvertSpecFrom(rule)
+}
+
+// Storage version of v1beta20211101.NamespacesAuthorizationRule_STATUS
+type NamespacesAuthorizationRule_STATUS struct {
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rights      []string               `json:"rights,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NamespacesAuthorizationRule_STATUS{}
+
+// ConvertStatusFrom populates our NamespacesAuthorizationRule_STATUS from the provided source
+func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(rule)
+}
+
+// ConvertStatusTo populates the provided destination from our NamespacesAuthorizationRule_STATUS
+func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(rule)
 }
 
 func init() {

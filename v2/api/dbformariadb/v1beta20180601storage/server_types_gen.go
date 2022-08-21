@@ -28,11 +28,7 @@ import (
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Server_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Servers_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Server_STATUS `json:"status,omitempty"`
 }
 
@@ -137,6 +133,46 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
+// Storage version of v1beta20180601.Server_Spec
+type Server_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string              `json:"azureName,omitempty"`
+	Location        *string             `json:"location,omitempty"`
+	OperatorSpec    *ServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string              `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Properties  *ServerPropertiesForCreate         `json:"properties,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku         *Sku                               `json:"sku,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Server_Spec{}
+
+// ConvertSpecFrom populates our Server_Spec from the provided source
+func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == server {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(server)
+}
+
+// ConvertSpecTo populates the provided destination from our Server_Spec
+func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == server {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(server)
+}
+
 // Storage version of v1beta20180601.Server_STATUS
 type Server_STATUS struct {
 	AdministratorLogin         *string                                  `json:"administratorLogin,omitempty"`
@@ -180,46 +216,6 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	}
 
 	return destination.ConvertStatusFrom(server)
-}
-
-// Storage version of v1beta20180601.Server_Spec
-type Server_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string              `json:"azureName,omitempty"`
-	Location        *string             `json:"location,omitempty"`
-	OperatorSpec    *ServerOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string              `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Properties  *ServerPropertiesForCreate         `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Sku         *Sku                               `json:"sku,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Server_Spec{}
-
-// ConvertSpecFrom populates our Server_Spec from the provided source
-func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(server)
-}
-
-// ConvertSpecTo populates the provided destination from our Server_Spec
-func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(server)
 }
 
 // Storage version of v1beta20180601.ServerOperatorSpec
@@ -290,73 +286,6 @@ type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	ProvisioningState                 *string                                                 `json:"provisioningState,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20180601.ServerPropertiesForDefaultCreate
-type ServerPropertiesForDefaultCreate struct {
-	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
-	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
-	CreateMode                 *string                     `json:"createMode,omitempty"`
-	MinimalTlsVersion          *string                     `json:"minimalTlsVersion,omitempty"`
-	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess        *string                     `json:"publicNetworkAccess,omitempty"`
-	SslEnforcement             *string                     `json:"sslEnforcement,omitempty"`
-	StorageProfile             *StorageProfile             `json:"storageProfile,omitempty"`
-	Version                    *string                     `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForGeoRestore
-type ServerPropertiesForGeoRestore struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForReplica
-type ServerPropertiesForReplica struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForRestore
-type ServerPropertiesForRestore struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	RestorePointInTime  *string                `json:"restorePointInTime,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.PrivateEndpointProperty_STATUS
-type PrivateEndpointProperty_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS
-type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20180601.StorageProfile
 type StorageProfile struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`

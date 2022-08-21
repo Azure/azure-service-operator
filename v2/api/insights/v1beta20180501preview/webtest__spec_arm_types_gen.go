@@ -42,6 +42,14 @@ func (webtest *Webtest_SpecARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
+// +kubebuilder:validation:Enum={"multistep","ping"}
+type Webtest_Spec_Kind string
+
+const (
+	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
+	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
+)
+
 type WebTestPropertiesARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
 	Configuration *WebTestProperties_ConfigurationARM `json:"Configuration,omitempty"`
@@ -80,14 +88,6 @@ type WebTestPropertiesARM struct {
 	// ValidationRules: The collection of validation rule properties
 	ValidationRules *WebTestProperties_ValidationRulesARM `json:"ValidationRules,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"multistep","ping"}
-type Webtest_Spec_Kind string
-
-const (
-	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
-	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
-)
 
 type WebTestGeolocationARM struct {
 	// Id: Location ID for the WebTest to run from.

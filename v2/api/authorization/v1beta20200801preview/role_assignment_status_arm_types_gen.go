@@ -42,11 +42,7 @@ type RoleAssignmentProperties_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-<<<<<<<< HEAD:v2/api/authorization/v1beta20200801preview/role_assignment_statusarm_types_gen.go
 	PrincipalType *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
-========
-	PrincipalType *RoleAssignmentPropertiesSTATUSPrincipalType `json:"principalType,omitempty"`
->>>>>>>> main:v2/api/authorization/v1beta20200801preview/role_assignment_status_arm_types_gen.go
 
 	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`

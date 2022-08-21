@@ -30,11 +30,7 @@ import (
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RouteTable_Spec   `json:"spec,omitempty"`
-=======
-	Spec              RouteTables_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
@@ -270,15 +266,9 @@ func (table *RouteTable) AssignPropertiesFromRouteTable(source *v20201101s.Route
 
 	// Status
 	var status RouteTable_STATUS
-<<<<<<< HEAD
 	err = status.AssignPropertiesFromRouteTable_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRouteTable_STATUS() to populate field Status")
-=======
-	err = status.AssignPropertiesFromRouteTableSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteTableSTATUS() to populate field Status")
->>>>>>> main
 	}
 	table.Status = status
 
@@ -302,15 +292,9 @@ func (table *RouteTable) AssignPropertiesToRouteTable(destination *v20201101s.Ro
 
 	// Status
 	var status v20201101s.RouteTable_STATUS
-<<<<<<< HEAD
 	err = table.Status.AssignPropertiesToRouteTable_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRouteTable_STATUS() to populate field Status")
-=======
-	err = table.Status.AssignPropertiesToRouteTableSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteTableSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -335,302 +319,6 @@ type RouteTableList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTable `json:"items"`
-}
-
-type RouteTable_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
-	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the route table.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
-
-// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
-func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.RouteTable_STATUS)
-	if ok {
-		// Populate our instance from source
-<<<<<<< HEAD
-		return table.AssignPropertiesFromRouteTable_STATUS(src)
-=======
-		return table.AssignPropertiesFromRouteTableSTATUS(src)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.RouteTable_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = table.AssignPropertiesFromRouteTable_STATUS(src)
-=======
-	err = table.AssignPropertiesFromRouteTableSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
-func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
-	if ok {
-		// Populate destination from our instance
-<<<<<<< HEAD
-		return table.AssignPropertiesToRouteTable_STATUS(dst)
-=======
-		return table.AssignPropertiesToRouteTableSTATUS(dst)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.RouteTable_STATUS{}
-<<<<<<< HEAD
-	err := table.AssignPropertiesToRouteTable_STATUS(dst)
-=======
-	err := table.AssignPropertiesToRouteTableSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &RouteTable_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (table *RouteTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘DisableBgpRoutePropagation’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableBgpRoutePropagation != nil {
-			disableBgpRoutePropagation := *typedInput.Properties.DisableBgpRoutePropagation
-			table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-		}
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		table.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		table.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		table.Location = &location
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		table.Name = &name
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			table.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceGuid’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceGuid != nil {
-			resourceGuid := *typedInput.Properties.ResourceGuid
-			table.ResourceGuid = &resourceGuid
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		table.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			table.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		table.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromRouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesFromRouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
-=======
-// AssignPropertiesFromRouteTableSTATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesFromRouteTableSTATUS(source *v20201101s.RouteTable_STATUS) error {
->>>>>>> main
-
-	// Conditions
-	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// DisableBgpRoutePropagation
-	if source.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
-		table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		table.DisableBgpRoutePropagation = nil
-	}
-
-	// Etag
-	table.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	table.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	table.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	table.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		table.ProvisioningState = &provisioningState
-	} else {
-		table.ProvisioningState = nil
-	}
-
-	// ResourceGuid
-	table.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
-
-	// Tags
-	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	table.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToRouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesToRouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
-=======
-// AssignPropertiesToRouteTableSTATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesToRouteTableSTATUS(destination *v20201101s.RouteTable_STATUS) error {
->>>>>>> main
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(table.Conditions)
-
-	// DisableBgpRoutePropagation
-	if table.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
-		destination.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		destination.DisableBgpRoutePropagation = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(table.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(table.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(table.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(table.Name)
-
-	// ProvisioningState
-	if table.ProvisioningState != nil {
-		provisioningState := string(*table.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(table.ResourceGuid)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(table.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(table.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
 }
 
 type RouteTable_Spec struct {
@@ -964,6 +652,276 @@ func (table *RouteTable_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (table *RouteTable_Spec) SetAzureName(azureName string) { table.AzureName = azureName }
+
+type RouteTable_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
+	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
+
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
+
+	// Name: Resource name.
+	Name *string `json:"name,omitempty"`
+
+	// ProvisioningState: The provisioning state of the route table resource.
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// ResourceGuid: The resource GUID property of the route table.
+	ResourceGuid *string `json:"resourceGuid,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
+
+// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
+func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.RouteTable_STATUS)
+	if ok {
+		// Populate our instance from source
+		return table.AssignPropertiesFromRouteTable_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.RouteTable_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = table.AssignPropertiesFromRouteTable_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
+func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return table.AssignPropertiesToRouteTable_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.RouteTable_STATUS{}
+	err := table.AssignPropertiesToRouteTable_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &RouteTable_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (table *RouteTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTable_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTable_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘DisableBgpRoutePropagation’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableBgpRoutePropagation != nil {
+			disableBgpRoutePropagation := *typedInput.Properties.DisableBgpRoutePropagation
+			table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		table.Etag = &etag
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		table.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		table.Location = &location
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		table.Name = &name
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			table.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘ResourceGuid’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceGuid != nil {
+			resourceGuid := *typedInput.Properties.ResourceGuid
+			table.ResourceGuid = &resourceGuid
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		table.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			table.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		table.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromRouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
+func (table *RouteTable_STATUS) AssignPropertiesFromRouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
+
+	// Conditions
+	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DisableBgpRoutePropagation
+	if source.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
+		table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	} else {
+		table.DisableBgpRoutePropagation = nil
+	}
+
+	// Etag
+	table.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	table.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	table.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	table.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
+		table.ProvisioningState = &provisioningState
+	} else {
+		table.ProvisioningState = nil
+	}
+
+	// ResourceGuid
+	table.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+
+	// Tags
+	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	table.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
+func (table *RouteTable_STATUS) AssignPropertiesToRouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(table.Conditions)
+
+	// DisableBgpRoutePropagation
+	if table.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
+		destination.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	} else {
+		destination.DisableBgpRoutePropagation = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(table.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(table.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(table.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(table.Name)
+
+	// ProvisioningState
+	if table.ProvisioningState != nil {
+		provisioningState := string(*table.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// ResourceGuid
+	destination.ResourceGuid = genruntime.ClonePointerToString(table.ResourceGuid)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(table.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(table.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type Route_RouteTable_SubResourceEmbedded struct {
 	// Reference: Resource ID.

@@ -51,11 +51,7 @@ type ImageProperties_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20210701/image_statusarm_types_gen.go
 const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
-========
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
->>>>>>>> main:v2/api/compute/v1beta20210701/image_status_arm_types_gen.go
 
 type ImageStorageProfile_STATUSARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
@@ -88,11 +84,7 @@ type ImageDataDisk_STATUSARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-<<<<<<<< HEAD:v2/api/compute/v1beta20210701/image_statusarm_types_gen.go
 	Caching *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
-========
-	Caching *ImageDataDiskSTATUSCaching `json:"caching,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20210701/image_status_arm_types_gen.go
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUSARM `json:"diskEncryptionSet,omitempty"`
@@ -127,11 +119,7 @@ type ImageOSDisk_STATUSARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-<<<<<<<< HEAD:v2/api/compute/v1beta20210701/image_statusarm_types_gen.go
 	Caching *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
-========
-	Caching *ImageOSDiskSTATUSCaching `json:"caching,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20210701/image_status_arm_types_gen.go
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUSARM `json:"diskEncryptionSet,omitempty"`
@@ -145,22 +133,14 @@ type ImageOSDisk_STATUSARM struct {
 	ManagedDisk *SubResource_STATUSARM `json:"managedDisk,omitempty"`
 
 	// OsState: The OS State.
-<<<<<<<< HEAD:v2/api/compute/v1beta20210701/image_statusarm_types_gen.go
 	OsState *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
-========
-	OsState *ImageOSDiskSTATUSOsState `json:"osState,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20210701/image_status_arm_types_gen.go
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	// custom image.
 	// Possible values are:
 	// Windows
 	// Linux
-<<<<<<<< HEAD:v2/api/compute/v1beta20210701/image_statusarm_types_gen.go
 	OsType *ImageOSDisk_OsType_STATUS `json:"osType,omitempty"`
-========
-	OsType *ImageOSDiskSTATUSOsType `json:"osType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20210701/image_status_arm_types_gen.go
 
 	// Snapshot: The snapshot.
 	Snapshot *SubResource_STATUSARM `json:"snapshot,omitempty"`

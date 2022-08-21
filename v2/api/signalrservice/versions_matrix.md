@@ -1,14 +1,9 @@
 | Type Definitions in package "signalrservice"                 | v1alpha1api20211001 | v1beta20211001 |
 |--------------------------------------------------------------|---------------------|----------------|
-<<<<<<< HEAD
 | ACLAction                                                    | v1alpha1api20211001 | v1beta20211001 |
 | ACLAction_STATUS                                             | v1alpha1api20211001 | v1beta20211001 |
 | APIVersion                                                   | v1alpha1api20211001 | v1beta20211001 |
 | FeatureFlags                                                 | v1alpha1api20211001 | v1beta20211001 |
-=======
-| ACLAction_STATUS                                             | v1alpha1api20211001 | v1beta20211001 |
-| APIVersion                                                   | v1alpha1api20211001 | v1beta20211001 |
->>>>>>> main
 | FeatureFlags_STATUS                                          | v1alpha1api20211001 | v1beta20211001 |
 | ManagedIdentity                                              | v1alpha1api20211001 | v1beta20211001 |
 | ManagedIdentitySettings                                      | v1alpha1api20211001 | v1beta20211001 |
@@ -17,17 +12,8 @@
 | ManagedIdentityType_STATUS                                   | v1alpha1api20211001 | v1beta20211001 |
 | ManagedIdentity_STATUS                                       | v1alpha1api20211001 | v1beta20211001 |
 | NetworkACL                                                   | v1alpha1api20211001 | v1beta20211001 |
-<<<<<<< HEAD
 | NetworkACL_STATUS                                            | v1alpha1api20211001 | v1beta20211001 |
 | PrivateEndpointACL                                           | v1alpha1api20211001 | v1beta20211001 |
-=======
-| NetworkACLAllow                                              | v1alpha1api20211001 | v1beta20211001 |
-| NetworkACLDeny                                               | v1alpha1api20211001 | v1beta20211001 |
-| NetworkACL_STATUS                                            | v1alpha1api20211001 | v1beta20211001 |
-| PrivateEndpointACL                                           | v1alpha1api20211001 | v1beta20211001 |
-| PrivateEndpointACLAllow                                      | v1alpha1api20211001 | v1beta20211001 |
-| PrivateEndpointACLDeny                                       | v1alpha1api20211001 | v1beta20211001 |
->>>>>>> main
 | PrivateEndpointACL_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
 | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | v1alpha1api20211001 | v1beta20211001 |
 | ProvisioningState_STATUS                                     | v1alpha1api20211001 | v1beta20211001 |
@@ -36,24 +22,16 @@
 | ResourceLogConfiguration                                     | v1alpha1api20211001 | v1beta20211001 |
 | ResourceLogConfiguration_STATUS                              | v1alpha1api20211001 | v1beta20211001 |
 | ResourceSku                                                  | v1alpha1api20211001 | v1beta20211001 |
-<<<<<<< HEAD
 | ResourceSku_STATUS                                           | v1alpha1api20211001 | v1beta20211001 |
 | ServerlessUpstreamSettings                                   | v1alpha1api20211001 | v1beta20211001 |
 | ServerlessUpstreamSettings_STATUS                            | v1alpha1api20211001 | v1beta20211001 |
 | ServiceKind                                                  | v1alpha1api20211001 | v1beta20211001 |
-=======
-| ResourceSkuTier                                              | v1alpha1api20211001 | v1beta20211001 |
-| ResourceSku_STATUS                                           | v1alpha1api20211001 | v1beta20211001 |
-| ServerlessUpstreamSettings                                   | v1alpha1api20211001 | v1beta20211001 |
-| ServerlessUpstreamSettings_STATUS                            | v1alpha1api20211001 | v1beta20211001 |
->>>>>>> main
 | ServiceKind_STATUS                                           | v1alpha1api20211001 | v1beta20211001 |
 | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | v1alpha1api20211001 | v1beta20211001 |
 | SignalR                                                      | v1alpha1api20211001 | v1beta20211001 |
 | SignalRCorsSettings                                          | v1alpha1api20211001 | v1beta20211001 |
 | SignalRCorsSettings_STATUS                                   | v1alpha1api20211001 | v1beta20211001 |
 | SignalRFeature                                               | v1alpha1api20211001 | v1beta20211001 |
-<<<<<<< HEAD
 | SignalRFeature_STATUS                                        | v1alpha1api20211001 | v1beta20211001 |
 | SignalRNetworkACLs                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRNetworkACLs_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
@@ -73,28 +51,6 @@
 | UpstreamAuthSettings                                         | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthSettings_STATUS                                  | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthType                                             | v1alpha1api20211001 | v1beta20211001 |
-=======
-| SignalRFeatureFlag                                           | v1alpha1api20211001 | v1beta20211001 |
-| SignalRFeature_STATUS                                        | v1alpha1api20211001 | v1beta20211001 |
-| SignalRNetworkACLs                                           | v1alpha1api20211001 | v1beta20211001 |
-| SignalRNetworkACLsDefaultAction                              | v1alpha1api20211001 | v1beta20211001 |
-| SignalRNetworkACLs_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
-| SignalRProperties                                            | v1alpha1api20211001 | v1beta20211001 |
-| SignalRProperties_STATUS                                     | v1alpha1api20211001 | v1beta20211001 |
-| SignalRRequestType_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
-| SignalRResource_STATUS                                       | v1alpha1api20211001 | v1beta20211001 |
-| SignalRSkuTier_STATUS                                        | v1alpha1api20211001 | v1beta20211001 |
-| SignalRSpecKind                                              | v1alpha1api20211001 | v1beta20211001 |
-| SignalRTlsSettings                                           | v1alpha1api20211001 | v1beta20211001 |
-| SignalRTlsSettings_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
-| SignalR_Spec                                                 | v1alpha1api20211001 | v1beta20211001 |
-| SystemDataSTATUSCreatedByType                                | v1alpha1api20211001 | v1beta20211001 |
-| SystemDataSTATUSLastModifiedByType                           | v1alpha1api20211001 | v1beta20211001 |
-| SystemData_STATUS                                            | v1alpha1api20211001 | v1beta20211001 |
-| UpstreamAuthSettings                                         | v1alpha1api20211001 | v1beta20211001 |
-| UpstreamAuthSettingsType                                     | v1alpha1api20211001 | v1beta20211001 |
-| UpstreamAuthSettings_STATUS                                  | v1alpha1api20211001 | v1beta20211001 |
->>>>>>> main
 | UpstreamAuthType_STATUS                                      | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamTemplate                                             | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamTemplate_STATUS                                      | v1alpha1api20211001 | v1beta20211001 |

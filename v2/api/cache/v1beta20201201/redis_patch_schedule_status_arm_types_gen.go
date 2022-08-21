@@ -28,11 +28,7 @@ type ScheduleEntries_STATUSARM struct {
 
 type ScheduleEntry_STATUSARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-<<<<<<<< HEAD:v2/api/cache/v1beta20201201/redis_patch_schedule_statusarm_types_gen.go
 	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
-========
-	DayOfWeek *ScheduleEntrySTATUSDayOfWeek `json:"dayOfWeek,omitempty"`
->>>>>>>> main:v2/api/cache/v1beta20201201/redis_patch_schedule_status_arm_types_gen.go
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`

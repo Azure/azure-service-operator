@@ -19,11 +19,7 @@ type ContainerGroup_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The container group properties
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Properties *ContainerGroup_Properties_STATUSARM `json:"properties,omitempty"`
-========
-	Properties *ContainerGroup_STATUS_PropertiesARM `json:"properties,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 
 	// Tags: The resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -33,81 +29,6 @@ type ContainerGroup_STATUSARM struct {
 
 	// Zones: The zones for the container group.
 	Zones []string `json:"zones,omitempty"`
-}
-
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
-========
-type ContainerGroup_STATUS_PropertiesARM struct {
-	// Containers: The containers within the container group.
-	Containers []Container_STATUSARM `json:"containers,omitempty"`
-
-	// Diagnostics: The diagnostic information for a container group.
-	Diagnostics *ContainerGroupDiagnostics_STATUSARM `json:"diagnostics,omitempty"`
-
-	// DnsConfig: The DNS config information for a container group.
-	DnsConfig *DnsConfiguration_STATUSARM `json:"dnsConfig,omitempty"`
-
-	// EncryptionProperties: The encryption properties for a container group.
-	EncryptionProperties *EncryptionProperties_STATUSARM `json:"encryptionProperties,omitempty"`
-
-	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential_STATUSARM `json:"imageRegistryCredentials,omitempty"`
-
-	// InitContainers: The init containers for a container group.
-	InitContainers []InitContainerDefinition_STATUSARM `json:"initContainers,omitempty"`
-
-	// InstanceView: The instance view of the container group. Only valid in response.
-	InstanceView *ContainerGroup_STATUS_Properties_InstanceViewARM `json:"instanceView,omitempty"`
-
-	// IpAddress: The IP address type of the container group.
-	IpAddress *IpAddress_STATUSARM `json:"ipAddress,omitempty"`
-
-	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroupSTATUSPropertiesOsType `json:"osType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// RestartPolicy: Restart policy for all containers within the container group.
-	// - `Always` Always restart
-	// - `OnFailure` Restart on failure
-	// - `Never` Never restart
-	RestartPolicy *ContainerGroupSTATUSPropertiesRestartPolicy `json:"restartPolicy,omitempty"`
-
-	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
-
-	// SubnetIds: The subnet resource IDs for a container group.
-	SubnetIds []ContainerGroupSubnetId_STATUSARM `json:"subnetIds,omitempty"`
-
-	// Volumes: The list of volumes that can be mounted by containers in this container group.
-	Volumes []Volume_STATUSARM `json:"volumes,omitempty"`
-}
-
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
-type ContainerGroupIdentity_STATUSARM struct {
-	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the container group. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// container group.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
-	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
-========
-	Type *ContainerGroupIdentitySTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
-
-	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
-	UserAssignedIdentities map[string]ContainerGroupIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type ContainerGroup_Properties_STATUSARM struct {
@@ -157,8 +78,24 @@ type ContainerGroup_Properties_STATUSARM struct {
 	Volumes []Volume_STATUSARM `json:"volumes,omitempty"`
 }
 
-========
-	UserAssignedIdentities map[string]ContainerGroupIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+type ContainerGroupIdentity_STATUSARM struct {
+	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
+	// identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: The tenant id associated with the container group. This property will only be provided for a system assigned
+	// identity.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
+	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
+	// container group.
+	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
+	// key references will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	UserAssignedIdentities map[string]ContainerGroupIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type Container_STATUSARM struct {
@@ -169,7 +106,7 @@ type Container_STATUSARM struct {
 	Properties *ContainerProperties_STATUSARM `json:"properties,omitempty"`
 }
 
-type ContainerGroup_STATUS_Properties_InstanceViewARM struct {
+type ContainerGroup_Properties_InstanceView_STATUSARM struct {
 	// Events: The events of this container group.
 	Events []Event_STATUSARM `json:"events,omitempty"`
 
@@ -177,13 +114,11 @@ type ContainerGroup_STATUS_Properties_InstanceViewARM struct {
 	State *string `json:"state,omitempty"`
 }
 
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 type ContainerGroupDiagnostics_STATUSARM struct {
 	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics_STATUSARM `json:"logAnalytics,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 type ContainerGroupIdentity_Type_STATUS string
 
 const (
@@ -194,9 +129,6 @@ const (
 )
 
 type ContainerGroupIdentity_UserAssignedIdentities_STATUSARM struct {
-========
-type ContainerGroupIdentity_STATUS_UserAssignedIdentitiesARM struct {
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -204,18 +136,6 @@ type ContainerGroupIdentity_STATUS_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
-========
-type ContainerGroupIdentitySTATUSType string
-
-const (
-	ContainerGroupIdentitySTATUSType_None                       = ContainerGroupIdentitySTATUSType("None")
-	ContainerGroupIdentitySTATUSType_SystemAssigned             = ContainerGroupIdentitySTATUSType("SystemAssigned")
-	ContainerGroupIdentitySTATUSType_SystemAssignedUserAssigned = ContainerGroupIdentitySTATUSType("SystemAssigned, UserAssigned")
-	ContainerGroupIdentitySTATUSType_UserAssigned               = ContainerGroupIdentitySTATUSType("UserAssigned")
-)
-
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 type ContainerGroupSubnetId_STATUSARM struct {
 	// Id: Resource ID of virtual network and subnet.
 	Id *string `json:"id,omitempty"`
@@ -224,25 +144,6 @@ type ContainerGroupSubnetId_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
-type ContainerGroup_Properties_InstanceView_STATUSARM struct {
-	// Events: The events of this container group.
-	Events []Event_STATUSARM `json:"events,omitempty"`
-
-	// State: The state of the container group. Only valid in response.
-	State *string `json:"state,omitempty"`
-}
-
-type Container_STATUSARM struct {
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of the container instance.
-	Properties *ContainerProperties_STATUSARM `json:"properties,omitempty"`
-}
-
-========
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 type DnsConfiguration_STATUSARM struct {
 	// NameServers: The DNS servers for the container group.
 	NameServers []string `json:"nameServers,omitempty"`
@@ -292,11 +193,7 @@ type IpAddress_STATUSARM struct {
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
 
 	// DnsNameLabelReusePolicy: The value representing the security enum.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	DnsNameLabelReusePolicy *IpAddress_DnsNameLabelReusePolicy_STATUS `json:"dnsNameLabelReusePolicy,omitempty"`
-========
-	DnsNameLabelReusePolicy *IpAddressSTATUSDnsNameLabelReusePolicy `json:"dnsNameLabelReusePolicy,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 
 	// Fqdn: The FQDN for the IP.
 	Fqdn *string `json:"fqdn,omitempty"`
@@ -308,11 +205,7 @@ type IpAddress_STATUSARM struct {
 	Ports []Port_STATUSARM `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
-========
-	Type *IpAddressSTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 }
 
 type Volume_STATUSARM struct {
@@ -357,11 +250,7 @@ type ContainerProperties_STATUSARM struct {
 	Image *string `json:"image,omitempty"`
 
 	// InstanceView: The instance view of the container instance. Only valid in response.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	InstanceView *ContainerProperties_InstanceView_STATUSARM `json:"instanceView,omitempty"`
-========
-	InstanceView *ContainerProperties_STATUS_InstanceViewARM `json:"instanceView,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 
 	// LivenessProbe: The liveness probe.
 	LivenessProbe *ContainerProbe_STATUSARM `json:"livenessProbe,omitempty"`
@@ -423,11 +312,7 @@ type InitContainerPropertiesDefinition_STATUSARM struct {
 	Image *string `json:"image,omitempty"`
 
 	// InstanceView: The instance view of the init container. Only valid in response.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	InstanceView *InitContainerPropertiesDefinition_InstanceView_STATUSARM `json:"instanceView,omitempty"`
-========
-	InstanceView *InitContainerPropertiesDefinition_STATUS_InstanceViewARM `json:"instanceView,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 
 	// VolumeMounts: The volume mounts available to the init container.
 	VolumeMounts []VolumeMount_STATUSARM `json:"volumeMounts,omitempty"`
@@ -435,11 +320,7 @@ type InitContainerPropertiesDefinition_STATUSARM struct {
 
 type LogAnalytics_STATUSARM struct {
 	// LogType: The log type to be used.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
-========
-	LogType *LogAnalyticsSTATUSLogType `json:"logType,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -459,11 +340,7 @@ type Port_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
-========
-	Protocol *PortSTATUSProtocol `json:"protocol,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 }
 
 type ContainerPort_STATUSARM struct {
@@ -471,11 +348,7 @@ type ContainerPort_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
-========
-	Protocol *ContainerPortSTATUSProtocol `json:"protocol,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 }
 
 type ContainerProbe_STATUSARM struct {
@@ -501,11 +374,7 @@ type ContainerProbe_STATUSARM struct {
 	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 type ContainerProperties_InstanceView_STATUSARM struct {
-========
-type ContainerProperties_STATUS_InstanceViewARM struct {
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 	// CurrentState: Current container instance state.
 	CurrentState *ContainerState_STATUSARM `json:"currentState,omitempty"`
 
@@ -530,11 +399,7 @@ type EnvironmentVariable_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 type InitContainerPropertiesDefinition_InstanceView_STATUSARM struct {
-========
-type InitContainerPropertiesDefinition_STATUS_InstanceViewARM struct {
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 	// CurrentState: The current state of the init container.
 	CurrentState *ContainerState_STATUSARM `json:"currentState,omitempty"`
 
@@ -583,11 +448,7 @@ type ContainerHttpGet_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
-========
-	Scheme *ContainerHttpGetSTATUSScheme `json:"scheme,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 }
 
 type ContainerState_STATUSARM struct {
@@ -634,11 +495,7 @@ type GpuResource_STATUSARM struct {
 	Count *int `json:"count,omitempty"`
 
 	// Sku: The SKU of the GPU resource.
-<<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group_statusarm_types_gen.go
 	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
-========
-	Sku *GpuResourceSTATUSSku `json:"sku,omitempty"`
->>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_group_status_arm_types_gen.go
 }
 
 type HttpHeader_STATUSARM struct {

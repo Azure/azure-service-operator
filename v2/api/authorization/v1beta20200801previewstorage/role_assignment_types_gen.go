@@ -28,11 +28,7 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
-=======
-	Spec              RoleAssignments_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 
@@ -142,47 +138,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-08-01-preview")
 
-// Storage version of v1beta20200801preview.RoleAssignment_STATUS
-type RoleAssignment_STATUS struct {
-	Condition                          *string                `json:"condition,omitempty"`
-	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`
-	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
-	CreatedBy                          *string                `json:"createdBy,omitempty"`
-	CreatedOn                          *string                `json:"createdOn,omitempty"`
-	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string                `json:"description,omitempty"`
-	Id                                 *string                `json:"id,omitempty"`
-	Name                               *string                `json:"name,omitempty"`
-	PrincipalId                        *string                `json:"principalId,omitempty"`
-	PrincipalType                      *string                `json:"principalType,omitempty"`
-	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RoleDefinitionId                   *string                `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                `json:"scope,omitempty"`
-	Type                               *string                `json:"type,omitempty"`
-	UpdatedBy                          *string                `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
-
-// ConvertStatusFrom populates our RoleAssignment_STATUS from the provided source
-func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == assignment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(assignment)
-}
-
-// ConvertStatusTo populates the provided destination from our RoleAssignment_STATUS
-func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == assignment {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(assignment)
-}
-
 // Storage version of v1beta20200801preview.RoleAssignment_Spec
 type RoleAssignment_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -226,6 +181,47 @@ func (assignment *RoleAssignment_Spec) ConvertSpecTo(destination genruntime.Conv
 	}
 
 	return destination.ConvertSpecFrom(assignment)
+}
+
+// Storage version of v1beta20200801preview.RoleAssignment_STATUS
+type RoleAssignment_STATUS struct {
+	Condition                          *string                `json:"condition,omitempty"`
+	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`
+	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
+	CreatedBy                          *string                `json:"createdBy,omitempty"`
+	CreatedOn                          *string                `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                `json:"description,omitempty"`
+	Id                                 *string                `json:"id,omitempty"`
+	Name                               *string                `json:"name,omitempty"`
+	PrincipalId                        *string                `json:"principalId,omitempty"`
+	PrincipalType                      *string                `json:"principalType,omitempty"`
+	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RoleDefinitionId                   *string                `json:"roleDefinitionId,omitempty"`
+	Scope                              *string                `json:"scope,omitempty"`
+	Type                               *string                `json:"type,omitempty"`
+	UpdatedBy                          *string                `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
+
+// ConvertStatusFrom populates our RoleAssignment_STATUS from the provided source
+func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == assignment {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(assignment)
+}
+
+// ConvertStatusTo populates the provided destination from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == assignment {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(assignment)
 }
 
 func init() {

@@ -81,11 +81,7 @@ type DiskProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
 	HyperVGeneration *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-========
-	HyperVGeneration *DiskPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
@@ -93,11 +89,7 @@ type DiskProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
 	OsType *DiskProperties_OsType_STATUS `json:"osType,omitempty"`
-========
-	OsType *DiskPropertiesSTATUSOsType `json:"osType,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -123,11 +115,7 @@ type DiskProperties_STATUSARM struct {
 
 type DiskSku_STATUSARM struct {
 	// Name: The sku name.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
-========
-	Name *DiskSkuSTATUSName `json:"name,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
@@ -143,11 +131,7 @@ type ExtendedLocation_STATUSARM struct {
 
 type CreationData_STATUSARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
 	CreateOption *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
-========
-	CreateOption *CreationDataSTATUSCreateOption `json:"createOption,omitempty"`
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
@@ -178,7 +162,6 @@ type CreationData_STATUSARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
 type DiskSku_Name_STATUS string
 
 const (
@@ -188,23 +171,12 @@ const (
 	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
-========
-type DiskSkuSTATUSName string
-
-const (
-	DiskSkuSTATUSName_PremiumLRS     = DiskSkuSTATUSName("Premium_LRS")
-	DiskSkuSTATUSName_StandardLRS    = DiskSkuSTATUSName("Standard_LRS")
-	DiskSkuSTATUSName_StandardSSDLRS = DiskSkuSTATUSName("StandardSSD_LRS")
-	DiskSkuSTATUSName_UltraSSDLRS    = DiskSkuSTATUSName("UltraSSD_LRS")
-)
-
 type Encryption_STATUSARM struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType_STATUS `json:"type,omitempty"`
 }
 
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 type EncryptionSettingsCollection_STATUSARM struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
@@ -219,23 +191,10 @@ type EncryptionSettingsCollection_STATUSARM struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/compute/v1beta20200930/disk_statusarm_types_gen.go
-type Encryption_STATUSARM struct {
-	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_STATUS `json:"type,omitempty"`
-}
-
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
-========
-type ExtendedLocationType_STATUS string
-
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
-
->>>>>>>> main:v2/api/compute/v1beta20200930/disk_status_arm_types_gen.go
 type PurchasePlan_STATUSARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`

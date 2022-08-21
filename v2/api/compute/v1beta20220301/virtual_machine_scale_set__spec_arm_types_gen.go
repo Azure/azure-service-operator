@@ -336,20 +336,7 @@ type RollingUpgradePolicyARM struct {
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_scale_set__spec_arm_types_gen.go
 type VirtualMachineScaleSetExtensionProfileARM struct {
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetHardwareProfile
-type VirtualMachineScaleSetHardwareProfileARM struct {
-	// VmSizeProperties: Specifies VM Size Property settings on the virtual machine.
-	VmSizeProperties *VMSizePropertiesARM `json:"vmSizeProperties,omitempty"`
-}
-
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
-	// Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
-
->>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_scale_sets__spec_arm_types_gen.go
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
 	// (PT1H30M).
@@ -436,10 +423,6 @@ type VirtualMachineScaleSetOSProfileARM struct {
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_scale_set__spec_arm_types_gen.go
-=======
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
->>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_scale_sets__spec_arm_types_gen.go
 type VirtualMachineScaleSetStorageProfileARM struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -448,7 +431,6 @@ type VirtualMachineScaleSetStorageProfileARM struct {
 
 	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
 	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine_scale_set__spec_arm_types_gen.go
 	// marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
 
@@ -458,17 +440,6 @@ type VirtualMachineScaleSetStorageProfileARM struct {
 	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
 }
 
-=======
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Describes a virtual machine scale set operating system disk.
-	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ApiEntityReference
->>>>>>> main:v2/api/compute/v1beta20220301/virtual_machine_scale_sets__spec_arm_types_gen.go
 type ApiEntityReferenceARM struct {
 	Id *string `json:"id,omitempty"`
 }

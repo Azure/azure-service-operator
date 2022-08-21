@@ -28,11 +28,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Workspace_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -143,101 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
 
-// Storage version of v1beta20210701.Workspace_STATUS
-type Workspace_STATUS struct {
-<<<<<<< HEAD
-	AllowPublicAccessWhenBehindVnet *bool                                   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-	ApplicationInsights             *string                                 `json:"applicationInsights,omitempty"`
-	Conditions                      []conditions.Condition                  `json:"conditions,omitempty"`
-	ContainerRegistry               *string                                 `json:"containerRegistry,omitempty"`
-	Description                     *string                                 `json:"description,omitempty"`
-	DiscoveryUrl                    *string                                 `json:"discoveryUrl,omitempty"`
-	Encryption                      *EncryptionProperty_STATUS              `json:"encryption,omitempty"`
-	FriendlyName                    *string                                 `json:"friendlyName,omitempty"`
-	HbiWorkspace                    *bool                                   `json:"hbiWorkspace,omitempty"`
-	Id                              *string                                 `json:"id,omitempty"`
-	Identity                        *Identity_STATUS                        `json:"identity,omitempty"`
-	ImageBuildCompute               *string                                 `json:"imageBuildCompute,omitempty"`
-	KeyVault                        *string                                 `json:"keyVault,omitempty"`
-	Location                        *string                                 `json:"location,omitempty"`
-	MlFlowTrackingUri               *string                                 `json:"mlFlowTrackingUri,omitempty"`
-	Name                            *string                                 `json:"name,omitempty"`
-	NotebookInfo                    *NotebookResourceInfo_STATUS            `json:"notebookInfo,omitempty"`
-	PrimaryUserAssignedIdentity     *string                                 `json:"primaryUserAssignedIdentity,omitempty"`
-	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS      `json:"privateEndpointConnections,omitempty"`
-	PrivateLinkCount                *int                                    `json:"privateLinkCount,omitempty"`
-	PropertyBag                     genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                                 `json:"provisioningState,omitempty"`
-	PublicNetworkAccess             *string                                 `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
-	ServiceProvisionedResourceGroup *string                                 `json:"serviceProvisionedResourceGroup,omitempty"`
-	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS      `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                             *Sku_STATUS                             `json:"sku,omitempty"`
-	StorageAccount                  *string                                 `json:"storageAccount,omitempty"`
-	StorageHnsEnabled               *bool                                   `json:"storageHnsEnabled,omitempty"`
-	SystemData                      *SystemData_STATUS                      `json:"systemData,omitempty"`
-	Tags                            map[string]string                       `json:"tags,omitempty"`
-	TenantId                        *string                                 `json:"tenantId,omitempty"`
-	Type                            *string                                 `json:"type,omitempty"`
-	WorkspaceId                     *string                                 `json:"workspaceId,omitempty"`
-=======
-	AllowPublicAccessWhenBehindVnet *bool                                                  `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-	ApplicationInsights             *string                                                `json:"applicationInsights,omitempty"`
-	Conditions                      []conditions.Condition                                 `json:"conditions,omitempty"`
-	ContainerRegistry               *string                                                `json:"containerRegistry,omitempty"`
-	Description                     *string                                                `json:"description,omitempty"`
-	DiscoveryUrl                    *string                                                `json:"discoveryUrl,omitempty"`
-	Encryption                      *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
-	FriendlyName                    *string                                                `json:"friendlyName,omitempty"`
-	HbiWorkspace                    *bool                                                  `json:"hbiWorkspace,omitempty"`
-	Id                              *string                                                `json:"id,omitempty"`
-	Identity                        *Identity_STATUS                                       `json:"identity,omitempty"`
-	ImageBuildCompute               *string                                                `json:"imageBuildCompute,omitempty"`
-	KeyVault                        *string                                                `json:"keyVault,omitempty"`
-	Location                        *string                                                `json:"location,omitempty"`
-	MlFlowTrackingUri               *string                                                `json:"mlFlowTrackingUri,omitempty"`
-	Name                            *string                                                `json:"name,omitempty"`
-	NotebookInfo                    *NotebookResourceInfo_STATUS                           `json:"notebookInfo,omitempty"`
-	PrimaryUserAssignedIdentity     *string                                                `json:"primaryUserAssignedIdentity,omitempty"`
-	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PrivateLinkCount                *int                                                   `json:"privateLinkCount,omitempty"`
-	PropertyBag                     genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess             *string                                                `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS                `json:"serviceManagedResourcesSettings,omitempty"`
-	ServiceProvisionedResourceGroup *string                                                `json:"serviceProvisionedResourceGroup,omitempty"`
-	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS                     `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                             *Sku_STATUS                                            `json:"sku,omitempty"`
-	StorageAccount                  *string                                                `json:"storageAccount,omitempty"`
-	StorageHnsEnabled               *bool                                                  `json:"storageHnsEnabled,omitempty"`
-	SystemData                      *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                            map[string]string                                      `json:"tags,omitempty"`
-	TenantId                        *string                                                `json:"tenantId,omitempty"`
-	Type                            *string                                                `json:"type,omitempty"`
-	WorkspaceId                     *string                                                `json:"workspaceId,omitempty"`
->>>>>>> main
-}
-
-var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
-
-// ConvertStatusFrom populates our Workspace_STATUS from the provided source
-func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(workspace)
-}
-
-// ConvertStatusTo populates the provided destination from our Workspace_STATUS
-func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == workspace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(workspace)
-}
-
 // Storage version of v1beta20210701.Workspace_Spec
 type Workspace_Spec struct {
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -309,6 +210,64 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(workspace)
 }
 
+// Storage version of v1beta20210701.Workspace_STATUS
+type Workspace_STATUS struct {
+	AllowPublicAccessWhenBehindVnet *bool                                   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+	ApplicationInsights             *string                                 `json:"applicationInsights,omitempty"`
+	Conditions                      []conditions.Condition                  `json:"conditions,omitempty"`
+	ContainerRegistry               *string                                 `json:"containerRegistry,omitempty"`
+	Description                     *string                                 `json:"description,omitempty"`
+	DiscoveryUrl                    *string                                 `json:"discoveryUrl,omitempty"`
+	Encryption                      *EncryptionProperty_STATUS              `json:"encryption,omitempty"`
+	FriendlyName                    *string                                 `json:"friendlyName,omitempty"`
+	HbiWorkspace                    *bool                                   `json:"hbiWorkspace,omitempty"`
+	Id                              *string                                 `json:"id,omitempty"`
+	Identity                        *Identity_STATUS                        `json:"identity,omitempty"`
+	ImageBuildCompute               *string                                 `json:"imageBuildCompute,omitempty"`
+	KeyVault                        *string                                 `json:"keyVault,omitempty"`
+	Location                        *string                                 `json:"location,omitempty"`
+	MlFlowTrackingUri               *string                                 `json:"mlFlowTrackingUri,omitempty"`
+	Name                            *string                                 `json:"name,omitempty"`
+	NotebookInfo                    *NotebookResourceInfo_STATUS            `json:"notebookInfo,omitempty"`
+	PrimaryUserAssignedIdentity     *string                                 `json:"primaryUserAssignedIdentity,omitempty"`
+	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS      `json:"privateEndpointConnections,omitempty"`
+	PrivateLinkCount                *int                                    `json:"privateLinkCount,omitempty"`
+	PropertyBag                     genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                                 `json:"provisioningState,omitempty"`
+	PublicNetworkAccess             *string                                 `json:"publicNetworkAccess,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceProvisionedResourceGroup *string                                 `json:"serviceProvisionedResourceGroup,omitempty"`
+	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS      `json:"sharedPrivateLinkResources,omitempty"`
+	Sku                             *Sku_STATUS                             `json:"sku,omitempty"`
+	StorageAccount                  *string                                 `json:"storageAccount,omitempty"`
+	StorageHnsEnabled               *bool                                   `json:"storageHnsEnabled,omitempty"`
+	SystemData                      *SystemData_STATUS                      `json:"systemData,omitempty"`
+	Tags                            map[string]string                       `json:"tags,omitempty"`
+	TenantId                        *string                                 `json:"tenantId,omitempty"`
+	Type                            *string                                 `json:"type,omitempty"`
+	WorkspaceId                     *string                                 `json:"workspaceId,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
+
+// ConvertStatusFrom populates our Workspace_STATUS from the provided source
+func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(workspace)
+}
+
+// ConvertStatusTo populates the provided destination from our Workspace_STATUS
+func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == workspace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(workspace)
+}
+
 // Storage version of v1beta20210701.EncryptionProperty
 type EncryptionProperty struct {
 	Identity           *IdentityForCmk        `json:"identity,omitempty"`
@@ -348,13 +307,8 @@ type NotebookResourceInfo_STATUS struct {
 	ResourceId               *string                          `json:"resourceId,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210701.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
-=======
-// Storage version of v1beta20210701.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
->>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	Identity    *Identity_STATUS       `json:"identity,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -374,7 +328,6 @@ type ServiceManagedResourcesSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210701.SharedPrivateLinkResource
 type SharedPrivateLinkResource struct {
 	GroupId *string `json:"groupId,omitempty"`
@@ -387,8 +340,6 @@ type SharedPrivateLinkResource struct {
 	Status                       *string                       `json:"status,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20210701.SharedPrivateLinkResource_STATUS
 type SharedPrivateLinkResource_STATUS struct {
 	GroupId               *string                `json:"groupId,omitempty"`

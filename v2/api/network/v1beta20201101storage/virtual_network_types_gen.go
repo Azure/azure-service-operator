@@ -28,11 +28,7 @@ import (
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              VirtualNetwork_Spec   `json:"spec,omitempty"`
-=======
-	Spec              VirtualNetworks_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            VirtualNetwork_STATUS `json:"status,omitempty"`
 }
 
@@ -137,48 +133,6 @@ type VirtualNetworkList struct {
 	Items           []VirtualNetwork `json:"items"`
 }
 
-// Storage version of v1beta20201101.VirtualNetwork_STATUS
-type VirtualNetwork_STATUS struct {
-	AddressSpace         *AddressSpace_STATUS                 `json:"addressSpace,omitempty"`
-	BgpCommunities       *VirtualNetworkBgpCommunities_STATUS `json:"bgpCommunities,omitempty"`
-	Conditions           []conditions.Condition               `json:"conditions,omitempty"`
-	DdosProtectionPlan   *SubResource_STATUS                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions_STATUS                  `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection *bool                                `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection   *bool                                `json:"enableVmProtection,omitempty"`
-	Etag                 *string                              `json:"etag,omitempty"`
-	ExtendedLocation     *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
-	Id                   *string                              `json:"id,omitempty"`
-	IpAllocations        []SubResource_STATUS                 `json:"ipAllocations,omitempty"`
-	Location             *string                              `json:"location,omitempty"`
-	Name                 *string                              `json:"name,omitempty"`
-	PropertyBag          genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                              `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                              `json:"resourceGuid,omitempty"`
-	Tags                 map[string]string                    `json:"tags,omitempty"`
-	Type                 *string                              `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &VirtualNetwork_STATUS{}
-
-// ConvertStatusFrom populates our VirtualNetwork_STATUS from the provided source
-func (network *VirtualNetwork_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == network {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(network)
-}
-
-// ConvertStatusTo populates the provided destination from our VirtualNetwork_STATUS
-func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == network {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(network)
-}
-
 // Storage version of v1beta20201101.VirtualNetwork_Spec
 type VirtualNetwork_Spec struct {
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
@@ -228,6 +182,48 @@ func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.Convert
 	}
 
 	return destination.ConvertSpecFrom(network)
+}
+
+// Storage version of v1beta20201101.VirtualNetwork_STATUS
+type VirtualNetwork_STATUS struct {
+	AddressSpace         *AddressSpace_STATUS                 `json:"addressSpace,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities_STATUS `json:"bgpCommunities,omitempty"`
+	Conditions           []conditions.Condition               `json:"conditions,omitempty"`
+	DdosProtectionPlan   *SubResource_STATUS                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_STATUS                  `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                                `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                                `json:"enableVmProtection,omitempty"`
+	Etag                 *string                              `json:"etag,omitempty"`
+	ExtendedLocation     *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
+	Id                   *string                              `json:"id,omitempty"`
+	IpAllocations        []SubResource_STATUS                 `json:"ipAllocations,omitempty"`
+	Location             *string                              `json:"location,omitempty"`
+	Name                 *string                              `json:"name,omitempty"`
+	PropertyBag          genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+	ProvisioningState    *string                              `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                              `json:"resourceGuid,omitempty"`
+	Tags                 map[string]string                    `json:"tags,omitempty"`
+	Type                 *string                              `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &VirtualNetwork_STATUS{}
+
+// ConvertStatusFrom populates our VirtualNetwork_STATUS from the provided source
+func (network *VirtualNetwork_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(network)
+}
+
+// ConvertStatusTo populates the provided destination from our VirtualNetwork_STATUS
+func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == network {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(network)
 }
 
 // Storage version of v1beta20201101.AddressSpace

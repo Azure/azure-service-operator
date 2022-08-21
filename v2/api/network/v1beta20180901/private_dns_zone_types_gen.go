@@ -30,13 +30,8 @@ import (
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              PrivateDnsZone_Spec   `json:"spec,omitempty"`
 	Status            PrivateDnsZone_STATUS `json:"status,omitempty"`
-=======
-	Spec              PrivateDnsZones_Spec `json:"spec,omitempty"`
-	Status            PrivateZone_STATUS   `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -130,11 +125,7 @@ func (zone *PrivateDnsZone) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &PrivateDnsZone_STATUS{}
-=======
-	return &PrivateZone_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -150,21 +141,13 @@ func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (zone *PrivateDnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*PrivateDnsZone_STATUS); ok {
-=======
-	if st, ok := status.(*PrivateZone_STATUS); ok {
->>>>>>> main
 		zone.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st PrivateDnsZone_STATUS
-=======
-	var st PrivateZone_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -282,17 +265,10 @@ func (zone *PrivateDnsZone) AssignPropertiesFromPrivateDnsZone(source *v20180901
 	zone.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status PrivateDnsZone_STATUS
 	err = status.AssignPropertiesFromPrivateDnsZone_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromPrivateDnsZone_STATUS() to populate field Status")
-=======
-	var status PrivateZone_STATUS
-	err = status.AssignPropertiesFromPrivateZoneSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPrivateZoneSTATUS() to populate field Status")
->>>>>>> main
 	}
 	zone.Status = status
 
@@ -315,17 +291,10 @@ func (zone *PrivateDnsZone) AssignPropertiesToPrivateDnsZone(destination *v20180
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status v20180901s.PrivateDnsZone_STATUS
 	err = zone.Status.AssignPropertiesToPrivateDnsZone_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToPrivateDnsZone_STATUS() to populate field Status")
-=======
-	var status v20180901s.PrivateZone_STATUS
-	err = zone.Status.AssignPropertiesToPrivateZoneSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPrivateZoneSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -357,562 +326,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-09-01")
 
-<<<<<<< HEAD
-type PrivateDnsZone_STATUS struct {
-=======
-type PrivateDnsZones_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: The ETag of the Private DNS zone.
-	Etag *string `json:"etag,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateDnsZones_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (zones *PrivateDnsZones_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if zones == nil {
-		return nil, nil
-	}
-	result := &PrivateDnsZones_SpecARM{}
-
-	// Set property ‘Etag’:
-	if zones.Etag != nil {
-		etag := *zones.Etag
-		result.Etag = &etag
-	}
-
-	// Set property ‘Location’:
-	if zones.Location != nil {
-		location := *zones.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Tags’:
-	if zones.Tags != nil {
-		result.Tags = make(map[string]string, len(zones.Tags))
-		for key, value := range zones.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zones *PrivateDnsZones_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZones_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zones *PrivateDnsZones_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZones_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZones_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	zones.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		zones.Etag = &etag
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		zones.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	zones.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		zones.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			zones.Tags[key] = value
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &PrivateDnsZones_Spec{}
-
-// ConvertSpecFrom populates our PrivateDnsZones_Spec from the provided source
-func (zones *PrivateDnsZones_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180901s.PrivateDnsZones_Spec)
-	if ok {
-		// Populate our instance from source
-		return zones.AssignPropertiesFromPrivateDnsZonesSpec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180901s.PrivateDnsZones_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = zones.AssignPropertiesFromPrivateDnsZonesSpec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our PrivateDnsZones_Spec
-func (zones *PrivateDnsZones_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180901s.PrivateDnsZones_Spec)
-	if ok {
-		// Populate destination from our instance
-		return zones.AssignPropertiesToPrivateDnsZonesSpec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180901s.PrivateDnsZones_Spec{}
-	err := zones.AssignPropertiesToPrivateDnsZonesSpec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignPropertiesFromPrivateDnsZonesSpec populates our PrivateDnsZones_Spec from the provided source PrivateDnsZones_Spec
-func (zones *PrivateDnsZones_Spec) AssignPropertiesFromPrivateDnsZonesSpec(source *v20180901s.PrivateDnsZones_Spec) error {
-
-	// AzureName
-	zones.AzureName = source.AzureName
-
-	// Etag
-	zones.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Location
-	zones.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		zones.Owner = &owner
-	} else {
-		zones.Owner = nil
-	}
-
-	// Tags
-	zones.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateDnsZonesSpec populates the provided destination PrivateDnsZones_Spec from our PrivateDnsZones_Spec
-func (zones *PrivateDnsZones_Spec) AssignPropertiesToPrivateDnsZonesSpec(destination *v20180901s.PrivateDnsZones_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = zones.AzureName
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zones.Etag)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(zones.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = zones.OriginalVersion()
-
-	// Owner
-	if zones.Owner != nil {
-		owner := zones.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(zones.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (zones *PrivateDnsZones_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (zones *PrivateDnsZones_Spec) SetAzureName(azureName string) { zones.AzureName = azureName }
-
-type PrivateZone_STATUS struct {
->>>>>>> main
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Etag: The ETag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
-	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
-	// read-only property and any attempt to set this value will be ignored.
-	MaxNumberOfRecordSets *int `json:"maxNumberOfRecordSets,omitempty"`
-
-	// MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
-	// is a read-only property and any attempt to set this value will be ignored.
-	MaxNumberOfVirtualNetworkLinks *int `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
-
-	// MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
-	// Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
-	// ignored.
-	MaxNumberOfVirtualNetworkLinksWithRegistration *int `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
-
-	// NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
-	// attempt to set this value will be ignored.
-	NumberOfRecordSets *int `json:"numberOfRecordSets,omitempty"`
-
-	// NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
-	// read-only property and any attempt to set this value will be ignored.
-	NumberOfVirtualNetworkLinks *int `json:"numberOfVirtualNetworkLinks,omitempty"`
-
-	// NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
-	// zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
-	NumberOfVirtualNetworkLinksWithRegistration *int `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
-
-	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
-	// value will be ignored.
-<<<<<<< HEAD
-	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
-
-// ConvertStatusFrom populates our PrivateDnsZone_STATUS from the provided source
-func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180901s.PrivateDnsZone_STATUS)
-	if ok {
-		// Populate our instance from source
-		return zone.AssignPropertiesFromPrivateDnsZone_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180901s.PrivateDnsZone_STATUS{}
-=======
-	ProvisioningState *PrivateZonePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &PrivateZone_STATUS{}
-
-// ConvertStatusFrom populates our PrivateZone_STATUS from the provided source
-func (zone *PrivateZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180901s.PrivateZone_STATUS)
-	if ok {
-		// Populate our instance from source
-		return zone.AssignPropertiesFromPrivateZoneSTATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20180901s.PrivateZone_STATUS{}
->>>>>>> main
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = zone.AssignPropertiesFromPrivateDnsZone_STATUS(src)
-=======
-	err = zone.AssignPropertiesFromPrivateZoneSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180901s.PrivateDnsZone_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return zone.AssignPropertiesToPrivateDnsZone_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180901s.PrivateDnsZone_STATUS{}
-	err := zone.AssignPropertiesToPrivateDnsZone_STATUS(dst)
-=======
-// ConvertStatusTo populates the provided destination from our PrivateZone_STATUS
-func (zone *PrivateZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180901s.PrivateZone_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return zone.AssignPropertiesToPrivateZoneSTATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180901s.PrivateZone_STATUS{}
-	err := zone.AssignPropertiesToPrivateZoneSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-var _ genruntime.FromARMConverter = &PrivateDnsZone_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zone *PrivateDnsZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUSARM, got %T", armInput)
-=======
-var _ genruntime.FromARMConverter = &PrivateZone_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zone *PrivateZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateZone_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zone *PrivateZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateZone_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateZone_STATUSARM, got %T", armInput)
->>>>>>> main
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		zone.Etag = &etag
-	}
-
-	// Set property ‘MaxNumberOfRecordSets’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxNumberOfRecordSets != nil {
-			maxNumberOfRecordSets := *typedInput.Properties.MaxNumberOfRecordSets
-			zone.MaxNumberOfRecordSets = &maxNumberOfRecordSets
-		}
-	}
-
-	// Set property ‘MaxNumberOfVirtualNetworkLinks’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxNumberOfVirtualNetworkLinks != nil {
-			maxNumberOfVirtualNetworkLinks := *typedInput.Properties.MaxNumberOfVirtualNetworkLinks
-			zone.MaxNumberOfVirtualNetworkLinks = &maxNumberOfVirtualNetworkLinks
-		}
-	}
-
-	// Set property ‘MaxNumberOfVirtualNetworkLinksWithRegistration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration != nil {
-			maxNumberOfVirtualNetworkLinksWithRegistration := *typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration
-			zone.MaxNumberOfVirtualNetworkLinksWithRegistration = &maxNumberOfVirtualNetworkLinksWithRegistration
-		}
-	}
-
-	// Set property ‘NumberOfRecordSets’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfRecordSets != nil {
-			numberOfRecordSets := *typedInput.Properties.NumberOfRecordSets
-			zone.NumberOfRecordSets = &numberOfRecordSets
-		}
-	}
-
-	// Set property ‘NumberOfVirtualNetworkLinks’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfVirtualNetworkLinks != nil {
-			numberOfVirtualNetworkLinks := *typedInput.Properties.NumberOfVirtualNetworkLinks
-			zone.NumberOfVirtualNetworkLinks = &numberOfVirtualNetworkLinks
-		}
-	}
-
-	// Set property ‘NumberOfVirtualNetworkLinksWithRegistration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfVirtualNetworkLinksWithRegistration != nil {
-			numberOfVirtualNetworkLinksWithRegistration := *typedInput.Properties.NumberOfVirtualNetworkLinksWithRegistration
-			zone.NumberOfVirtualNetworkLinksWithRegistration = &numberOfVirtualNetworkLinksWithRegistration
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			zone.ProvisioningState = &provisioningState
-		}
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromPrivateDnsZone_STATUS populates our PrivateDnsZone_STATUS from the provided source PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_STATUS) AssignPropertiesFromPrivateDnsZone_STATUS(source *v20180901s.PrivateDnsZone_STATUS) error {
-=======
-// AssignPropertiesFromPrivateZoneSTATUS populates our PrivateZone_STATUS from the provided source PrivateZone_STATUS
-func (zone *PrivateZone_STATUS) AssignPropertiesFromPrivateZoneSTATUS(source *v20180901s.PrivateZone_STATUS) error {
->>>>>>> main
-
-	// Conditions
-	zone.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Etag
-	zone.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// MaxNumberOfRecordSets
-	zone.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(source.MaxNumberOfRecordSets)
-
-	// MaxNumberOfVirtualNetworkLinks
-	zone.MaxNumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(source.MaxNumberOfVirtualNetworkLinks)
-
-	// MaxNumberOfVirtualNetworkLinksWithRegistration
-	zone.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(source.MaxNumberOfVirtualNetworkLinksWithRegistration)
-
-	// NumberOfRecordSets
-	zone.NumberOfRecordSets = genruntime.ClonePointerToInt(source.NumberOfRecordSets)
-
-	// NumberOfVirtualNetworkLinks
-	zone.NumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(source.NumberOfVirtualNetworkLinks)
-
-	// NumberOfVirtualNetworkLinksWithRegistration
-	zone.NumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(source.NumberOfVirtualNetworkLinksWithRegistration)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-<<<<<<< HEAD
-		provisioningState := PrivateZoneProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-=======
-		provisioningState := PrivateZonePropertiesSTATUSProvisioningState(*source.ProvisioningState)
->>>>>>> main
-		zone.ProvisioningState = &provisioningState
-	} else {
-		zone.ProvisioningState = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToPrivateDnsZone_STATUS populates the provided destination PrivateDnsZone_STATUS from our PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_STATUS) AssignPropertiesToPrivateDnsZone_STATUS(destination *v20180901s.PrivateDnsZone_STATUS) error {
-=======
-// AssignPropertiesToPrivateZoneSTATUS populates the provided destination PrivateZone_STATUS from our PrivateZone_STATUS
-func (zone *PrivateZone_STATUS) AssignPropertiesToPrivateZoneSTATUS(destination *v20180901s.PrivateZone_STATUS) error {
->>>>>>> main
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(zone.Conditions)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
-
-	// MaxNumberOfRecordSets
-	destination.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(zone.MaxNumberOfRecordSets)
-
-	// MaxNumberOfVirtualNetworkLinks
-	destination.MaxNumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(zone.MaxNumberOfVirtualNetworkLinks)
-
-	// MaxNumberOfVirtualNetworkLinksWithRegistration
-	destination.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(zone.MaxNumberOfVirtualNetworkLinksWithRegistration)
-
-	// NumberOfRecordSets
-	destination.NumberOfRecordSets = genruntime.ClonePointerToInt(zone.NumberOfRecordSets)
-
-	// NumberOfVirtualNetworkLinks
-	destination.NumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(zone.NumberOfVirtualNetworkLinks)
-
-	// NumberOfVirtualNetworkLinksWithRegistration
-	destination.NumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(zone.NumberOfVirtualNetworkLinksWithRegistration)
-
-	// ProvisioningState
-	if zone.ProvisioningState != nil {
-		provisioningState := string(*zone.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
 type PrivateDnsZone_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1093,6 +506,269 @@ func (zone *PrivateDnsZone_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (zone *PrivateDnsZone_Spec) SetAzureName(azureName string) { zone.AzureName = azureName }
 
+type PrivateDnsZone_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// Etag: The ETag of the zone.
+	Etag *string `json:"etag,omitempty"`
+
+	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
+	// read-only property and any attempt to set this value will be ignored.
+	MaxNumberOfRecordSets *int `json:"maxNumberOfRecordSets,omitempty"`
+
+	// MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
+	// is a read-only property and any attempt to set this value will be ignored.
+	MaxNumberOfVirtualNetworkLinks *int `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
+
+	// MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
+	// Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
+	// ignored.
+	MaxNumberOfVirtualNetworkLinksWithRegistration *int `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
+
+	// NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
+	// attempt to set this value will be ignored.
+	NumberOfRecordSets *int `json:"numberOfRecordSets,omitempty"`
+
+	// NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
+	// read-only property and any attempt to set this value will be ignored.
+	NumberOfVirtualNetworkLinks *int `json:"numberOfVirtualNetworkLinks,omitempty"`
+
+	// NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
+	// zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
+	NumberOfVirtualNetworkLinksWithRegistration *int `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
+
+	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
+	// value will be ignored.
+	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
+
+// ConvertStatusFrom populates our PrivateDnsZone_STATUS from the provided source
+func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180901s.PrivateDnsZone_STATUS)
+	if ok {
+		// Populate our instance from source
+		return zone.AssignPropertiesFromPrivateDnsZone_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20180901s.PrivateDnsZone_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = zone.AssignPropertiesFromPrivateDnsZone_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our PrivateDnsZone_STATUS
+func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180901s.PrivateDnsZone_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return zone.AssignPropertiesToPrivateDnsZone_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20180901s.PrivateDnsZone_STATUS{}
+	err := zone.AssignPropertiesToPrivateDnsZone_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &PrivateDnsZone_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (zone *PrivateDnsZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateDnsZone_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateDnsZone_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		zone.Etag = &etag
+	}
+
+	// Set property ‘MaxNumberOfRecordSets’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxNumberOfRecordSets != nil {
+			maxNumberOfRecordSets := *typedInput.Properties.MaxNumberOfRecordSets
+			zone.MaxNumberOfRecordSets = &maxNumberOfRecordSets
+		}
+	}
+
+	// Set property ‘MaxNumberOfVirtualNetworkLinks’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxNumberOfVirtualNetworkLinks != nil {
+			maxNumberOfVirtualNetworkLinks := *typedInput.Properties.MaxNumberOfVirtualNetworkLinks
+			zone.MaxNumberOfVirtualNetworkLinks = &maxNumberOfVirtualNetworkLinks
+		}
+	}
+
+	// Set property ‘MaxNumberOfVirtualNetworkLinksWithRegistration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration != nil {
+			maxNumberOfVirtualNetworkLinksWithRegistration := *typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration
+			zone.MaxNumberOfVirtualNetworkLinksWithRegistration = &maxNumberOfVirtualNetworkLinksWithRegistration
+		}
+	}
+
+	// Set property ‘NumberOfRecordSets’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfRecordSets != nil {
+			numberOfRecordSets := *typedInput.Properties.NumberOfRecordSets
+			zone.NumberOfRecordSets = &numberOfRecordSets
+		}
+	}
+
+	// Set property ‘NumberOfVirtualNetworkLinks’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfVirtualNetworkLinks != nil {
+			numberOfVirtualNetworkLinks := *typedInput.Properties.NumberOfVirtualNetworkLinks
+			zone.NumberOfVirtualNetworkLinks = &numberOfVirtualNetworkLinks
+		}
+	}
+
+	// Set property ‘NumberOfVirtualNetworkLinksWithRegistration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfVirtualNetworkLinksWithRegistration != nil {
+			numberOfVirtualNetworkLinksWithRegistration := *typedInput.Properties.NumberOfVirtualNetworkLinksWithRegistration
+			zone.NumberOfVirtualNetworkLinksWithRegistration = &numberOfVirtualNetworkLinksWithRegistration
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			zone.ProvisioningState = &provisioningState
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromPrivateDnsZone_STATUS populates our PrivateDnsZone_STATUS from the provided source PrivateDnsZone_STATUS
+func (zone *PrivateDnsZone_STATUS) AssignPropertiesFromPrivateDnsZone_STATUS(source *v20180901s.PrivateDnsZone_STATUS) error {
+
+	// Conditions
+	zone.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	zone.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// MaxNumberOfRecordSets
+	zone.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(source.MaxNumberOfRecordSets)
+
+	// MaxNumberOfVirtualNetworkLinks
+	zone.MaxNumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(source.MaxNumberOfVirtualNetworkLinks)
+
+	// MaxNumberOfVirtualNetworkLinksWithRegistration
+	zone.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(source.MaxNumberOfVirtualNetworkLinksWithRegistration)
+
+	// NumberOfRecordSets
+	zone.NumberOfRecordSets = genruntime.ClonePointerToInt(source.NumberOfRecordSets)
+
+	// NumberOfVirtualNetworkLinks
+	zone.NumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(source.NumberOfVirtualNetworkLinks)
+
+	// NumberOfVirtualNetworkLinksWithRegistration
+	zone.NumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(source.NumberOfVirtualNetworkLinksWithRegistration)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := PrivateZoneProperties_ProvisioningState_STATUS(*source.ProvisioningState)
+		zone.ProvisioningState = &provisioningState
+	} else {
+		zone.ProvisioningState = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateDnsZone_STATUS populates the provided destination PrivateDnsZone_STATUS from our PrivateDnsZone_STATUS
+func (zone *PrivateDnsZone_STATUS) AssignPropertiesToPrivateDnsZone_STATUS(destination *v20180901s.PrivateDnsZone_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(zone.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
+
+	// MaxNumberOfRecordSets
+	destination.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(zone.MaxNumberOfRecordSets)
+
+	// MaxNumberOfVirtualNetworkLinks
+	destination.MaxNumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(zone.MaxNumberOfVirtualNetworkLinks)
+
+	// MaxNumberOfVirtualNetworkLinksWithRegistration
+	destination.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(zone.MaxNumberOfVirtualNetworkLinksWithRegistration)
+
+	// NumberOfRecordSets
+	destination.NumberOfRecordSets = genruntime.ClonePointerToInt(zone.NumberOfRecordSets)
+
+	// NumberOfVirtualNetworkLinks
+	destination.NumberOfVirtualNetworkLinks = genruntime.ClonePointerToInt(zone.NumberOfVirtualNetworkLinks)
+
+	// NumberOfVirtualNetworkLinksWithRegistration
+	destination.NumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(zone.NumberOfVirtualNetworkLinksWithRegistration)
+
+	// ProvisioningState
+	if zone.ProvisioningState != nil {
+		provisioningState := string(*zone.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type PrivateZoneProperties_ProvisioningState_STATUS string
 
 const (
@@ -1102,17 +778,6 @@ const (
 	PrivateZoneProperties_ProvisioningState_Failed_STATUS    = PrivateZoneProperties_ProvisioningState_STATUS("Failed")
 	PrivateZoneProperties_ProvisioningState_Succeeded_STATUS = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
 	PrivateZoneProperties_ProvisioningState_Updating_STATUS  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
-=======
-type PrivateZonePropertiesSTATUSProvisioningState string
-
-const (
-	PrivateZonePropertiesSTATUSProvisioningState_Canceled  = PrivateZonePropertiesSTATUSProvisioningState("Canceled")
-	PrivateZonePropertiesSTATUSProvisioningState_Creating  = PrivateZonePropertiesSTATUSProvisioningState("Creating")
-	PrivateZonePropertiesSTATUSProvisioningState_Deleting  = PrivateZonePropertiesSTATUSProvisioningState("Deleting")
-	PrivateZonePropertiesSTATUSProvisioningState_Failed    = PrivateZonePropertiesSTATUSProvisioningState("Failed")
-	PrivateZonePropertiesSTATUSProvisioningState_Succeeded = PrivateZonePropertiesSTATUSProvisioningState("Succeeded")
-	PrivateZonePropertiesSTATUSProvisioningState_Updating  = PrivateZonePropertiesSTATUSProvisioningState("Updating")
->>>>>>> main
 )
 
 func init() {

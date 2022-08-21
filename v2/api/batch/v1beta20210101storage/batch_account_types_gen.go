@@ -28,11 +28,7 @@ import (
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              BatchAccount_Spec   `json:"spec,omitempty"`
-=======
-	Spec              BatchAccounts_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            BatchAccount_STATUS `json:"status,omitempty"`
 }
 
@@ -143,6 +139,50 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-01-01")
 
+// Storage version of v1beta20210101.BatchAccount_Spec
+type BatchAccount_Spec struct {
+	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName         string                `json:"azureName,omitempty"`
+	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
+	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
+	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
+	Location          *string               `json:"location,omitempty"`
+	OriginalVersion   string                `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PoolAllocationMode  *string                            `json:"poolAllocationMode,omitempty"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &BatchAccount_Spec{}
+
+// ConvertSpecFrom populates our BatchAccount_Spec from the provided source
+func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(account)
+}
+
+// ConvertSpecTo populates the provided destination from our BatchAccount_Spec
+func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(account)
+}
+
 // Storage version of v1beta20210101.BatchAccount_STATUS
 type BatchAccount_STATUS struct {
 	AccountEndpoint                       *string                                `json:"accountEndpoint,omitempty"`
@@ -189,50 +229,6 @@ func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.Conve
 	return destination.ConvertStatusFrom(account)
 }
 
-// Storage version of v1beta20210101.BatchAccount_Spec
-type BatchAccount_Spec struct {
-	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName         string                `json:"azureName,omitempty"`
-	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
-	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
-	KeyVaultReference *KeyVaultReference    `json:"keyVaultReference,omitempty"`
-	Location          *string               `json:"location,omitempty"`
-	OriginalVersion   string                `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PoolAllocationMode  *string                            `json:"poolAllocationMode,omitempty"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &BatchAccount_Spec{}
-
-// ConvertSpecFrom populates our BatchAccount_Spec from the provided source
-func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(account)
-}
-
-// ConvertSpecTo populates the provided destination from our BatchAccount_Spec
-func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == account {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(account)
-}
-
 // Storage version of v1beta20210101.AutoStorageBaseProperties
 type AutoStorageBaseProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -261,11 +257,7 @@ type BatchAccountIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
-<<<<<<< HEAD
 	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
-=======
-	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20210101.EncryptionProperties
@@ -318,13 +310,8 @@ type VirtualMachineFamilyCoreQuota_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
 type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
-=======
-// Storage version of v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities
-type BatchAccountIdentity_STATUS_UserAssignedIdentities struct {
->>>>>>> main
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

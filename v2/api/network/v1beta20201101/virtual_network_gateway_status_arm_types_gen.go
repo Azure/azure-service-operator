@@ -54,11 +54,7 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	GatewayDefaultSite *SubResource_STATUSARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway_statusarm_types_gen.go
 	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS `json:"gatewayType,omitempty"`
-========
-	GatewayType *VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType `json:"gatewayType,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateway_status_arm_types_gen.go
 
 	// InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.
 	InboundDnsForwardingEndpoint *string `json:"inboundDnsForwardingEndpoint,omitempty"`
@@ -85,17 +81,10 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	VpnClientConfiguration *VpnClientConfiguration_STATUSARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway_statusarm_types_gen.go
 	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
 
 	// VpnType: The type of this virtual network gateway.
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS `json:"vpnType,omitempty"`
-========
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
-
-	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormatSTATUSVpnType `json:"vpnType,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateway_status_arm_types_gen.go
 }
 
 type AddressSpace_STATUSARM struct {
@@ -136,17 +125,10 @@ type VirtualNetworkGatewaySku_STATUSARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Gateway SKU name.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway_statusarm_types_gen.go
 	Name *VirtualNetworkGatewaySku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Gateway SKU tier.
 	Tier *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
-========
-	Name *VirtualNetworkGatewaySkuSTATUSName `json:"name,omitempty"`
-
-	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySkuSTATUSTier `json:"tier,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateway_status_arm_types_gen.go
 }
 
 type VpnClientConfiguration_STATUSARM struct {
@@ -172,11 +154,7 @@ type VpnClientConfiguration_STATUSARM struct {
 	RadiusServers []RadiusServer_STATUSARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway_statusarm_types_gen.go
 	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
-========
-	VpnAuthenticationTypes []VpnClientConfigurationSTATUSVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateway_status_arm_types_gen.go
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace_STATUSARM `json:"vpnClientAddressPool,omitempty"`
@@ -185,11 +163,7 @@ type VpnClientConfiguration_STATUSARM struct {
 	VpnClientIpsecPolicies []IpsecPolicy_STATUSARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway_statusarm_types_gen.go
 	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_STATUS `json:"vpnClientProtocols,omitempty"`
-========
-	VpnClientProtocols []VpnClientConfigurationSTATUSVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateway_status_arm_types_gen.go
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUSARM `json:"vpnClientRevokedCertificates,omitempty"`

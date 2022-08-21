@@ -2,7 +2,6 @@
 |-----------------------------------------------|---------------------|----------------|
 | APIVersion                                    | v1alpha1api20210601 | v1beta20210601 |
 | Backup                                        | v1alpha1api20210601 | v1beta20210601 |
-<<<<<<< HEAD
 | Backup_GeoRedundantBackup                     | v1alpha1api20210601 | v1beta20210601 |
 | Backup_GeoRedundantBackup_STATUS              | v1alpha1api20210601 | v1beta20210601 |
 | Backup_STATUS                                 | v1alpha1api20210601 | v1beta20210601 |
@@ -13,21 +12,6 @@
 | DatabaseProperties_STATUS                     | v1alpha1api20210601 | v1beta20210601 |
 | FirewallRuleProperties                        | v1alpha1api20210601 | v1beta20210601 |
 | FirewallRuleProperties_STATUS                 | v1alpha1api20210601 | v1beta20210601 |
-=======
-| BackupGeoRedundantBackup                      | v1alpha1api20210601 | v1beta20210601 |
-| BackupSTATUSGeoRedundantBackup                | v1alpha1api20210601 | v1beta20210601 |
-| Backup_STATUS                                 | v1alpha1api20210601 | v1beta20210601 |
-| ConfigurationProperties                       | v1alpha1api20210601 | v1beta20210601 |
-| ConfigurationPropertiesSTATUSDataType         | v1alpha1api20210601 | v1beta20210601 |
-| ConfigurationProperties_STATUS                | v1alpha1api20210601 | v1beta20210601 |
-| Configuration_STATUS                          | v1alpha1api20210601 | v1beta20210601 |
-| DatabaseProperties                            | v1alpha1api20210601 | v1beta20210601 |
-| DatabaseProperties_STATUS                     | v1alpha1api20210601 | v1beta20210601 |
-| Database_STATUS                               | v1alpha1api20210601 | v1beta20210601 |
-| FirewallRuleProperties                        | v1alpha1api20210601 | v1beta20210601 |
-| FirewallRuleProperties_STATUS                 | v1alpha1api20210601 | v1beta20210601 |
-| FirewallRule_STATUS                           | v1alpha1api20210601 | v1beta20210601 |
->>>>>>> main
 | FlexibleServer                                | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServer_STATUS                         | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServer_Spec                           | v1alpha1api20210601 | v1beta20210601 |
@@ -41,7 +25,6 @@
 | FlexibleServersFirewallRule_STATUS            | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServersFirewallRule_Spec              | v1alpha1api20210601 | v1beta20210601 |
 | HighAvailability                              | v1alpha1api20210601 | v1beta20210601 |
-<<<<<<< HEAD
 | HighAvailability_Mode                         | v1alpha1api20210601 | v1beta20210601 |
 | HighAvailability_Mode_STATUS                  | v1alpha1api20210601 | v1beta20210601 |
 | HighAvailability_STATUS                       | v1alpha1api20210601 | v1beta20210601 |
@@ -66,31 +49,4 @@
 | Storage_STATUS                                | v1alpha1api20210601 | v1beta20210601 |
 | SystemData_CreatedByType_STATUS               | v1alpha1api20210601 | v1beta20210601 |
 | SystemData_LastModifiedByType_STATUS          | v1alpha1api20210601 | v1beta20210601 |
-=======
-| HighAvailabilityMode                          | v1alpha1api20210601 | v1beta20210601 |
-| HighAvailabilitySTATUSMode                    | v1alpha1api20210601 | v1beta20210601 |
-| HighAvailabilitySTATUSState                   | v1alpha1api20210601 | v1beta20210601 |
-| HighAvailability_STATUS                       | v1alpha1api20210601 | v1beta20210601 |
-| MaintenanceWindow                             | v1alpha1api20210601 | v1beta20210601 |
-| MaintenanceWindow_STATUS                      | v1alpha1api20210601 | v1beta20210601 |
-| Network                                       | v1alpha1api20210601 | v1beta20210601 |
-| NetworkSTATUSPublicNetworkAccess              | v1alpha1api20210601 | v1beta20210601 |
-| Network_STATUS                                | v1alpha1api20210601 | v1beta20210601 |
-| ServerProperties                              | v1alpha1api20210601 | v1beta20210601 |
-| ServerPropertiesCreateMode                    | v1alpha1api20210601 | v1beta20210601 |
-| ServerPropertiesSTATUSCreateMode              | v1alpha1api20210601 | v1beta20210601 |
-| ServerPropertiesSTATUSState                   | v1alpha1api20210601 | v1beta20210601 |
-| ServerPropertiesVersion                       | v1alpha1api20210601 | v1beta20210601 |
-| ServerProperties_STATUS                       | v1alpha1api20210601 | v1beta20210601 |
-| ServerVersion_STATUS                          | v1alpha1api20210601 | v1beta20210601 |
-| Server_STATUS                                 | v1alpha1api20210601 | v1beta20210601 |
-| Sku                                           | v1alpha1api20210601 | v1beta20210601 |
-| SkuSTATUSTier                                 | v1alpha1api20210601 | v1beta20210601 |
-| SkuTier                                       | v1alpha1api20210601 | v1beta20210601 |
-| Sku_STATUS                                    | v1alpha1api20210601 | v1beta20210601 |
-| Storage                                       | v1alpha1api20210601 | v1beta20210601 |
-| Storage_STATUS                                | v1alpha1api20210601 | v1beta20210601 |
-| SystemDataSTATUSCreatedByType                 | v1alpha1api20210601 | v1beta20210601 |
-| SystemDataSTATUSLastModifiedByType            | v1alpha1api20210601 | v1beta20210601 |
->>>>>>> main
 | SystemData_STATUS                             | v1alpha1api20210601 | v1beta20210601 |

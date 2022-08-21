@@ -28,11 +28,7 @@ import (
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              VirtualMachineScaleSet_Spec   `json:"spec,omitempty"`
-=======
-	Spec              VirtualMachineScaleSets_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            VirtualMachineScaleSet_STATUS `json:"status,omitempty"`
 }
 
@@ -137,59 +133,6 @@ type VirtualMachineScaleSetList struct {
 	Items           []VirtualMachineScaleSet `json:"items"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_STATUS
-type VirtualMachineScaleSet_STATUS struct {
-	AdditionalCapabilities                 *AdditionalCapabilities_STATUS          `json:"additionalCapabilities,omitempty"`
-	AutomaticRepairsPolicy                 *AutomaticRepairsPolicy_STATUS          `json:"automaticRepairsPolicy,omitempty"`
-	Conditions                             []conditions.Condition                  `json:"conditions,omitempty"`
-	DoNotRunExtensionsOnOverprovisionedVMs *bool                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
-	ExtendedLocation                       *ExtendedLocation_STATUS                `json:"extendedLocation,omitempty"`
-	HostGroup                              *SubResource_STATUS                     `json:"hostGroup,omitempty"`
-	Id                                     *string                                 `json:"id,omitempty"`
-	Identity                               *VirtualMachineScaleSetIdentity_STATUS  `json:"identity,omitempty"`
-	Location                               *string                                 `json:"location,omitempty"`
-	Name                                   *string                                 `json:"name,omitempty"`
-	OrchestrationMode                      *string                                 `json:"orchestrationMode,omitempty"`
-	Overprovision                          *bool                                   `json:"overprovision,omitempty"`
-	Plan                                   *Plan_STATUS                            `json:"plan,omitempty"`
-	PlatformFaultDomainCount               *int                                    `json:"platformFaultDomainCount,omitempty"`
-	PropertyBag                            genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	ProvisioningState                      *string                                 `json:"provisioningState,omitempty"`
-	ProximityPlacementGroup                *SubResource_STATUS                     `json:"proximityPlacementGroup,omitempty"`
-	ScaleInPolicy                          *ScaleInPolicy_STATUS                   `json:"scaleInPolicy,omitempty"`
-	SinglePlacementGroup                   *bool                                   `json:"singlePlacementGroup,omitempty"`
-	Sku                                    *Sku_STATUS                             `json:"sku,omitempty"`
-	SpotRestorePolicy                      *SpotRestorePolicy_STATUS               `json:"spotRestorePolicy,omitempty"`
-	Tags                                   map[string]string                       `json:"tags,omitempty"`
-	TimeCreated                            *string                                 `json:"timeCreated,omitempty"`
-	Type                                   *string                                 `json:"type,omitempty"`
-	UniqueId                               *string                                 `json:"uniqueId,omitempty"`
-	UpgradePolicy                          *UpgradePolicy_STATUS                   `json:"upgradePolicy,omitempty"`
-	VirtualMachineProfile                  *VirtualMachineScaleSetVMProfile_STATUS `json:"virtualMachineProfile,omitempty"`
-	ZoneBalance                            *bool                                   `json:"zoneBalance,omitempty"`
-	Zones                                  []string                                `json:"zones,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_STATUS{}
-
-// ConvertStatusFrom populates our VirtualMachineScaleSet_STATUS from the provided source
-func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(scaleSet)
-}
-
-// ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_STATUS
-func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == scaleSet {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(scaleSet)
-}
-
 // Storage version of v1beta20220301.VirtualMachineScaleSet_Spec
 type VirtualMachineScaleSet_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
@@ -245,6 +188,59 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertSpecTo(destination genruntim
 	}
 
 	return destination.ConvertSpecFrom(scaleSet)
+}
+
+// Storage version of v1beta20220301.VirtualMachineScaleSet_STATUS
+type VirtualMachineScaleSet_STATUS struct {
+	AdditionalCapabilities                 *AdditionalCapabilities_STATUS          `json:"additionalCapabilities,omitempty"`
+	AutomaticRepairsPolicy                 *AutomaticRepairsPolicy_STATUS          `json:"automaticRepairsPolicy,omitempty"`
+	Conditions                             []conditions.Condition                  `json:"conditions,omitempty"`
+	DoNotRunExtensionsOnOverprovisionedVMs *bool                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
+	ExtendedLocation                       *ExtendedLocation_STATUS                `json:"extendedLocation,omitempty"`
+	HostGroup                              *SubResource_STATUS                     `json:"hostGroup,omitempty"`
+	Id                                     *string                                 `json:"id,omitempty"`
+	Identity                               *VirtualMachineScaleSetIdentity_STATUS  `json:"identity,omitempty"`
+	Location                               *string                                 `json:"location,omitempty"`
+	Name                                   *string                                 `json:"name,omitempty"`
+	OrchestrationMode                      *string                                 `json:"orchestrationMode,omitempty"`
+	Overprovision                          *bool                                   `json:"overprovision,omitempty"`
+	Plan                                   *Plan_STATUS                            `json:"plan,omitempty"`
+	PlatformFaultDomainCount               *int                                    `json:"platformFaultDomainCount,omitempty"`
+	PropertyBag                            genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	ProvisioningState                      *string                                 `json:"provisioningState,omitempty"`
+	ProximityPlacementGroup                *SubResource_STATUS                     `json:"proximityPlacementGroup,omitempty"`
+	ScaleInPolicy                          *ScaleInPolicy_STATUS                   `json:"scaleInPolicy,omitempty"`
+	SinglePlacementGroup                   *bool                                   `json:"singlePlacementGroup,omitempty"`
+	Sku                                    *Sku_STATUS                             `json:"sku,omitempty"`
+	SpotRestorePolicy                      *SpotRestorePolicy_STATUS               `json:"spotRestorePolicy,omitempty"`
+	Tags                                   map[string]string                       `json:"tags,omitempty"`
+	TimeCreated                            *string                                 `json:"timeCreated,omitempty"`
+	Type                                   *string                                 `json:"type,omitempty"`
+	UniqueId                               *string                                 `json:"uniqueId,omitempty"`
+	UpgradePolicy                          *UpgradePolicy_STATUS                   `json:"upgradePolicy,omitempty"`
+	VirtualMachineProfile                  *VirtualMachineScaleSetVMProfile_STATUS `json:"virtualMachineProfile,omitempty"`
+	ZoneBalance                            *bool                                   `json:"zoneBalance,omitempty"`
+	Zones                                  []string                                `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_STATUS{}
+
+// ConvertStatusFrom populates our VirtualMachineScaleSet_STATUS from the provided source
+func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == scaleSet {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(scaleSet)
+}
+
+// ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_STATUS
+func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == scaleSet {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(scaleSet)
 }
 
 // Storage version of v1beta20220301.AutomaticRepairsPolicy
@@ -337,7 +333,6 @@ type VirtualMachineScaleSetIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetVMProfile
 type VirtualMachineScaleSetVMProfile struct {
 	ApplicationProfile     *ApplicationProfile                     `json:"applicationProfile,omitempty"`
@@ -356,26 +351,6 @@ type VirtualMachineScaleSetVMProfile struct {
 	SecurityProfile        *SecurityProfile                        `json:"securityProfile,omitempty"`
 	StorageProfile         *VirtualMachineScaleSetStorageProfile   `json:"storageProfile,omitempty"`
 	UserData               *string                                 `json:"userData,omitempty"`
-=======
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
-	ApplicationProfile     *ApplicationProfile                                                             `json:"applicationProfile,omitempty"`
-	BillingProfile         *BillingProfile                                                                 `json:"billingProfile,omitempty"`
-	CapacityReservation    *CapacityReservationProfile                                                     `json:"capacityReservation,omitempty"`
-	DiagnosticsProfile     *DiagnosticsProfile                                                             `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy         *string                                                                         `json:"evictionPolicy,omitempty"`
-	ExtensionProfile       *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile `json:"extensionProfile,omitempty"`
-	HardwareProfile        *VirtualMachineScaleSetHardwareProfile                                          `json:"hardwareProfile,omitempty"`
-	LicenseType            *string                                                                         `json:"licenseType,omitempty"`
-	NetworkProfile         *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile   `json:"networkProfile,omitempty"`
-	OsProfile              *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile        `json:"osProfile,omitempty"`
-	Priority               *string                                                                         `json:"priority,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                                          `json:"$propertyBag,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfile                                                         `json:"scheduledEventsProfile,omitempty"`
-	SecurityProfile        *SecurityProfile                                                                `json:"securityProfile,omitempty"`
-	StorageProfile         *VirtualMachineScaleSetStorageProfile                                           `json:"storageProfile,omitempty"`
-	UserData               *string                                                                         `json:"userData,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetVMProfile_STATUS
@@ -436,15 +411,12 @@ type RollingUpgradePolicy_STATUS struct {
 	PropertyBag                         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile
 type VirtualMachineScaleSetExtensionProfile struct {
 	ExtensionsTimeBudget *string                `json:"extensionsTimeBudget,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile_STATUS
 type VirtualMachineScaleSetExtensionProfile_STATUS struct {
 	Extensions           []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
@@ -464,7 +436,6 @@ type VirtualMachineScaleSetHardwareProfile_STATUS struct {
 	VmSizeProperties *VMSizeProperties_STATUS `json:"vmSizeProperties,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkProfile
 type VirtualMachineScaleSetNetworkProfile struct {
 	HealthProbe                    *ApiEntityReference                          `json:"healthProbe,omitempty"`
@@ -473,8 +444,6 @@ type VirtualMachineScaleSetNetworkProfile struct {
 	PropertyBag                    genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkProfile_STATUS
 type VirtualMachineScaleSetNetworkProfile_STATUS struct {
 	HealthProbe                    *ApiEntityReference_STATUS                          `json:"healthProbe,omitempty"`
@@ -483,40 +452,8 @@ type VirtualMachineScaleSetNetworkProfile_STATUS struct {
 	PropertyBag                    genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetOSProfile
 type VirtualMachineScaleSetOSProfile struct {
-=======
-// Storage version of v1beta20220301.VirtualMachineScaleSetOSProfile_STATUS
-type VirtualMachineScaleSetOSProfile_STATUS struct {
-	AdminUsername            *string                      `json:"adminUsername,omitempty"`
-	AllowExtensionOperations *bool                        `json:"allowExtensionOperations,omitempty"`
-	ComputerNamePrefix       *string                      `json:"computerNamePrefix,omitempty"`
-	CustomData               *string                      `json:"customData,omitempty"`
-	LinuxConfiguration       *LinuxConfiguration_STATUS   `json:"linuxConfiguration,omitempty"`
-	PropertyBag              genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Secrets                  []VaultSecretGroup_STATUS    `json:"secrets,omitempty"`
-	WindowsConfiguration     *WindowsConfiguration_STATUS `json:"windowsConfiguration,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile struct {
-	Extensions           []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                                                     `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag                                                                      `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
-	HealthProbe                    *ApiEntityReference                                                                                           `json:"healthProbe,omitempty"`
-	NetworkApiVersion              *string                                                                                                       `json:"networkApiVersion,omitempty"`
-	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
-	PropertyBag                    genruntime.PropertyBag                                                                                        `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile struct {
->>>>>>> main
 	AdminPassword            *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername            *string                     `json:"adminUsername,omitempty"`
 	AllowExtensionOperations *bool                       `json:"allowExtensionOperations,omitempty"`
@@ -528,7 +465,6 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile str
 	WindowsConfiguration     *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetOSProfile_STATUS
 type VirtualMachineScaleSetOSProfile_STATUS struct {
 	AdminUsername            *string                      `json:"adminUsername,omitempty"`
@@ -542,10 +478,6 @@ type VirtualMachineScaleSetOSProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetStorageProfile
-=======
-// Storage version of v1beta20220301.VirtualMachineScaleSetStorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
->>>>>>> main
 type VirtualMachineScaleSetStorageProfile struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference                  `json:"imageReference,omitempty"`
@@ -607,7 +539,6 @@ type VirtualMachineScaleSetDataDisk_STATUS struct {
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtension_STATUS
 type VirtualMachineScaleSetExtension_STATUS struct {
-<<<<<<< HEAD
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -629,26 +560,6 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-=======
-	AutoUpgradeMinorVersion       *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
-	EnableAutomaticUpgrade        *bool                  `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag                *string                `json:"forceUpdateTag,omitempty"`
-	Id                            *string                `json:"id,omitempty"`
-	Name                          *string                `json:"name,omitempty"`
-	PropertiesType                *string                `json:"properties_type,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtectedSettings             map[string]v1.JSON     `json:"protectedSettings,omitempty"`
-	ProtectedSettingsFromKeyVault map[string]v1.JSON     `json:"protectedSettingsFromKeyVault,omitempty"`
-	ProvisionAfterExtensions      []string               `json:"provisionAfterExtensions,omitempty"`
-	ProvisioningState             *string                `json:"provisioningState,omitempty"`
-	Publisher                     *string                `json:"publisher,omitempty"`
-	Settings                      map[string]v1.JSON     `json:"settings,omitempty"`
-	SuppressFailures              *bool                  `json:"suppressFailures,omitempty"`
-	Type                          *string                `json:"type,omitempty"`
-	TypeHandlerVersion            *string                `json:"typeHandlerVersion,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfiguration_STATUS
 type VirtualMachineScaleSetNetworkConfiguration_STATUS struct {
 	DeleteOption                *string                                                       `json:"deleteOption,omitempty"`
@@ -713,24 +624,6 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	Subnet    *ApiEntityReference           `json:"subnet,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations struct {
-	DeleteOption                *string                                                                                                                                   `json:"deleteOption,omitempty"`
-	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings                                                                                    `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                                                                                                                                     `json:"enableAcceleratedNetworking,omitempty"`
-	EnableFpga                  *bool                                                                                                                                     `json:"enableFpga,omitempty"`
-	EnableIPForwarding          *bool                                                                                                                                     `json:"enableIPForwarding,omitempty"`
-	Id                          *string                                                                                                                                   `json:"id,omitempty"`
-	IpConfigurations            []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
-	Name                        *string                                                                                                                                   `json:"name,omitempty"`
-	NetworkSecurityGroup        *SubResource                                                                                                                              `json:"networkSecurityGroup,omitempty"`
-	Primary                     *bool                                                                                                                                     `json:"primary,omitempty"`
-	PropertyBag                 genruntime.PropertyBag                                                                                                                    `json:"$propertyBag,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20220301.VirtualMachineScaleSetIPConfiguration_STATUS
 type VirtualMachineScaleSetIPConfiguration_STATUS struct {
 	ApplicationGatewayBackendAddressPools []SubResource_STATUS                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
@@ -774,41 +667,8 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfiguration
 type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
-=======
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
-	ApplicationGatewayBackendAddressPools []SubResource                                                                                                                                                                    `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResource                                                                                                                                                                    `json:"applicationSecurityGroups,omitempty"`
-	Id                                    *string                                                                                                                                                                          `json:"id,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResource                                                                                                                                                                    `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatPools           []SubResource                                                                                                                                                                    `json:"loadBalancerInboundNatPools,omitempty"`
-	Name                                  *string                                                                                                                                                                          `json:"name,omitempty"`
-	Primary                               *bool                                                                                                                                                                            `json:"primary,omitempty"`
-	PrivateIPAddressVersion               *string                                                                                                                                                                          `json:"privateIPAddressVersion,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                                                                                                                                           `json:"$propertyBag,omitempty"`
-	PublicIPAddressConfiguration          *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                                *ApiEntityReference                                                                                                                                                              `json:"subnet,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
-type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
-	DeleteOption           *string                                                               `json:"deleteOption,omitempty"`
-	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS `json:"dnsSettings,omitempty"`
-	IdleTimeoutInMinutes   *int                                                                  `json:"idleTimeoutInMinutes,omitempty"`
-	IpTags                 []VirtualMachineScaleSetIpTag_STATUS                                  `json:"ipTags,omitempty"`
-	Name                   *string                                                               `json:"name,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                                `json:"$propertyBag,omitempty"`
-	PublicIPAddressVersion *string                                                               `json:"publicIPAddressVersion,omitempty"`
-	PublicIPPrefix         *SubResource_STATUS                                                   `json:"publicIPPrefix,omitempty"`
-	Sku                    *PublicIPAddressSku_STATUS                                            `json:"sku,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
->>>>>>> main
 	DeleteOption           *string                                                        `json:"deleteOption,omitempty"`
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                           `json:"idleTimeoutInMinutes,omitempty"`

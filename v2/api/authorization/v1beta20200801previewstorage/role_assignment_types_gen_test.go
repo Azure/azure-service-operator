@@ -74,118 +74,8 @@ func RoleAssignmentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRoleAssignment is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = RoleAssignment_SpecGenerator()
 	gens["Status"] = RoleAssignment_STATUSGenerator()
-=======
-	gens["Spec"] = RoleAssignmentsSpecGenerator()
-	gens["Status"] = RoleAssignmentSTATUSGenerator()
->>>>>>> main
-}
-
-func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RoleAssignment_STATUS via JSON returns original",
-<<<<<<< HEAD
-		prop.ForAll(RunJSONSerializationTestForRoleAssignment_STATUS, RoleAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRoleAssignment_STATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentSTATUS, RoleAssignmentSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRoleAssignmentSTATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentSTATUS(subject RoleAssignment_STATUS) string {
->>>>>>> main
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RoleAssignment_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RoleAssignment_STATUS instances for property testing - lazily instantiated by
-<<<<<<< HEAD
-// RoleAssignment_STATUSGenerator()
-var roleAssignment_STATUSGenerator gopter.Gen
-
-// RoleAssignment_STATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
-func RoleAssignment_STATUSGenerator() gopter.Gen {
-	if roleAssignment_STATUSGenerator != nil {
-		return roleAssignment_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(generators)
-	roleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
-
-	return roleAssignment_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
-=======
-// RoleAssignmentSTATUSGenerator()
-var roleAssignmentSTATUSGenerator gopter.Gen
-
-// RoleAssignmentSTATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
-func RoleAssignmentSTATUSGenerator() gopter.Gen {
-	if roleAssignmentSTATUSGenerator != nil {
-		return roleAssignmentSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(generators)
-	roleAssignmentSTATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
-
-	return roleAssignmentSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
-	gens["Condition"] = gen.PtrOf(gen.AlphaString())
-	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
-	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
-	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -254,4 +144,79 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RoleAssignment_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoleAssignment_STATUS, RoleAssignment_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRoleAssignment_STATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RoleAssignment_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RoleAssignment_STATUS instances for property testing - lazily instantiated by
+// RoleAssignment_STATUSGenerator()
+var roleAssignment_STATUSGenerator gopter.Gen
+
+// RoleAssignment_STATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
+func RoleAssignment_STATUSGenerator() gopter.Gen {
+	if roleAssignment_STATUSGenerator != nil {
+		return roleAssignment_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(generators)
+	roleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
+
+	return roleAssignment_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
+	gens["Condition"] = gen.PtrOf(gen.AlphaString())
+	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
+	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrincipalType"] = gen.PtrOf(gen.AlphaString())
+	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
+	gens["Scope"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
 }

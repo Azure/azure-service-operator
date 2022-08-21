@@ -162,214 +162,8 @@ func NamespacesEventhubsConsumerGroupGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = NamespacesEventhubsConsumergroup_SpecGenerator()
 	gens["Status"] = NamespacesEventhubsConsumergroup_STATUSGenerator()
-}
-
-func Test_NamespacesEventhubsConsumergroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-=======
-	gens["Spec"] = NamespacesEventhubsConsumergroupsSpecGenerator()
-	gens["Status"] = ConsumerGroupSTATUSGenerator()
-}
-
-func Test_ConsumerGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
->>>>>>> main
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-<<<<<<< HEAD
-		"Round trip from NamespacesEventhubsConsumergroup_STATUS to NamespacesEventhubsConsumergroup_STATUS via AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS & AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS, NamespacesEventhubsConsumergroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS tests if a specific instance of NamespacesEventhubsConsumergroup_STATUS can be assigned to v1alpha1api20211101storage and back losslessly
-func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS(subject NamespacesEventhubsConsumergroup_STATUS) string {
-=======
-		"Round trip from ConsumerGroup_STATUS to ConsumerGroup_STATUS via AssignPropertiesToConsumerGroupSTATUS & AssignPropertiesFromConsumerGroupSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForConsumerGroupSTATUS, ConsumerGroupSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForConsumerGroupSTATUS tests if a specific instance of ConsumerGroup_STATUS can be assigned to v1alpha1api20211101storage and back losslessly
-func RunPropertyAssignmentTestForConsumerGroupSTATUS(subject ConsumerGroup_STATUS) string {
->>>>>>> main
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-<<<<<<< HEAD
-	var other alpha20211101s.NamespacesEventhubsConsumergroup_STATUS
-	err := copied.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(&other)
-=======
-	var other alpha20211101s.ConsumerGroup_STATUS
-	err := copied.AssignPropertiesToConsumerGroupSTATUS(&other)
->>>>>>> main
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-<<<<<<< HEAD
-	var actual NamespacesEventhubsConsumergroup_STATUS
-	err = actual.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(&other)
-=======
-	var actual ConsumerGroup_STATUS
-	err = actual.AssignPropertiesFromConsumerGroupSTATUS(&other)
->>>>>>> main
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-<<<<<<< HEAD
-func Test_NamespacesEventhubsConsumergroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-=======
-func Test_ConsumerGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
->>>>>>> main
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-<<<<<<< HEAD
-		"Round trip of NamespacesEventhubsConsumergroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS, NamespacesEventhubsConsumergroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS runs a test to see if a specific instance of NamespacesEventhubsConsumergroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS(subject NamespacesEventhubsConsumergroup_STATUS) string {
-=======
-		"Round trip of ConsumerGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConsumerGroupSTATUS, ConsumerGroupSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForConsumerGroupSTATUS runs a test to see if a specific instance of ConsumerGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForConsumerGroupSTATUS(subject ConsumerGroup_STATUS) string {
->>>>>>> main
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-<<<<<<< HEAD
-	var actual NamespacesEventhubsConsumergroup_STATUS
-=======
-	var actual ConsumerGroup_STATUS
->>>>>>> main
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-<<<<<<< HEAD
-// Generator of NamespacesEventhubsConsumergroup_STATUS instances for property testing - lazily instantiated by
-// NamespacesEventhubsConsumergroup_STATUSGenerator()
-var namespacesEventhubsConsumergroup_STATUSGenerator gopter.Gen
-
-// NamespacesEventhubsConsumergroup_STATUSGenerator returns a generator of NamespacesEventhubsConsumergroup_STATUS instances for property testing.
-// We first initialize namespacesEventhubsConsumergroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NamespacesEventhubsConsumergroup_STATUSGenerator() gopter.Gen {
-	if namespacesEventhubsConsumergroup_STATUSGenerator != nil {
-		return namespacesEventhubsConsumergroup_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
-	namespacesEventhubsConsumergroup_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
-	namespacesEventhubsConsumergroup_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_STATUS{}), generators)
-
-	return namespacesEventhubsConsumergroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of ConsumerGroup_STATUS instances for property testing - lazily instantiated by
-// ConsumerGroupSTATUSGenerator()
-var consumerGroupSTATUSGenerator gopter.Gen
-
-// ConsumerGroupSTATUSGenerator returns a generator of ConsumerGroup_STATUS instances for property testing.
-// We first initialize consumerGroupSTATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ConsumerGroupSTATUSGenerator() gopter.Gen {
-	if consumerGroupSTATUSGenerator != nil {
-		return consumerGroupSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(generators)
-	consumerGroupSTATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(generators)
-	AddRelatedPropertyGeneratorsForConsumerGroupSTATUS(generators)
-	consumerGroupSTATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
-
-	return consumerGroupSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConsumerGroupSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConsumerGroupSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
-}
-
-<<<<<<< HEAD
-// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-=======
-// AddRelatedPropertyGeneratorsForConsumerGroupSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConsumerGroupSTATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
->>>>>>> main
 }
 
 func Test_NamespacesEventhubsConsumergroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -474,4 +268,127 @@ func NamespacesEventhubsConsumergroup_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NamespacesEventhubsConsumergroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhubsConsumergroup_STATUS to NamespacesEventhubsConsumergroup_STATUS via AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS & AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS, NamespacesEventhubsConsumergroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS tests if a specific instance of NamespacesEventhubsConsumergroup_STATUS can be assigned to v1alpha1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroup_STATUS(subject NamespacesEventhubsConsumergroup_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20211101s.NamespacesEventhubsConsumergroup_STATUS
+	err := copied.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhubsConsumergroup_STATUS
+	err = actual.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesEventhubsConsumergroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamespacesEventhubsConsumergroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS, NamespacesEventhubsConsumergroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS runs a test to see if a specific instance of NamespacesEventhubsConsumergroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubsConsumergroup_STATUS(subject NamespacesEventhubsConsumergroup_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamespacesEventhubsConsumergroup_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamespacesEventhubsConsumergroup_STATUS instances for property testing - lazily instantiated by
+// NamespacesEventhubsConsumergroup_STATUSGenerator()
+var namespacesEventhubsConsumergroup_STATUSGenerator gopter.Gen
+
+// NamespacesEventhubsConsumergroup_STATUSGenerator returns a generator of NamespacesEventhubsConsumergroup_STATUS instances for property testing.
+// We first initialize namespacesEventhubsConsumergroup_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NamespacesEventhubsConsumergroup_STATUSGenerator() gopter.Gen {
+	if namespacesEventhubsConsumergroup_STATUSGenerator != nil {
+		return namespacesEventhubsConsumergroup_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
+	namespacesEventhubsConsumergroup_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(generators)
+	namespacesEventhubsConsumergroup_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_STATUS{}), generators)
+
+	return namespacesEventhubsConsumergroup_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

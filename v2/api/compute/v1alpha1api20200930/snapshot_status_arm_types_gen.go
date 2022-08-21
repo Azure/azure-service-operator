@@ -18,34 +18,34 @@ type Snapshot_STATUSARM struct {
 
 // Deprecated version of SnapshotProperties_STATUS. Use v1beta20200930.SnapshotProperties_STATUS instead
 type SnapshotProperties_STATUSARM struct {
-	CreationData                 *CreationData_STATUSARM                   `json:"creationData,omitempty"`
-	DiskAccessId                 *string                                   `json:"diskAccessId,omitempty"`
-	DiskSizeBytes                *int                                      `json:"diskSizeBytes,omitempty"`
-	DiskSizeGB                   *int                                      `json:"diskSizeGB,omitempty"`
-	DiskState                    *DiskState_STATUS                         `json:"diskState,omitempty"`
-	Encryption                   *Encryption_STATUSARM                     `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM   `json:"encryptionSettingsCollection,omitempty"`
-	HyperVGeneration             *SnapshotPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Incremental                  *bool                                     `json:"incremental,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS               `json:"networkAccessPolicy,omitempty"`
-	OsType                       *SnapshotPropertiesSTATUSOsType           `json:"osType,omitempty"`
-	ProvisioningState            *string                                   `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_STATUSARM                   `json:"purchasePlan,omitempty"`
-	TimeCreated                  *string                                   `json:"timeCreated,omitempty"`
-	UniqueId                     *string                                   `json:"uniqueId,omitempty"`
+	CreationData                 *CreationData_STATUSARM                     `json:"creationData,omitempty"`
+	DiskAccessId                 *string                                     `json:"diskAccessId,omitempty"`
+	DiskSizeBytes                *int                                        `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                        `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState_STATUS                           `json:"diskState,omitempty"`
+	Encryption                   *Encryption_STATUSARM                       `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM     `json:"encryptionSettingsCollection,omitempty"`
+	HyperVGeneration             *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                       `json:"incremental,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS                 `json:"networkAccessPolicy,omitempty"`
+	OsType                       *SnapshotProperties_OsType_STATUS           `json:"osType,omitempty"`
+	ProvisioningState            *string                                     `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUSARM                     `json:"purchasePlan,omitempty"`
+	TimeCreated                  *string                                     `json:"timeCreated,omitempty"`
+	UniqueId                     *string                                     `json:"uniqueId,omitempty"`
 }
 
 // Deprecated version of SnapshotSku_STATUS. Use v1beta20200930.SnapshotSku_STATUS instead
 type SnapshotSku_STATUSARM struct {
-	Name *SnapshotSkuSTATUSName `json:"name,omitempty"`
-	Tier *string                `json:"tier,omitempty"`
+	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
+	Tier *string                  `json:"tier,omitempty"`
 }
 
-// Deprecated version of SnapshotSkuSTATUSName. Use v1beta20200930.SnapshotSkuSTATUSName instead
-type SnapshotSkuSTATUSName string
+// Deprecated version of SnapshotSku_Name_STATUS. Use v1beta20200930.SnapshotSku_Name_STATUS instead
+type SnapshotSku_Name_STATUS string
 
 const (
-	SnapshotSkuSTATUSName_PremiumLRS  = SnapshotSkuSTATUSName("Premium_LRS")
-	SnapshotSkuSTATUSName_StandardLRS = SnapshotSkuSTATUSName("Standard_LRS")
-	SnapshotSkuSTATUSName_StandardZRS = SnapshotSkuSTATUSName("Standard_ZRS")
+	SnapshotSku_Name_Premium_LRS_STATUS  = SnapshotSku_Name_STATUS("Premium_LRS")
+	SnapshotSku_Name_Standard_LRS_STATUS = SnapshotSku_Name_STATUS("Standard_LRS")
+	SnapshotSku_Name_Standard_ZRS_STATUS = SnapshotSku_Name_STATUS("Standard_ZRS")
 )

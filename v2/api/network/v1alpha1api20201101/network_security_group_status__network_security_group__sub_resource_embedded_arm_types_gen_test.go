@@ -20,30 +20,17 @@ import (
 func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-<<<<<<< HEAD
-	parameters.MinSuccessfulTests = 100
-=======
 	parameters.MinSuccessfulTests = 80
->>>>>>> main
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM runs a test to see if a specific instance of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(subject NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM, NetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(subject NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -70,7 +57,6 @@ func RunJSONSerializationTestForNetworkSecurityGroupSTATUSNetworkSecurityGroupSu
 }
 
 // Generator of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
-<<<<<<< HEAD
 // lazily instantiated by NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()
 var networkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator gopter.Gen
 
@@ -98,35 +84,6 @@ func NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGene
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-=======
-// lazily instantiated by NetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
-var networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
-
-// NetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
-// We first initialize networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator != nil {
-		return networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	return networkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -135,44 +92,25 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurit
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(NetworkSecurityGroupPropertiesFormat_STATUSARMGenerator())
-=======
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NetworkSecurityGroupPropertiesFormatSTATUSARMGenerator())
->>>>>>> main
 }
 
 func Test_NetworkSecurityGroupPropertiesFormat_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-<<<<<<< HEAD
-	parameters.MinSuccessfulTests = 100
-=======
 	parameters.MinSuccessfulTests = 80
->>>>>>> main
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupPropertiesFormat_STATUSARM via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormat_STATUSARM, NetworkSecurityGroupPropertiesFormat_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormat_STATUSARM runs a test to see if a specific instance of NetworkSecurityGroupPropertiesFormat_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormat_STATUSARM(subject NetworkSecurityGroupPropertiesFormat_STATUSARM) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatSTATUSARM, NetworkSecurityGroupPropertiesFormatSTATUSARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatSTATUSARM runs a test to see if a specific instance of NetworkSecurityGroupPropertiesFormat_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatSTATUSARM(subject NetworkSecurityGroupPropertiesFormat_STATUSARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -199,7 +137,6 @@ func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatSTATUSARM(su
 }
 
 // Generator of NetworkSecurityGroupPropertiesFormat_STATUSARM instances for property testing - lazily instantiated by
-<<<<<<< HEAD
 // NetworkSecurityGroupPropertiesFormat_STATUSARMGenerator()
 var networkSecurityGroupPropertiesFormat_STATUSARMGenerator gopter.Gen
 
@@ -247,7 +184,7 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormat_STATUSA
 func Test_FlowLog_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -258,66 +195,6 @@ func Test_FlowLog_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 
 // RunJSONSerializationTestForFlowLog_STATUSARM runs a test to see if a specific instance of FlowLog_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForFlowLog_STATUSARM(subject FlowLog_STATUSARM) string {
-=======
-// NetworkSecurityGroupPropertiesFormatSTATUSARMGenerator()
-var networkSecurityGroupPropertiesFormatSTATUSARMGenerator gopter.Gen
-
-// NetworkSecurityGroupPropertiesFormatSTATUSARMGenerator returns a generator of NetworkSecurityGroupPropertiesFormat_STATUSARM instances for property testing.
-// We first initialize networkSecurityGroupPropertiesFormatSTATUSARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupPropertiesFormatSTATUSARMGenerator() gopter.Gen {
-	if networkSecurityGroupPropertiesFormatSTATUSARMGenerator != nil {
-		return networkSecurityGroupPropertiesFormatSTATUSARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM(generators)
-	networkSecurityGroupPropertiesFormatSTATUSARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupPropertiesFormat_STATUSARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM(generators)
-	networkSecurityGroupPropertiesFormatSTATUSARMGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupPropertiesFormat_STATUSARM{}), generators)
-
-	return networkSecurityGroupPropertiesFormatSTATUSARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatSTATUSARM(gens map[string]gopter.Gen) {
-	gens["DefaultSecurityRules"] = gen.SliceOf(SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator())
-	gens["FlowLogs"] = gen.SliceOf(FlowLogSTATUSSubResourceEmbeddedARMGenerator())
-	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator())
-	gens["SecurityRules"] = gen.SliceOf(SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator())
-	gens["Subnets"] = gen.SliceOf(SubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator())
-}
-
-func Test_FlowLog_STATUS_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlowLog_STATUS_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlowLogSTATUSSubResourceEmbeddedARM, FlowLogSTATUSSubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForFlowLogSTATUSSubResourceEmbeddedARM runs a test to see if a specific instance of FlowLog_STATUS_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlowLogSTATUSSubResourceEmbeddedARM(subject FlowLog_STATUS_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -325,11 +202,7 @@ func RunJSONSerializationTestForFlowLogSTATUSSubResourceEmbeddedARM(subject Flow
 	}
 
 	// Deserialize back into memory
-<<<<<<< HEAD
 	var actual FlowLog_STATUSARM
-=======
-	var actual FlowLog_STATUS_SubResourceEmbeddedARM
->>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -347,7 +220,6 @@ func RunJSONSerializationTestForFlowLogSTATUSSubResourceEmbeddedARM(subject Flow
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of FlowLog_STATUSARM instances for property testing - lazily instantiated by FlowLog_STATUSARMGenerator()
 var flowLog_STATUSARMGenerator gopter.Gen
 
@@ -366,57 +238,23 @@ func FlowLog_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlowLog_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlowLog_STATUSARM(gens map[string]gopter.Gen) {
-=======
-// Generator of FlowLog_STATUS_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
-// FlowLogSTATUSSubResourceEmbeddedARMGenerator()
-var flowLogSTATUSSubResourceEmbeddedARMGenerator gopter.Gen
-
-// FlowLogSTATUSSubResourceEmbeddedARMGenerator returns a generator of FlowLog_STATUS_SubResourceEmbeddedARM instances for property testing.
-func FlowLogSTATUSSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if flowLogSTATUSSubResourceEmbeddedARMGenerator != nil {
-		return flowLogSTATUSSubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlowLogSTATUSSubResourceEmbeddedARM(generators)
-	flowLogSTATUSSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(FlowLog_STATUS_SubResourceEmbeddedARM{}), generators)
-
-	return flowLogSTATUSSubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlowLogSTATUSSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlowLogSTATUSSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-<<<<<<< HEAD
-	parameters.MinSuccessfulTests = 100
-=======
 	parameters.MinSuccessfulTests = 80
->>>>>>> main
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM runs a test to see if a specific instance of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(subject NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM, NetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(subject NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -443,7 +281,6 @@ func RunJSONSerializationTestForNetworkInterfaceSTATUSNetworkSecurityGroupSubRes
 }
 
 // Generator of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
-<<<<<<< HEAD
 // lazily instantiated by NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()
 var networkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator gopter.Gen
 
@@ -482,7 +319,7 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_STATUS_NetworkSecurityGroup
 func Test_SecurityRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -493,57 +330,6 @@ func Test_SecurityRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 
 // RunJSONSerializationTestForSecurityRule_STATUSARM runs a test to see if a specific instance of SecurityRule_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSecurityRule_STATUSARM(subject SecurityRule_STATUSARM) string {
-=======
-// lazily instantiated by NetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
-var networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
-
-// NetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
-// We first initialize networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator != nil {
-		return networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	AddRelatedPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	return networkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkInterfaceSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSARMGenerator())
-}
-
-func Test_SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM, SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(subject SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -551,11 +337,7 @@ func RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupSubResourc
 	}
 
 	// Deserialize back into memory
-<<<<<<< HEAD
 	var actual SecurityRule_STATUSARM
-=======
-	var actual SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM
->>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -573,7 +355,6 @@ func RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupSubResourc
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of SecurityRule_STATUSARM instances for property testing - lazily instantiated by
 // SecurityRule_STATUSARMGenerator()
 var securityRule_STATUSARMGenerator gopter.Gen
@@ -593,57 +374,23 @@ func SecurityRule_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRule_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRule_STATUSARM(gens map[string]gopter.Gen) {
-=======
-// Generator of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
-// instantiated by SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
-var securityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
-
-// SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
-func SecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if securityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator != nil {
-		return securityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	securityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	return securityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-<<<<<<< HEAD
-	parameters.MinSuccessfulTests = 100
-=======
 	parameters.MinSuccessfulTests = 80
->>>>>>> main
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM, Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(subject Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM, SubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(subject Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -670,7 +417,6 @@ func RunJSONSerializationTestForSubnetSTATUSNetworkSecurityGroupSubResourceEmbed
 }
 
 // Generator of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
-<<<<<<< HEAD
 // instantiated by Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator()
 var subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator gopter.Gen
 
@@ -689,25 +435,5 @@ func Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARMGenerator() gopter
 
 // AddIndependentPropertyGeneratorsForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-=======
-// instantiated by SubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
-var subnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
-
-// SubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
-func SubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator() gopter.Gen {
-	if subnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator != nil {
-		return subnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(generators)
-	subnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM{}), generators)
-
-	return subnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnetSTATUSNetworkSecurityGroupSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

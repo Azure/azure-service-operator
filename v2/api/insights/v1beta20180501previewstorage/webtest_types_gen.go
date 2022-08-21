@@ -29,13 +29,8 @@ import (
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Webtest_Spec   `json:"spec,omitempty"`
 	Status            Webtest_STATUS `json:"status,omitempty"`
-=======
-	Spec              Webtests_Spec  `json:"spec,omitempty"`
-	Status            WebTest_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Webtest{}
@@ -84,11 +79,7 @@ func (webtest *Webtest) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &Webtest_STATUS{}
-=======
-	return &WebTest_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -104,21 +95,13 @@ func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*Webtest_STATUS); ok {
-=======
-	if st, ok := status.(*WebTest_STATUS); ok {
->>>>>>> main
 		webtest.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st Webtest_STATUS
-=======
-	var st WebTest_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -156,79 +139,6 @@ type WebtestList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-05-01-preview")
-
-<<<<<<< HEAD
-// Storage version of v1beta20180501preview.Webtest_STATUS
-type Webtest_STATUS struct {
-	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
-	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
-=======
-// Storage version of v1beta20180501preview.WebTest_STATUS
-type WebTest_STATUS struct {
-	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
-	Configuration      *WebTestProperties_STATUS_Configuration   `json:"Configuration,omitempty"`
->>>>>>> main
-	Description        *string                                   `json:"Description,omitempty"`
-	Enabled            *bool                                     `json:"Enabled,omitempty"`
-	Frequency          *int                                      `json:"Frequency,omitempty"`
-	Id                 *string                                   `json:"id,omitempty"`
-	Kind               *string                                   `json:"kind,omitempty"`
-	Location           *string                                   `json:"location,omitempty"`
-	Locations          []WebTestGeolocation_STATUS               `json:"Locations,omitempty"`
-	Name               *string                                   `json:"name,omitempty"`
-	PropertiesKind     *string                                   `json:"properties_kind,omitempty"`
-	PropertiesName     *string                                   `json:"properties_name,omitempty"`
-	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
-<<<<<<< HEAD
-	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
-=======
-	Request            *WebTestProperties_STATUS_Request         `json:"Request,omitempty"`
->>>>>>> main
-	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
-	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
-	Tags               *v1.JSON                                  `json:"tags,omitempty"`
-	Timeout            *int                                      `json:"Timeout,omitempty"`
-	Type               *string                                   `json:"type,omitempty"`
-<<<<<<< HEAD
-	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
-
-// ConvertStatusFrom populates our Webtest_STATUS from the provided source
-func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == webtest {
-=======
-	ValidationRules    *WebTestProperties_STATUS_ValidationRules `json:"ValidationRules,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
-
-// ConvertStatusFrom populates our WebTest_STATUS from the provided source
-func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == test {
->>>>>>> main
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(webtest)
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our Webtest_STATUS
-func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == webtest {
-=======
-// ConvertStatusTo populates the provided destination from our WebTest_STATUS
-func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == test {
->>>>>>> main
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(webtest)
-}
 
 // Storage version of v1beta20180501preview.Webtest_Spec
 type Webtest_Spec struct {
@@ -280,6 +190,51 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return destination.ConvertSpecFrom(webtest)
 }
 
+// Storage version of v1beta20180501preview.Webtest_STATUS
+type Webtest_STATUS struct {
+	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
+	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
+	Description        *string                                   `json:"Description,omitempty"`
+	Enabled            *bool                                     `json:"Enabled,omitempty"`
+	Frequency          *int                                      `json:"Frequency,omitempty"`
+	Id                 *string                                   `json:"id,omitempty"`
+	Kind               *string                                   `json:"kind,omitempty"`
+	Location           *string                                   `json:"location,omitempty"`
+	Locations          []WebTestGeolocation_STATUS               `json:"Locations,omitempty"`
+	Name               *string                                   `json:"name,omitempty"`
+	PropertiesKind     *string                                   `json:"properties_kind,omitempty"`
+	PropertiesName     *string                                   `json:"properties_name,omitempty"`
+	PropertyBag        genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
+	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
+	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
+	Tags               *v1.JSON                                  `json:"tags,omitempty"`
+	Timeout            *int                                      `json:"Timeout,omitempty"`
+	Type               *string                                   `json:"type,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
+
+// ConvertStatusFrom populates our Webtest_STATUS from the provided source
+func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == webtest {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(webtest)
+}
+
+// ConvertStatusTo populates the provided destination from our Webtest_STATUS
+func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == webtest {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(webtest)
+}
+
 // Storage version of v1beta20180501preview.WebTestGeolocation
 type WebTestGeolocation struct {
 	Id          *string                `json:"Id,omitempty"`
@@ -292,41 +247,8 @@ type WebTestGeolocation_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20180501preview.WebTestProperties_Configuration
 type WebTestProperties_Configuration struct {
-=======
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_Configuration
-type WebTestProperties_STATUS_Configuration struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WebTest     *string                `json:"WebTest,omitempty"`
-}
-
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_Request
-type WebTestProperties_STATUS_Request struct {
-	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
-	Headers                []HeaderField_STATUS   `json:"Headers,omitempty"`
-	HttpVerb               *string                `json:"HttpVerb,omitempty"`
-	ParseDependentRequests *bool                  `json:"ParseDependentRequests,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RequestBody            *string                `json:"RequestBody,omitempty"`
-	RequestUrl             *string                `json:"RequestUrl,omitempty"`
-}
-
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_ValidationRules
-type WebTestProperties_STATUS_ValidationRules struct {
-	ContentValidation             *WebTestProperties_STATUS_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
-	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
-	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
-	PropertyBag                   genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
-	SSLCertRemainingLifetimeCheck *int                                                        `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
-}
-
-// Storage version of v1beta20180501preview.WebTestPropertiesConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
-type WebTestPropertiesConfiguration struct {
->>>>>>> main
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
@@ -348,7 +270,6 @@ type WebTestProperties_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20180501preview.WebTestProperties_Request_STATUS
 type WebTestProperties_Request_STATUS struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
@@ -378,17 +299,6 @@ type WebTestProperties_ValidationRules_STATUS struct {
 	PropertyBag                   genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
 	SSLCertRemainingLifetimeCheck *int                                                        `json:"SSLCertRemainingLifetimeCheck,omitempty"`
 	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
-=======
-// Storage version of v1beta20180501preview.WebTestPropertiesValidationRules
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
-type WebTestPropertiesValidationRules struct {
-	ContentValidation             *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
-	ExpectedHttpStatusCode        *int                                               `json:"ExpectedHttpStatusCode,omitempty"`
-	IgnoreHttpsStatusCode         *bool                                              `json:"IgnoreHttpsStatusCode,omitempty"`
-	PropertyBag                   genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	SSLCertRemainingLifetimeCheck *int                                               `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-	SSLCheck                      *bool                                              `json:"SSLCheck,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20180501preview.HeaderField
@@ -405,29 +315,14 @@ type HeaderField_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation
 type WebTestProperties_ValidationRules_ContentValidation struct {
-=======
-// Storage version of v1beta20180501preview.WebTestProperties_STATUS_ValidationRules_ContentValidation
-type WebTestProperties_STATUS_ValidationRules_ContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
-type WebTestPropertiesValidationRulesContentValidation struct {
->>>>>>> main
-	ContentMatch    *string                `json:"ContentMatch,omitempty"`
-	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
-	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-<<<<<<< HEAD
 // Storage version of v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS
 type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
@@ -436,8 +331,6 @@ type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-=======
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&Webtest{}, &WebtestList{})
 }

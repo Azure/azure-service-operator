@@ -100,7 +100,7 @@ func AddRelatedPropertyGeneratorsForWorkspace_SpecARM(gens map[string]gopter.Gen
 func Test_IdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -523,7 +523,7 @@ func AddRelatedPropertyGeneratorsForServiceManagedResourcesSettingsARM(gens map[
 func Test_SharedPrivateLinkResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

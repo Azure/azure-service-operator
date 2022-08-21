@@ -28,11 +28,7 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
-=======
-	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
@@ -136,45 +132,6 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
-// Storage version of v1beta20200601.EventSubscription_STATUS
-type EventSubscription_STATUS struct {
-	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
-	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_STATUS      `json:"filter,omitempty"`
-	Id                    *string                              `json:"id,omitempty"`
-	Labels                []string                             `json:"labels,omitempty"`
-	Name                  *string                              `json:"name,omitempty"`
-	PropertyBag           genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_STATUS                  `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_STATUS                   `json:"systemData,omitempty"`
-	Topic                 *string                              `json:"topic,omitempty"`
-	Type                  *string                              `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
-
-// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
-func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(subscription)
-}
-
-// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
-func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(subscription)
-}
-
 // Storage version of v1beta20200601.EventSubscription_Spec
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -217,15 +174,51 @@ func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime
 	return destination.ConvertSpecFrom(subscription)
 }
 
-<<<<<<< HEAD
+// Storage version of v1beta20200601.EventSubscription_STATUS
+type EventSubscription_STATUS struct {
+	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
+	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS      `json:"filter,omitempty"`
+	Id                    *string                              `json:"id,omitempty"`
+	Labels                []string                             `json:"labels,omitempty"`
+	Name                  *string                              `json:"name,omitempty"`
+	PropertyBag           genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                  `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                   `json:"systemData,omitempty"`
+	Topic                 *string                              `json:"topic,omitempty"`
+	Type                  *string                              `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
+
+// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
+func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(subscription)
+}
+
+// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == subscription {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(subscription)
+}
+
 // Storage version of v1beta20200601.DeadLetterDestination
 type DeadLetterDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
 type DeadLetterDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
@@ -280,26 +273,6 @@ type RetryPolicy_STATUS struct {
 
 // Storage version of v1beta20200601.AdvancedFilter
 type AdvancedFilter struct {
-<<<<<<< HEAD
-=======
-	BoolEquals                *AdvancedFilter_BoolEquals                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *AdvancedFilter_NumberIn                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *AdvancedFilter_NumberLessThan            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEquals    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *AdvancedFilter_NumberNotIn               `json:"numberNotInAdvancedFilter,omitempty"`
-	PropertyBag               genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	StringBeginsWith          *AdvancedFilter_StringBeginsWith          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *AdvancedFilter_StringContains            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *AdvancedFilter_StringEndsWith            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *AdvancedFilter_StringIn                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *AdvancedFilter_StringNotIn               `json:"stringNotInAdvancedFilter,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_STATUS
-type AdvancedFilter_STATUS struct {
->>>>>>> main
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

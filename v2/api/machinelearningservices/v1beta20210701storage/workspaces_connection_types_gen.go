@@ -28,13 +28,8 @@ import (
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              WorkspacesConnection_Spec   `json:"spec,omitempty"`
 	Status            WorkspacesConnection_STATUS `json:"status,omitempty"`
-=======
-	Spec              WorkspacesConnections_Spec `json:"spec,omitempty"`
-	Status            WorkspaceConnection_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -83,11 +78,7 @@ func (connection *WorkspacesConnection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &WorkspacesConnection_STATUS{}
-=======
-	return &WorkspaceConnection_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*WorkspacesConnection_STATUS); ok {
-=======
-	if st, ok := status.(*WorkspaceConnection_STATUS); ok {
->>>>>>> main
 		connection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st WorkspacesConnection_STATUS
-=======
-	var st WorkspaceConnection_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -148,57 +131,6 @@ type WorkspacesConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []WorkspacesConnection `json:"items"`
-}
-
-<<<<<<< HEAD
-// Storage version of v1beta20210701.WorkspacesConnection_STATUS
-type WorkspacesConnection_STATUS struct {
-=======
-// Storage version of v1beta20210701.WorkspaceConnection_STATUS
-type WorkspaceConnection_STATUS struct {
->>>>>>> main
-	AuthType    *string                `json:"authType,omitempty"`
-	Category    *string                `json:"category,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target      *string                `json:"target,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-	Value       *string                `json:"value,omitempty"`
-	ValueFormat *string                `json:"valueFormat,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &WorkspacesConnection_STATUS{}
-
-// ConvertStatusFrom populates our WorkspacesConnection_STATUS from the provided source
-func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-=======
-var _ genruntime.ConvertibleStatus = &WorkspaceConnection_STATUS{}
-
-// ConvertStatusFrom populates our WorkspaceConnection_STATUS from the provided source
-func (connection *WorkspaceConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if source == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(connection)
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our WorkspacesConnection_STATUS
-func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-=======
-// ConvertStatusTo populates the provided destination from our WorkspaceConnection_STATUS
-func (connection *WorkspaceConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if destination == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(connection)
 }
 
 // Storage version of v1beta20210701.WorkspacesConnection_Spec
@@ -240,6 +172,40 @@ func (connection *WorkspacesConnection_Spec) ConvertSpecTo(destination genruntim
 	}
 
 	return destination.ConvertSpecFrom(connection)
+}
+
+// Storage version of v1beta20210701.WorkspacesConnection_STATUS
+type WorkspacesConnection_STATUS struct {
+	AuthType    *string                `json:"authType,omitempty"`
+	Category    *string                `json:"category,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Target      *string                `json:"target,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+	Value       *string                `json:"value,omitempty"`
+	ValueFormat *string                `json:"valueFormat,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &WorkspacesConnection_STATUS{}
+
+// ConvertStatusFrom populates our WorkspacesConnection_STATUS from the provided source
+func (connection *WorkspacesConnection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == connection {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(connection)
+}
+
+// ConvertStatusTo populates the provided destination from our WorkspacesConnection_STATUS
+func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == connection {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(connection)
 }
 
 func init() {

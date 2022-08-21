@@ -28,11 +28,7 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RedisPatchSchedule_Spec   `json:"spec,omitempty"`
-=======
-	Spec              RedisPatchSchedules_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
 }
 
@@ -137,37 +133,6 @@ type RedisPatchScheduleList struct {
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
-// Storage version of v1beta20201201.RedisPatchSchedule_STATUS
-type RedisPatchSchedule_STATUS struct {
-	Conditions      []conditions.Condition `json:"conditions,omitempty"`
-	Id              *string                `json:"id,omitempty"`
-	Location        *string                `json:"location,omitempty"`
-	Name            *string                `json:"name,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ScheduleEntries []ScheduleEntry_STATUS `json:"scheduleEntries,omitempty"`
-	Type            *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &RedisPatchSchedule_STATUS{}
-
-// ConvertStatusFrom populates our RedisPatchSchedule_STATUS from the provided source
-func (schedule *RedisPatchSchedule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == schedule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(schedule)
-}
-
-// ConvertStatusTo populates the provided destination from our RedisPatchSchedule_STATUS
-func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == schedule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(schedule)
-}
-
 // Storage version of v1beta20201201.RedisPatchSchedule_Spec
 type RedisPatchSchedule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -202,6 +167,37 @@ func (schedule *RedisPatchSchedule_Spec) ConvertSpecTo(destination genruntime.Co
 	}
 
 	return destination.ConvertSpecFrom(schedule)
+}
+
+// Storage version of v1beta20201201.RedisPatchSchedule_STATUS
+type RedisPatchSchedule_STATUS struct {
+	Conditions      []conditions.Condition `json:"conditions,omitempty"`
+	Id              *string                `json:"id,omitempty"`
+	Location        *string                `json:"location,omitempty"`
+	Name            *string                `json:"name,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ScheduleEntries []ScheduleEntry_STATUS `json:"scheduleEntries,omitempty"`
+	Type            *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisPatchSchedule_STATUS{}
+
+// ConvertStatusFrom populates our RedisPatchSchedule_STATUS from the provided source
+func (schedule *RedisPatchSchedule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == schedule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(schedule)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisPatchSchedule_STATUS
+func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == schedule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(schedule)
 }
 
 // Storage version of v1beta20201201.ScheduleEntry

@@ -30,11 +30,7 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Workspace_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
@@ -294,15 +290,9 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v20210701s.Wor
 
 	// Status
 	var status Workspace_STATUS
-<<<<<<< HEAD
 	err = status.AssignPropertiesFromWorkspace_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromWorkspace_STATUS() to populate field Status")
-=======
-	err = status.AssignPropertiesFromWorkspaceSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSTATUS() to populate field Status")
->>>>>>> main
 	}
 	workspace.Status = status
 
@@ -326,15 +316,9 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v20210701s.
 
 	// Status
 	var status v20210701s.Workspace_STATUS
-<<<<<<< HEAD
 	err = workspace.Status.AssignPropertiesToWorkspace_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToWorkspace_STATUS() to populate field Status")
-=======
-	err = workspace.Status.AssignPropertiesToWorkspaceSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -365,1082 +349,6 @@ type WorkspaceList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
-
-type Workspace_STATUS struct {
-	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
-	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-
-	// ApplicationInsights: ARM id of the application insights associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ApplicationInsights *string `json:"applicationInsights,omitempty"`
-
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ContainerRegistry: ARM id of the container registry associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ContainerRegistry *string `json:"containerRegistry,omitempty"`
-
-	// Description: The description of this workspace.
-	Description *string `json:"description,omitempty"`
-
-	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
-
-	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty_STATUS `json:"encryption,omitempty"`
-
-	// FriendlyName: The friendly name for this workspace. This name in mutable
-	FriendlyName *string `json:"friendlyName,omitempty"`
-
-	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
-	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// ImageBuildCompute: The compute name for image build
-	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
-
-	// KeyVault: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been
-	// created
-	KeyVault *string `json:"keyVault,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// MlFlowTrackingUri: The URI associated with this workspace that machine learning flow must point at to set up tracking.
-	MlFlowTrackingUri *string `json:"mlFlowTrackingUri,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// NotebookInfo: The notebook info of Azure ML workspace.
-	NotebookInfo *NotebookResourceInfo_STATUS `json:"notebookInfo,omitempty"`
-
-	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
-	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
-
-	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-<<<<<<< HEAD
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-=======
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
->>>>>>> main
-
-	// PrivateLinkCount: Count of private connections in the workspace
-	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
-
-	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
-	// resource provisioning.
-<<<<<<< HEAD
-	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-=======
-	ProvisioningState *WorkspacePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspacePropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
->>>>>>> main
-
-	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
-
-	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
-	// if the workspace is CMK workspace
-	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS `json:"sharedPrivateLinkResources,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
-	// has been created
-	StorageAccount *string `json:"storageAccount,omitempty"`
-
-	// StorageHnsEnabled: If the storage associated with the workspace has hierarchical namespace(HNS) enabled.
-	StorageHnsEnabled *bool `json:"storageHnsEnabled,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TenantId: The tenant id associated with this workspace.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// WorkspaceId: The immutable id associated with this workspace.
-	WorkspaceId *string `json:"workspaceId,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
-
-// ConvertStatusFrom populates our Workspace_STATUS from the provided source
-func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210701s.Workspace_STATUS)
-	if ok {
-		// Populate our instance from source
-<<<<<<< HEAD
-		return workspace.AssignPropertiesFromWorkspace_STATUS(src)
-=======
-		return workspace.AssignPropertiesFromWorkspaceSTATUS(src)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	src = &v20210701s.Workspace_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = workspace.AssignPropertiesFromWorkspace_STATUS(src)
-=======
-	err = workspace.AssignPropertiesFromWorkspaceSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our Workspace_STATUS
-func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210701s.Workspace_STATUS)
-	if ok {
-		// Populate destination from our instance
-<<<<<<< HEAD
-		return workspace.AssignPropertiesToWorkspace_STATUS(dst)
-=======
-		return workspace.AssignPropertiesToWorkspaceSTATUS(dst)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210701s.Workspace_STATUS{}
-<<<<<<< HEAD
-	err := workspace.AssignPropertiesToWorkspace_STATUS(dst)
-=======
-	err := workspace.AssignPropertiesToWorkspaceSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &Workspace_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘AllowPublicAccessWhenBehindVnet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AllowPublicAccessWhenBehindVnet != nil {
-			allowPublicAccessWhenBehindVnet := *typedInput.Properties.AllowPublicAccessWhenBehindVnet
-			workspace.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
-		}
-	}
-
-	// Set property ‘ApplicationInsights’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApplicationInsights != nil {
-			applicationInsights := *typedInput.Properties.ApplicationInsights
-			workspace.ApplicationInsights = &applicationInsights
-		}
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘ContainerRegistry’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ContainerRegistry != nil {
-			containerRegistry := *typedInput.Properties.ContainerRegistry
-			workspace.ContainerRegistry = &containerRegistry
-		}
-	}
-
-	// Set property ‘Description’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Description != nil {
-			description := *typedInput.Properties.Description
-			workspace.Description = &description
-		}
-	}
-
-	// Set property ‘DiscoveryUrl’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiscoveryUrl != nil {
-			discoveryUrl := *typedInput.Properties.DiscoveryUrl
-			workspace.DiscoveryUrl = &discoveryUrl
-		}
-	}
-
-	// Set property ‘Encryption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Encryption != nil {
-			var encryption1 EncryptionProperty_STATUS
-			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-			if err != nil {
-				return err
-			}
-			encryption := encryption1
-			workspace.Encryption = &encryption
-		}
-	}
-
-	// Set property ‘FriendlyName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FriendlyName != nil {
-			friendlyName := *typedInput.Properties.FriendlyName
-			workspace.FriendlyName = &friendlyName
-		}
-	}
-
-	// Set property ‘HbiWorkspace’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HbiWorkspace != nil {
-			hbiWorkspace := *typedInput.Properties.HbiWorkspace
-			workspace.HbiWorkspace = &hbiWorkspace
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		workspace.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_STATUS
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		workspace.Identity = &identity
-	}
-
-	// Set property ‘ImageBuildCompute’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ImageBuildCompute != nil {
-			imageBuildCompute := *typedInput.Properties.ImageBuildCompute
-			workspace.ImageBuildCompute = &imageBuildCompute
-		}
-	}
-
-	// Set property ‘KeyVault’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KeyVault != nil {
-			keyVault := *typedInput.Properties.KeyVault
-			workspace.KeyVault = &keyVault
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		workspace.Location = &location
-	}
-
-	// Set property ‘MlFlowTrackingUri’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MlFlowTrackingUri != nil {
-			mlFlowTrackingUri := *typedInput.Properties.MlFlowTrackingUri
-			workspace.MlFlowTrackingUri = &mlFlowTrackingUri
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		workspace.Name = &name
-	}
-
-	// Set property ‘NotebookInfo’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NotebookInfo != nil {
-			var notebookInfo1 NotebookResourceInfo_STATUS
-			err := notebookInfo1.PopulateFromARM(owner, *typedInput.Properties.NotebookInfo)
-			if err != nil {
-				return err
-			}
-			notebookInfo := notebookInfo1
-			workspace.NotebookInfo = &notebookInfo
-		}
-	}
-
-	// Set property ‘PrimaryUserAssignedIdentity’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrimaryUserAssignedIdentity != nil {
-			primaryUserAssignedIdentity := *typedInput.Properties.PrimaryUserAssignedIdentity
-			workspace.PrimaryUserAssignedIdentity = &primaryUserAssignedIdentity
-		}
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-<<<<<<< HEAD
-			var item1 PrivateEndpointConnection_STATUS
-=======
-			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
->>>>>>> main
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			workspace.PrivateEndpointConnections = append(workspace.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘PrivateLinkCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkCount != nil {
-			privateLinkCount := *typedInput.Properties.PrivateLinkCount
-			workspace.PrivateLinkCount = &privateLinkCount
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			workspace.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			workspace.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘ServiceManagedResourcesSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServiceManagedResourcesSettings != nil {
-			var serviceManagedResourcesSettings1 ServiceManagedResourcesSettings_STATUS
-			err := serviceManagedResourcesSettings1.PopulateFromARM(owner, *typedInput.Properties.ServiceManagedResourcesSettings)
-			if err != nil {
-				return err
-			}
-			serviceManagedResourcesSettings := serviceManagedResourcesSettings1
-			workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSettings
-		}
-	}
-
-	// Set property ‘ServiceProvisionedResourceGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServiceProvisionedResourceGroup != nil {
-			serviceProvisionedResourceGroup := *typedInput.Properties.ServiceProvisionedResourceGroup
-			workspace.ServiceProvisionedResourceGroup = &serviceProvisionedResourceGroup
-		}
-	}
-
-	// Set property ‘SharedPrivateLinkResources’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
-			var item1 SharedPrivateLinkResource_STATUS
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			workspace.SharedPrivateLinkResources = append(workspace.SharedPrivateLinkResources, item1)
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		workspace.Sku = &sku
-	}
-
-	// Set property ‘StorageAccount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageAccount != nil {
-			storageAccount := *typedInput.Properties.StorageAccount
-			workspace.StorageAccount = &storageAccount
-		}
-	}
-
-	// Set property ‘StorageHnsEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.StorageHnsEnabled != nil {
-			storageHnsEnabled := *typedInput.Properties.StorageHnsEnabled
-			workspace.StorageHnsEnabled = &storageHnsEnabled
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		workspace.SystemData = &systemData
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		workspace.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			workspace.Tags[key] = value
-		}
-	}
-
-	// Set property ‘TenantId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TenantId != nil {
-			tenantId := *typedInput.Properties.TenantId
-			workspace.TenantId = &tenantId
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		workspace.Type = &typeVar
-	}
-
-	// Set property ‘WorkspaceId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.WorkspaceId != nil {
-			workspaceId := *typedInput.Properties.WorkspaceId
-			workspace.WorkspaceId = &workspaceId
-		}
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromWorkspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignPropertiesFromWorkspace_STATUS(source *v20210701s.Workspace_STATUS) error {
-=======
-// AssignPropertiesFromWorkspaceSTATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignPropertiesFromWorkspaceSTATUS(source *v20210701s.Workspace_STATUS) error {
->>>>>>> main
-
-	// AllowPublicAccessWhenBehindVnet
-	if source.AllowPublicAccessWhenBehindVnet != nil {
-		allowPublicAccessWhenBehindVnet := *source.AllowPublicAccessWhenBehindVnet
-		workspace.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
-	} else {
-		workspace.AllowPublicAccessWhenBehindVnet = nil
-	}
-
-	// ApplicationInsights
-	workspace.ApplicationInsights = genruntime.ClonePointerToString(source.ApplicationInsights)
-
-	// Conditions
-	workspace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// ContainerRegistry
-	workspace.ContainerRegistry = genruntime.ClonePointerToString(source.ContainerRegistry)
-
-	// Description
-	workspace.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DiscoveryUrl
-	workspace.DiscoveryUrl = genruntime.ClonePointerToString(source.DiscoveryUrl)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty_STATUS
-<<<<<<< HEAD
-		err := encryption.AssignPropertiesFromEncryptionProperty_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty_STATUS() to populate field Encryption")
-=======
-		err := encryption.AssignPropertiesFromEncryptionPropertySTATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertySTATUS() to populate field Encryption")
->>>>>>> main
-		}
-		workspace.Encryption = &encryption
-	} else {
-		workspace.Encryption = nil
-	}
-
-	// FriendlyName
-	workspace.FriendlyName = genruntime.ClonePointerToString(source.FriendlyName)
-
-	// HbiWorkspace
-	if source.HbiWorkspace != nil {
-		hbiWorkspace := *source.HbiWorkspace
-		workspace.HbiWorkspace = &hbiWorkspace
-	} else {
-		workspace.HbiWorkspace = nil
-	}
-
-	// Id
-	workspace.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_STATUS
-<<<<<<< HEAD
-		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
-=======
-		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
->>>>>>> main
-		}
-		workspace.Identity = &identity
-	} else {
-		workspace.Identity = nil
-	}
-
-	// ImageBuildCompute
-	workspace.ImageBuildCompute = genruntime.ClonePointerToString(source.ImageBuildCompute)
-
-	// KeyVault
-	workspace.KeyVault = genruntime.ClonePointerToString(source.KeyVault)
-
-	// Location
-	workspace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MlFlowTrackingUri
-	workspace.MlFlowTrackingUri = genruntime.ClonePointerToString(source.MlFlowTrackingUri)
-
-	// Name
-	workspace.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NotebookInfo
-	if source.NotebookInfo != nil {
-		var notebookInfo NotebookResourceInfo_STATUS
-<<<<<<< HEAD
-		err := notebookInfo.AssignPropertiesFromNotebookResourceInfo_STATUS(source.NotebookInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNotebookResourceInfo_STATUS() to populate field NotebookInfo")
-=======
-		err := notebookInfo.AssignPropertiesFromNotebookResourceInfoSTATUS(source.NotebookInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNotebookResourceInfoSTATUS() to populate field NotebookInfo")
->>>>>>> main
-		}
-		workspace.NotebookInfo = &notebookInfo
-	} else {
-		workspace.NotebookInfo = nil
-	}
-
-	// PrimaryUserAssignedIdentity
-	workspace.PrimaryUserAssignedIdentity = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentity)
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-<<<<<<< HEAD
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-=======
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
->>>>>>> main
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		workspace.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		workspace.PrivateEndpointConnections = nil
-	}
-
-	// PrivateLinkCount
-	workspace.PrivateLinkCount = genruntime.ClonePointerToInt(source.PrivateLinkCount)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-<<<<<<< HEAD
-		provisioningState := WorkspaceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-=======
-		provisioningState := WorkspacePropertiesSTATUSProvisioningState(*source.ProvisioningState)
->>>>>>> main
-		workspace.ProvisioningState = &provisioningState
-	} else {
-		workspace.ProvisioningState = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-<<<<<<< HEAD
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-=======
-		publicNetworkAccess := WorkspacePropertiesSTATUSPublicNetworkAccess(*source.PublicNetworkAccess)
->>>>>>> main
-		workspace.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		workspace.PublicNetworkAccess = nil
-	}
-
-	// ServiceManagedResourcesSettings
-	if source.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting ServiceManagedResourcesSettings_STATUS
-<<<<<<< HEAD
-		err := serviceManagedResourcesSetting.AssignPropertiesFromServiceManagedResourcesSettings_STATUS(source.ServiceManagedResourcesSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
-=======
-		err := serviceManagedResourcesSetting.AssignPropertiesFromServiceManagedResourcesSettingsSTATUS(source.ServiceManagedResourcesSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceManagedResourcesSettingsSTATUS() to populate field ServiceManagedResourcesSettings")
->>>>>>> main
-		}
-		workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
-	} else {
-		workspace.ServiceManagedResourcesSettings = nil
-	}
-
-	// ServiceProvisionedResourceGroup
-	workspace.ServiceProvisionedResourceGroup = genruntime.ClonePointerToString(source.ServiceProvisionedResourceGroup)
-
-	// SharedPrivateLinkResources
-	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS, len(source.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
-<<<<<<< HEAD
-			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
-=======
-			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResourceSTATUS(&sharedPrivateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResourceSTATUS() to populate field SharedPrivateLinkResources")
->>>>>>> main
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		workspace.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		workspace.SharedPrivateLinkResources = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku_STATUS
-<<<<<<< HEAD
-		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
-=======
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		workspace.Sku = &sku
-	} else {
-		workspace.Sku = nil
-	}
-
-	// StorageAccount
-	workspace.StorageAccount = genruntime.ClonePointerToString(source.StorageAccount)
-
-	// StorageHnsEnabled
-	if source.StorageHnsEnabled != nil {
-		storageHnsEnabled := *source.StorageHnsEnabled
-		workspace.StorageHnsEnabled = &storageHnsEnabled
-	} else {
-		workspace.StorageHnsEnabled = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
-		}
-		workspace.SystemData = &systemDatum
-	} else {
-		workspace.SystemData = nil
-	}
-
-	// Tags
-	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantId
-	workspace.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	workspace.Type = genruntime.ClonePointerToString(source.Type)
-
-	// WorkspaceId
-	workspace.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToWorkspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignPropertiesToWorkspace_STATUS(destination *v20210701s.Workspace_STATUS) error {
-=======
-// AssignPropertiesToWorkspaceSTATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignPropertiesToWorkspaceSTATUS(destination *v20210701s.Workspace_STATUS) error {
->>>>>>> main
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AllowPublicAccessWhenBehindVnet
-	if workspace.AllowPublicAccessWhenBehindVnet != nil {
-		allowPublicAccessWhenBehindVnet := *workspace.AllowPublicAccessWhenBehindVnet
-		destination.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
-	} else {
-		destination.AllowPublicAccessWhenBehindVnet = nil
-	}
-
-	// ApplicationInsights
-	destination.ApplicationInsights = genruntime.ClonePointerToString(workspace.ApplicationInsights)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(workspace.Conditions)
-
-	// ContainerRegistry
-	destination.ContainerRegistry = genruntime.ClonePointerToString(workspace.ContainerRegistry)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(workspace.Description)
-
-	// DiscoveryUrl
-	destination.DiscoveryUrl = genruntime.ClonePointerToString(workspace.DiscoveryUrl)
-
-	// Encryption
-	if workspace.Encryption != nil {
-		var encryption v20210701s.EncryptionProperty_STATUS
-<<<<<<< HEAD
-		err := workspace.Encryption.AssignPropertiesToEncryptionProperty_STATUS(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty_STATUS() to populate field Encryption")
-=======
-		err := workspace.Encryption.AssignPropertiesToEncryptionPropertySTATUS(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertySTATUS() to populate field Encryption")
->>>>>>> main
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// FriendlyName
-	destination.FriendlyName = genruntime.ClonePointerToString(workspace.FriendlyName)
-
-	// HbiWorkspace
-	if workspace.HbiWorkspace != nil {
-		hbiWorkspace := *workspace.HbiWorkspace
-		destination.HbiWorkspace = &hbiWorkspace
-	} else {
-		destination.HbiWorkspace = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(workspace.Id)
-
-	// Identity
-	if workspace.Identity != nil {
-		var identity v20210701s.Identity_STATUS
-<<<<<<< HEAD
-		err := workspace.Identity.AssignPropertiesToIdentity_STATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
-=======
-		err := workspace.Identity.AssignPropertiesToIdentitySTATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
->>>>>>> main
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// ImageBuildCompute
-	destination.ImageBuildCompute = genruntime.ClonePointerToString(workspace.ImageBuildCompute)
-
-	// KeyVault
-	destination.KeyVault = genruntime.ClonePointerToString(workspace.KeyVault)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(workspace.Location)
-
-	// MlFlowTrackingUri
-	destination.MlFlowTrackingUri = genruntime.ClonePointerToString(workspace.MlFlowTrackingUri)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(workspace.Name)
-
-	// NotebookInfo
-	if workspace.NotebookInfo != nil {
-		var notebookInfo v20210701s.NotebookResourceInfo_STATUS
-<<<<<<< HEAD
-		err := workspace.NotebookInfo.AssignPropertiesToNotebookResourceInfo_STATUS(&notebookInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNotebookResourceInfo_STATUS() to populate field NotebookInfo")
-=======
-		err := workspace.NotebookInfo.AssignPropertiesToNotebookResourceInfoSTATUS(&notebookInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNotebookResourceInfoSTATUS() to populate field NotebookInfo")
->>>>>>> main
-		}
-		destination.NotebookInfo = &notebookInfo
-	} else {
-		destination.NotebookInfo = nil
-	}
-
-	// PrimaryUserAssignedIdentity
-	destination.PrimaryUserAssignedIdentity = genruntime.ClonePointerToString(workspace.PrimaryUserAssignedIdentity)
-
-	// PrivateEndpointConnections
-	if workspace.PrivateEndpointConnections != nil {
-<<<<<<< HEAD
-		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-=======
-		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(workspace.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
->>>>>>> main
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// PrivateLinkCount
-	destination.PrivateLinkCount = genruntime.ClonePointerToInt(workspace.PrivateLinkCount)
-
-	// ProvisioningState
-	if workspace.ProvisioningState != nil {
-		provisioningState := string(*workspace.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// PublicNetworkAccess
-	if workspace.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*workspace.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
-
-	// ServiceManagedResourcesSettings
-	if workspace.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings_STATUS
-<<<<<<< HEAD
-		err := workspace.ServiceManagedResourcesSettings.AssignPropertiesToServiceManagedResourcesSettings_STATUS(&serviceManagedResourcesSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
-=======
-		err := workspace.ServiceManagedResourcesSettings.AssignPropertiesToServiceManagedResourcesSettingsSTATUS(&serviceManagedResourcesSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceManagedResourcesSettingsSTATUS() to populate field ServiceManagedResourcesSettings")
->>>>>>> main
-		}
-		destination.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
-	} else {
-		destination.ServiceManagedResourcesSettings = nil
-	}
-
-	// ServiceProvisionedResourceGroup
-	destination.ServiceProvisionedResourceGroup = genruntime.ClonePointerToString(workspace.ServiceProvisionedResourceGroup)
-
-	// SharedPrivateLinkResources
-	if workspace.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource_STATUS
-<<<<<<< HEAD
-			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
-=======
-			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResourceSTATUS(&sharedPrivateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResourceSTATUS() to populate field SharedPrivateLinkResources")
->>>>>>> main
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		destination.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		destination.SharedPrivateLinkResources = nil
-	}
-
-	// Sku
-	if workspace.Sku != nil {
-		var sku v20210701s.Sku_STATUS
-<<<<<<< HEAD
-		err := workspace.Sku.AssignPropertiesToSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
-=======
-		err := workspace.Sku.AssignPropertiesToSkuSTATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// StorageAccount
-	destination.StorageAccount = genruntime.ClonePointerToString(workspace.StorageAccount)
-
-	// StorageHnsEnabled
-	if workspace.StorageHnsEnabled != nil {
-		storageHnsEnabled := *workspace.StorageHnsEnabled
-		destination.StorageHnsEnabled = &storageHnsEnabled
-	} else {
-		destination.StorageHnsEnabled = nil
-	}
-
-	// SystemData
-	if workspace.SystemData != nil {
-		var systemDatum v20210701s.SystemData_STATUS
-<<<<<<< HEAD
-		err := workspace.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
-		err := workspace.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(workspace.TenantId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(workspace.Type)
-
-	// WorkspaceId
-	destination.WorkspaceId = genruntime.ClonePointerToString(workspace.WorkspaceId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type Workspace_Spec struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
@@ -2330,6 +1238,927 @@ func (workspace *Workspace_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspace *Workspace_Spec) SetAzureName(azureName string) { workspace.AzureName = azureName }
 
+type Workspace_STATUS struct {
+	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
+	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+
+	// ApplicationInsights: ARM id of the application insights associated with this workspace. This cannot be changed once the
+	// workspace has been created
+	ApplicationInsights *string `json:"applicationInsights,omitempty"`
+
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// ContainerRegistry: ARM id of the container registry associated with this workspace. This cannot be changed once the
+	// workspace has been created
+	ContainerRegistry *string `json:"containerRegistry,omitempty"`
+
+	// Description: The description of this workspace.
+	Description *string `json:"description,omitempty"`
+
+	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
+	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
+
+	// Encryption: The encryption settings of Azure ML workspace.
+	Encryption *EncryptionProperty_STATUS `json:"encryption,omitempty"`
+
+	// FriendlyName: The friendly name for this workspace. This name in mutable
+	FriendlyName *string `json:"friendlyName,omitempty"`
+
+	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
+	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
+
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
+	// Identity: The identity of the resource.
+	Identity *Identity_STATUS `json:"identity,omitempty"`
+
+	// ImageBuildCompute: The compute name for image build
+	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
+
+	// KeyVault: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been
+	// created
+	KeyVault *string `json:"keyVault,omitempty"`
+
+	// Location: Specifies the location of the resource.
+	Location *string `json:"location,omitempty"`
+
+	// MlFlowTrackingUri: The URI associated with this workspace that machine learning flow must point at to set up tracking.
+	MlFlowTrackingUri *string `json:"mlFlowTrackingUri,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
+	// NotebookInfo: The notebook info of Azure ML workspace.
+	NotebookInfo *NotebookResourceInfo_STATUS `json:"notebookInfo,omitempty"`
+
+	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
+	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
+
+	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+
+	// PrivateLinkCount: Count of private connections in the workspace
+	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
+
+	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
+	// resource provisioning.
+	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// PublicNetworkAccess: Whether requests from Public Network are allowed.
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+
+	// ServiceManagedResourcesSettings: The service managed resource settings.
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
+
+	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
+	// if the workspace is CMK workspace
+	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
+
+	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
+	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS `json:"sharedPrivateLinkResources,omitempty"`
+
+	// Sku: The sku of the workspace.
+	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
+	// has been created
+	StorageAccount *string `json:"storageAccount,omitempty"`
+
+	// StorageHnsEnabled: If the storage associated with the workspace has hierarchical namespace(HNS) enabled.
+	StorageHnsEnabled *bool `json:"storageHnsEnabled,omitempty"`
+
+	// SystemData: System data
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Contains resource tags defined as key/value pairs.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// TenantId: The tenant id associated with this workspace.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
+
+	// WorkspaceId: The immutable id associated with this workspace.
+	WorkspaceId *string `json:"workspaceId,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
+
+// ConvertStatusFrom populates our Workspace_STATUS from the provided source
+func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210701s.Workspace_STATUS)
+	if ok {
+		// Populate our instance from source
+		return workspace.AssignPropertiesFromWorkspace_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210701s.Workspace_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = workspace.AssignPropertiesFromWorkspace_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our Workspace_STATUS
+func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210701s.Workspace_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return workspace.AssignPropertiesToWorkspace_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210701s.Workspace_STATUS{}
+	err := workspace.AssignPropertiesToWorkspace_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &Workspace_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Workspace_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Workspace_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AllowPublicAccessWhenBehindVnet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowPublicAccessWhenBehindVnet != nil {
+			allowPublicAccessWhenBehindVnet := *typedInput.Properties.AllowPublicAccessWhenBehindVnet
+			workspace.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
+		}
+	}
+
+	// Set property ‘ApplicationInsights’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ApplicationInsights != nil {
+			applicationInsights := *typedInput.Properties.ApplicationInsights
+			workspace.ApplicationInsights = &applicationInsights
+		}
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘ContainerRegistry’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ContainerRegistry != nil {
+			containerRegistry := *typedInput.Properties.ContainerRegistry
+			workspace.ContainerRegistry = &containerRegistry
+		}
+	}
+
+	// Set property ‘Description’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			workspace.Description = &description
+		}
+	}
+
+	// Set property ‘DiscoveryUrl’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DiscoveryUrl != nil {
+			discoveryUrl := *typedInput.Properties.DiscoveryUrl
+			workspace.DiscoveryUrl = &discoveryUrl
+		}
+	}
+
+	// Set property ‘Encryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 EncryptionProperty_STATUS
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			workspace.Encryption = &encryption
+		}
+	}
+
+	// Set property ‘FriendlyName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FriendlyName != nil {
+			friendlyName := *typedInput.Properties.FriendlyName
+			workspace.FriendlyName = &friendlyName
+		}
+	}
+
+	// Set property ‘HbiWorkspace’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HbiWorkspace != nil {
+			hbiWorkspace := *typedInput.Properties.HbiWorkspace
+			workspace.HbiWorkspace = &hbiWorkspace
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		workspace.Id = &id
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity_STATUS
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		workspace.Identity = &identity
+	}
+
+	// Set property ‘ImageBuildCompute’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ImageBuildCompute != nil {
+			imageBuildCompute := *typedInput.Properties.ImageBuildCompute
+			workspace.ImageBuildCompute = &imageBuildCompute
+		}
+	}
+
+	// Set property ‘KeyVault’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KeyVault != nil {
+			keyVault := *typedInput.Properties.KeyVault
+			workspace.KeyVault = &keyVault
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		workspace.Location = &location
+	}
+
+	// Set property ‘MlFlowTrackingUri’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MlFlowTrackingUri != nil {
+			mlFlowTrackingUri := *typedInput.Properties.MlFlowTrackingUri
+			workspace.MlFlowTrackingUri = &mlFlowTrackingUri
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		workspace.Name = &name
+	}
+
+	// Set property ‘NotebookInfo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NotebookInfo != nil {
+			var notebookInfo1 NotebookResourceInfo_STATUS
+			err := notebookInfo1.PopulateFromARM(owner, *typedInput.Properties.NotebookInfo)
+			if err != nil {
+				return err
+			}
+			notebookInfo := notebookInfo1
+			workspace.NotebookInfo = &notebookInfo
+		}
+	}
+
+	// Set property ‘PrimaryUserAssignedIdentity’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrimaryUserAssignedIdentity != nil {
+			primaryUserAssignedIdentity := *typedInput.Properties.PrimaryUserAssignedIdentity
+			workspace.PrimaryUserAssignedIdentity = &primaryUserAssignedIdentity
+		}
+	}
+
+	// Set property ‘PrivateEndpointConnections’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+			var item1 PrivateEndpointConnection_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			workspace.PrivateEndpointConnections = append(workspace.PrivateEndpointConnections, item1)
+		}
+	}
+
+	// Set property ‘PrivateLinkCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateLinkCount != nil {
+			privateLinkCount := *typedInput.Properties.PrivateLinkCount
+			workspace.PrivateLinkCount = &privateLinkCount
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			workspace.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			workspace.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘ServiceManagedResourcesSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServiceManagedResourcesSettings != nil {
+			var serviceManagedResourcesSettings1 ServiceManagedResourcesSettings_STATUS
+			err := serviceManagedResourcesSettings1.PopulateFromARM(owner, *typedInput.Properties.ServiceManagedResourcesSettings)
+			if err != nil {
+				return err
+			}
+			serviceManagedResourcesSettings := serviceManagedResourcesSettings1
+			workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSettings
+		}
+	}
+
+	// Set property ‘ServiceProvisionedResourceGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServiceProvisionedResourceGroup != nil {
+			serviceProvisionedResourceGroup := *typedInput.Properties.ServiceProvisionedResourceGroup
+			workspace.ServiceProvisionedResourceGroup = &serviceProvisionedResourceGroup
+		}
+	}
+
+	// Set property ‘SharedPrivateLinkResources’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
+			var item1 SharedPrivateLinkResource_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			workspace.SharedPrivateLinkResources = append(workspace.SharedPrivateLinkResources, item1)
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku_STATUS
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		workspace.Sku = &sku
+	}
+
+	// Set property ‘StorageAccount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageAccount != nil {
+			storageAccount := *typedInput.Properties.StorageAccount
+			workspace.StorageAccount = &storageAccount
+		}
+	}
+
+	// Set property ‘StorageHnsEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.StorageHnsEnabled != nil {
+			storageHnsEnabled := *typedInput.Properties.StorageHnsEnabled
+			workspace.StorageHnsEnabled = &storageHnsEnabled
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		workspace.SystemData = &systemData
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			workspace.Tags[key] = value
+		}
+	}
+
+	// Set property ‘TenantId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TenantId != nil {
+			tenantId := *typedInput.Properties.TenantId
+			workspace.TenantId = &tenantId
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		workspace.Type = &typeVar
+	}
+
+	// Set property ‘WorkspaceId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WorkspaceId != nil {
+			workspaceId := *typedInput.Properties.WorkspaceId
+			workspace.WorkspaceId = &workspaceId
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromWorkspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesFromWorkspace_STATUS(source *v20210701s.Workspace_STATUS) error {
+
+	// AllowPublicAccessWhenBehindVnet
+	if source.AllowPublicAccessWhenBehindVnet != nil {
+		allowPublicAccessWhenBehindVnet := *source.AllowPublicAccessWhenBehindVnet
+		workspace.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
+	} else {
+		workspace.AllowPublicAccessWhenBehindVnet = nil
+	}
+
+	// ApplicationInsights
+	workspace.ApplicationInsights = genruntime.ClonePointerToString(source.ApplicationInsights)
+
+	// Conditions
+	workspace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ContainerRegistry
+	workspace.ContainerRegistry = genruntime.ClonePointerToString(source.ContainerRegistry)
+
+	// Description
+	workspace.Description = genruntime.ClonePointerToString(source.Description)
+
+	// DiscoveryUrl
+	workspace.DiscoveryUrl = genruntime.ClonePointerToString(source.DiscoveryUrl)
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperty_STATUS
+		err := encryption.AssignPropertiesFromEncryptionProperty_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty_STATUS() to populate field Encryption")
+		}
+		workspace.Encryption = &encryption
+	} else {
+		workspace.Encryption = nil
+	}
+
+	// FriendlyName
+	workspace.FriendlyName = genruntime.ClonePointerToString(source.FriendlyName)
+
+	// HbiWorkspace
+	if source.HbiWorkspace != nil {
+		hbiWorkspace := *source.HbiWorkspace
+		workspace.HbiWorkspace = &hbiWorkspace
+	} else {
+		workspace.HbiWorkspace = nil
+	}
+
+	// Id
+	workspace.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity_STATUS
+		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
+		}
+		workspace.Identity = &identity
+	} else {
+		workspace.Identity = nil
+	}
+
+	// ImageBuildCompute
+	workspace.ImageBuildCompute = genruntime.ClonePointerToString(source.ImageBuildCompute)
+
+	// KeyVault
+	workspace.KeyVault = genruntime.ClonePointerToString(source.KeyVault)
+
+	// Location
+	workspace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MlFlowTrackingUri
+	workspace.MlFlowTrackingUri = genruntime.ClonePointerToString(source.MlFlowTrackingUri)
+
+	// Name
+	workspace.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NotebookInfo
+	if source.NotebookInfo != nil {
+		var notebookInfo NotebookResourceInfo_STATUS
+		err := notebookInfo.AssignPropertiesFromNotebookResourceInfo_STATUS(source.NotebookInfo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNotebookResourceInfo_STATUS() to populate field NotebookInfo")
+		}
+		workspace.NotebookInfo = &notebookInfo
+	} else {
+		workspace.NotebookInfo = nil
+	}
+
+	// PrimaryUserAssignedIdentity
+	workspace.PrimaryUserAssignedIdentity = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentity)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		workspace.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		workspace.PrivateEndpointConnections = nil
+	}
+
+	// PrivateLinkCount
+	workspace.PrivateLinkCount = genruntime.ClonePointerToInt(source.PrivateLinkCount)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := WorkspaceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
+		workspace.ProvisioningState = &provisioningState
+	} else {
+		workspace.ProvisioningState = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
+		workspace.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		workspace.PublicNetworkAccess = nil
+	}
+
+	// ServiceManagedResourcesSettings
+	if source.ServiceManagedResourcesSettings != nil {
+		var serviceManagedResourcesSetting ServiceManagedResourcesSettings_STATUS
+		err := serviceManagedResourcesSetting.AssignPropertiesFromServiceManagedResourcesSettings_STATUS(source.ServiceManagedResourcesSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
+		}
+		workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
+	} else {
+		workspace.ServiceManagedResourcesSettings = nil
+	}
+
+	// ServiceProvisionedResourceGroup
+	workspace.ServiceProvisionedResourceGroup = genruntime.ClonePointerToString(source.ServiceProvisionedResourceGroup)
+
+	// SharedPrivateLinkResources
+	if source.SharedPrivateLinkResources != nil {
+		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_STATUS, len(source.SharedPrivateLinkResources))
+		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
+			var sharedPrivateLinkResource SharedPrivateLinkResource_STATUS
+			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
+			}
+			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
+		}
+		workspace.SharedPrivateLinkResources = sharedPrivateLinkResourceList
+	} else {
+		workspace.SharedPrivateLinkResources = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
+		}
+		workspace.Sku = &sku
+	} else {
+		workspace.Sku = nil
+	}
+
+	// StorageAccount
+	workspace.StorageAccount = genruntime.ClonePointerToString(source.StorageAccount)
+
+	// StorageHnsEnabled
+	if source.StorageHnsEnabled != nil {
+		storageHnsEnabled := *source.StorageHnsEnabled
+		workspace.StorageHnsEnabled = &storageHnsEnabled
+	} else {
+		workspace.StorageHnsEnabled = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		workspace.SystemData = &systemDatum
+	} else {
+		workspace.SystemData = nil
+	}
+
+	// Tags
+	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TenantId
+	workspace.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	workspace.Type = genruntime.ClonePointerToString(source.Type)
+
+	// WorkspaceId
+	workspace.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWorkspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesToWorkspace_STATUS(destination *v20210701s.Workspace_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AllowPublicAccessWhenBehindVnet
+	if workspace.AllowPublicAccessWhenBehindVnet != nil {
+		allowPublicAccessWhenBehindVnet := *workspace.AllowPublicAccessWhenBehindVnet
+		destination.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
+	} else {
+		destination.AllowPublicAccessWhenBehindVnet = nil
+	}
+
+	// ApplicationInsights
+	destination.ApplicationInsights = genruntime.ClonePointerToString(workspace.ApplicationInsights)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(workspace.Conditions)
+
+	// ContainerRegistry
+	destination.ContainerRegistry = genruntime.ClonePointerToString(workspace.ContainerRegistry)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(workspace.Description)
+
+	// DiscoveryUrl
+	destination.DiscoveryUrl = genruntime.ClonePointerToString(workspace.DiscoveryUrl)
+
+	// Encryption
+	if workspace.Encryption != nil {
+		var encryption v20210701s.EncryptionProperty_STATUS
+		err := workspace.Encryption.AssignPropertiesToEncryptionProperty_STATUS(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty_STATUS() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// FriendlyName
+	destination.FriendlyName = genruntime.ClonePointerToString(workspace.FriendlyName)
+
+	// HbiWorkspace
+	if workspace.HbiWorkspace != nil {
+		hbiWorkspace := *workspace.HbiWorkspace
+		destination.HbiWorkspace = &hbiWorkspace
+	} else {
+		destination.HbiWorkspace = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(workspace.Id)
+
+	// Identity
+	if workspace.Identity != nil {
+		var identity v20210701s.Identity_STATUS
+		err := workspace.Identity.AssignPropertiesToIdentity_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// ImageBuildCompute
+	destination.ImageBuildCompute = genruntime.ClonePointerToString(workspace.ImageBuildCompute)
+
+	// KeyVault
+	destination.KeyVault = genruntime.ClonePointerToString(workspace.KeyVault)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(workspace.Location)
+
+	// MlFlowTrackingUri
+	destination.MlFlowTrackingUri = genruntime.ClonePointerToString(workspace.MlFlowTrackingUri)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(workspace.Name)
+
+	// NotebookInfo
+	if workspace.NotebookInfo != nil {
+		var notebookInfo v20210701s.NotebookResourceInfo_STATUS
+		err := workspace.NotebookInfo.AssignPropertiesToNotebookResourceInfo_STATUS(&notebookInfo)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNotebookResourceInfo_STATUS() to populate field NotebookInfo")
+		}
+		destination.NotebookInfo = &notebookInfo
+	} else {
+		destination.NotebookInfo = nil
+	}
+
+	// PrimaryUserAssignedIdentity
+	destination.PrimaryUserAssignedIdentity = genruntime.ClonePointerToString(workspace.PrimaryUserAssignedIdentity)
+
+	// PrivateEndpointConnections
+	if workspace.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// PrivateLinkCount
+	destination.PrivateLinkCount = genruntime.ClonePointerToInt(workspace.PrivateLinkCount)
+
+	// ProvisioningState
+	if workspace.ProvisioningState != nil {
+		provisioningState := string(*workspace.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// PublicNetworkAccess
+	if workspace.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*workspace.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// ServiceManagedResourcesSettings
+	if workspace.ServiceManagedResourcesSettings != nil {
+		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings_STATUS
+		err := workspace.ServiceManagedResourcesSettings.AssignPropertiesToServiceManagedResourcesSettings_STATUS(&serviceManagedResourcesSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
+		}
+		destination.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
+	} else {
+		destination.ServiceManagedResourcesSettings = nil
+	}
+
+	// ServiceProvisionedResourceGroup
+	destination.ServiceProvisionedResourceGroup = genruntime.ClonePointerToString(workspace.ServiceProvisionedResourceGroup)
+
+	// SharedPrivateLinkResources
+	if workspace.SharedPrivateLinkResources != nil {
+		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
+		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
+			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource_STATUS
+			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
+			}
+			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
+		}
+		destination.SharedPrivateLinkResources = sharedPrivateLinkResourceList
+	} else {
+		destination.SharedPrivateLinkResources = nil
+	}
+
+	// Sku
+	if workspace.Sku != nil {
+		var sku v20210701s.Sku_STATUS
+		err := workspace.Sku.AssignPropertiesToSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// StorageAccount
+	destination.StorageAccount = genruntime.ClonePointerToString(workspace.StorageAccount)
+
+	// StorageHnsEnabled
+	if workspace.StorageHnsEnabled != nil {
+		storageHnsEnabled := *workspace.StorageHnsEnabled
+		destination.StorageHnsEnabled = &storageHnsEnabled
+	} else {
+		destination.StorageHnsEnabled = nil
+	}
+
+	// SystemData
+	if workspace.SystemData != nil {
+		var systemDatum v20210701s.SystemData_STATUS
+		err := workspace.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(workspace.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(workspace.Type)
+
+	// WorkspaceId
+	destination.WorkspaceId = genruntime.ClonePointerToString(workspace.WorkspaceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type EncryptionProperty struct {
 	// Identity: The identity that will be used to access the key vault for encryption at rest.
 	Identity *IdentityForCmk `json:"identity,omitempty"`
@@ -2519,11 +2348,7 @@ type EncryptionProperty_STATUS struct {
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
-<<<<<<< HEAD
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_STATUS{}
@@ -2572,26 +2397,15 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromEncryptionProperty_STATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionProperty_STATUS(source *v20210701s.EncryptionProperty_STATUS) error {
-=======
-// AssignPropertiesFromEncryptionPropertySTATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropertySTATUS(source *v20210701s.EncryptionProperty_STATUS) error {
->>>>>>> main
 
 	// Identity
 	if source.Identity != nil {
 		var identity IdentityForCmk_STATUS
-<<<<<<< HEAD
 		err := identity.AssignPropertiesFromIdentityForCmk_STATUS(source.Identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromIdentityForCmk_STATUS() to populate field Identity")
-=======
-		err := identity.AssignPropertiesFromIdentityForCmkSTATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentityForCmkSTATUS() to populate field Identity")
->>>>>>> main
 		}
 		property.Identity = &identity
 	} else {
@@ -2601,15 +2415,9 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
 		var keyVaultProperty KeyVaultProperties_STATUS
-<<<<<<< HEAD
 		err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-=======
-		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSTATUS(source.KeyVaultProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
->>>>>>> main
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2618,11 +2426,7 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 
 	// Status
 	if source.Status != nil {
-<<<<<<< HEAD
 		status := EncryptionProperty_Status_STATUS(*source.Status)
-=======
-		status := EncryptionPropertySTATUSStatus(*source.Status)
->>>>>>> main
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -2632,28 +2436,17 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToEncryptionProperty_STATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionProperty_STATUS(destination *v20210701s.EncryptionProperty_STATUS) error {
-=======
-// AssignPropertiesToEncryptionPropertySTATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionPropertySTATUS(destination *v20210701s.EncryptionProperty_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if property.Identity != nil {
 		var identity v20210701s.IdentityForCmk_STATUS
-<<<<<<< HEAD
 		err := property.Identity.AssignPropertiesToIdentityForCmk_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIdentityForCmk_STATUS() to populate field Identity")
-=======
-		err := property.Identity.AssignPropertiesToIdentityForCmkSTATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentityForCmkSTATUS() to populate field Identity")
->>>>>>> main
 		}
 		destination.Identity = &identity
 	} else {
@@ -2663,15 +2456,9 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionPropertyS
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
 		var keyVaultProperty v20210701s.KeyVaultProperties_STATUS
-<<<<<<< HEAD
 		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-=======
-		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesSTATUS(&keyVaultProperty)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
->>>>>>> main
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2788,11 +2575,7 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-<<<<<<< HEAD
 	Type *Identity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *IdentitySTATUSType `json:"type,omitempty"`
->>>>>>> main
 
 	// UserAssignedIdentities: The user assigned identities associated with the resource.
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -2847,13 +2630,8 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromIdentity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
 func (identity *Identity_STATUS) AssignPropertiesFromIdentity_STATUS(source *v20210701s.Identity_STATUS) error {
-=======
-// AssignPropertiesFromIdentitySTATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v20210701s.Identity_STATUS) error {
->>>>>>> main
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2863,11 +2641,7 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v202
 
 	// Type
 	if source.Type != nil {
-<<<<<<< HEAD
 		typeVar := Identity_Type_STATUS(*source.Type)
-=======
-		typeVar := IdentitySTATUSType(*source.Type)
->>>>>>> main
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -2880,15 +2654,9 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v202
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserAssignedIdentity_STATUS
-<<<<<<< HEAD
 			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentity_STATUS(&userAssignedIdentityValue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
-=======
-			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentitySTATUS(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentitySTATUS() to populate field UserAssignedIdentities")
->>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2901,13 +2669,8 @@ func (identity *Identity_STATUS) AssignPropertiesFromIdentitySTATUS(source *v202
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToIdentity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
 func (identity *Identity_STATUS) AssignPropertiesToIdentity_STATUS(destination *v20210701s.Identity_STATUS) error {
-=======
-// AssignPropertiesToIdentitySTATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *v20210701s.Identity_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2932,15 +2695,9 @@ func (identity *Identity_STATUS) AssignPropertiesToIdentitySTATUS(destination *v
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity v20210701s.UserAssignedIdentity_STATUS
-<<<<<<< HEAD
 			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
-=======
-			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentitySTATUS(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentitySTATUS() to populate field UserAssignedIdentities")
->>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3011,13 +2768,8 @@ func (info *NotebookResourceInfo_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromNotebookResourceInfo_STATUS populates our NotebookResourceInfo_STATUS from the provided source NotebookResourceInfo_STATUS
 func (info *NotebookResourceInfo_STATUS) AssignPropertiesFromNotebookResourceInfo_STATUS(source *v20210701s.NotebookResourceInfo_STATUS) error {
-=======
-// AssignPropertiesFromNotebookResourceInfoSTATUS populates our NotebookResourceInfo_STATUS from the provided source NotebookResourceInfo_STATUS
-func (info *NotebookResourceInfo_STATUS) AssignPropertiesFromNotebookResourceInfoSTATUS(source *v20210701s.NotebookResourceInfo_STATUS) error {
->>>>>>> main
 
 	// Fqdn
 	info.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -3025,15 +2777,9 @@ func (info *NotebookResourceInfo_STATUS) AssignPropertiesFromNotebookResourceInf
 	// NotebookPreparationError
 	if source.NotebookPreparationError != nil {
 		var notebookPreparationError NotebookPreparationError_STATUS
-<<<<<<< HEAD
 		err := notebookPreparationError.AssignPropertiesFromNotebookPreparationError_STATUS(source.NotebookPreparationError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNotebookPreparationError_STATUS() to populate field NotebookPreparationError")
-=======
-		err := notebookPreparationError.AssignPropertiesFromNotebookPreparationErrorSTATUS(source.NotebookPreparationError)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNotebookPreparationErrorSTATUS() to populate field NotebookPreparationError")
->>>>>>> main
 		}
 		info.NotebookPreparationError = &notebookPreparationError
 	} else {
@@ -3047,13 +2793,8 @@ func (info *NotebookResourceInfo_STATUS) AssignPropertiesFromNotebookResourceInf
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToNotebookResourceInfo_STATUS populates the provided destination NotebookResourceInfo_STATUS from our NotebookResourceInfo_STATUS
 func (info *NotebookResourceInfo_STATUS) AssignPropertiesToNotebookResourceInfo_STATUS(destination *v20210701s.NotebookResourceInfo_STATUS) error {
-=======
-// AssignPropertiesToNotebookResourceInfoSTATUS populates the provided destination NotebookResourceInfo_STATUS from our NotebookResourceInfo_STATUS
-func (info *NotebookResourceInfo_STATUS) AssignPropertiesToNotebookResourceInfoSTATUS(destination *v20210701s.NotebookResourceInfo_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3063,15 +2804,9 @@ func (info *NotebookResourceInfo_STATUS) AssignPropertiesToNotebookResourceInfoS
 	// NotebookPreparationError
 	if info.NotebookPreparationError != nil {
 		var notebookPreparationError v20210701s.NotebookPreparationError_STATUS
-<<<<<<< HEAD
 		err := info.NotebookPreparationError.AssignPropertiesToNotebookPreparationError_STATUS(&notebookPreparationError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNotebookPreparationError_STATUS() to populate field NotebookPreparationError")
-=======
-		err := info.NotebookPreparationError.AssignPropertiesToNotebookPreparationErrorSTATUS(&notebookPreparationError)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNotebookPreparationErrorSTATUS() to populate field NotebookPreparationError")
->>>>>>> main
 		}
 		destination.NotebookPreparationError = &notebookPreparationError
 	} else {
@@ -3092,11 +2827,7 @@ func (info *NotebookResourceInfo_STATUS) AssignPropertiesToNotebookResourceInfoS
 	return nil
 }
 
-<<<<<<< HEAD
 type PrivateEndpointConnection_STATUS struct {
-=======
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
->>>>>>> main
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -3111,7 +2842,6 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -3124,20 +2854,6 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 	typedInput, ok := armInput.(PrivateEndpointConnection_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUSARM, got %T", armInput)
-=======
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
->>>>>>> main
 	}
 
 	// Set property ‘Id’:
@@ -3183,13 +2899,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210701s.PrivateEndpointConnection_STATUS) error {
-=======
-// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
->>>>>>> main
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -3197,15 +2908,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_STATUS
-<<<<<<< HEAD
 		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
-=======
-		err := identity.AssignPropertiesFromIdentitySTATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySTATUS() to populate field Identity")
->>>>>>> main
 		}
 		connection.Identity = &identity
 	} else {
@@ -3215,15 +2920,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
-<<<<<<< HEAD
 		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
-=======
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
->>>>>>> main
 		}
 		connection.Sku = &sku
 	} else {
@@ -3233,15 +2932,9 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
 		}
 		connection.SystemData = &systemDatum
 	} else {
@@ -3252,13 +2945,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210701s.PrivateEndpointConnection_STATUS) error {
-=======
-// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3266,19 +2954,11 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// Identity
-<<<<<<< HEAD
 	if connection.Identity != nil {
 		var identity v20210701s.Identity_STATUS
 		err := connection.Identity.AssignPropertiesToIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
-=======
-	if embedded.Identity != nil {
-		var identity v20210701s.Identity_STATUS
-		err := embedded.Identity.AssignPropertiesToIdentitySTATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentitySTATUS() to populate field Identity")
->>>>>>> main
 		}
 		destination.Identity = &identity
 	} else {
@@ -3286,19 +2966,11 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	}
 
 	// Sku
-<<<<<<< HEAD
 	if connection.Sku != nil {
 		var sku v20210701s.Sku_STATUS
 		err := connection.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
-=======
-	if embedded.Sku != nil {
-		var sku v20210701s.Sku_STATUS
-		err := embedded.Sku.AssignPropertiesToSkuSTATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
->>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -3306,19 +2978,11 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	}
 
 	// SystemData
-<<<<<<< HEAD
 	if connection.SystemData != nil {
 		var systemDatum v20210701s.SystemData_STATUS
 		err := connection.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
-	if embedded.SystemData != nil {
-		var systemDatum v20210701s.SystemData_STATUS
-		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
->>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -3470,26 +3134,15 @@ func (settings *ServiceManagedResourcesSettings_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromServiceManagedResourcesSettings_STATUS populates our ServiceManagedResourcesSettings_STATUS from the provided source ServiceManagedResourcesSettings_STATUS
 func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesFromServiceManagedResourcesSettings_STATUS(source *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
-=======
-// AssignPropertiesFromServiceManagedResourcesSettingsSTATUS populates our ServiceManagedResourcesSettings_STATUS from the provided source ServiceManagedResourcesSettings_STATUS
-func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesFromServiceManagedResourcesSettingsSTATUS(source *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
->>>>>>> main
 
 	// CosmosDb
 	if source.CosmosDb != nil {
 		var cosmosDb CosmosDbSettings_STATUS
-<<<<<<< HEAD
 		err := cosmosDb.AssignPropertiesFromCosmosDbSettings_STATUS(source.CosmosDb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCosmosDbSettings_STATUS() to populate field CosmosDb")
-=======
-		err := cosmosDb.AssignPropertiesFromCosmosDbSettingsSTATUS(source.CosmosDb)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCosmosDbSettingsSTATUS() to populate field CosmosDb")
->>>>>>> main
 		}
 		settings.CosmosDb = &cosmosDb
 	} else {
@@ -3500,28 +3153,17 @@ func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesFromServ
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToServiceManagedResourcesSettings_STATUS populates the provided destination ServiceManagedResourcesSettings_STATUS from our ServiceManagedResourcesSettings_STATUS
 func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesToServiceManagedResourcesSettings_STATUS(destination *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
-=======
-// AssignPropertiesToServiceManagedResourcesSettingsSTATUS populates the provided destination ServiceManagedResourcesSettings_STATUS from our ServiceManagedResourcesSettings_STATUS
-func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesToServiceManagedResourcesSettingsSTATUS(destination *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CosmosDb
 	if settings.CosmosDb != nil {
 		var cosmosDb v20210701s.CosmosDbSettings_STATUS
-<<<<<<< HEAD
 		err := settings.CosmosDb.AssignPropertiesToCosmosDbSettings_STATUS(&cosmosDb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCosmosDbSettings_STATUS() to populate field CosmosDb")
-=======
-		err := settings.CosmosDb.AssignPropertiesToCosmosDbSettingsSTATUS(&cosmosDb)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCosmosDbSettingsSTATUS() to populate field CosmosDb")
->>>>>>> main
 		}
 		destination.CosmosDb = &cosmosDb
 	} else {
@@ -3539,7 +3181,6 @@ func (settings *ServiceManagedResourcesSettings_STATUS) AssignPropertiesToServic
 	return nil
 }
 
-<<<<<<< HEAD
 type SharedPrivateLinkResource struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
@@ -3726,8 +3367,6 @@ func (resource *SharedPrivateLinkResource) AssignPropertiesToSharedPrivateLinkRe
 	return nil
 }
 
-=======
->>>>>>> main
 type SharedPrivateLinkResource_STATUS struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
@@ -3805,13 +3444,8 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSharedPrivateLinkResource_STATUS populates our SharedPrivateLinkResource_STATUS from the provided source SharedPrivateLinkResource_STATUS
 func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesFromSharedPrivateLinkResource_STATUS(source *v20210701s.SharedPrivateLinkResource_STATUS) error {
-=======
-// AssignPropertiesFromSharedPrivateLinkResourceSTATUS populates our SharedPrivateLinkResource_STATUS from the provided source SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesFromSharedPrivateLinkResourceSTATUS(source *v20210701s.SharedPrivateLinkResource_STATUS) error {
->>>>>>> main
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -3837,13 +3471,8 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesFromSharedPriv
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSharedPrivateLinkResource_STATUS populates the provided destination SharedPrivateLinkResource_STATUS from our SharedPrivateLinkResource_STATUS
 func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesToSharedPrivateLinkResource_STATUS(destination *v20210701s.SharedPrivateLinkResource_STATUS) error {
-=======
-// AssignPropertiesToSharedPrivateLinkResourceSTATUS populates the provided destination SharedPrivateLinkResource_STATUS from our SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignPropertiesToSharedPrivateLinkResourceSTATUS(destination *v20210701s.SharedPrivateLinkResource_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4010,13 +3639,8 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210701s.Sku_STATUS) error {
-=======
-// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210701s.Sku_STATUS) error {
->>>>>>> main
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -4028,13 +3652,8 @@ func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210701s.Sku_STAT
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210701s.Sku_STATUS) error {
-=======
-// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210701s.Sku_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4281,11 +3900,7 @@ type SystemData_STATUS struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-<<<<<<< HEAD
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-=======
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
->>>>>>> main
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -4294,11 +3909,7 @@ type SystemData_STATUS struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-<<<<<<< HEAD
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &SystemData_STATUS{}
@@ -4355,13 +3966,8 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20210701s.SystemData_STATUS) error {
-=======
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20210701s.SystemData_STATUS) error {
->>>>>>> main
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -4371,11 +3977,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-<<<<<<< HEAD
 		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-=======
-		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
->>>>>>> main
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -4389,11 +3991,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-<<<<<<< HEAD
 		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-=======
-		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
->>>>>>> main
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -4403,13 +4001,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20210701s.SystemData_STATUS) error {
-=======
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20210701s.SystemData_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4505,7 +4098,6 @@ func (operator *WorkspaceOperatorSpec) AssignPropertiesToWorkspaceOperatorSpec(d
 	return nil
 }
 
-<<<<<<< HEAD
 type WorkspaceProperties_ProvisioningState_STATUS string
 
 const (
@@ -4524,25 +4116,6 @@ type WorkspaceProperties_PublicNetworkAccess string
 const (
 	WorkspaceProperties_PublicNetworkAccess_Disabled = WorkspaceProperties_PublicNetworkAccess("Disabled")
 	WorkspaceProperties_PublicNetworkAccess_Enabled  = WorkspaceProperties_PublicNetworkAccess("Enabled")
-=======
-type WorkspacePropertiesSTATUSProvisioningState string
-
-const (
-	WorkspacePropertiesSTATUSProvisioningState_Canceled  = WorkspacePropertiesSTATUSProvisioningState("Canceled")
-	WorkspacePropertiesSTATUSProvisioningState_Creating  = WorkspacePropertiesSTATUSProvisioningState("Creating")
-	WorkspacePropertiesSTATUSProvisioningState_Deleting  = WorkspacePropertiesSTATUSProvisioningState("Deleting")
-	WorkspacePropertiesSTATUSProvisioningState_Failed    = WorkspacePropertiesSTATUSProvisioningState("Failed")
-	WorkspacePropertiesSTATUSProvisioningState_Succeeded = WorkspacePropertiesSTATUSProvisioningState("Succeeded")
-	WorkspacePropertiesSTATUSProvisioningState_Unknown   = WorkspacePropertiesSTATUSProvisioningState("Unknown")
-	WorkspacePropertiesSTATUSProvisioningState_Updating  = WorkspacePropertiesSTATUSProvisioningState("Updating")
-)
-
-type WorkspacePropertiesSTATUSPublicNetworkAccess string
-
-const (
-	WorkspacePropertiesSTATUSPublicNetworkAccess_Disabled = WorkspacePropertiesSTATUSPublicNetworkAccess("Disabled")
-	WorkspacePropertiesSTATUSPublicNetworkAccess_Enabled  = WorkspacePropertiesSTATUSPublicNetworkAccess("Enabled")
->>>>>>> main
 )
 
 type WorkspaceProperties_PublicNetworkAccess_STATUS string
@@ -4552,197 +4125,6 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_Enabled_STATUS  = WorkspaceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
-<<<<<<< HEAD
-=======
-	// PrivateLinkResourceReference: The resource id that private link links to.
-	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
-
-	// RequestMessage: Request message.
-	RequestMessage *string `json:"requestMessage,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *SharedPrivateLinkResourcePropertyStatus `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Workspaces_Spec_Properties_SharedPrivateLinkResources{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resources == nil {
-		return nil, nil
-	}
-	result := &Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM{}
-
-	// Set property ‘Name’:
-	if resources.Name != nil {
-		name := *resources.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if resources.GroupId != nil ||
-		resources.PrivateLinkResourceReference != nil ||
-		resources.RequestMessage != nil ||
-		resources.Status != nil {
-		result.Properties = &SharedPrivateLinkResourcePropertyARM{}
-	}
-	if resources.GroupId != nil {
-		groupId := *resources.GroupId
-		result.Properties.GroupId = &groupId
-	}
-	if resources.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*resources.PrivateLinkResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkResourceId := privateLinkResourceIdARMID
-		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
-	}
-	if resources.RequestMessage != nil {
-		requestMessage := *resources.RequestMessage
-		result.Properties.RequestMessage = &requestMessage
-	}
-	if resources.Status != nil {
-		status := *resources.Status
-		result.Properties.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM, got %T", armInput)
-	}
-
-	// Set property ‘GroupId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.GroupId != nil {
-			groupId := *typedInput.Properties.GroupId
-			resources.GroupId = &groupId
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		resources.Name = &name
-	}
-
-	// no assignment for property ‘PrivateLinkResourceReference’
-
-	// Set property ‘RequestMessage’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RequestMessage != nil {
-			requestMessage := *typedInput.Properties.RequestMessage
-			resources.RequestMessage = &requestMessage
-		}
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			resources.Status = &status
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromWorkspacesSpecPropertiesSharedPrivateLinkResources populates our Workspaces_Spec_Properties_SharedPrivateLinkResources from the provided source Workspaces_Spec_Properties_SharedPrivateLinkResources
-func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) AssignPropertiesFromWorkspacesSpecPropertiesSharedPrivateLinkResources(source *v20210701s.Workspaces_Spec_Properties_SharedPrivateLinkResources) error {
-
-	// GroupId
-	resources.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// Name
-	resources.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkResourceReference
-	if source.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
-		resources.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		resources.PrivateLinkResourceReference = nil
-	}
-
-	// RequestMessage
-	resources.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
-
-	// Status
-	if source.Status != nil {
-		status := SharedPrivateLinkResourcePropertyStatus(*source.Status)
-		resources.Status = &status
-	} else {
-		resources.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToWorkspacesSpecPropertiesSharedPrivateLinkResources populates the provided destination Workspaces_Spec_Properties_SharedPrivateLinkResources from our Workspaces_Spec_Properties_SharedPrivateLinkResources
-func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) AssignPropertiesToWorkspacesSpecPropertiesSharedPrivateLinkResources(destination *v20210701s.Workspaces_Spec_Properties_SharedPrivateLinkResources) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// GroupId
-	destination.GroupId = genruntime.ClonePointerToString(resources.GroupId)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(resources.Name)
-
-	// PrivateLinkResourceReference
-	if resources.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := resources.PrivateLinkResourceReference.Copy()
-		destination.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		destination.PrivateLinkResourceReference = nil
-	}
-
-	// RequestMessage
-	destination.RequestMessage = genruntime.ClonePointerToString(resources.RequestMessage)
-
-	// Status
-	if resources.Status != nil {
-		status := string(*resources.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type WorkspacesSpecPropertiesPublicNetworkAccess string
-
-const (
-	WorkspacesSpecPropertiesPublicNetworkAccess_Disabled = WorkspacesSpecPropertiesPublicNetworkAccess("Disabled")
-	WorkspacesSpecPropertiesPublicNetworkAccess_Enabled  = WorkspacesSpecPropertiesPublicNetworkAccess("Enabled")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/CosmosDbSettings
->>>>>>> main
 type CosmosDbSettings struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
@@ -4845,13 +4227,8 @@ func (settings *CosmosDbSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromCosmosDbSettings_STATUS populates our CosmosDbSettings_STATUS from the provided source CosmosDbSettings_STATUS
 func (settings *CosmosDbSettings_STATUS) AssignPropertiesFromCosmosDbSettings_STATUS(source *v20210701s.CosmosDbSettings_STATUS) error {
-=======
-// AssignPropertiesFromCosmosDbSettingsSTATUS populates our CosmosDbSettings_STATUS from the provided source CosmosDbSettings_STATUS
-func (settings *CosmosDbSettings_STATUS) AssignPropertiesFromCosmosDbSettingsSTATUS(source *v20210701s.CosmosDbSettings_STATUS) error {
->>>>>>> main
 
 	// CollectionsThroughput
 	settings.CollectionsThroughput = genruntime.ClonePointerToInt(source.CollectionsThroughput)
@@ -4860,13 +4237,8 @@ func (settings *CosmosDbSettings_STATUS) AssignPropertiesFromCosmosDbSettingsSTA
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToCosmosDbSettings_STATUS populates the provided destination CosmosDbSettings_STATUS from our CosmosDbSettings_STATUS
 func (settings *CosmosDbSettings_STATUS) AssignPropertiesToCosmosDbSettings_STATUS(destination *v20210701s.CosmosDbSettings_STATUS) error {
-=======
-// AssignPropertiesToCosmosDbSettingsSTATUS populates the provided destination CosmosDbSettings_STATUS from our CosmosDbSettings_STATUS
-func (settings *CosmosDbSettings_STATUS) AssignPropertiesToCosmosDbSettingsSTATUS(destination *v20210701s.CosmosDbSettings_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4892,19 +4264,11 @@ const (
 	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("Enabled")
 )
 
-<<<<<<< HEAD
 type EncryptionProperty_Status_STATUS string
 
 const (
 	EncryptionProperty_Status_Disabled_STATUS = EncryptionProperty_Status_STATUS("Disabled")
 	EncryptionProperty_Status_Enabled_STATUS  = EncryptionProperty_Status_STATUS("Enabled")
-=======
-type EncryptionPropertySTATUSStatus string
-
-const (
-	EncryptionPropertySTATUSStatus_Disabled = EncryptionPropertySTATUSStatus("Disabled")
-	EncryptionPropertySTATUSStatus_Enabled  = EncryptionPropertySTATUSStatus("Enabled")
->>>>>>> main
 )
 
 type IdentityForCmk struct {
@@ -5009,13 +4373,8 @@ func (forCmk *IdentityForCmk_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromIdentityForCmk_STATUS populates our IdentityForCmk_STATUS from the provided source IdentityForCmk_STATUS
 func (forCmk *IdentityForCmk_STATUS) AssignPropertiesFromIdentityForCmk_STATUS(source *v20210701s.IdentityForCmk_STATUS) error {
-=======
-// AssignPropertiesFromIdentityForCmkSTATUS populates our IdentityForCmk_STATUS from the provided source IdentityForCmk_STATUS
-func (forCmk *IdentityForCmk_STATUS) AssignPropertiesFromIdentityForCmkSTATUS(source *v20210701s.IdentityForCmk_STATUS) error {
->>>>>>> main
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -5024,13 +4383,8 @@ func (forCmk *IdentityForCmk_STATUS) AssignPropertiesFromIdentityForCmkSTATUS(so
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToIdentityForCmk_STATUS populates the provided destination IdentityForCmk_STATUS from our IdentityForCmk_STATUS
 func (forCmk *IdentityForCmk_STATUS) AssignPropertiesToIdentityForCmk_STATUS(destination *v20210701s.IdentityForCmk_STATUS) error {
-=======
-// AssignPropertiesToIdentityForCmkSTATUS populates the provided destination IdentityForCmk_STATUS from our IdentityForCmk_STATUS
-func (forCmk *IdentityForCmk_STATUS) AssignPropertiesToIdentityForCmkSTATUS(destination *v20210701s.IdentityForCmk_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5212,13 +4566,8 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromKeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultProperties_STATUS(source *v20210701s.KeyVaultProperties_STATUS) error {
-=======
-// AssignPropertiesFromKeyVaultPropertiesSTATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropertiesSTATUS(source *v20210701s.KeyVaultProperties_STATUS) error {
->>>>>>> main
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -5233,13 +4582,8 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToKeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultProperties_STATUS(destination *v20210701s.KeyVaultProperties_STATUS) error {
-=======
-// AssignPropertiesToKeyVaultPropertiesSTATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertiesSTATUS(destination *v20210701s.KeyVaultProperties_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5298,13 +4642,8 @@ func (error *NotebookPreparationError_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromNotebookPreparationError_STATUS populates our NotebookPreparationError_STATUS from the provided source NotebookPreparationError_STATUS
 func (error *NotebookPreparationError_STATUS) AssignPropertiesFromNotebookPreparationError_STATUS(source *v20210701s.NotebookPreparationError_STATUS) error {
-=======
-// AssignPropertiesFromNotebookPreparationErrorSTATUS populates our NotebookPreparationError_STATUS from the provided source NotebookPreparationError_STATUS
-func (error *NotebookPreparationError_STATUS) AssignPropertiesFromNotebookPreparationErrorSTATUS(source *v20210701s.NotebookPreparationError_STATUS) error {
->>>>>>> main
 
 	// ErrorMessage
 	error.ErrorMessage = genruntime.ClonePointerToString(source.ErrorMessage)
@@ -5316,13 +4655,8 @@ func (error *NotebookPreparationError_STATUS) AssignPropertiesFromNotebookPrepar
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToNotebookPreparationError_STATUS populates the provided destination NotebookPreparationError_STATUS from our NotebookPreparationError_STATUS
 func (error *NotebookPreparationError_STATUS) AssignPropertiesToNotebookPreparationError_STATUS(destination *v20210701s.NotebookPreparationError_STATUS) error {
-=======
-// AssignPropertiesToNotebookPreparationErrorSTATUS populates the provided destination NotebookPreparationError_STATUS from our NotebookPreparationError_STATUS
-func (error *NotebookPreparationError_STATUS) AssignPropertiesToNotebookPreparationErrorSTATUS(destination *v20210701s.NotebookPreparationError_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5343,19 +4677,6 @@ func (error *NotebookPreparationError_STATUS) AssignPropertiesToNotebookPreparat
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-type PrivateEndpointServiceConnectionStatus_STATUS string
-
-const (
-	PrivateEndpointServiceConnectionStatus_STATUS_Approved     = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
-	PrivateEndpointServiceConnectionStatus_STATUS_Disconnected = PrivateEndpointServiceConnectionStatus_STATUS("Disconnected")
-	PrivateEndpointServiceConnectionStatus_STATUS_Pending      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
-	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
-	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
-)
-
->>>>>>> main
 // +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
 type PrivateEndpointServiceConnectionStatus string
 
@@ -5367,7 +4688,6 @@ const (
 	PrivateEndpointServiceConnectionStatus_Timeout      = PrivateEndpointServiceConnectionStatus("Timeout")
 )
 
-<<<<<<< HEAD
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
@@ -5378,8 +4698,6 @@ const (
 	PrivateEndpointServiceConnectionStatus_Timeout_STATUS      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
 )
 
-=======
->>>>>>> main
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -5427,13 +4745,8 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromUserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIdentity_STATUS(source *v20210701s.UserAssignedIdentity_STATUS) error {
-=======
-// AssignPropertiesFromUserAssignedIdentitySTATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIdentitySTATUS(source *v20210701s.UserAssignedIdentity_STATUS) error {
->>>>>>> main
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -5448,13 +4761,8 @@ func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIde
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToUserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdentity_STATUS(destination *v20210701s.UserAssignedIdentity_STATUS) error {
-=======
-// AssignPropertiesToUserAssignedIdentitySTATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdentitySTATUS(destination *v20210701s.UserAssignedIdentity_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

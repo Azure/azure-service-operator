@@ -162,384 +162,16 @@ func NetworkSecurityGroupsSecurityRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = NetworkSecurityGroupsSecurityRule_SpecGenerator()
 	gens["Status"] = NetworkSecurityGroupsSecurityRule_STATUSGenerator()
-=======
-	gens["Spec"] = NetworkSecurityGroupsSecurityRulesSpecGenerator()
-	gens["Status"] = SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()
->>>>>>> main
-}
-
-func Test_NetworkSecurityGroupsSecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NetworkSecurityGroupsSecurityRule_STATUS to NetworkSecurityGroupsSecurityRule_STATUS via AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS & AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS, NetworkSecurityGroupsSecurityRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS tests if a specific instance of NetworkSecurityGroupsSecurityRule_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS(subject NetworkSecurityGroupsSecurityRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS
-	err := copied.AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NetworkSecurityGroupsSecurityRule_STATUS
-	err = actual.AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-<<<<<<< HEAD
-func Test_NetworkSecurityGroupsSecurityRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-=======
-func Test_NetworkSecurityGroupsSecurityRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NetworkSecurityGroupsSecurityRules_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpec, NetworkSecurityGroupsSecurityRulesSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpec runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRules_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpec(subject NetworkSecurityGroupsSecurityRules_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual NetworkSecurityGroupsSecurityRules_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of NetworkSecurityGroupsSecurityRules_Spec instances for property testing - lazily instantiated by
-// NetworkSecurityGroupsSecurityRulesSpecGenerator()
-var networkSecurityGroupsSecurityRulesSpecGenerator gopter.Gen
-
-// NetworkSecurityGroupsSecurityRulesSpecGenerator returns a generator of NetworkSecurityGroupsSecurityRules_Spec instances for property testing.
-// We first initialize networkSecurityGroupsSecurityRulesSpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupsSecurityRulesSpecGenerator() gopter.Gen {
-	if networkSecurityGroupsSecurityRulesSpecGenerator != nil {
-		return networkSecurityGroupsSecurityRulesSpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(generators)
-	networkSecurityGroupsSecurityRulesSpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(generators)
-	networkSecurityGroupsSecurityRulesSpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRules_Spec{}), generators)
-
-	return networkSecurityGroupsSecurityRulesSpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccess_Allow, SecurityRulePropertiesFormatAccess_Deny))
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirection_Inbound, SecurityRulePropertiesFormatDirection_Outbound))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormatProtocol_Ah,
-		SecurityRulePropertiesFormatProtocol_Esp,
-		SecurityRulePropertiesFormatProtocol_Icmp,
-		SecurityRulePropertiesFormatProtocol_Star,
-		SecurityRulePropertiesFormatProtocol_Tcp,
-		SecurityRulePropertiesFormatProtocol_Udp))
-	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
-	gens["SourcePortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(gens map[string]gopter.Gen) {
-	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
-	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
-}
-
-func Test_SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded to SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded & AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded, SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded tests if a specific instance of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(subject SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err := copied.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
->>>>>>> main
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-<<<<<<< HEAD
-		"Round trip of NetworkSecurityGroupsSecurityRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS, NetworkSecurityGroupsSecurityRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS(subject NetworkSecurityGroupsSecurityRule_STATUS) string {
-=======
-		"Round trip of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded, SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded runs a test to see if a specific instance of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(subject SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
->>>>>>> main
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-<<<<<<< HEAD
-	var actual NetworkSecurityGroupsSecurityRule_STATUS
-=======
-	var actual SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
->>>>>>> main
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-<<<<<<< HEAD
-// Generator of NetworkSecurityGroupsSecurityRule_STATUS instances for property testing - lazily instantiated by
-// NetworkSecurityGroupsSecurityRule_STATUSGenerator()
-var networkSecurityGroupsSecurityRule_STATUSGenerator gopter.Gen
-
-// NetworkSecurityGroupsSecurityRule_STATUSGenerator returns a generator of NetworkSecurityGroupsSecurityRule_STATUS instances for property testing.
-// We first initialize networkSecurityGroupsSecurityRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NetworkSecurityGroupsSecurityRule_STATUSGenerator() gopter.Gen {
-	if networkSecurityGroupsSecurityRule_STATUSGenerator != nil {
-		return networkSecurityGroupsSecurityRule_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
-	networkSecurityGroupsSecurityRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRule_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
-	networkSecurityGroupsSecurityRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRule_STATUS{}), generators)
-
-	return networkSecurityGroupsSecurityRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow_STATUS, SecurityRuleAccess_Deny_STATUS))
-=======
-// Generator of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing
-// - lazily instantiated by SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()
-var securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator gopter.Gen
-
-// SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator returns a generator of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing.
-// We first initialize securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator() gopter.Gen {
-	if securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator != nil {
-		return securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(generators)
-	securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(generators)
-	securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}), generators)
-
-	return securityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_STATUS_Allow, SecurityRuleAccess_STATUS_Deny))
->>>>>>> main
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-<<<<<<< HEAD
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Inbound_STATUS, SecurityRuleDirection_Outbound_STATUS))
-=======
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_STATUS_Inbound, SecurityRuleDirection_STATUS_Outbound))
->>>>>>> main
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
-		SecurityRulePropertiesFormat_Protocol_Ah_STATUS,
-		SecurityRulePropertiesFormat_Protocol_Esp_STATUS,
-		SecurityRulePropertiesFormat_Protocol_Icmp_STATUS,
-		SecurityRulePropertiesFormat_Protocol_Star_STATUS,
-		SecurityRulePropertiesFormat_Protocol_Tcp_STATUS,
-		SecurityRulePropertiesFormat_Protocol_Udp_STATUS))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting_STATUS,
-		ProvisioningState_Failed_STATUS,
-		ProvisioningState_Succeeded_STATUS,
-		ProvisioningState_Updating_STATUS))
-=======
-		SecurityRulePropertiesFormatSTATUSProtocol_Ah,
-		SecurityRulePropertiesFormatSTATUSProtocol_Esp,
-		SecurityRulePropertiesFormatSTATUSProtocol_Icmp,
-		SecurityRulePropertiesFormatSTATUSProtocol_Star,
-		SecurityRulePropertiesFormatSTATUSProtocol_Tcp,
-		SecurityRulePropertiesFormatSTATUSProtocol_Udp))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
->>>>>>> main
-	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
-	gens["SourcePortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-<<<<<<< HEAD
-// AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(gens map[string]gopter.Gen) {
-	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator())
-	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator())
 }
 
 func Test_NetworkSecurityGroupsSecurityRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-=======
-// AddRelatedPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator())
-	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator())
-}
-
-func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
->>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip from NetworkSecurityGroupsSecurityRule_Spec to NetworkSecurityGroupsSecurityRule_Spec via AssignPropertiesToNetworkSecurityGroupsSecurityRule_Spec & AssignPropertiesFromNetworkSecurityGroupsSecurityRule_Spec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_Spec, NetworkSecurityGroupsSecurityRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
@@ -547,38 +179,19 @@ func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubR
 
 // RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_Spec tests if a specific instance of NetworkSecurityGroupsSecurityRule_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_Spec(subject NetworkSecurityGroupsSecurityRule_Spec) string {
-=======
-		"Round trip from ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded, ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
->>>>>>> main
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-<<<<<<< HEAD
 	var other alpha20201101s.NetworkSecurityGroupsSecurityRule_Spec
 	err := copied.AssignPropertiesToNetworkSecurityGroupsSecurityRule_Spec(&other)
-=======
-	var other alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err := copied.AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-<<<<<<< HEAD
 	var actual NetworkSecurityGroupsSecurityRule_Spec
 	err = actual.AssignPropertiesFromNetworkSecurityGroupsSecurityRule_Spec(&other)
-=======
-	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err = actual.AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -595,18 +208,13 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupSTATUSNetworkSecurityGr
 	return ""
 }
 
-<<<<<<< HEAD
 func Test_NetworkSecurityGroupsSecurityRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-=======
-func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
->>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of NetworkSecurityGroupsSecurityRule_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_Spec, NetworkSecurityGroupsSecurityRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -614,15 +222,6 @@ func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubR
 
 // RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_Spec runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRule_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_Spec(subject NetworkSecurityGroupsSecurityRule_Spec) string {
-=======
-		"Round trip of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded, ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -630,11 +229,7 @@ func RunJSONSerializationTestForApplicationSecurityGroupSTATUSNetworkSecurityGro
 	}
 
 	// Deserialize back into memory
-<<<<<<< HEAD
 	var actual NetworkSecurityGroupsSecurityRule_Spec
-=======
-	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
->>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -652,7 +247,6 @@ func RunJSONSerializationTestForApplicationSecurityGroupSTATUSNetworkSecurityGro
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of NetworkSecurityGroupsSecurityRule_Spec instances for property testing - lazily instantiated by
 // NetworkSecurityGroupsSecurityRule_SpecGenerator()
 var networkSecurityGroupsSecurityRule_SpecGenerator gopter.Gen
@@ -708,6 +302,255 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_Spec(g
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_Spec(gens map[string]gopter.Gen) {
 	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
 	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpecGenerator())
+}
+
+func Test_NetworkSecurityGroupsSecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroupsSecurityRule_STATUS to NetworkSecurityGroupsSecurityRule_STATUS via AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS & AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS, NetworkSecurityGroupsSecurityRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS tests if a specific instance of NetworkSecurityGroupsSecurityRule_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule_STATUS(subject NetworkSecurityGroupsSecurityRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS
+	err := copied.AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroupsSecurityRule_STATUS
+	err = actual.AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkSecurityGroupsSecurityRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkSecurityGroupsSecurityRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS, NetworkSecurityGroupsSecurityRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS runs a test to see if a specific instance of NetworkSecurityGroupsSecurityRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRule_STATUS(subject NetworkSecurityGroupsSecurityRule_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkSecurityGroupsSecurityRule_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkSecurityGroupsSecurityRule_STATUS instances for property testing - lazily instantiated by
+// NetworkSecurityGroupsSecurityRule_STATUSGenerator()
+var networkSecurityGroupsSecurityRule_STATUSGenerator gopter.Gen
+
+// NetworkSecurityGroupsSecurityRule_STATUSGenerator returns a generator of NetworkSecurityGroupsSecurityRule_STATUS instances for property testing.
+// We first initialize networkSecurityGroupsSecurityRule_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NetworkSecurityGroupsSecurityRule_STATUSGenerator() gopter.Gen {
+	if networkSecurityGroupsSecurityRule_STATUSGenerator != nil {
+		return networkSecurityGroupsSecurityRule_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
+	networkSecurityGroupsSecurityRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRule_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(generators)
+	networkSecurityGroupsSecurityRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroupsSecurityRule_STATUS{}), generators)
+
+	return networkSecurityGroupsSecurityRule_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(gens map[string]gopter.Gen) {
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow_STATUS, SecurityRuleAccess_Deny_STATUS))
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
+	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
+	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
+	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Inbound_STATUS, SecurityRuleDirection_Outbound_STATUS))
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
+		SecurityRulePropertiesFormat_Protocol_Ah_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Esp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Icmp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Star_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Tcp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Udp_STATUS))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
+	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
+	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
+	gens["SourcePortRanges"] = gen.SliceOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRule_STATUS(gens map[string]gopter.Gen) {
+	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator())
+	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator())
+}
+
+func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err := copied.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err = actual.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for
+// property testing - lazily instantiated by
+// ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()
+var applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator gopter.Gen
+
+// ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing.
+func ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator() gopter.Gen {
+	if applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator != nil {
+		return applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(generators)
+	applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}), generators)
+
+	return applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationSecurityGroupSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -812,130 +655,4 @@ func ApplicationSecurityGroupSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationSecurityGroupSpec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err := copied.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err = actual.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded runs a test to see if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for
-// property testing - lazily instantiated by
-// ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator()
-var applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator gopter.Gen
-
-// ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing.
-func ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator != nil {
-		return applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(generators)
-	applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}), generators)
-
-	return applicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(gens map[string]gopter.Gen) {
-=======
-// Generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for
-// property testing - lazily instantiated by
-// ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator()
-var applicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator gopter.Gen
-
-// ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instances for property testing.
-func ApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator() gopter.Gen {
-	if applicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator != nil {
-		return applicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(generators)
-	applicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}), generators)
-
-	return applicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(gens map[string]gopter.Gen) {
->>>>>>> main
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

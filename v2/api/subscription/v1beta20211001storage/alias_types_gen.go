@@ -28,13 +28,8 @@ import (
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Alias_Spec   `json:"spec,omitempty"`
 	Status            Alias_STATUS `json:"status,omitempty"`
-=======
-	Spec              Aliases_Spec                     `json:"spec,omitempty"`
-	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Alias{}
@@ -83,11 +78,7 @@ func (alias *Alias) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &Alias_STATUS{}
-=======
-	return &SubscriptionAliasResponse_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -98,21 +89,13 @@ func (alias *Alias) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*Alias_STATUS); ok {
-=======
-	if st, ok := status.(*SubscriptionAliasResponse_STATUS); ok {
->>>>>>> main
 		alias.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st Alias_STATUS
-=======
-	var st SubscriptionAliasResponse_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -145,12 +128,35 @@ type AliasList struct {
 	Items           []Alias `json:"items"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20211001.APIVersion
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type APIVersion string
+// Storage version of v1beta20211001.Alias_Spec
+type Alias_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string                     `json:"azureName,omitempty"`
+	OriginalVersion string                     `json:"originalVersion,omitempty"`
+	Properties      *PutAliasRequestProperties `json:"properties,omitempty"`
+	PropertyBag     genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+}
 
-const APIVersion_Value = APIVersion("2021-10-01")
+var _ genruntime.ConvertibleSpec = &Alias_Spec{}
+
+// ConvertSpecFrom populates our Alias_Spec from the provided source
+func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == alias {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(alias)
+}
+
+// ConvertSpecTo populates the provided destination from our Alias_Spec
+func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == alias {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(alias)
+}
 
 // Storage version of v1beta20211001.Alias_STATUS
 type Alias_STATUS struct {
@@ -183,80 +189,11 @@ func (alias *Alias_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(alias)
 }
 
-// Storage version of v1beta20211001.Alias_Spec
-type Alias_Spec struct {
-=======
-// Storage version of v1beta20211001.Aliases_Spec
-type Aliases_Spec struct {
->>>>>>> main
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string                     `json:"azureName,omitempty"`
-	OriginalVersion string                     `json:"originalVersion,omitempty"`
-	Properties      *PutAliasRequestProperties `json:"properties,omitempty"`
-	PropertyBag     genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Alias_Spec{}
-
-// ConvertSpecFrom populates our Alias_Spec from the provided source
-func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(alias)
-}
-
-// ConvertSpecTo populates the provided destination from our Alias_Spec
-func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-<<<<<<< HEAD
-	return destination.ConvertSpecFrom(alias)
-=======
-	return destination.ConvertSpecFrom(aliases)
-}
-
 // Storage version of v1beta20211001.APIVersion
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
-
-// Storage version of v1beta20211001.SubscriptionAliasResponse_STATUS
-type SubscriptionAliasResponse_STATUS struct {
-	Conditions  []conditions.Condition                      `json:"conditions,omitempty"`
-	Id          *string                                     `json:"id,omitempty"`
-	Name        *string                                     `json:"name,omitempty"`
-	Properties  *SubscriptionAliasResponseProperties_STATUS `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS                          `json:"systemData,omitempty"`
-	Type        *string                                     `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SubscriptionAliasResponse_STATUS{}
-
-// ConvertStatusFrom populates our SubscriptionAliasResponse_STATUS from the provided source
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == response {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(response)
-}
-
-// ConvertStatusTo populates the provided destination from our SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == response {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(response)
->>>>>>> main
-}
 
 // Storage version of v1beta20211001.PutAliasRequestProperties
 type PutAliasRequestProperties struct {

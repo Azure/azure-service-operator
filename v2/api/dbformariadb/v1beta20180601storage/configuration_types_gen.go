@@ -28,13 +28,8 @@ import (
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              ServersConfiguration_Spec   `json:"spec,omitempty"`
 	Status            ServersConfiguration_STATUS `json:"status,omitempty"`
-=======
-	Spec              ServersConfigurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS       `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -83,11 +78,7 @@ func (configuration *Configuration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *Configuration) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &ServersConfiguration_STATUS{}
-=======
-	return &Configuration_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (configuration *Configuration) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*ServersConfiguration_STATUS); ok {
-=======
-	if st, ok := status.(*Configuration_STATUS); ok {
->>>>>>> main
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st ServersConfiguration_STATUS
-=======
-	var st Configuration_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -156,58 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-06-01")
 
-<<<<<<< HEAD
-// Storage version of v1beta20180601.ServersConfiguration_STATUS
-type ServersConfiguration_STATUS struct {
-=======
-// Storage version of v1beta20180601.Configuration_STATUS
-type Configuration_STATUS struct {
->>>>>>> main
-	AllowedValues *string                `json:"allowedValues,omitempty"`
-	Conditions    []conditions.Condition `json:"conditions,omitempty"`
-	DataType      *string                `json:"dataType,omitempty"`
-	DefaultValue  *string                `json:"defaultValue,omitempty"`
-	Description   *string                `json:"description,omitempty"`
-	Id            *string                `json:"id,omitempty"`
-	Name          *string                `json:"name,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Source        *string                `json:"source,omitempty"`
-	Type          *string                `json:"type,omitempty"`
-	Value         *string                `json:"value,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &ServersConfiguration_STATUS{}
-
-// ConvertStatusFrom populates our ServersConfiguration_STATUS from the provided source
-func (configuration *ServersConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-=======
-var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
-
-// ConvertStatusFrom populates our Configuration_STATUS from the provided source
-func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if source == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(configuration)
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our ServersConfiguration_STATUS
-func (configuration *ServersConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-=======
-// ConvertStatusTo populates the provided destination from our Configuration_STATUS
-func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if destination == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(configuration)
-}
-
 // Storage version of v1beta20180601.ServersConfiguration_Spec
 type ServersConfiguration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -243,6 +174,41 @@ func (configuration *ServersConfiguration_Spec) ConvertSpecTo(destination genrun
 	}
 
 	return destination.ConvertSpecFrom(configuration)
+}
+
+// Storage version of v1beta20180601.ServersConfiguration_STATUS
+type ServersConfiguration_STATUS struct {
+	AllowedValues *string                `json:"allowedValues,omitempty"`
+	Conditions    []conditions.Condition `json:"conditions,omitempty"`
+	DataType      *string                `json:"dataType,omitempty"`
+	DefaultValue  *string                `json:"defaultValue,omitempty"`
+	Description   *string                `json:"description,omitempty"`
+	Id            *string                `json:"id,omitempty"`
+	Name          *string                `json:"name,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Source        *string                `json:"source,omitempty"`
+	Type          *string                `json:"type,omitempty"`
+	Value         *string                `json:"value,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &ServersConfiguration_STATUS{}
+
+// ConvertStatusFrom populates our ServersConfiguration_STATUS from the provided source
+func (configuration *ServersConfiguration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == configuration {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(configuration)
+}
+
+// ConvertStatusTo populates the provided destination from our ServersConfiguration_STATUS
+func (configuration *ServersConfiguration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == configuration {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(configuration)
 }
 
 func init() {

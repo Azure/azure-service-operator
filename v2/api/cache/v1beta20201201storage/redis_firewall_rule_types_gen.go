@@ -28,11 +28,7 @@ import (
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RedisFirewallRule_Spec   `json:"spec,omitempty"`
-=======
-	Spec              RedisFirewallRules_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            RedisFirewallRule_STATUS `json:"status,omitempty"`
 }
 
@@ -137,37 +133,6 @@ type RedisFirewallRuleList struct {
 	Items           []RedisFirewallRule `json:"items"`
 }
 
-// Storage version of v1beta20201201.RedisFirewallRule_STATUS
-type RedisFirewallRule_STATUS struct {
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	EndIP       *string                `json:"endIP,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	StartIP     *string                `json:"startIP,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &RedisFirewallRule_STATUS{}
-
-// ConvertStatusFrom populates our RedisFirewallRule_STATUS from the provided source
-func (rule *RedisFirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(rule)
-}
-
-// ConvertStatusTo populates the provided destination from our RedisFirewallRule_STATUS
-func (rule *RedisFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(rule)
-}
-
 // Storage version of v1beta20201201.RedisFirewallRule_Spec
 type RedisFirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -203,6 +168,37 @@ func (rule *RedisFirewallRule_Spec) ConvertSpecTo(destination genruntime.Convert
 	}
 
 	return destination.ConvertSpecFrom(rule)
+}
+
+// Storage version of v1beta20201201.RedisFirewallRule_STATUS
+type RedisFirewallRule_STATUS struct {
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	EndIP       *string                `json:"endIP,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StartIP     *string                `json:"startIP,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisFirewallRule_STATUS{}
+
+// ConvertStatusFrom populates our RedisFirewallRule_STATUS from the provided source
+func (rule *RedisFirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(rule)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisFirewallRule_STATUS
+func (rule *RedisFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(rule)
 }
 
 func init() {

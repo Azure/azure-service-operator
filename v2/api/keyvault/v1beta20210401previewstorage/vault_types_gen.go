@@ -28,11 +28,7 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Vault_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Vaults_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
@@ -143,39 +139,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01-preview")
 
-// Storage version of v1beta20210401preview.Vault_STATUS
-type Vault_STATUS struct {
-	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
-	Id          *string                 `json:"id,omitempty"`
-	Location    *string                 `json:"location,omitempty"`
-	Name        *string                 `json:"name,omitempty"`
-	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS      `json:"systemData,omitempty"`
-	Tags        map[string]string       `json:"tags,omitempty"`
-	Type        *string                 `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
-
-// ConvertStatusFrom populates our Vault_STATUS from the provided source
-func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(vault)
-}
-
-// ConvertStatusTo populates the provided destination from our Vault_STATUS
-func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == vault {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(vault)
-}
-
 // Storage version of v1beta20210401preview.Vault_Spec
 type Vault_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -212,6 +175,39 @@ func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	}
 
 	return destination.ConvertSpecFrom(vault)
+}
+
+// Storage version of v1beta20210401preview.Vault_STATUS
+type Vault_STATUS struct {
+	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
+	Id          *string                 `json:"id,omitempty"`
+	Location    *string                 `json:"location,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
+	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	SystemData  *SystemData_STATUS      `json:"systemData,omitempty"`
+	Tags        map[string]string       `json:"tags,omitempty"`
+	Type        *string                 `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
+
+// ConvertStatusFrom populates our Vault_STATUS from the provided source
+func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == vault {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(vault)
+}
+
+// ConvertStatusTo populates the provided destination from our Vault_STATUS
+func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == vault {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(vault)
 }
 
 // Storage version of v1beta20210401preview.SystemData_STATUS

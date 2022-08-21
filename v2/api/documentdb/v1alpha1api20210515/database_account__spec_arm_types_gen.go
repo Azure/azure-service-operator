@@ -33,6 +33,16 @@ func (account *DatabaseAccount_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
+// Deprecated version of DatabaseAccount_Spec_Kind. Use v1beta20210515.DatabaseAccount_Spec_Kind instead
+// +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
+type DatabaseAccount_Spec_Kind string
+
+const (
+	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
+	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
+	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
+)
+
 // Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead
 type DatabaseAccountCreateUpdatePropertiesARM struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfigurationARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -59,16 +69,6 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	PublicNetworkAccess                *PublicNetworkAccess               `json:"publicNetworkAccess,omitempty"`
 	VirtualNetworkRules                []VirtualNetworkRuleARM            `json:"virtualNetworkRules,omitempty"`
 }
-
-// Deprecated version of DatabaseAccount_Spec_Kind. Use v1beta20210515.DatabaseAccount_Spec_Kind instead
-// +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccount_Spec_Kind string
-
-const (
-	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
-	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
-	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
-)
 
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentityARM struct {

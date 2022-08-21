@@ -78,17 +78,10 @@ type LoadBalancerPropertiesFormat_STATUSARM struct {
 
 type LoadBalancerSku_STATUSARM struct {
 	// Name: Name of a load balancer SKU.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
-========
-	Name *LoadBalancerSkuSTATUSName `json:"name,omitempty"`
-
-	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuSTATUSTier `json:"tier,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 }
 
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
@@ -98,11 +91,7 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 
 type ExtendedLocationType_STATUS string
 
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
-========
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -148,7 +137,6 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 type LoadBalancerSku_Name_STATUS string
 
 const (
@@ -161,20 +149,6 @@ type LoadBalancerSku_Tier_STATUS string
 const (
 	LoadBalancerSku_Tier_Global_STATUS   = LoadBalancerSku_Tier_STATUS("Global")
 	LoadBalancerSku_Tier_Regional_STATUS = LoadBalancerSku_Tier_STATUS("Regional")
-========
-type LoadBalancerSkuSTATUSName string
-
-const (
-	LoadBalancerSkuSTATUSName_Basic    = LoadBalancerSkuSTATUSName("Basic")
-	LoadBalancerSkuSTATUSName_Standard = LoadBalancerSkuSTATUSName("Standard")
-)
-
-type LoadBalancerSkuSTATUSTier string
-
-const (
-	LoadBalancerSkuSTATUSTier_Global   = LoadBalancerSkuSTATUSTier("Global")
-	LoadBalancerSkuSTATUSTier_Regional = LoadBalancerSkuSTATUSTier("Regional")
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 )
 
 type LoadBalancingRule_STATUSARM struct {
@@ -335,11 +309,7 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
-========
-	LoadDistribution *LoadBalancingRulePropertiesFormatSTATUSLoadDistribution `json:"loadDistribution,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_STATUSARM `json:"probe,omitempty"`
@@ -370,11 +340,7 @@ type OutboundRulePropertiesFormat_STATUSARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 	Protocol *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-========
-	Protocol *OutboundRulePropertiesFormatSTATUSProtocol `json:"protocol,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 
 	// ProvisioningState: The provisioning state of the outbound rule resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -400,11 +366,7 @@ type ProbePropertiesFormat_STATUSARM struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/load_balancer_statusarm_types_gen.go
 	Protocol *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-========
-	Protocol *ProbePropertiesFormatSTATUSProtocol `json:"protocol,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/load_balancer_status_arm_types_gen.go
 
 	// ProvisioningState: The provisioning state of the probe resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`

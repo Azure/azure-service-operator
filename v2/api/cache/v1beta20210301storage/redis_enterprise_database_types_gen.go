@@ -28,13 +28,8 @@ import (
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RedisEnterpriseDatabase_Spec   `json:"spec,omitempty"`
 	Status            RedisEnterpriseDatabase_STATUS `json:"status,omitempty"`
-=======
-	Spec              RedisEnterpriseDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS               `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -83,11 +78,7 @@ func (database *RedisEnterpriseDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &RedisEnterpriseDatabase_STATUS{}
-=======
-	return &Database_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *RedisEnterpriseDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*RedisEnterpriseDatabase_STATUS); ok {
-=======
-	if st, ok := status.(*Database_STATUS); ok {
->>>>>>> main
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st RedisEnterpriseDatabase_STATUS
-=======
-	var st Database_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -148,60 +131,6 @@ type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
-}
-
-<<<<<<< HEAD
-// Storage version of v1beta20210301.RedisEnterpriseDatabase_STATUS
-type RedisEnterpriseDatabase_STATUS struct {
-=======
-// Storage version of v1beta20210301.Database_STATUS
-type Database_STATUS struct {
->>>>>>> main
-	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
-	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
-	Conditions        []conditions.Condition `json:"conditions,omitempty"`
-	EvictionPolicy    *string                `json:"evictionPolicy,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Modules           []Module_STATUS        `json:"modules,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	Persistence       *Persistence_STATUS    `json:"persistence,omitempty"`
-	Port              *int                   `json:"port,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	ResourceState     *string                `json:"resourceState,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-<<<<<<< HEAD
-var _ genruntime.ConvertibleStatus = &RedisEnterpriseDatabase_STATUS{}
-
-// ConvertStatusFrom populates our RedisEnterpriseDatabase_STATUS from the provided source
-func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-=======
-var _ genruntime.ConvertibleStatus = &Database_STATUS{}
-
-// ConvertStatusFrom populates our Database_STATUS from the provided source
-func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(database)
-}
-
-<<<<<<< HEAD
-// ConvertStatusTo populates the provided destination from our RedisEnterpriseDatabase_STATUS
-func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-=======
-// ConvertStatusTo populates the provided destination from our Database_STATUS
-func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(database)
 }
 
 // Storage version of v1beta20210301.RedisEnterpriseDatabase_Spec
@@ -243,6 +172,43 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertSpecTo(destination genrunti
 	}
 
 	return destination.ConvertSpecFrom(database)
+}
+
+// Storage version of v1beta20210301.RedisEnterpriseDatabase_STATUS
+type RedisEnterpriseDatabase_STATUS struct {
+	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
+	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	EvictionPolicy    *string                `json:"evictionPolicy,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Modules           []Module_STATUS        `json:"modules,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	Persistence       *Persistence_STATUS    `json:"persistence,omitempty"`
+	Port              *int                   `json:"port,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	ResourceState     *string                `json:"resourceState,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisEnterpriseDatabase_STATUS{}
+
+// ConvertStatusFrom populates our RedisEnterpriseDatabase_STATUS from the provided source
+func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(database)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisEnterpriseDatabase_STATUS
+func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(database)
 }
 
 // Storage version of v1beta20210301.Module

@@ -28,11 +28,7 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Registry_Spec   `json:"spec,omitempty"`
-=======
-	Spec              Registries_Spec `json:"spec,omitempty"`
->>>>>>> main
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -143,6 +139,54 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
+// Storage version of v1beta20210901.Registry_Spec
+type Registry_Spec struct {
+	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                string              `json:"azureName,omitempty"`
+	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
+	Identity                 *IdentityProperties `json:"identity,omitempty"`
+	Location                 *string             `json:"location,omitempty"`
+	NetworkRuleBypassOptions *string             `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet     `json:"networkRuleSet,omitempty"`
+	OriginalVersion          string              `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                          `json:"policies,omitempty"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                 *Sku                               `json:"sku,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Registry_Spec{}
+
+// ConvertSpecFrom populates our Registry_Spec from the provided source
+func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == registry {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(registry)
+}
+
+// ConvertSpecTo populates the provided destination from our Registry_Spec
+func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == registry {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(registry)
+}
+
 // Storage version of v1beta20210901.Registry_STATUS
 type Registry_STATUS struct {
 	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
@@ -189,112 +233,6 @@ func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.Converti
 	}
 
 	return destination.ConvertStatusFrom(registry)
-}
-
-// Storage version of v1beta20210901.Registry_Spec
-type Registry_Spec struct {
-	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                string              `json:"azureName,omitempty"`
-	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
-	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
-	Identity                 *IdentityProperties `json:"identity,omitempty"`
-	Location                 *string             `json:"location,omitempty"`
-	NetworkRuleBypassOptions *string             `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet           *NetworkRuleSet     `json:"networkRuleSet,omitempty"`
-	OriginalVersion          string              `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Policies            *Policies                          `json:"policies,omitempty"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Sku                 *Sku                               `json:"sku,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
-	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Registry_Spec{}
-
-<<<<<<< HEAD
-// ConvertSpecFrom populates our Registry_Spec from the provided source
-func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-=======
-// ConvertSpecFrom populates our Registries_Spec from the provided source
-func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == registries {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(registries)
-}
-
-// ConvertSpecTo populates the provided destination from our Registries_Spec
-func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == registries {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(registries)
-}
-
-// Storage version of v1beta20210901.Registry_STATUS
-type Registry_STATUS struct {
-	AdminUserEnabled           *bool                                                  `json:"adminUserEnabled,omitempty"`
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationDate               *string                                                `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *IdentityProperties_STATUS                             `json:"identity,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	LoginServer                *string                                                `json:"loginServer,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	NetworkRuleBypassOptions   *string                                                `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUS                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUS                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	Status                     *Status_STATUS                                         `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	ZoneRedundancy             *string                                                `json:"zoneRedundancy,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
-
-// ConvertStatusFrom populates our Registry_STATUS from the provided source
-func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if source == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(registry)
-}
-
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our Registry_Spec
-func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-=======
-// ConvertStatusTo populates the provided destination from our Registry_STATUS
-func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
->>>>>>> main
-	if destination == registry {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(registry)
 }
 
 // Storage version of v1beta20210901.EncryptionProperty
@@ -361,13 +299,8 @@ type Policies_STATUS struct {
 	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210901.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
-=======
-// Storage version of v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
->>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`

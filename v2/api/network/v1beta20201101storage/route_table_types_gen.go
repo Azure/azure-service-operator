@@ -28,11 +28,7 @@ import (
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              RouteTable_Spec   `json:"spec,omitempty"`
-=======
-	Spec              RouteTables_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
@@ -137,41 +133,6 @@ type RouteTableList struct {
 	Items           []RouteTable `json:"items"`
 }
 
-// Storage version of v1beta20201101.RouteTable_STATUS
-type RouteTable_STATUS struct {
-	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
-	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`
-	Etag                       *string                `json:"etag,omitempty"`
-	Id                         *string                `json:"id,omitempty"`
-	Location                   *string                `json:"location,omitempty"`
-	Name                       *string                `json:"name,omitempty"`
-	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                `json:"provisioningState,omitempty"`
-	ResourceGuid               *string                `json:"resourceGuid,omitempty"`
-	Tags                       map[string]string      `json:"tags,omitempty"`
-	Type                       *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
-
-// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
-func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == table {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(table)
-}
-
-// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
-func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == table {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(table)
-}
-
 // Storage version of v1beta20201101.RouteTable_Spec
 type RouteTable_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -212,6 +173,41 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	}
 
 	return destination.ConvertSpecFrom(table)
+}
+
+// Storage version of v1beta20201101.RouteTable_STATUS
+type RouteTable_STATUS struct {
+	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
+	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`
+	Etag                       *string                `json:"etag,omitempty"`
+	Id                         *string                `json:"id,omitempty"`
+	Location                   *string                `json:"location,omitempty"`
+	Name                       *string                `json:"name,omitempty"`
+	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                `json:"provisioningState,omitempty"`
+	ResourceGuid               *string                `json:"resourceGuid,omitempty"`
+	Tags                       map[string]string      `json:"tags,omitempty"`
+	Type                       *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
+
+// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
+func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == table {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(table)
+}
+
+// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
+func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == table {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(table)
 }
 
 // Storage version of v1beta20201101.Route_RouteTable_SubResourceEmbedded

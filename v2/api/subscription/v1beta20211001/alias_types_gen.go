@@ -30,13 +30,8 @@ import (
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              Alias_Spec   `json:"spec,omitempty"`
 	Status            Alias_STATUS `json:"status,omitempty"`
-=======
-	Spec              Aliases_Spec                     `json:"spec,omitempty"`
-	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &Alias{}
@@ -130,11 +125,7 @@ func (alias *Alias) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &Alias_STATUS{}
-=======
-	return &SubscriptionAliasResponse_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -145,21 +136,13 @@ func (alias *Alias) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*Alias_STATUS); ok {
-=======
-	if st, ok := status.(*SubscriptionAliasResponse_STATUS); ok {
->>>>>>> main
 		alias.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st Alias_STATUS
-=======
-	var st SubscriptionAliasResponse_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,17 +260,10 @@ func (alias *Alias) AssignPropertiesFromAlias(source *v20211001s.Alias) error {
 	alias.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status Alias_STATUS
 	err = status.AssignPropertiesFromAlias_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromAlias_STATUS() to populate field Status")
-=======
-	var status SubscriptionAliasResponse_STATUS
-	err = status.AssignPropertiesFromSubscriptionAliasResponseSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSubscriptionAliasResponseSTATUS() to populate field Status")
->>>>>>> main
 	}
 	alias.Status = status
 
@@ -310,17 +286,10 @@ func (alias *Alias) AssignPropertiesToAlias(destination *v20211001s.Alias) error
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status v20211001s.Alias_STATUS
 	err = alias.Status.AssignPropertiesToAlias_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToAlias_STATUS() to populate field Status")
-=======
-	var status v20211001s.SubscriptionAliasResponse_STATUS
-	err = alias.Status.AssignPropertiesToSubscriptionAliasResponseSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubscriptionAliasResponseSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -347,11 +316,185 @@ type AliasList struct {
 	Items           []Alias `json:"items"`
 }
 
-<<<<<<< HEAD
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type APIVersion string
+type Alias_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
 
-const APIVersion_Value = APIVersion("2021-10-01")
+	// Properties: Put alias request properties.
+	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Alias_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if alias == nil {
+		return nil, nil
+	}
+	result := &Alias_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = alias.AzureName
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if alias.Properties != nil {
+		propertiesARM, err := (*alias.Properties).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		properties := *propertiesARM.(*PutAliasRequestPropertiesARM)
+		result.Properties = &properties
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (alias *Alias_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Alias_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Alias_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Properties’:
+	if typedInput.Properties != nil {
+		var properties1 PutAliasRequestProperties
+		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
+		if err != nil {
+			return err
+		}
+		properties := properties1
+		alias.Properties = &properties
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Alias_Spec{}
+
+// ConvertSpecFrom populates our Alias_Spec from the provided source
+func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20211001s.Alias_Spec)
+	if ok {
+		// Populate our instance from source
+		return alias.AssignPropertiesFromAlias_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20211001s.Alias_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = alias.AssignPropertiesFromAlias_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Alias_Spec
+func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20211001s.Alias_Spec)
+	if ok {
+		// Populate destination from our instance
+		return alias.AssignPropertiesToAlias_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20211001s.Alias_Spec{}
+	err := alias.AssignPropertiesToAlias_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromAlias_Spec populates our Alias_Spec from the provided source Alias_Spec
+func (alias *Alias_Spec) AssignPropertiesFromAlias_Spec(source *v20211001s.Alias_Spec) error {
+
+	// AzureName
+	alias.AzureName = source.AzureName
+
+	// Properties
+	if source.Properties != nil {
+		var property PutAliasRequestProperties
+		err := property.AssignPropertiesFromPutAliasRequestProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPutAliasRequestProperties() to populate field Properties")
+		}
+		alias.Properties = &property
+	} else {
+		alias.Properties = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAlias_Spec populates the provided destination Alias_Spec from our Alias_Spec
+func (alias *Alias_Spec) AssignPropertiesToAlias_Spec(destination *v20211001s.Alias_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = alias.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = alias.OriginalVersion()
+
+	// Properties
+	if alias.Properties != nil {
+		var property v20211001s.PutAliasRequestProperties
+		err := alias.Properties.AssignPropertiesToPutAliasRequestProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPutAliasRequestProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (alias *Alias_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (alias *Alias_Spec) SetAzureName(azureName string) { alias.AzureName = azureName }
 
 type Alias_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -576,421 +719,11 @@ func (alias *Alias_STATUS) AssignPropertiesToAlias_STATUS(destination *v20211001
 	return nil
 }
 
-type Alias_Spec struct {
-=======
-type Aliases_Spec struct {
->>>>>>> main
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Properties: Put alias request properties.
-	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Alias_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if alias == nil {
-		return nil, nil
-	}
-	result := &Alias_SpecARM{}
-
-	// Set property ‘AzureName’:
-	result.AzureName = alias.AzureName
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if alias.Properties != nil {
-		propertiesARM, err := (*alias.Properties).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		properties := *propertiesARM.(*PutAliasRequestPropertiesARM)
-		result.Properties = &properties
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (alias *Alias_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Alias_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Alias_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Properties’:
-	if typedInput.Properties != nil {
-		var properties1 PutAliasRequestProperties
-		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
-		}
-		properties := properties1
-		alias.Properties = &properties
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Alias_Spec{}
-
-// ConvertSpecFrom populates our Alias_Spec from the provided source
-func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211001s.Alias_Spec)
-	if ok {
-		// Populate our instance from source
-		return alias.AssignPropertiesFromAlias_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20211001s.Alias_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = alias.AssignPropertiesFromAlias_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Alias_Spec
-func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211001s.Alias_Spec)
-	if ok {
-		// Populate destination from our instance
-		return alias.AssignPropertiesToAlias_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211001s.Alias_Spec{}
-	err := alias.AssignPropertiesToAlias_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignPropertiesFromAlias_Spec populates our Alias_Spec from the provided source Alias_Spec
-func (alias *Alias_Spec) AssignPropertiesFromAlias_Spec(source *v20211001s.Alias_Spec) error {
-
-	// AzureName
-	alias.AzureName = source.AzureName
-
-	// Properties
-	if source.Properties != nil {
-		var property PutAliasRequestProperties
-		err := property.AssignPropertiesFromPutAliasRequestProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPutAliasRequestProperties() to populate field Properties")
-		}
-		alias.Properties = &property
-	} else {
-		alias.Properties = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAlias_Spec populates the provided destination Alias_Spec from our Alias_Spec
-func (alias *Alias_Spec) AssignPropertiesToAlias_Spec(destination *v20211001s.Alias_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = alias.AzureName
-
-	// OriginalVersion
-	destination.OriginalVersion = alias.OriginalVersion()
-
-	// Properties
-	if alias.Properties != nil {
-		var property v20211001s.PutAliasRequestProperties
-		err := alias.Properties.AssignPropertiesToPutAliasRequestProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPutAliasRequestProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (alias *Alias_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (alias *Alias_Spec) SetAzureName(azureName string) { alias.AzureName = azureName }
-
-<<<<<<< HEAD
-=======
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
-type SubscriptionAliasResponse_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified ID for the alias resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Alias ID.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Subscription Alias response properties.
-	Properties *SubscriptionAliasResponseProperties_STATUS `json:"properties,omitempty"`
-	SystemData *SystemData_STATUS                          `json:"systemData,omitempty"`
-
-	// Type: Resource type, Microsoft.Subscription/aliases.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SubscriptionAliasResponse_STATUS{}
-
-// ConvertStatusFrom populates our SubscriptionAliasResponse_STATUS from the provided source
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211001s.SubscriptionAliasResponse_STATUS)
-	if ok {
-		// Populate our instance from source
-		return response.AssignPropertiesFromSubscriptionAliasResponseSTATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20211001s.SubscriptionAliasResponse_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = response.AssignPropertiesFromSubscriptionAliasResponseSTATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211001s.SubscriptionAliasResponse_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return response.AssignPropertiesToSubscriptionAliasResponseSTATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211001s.SubscriptionAliasResponse_STATUS{}
-	err := response.AssignPropertiesToSubscriptionAliasResponseSTATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SubscriptionAliasResponse_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (response *SubscriptionAliasResponse_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubscriptionAliasResponse_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (response *SubscriptionAliasResponse_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubscriptionAliasResponse_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionAliasResponse_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		response.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		response.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if typedInput.Properties != nil {
-		var properties1 SubscriptionAliasResponseProperties_STATUS
-		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
-		if err != nil {
-			return err
-		}
-		properties := properties1
-		response.Properties = &properties
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		response.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		response.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSubscriptionAliasResponseSTATUS populates our SubscriptionAliasResponse_STATUS from the provided source SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesFromSubscriptionAliasResponseSTATUS(source *v20211001s.SubscriptionAliasResponse_STATUS) error {
-
-	// Conditions
-	response.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	response.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	response.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Properties
-	if source.Properties != nil {
-		var property SubscriptionAliasResponseProperties_STATUS
-		err := property.AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS() to populate field Properties")
-		}
-		response.Properties = &property
-	} else {
-		response.Properties = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
-		}
-		response.SystemData = &systemDatum
-	} else {
-		response.SystemData = nil
-	}
-
-	// Type
-	response.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSubscriptionAliasResponseSTATUS populates the provided destination SubscriptionAliasResponse_STATUS from our SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesToSubscriptionAliasResponseSTATUS(destination *v20211001s.SubscriptionAliasResponse_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(response.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(response.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(response.Name)
-
-	// Properties
-	if response.Properties != nil {
-		var property v20211001s.SubscriptionAliasResponseProperties_STATUS
-		err := response.Properties.AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// SystemData
-	if response.SystemData != nil {
-		var systemDatum v20211001s.SystemData_STATUS
-		err := response.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(response.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties
->>>>>>> main
 type PutAliasRequestProperties struct {
 	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
@@ -1219,11 +952,7 @@ type SubscriptionAliasResponseProperties_STATUS struct {
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource.
-<<<<<<< HEAD
 	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *SubscriptionAliasResponsePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 
 	// ResellerId: Reseller Id
 	ResellerId *string `json:"resellerId,omitempty"`
@@ -1331,13 +1060,8 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSubscriptionAliasResponseProperties_STATUS populates our SubscriptionAliasResponseProperties_STATUS from the provided source SubscriptionAliasResponseProperties_STATUS
 func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFromSubscriptionAliasResponseProperties_STATUS(source *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
-=======
-// AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS populates our SubscriptionAliasResponseProperties_STATUS from the provided source SubscriptionAliasResponseProperties_STATUS
-func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS(source *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
->>>>>>> main
 
 	// AcceptOwnershipState
 	if source.AcceptOwnershipState != nil {
@@ -1364,11 +1088,7 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFr
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-<<<<<<< HEAD
 		provisioningState := SubscriptionAliasResponseProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-=======
-		provisioningState := SubscriptionAliasResponsePropertiesSTATUSProvisioningState(*source.ProvisioningState)
->>>>>>> main
 		properties.ProvisioningState = &provisioningState
 	} else {
 		properties.ProvisioningState = nil
@@ -1398,13 +1118,8 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSubscriptionAliasResponseProperties_STATUS populates the provided destination SubscriptionAliasResponseProperties_STATUS from our SubscriptionAliasResponseProperties_STATUS
 func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesToSubscriptionAliasResponseProperties_STATUS(destination *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
-=======
-// AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS populates the provided destination SubscriptionAliasResponseProperties_STATUS from our SubscriptionAliasResponseProperties_STATUS
-func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS(destination *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1478,11 +1193,7 @@ type SystemData_STATUS struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-<<<<<<< HEAD
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-=======
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
->>>>>>> main
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -1491,11 +1202,7 @@ type SystemData_STATUS struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-<<<<<<< HEAD
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
->>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &SystemData_STATUS{}
@@ -1552,13 +1259,8 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20211001s.SystemData_STATUS) error {
-=======
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20211001s.SystemData_STATUS) error {
->>>>>>> main
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1568,11 +1270,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-<<<<<<< HEAD
 		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-=======
-		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
->>>>>>> main
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -1586,11 +1284,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-<<<<<<< HEAD
 		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-=======
-		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
->>>>>>> main
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -1600,13 +1294,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20211001s.SystemData_STATUS) error {
-=======
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20211001s.SystemData_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

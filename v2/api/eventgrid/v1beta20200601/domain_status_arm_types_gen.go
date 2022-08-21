@@ -35,7 +35,7 @@ type DomainProperties_STATUSARM struct {
 	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainPropertiesSTATUSInputSchema `json:"inputSchema,omitempty"`
+	InputSchema *DomainProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_STATUSARM `json:"inputSchemaMapping,omitempty"`
@@ -47,17 +47,37 @@ type DomainProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+}
+
+type SystemData_STATUSARM struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
 type InboundIpRule_STATUSARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRuleSTATUSAction `json:"action,omitempty"`
+	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -65,10 +85,28 @@ type InboundIpRule_STATUSARM struct {
 
 type InputSchemaMapping_STATUSARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMappingSTATUSInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 }
 
 type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
+)
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+)

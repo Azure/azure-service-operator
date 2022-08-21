@@ -28,11 +28,7 @@ import (
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              VirtualNetworkGateway_Spec   `json:"spec,omitempty"`
-=======
-	Spec              VirtualNetworkGateways_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            VirtualNetworkGateway_STATUS `json:"status,omitempty"`
 }
 
@@ -137,56 +133,6 @@ type VirtualNetworkGatewayList struct {
 	Items           []VirtualNetworkGateway `json:"items"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworkGateway_STATUS
-type VirtualNetworkGateway_STATUS struct {
-	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
-	BgpSettings                    *BgpSettings_STATUS                           `json:"bgpSettings,omitempty"`
-	Conditions                     []conditions.Condition                        `json:"conditions,omitempty"`
-	CustomRoutes                   *AddressSpace_STATUS                          `json:"customRoutes,omitempty"`
-	EnableBgp                      *bool                                         `json:"enableBgp,omitempty"`
-	EnableDnsForwarding            *bool                                         `json:"enableDnsForwarding,omitempty"`
-	EnablePrivateIpAddress         *bool                                         `json:"enablePrivateIpAddress,omitempty"`
-	Etag                           *string                                       `json:"etag,omitempty"`
-	ExtendedLocation               *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
-	GatewayDefaultSite             *SubResource_STATUS                           `json:"gatewayDefaultSite,omitempty"`
-	GatewayType                    *string                                       `json:"gatewayType,omitempty"`
-	Id                             *string                                       `json:"id,omitempty"`
-	InboundDnsForwardingEndpoint   *string                                       `json:"inboundDnsForwardingEndpoint,omitempty"`
-	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUS `json:"ipConfigurations,omitempty"`
-	Location                       *string                                       `json:"location,omitempty"`
-	Name                           *string                                       `json:"name,omitempty"`
-	PropertyBag                    genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	ProvisioningState              *string                                       `json:"provisioningState,omitempty"`
-	ResourceGuid                   *string                                       `json:"resourceGuid,omitempty"`
-	Sku                            *VirtualNetworkGatewaySku_STATUS              `json:"sku,omitempty"`
-	Tags                           map[string]string                             `json:"tags,omitempty"`
-	Type                           *string                                       `json:"type,omitempty"`
-	VNetExtendedLocationResourceId *string                                       `json:"vNetExtendedLocationResourceId,omitempty"`
-	VpnClientConfiguration         *VpnClientConfiguration_STATUS                `json:"vpnClientConfiguration,omitempty"`
-	VpnGatewayGeneration           *string                                       `json:"vpnGatewayGeneration,omitempty"`
-	VpnType                        *string                                       `json:"vpnType,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
-
-// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS from the provided source
-func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == gateway {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(gateway)
-}
-
-// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS
-func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == gateway {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(gateway)
-}
-
 // Storage version of v1beta20201101.VirtualNetworkGateway_Spec
 type VirtualNetworkGateway_Spec struct {
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -246,6 +192,56 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertSpecTo(destination genruntime.
 	return destination.ConvertSpecFrom(gateway)
 }
 
+// Storage version of v1beta20201101.VirtualNetworkGateway_STATUS
+type VirtualNetworkGateway_STATUS struct {
+	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
+	BgpSettings                    *BgpSettings_STATUS                           `json:"bgpSettings,omitempty"`
+	Conditions                     []conditions.Condition                        `json:"conditions,omitempty"`
+	CustomRoutes                   *AddressSpace_STATUS                          `json:"customRoutes,omitempty"`
+	EnableBgp                      *bool                                         `json:"enableBgp,omitempty"`
+	EnableDnsForwarding            *bool                                         `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress         *bool                                         `json:"enablePrivateIpAddress,omitempty"`
+	Etag                           *string                                       `json:"etag,omitempty"`
+	ExtendedLocation               *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	GatewayDefaultSite             *SubResource_STATUS                           `json:"gatewayDefaultSite,omitempty"`
+	GatewayType                    *string                                       `json:"gatewayType,omitempty"`
+	Id                             *string                                       `json:"id,omitempty"`
+	InboundDnsForwardingEndpoint   *string                                       `json:"inboundDnsForwardingEndpoint,omitempty"`
+	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUS `json:"ipConfigurations,omitempty"`
+	Location                       *string                                       `json:"location,omitempty"`
+	Name                           *string                                       `json:"name,omitempty"`
+	PropertyBag                    genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	ProvisioningState              *string                                       `json:"provisioningState,omitempty"`
+	ResourceGuid                   *string                                       `json:"resourceGuid,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_STATUS              `json:"sku,omitempty"`
+	Tags                           map[string]string                             `json:"tags,omitempty"`
+	Type                           *string                                       `json:"type,omitempty"`
+	VNetExtendedLocationResourceId *string                                       `json:"vNetExtendedLocationResourceId,omitempty"`
+	VpnClientConfiguration         *VpnClientConfiguration_STATUS                `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration           *string                                       `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *string                                       `json:"vpnType,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
+
+// ConvertStatusFrom populates our VirtualNetworkGateway_STATUS from the provided source
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == gateway {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(gateway)
+}
+
+// ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_STATUS
+func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == gateway {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(gateway)
+}
+
 // Storage version of v1beta20201101.BgpSettings
 type BgpSettings struct {
 	Asn                 *uint32                            `json:"asn,omitempty"`
@@ -264,7 +260,6 @@ type BgpSettings_STATUS struct {
 	PropertyBag         genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration
 type VirtualNetworkGatewayIPConfiguration struct {
 	Name                      *string                `json:"name,omitempty"`
@@ -277,8 +272,6 @@ type VirtualNetworkGatewayIPConfiguration struct {
 	Subnet    *SubResource                  `json:"subnet,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration_STATUS
 type VirtualNetworkGatewayIPConfiguration_STATUS struct {
 	Etag                      *string                `json:"etag,omitempty"`
@@ -290,7 +283,6 @@ type VirtualNetworkGatewayIPConfiguration_STATUS struct {
 	ProvisioningState         *string                `json:"provisioningState,omitempty"`
 	PublicIPAddress           *SubResource_STATUS    `json:"publicIPAddress,omitempty"`
 	Subnet                    *SubResource_STATUS    `json:"subnet,omitempty"`
-<<<<<<< HEAD
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewaySku
@@ -306,8 +298,6 @@ type VirtualNetworkGatewaySku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
-=======
->>>>>>> main
 }
 
 // Storage version of v1beta20201101.VpnClientConfiguration
@@ -327,42 +317,6 @@ type VpnClientConfiguration struct {
 	VpnClientRootCertificates    []VpnClientRootCertificate    `json:"vpnClientRootCertificates,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
-	AadAudience                  *string                                                                                      `json:"aadAudience,omitempty"`
-	AadIssuer                    *string                                                                                      `json:"aadIssuer,omitempty"`
-	AadTenant                    *string                                                                                      `json:"aadTenant,omitempty"`
-	PropertyBag                  genruntime.PropertyBag                                                                       `json:"$propertyBag,omitempty"`
-	RadiusServerAddress          *string                                                                                      `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                                                                                      `json:"radiusServerSecret,omitempty"`
-	RadiusServers                []RadiusServer                                                                               `json:"radiusServers,omitempty"`
-	VpnAuthenticationTypes       []string                                                                                     `json:"vpnAuthenticationTypes,omitempty"`
-	VpnClientAddressPool         *AddressSpace                                                                                `json:"vpnClientAddressPool,omitempty"`
-	VpnClientIpsecPolicies       []IpsecPolicy                                                                                `json:"vpnClientIpsecPolicies,omitempty"`
-	VpnClientProtocols           []string                                                                                     `json:"vpnClientProtocols,omitempty"`
-	VpnClientRevokedCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates `json:"vpnClientRevokedCertificates,omitempty"`
-	VpnClientRootCertificates    []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates    `json:"vpnClientRootCertificates,omitempty"`
-}
-
-// Storage version of v1beta20201101.VirtualNetworkGatewaySku
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
-type VirtualNetworkGatewaySku struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1beta20201101.VirtualNetworkGatewaySku_STATUS
-type VirtualNetworkGatewaySku_STATUS struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20201101.VpnClientConfiguration_STATUS
 type VpnClientConfiguration_STATUS struct {
 	AadAudience                  *string                              `json:"aadAudience,omitempty"`
@@ -448,16 +402,6 @@ type VpnClientRevokedCertificate struct {
 	Thumbprint *string                       `json:"thumbprint,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates struct {
-	Name           *string                `json:"name,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicCertData *string                `json:"publicCertData,omitempty"`
-}
-
->>>>>>> main
 // Storage version of v1beta20201101.VpnClientRevokedCertificate_STATUS
 type VpnClientRevokedCertificate_STATUS struct {
 	Etag              *string                `json:"etag,omitempty"`
@@ -468,7 +412,6 @@ type VpnClientRevokedCertificate_STATUS struct {
 	Thumbprint        *string                `json:"thumbprint,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20201101.VpnClientRootCertificate
 type VpnClientRootCertificate struct {
 	Name           *string                `json:"name,omitempty"`
@@ -479,8 +422,6 @@ type VpnClientRootCertificate struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-=======
->>>>>>> main
 // Storage version of v1beta20201101.VpnClientRootCertificate_STATUS
 type VpnClientRootCertificate_STATUS struct {
 	Etag              *string                `json:"etag,omitempty"`

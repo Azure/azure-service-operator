@@ -71,6 +71,17 @@ type SkuARM struct {
 	Tier *Tier    `json:"tier,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
+type StorageAccount_Spec_Kind string
+
+const (
+	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
+	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
+	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
+	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
+	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
+)
+
 type StorageAccountPropertiesCreateParametersARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
@@ -128,17 +139,6 @@ type StorageAccountPropertiesCreateParametersARM struct {
 	// API version 2019-04-01.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
-type StorageAccount_Spec_Kind string
-
-const (
-	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
-	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
-	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
-	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
-	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
-)
 
 type AzureFilesIdentityBasedAuthenticationARM struct {
 	// ActiveDirectoryProperties: Required if choose AD.

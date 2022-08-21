@@ -28,13 +28,8 @@ import (
 type SignalR struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              SignalR_Spec   `json:"spec,omitempty"`
 	Status            SignalR_STATUS `json:"status,omitempty"`
-=======
-	Spec              SignalR_Spec           `json:"spec,omitempty"`
-	Status            SignalRResource_STATUS `json:"status,omitempty"`
->>>>>>> main
 }
 
 var _ conditions.Conditioner = &SignalR{}
@@ -83,11 +78,7 @@ func (signalR *SignalR) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (signalR *SignalR) NewEmptyStatus() genruntime.ConvertibleStatus {
-<<<<<<< HEAD
 	return &SignalR_STATUS{}
-=======
-	return &SignalRResource_STATUS{}
->>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -103,21 +94,13 @@ func (signalR *SignalR) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-<<<<<<< HEAD
 	if st, ok := status.(*SignalR_STATUS); ok {
-=======
-	if st, ok := status.(*SignalRResource_STATUS); ok {
->>>>>>> main
 		signalR.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-<<<<<<< HEAD
 	var st SignalR_STATUS
-=======
-	var st SignalRResource_STATUS
->>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -156,7 +139,55 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
-<<<<<<< HEAD
+// Storage version of v1beta20211001.SignalR_Spec
+type SignalR_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName        string               `json:"azureName,omitempty"`
+	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
+	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
+	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
+	Features         []SignalRFeature     `json:"features,omitempty"`
+	Identity         *ManagedIdentity     `json:"identity,omitempty"`
+	Kind             *string              `json:"kind,omitempty"`
+	Location         *string              `json:"location,omitempty"`
+	NetworkACLs      *SignalRNetworkACLs  `json:"networkACLs,omitempty"`
+	OriginalVersion  string               `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess      *string                            `json:"publicNetworkAccess,omitempty"`
+	ResourceLogConfiguration *ResourceLogConfiguration          `json:"resourceLogConfiguration,omitempty"`
+	Sku                      *ResourceSku                       `json:"sku,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+	Tls                      *SignalRTlsSettings                `json:"tls,omitempty"`
+	Upstream                 *ServerlessUpstreamSettings        `json:"upstream,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
+
+// ConvertSpecFrom populates our SignalR_Spec from the provided source
+func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == signalR {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(signalR)
+}
+
+// ConvertSpecTo populates the provided destination from our SignalR_Spec
+func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == signalR {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(signalR)
+}
+
 // Storage version of v1beta20211001.SignalR_STATUS
 type SignalR_STATUS struct {
 	Conditions                 []conditions.Condition                                         `json:"conditions,omitempty"`
@@ -208,110 +239,6 @@ func (signalR *SignalR_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	}
 
 	return destination.ConvertStatusFrom(signalR)
-}
-
-=======
->>>>>>> main
-// Storage version of v1beta20211001.SignalR_Spec
-type SignalR_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string               `json:"azureName,omitempty"`
-	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
-	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
-	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
-	Features         []SignalRFeature     `json:"features,omitempty"`
-	Identity         *ManagedIdentity     `json:"identity,omitempty"`
-	Kind             *string              `json:"kind,omitempty"`
-	Location         *string              `json:"location,omitempty"`
-	NetworkACLs      *SignalRNetworkACLs  `json:"networkACLs,omitempty"`
-	OriginalVersion  string               `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess      *string                            `json:"publicNetworkAccess,omitempty"`
-	ResourceLogConfiguration *ResourceLogConfiguration          `json:"resourceLogConfiguration,omitempty"`
-	Sku                      *ResourceSku                       `json:"sku,omitempty"`
-	Tags                     map[string]string                  `json:"tags,omitempty"`
-	Tls                      *SignalRTlsSettings                `json:"tls,omitempty"`
-	Upstream                 *ServerlessUpstreamSettings        `json:"upstream,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
-
-// ConvertSpecFrom populates our SignalR_Spec from the provided source
-func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(signalR)
-}
-
-// ConvertSpecTo populates the provided destination from our SignalR_Spec
-func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == signalR {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(signalR)
-}
-
-// Storage version of v1beta20211001.SignalRResource_STATUS
-type SignalRResource_STATUS struct {
-	Conditions                 []conditions.Condition                                         `json:"conditions,omitempty"`
-	Cors                       *SignalRCorsSettings_STATUS                                    `json:"cors,omitempty"`
-	DisableAadAuth             *bool                                                          `json:"disableAadAuth,omitempty"`
-	DisableLocalAuth           *bool                                                          `json:"disableLocalAuth,omitempty"`
-	ExternalIP                 *string                                                        `json:"externalIP,omitempty"`
-	Features                   []SignalRFeature_STATUS                                        `json:"features,omitempty"`
-	HostName                   *string                                                        `json:"hostName,omitempty"`
-	HostNamePrefix             *string                                                        `json:"hostNamePrefix,omitempty"`
-	Id                         *string                                                        `json:"id,omitempty"`
-	Identity                   *ManagedIdentity_STATUS                                        `json:"identity,omitempty"`
-	Kind                       *string                                                        `json:"kind,omitempty"`
-	Location                   *string                                                        `json:"location,omitempty"`
-	Name                       *string                                                        `json:"name,omitempty"`
-	NetworkACLs                *SignalRNetworkACLs_STATUS                                     `json:"networkACLs,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                         `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                        `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                        `json:"publicNetworkAccess,omitempty"`
-	PublicPort                 *int                                                           `json:"publicPort,omitempty"`
-	ResourceLogConfiguration   *ResourceLogConfiguration_STATUS                               `json:"resourceLogConfiguration,omitempty"`
-	ServerPort                 *int                                                           `json:"serverPort,omitempty"`
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                        *ResourceSku_STATUS                                            `json:"sku,omitempty"`
-	SystemData                 *SystemData_STATUS                                             `json:"systemData,omitempty"`
-	Tags                       map[string]string                                              `json:"tags,omitempty"`
-	Tls                        *SignalRTlsSettings_STATUS                                     `json:"tls,omitempty"`
-	Type                       *string                                                        `json:"type,omitempty"`
-	Upstream                   *ServerlessUpstreamSettings_STATUS                             `json:"upstream,omitempty"`
-	Version                    *string                                                        `json:"version,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SignalRResource_STATUS{}
-
-// ConvertStatusFrom populates our SignalRResource_STATUS from the provided source
-func (resource *SignalRResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(resource)
-}
-
-// ConvertStatusTo populates the provided destination from our SignalRResource_STATUS
-func (resource *SignalRResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(resource)
 }
 
 // Storage version of v1beta20211001.ManagedIdentity

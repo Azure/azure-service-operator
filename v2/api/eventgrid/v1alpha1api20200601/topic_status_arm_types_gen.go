@@ -18,21 +18,12 @@ type Topic_STATUSARM struct {
 type TopicProperties_STATUSARM struct {
 	Endpoint                   *string                                                         `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_STATUSARM                                       `json:"inboundIpRules,omitempty"`
-<<<<<<<< HEAD:v2/api/eventgrid/v1alpha1api20200601/topic_statusarm_types_gen.go
 	InputSchema                *TopicProperties_InputSchema_STATUS                             `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_STATUSARM                                   `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                         `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 	ProvisioningState          *TopicProperties_ProvisioningState_STATUS                       `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *TopicProperties_PublicNetworkAccess_STATUS                     `json:"publicNetworkAccess,omitempty"`
-========
-	InputSchema                *TopicPropertiesSTATUSInputSchema                               `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_STATUSARM                                   `json:"inputSchemaMapping,omitempty"`
-	MetricResourceId           *string                                                         `json:"metricResourceId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *TopicPropertiesSTATUSProvisioningState                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *TopicPropertiesSTATUSPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
->>>>>>>> main:v2/api/eventgrid/v1alpha1api20200601/topic_status_arm_types_gen.go
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded instead

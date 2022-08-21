@@ -40,11 +40,7 @@ type IdentityProperties_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Type *IdentityProperties_Type_STATUS `json:"type,omitempty"`
-========
-	Type *IdentityPropertiesSTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -73,11 +69,7 @@ type RegistryProperties_STATUSARM struct {
 	LoginServer *string `json:"loginServer,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
-========
-	NetworkRuleBypassOptions *RegistryPropertiesSTATUSNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet_STATUSARM `json:"networkRuleSet,omitempty"`
@@ -86,7 +78,6 @@ type RegistryProperties_STATUSARM struct {
 	Policies *Policies_STATUSARM `json:"policies,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
@@ -94,40 +85,20 @@ type RegistryProperties_STATUSARM struct {
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-========
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// Status: The status of the container registry at the time the operation was called.
 	Status *Status_STATUSARM `json:"status,omitempty"`
 
 	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
-========
-	ZoneRedundancy *RegistryPropertiesSTATUSZoneRedundancy `json:"zoneRedundancy,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type Sku_STATUSARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The SKU tier based on the SKU name.
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
-========
-	Name *SkuSTATUSName `json:"name,omitempty"`
-
-	// Tier: The SKU tier based on the SKU name.
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type SystemData_STATUSARM struct {
@@ -138,11 +109,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-========
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// LastModifiedAt: The timestamp of resource modification (UTC).
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -151,11 +118,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-========
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type EncryptionProperty_STATUSARM struct {
@@ -163,7 +126,6 @@ type EncryptionProperty_STATUSARM struct {
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for container registry.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
@@ -174,27 +136,11 @@ const (
 	IdentityProperties_Type_SystemAssigned_STATUS             = IdentityProperties_Type_STATUS("SystemAssigned")
 	IdentityProperties_Type_SystemAssignedUserAssigned_STATUS = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
 	IdentityProperties_Type_UserAssigned_STATUS               = IdentityProperties_Type_STATUS("UserAssigned")
-========
-	Status *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
-}
-
-type IdentityPropertiesSTATUSType string
-
-const (
-	IdentityPropertiesSTATUSType_None                       = IdentityPropertiesSTATUSType("None")
-	IdentityPropertiesSTATUSType_SystemAssigned             = IdentityPropertiesSTATUSType("SystemAssigned")
-	IdentityPropertiesSTATUSType_SystemAssignedUserAssigned = IdentityPropertiesSTATUSType("SystemAssigned, UserAssigned")
-	IdentityPropertiesSTATUSType_UserAssigned               = IdentityPropertiesSTATUSType("UserAssigned")
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 )
 
 type NetworkRuleSet_STATUSARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
-========
-	DefaultAction *NetworkRuleSetSTATUSDefaultAction `json:"defaultAction,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// IpRules: The IP ACL rules.
 	IpRules []IPRule_STATUSARM `json:"ipRules,omitempty"`
@@ -214,11 +160,7 @@ type Policies_STATUSARM struct {
 	TrustPolicy *TrustPolicy_STATUSARM `json:"trustPolicy,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 type PrivateEndpointConnection_STATUSARM struct {
-========
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 
@@ -226,7 +168,6 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 type Sku_Name_STATUS string
 
 const (
@@ -243,24 +184,6 @@ const (
 	Sku_Tier_Classic_STATUS  = Sku_Tier_STATUS("Classic")
 	Sku_Tier_Premium_STATUS  = Sku_Tier_STATUS("Premium")
 	Sku_Tier_Standard_STATUS = Sku_Tier_STATUS("Standard")
-========
-type SkuSTATUSName string
-
-const (
-	SkuSTATUSName_Basic    = SkuSTATUSName("Basic")
-	SkuSTATUSName_Classic  = SkuSTATUSName("Classic")
-	SkuSTATUSName_Premium  = SkuSTATUSName("Premium")
-	SkuSTATUSName_Standard = SkuSTATUSName("Standard")
-)
-
-type SkuSTATUSTier string
-
-const (
-	SkuSTATUSTier_Basic    = SkuSTATUSTier("Basic")
-	SkuSTATUSTier_Classic  = SkuSTATUSTier("Classic")
-	SkuSTATUSTier_Premium  = SkuSTATUSTier("Premium")
-	SkuSTATUSTier_Standard = SkuSTATUSTier("Standard")
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 )
 
 type Status_STATUSARM struct {
@@ -274,7 +197,6 @@ type Status_STATUSARM struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -291,24 +213,6 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
-========
-type SystemDataSTATUSCreatedByType string
-
-const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
-)
-
-type SystemDataSTATUSLastModifiedByType string
-
-const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 )
 
 type UserIdentityProperties_STATUSARM struct {
@@ -321,20 +225,12 @@ type UserIdentityProperties_STATUSARM struct {
 
 type ExportPolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
-========
-	Status *ExportPolicySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type IPRule_STATUSARM struct {
 	// Action: The action of IP ACL rule.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
-========
-	Action *IPRuleSTATUSAction `json:"action,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
@@ -360,11 +256,7 @@ type KeyVaultProperties_STATUSARM struct {
 
 type QuarantinePolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
-========
-	Status *QuarantinePolicySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type RetentionPolicy_STATUSARM struct {
@@ -375,24 +267,13 @@ type RetentionPolicy_STATUSARM struct {
 	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
 	// Status: The value that indicates whether the policy is enabled or not.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Status *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
-========
-	Status *RetentionPolicySTATUSStatus `json:"status,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }
 
 type TrustPolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
-<<<<<<<< HEAD:v2/api/containerregistry/v1beta20210901/registry_statusarm_types_gen.go
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`
 
 	// Type: The type of trust policy.
 	Type *TrustPolicy_Type_STATUS `json:"type,omitempty"`
-========
-	Status *TrustPolicySTATUSStatus `json:"status,omitempty"`
-
-	// Type: The type of trust policy.
-	Type *TrustPolicySTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/containerregistry/v1beta20210901/registry_status_arm_types_gen.go
 }

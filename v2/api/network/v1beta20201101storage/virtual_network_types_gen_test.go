@@ -74,152 +74,8 @@ func VirtualNetworkGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = VirtualNetwork_SpecGenerator()
 	gens["Status"] = VirtualNetwork_STATUSGenerator()
-=======
-	gens["Spec"] = VirtualNetworksSpecGenerator()
-	gens["Status"] = VirtualNetworkSTATUSGenerator()
->>>>>>> main
-}
-
-func Test_VirtualNetwork_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetwork_STATUS via JSON returns original",
-<<<<<<< HEAD
-		prop.ForAll(RunJSONSerializationTestForVirtualNetwork_STATUS, VirtualNetwork_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetwork_STATUS runs a test to see if a specific instance of VirtualNetwork_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetwork_STATUS(subject VirtualNetwork_STATUS) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkSTATUS, VirtualNetworkSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkSTATUS runs a test to see if a specific instance of VirtualNetwork_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkSTATUS(subject VirtualNetwork_STATUS) string {
->>>>>>> main
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetwork_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetwork_STATUS instances for property testing - lazily instantiated by
-<<<<<<< HEAD
-// VirtualNetwork_STATUSGenerator()
-var virtualNetwork_STATUSGenerator gopter.Gen
-
-// VirtualNetwork_STATUSGenerator returns a generator of VirtualNetwork_STATUS instances for property testing.
-// We first initialize virtualNetwork_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetwork_STATUSGenerator() gopter.Gen {
-	if virtualNetwork_STATUSGenerator != nil {
-		return virtualNetwork_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(generators)
-	virtualNetwork_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(generators)
-	virtualNetwork_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
-
-	return virtualNetwork_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter.Gen) {
-=======
-// VirtualNetworkSTATUSGenerator()
-var virtualNetworkSTATUSGenerator gopter.Gen
-
-// VirtualNetworkSTATUSGenerator returns a generator of VirtualNetwork_STATUS instances for property testing.
-// We first initialize virtualNetworkSTATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkSTATUSGenerator() gopter.Gen {
-	if virtualNetworkSTATUSGenerator != nil {
-		return virtualNetworkSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkSTATUS(generators)
-	virtualNetworkSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkSTATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkSTATUS(generators)
-	virtualNetworkSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
-
-	return virtualNetworkSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
-	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-<<<<<<< HEAD
-// AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = gen.PtrOf(AddressSpace_STATUSGenerator())
-	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunities_STATUSGenerator())
-	gens["DdosProtectionPlan"] = gen.PtrOf(SubResource_STATUSGenerator())
-	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
-=======
-// AddRelatedPropertyGeneratorsForVirtualNetworkSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkSTATUS(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = gen.PtrOf(AddressSpaceSTATUSGenerator())
-	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesSTATUSGenerator())
-	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsSTATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceSTATUSGenerator())
->>>>>>> main
 }
 
 func Test_VirtualNetwork_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,6 +165,95 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringGenerator())
 }
 
+func Test_VirtualNetwork_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetwork_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetwork_STATUS, VirtualNetwork_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetwork_STATUS runs a test to see if a specific instance of VirtualNetwork_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetwork_STATUS(subject VirtualNetwork_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetwork_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetwork_STATUS instances for property testing - lazily instantiated by
+// VirtualNetwork_STATUSGenerator()
+var virtualNetwork_STATUSGenerator gopter.Gen
+
+// VirtualNetwork_STATUSGenerator returns a generator of VirtualNetwork_STATUS instances for property testing.
+// We first initialize virtualNetwork_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetwork_STATUSGenerator() gopter.Gen {
+	if virtualNetwork_STATUSGenerator != nil {
+		return virtualNetwork_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(generators)
+	virtualNetwork_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(generators)
+	virtualNetwork_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetwork_STATUS{}), generators)
+
+	return virtualNetwork_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter.Gen) {
+	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
+	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter.Gen) {
+	gens["AddressSpace"] = gen.PtrOf(AddressSpace_STATUSGenerator())
+	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunities_STATUSGenerator())
+	gens["DdosProtectionPlan"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
+}
+
 func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -372,26 +317,17 @@ func AddIndependentPropertyGeneratorsForAddressSpace(gens map[string]gopter.Gen)
 func Test_AddressSpace_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AddressSpace_STATUS via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForAddressSpace_STATUS, AddressSpace_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForAddressSpace_STATUS runs a test to see if a specific instance of AddressSpace_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForAddressSpace_STATUS(subject AddressSpace_STATUS) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForAddressSpaceSTATUS, AddressSpaceSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAddressSpaceSTATUS runs a test to see if a specific instance of AddressSpace_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAddressSpaceSTATUS(subject AddressSpace_STATUS) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -417,7 +353,6 @@ func RunJSONSerializationTestForAddressSpaceSTATUS(subject AddressSpace_STATUS) 
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of AddressSpace_STATUS instances for property testing - lazily instantiated by
 // AddressSpace_STATUSGenerator()
 var addressSpace_STATUSGenerator gopter.Gen
@@ -437,26 +372,6 @@ func AddressSpace_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAddressSpace_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAddressSpace_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of AddressSpace_STATUS instances for property testing - lazily instantiated by AddressSpaceSTATUSGenerator()
-var addressSpaceSTATUSGenerator gopter.Gen
-
-// AddressSpaceSTATUSGenerator returns a generator of AddressSpace_STATUS instances for property testing.
-func AddressSpaceSTATUSGenerator() gopter.Gen {
-	if addressSpaceSTATUSGenerator != nil {
-		return addressSpaceSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAddressSpaceSTATUS(generators)
-	addressSpaceSTATUSGenerator = gen.Struct(reflect.TypeOf(AddressSpace_STATUS{}), generators)
-
-	return addressSpaceSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAddressSpaceSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAddressSpaceSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -523,26 +438,17 @@ func AddIndependentPropertyGeneratorsForDhcpOptions(gens map[string]gopter.Gen) 
 func Test_DhcpOptions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DhcpOptions_STATUS via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForDhcpOptions_STATUS, DhcpOptions_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForDhcpOptions_STATUS runs a test to see if a specific instance of DhcpOptions_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForDhcpOptions_STATUS(subject DhcpOptions_STATUS) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForDhcpOptionsSTATUS, DhcpOptionsSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDhcpOptionsSTATUS runs a test to see if a specific instance of DhcpOptions_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDhcpOptionsSTATUS(subject DhcpOptions_STATUS) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -568,7 +474,6 @@ func RunJSONSerializationTestForDhcpOptionsSTATUS(subject DhcpOptions_STATUS) st
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of DhcpOptions_STATUS instances for property testing - lazily instantiated by DhcpOptions_STATUSGenerator()
 var dhcpOptions_STATUSGenerator gopter.Gen
 
@@ -587,26 +492,6 @@ func DhcpOptions_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDhcpOptions_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDhcpOptions_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of DhcpOptions_STATUS instances for property testing - lazily instantiated by DhcpOptionsSTATUSGenerator()
-var dhcpOptionsSTATUSGenerator gopter.Gen
-
-// DhcpOptionsSTATUSGenerator returns a generator of DhcpOptions_STATUS instances for property testing.
-func DhcpOptionsSTATUSGenerator() gopter.Gen {
-	if dhcpOptionsSTATUSGenerator != nil {
-		return dhcpOptionsSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDhcpOptionsSTATUS(generators)
-	dhcpOptionsSTATUSGenerator = gen.Struct(reflect.TypeOf(DhcpOptions_STATUS{}), generators)
-
-	return dhcpOptionsSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDhcpOptionsSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDhcpOptionsSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -729,26 +614,17 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities(gens map[st
 func Test_VirtualNetworkBgpCommunities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkBgpCommunities_STATUS via JSON returns original",
-<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS, VirtualNetworkBgpCommunities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS runs a test to see if a specific instance of VirtualNetworkBgpCommunities_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS(subject VirtualNetworkBgpCommunities_STATUS) string {
-=======
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunitiesSTATUS, VirtualNetworkBgpCommunitiesSTATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkBgpCommunitiesSTATUS runs a test to see if a specific instance of VirtualNetworkBgpCommunities_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesSTATUS(subject VirtualNetworkBgpCommunities_STATUS) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -775,7 +651,6 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesSTATUS(subject Virtu
 }
 
 // Generator of VirtualNetworkBgpCommunities_STATUS instances for property testing - lazily instantiated by
-<<<<<<< HEAD
 // VirtualNetworkBgpCommunities_STATUSGenerator()
 var virtualNetworkBgpCommunities_STATUSGenerator gopter.Gen
 
@@ -794,26 +669,6 @@ func VirtualNetworkBgpCommunities_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS(gens map[string]gopter.Gen) {
-=======
-// VirtualNetworkBgpCommunitiesSTATUSGenerator()
-var virtualNetworkBgpCommunitiesSTATUSGenerator gopter.Gen
-
-// VirtualNetworkBgpCommunitiesSTATUSGenerator returns a generator of VirtualNetworkBgpCommunities_STATUS instances for property testing.
-func VirtualNetworkBgpCommunitiesSTATUSGenerator() gopter.Gen {
-	if virtualNetworkBgpCommunitiesSTATUSGenerator != nil {
-		return virtualNetworkBgpCommunitiesSTATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesSTATUS(generators)
-	virtualNetworkBgpCommunitiesSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkBgpCommunities_STATUS{}), generators)
-
-	return virtualNetworkBgpCommunitiesSTATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesSTATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }

@@ -35,20 +35,12 @@ type BatchAccountIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 	Type *BatchAccountIdentity_Type_STATUS `json:"type,omitempty"`
-========
-	Type *BatchAccountIdentitySTATUSType `json:"type,omitempty"`
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	// references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
-========
-	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 }
 
 type BatchAccountProperties_STATUSARM struct {
@@ -88,11 +80,7 @@ type BatchAccountProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-========
-	ProvisioningState *BatchAccountPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
@@ -106,7 +94,6 @@ type AutoStorageProperties_STATUSARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 type BatchAccountIdentity_Type_STATUS string
 
 const (
@@ -116,9 +103,6 @@ const (
 )
 
 type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
-========
-type BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM struct {
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -126,23 +110,9 @@ type BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 type EncryptionProperties_STATUSARM struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
-========
-type BatchAccountIdentitySTATUSType string
-
-const (
-	BatchAccountIdentitySTATUSType_None           = BatchAccountIdentitySTATUSType("None")
-	BatchAccountIdentitySTATUSType_SystemAssigned = BatchAccountIdentitySTATUSType("SystemAssigned")
-	BatchAccountIdentitySTATUSType_UserAssigned   = BatchAccountIdentitySTATUSType("UserAssigned")
-)
-
-type EncryptionProperties_STATUSARM struct {
-	// KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesSTATUSKeySource `json:"keySource,omitempty"`
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
@@ -192,15 +162,9 @@ type KeyVaultProperties_STATUSARM struct {
 }
 
 type PrivateEndpointConnectionProperties_STATUSARM struct {
-<<<<<<<< HEAD:v2/api/batch/v1beta20210101/batch_account_statusarm_types_gen.go
 	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                    `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                  `json:"privateLinkServiceConnectionState,omitempty"`
 	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-========
-	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                  `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
->>>>>>>> main:v2/api/batch/v1beta20210101/batch_account_status_arm_types_gen.go
 }
 
 type PrivateEndpoint_STATUSARM struct {

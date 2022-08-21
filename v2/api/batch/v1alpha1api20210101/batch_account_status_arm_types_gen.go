@@ -18,26 +18,26 @@ type BatchAccount_STATUSARM struct {
 type BatchAccountIdentity_STATUSARM struct {
 	PrincipalId            *string                                                          `json:"principalId,omitempty"`
 	TenantId               *string                                                          `json:"tenantId,omitempty"`
-	Type                   *BatchAccountIdentitySTATUSType                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+	Type                   *BatchAccountIdentity_Type_STATUS                                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of BatchAccountProperties_STATUS. Use v1beta20210101.BatchAccountProperties_STATUS instead
 type BatchAccountProperties_STATUSARM struct {
-	AccountEndpoint                       *string                                        `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota          *int                                           `json:"activeJobAndJobScheduleQuota,omitempty"`
-	AutoStorage                           *AutoStorageProperties_STATUSARM               `json:"autoStorage,omitempty"`
-	DedicatedCoreQuota                    *int                                           `json:"dedicatedCoreQuota,omitempty"`
-	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_STATUSARM      `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
-	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                          `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
-	Encryption                            *EncryptionProperties_STATUSARM                `json:"encryption,omitempty"`
-	KeyVaultReference                     *KeyVaultReference_STATUSARM                   `json:"keyVaultReference,omitempty"`
-	LowPriorityCoreQuota                  *int                                           `json:"lowPriorityCoreQuota,omitempty"`
-	PoolAllocationMode                    *PoolAllocationMode_STATUS                     `json:"poolAllocationMode,omitempty"`
-	PoolQuota                             *int                                           `json:"poolQuota,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_STATUSARM          `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState                     *BatchAccountPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                   *PublicNetworkAccessType_STATUS                `json:"publicNetworkAccess,omitempty"`
+	AccountEndpoint                       *string                                          `json:"accountEndpoint,omitempty"`
+	ActiveJobAndJobScheduleQuota          *int                                             `json:"activeJobAndJobScheduleQuota,omitempty"`
+	AutoStorage                           *AutoStorageProperties_STATUSARM                 `json:"autoStorage,omitempty"`
+	DedicatedCoreQuota                    *int                                             `json:"dedicatedCoreQuota,omitempty"`
+	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_STATUSARM        `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
+	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                            `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
+	Encryption                            *EncryptionProperties_STATUSARM                  `json:"encryption,omitempty"`
+	KeyVaultReference                     *KeyVaultReference_STATUSARM                     `json:"keyVaultReference,omitempty"`
+	LowPriorityCoreQuota                  *int                                             `json:"lowPriorityCoreQuota,omitempty"`
+	PoolAllocationMode                    *PoolAllocationMode_STATUS                       `json:"poolAllocationMode,omitempty"`
+	PoolQuota                             *int                                             `json:"poolQuota,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUSARM            `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                     *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                   *PublicNetworkAccessType_STATUS                  `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of AutoStorageProperties_STATUS. Use v1beta20210101.AutoStorageProperties_STATUS instead
@@ -46,25 +46,25 @@ type AutoStorageProperties_STATUSARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
-// Deprecated version of BatchAccountIdentity_STATUS_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities instead
-type BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM struct {
+// Deprecated version of BatchAccountIdentity_Type_STATUS. Use v1beta20210101.BatchAccountIdentity_Type_STATUS instead
+type BatchAccountIdentity_Type_STATUS string
+
+const (
+	BatchAccountIdentity_Type_None_STATUS           = BatchAccountIdentity_Type_STATUS("None")
+	BatchAccountIdentity_Type_SystemAssigned_STATUS = BatchAccountIdentity_Type_STATUS("SystemAssigned")
+	BatchAccountIdentity_Type_UserAssigned_STATUS   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+)
+
+// Deprecated version of BatchAccountIdentity_UserAssignedIdentities_STATUS. Use v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS instead
+type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-// Deprecated version of BatchAccountIdentitySTATUSType. Use v1beta20210101.BatchAccountIdentitySTATUSType instead
-type BatchAccountIdentitySTATUSType string
-
-const (
-	BatchAccountIdentitySTATUSType_None           = BatchAccountIdentitySTATUSType("None")
-	BatchAccountIdentitySTATUSType_SystemAssigned = BatchAccountIdentitySTATUSType("SystemAssigned")
-	BatchAccountIdentitySTATUSType_UserAssigned   = BatchAccountIdentitySTATUSType("UserAssigned")
-)
-
 // Deprecated version of EncryptionProperties_STATUS. Use v1beta20210101.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUSARM struct {
-	KeySource          *EncryptionPropertiesSTATUSKeySource `json:"keySource,omitempty"`
-	KeyVaultProperties *KeyVaultProperties_STATUSARM        `json:"keyVaultProperties,omitempty"`
+	KeySource          *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUSARM          `json:"keyVaultProperties,omitempty"`
 }
 
 // Deprecated version of KeyVaultReference_STATUS. Use v1beta20210101.KeyVaultReference_STATUS instead
@@ -95,9 +95,9 @@ type KeyVaultProperties_STATUSARM struct {
 
 // Deprecated version of PrivateEndpointConnectionProperties_STATUS. Use v1beta20210101.PrivateEndpointConnectionProperties_STATUS instead
 type PrivateEndpointConnectionProperties_STATUSARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                  `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                    `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                  `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of PrivateEndpoint_STATUS. Use v1beta20210101.PrivateEndpoint_STATUS instead

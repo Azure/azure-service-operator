@@ -35,6 +35,15 @@ func (webtest *Webtest_SpecARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
+// Deprecated version of Webtest_Spec_Kind. Use v1beta20180501preview.Webtest_Spec_Kind instead
+// +kubebuilder:validation:Enum={"multistep","ping"}
+type Webtest_Spec_Kind string
+
+const (
+	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
+	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
+)
+
 // Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead
 type WebTestPropertiesARM struct {
 	Configuration      *WebTestProperties_ConfigurationARM   `json:"Configuration,omitempty"`
@@ -50,15 +59,6 @@ type WebTestPropertiesARM struct {
 	Timeout            *int                                  `json:"Timeout,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRulesARM `json:"ValidationRules,omitempty"`
 }
-
-// Deprecated version of Webtest_Spec_Kind. Use v1beta20180501preview.Webtest_Spec_Kind instead
-// +kubebuilder:validation:Enum={"multistep","ping"}
-type Webtest_Spec_Kind string
-
-const (
-	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
-	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
-)
 
 // Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
 type WebTestGeolocationARM struct {

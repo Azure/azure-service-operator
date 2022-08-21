@@ -47,11 +47,7 @@ type WorkspaceProperties_STATUSARM struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUSARM `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
-<<<<<<<< HEAD:v2/api/operationalinsights/v1beta20210601/workspace_statusarm_types_gen.go
 	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-========
-	ProvisioningState *WorkspacePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
->>>>>>>> main:v2/api/operationalinsights/v1beta20210601/workspace_status_arm_types_gen.go
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -83,11 +79,7 @@ type WorkspaceCapping_STATUSARM struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	// DataIngestionStatus: The status of data ingestion for this workspace.
-<<<<<<<< HEAD:v2/api/operationalinsights/v1beta20210601/workspace_statusarm_types_gen.go
 	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
-========
-	DataIngestionStatus *WorkspaceCappingSTATUSDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
->>>>>>>> main:v2/api/operationalinsights/v1beta20210601/workspace_status_arm_types_gen.go
 
 	// QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
@@ -113,19 +105,11 @@ type WorkspaceFeatures_STATUSARM struct {
 type WorkspaceSku_STATUSARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
-<<<<<<<< HEAD:v2/api/operationalinsights/v1beta20210601/workspace_statusarm_types_gen.go
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
-========
-	CapacityReservationLevel *WorkspaceSkuSTATUSCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
->>>>>>>> main:v2/api/operationalinsights/v1beta20210601/workspace_status_arm_types_gen.go
 
 	// LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// Name: The name of the SKU.
-<<<<<<<< HEAD:v2/api/operationalinsights/v1beta20210601/workspace_statusarm_types_gen.go
 	Name *WorkspaceSku_Name_STATUS `json:"name,omitempty"`
-========
-	Name *WorkspaceSkuSTATUSName `json:"name,omitempty"`
->>>>>>>> main:v2/api/operationalinsights/v1beta20210601/workspace_status_arm_types_gen.go
 }

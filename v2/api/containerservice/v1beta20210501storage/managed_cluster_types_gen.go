@@ -29,11 +29,7 @@ import (
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              ManagedCluster_Spec   `json:"spec,omitempty"`
-=======
-	Spec              ManagedClusters_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            ManagedCluster_STATUS `json:"status,omitempty"`
 }
 
@@ -144,72 +140,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-01")
 
-// Storage version of v1beta20210501.ManagedCluster_STATUS
-type ManagedCluster_STATUS struct {
-	AadProfile              *ManagedClusterAADProfile_STATUS                   `json:"aadProfile,omitempty"`
-	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
-	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS            `json:"agentPoolProfiles,omitempty"`
-	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS       `json:"apiServerAccessProfile,omitempty"`
-<<<<<<< HEAD
-	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS `json:"autoScalerProfile,omitempty"`
-=======
-	AutoScalerProfile       *ManagedClusterProperties_STATUS_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
->>>>>>> main
-	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_STATUS           `json:"autoUpgradeProfile,omitempty"`
-	AzurePortalFQDN         *string                                            `json:"azurePortalFQDN,omitempty"`
-	Conditions              []conditions.Condition                             `json:"conditions,omitempty"`
-	DisableLocalAccounts    *bool                                              `json:"disableLocalAccounts,omitempty"`
-	DiskEncryptionSetID     *string                                            `json:"diskEncryptionSetID,omitempty"`
-	DnsPrefix               *string                                            `json:"dnsPrefix,omitempty"`
-	EnablePodSecurityPolicy *bool                                              `json:"enablePodSecurityPolicy,omitempty"`
-	EnableRBAC              *bool                                              `json:"enableRBAC,omitempty"`
-	ExtendedLocation        *ExtendedLocation_STATUS                           `json:"extendedLocation,omitempty"`
-	Fqdn                    *string                                            `json:"fqdn,omitempty"`
-	FqdnSubdomain           *string                                            `json:"fqdnSubdomain,omitempty"`
-	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS              `json:"httpProxyConfig,omitempty"`
-	Id                      *string                                            `json:"id,omitempty"`
-	Identity                *ManagedClusterIdentity_STATUS                     `json:"identity,omitempty"`
-	IdentityProfile         *v1.JSON                                           `json:"identityProfile,omitempty"`
-	KubernetesVersion       *string                                            `json:"kubernetesVersion,omitempty"`
-	LinuxProfile            *ContainerServiceLinuxProfile_STATUS               `json:"linuxProfile,omitempty"`
-	Location                *string                                            `json:"location,omitempty"`
-	MaxAgentPools           *int                                               `json:"maxAgentPools,omitempty"`
-	Name                    *string                                            `json:"name,omitempty"`
-	NetworkProfile          *ContainerServiceNetworkProfile_STATUS             `json:"networkProfile,omitempty"`
-	NodeResourceGroup       *string                                            `json:"nodeResourceGroup,omitempty"`
-	PodIdentityProfile      *ManagedClusterPodIdentityProfile_STATUS           `json:"podIdentityProfile,omitempty"`
-	PowerState              *PowerState_STATUS                                 `json:"powerState,omitempty"`
-	PrivateFQDN             *string                                            `json:"privateFQDN,omitempty"`
-	PrivateLinkResources    []PrivateLinkResource_STATUS                       `json:"privateLinkResources,omitempty"`
-	PropertyBag             genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                                            `json:"provisioningState,omitempty"`
-	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_STATUS      `json:"servicePrincipalProfile,omitempty"`
-	Sku                     *ManagedClusterSKU_STATUS                          `json:"sku,omitempty"`
-	Tags                    map[string]string                                  `json:"tags,omitempty"`
-	Type                    *string                                            `json:"type,omitempty"`
-	WindowsProfile          *ManagedClusterWindowsProfile_STATUS               `json:"windowsProfile,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &ManagedCluster_STATUS{}
-
-// ConvertStatusFrom populates our ManagedCluster_STATUS from the provided source
-func (cluster *ManagedCluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(cluster)
-}
-
-// ConvertStatusTo populates the provided destination from our ManagedCluster_STATUS
-func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == cluster {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(cluster)
-}
-
 // Storage version of v1beta20210501.ManagedCluster_Spec
 type ManagedCluster_Spec struct {
 	AadProfile             *ManagedClusterAADProfile                   `json:"aadProfile,omitempty"`
@@ -275,6 +205,68 @@ func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.Convert
 	}
 
 	return destination.ConvertSpecFrom(cluster)
+}
+
+// Storage version of v1beta20210501.ManagedCluster_STATUS
+type ManagedCluster_STATUS struct {
+	AadProfile              *ManagedClusterAADProfile_STATUS                   `json:"aadProfile,omitempty"`
+	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
+	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS            `json:"agentPoolProfiles,omitempty"`
+	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS       `json:"apiServerAccessProfile,omitempty"`
+	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS `json:"autoScalerProfile,omitempty"`
+	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_STATUS           `json:"autoUpgradeProfile,omitempty"`
+	AzurePortalFQDN         *string                                            `json:"azurePortalFQDN,omitempty"`
+	Conditions              []conditions.Condition                             `json:"conditions,omitempty"`
+	DisableLocalAccounts    *bool                                              `json:"disableLocalAccounts,omitempty"`
+	DiskEncryptionSetID     *string                                            `json:"diskEncryptionSetID,omitempty"`
+	DnsPrefix               *string                                            `json:"dnsPrefix,omitempty"`
+	EnablePodSecurityPolicy *bool                                              `json:"enablePodSecurityPolicy,omitempty"`
+	EnableRBAC              *bool                                              `json:"enableRBAC,omitempty"`
+	ExtendedLocation        *ExtendedLocation_STATUS                           `json:"extendedLocation,omitempty"`
+	Fqdn                    *string                                            `json:"fqdn,omitempty"`
+	FqdnSubdomain           *string                                            `json:"fqdnSubdomain,omitempty"`
+	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS              `json:"httpProxyConfig,omitempty"`
+	Id                      *string                                            `json:"id,omitempty"`
+	Identity                *ManagedClusterIdentity_STATUS                     `json:"identity,omitempty"`
+	IdentityProfile         *v1.JSON                                           `json:"identityProfile,omitempty"`
+	KubernetesVersion       *string                                            `json:"kubernetesVersion,omitempty"`
+	LinuxProfile            *ContainerServiceLinuxProfile_STATUS               `json:"linuxProfile,omitempty"`
+	Location                *string                                            `json:"location,omitempty"`
+	MaxAgentPools           *int                                               `json:"maxAgentPools,omitempty"`
+	Name                    *string                                            `json:"name,omitempty"`
+	NetworkProfile          *ContainerServiceNetworkProfile_STATUS             `json:"networkProfile,omitempty"`
+	NodeResourceGroup       *string                                            `json:"nodeResourceGroup,omitempty"`
+	PodIdentityProfile      *ManagedClusterPodIdentityProfile_STATUS           `json:"podIdentityProfile,omitempty"`
+	PowerState              *PowerState_STATUS                                 `json:"powerState,omitempty"`
+	PrivateFQDN             *string                                            `json:"privateFQDN,omitempty"`
+	PrivateLinkResources    []PrivateLinkResource_STATUS                       `json:"privateLinkResources,omitempty"`
+	PropertyBag             genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
+	ProvisioningState       *string                                            `json:"provisioningState,omitempty"`
+	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_STATUS      `json:"servicePrincipalProfile,omitempty"`
+	Sku                     *ManagedClusterSKU_STATUS                          `json:"sku,omitempty"`
+	Tags                    map[string]string                                  `json:"tags,omitempty"`
+	Type                    *string                                            `json:"type,omitempty"`
+	WindowsProfile          *ManagedClusterWindowsProfile_STATUS               `json:"windowsProfile,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &ManagedCluster_STATUS{}
+
+// ConvertStatusFrom populates our ManagedCluster_STATUS from the provided source
+func (cluster *ManagedCluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == cluster {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(cluster)
+}
+
+// ConvertStatusTo populates the provided destination from our ManagedCluster_STATUS
+func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == cluster {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(cluster)
 }
 
 // Storage version of v1beta20210501.ContainerServiceLinuxProfile
@@ -357,33 +349,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
 	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
-}
-
-<<<<<<< HEAD
-// Storage version of v1beta20210501.ManagedClusterAPIServerAccessProfile
-type ManagedClusterAPIServerAccessProfile struct {
-	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
-	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
-	EnablePrivateClusterPublicFQDN *bool                  `json:"enablePrivateClusterPublicFQDN,omitempty"`
-	PrivateDNSZone                 *string                `json:"privateDNSZone,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterAPIServerAccessProfile_STATUS
-type ManagedClusterAPIServerAccessProfile_STATUS struct {
-	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
-	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
-	EnablePrivateClusterPublicFQDN *bool                  `json:"enablePrivateClusterPublicFQDN,omitempty"`
-	PrivateDNSZone                 *string                `json:"privateDNSZone,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-=======
-// Storage version of v1beta20210501.ManagedClusterAddonProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
-type ManagedClusterAddonProfile struct {
-	Config      map[string]string      `json:"config,omitempty"`
-	Enabled     *bool                  `json:"enabled,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20210501.ManagedClusterAgentPoolProfile
@@ -479,7 +444,6 @@ type ManagedClusterAgentPoolProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAPIServerAccessProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
 type ManagedClusterAPIServerAccessProfile struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -539,11 +503,7 @@ type ManagedClusterIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-<<<<<<< HEAD
 	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
-=======
-	UserAssignedIdentities map[string]ManagedClusterIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20210501.ManagedClusterOperatorSpec
@@ -569,31 +529,6 @@ type ManagedClusterPodIdentityProfile_STATUS struct {
 	PropertyBag                    genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 	UserAssignedIdentities         []ManagedClusterPodIdentity_STATUS          `json:"userAssignedIdentities,omitempty"`
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUS `json:"userAssignedIdentityExceptions,omitempty"`
-<<<<<<< HEAD
-=======
-}
-
-// Storage version of v1beta20210501.ManagedClusterProperties_STATUS_AutoScalerProfile
-type ManagedClusterProperties_STATUS_AutoScalerProfile struct {
-	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
-	Expander                      *string                `json:"expander,omitempty"`
-	MaxEmptyBulkDelete            *string                `json:"max-empty-bulk-delete,omitempty"`
-	MaxGracefulTerminationSec     *string                `json:"max-graceful-termination-sec,omitempty"`
-	MaxNodeProvisionTime          *string                `json:"max-node-provision-time,omitempty"`
-	MaxTotalUnreadyPercentage     *string                `json:"max-total-unready-percentage,omitempty"`
-	NewPodScaleUpDelay            *string                `json:"new-pod-scale-up-delay,omitempty"`
-	OkTotalUnreadyCount           *string                `json:"ok-total-unready-count,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ScaleDownDelayAfterAdd        *string                `json:"scale-down-delay-after-add,omitempty"`
-	ScaleDownDelayAfterDelete     *string                `json:"scale-down-delay-after-delete,omitempty"`
-	ScaleDownDelayAfterFailure    *string                `json:"scale-down-delay-after-failure,omitempty"`
-	ScaleDownUnneededTime         *string                `json:"scale-down-unneeded-time,omitempty"`
-	ScaleDownUnreadyTime          *string                `json:"scale-down-unready-time,omitempty"`
-	ScaleDownUtilizationThreshold *string                `json:"scale-down-utilization-threshold,omitempty"`
-	ScanInterval                  *string                `json:"scan-interval,omitempty"`
-	SkipNodesWithLocalStorage     *string                `json:"skip-nodes-with-local-storage,omitempty"`
-	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20210501.ManagedClusterProperties_AutoScalerProfile
@@ -618,7 +553,6 @@ type ManagedClusterProperties_AutoScalerProfile struct {
 	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210501.ManagedClusterProperties_AutoScalerProfile_STATUS
 type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
@@ -639,9 +573,9 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	ScanInterval                  *string                `json:"scan-interval,omitempty"`
 	SkipNodesWithLocalStorage     *string                `json:"skip-nodes-with-local-storage,omitempty"`
 	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
-=======
+}
+
 // Storage version of v1beta20210501.ManagedClusterServicePrincipalProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
 type ManagedClusterServicePrincipalProfile struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -653,7 +587,6 @@ type ManagedClusterServicePrincipalProfile_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Secret      *string                `json:"secret,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20210501.ManagedClusterSKU
@@ -670,23 +603,6 @@ type ManagedClusterSKU_STATUS struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210501.ManagedClusterServicePrincipalProfile
-type ManagedClusterServicePrincipalProfile struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secret      *string                `json:"secret,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterServicePrincipalProfile_STATUS
-type ManagedClusterServicePrincipalProfile_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secret      *string                `json:"secret,omitempty"`
-}
-
-=======
->>>>>>> main
 // Storage version of v1beta20210501.ManagedClusterWindowsProfile
 type ManagedClusterWindowsProfile struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
@@ -746,13 +662,8 @@ type ContainerServiceSshConfiguration_STATUS struct {
 	PublicKeys  []ContainerServiceSshPublicKey_STATUS `json:"publicKeys,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
-=======
-// Storage version of v1beta20210501.ManagedClusterIdentity_STATUS_UserAssignedIdentities
-type ManagedClusterIdentity_STATUS_UserAssignedIdentities struct {
->>>>>>> main
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -774,15 +685,9 @@ type ManagedClusterLoadBalancerProfile_STATUS struct {
 	AllocatedOutboundPorts *int                                                         `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_STATUS                                   `json:"effectiveOutboundIPs,omitempty"`
 	IdleTimeoutInMinutes   *int                                                         `json:"idleTimeoutInMinutes,omitempty"`
-<<<<<<< HEAD
 	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS `json:"managedOutboundIPs,omitempty"`
 	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS `json:"outboundIPPrefixes,omitempty"`
 	OutboundIPs            *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS        `json:"outboundIPs,omitempty"`
-=======
-	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
-	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
-	OutboundIPs            *ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs        `json:"outboundIPs,omitempty"`
->>>>>>> main
 	PropertyBag            genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
 }
 
@@ -809,7 +714,7 @@ type ManagedClusterPodIdentity_STATUS struct {
 	Name              *string                                            `json:"name,omitempty"`
 	Namespace         *string                                            `json:"namespace,omitempty"`
 	PropertyBag       genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_STATUS_ProvisioningInfo `json:"provisioningInfo,omitempty"`
+	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo_STATUS `json:"provisioningInfo,omitempty"`
 	ProvisioningState *string                                            `json:"provisioningState,omitempty"`
 }
 
@@ -829,20 +734,6 @@ type ManagedClusterPodIdentityException_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210501.ManagedClusterPodIdentity_STATUS
-type ManagedClusterPodIdentity_STATUS struct {
-	BindingSelector   *string                                            `json:"bindingSelector,omitempty"`
-	Identity          *UserAssignedIdentity_STATUS                       `json:"identity,omitempty"`
-	Name              *string                                            `json:"name,omitempty"`
-	Namespace         *string                                            `json:"namespace,omitempty"`
-	PropertyBag       genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo_STATUS `json:"provisioningInfo,omitempty"`
-	ProvisioningState *string                                            `json:"provisioningState,omitempty"`
-}
-
-=======
->>>>>>> main
 // Storage version of v1beta20210501.ContainerServiceSshPublicKey
 type ContainerServiceSshPublicKey struct {
 	KeyData     *string                `json:"keyData,omitempty"`
@@ -855,32 +746,8 @@ type ContainerServiceSshPublicKey_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs struct {
-=======
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs
-type ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPs struct {
-	Count       *int                   `json:"count,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes
-type ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixes struct {
-	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	PublicIPPrefixes []ResourceReference_STATUS `json:"publicIPPrefixes,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs
-type ManagedClusterLoadBalancerProfile_STATUS_OutboundIPs struct {
-	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	PublicIPs   []ResourceReference_STATUS `json:"publicIPs,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
-type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
->>>>>>> main
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -909,7 +776,6 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs struct {
 	PublicIPs   []ResourceReference    `json:"publicIPs,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -918,10 +784,6 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
-=======
-// Storage version of v1beta20210501.ManagedClusterPodIdentity_STATUS_ProvisioningInfo
-type ManagedClusterPodIdentity_STATUS_ProvisioningInfo struct {
->>>>>>> main
 	Error       *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
 }

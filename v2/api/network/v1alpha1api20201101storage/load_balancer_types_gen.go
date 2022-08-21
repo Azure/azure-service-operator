@@ -25,11 +25,7 @@ import (
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
 	Spec              LoadBalancer_Spec   `json:"spec,omitempty"`
-=======
-	Spec              LoadBalancers_Spec  `json:"spec,omitempty"`
->>>>>>> main
 	Status            LoadBalancer_STATUS `json:"status,omitempty"`
 }
 
@@ -149,15 +145,9 @@ func (balancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v20201101
 
 	// Status
 	var status LoadBalancer_STATUS
-<<<<<<< HEAD
 	err = status.AssignPropertiesFromLoadBalancer_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancer_STATUS() to populate field Status")
-=======
-	err = status.AssignPropertiesFromLoadBalancerSTATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSTATUS() to populate field Status")
->>>>>>> main
 	}
 	balancer.Status = status
 
@@ -181,15 +171,9 @@ func (balancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v20201
 
 	// Status
 	var status v20201101s.LoadBalancer_STATUS
-<<<<<<< HEAD
 	err = balancer.Status.AssignPropertiesToLoadBalancer_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToLoadBalancer_STATUS() to populate field Status")
-=======
-	err = balancer.Status.AssignPropertiesToLoadBalancerSTATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSTATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -221,600 +205,6 @@ type LoadBalancerList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-11-01")
-
-// Storage version of v1alpha1api20201101.LoadBalancer_STATUS
-// Deprecated version of LoadBalancer_STATUS. Use v1beta20201101.LoadBalancer_STATUS instead
-type LoadBalancer_STATUS struct {
-	BackendAddressPools      []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
-	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
-	Etag                     *string                                                           `json:"etag,omitempty"`
-	ExtendedLocation         *ExtendedLocation_STATUS                                          `json:"extendedLocation,omitempty"`
-	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
-	Id                       *string                                                           `json:"id,omitempty"`
-	InboundNatPools          []InboundNatPool_STATUS                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules       []LoadBalancingRule_STATUS                                        `json:"loadBalancingRules,omitempty"`
-	Location                 *string                                                           `json:"location,omitempty"`
-	Name                     *string                                                           `json:"name,omitempty"`
-	OutboundRules            []OutboundRule_STATUS                                             `json:"outboundRules,omitempty"`
-	Probes                   []Probe_STATUS                                                    `json:"probes,omitempty"`
-	PropertyBag              genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
-	ProvisioningState        *string                                                           `json:"provisioningState,omitempty"`
-	ResourceGuid             *string                                                           `json:"resourceGuid,omitempty"`
-	Sku                      *LoadBalancerSku_STATUS                                           `json:"sku,omitempty"`
-	Tags                     map[string]string                                                 `json:"tags,omitempty"`
-	Type                     *string                                                           `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &LoadBalancer_STATUS{}
-
-// ConvertStatusFrom populates our LoadBalancer_STATUS from the provided source
-func (balancer *LoadBalancer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.LoadBalancer_STATUS)
-	if ok {
-		// Populate our instance from source
-<<<<<<< HEAD
-		return balancer.AssignPropertiesFromLoadBalancer_STATUS(src)
-=======
-		return balancer.AssignPropertiesFromLoadBalancerSTATUS(src)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.LoadBalancer_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-<<<<<<< HEAD
-	err = balancer.AssignPropertiesFromLoadBalancer_STATUS(src)
-=======
-	err = balancer.AssignPropertiesFromLoadBalancerSTATUS(src)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our LoadBalancer_STATUS
-func (balancer *LoadBalancer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.LoadBalancer_STATUS)
-	if ok {
-		// Populate destination from our instance
-<<<<<<< HEAD
-		return balancer.AssignPropertiesToLoadBalancer_STATUS(dst)
-=======
-		return balancer.AssignPropertiesToLoadBalancerSTATUS(dst)
->>>>>>> main
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.LoadBalancer_STATUS{}
-<<<<<<< HEAD
-	err := balancer.AssignPropertiesToLoadBalancer_STATUS(dst)
-=======
-	err := balancer.AssignPropertiesToLoadBalancerSTATUS(dst)
->>>>>>> main
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromLoadBalancer_STATUS populates our LoadBalancer_STATUS from the provided source LoadBalancer_STATUS
-func (balancer *LoadBalancer_STATUS) AssignPropertiesFromLoadBalancer_STATUS(source *v20201101s.LoadBalancer_STATUS) error {
-=======
-// AssignPropertiesFromLoadBalancerSTATUS populates our LoadBalancer_STATUS from the provided source LoadBalancer_STATUS
-func (balancer *LoadBalancer_STATUS) AssignPropertiesFromLoadBalancerSTATUS(source *v20201101s.LoadBalancer_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BackendAddressPools
-	if source.BackendAddressPools != nil {
-		backendAddressPoolList := make([]BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
-		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
-			var backendAddressPool BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := backendAddressPool.AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
-=======
-			err := backendAddressPool.AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(&backendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded() to populate field BackendAddressPools")
->>>>>>> main
-			}
-			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
-		}
-		balancer.BackendAddressPools = backendAddressPoolList
-	} else {
-		balancer.BackendAddressPools = nil
-	}
-
-	// Conditions
-	balancer.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Etag
-	balancer.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-<<<<<<< HEAD
-		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
-=======
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
->>>>>>> main
-		}
-		balancer.ExtendedLocation = &extendedLocation
-	} else {
-		balancer.ExtendedLocation = nil
-	}
-
-	// FrontendIPConfigurations
-	if source.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
-=======
-			err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(&frontendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded() to populate field FrontendIPConfigurations")
->>>>>>> main
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		balancer.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		balancer.FrontendIPConfigurations = nil
-	}
-
-	// Id
-	balancer.Id = genruntime.ClonePointerToString(source.Id)
-
-	// InboundNatPools
-	if source.InboundNatPools != nil {
-		inboundNatPoolList := make([]InboundNatPool_STATUS, len(source.InboundNatPools))
-		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
-			var inboundNatPool InboundNatPool_STATUS
-<<<<<<< HEAD
-			err := inboundNatPool.AssignPropertiesFromInboundNatPool_STATUS(&inboundNatPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatPool_STATUS() to populate field InboundNatPools")
-=======
-			err := inboundNatPool.AssignPropertiesFromInboundNatPoolSTATUS(&inboundNatPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatPoolSTATUS() to populate field InboundNatPools")
->>>>>>> main
-			}
-			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
-		}
-		balancer.InboundNatPools = inboundNatPoolList
-	} else {
-		balancer.InboundNatPools = nil
-	}
-
-	// InboundNatRules
-	if source.InboundNatRules != nil {
-		inboundNatRuleList := make([]InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
-		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
-			var inboundNatRule InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := inboundNatRule.AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
-=======
-			err := inboundNatRule.AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(&inboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded() to populate field InboundNatRules")
->>>>>>> main
-			}
-			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
-		}
-		balancer.InboundNatRules = inboundNatRuleList
-	} else {
-		balancer.InboundNatRules = nil
-	}
-
-	// LoadBalancingRules
-	if source.LoadBalancingRules != nil {
-		loadBalancingRuleList := make([]LoadBalancingRule_STATUS, len(source.LoadBalancingRules))
-		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
-			var loadBalancingRule LoadBalancingRule_STATUS
-<<<<<<< HEAD
-			err := loadBalancingRule.AssignPropertiesFromLoadBalancingRule_STATUS(&loadBalancingRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancingRule_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRule.AssignPropertiesFromLoadBalancingRuleSTATUS(&loadBalancingRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancingRuleSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
-			}
-			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
-		}
-		balancer.LoadBalancingRules = loadBalancingRuleList
-	} else {
-		balancer.LoadBalancingRules = nil
-	}
-
-	// Location
-	balancer.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	balancer.Name = genruntime.ClonePointerToString(source.Name)
-
-	// OutboundRules
-	if source.OutboundRules != nil {
-		outboundRuleList := make([]OutboundRule_STATUS, len(source.OutboundRules))
-		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
-			var outboundRule OutboundRule_STATUS
-<<<<<<< HEAD
-			err := outboundRule.AssignPropertiesFromOutboundRule_STATUS(&outboundRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromOutboundRule_STATUS() to populate field OutboundRules")
-=======
-			err := outboundRule.AssignPropertiesFromOutboundRuleSTATUS(&outboundRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromOutboundRuleSTATUS() to populate field OutboundRules")
->>>>>>> main
-			}
-			outboundRuleList[outboundRuleIndex] = outboundRule
-		}
-		balancer.OutboundRules = outboundRuleList
-	} else {
-		balancer.OutboundRules = nil
-	}
-
-	// Probes
-	if source.Probes != nil {
-		probeList := make([]Probe_STATUS, len(source.Probes))
-		for probeIndex, probeItem := range source.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
-			var probe Probe_STATUS
-<<<<<<< HEAD
-			err := probe.AssignPropertiesFromProbe_STATUS(&probeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProbe_STATUS() to populate field Probes")
-=======
-			err := probe.AssignPropertiesFromProbeSTATUS(&probeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProbeSTATUS() to populate field Probes")
->>>>>>> main
-			}
-			probeList[probeIndex] = probe
-		}
-		balancer.Probes = probeList
-	} else {
-		balancer.Probes = nil
-	}
-
-	// ProvisioningState
-	balancer.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	balancer.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
-
-	// Sku
-	if source.Sku != nil {
-		var sku LoadBalancerSku_STATUS
-<<<<<<< HEAD
-		err := sku.AssignPropertiesFromLoadBalancerSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSku_STATUS() to populate field Sku")
-=======
-		err := sku.AssignPropertiesFromLoadBalancerSkuSTATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		balancer.Sku = &sku
-	} else {
-		balancer.Sku = nil
-	}
-
-	// Tags
-	balancer.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	balancer.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		balancer.PropertyBag = propertyBag
-	} else {
-		balancer.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToLoadBalancer_STATUS populates the provided destination LoadBalancer_STATUS from our LoadBalancer_STATUS
-func (balancer *LoadBalancer_STATUS) AssignPropertiesToLoadBalancer_STATUS(destination *v20201101s.LoadBalancer_STATUS) error {
-=======
-// AssignPropertiesToLoadBalancerSTATUS populates the provided destination LoadBalancer_STATUS from our LoadBalancer_STATUS
-func (balancer *LoadBalancer_STATUS) AssignPropertiesToLoadBalancerSTATUS(destination *v20201101s.LoadBalancer_STATUS) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(balancer.PropertyBag)
-
-	// BackendAddressPools
-	if balancer.BackendAddressPools != nil {
-		backendAddressPoolList := make([]v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.BackendAddressPools))
-		for backendAddressPoolIndex, backendAddressPoolItem := range balancer.BackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressPoolItem := backendAddressPoolItem
-			var backendAddressPool v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := backendAddressPoolItem.AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
-=======
-			err := backendAddressPoolItem.AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(&backendAddressPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded() to populate field BackendAddressPools")
->>>>>>> main
-			}
-			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
-		}
-		destination.BackendAddressPools = backendAddressPoolList
-	} else {
-		destination.BackendAddressPools = nil
-	}
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(balancer.Conditions)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(balancer.Etag)
-
-	// ExtendedLocation
-	if balancer.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation_STATUS
-<<<<<<< HEAD
-		err := balancer.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
-=======
-		err := balancer.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
->>>>>>> main
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// FrontendIPConfigurations
-	if balancer.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range balancer.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
-=======
-			err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(&frontendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded() to populate field FrontendIPConfigurations")
->>>>>>> main
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		destination.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		destination.FrontendIPConfigurations = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(balancer.Id)
-
-	// InboundNatPools
-	if balancer.InboundNatPools != nil {
-		inboundNatPoolList := make([]v20201101s.InboundNatPool_STATUS, len(balancer.InboundNatPools))
-		for inboundNatPoolIndex, inboundNatPoolItem := range balancer.InboundNatPools {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatPoolItem := inboundNatPoolItem
-			var inboundNatPool v20201101s.InboundNatPool_STATUS
-<<<<<<< HEAD
-			err := inboundNatPoolItem.AssignPropertiesToInboundNatPool_STATUS(&inboundNatPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundNatPool_STATUS() to populate field InboundNatPools")
-=======
-			err := inboundNatPoolItem.AssignPropertiesToInboundNatPoolSTATUS(&inboundNatPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundNatPoolSTATUS() to populate field InboundNatPools")
->>>>>>> main
-			}
-			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
-		}
-		destination.InboundNatPools = inboundNatPoolList
-	} else {
-		destination.InboundNatPools = nil
-	}
-
-	// InboundNatRules
-	if balancer.InboundNatRules != nil {
-		inboundNatRuleList := make([]v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
-		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
-			var inboundNatRule v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
-			err := inboundNatRuleItem.AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
-=======
-			err := inboundNatRuleItem.AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(&inboundNatRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded() to populate field InboundNatRules")
->>>>>>> main
-			}
-			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
-		}
-		destination.InboundNatRules = inboundNatRuleList
-	} else {
-		destination.InboundNatRules = nil
-	}
-
-	// LoadBalancingRules
-	if balancer.LoadBalancingRules != nil {
-		loadBalancingRuleList := make([]v20201101s.LoadBalancingRule_STATUS, len(balancer.LoadBalancingRules))
-		for loadBalancingRuleIndex, loadBalancingRuleItem := range balancer.LoadBalancingRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancingRuleItem := loadBalancingRuleItem
-			var loadBalancingRule v20201101s.LoadBalancingRule_STATUS
-<<<<<<< HEAD
-			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRule_STATUS(&loadBalancingRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancingRule_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRuleSTATUS(&loadBalancingRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancingRuleSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
-			}
-			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
-		}
-		destination.LoadBalancingRules = loadBalancingRuleList
-	} else {
-		destination.LoadBalancingRules = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(balancer.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(balancer.Name)
-
-	// OutboundRules
-	if balancer.OutboundRules != nil {
-		outboundRuleList := make([]v20201101s.OutboundRule_STATUS, len(balancer.OutboundRules))
-		for outboundRuleIndex, outboundRuleItem := range balancer.OutboundRules {
-			// Shadow the loop variable to avoid aliasing
-			outboundRuleItem := outboundRuleItem
-			var outboundRule v20201101s.OutboundRule_STATUS
-<<<<<<< HEAD
-			err := outboundRuleItem.AssignPropertiesToOutboundRule_STATUS(&outboundRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToOutboundRule_STATUS() to populate field OutboundRules")
-=======
-			err := outboundRuleItem.AssignPropertiesToOutboundRuleSTATUS(&outboundRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToOutboundRuleSTATUS() to populate field OutboundRules")
->>>>>>> main
-			}
-			outboundRuleList[outboundRuleIndex] = outboundRule
-		}
-		destination.OutboundRules = outboundRuleList
-	} else {
-		destination.OutboundRules = nil
-	}
-
-	// Probes
-	if balancer.Probes != nil {
-		probeList := make([]v20201101s.Probe_STATUS, len(balancer.Probes))
-		for probeIndex, probeItem := range balancer.Probes {
-			// Shadow the loop variable to avoid aliasing
-			probeItem := probeItem
-			var probe v20201101s.Probe_STATUS
-<<<<<<< HEAD
-			err := probeItem.AssignPropertiesToProbe_STATUS(&probe)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProbe_STATUS() to populate field Probes")
-=======
-			err := probeItem.AssignPropertiesToProbeSTATUS(&probe)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProbeSTATUS() to populate field Probes")
->>>>>>> main
-			}
-			probeList[probeIndex] = probe
-		}
-		destination.Probes = probeList
-	} else {
-		destination.Probes = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(balancer.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(balancer.ResourceGuid)
-
-	// Sku
-	if balancer.Sku != nil {
-		var sku v20201101s.LoadBalancerSku_STATUS
-<<<<<<< HEAD
-		err := balancer.Sku.AssignPropertiesToLoadBalancerSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSku_STATUS() to populate field Sku")
-=======
-		err := balancer.Sku.AssignPropertiesToLoadBalancerSkuSTATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(balancer.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(balancer.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Storage version of v1alpha1api20201101.LoadBalancer_Spec
 type LoadBalancer_Spec struct {
@@ -1281,7 +671,466 @@ func (balancer *LoadBalancer_Spec) AssignPropertiesToLoadBalancer_Spec(destinati
 	return nil
 }
 
-<<<<<<< HEAD
+// Storage version of v1alpha1api20201101.LoadBalancer_STATUS
+// Deprecated version of LoadBalancer_STATUS. Use v1beta20201101.LoadBalancer_STATUS instead
+type LoadBalancer_STATUS struct {
+	BackendAddressPools      []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
+	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
+	Etag                     *string                                                           `json:"etag,omitempty"`
+	ExtendedLocation         *ExtendedLocation_STATUS                                          `json:"extendedLocation,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
+	Id                       *string                                                           `json:"id,omitempty"`
+	InboundNatPools          []InboundNatPool_STATUS                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule_STATUS                                        `json:"loadBalancingRules,omitempty"`
+	Location                 *string                                                           `json:"location,omitempty"`
+	Name                     *string                                                           `json:"name,omitempty"`
+	OutboundRules            []OutboundRule_STATUS                                             `json:"outboundRules,omitempty"`
+	Probes                   []Probe_STATUS                                                    `json:"probes,omitempty"`
+	PropertyBag              genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
+	ProvisioningState        *string                                                           `json:"provisioningState,omitempty"`
+	ResourceGuid             *string                                                           `json:"resourceGuid,omitempty"`
+	Sku                      *LoadBalancerSku_STATUS                                           `json:"sku,omitempty"`
+	Tags                     map[string]string                                                 `json:"tags,omitempty"`
+	Type                     *string                                                           `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &LoadBalancer_STATUS{}
+
+// ConvertStatusFrom populates our LoadBalancer_STATUS from the provided source
+func (balancer *LoadBalancer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.LoadBalancer_STATUS)
+	if ok {
+		// Populate our instance from source
+		return balancer.AssignPropertiesFromLoadBalancer_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.LoadBalancer_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = balancer.AssignPropertiesFromLoadBalancer_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our LoadBalancer_STATUS
+func (balancer *LoadBalancer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.LoadBalancer_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return balancer.AssignPropertiesToLoadBalancer_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.LoadBalancer_STATUS{}
+	err := balancer.AssignPropertiesToLoadBalancer_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromLoadBalancer_STATUS populates our LoadBalancer_STATUS from the provided source LoadBalancer_STATUS
+func (balancer *LoadBalancer_STATUS) AssignPropertiesFromLoadBalancer_STATUS(source *v20201101s.LoadBalancer_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BackendAddressPools
+	if source.BackendAddressPools != nil {
+		backendAddressPoolList := make([]BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPool.AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		}
+		balancer.BackendAddressPools = backendAddressPoolList
+	} else {
+		balancer.BackendAddressPools = nil
+	}
+
+	// Conditions
+	balancer.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	balancer.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation_STATUS
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		balancer.ExtendedLocation = &extendedLocation
+	} else {
+		balancer.ExtendedLocation = nil
+	}
+
+	// FrontendIPConfigurations
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		balancer.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		balancer.FrontendIPConfigurations = nil
+	}
+
+	// Id
+	balancer.Id = genruntime.ClonePointerToString(source.Id)
+
+	// InboundNatPools
+	if source.InboundNatPools != nil {
+		inboundNatPoolList := make([]InboundNatPool_STATUS, len(source.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool InboundNatPool_STATUS
+			err := inboundNatPool.AssignPropertiesFromInboundNatPool_STATUS(&inboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatPool_STATUS() to populate field InboundNatPools")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		}
+		balancer.InboundNatPools = inboundNatPoolList
+	} else {
+		balancer.InboundNatPools = nil
+	}
+
+	// InboundNatRules
+	if source.InboundNatRules != nil {
+		inboundNatRuleList := make([]InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRule.AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		}
+		balancer.InboundNatRules = inboundNatRuleList
+	} else {
+		balancer.InboundNatRules = nil
+	}
+
+	// LoadBalancingRules
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]LoadBalancingRule_STATUS, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule LoadBalancingRule_STATUS
+			err := loadBalancingRule.AssignPropertiesFromLoadBalancingRule_STATUS(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancingRule_STATUS() to populate field LoadBalancingRules")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		}
+		balancer.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		balancer.LoadBalancingRules = nil
+	}
+
+	// Location
+	balancer.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	balancer.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OutboundRules
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]OutboundRule_STATUS, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule OutboundRule_STATUS
+			err := outboundRule.AssignPropertiesFromOutboundRule_STATUS(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromOutboundRule_STATUS() to populate field OutboundRules")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
+		}
+		balancer.OutboundRules = outboundRuleList
+	} else {
+		balancer.OutboundRules = nil
+	}
+
+	// Probes
+	if source.Probes != nil {
+		probeList := make([]Probe_STATUS, len(source.Probes))
+		for probeIndex, probeItem := range source.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe Probe_STATUS
+			err := probe.AssignPropertiesFromProbe_STATUS(&probeItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromProbe_STATUS() to populate field Probes")
+			}
+			probeList[probeIndex] = probe
+		}
+		balancer.Probes = probeList
+	} else {
+		balancer.Probes = nil
+	}
+
+	// ProvisioningState
+	balancer.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ResourceGuid
+	balancer.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+
+	// Sku
+	if source.Sku != nil {
+		var sku LoadBalancerSku_STATUS
+		err := sku.AssignPropertiesFromLoadBalancerSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSku_STATUS() to populate field Sku")
+		}
+		balancer.Sku = &sku
+	} else {
+		balancer.Sku = nil
+	}
+
+	// Tags
+	balancer.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	balancer.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		balancer.PropertyBag = propertyBag
+	} else {
+		balancer.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLoadBalancer_STATUS populates the provided destination LoadBalancer_STATUS from our LoadBalancer_STATUS
+func (balancer *LoadBalancer_STATUS) AssignPropertiesToLoadBalancer_STATUS(destination *v20201101s.LoadBalancer_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(balancer.PropertyBag)
+
+	// BackendAddressPools
+	if balancer.BackendAddressPools != nil {
+		backendAddressPoolList := make([]v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range balancer.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPoolItem.AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		}
+		destination.BackendAddressPools = backendAddressPoolList
+	} else {
+		destination.BackendAddressPools = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(balancer.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(balancer.Etag)
+
+	// ExtendedLocation
+	if balancer.ExtendedLocation != nil {
+		var extendedLocation v20201101s.ExtendedLocation_STATUS
+		err := balancer.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// FrontendIPConfigurations
+	if balancer.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range balancer.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(balancer.Id)
+
+	// InboundNatPools
+	if balancer.InboundNatPools != nil {
+		inboundNatPoolList := make([]v20201101s.InboundNatPool_STATUS, len(balancer.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range balancer.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool v20201101s.InboundNatPool_STATUS
+			err := inboundNatPoolItem.AssignPropertiesToInboundNatPool_STATUS(&inboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInboundNatPool_STATUS() to populate field InboundNatPools")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		}
+		destination.InboundNatPools = inboundNatPoolList
+	} else {
+		destination.InboundNatPools = nil
+	}
+
+	// InboundNatRules
+	if balancer.InboundNatRules != nil {
+		inboundNatRuleList := make([]v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRuleItem.AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		}
+		destination.InboundNatRules = inboundNatRuleList
+	} else {
+		destination.InboundNatRules = nil
+	}
+
+	// LoadBalancingRules
+	if balancer.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]v20201101s.LoadBalancingRule_STATUS, len(balancer.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range balancer.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule v20201101s.LoadBalancingRule_STATUS
+			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRule_STATUS(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancingRule_STATUS() to populate field LoadBalancingRules")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		}
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(balancer.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(balancer.Name)
+
+	// OutboundRules
+	if balancer.OutboundRules != nil {
+		outboundRuleList := make([]v20201101s.OutboundRule_STATUS, len(balancer.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range balancer.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule v20201101s.OutboundRule_STATUS
+			err := outboundRuleItem.AssignPropertiesToOutboundRule_STATUS(&outboundRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToOutboundRule_STATUS() to populate field OutboundRules")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
+		}
+		destination.OutboundRules = outboundRuleList
+	} else {
+		destination.OutboundRules = nil
+	}
+
+	// Probes
+	if balancer.Probes != nil {
+		probeList := make([]v20201101s.Probe_STATUS, len(balancer.Probes))
+		for probeIndex, probeItem := range balancer.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe v20201101s.Probe_STATUS
+			err := probeItem.AssignPropertiesToProbe_STATUS(&probe)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToProbe_STATUS() to populate field Probes")
+			}
+			probeList[probeIndex] = probe
+		}
+		destination.Probes = probeList
+	} else {
+		destination.Probes = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(balancer.ProvisioningState)
+
+	// ResourceGuid
+	destination.ResourceGuid = genruntime.ClonePointerToString(balancer.ResourceGuid)
+
+	// Sku
+	if balancer.Sku != nil {
+		var sku v20201101s.LoadBalancerSku_STATUS
+		err := balancer.Sku.AssignPropertiesToLoadBalancerSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(balancer.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(balancer.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded
 // Deprecated version of BackendAddressPool_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
@@ -1337,8 +1186,6 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 // Deprecated version of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
@@ -1346,13 +1193,8 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded populates our BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded populates our BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(source *v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1370,13 +1212,8 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded from our BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded populates the provided destination BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded from our BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToBackendAddressPoolSTATUSLoadBalancerSubResourceEmbedded(destination *v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1454,13 +1291,8 @@ type ExtendedLocation_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *v20201101s.ExtendedLocation_STATUS) error {
-=======
-// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *v20201101s.ExtendedLocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1481,13 +1313,8 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTA
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *v20201101s.ExtendedLocation_STATUS) error {
-=======
-// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *v20201101s.ExtendedLocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -1508,7 +1335,6 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATU
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 // Deprecated version of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
@@ -1674,8 +1500,6 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 // Deprecated version of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
@@ -1698,13 +1522,8 @@ type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Zones                     []string                                                 `json:"zones,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded populates our FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from the provided source FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded populates our FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from the provided source FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(source *v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1721,15 +1540,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool SubResource_STATUS
-<<<<<<< HEAD
 			err := inboundNatPool.AssignPropertiesFromSubResource_STATUS(&inboundNatPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field InboundNatPools")
-=======
-			err := inboundNatPool.AssignPropertiesFromSubResourceSTATUS(&inboundNatPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field InboundNatPools")
->>>>>>> main
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -1745,15 +1558,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule SubResource_STATUS
-<<<<<<< HEAD
 			err := inboundNatRule.AssignPropertiesFromSubResource_STATUS(&inboundNatRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field InboundNatRules")
-=======
-			err := inboundNatRule.AssignPropertiesFromSubResourceSTATUS(&inboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field InboundNatRules")
->>>>>>> main
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -1769,15 +1576,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule SubResource_STATUS
-<<<<<<< HEAD
 			err := loadBalancingRule.AssignPropertiesFromSubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRule.AssignPropertiesFromSubResourceSTATUS(&loadBalancingRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -1796,15 +1597,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
 			var outboundRule SubResource_STATUS
-<<<<<<< HEAD
 			err := outboundRule.AssignPropertiesFromSubResource_STATUS(&outboundRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field OutboundRules")
-=======
-			err := outboundRule.AssignPropertiesFromSubResourceSTATUS(&outboundRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field OutboundRules")
->>>>>>> main
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -1828,15 +1623,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
 		var publicIPAddress PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
 		err := publicIPAddress.AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded() to populate field PublicIPAddress")
-=======
-		err := publicIPAddress.AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(source.PublicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded() to populate field PublicIPAddress")
->>>>>>> main
 		}
 		embedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1846,15 +1635,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
 		var publicIPPrefix SubResource_STATUS
-<<<<<<< HEAD
 		err := publicIPPrefix.AssignPropertiesFromSubResource_STATUS(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field PublicIPPrefix")
-=======
-		err := publicIPPrefix.AssignPropertiesFromSubResourceSTATUS(source.PublicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field PublicIPPrefix")
->>>>>>> main
 		}
 		embedded.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -1864,15 +1647,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// Subnet
 	if source.Subnet != nil {
 		var subnet Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
 		err := subnet.AssignPropertiesFromSubnet_STATUS_LoadBalancer_SubResourceEmbedded(source.Subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubnet_STATUS_LoadBalancer_SubResourceEmbedded() to populate field Subnet")
-=======
-		err := subnet.AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded() to populate field Subnet")
->>>>>>> main
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -1896,13 +1673,8 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from our FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded populates the provided destination FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from our FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToFrontendIPConfigurationSTATUSLoadBalancerSubResourceEmbedded(destination *v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1919,15 +1691,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
 			var inboundNatPool v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := inboundNatPoolItem.AssignPropertiesToSubResource_STATUS(&inboundNatPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field InboundNatPools")
-=======
-			err := inboundNatPoolItem.AssignPropertiesToSubResourceSTATUS(&inboundNatPool)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field InboundNatPools")
->>>>>>> main
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -1943,15 +1709,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			inboundNatRuleItem := inboundNatRuleItem
 			var inboundNatRule v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := inboundNatRuleItem.AssignPropertiesToSubResource_STATUS(&inboundNatRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field InboundNatRules")
-=======
-			err := inboundNatRuleItem.AssignPropertiesToSubResourceSTATUS(&inboundNatRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field InboundNatRules")
->>>>>>> main
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -1967,15 +1727,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := loadBalancingRuleItem.AssignPropertiesToSubResource_STATUS(&loadBalancingRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRuleItem.AssignPropertiesToSubResourceSTATUS(&loadBalancingRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -1994,15 +1748,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
 			var outboundRule v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := outboundRuleItem.AssignPropertiesToSubResource_STATUS(&outboundRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field OutboundRules")
-=======
-			err := outboundRuleItem.AssignPropertiesToSubResourceSTATUS(&outboundRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field OutboundRules")
->>>>>>> main
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -2026,15 +1774,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
 		var publicIPAddress v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
 		err := embedded.PublicIPAddress.AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded() to populate field PublicIPAddress")
-=======
-		err := embedded.PublicIPAddress.AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(&publicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded() to populate field PublicIPAddress")
->>>>>>> main
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2044,15 +1786,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
 		var publicIPPrefix v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := embedded.PublicIPPrefix.AssignPropertiesToSubResource_STATUS(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field PublicIPPrefix")
-=======
-		err := embedded.PublicIPPrefix.AssignPropertiesToSubResourceSTATUS(&publicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field PublicIPPrefix")
->>>>>>> main
 		}
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -2062,15 +1798,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// Subnet
 	if embedded.Subnet != nil {
 		var subnet v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-<<<<<<< HEAD
 		err := embedded.Subnet.AssignPropertiesToSubnet_STATUS_LoadBalancer_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubnet_STATUS_LoadBalancer_SubResourceEmbedded() to populate field Subnet")
-=======
-		err := embedded.Subnet.AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded() to populate field Subnet")
->>>>>>> main
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2094,7 +1824,6 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.InboundNatPool
 // Deprecated version of InboundNatPool. Use v1beta20201101.InboundNatPool instead
 type InboundNatPool struct {
@@ -2251,8 +1980,6 @@ func (pool *InboundNatPool) AssignPropertiesToInboundNatPool(destination *v20201
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.InboundNatPool_STATUS
 // Deprecated version of InboundNatPool_STATUS. Use v1beta20201101.InboundNatPool_STATUS instead
 type InboundNatPool_STATUS struct {
@@ -2272,13 +1999,8 @@ type InboundNatPool_STATUS struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromInboundNatPool_STATUS populates our InboundNatPool_STATUS from the provided source InboundNatPool_STATUS
 func (pool *InboundNatPool_STATUS) AssignPropertiesFromInboundNatPool_STATUS(source *v20201101s.InboundNatPool_STATUS) error {
-=======
-// AssignPropertiesFromInboundNatPoolSTATUS populates our InboundNatPool_STATUS from the provided source InboundNatPool_STATUS
-func (pool *InboundNatPool_STATUS) AssignPropertiesFromInboundNatPoolSTATUS(source *v20201101s.InboundNatPool_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2307,15 +2029,9 @@ func (pool *InboundNatPool_STATUS) AssignPropertiesFromInboundNatPoolSTATUS(sour
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration SubResource_STATUS
-<<<<<<< HEAD
 		err := frontendIPConfiguration.AssignPropertiesFromSubResource_STATUS(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field FrontendIPConfiguration")
-=======
-		err := frontendIPConfiguration.AssignPropertiesFromSubResourceSTATUS(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field FrontendIPConfiguration")
->>>>>>> main
 		}
 		pool.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -2357,13 +2073,8 @@ func (pool *InboundNatPool_STATUS) AssignPropertiesFromInboundNatPoolSTATUS(sour
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToInboundNatPool_STATUS populates the provided destination InboundNatPool_STATUS from our InboundNatPool_STATUS
 func (pool *InboundNatPool_STATUS) AssignPropertiesToInboundNatPool_STATUS(destination *v20201101s.InboundNatPool_STATUS) error {
-=======
-// AssignPropertiesToInboundNatPoolSTATUS populates the provided destination InboundNatPool_STATUS from our InboundNatPool_STATUS
-func (pool *InboundNatPool_STATUS) AssignPropertiesToInboundNatPoolSTATUS(destination *v20201101s.InboundNatPool_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -2392,15 +2103,9 @@ func (pool *InboundNatPool_STATUS) AssignPropertiesToInboundNatPoolSTATUS(destin
 	// FrontendIPConfiguration
 	if pool.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := pool.FrontendIPConfiguration.AssignPropertiesToSubResource_STATUS(&frontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field FrontendIPConfiguration")
-=======
-		err := pool.FrontendIPConfiguration.AssignPropertiesToSubResourceSTATUS(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field FrontendIPConfiguration")
->>>>>>> main
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -2442,7 +2147,6 @@ func (pool *InboundNatPool_STATUS) AssignPropertiesToInboundNatPoolSTATUS(destin
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
 // Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
@@ -2498,8 +2202,6 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 // Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
@@ -2507,13 +2209,8 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded populates our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(source *v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2531,13 +2228,8 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded populates the provided destination InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToInboundNatRuleSTATUSLoadBalancerSubResourceEmbedded(destination *v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -2555,7 +2247,6 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.LoadBalancerSku
 // Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
 type LoadBalancerSku struct {
@@ -2677,15 +2368,6 @@ type LoadBalancingRule struct {
 	PropertyBag             genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Protocol                *string                       `json:"protocol,omitempty"`
 	Reference               *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-=======
-// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools
-// Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
-type LoadBalancers_Spec_Properties_BackendAddressPools struct {
-	LoadBalancerBackendAddresses []LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses `json:"loadBalancerBackendAddresses,omitempty"`
-	Location                     *string                                                                                     `json:"location,omitempty"`
-	Name                         *string                                                                                     `json:"name,omitempty"`
-	PropertyBag                  genruntime.PropertyBag                                                                      `json:"$propertyBag,omitempty"`
->>>>>>> main
 }
 
 // AssignPropertiesFromLoadBalancingRule populates our LoadBalancingRule from the provided source LoadBalancingRule
@@ -2892,338 +2574,6 @@ func (rule *LoadBalancingRule) AssignPropertiesToLoadBalancingRule(destination *
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules
-// Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead
-type LoadBalancers_Spec_Properties_OutboundRules struct {
-	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
-	BackendAddressPool       *SubResource           `json:"backendAddressPool,omitempty"`
-	EnableTcpReset           *bool                  `json:"enableTcpReset,omitempty"`
-	FrontendIPConfigurations []SubResource          `json:"frontendIPConfigurations,omitempty"`
-	IdleTimeoutInMinutes     *int                   `json:"idleTimeoutInMinutes,omitempty"`
-	Name                     *string                `json:"name,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Protocol                 *string                `json:"protocol,omitempty"`
-}
-
-// AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules populates our LoadBalancers_Spec_Properties_OutboundRules from the provided source LoadBalancers_Spec_Properties_OutboundRules
-func (rules *LoadBalancers_Spec_Properties_OutboundRules) AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(source *v20201101s.LoadBalancers_Spec_Properties_OutboundRules) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AllocatedOutboundPorts
-	rules.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
-
-	// BackendAddressPool
-	if source.BackendAddressPool != nil {
-		var backendAddressPool SubResource
-		err := backendAddressPool.AssignPropertiesFromSubResource(source.BackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field BackendAddressPool")
-		}
-		rules.BackendAddressPool = &backendAddressPool
-	} else {
-		rules.BackendAddressPool = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		rules.EnableTcpReset = &enableTcpReset
-	} else {
-		rules.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfigurations
-	if source.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration SubResource
-			err := frontendIPConfiguration.AssignPropertiesFromSubResource(&frontendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field FrontendIPConfigurations")
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		rules.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		rules.FrontendIPConfigurations = nil
-	}
-
-	// IdleTimeoutInMinutes
-	rules.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Name
-	rules.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocol
-	rules.Protocol = genruntime.ClonePointerToString(source.Protocol)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		rules.PropertyBag = propertyBag
-	} else {
-		rules.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules populates the provided destination LoadBalancers_Spec_Properties_OutboundRules from our LoadBalancers_Spec_Properties_OutboundRules
-func (rules *LoadBalancers_Spec_Properties_OutboundRules) AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(destination *v20201101s.LoadBalancers_Spec_Properties_OutboundRules) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
-
-	// AllocatedOutboundPorts
-	destination.AllocatedOutboundPorts = genruntime.ClonePointerToInt(rules.AllocatedOutboundPorts)
-
-	// BackendAddressPool
-	if rules.BackendAddressPool != nil {
-		var backendAddressPool v20201101s.SubResource
-		err := rules.BackendAddressPool.AssignPropertiesToSubResource(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field BackendAddressPool")
-		}
-		destination.BackendAddressPool = &backendAddressPool
-	} else {
-		destination.BackendAddressPool = nil
-	}
-
-	// EnableTcpReset
-	if rules.EnableTcpReset != nil {
-		enableTcpReset := *rules.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfigurations
-	if rules.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]v20201101s.SubResource, len(rules.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rules.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration v20201101s.SubResource
-			err := frontendIPConfigurationItem.AssignPropertiesToSubResource(&frontendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field FrontendIPConfigurations")
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		destination.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		destination.FrontendIPConfigurations = nil
-	}
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rules.IdleTimeoutInMinutes)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rules.Name)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(rules.Protocol)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_Probes
-// Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead
-type LoadBalancers_Spec_Properties_Probes struct {
-	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	NumberOfProbes    *int                   `json:"numberOfProbes,omitempty"`
-	Port              *int                   `json:"port,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Protocol          *string                `json:"protocol,omitempty"`
-	RequestPath       *string                `json:"requestPath,omitempty"`
-}
-
-// AssignPropertiesFromLoadBalancersSpecPropertiesProbes populates our LoadBalancers_Spec_Properties_Probes from the provided source LoadBalancers_Spec_Properties_Probes
-func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesFromLoadBalancersSpecPropertiesProbes(source *v20201101s.LoadBalancers_Spec_Properties_Probes) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// IntervalInSeconds
-	probes.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
-
-	// Name
-	probes.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NumberOfProbes
-	probes.NumberOfProbes = genruntime.ClonePointerToInt(source.NumberOfProbes)
-
-	// Port
-	probes.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Protocol
-	probes.Protocol = genruntime.ClonePointerToString(source.Protocol)
-
-	// RequestPath
-	probes.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		probes.PropertyBag = propertyBag
-	} else {
-		probes.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLoadBalancersSpecPropertiesProbes populates the provided destination LoadBalancers_Spec_Properties_Probes from our LoadBalancers_Spec_Properties_Probes
-func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesToLoadBalancersSpecPropertiesProbes(destination *v20201101s.LoadBalancers_Spec_Properties_Probes) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(probes.PropertyBag)
-
-	// IntervalInSeconds
-	destination.IntervalInSeconds = genruntime.ClonePointerToInt(probes.IntervalInSeconds)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(probes.Name)
-
-	// NumberOfProbes
-	destination.NumberOfProbes = genruntime.ClonePointerToInt(probes.NumberOfProbes)
-
-	// Port
-	destination.Port = genruntime.ClonePointerToInt(probes.Port)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(probes.Protocol)
-
-	// RequestPath
-	destination.RequestPath = genruntime.ClonePointerToString(probes.RequestPath)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.LoadBalancerSku
-// Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
-type LoadBalancerSku struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// AssignPropertiesFromLoadBalancerSku populates our LoadBalancerSku from the provided source LoadBalancerSku
-func (balancerSku *LoadBalancerSku) AssignPropertiesFromLoadBalancerSku(source *v20201101s.LoadBalancerSku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	balancerSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	balancerSku.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		balancerSku.PropertyBag = propertyBag
-	} else {
-		balancerSku.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLoadBalancerSku populates the provided destination LoadBalancerSku from our LoadBalancerSku
-func (balancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destination *v20201101s.LoadBalancerSku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(balancerSku.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(balancerSku.Name)
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(balancerSku.Tier)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.LoadBalancerSku_STATUS
-// Deprecated version of LoadBalancerSku_STATUS. Use v1beta20201101.LoadBalancerSku_STATUS instead
-type LoadBalancerSku_STATUS struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// AssignPropertiesFromLoadBalancerSkuSTATUS populates our LoadBalancerSku_STATUS from the provided source LoadBalancerSku_STATUS
-func (balancerSku *LoadBalancerSku_STATUS) AssignPropertiesFromLoadBalancerSkuSTATUS(source *v20201101s.LoadBalancerSku_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	balancerSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	balancerSku.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		balancerSku.PropertyBag = propertyBag
-	} else {
-		balancerSku.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLoadBalancerSkuSTATUS populates the provided destination LoadBalancerSku_STATUS from our LoadBalancerSku_STATUS
-func (balancerSku *LoadBalancerSku_STATUS) AssignPropertiesToLoadBalancerSkuSTATUS(destination *v20201101s.LoadBalancerSku_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(balancerSku.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(balancerSku.Name)
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(balancerSku.Tier)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
->>>>>>> main
 // Storage version of v1alpha1api20201101.LoadBalancingRule_STATUS
 // Deprecated version of LoadBalancingRule_STATUS. Use v1beta20201101.LoadBalancingRule_STATUS instead
 type LoadBalancingRule_STATUS struct {
@@ -3246,28 +2596,17 @@ type LoadBalancingRule_STATUS struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromLoadBalancingRule_STATUS populates our LoadBalancingRule_STATUS from the provided source LoadBalancingRule_STATUS
 func (rule *LoadBalancingRule_STATUS) AssignPropertiesFromLoadBalancingRule_STATUS(source *v20201101s.LoadBalancingRule_STATUS) error {
-=======
-// AssignPropertiesFromLoadBalancingRuleSTATUS populates our LoadBalancingRule_STATUS from the provided source LoadBalancingRule_STATUS
-func (rule *LoadBalancingRule_STATUS) AssignPropertiesFromLoadBalancingRuleSTATUS(source *v20201101s.LoadBalancingRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
 		var backendAddressPool SubResource_STATUS
-<<<<<<< HEAD
 		err := backendAddressPool.AssignPropertiesFromSubResource_STATUS(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field BackendAddressPool")
-=======
-		err := backendAddressPool.AssignPropertiesFromSubResourceSTATUS(source.BackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field BackendAddressPool")
->>>>>>> main
 		}
 		rule.BackendAddressPool = &backendAddressPool
 	} else {
@@ -3307,15 +2646,9 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesFromLoadBalancingRuleSTATU
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration SubResource_STATUS
-<<<<<<< HEAD
 		err := frontendIPConfiguration.AssignPropertiesFromSubResource_STATUS(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field FrontendIPConfiguration")
-=======
-		err := frontendIPConfiguration.AssignPropertiesFromSubResourceSTATUS(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field FrontendIPConfiguration")
->>>>>>> main
 		}
 		rule.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -3340,15 +2673,9 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesFromLoadBalancingRuleSTATU
 	// Probe
 	if source.Probe != nil {
 		var probe SubResource_STATUS
-<<<<<<< HEAD
 		err := probe.AssignPropertiesFromSubResource_STATUS(source.Probe)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field Probe")
-=======
-		err := probe.AssignPropertiesFromSubResourceSTATUS(source.Probe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field Probe")
->>>>>>> main
 		}
 		rule.Probe = &probe
 	} else {
@@ -3375,28 +2702,17 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesFromLoadBalancingRuleSTATU
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToLoadBalancingRule_STATUS populates the provided destination LoadBalancingRule_STATUS from our LoadBalancingRule_STATUS
 func (rule *LoadBalancingRule_STATUS) AssignPropertiesToLoadBalancingRule_STATUS(destination *v20201101s.LoadBalancingRule_STATUS) error {
-=======
-// AssignPropertiesToLoadBalancingRuleSTATUS populates the provided destination LoadBalancingRule_STATUS from our LoadBalancingRule_STATUS
-func (rule *LoadBalancingRule_STATUS) AssignPropertiesToLoadBalancingRuleSTATUS(destination *v20201101s.LoadBalancingRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
 		var backendAddressPool v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := rule.BackendAddressPool.AssignPropertiesToSubResource_STATUS(&backendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field BackendAddressPool")
-=======
-		err := rule.BackendAddressPool.AssignPropertiesToSubResourceSTATUS(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field BackendAddressPool")
->>>>>>> main
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -3436,15 +2752,9 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesToLoadBalancingRuleSTATUS(
 	// FrontendIPConfiguration
 	if rule.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := rule.FrontendIPConfiguration.AssignPropertiesToSubResource_STATUS(&frontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field FrontendIPConfiguration")
-=======
-		err := rule.FrontendIPConfiguration.AssignPropertiesToSubResourceSTATUS(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field FrontendIPConfiguration")
->>>>>>> main
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -3469,15 +2779,9 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesToLoadBalancingRuleSTATUS(
 	// Probe
 	if rule.Probe != nil {
 		var probe v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := rule.Probe.AssignPropertiesToSubResource_STATUS(&probe)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field Probe")
-=======
-		err := rule.Probe.AssignPropertiesToSubResourceSTATUS(&probe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field Probe")
->>>>>>> main
 		}
 		destination.Probe = &probe
 	} else {
@@ -3504,7 +2808,6 @@ func (rule *LoadBalancingRule_STATUS) AssignPropertiesToLoadBalancingRuleSTATUS(
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.OutboundRule
 // Deprecated version of OutboundRule. Use v1beta20201101.OutboundRule instead
 type OutboundRule struct {
@@ -3667,8 +2970,6 @@ func (rule *OutboundRule) AssignPropertiesToOutboundRule(destination *v20201101s
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.OutboundRule_STATUS
 // Deprecated version of OutboundRule_STATUS. Use v1beta20201101.OutboundRule_STATUS instead
 type OutboundRule_STATUS struct {
@@ -3686,13 +2987,8 @@ type OutboundRule_STATUS struct {
 	Type                     *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromOutboundRule_STATUS populates our OutboundRule_STATUS from the provided source OutboundRule_STATUS
 func (rule *OutboundRule_STATUS) AssignPropertiesFromOutboundRule_STATUS(source *v20201101s.OutboundRule_STATUS) error {
-=======
-// AssignPropertiesFromOutboundRuleSTATUS populates our OutboundRule_STATUS from the provided source OutboundRule_STATUS
-func (rule *OutboundRule_STATUS) AssignPropertiesFromOutboundRuleSTATUS(source *v20201101s.OutboundRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3702,15 +2998,9 @@ func (rule *OutboundRule_STATUS) AssignPropertiesFromOutboundRuleSTATUS(source *
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
 		var backendAddressPool SubResource_STATUS
-<<<<<<< HEAD
 		err := backendAddressPool.AssignPropertiesFromSubResource_STATUS(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field BackendAddressPool")
-=======
-		err := backendAddressPool.AssignPropertiesFromSubResourceSTATUS(source.BackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field BackendAddressPool")
->>>>>>> main
 		}
 		rule.BackendAddressPool = &backendAddressPool
 	} else {
@@ -3735,15 +3025,9 @@ func (rule *OutboundRule_STATUS) AssignPropertiesFromOutboundRuleSTATUS(source *
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration SubResource_STATUS
-<<<<<<< HEAD
 			err := frontendIPConfiguration.AssignPropertiesFromSubResource_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field FrontendIPConfigurations")
-=======
-			err := frontendIPConfiguration.AssignPropertiesFromSubResourceSTATUS(&frontendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field FrontendIPConfigurations")
->>>>>>> main
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -3781,13 +3065,8 @@ func (rule *OutboundRule_STATUS) AssignPropertiesFromOutboundRuleSTATUS(source *
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToOutboundRule_STATUS populates the provided destination OutboundRule_STATUS from our OutboundRule_STATUS
 func (rule *OutboundRule_STATUS) AssignPropertiesToOutboundRule_STATUS(destination *v20201101s.OutboundRule_STATUS) error {
-=======
-// AssignPropertiesToOutboundRuleSTATUS populates the provided destination OutboundRule_STATUS from our OutboundRule_STATUS
-func (rule *OutboundRule_STATUS) AssignPropertiesToOutboundRuleSTATUS(destination *v20201101s.OutboundRule_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -3797,15 +3076,9 @@ func (rule *OutboundRule_STATUS) AssignPropertiesToOutboundRuleSTATUS(destinatio
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
 		var backendAddressPool v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 		err := rule.BackendAddressPool.AssignPropertiesToSubResource_STATUS(&backendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field BackendAddressPool")
-=======
-		err := rule.BackendAddressPool.AssignPropertiesToSubResourceSTATUS(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field BackendAddressPool")
->>>>>>> main
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -3830,15 +3103,9 @@ func (rule *OutboundRule_STATUS) AssignPropertiesToOutboundRuleSTATUS(destinatio
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
 			var frontendIPConfiguration v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := frontendIPConfigurationItem.AssignPropertiesToSubResource_STATUS(&frontendIPConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field FrontendIPConfigurations")
-=======
-			err := frontendIPConfigurationItem.AssignPropertiesToSubResourceSTATUS(&frontendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field FrontendIPConfigurations")
->>>>>>> main
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -3876,7 +3143,6 @@ func (rule *OutboundRule_STATUS) AssignPropertiesToOutboundRuleSTATUS(destinatio
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.Probe
 // Deprecated version of Probe. Use v1beta20201101.Probe instead
 type Probe struct {
@@ -3974,8 +3240,6 @@ func (probe *Probe) AssignPropertiesToProbe(destination *v20201101s.Probe) error
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.Probe_STATUS
 // Deprecated version of Probe_STATUS. Use v1beta20201101.Probe_STATUS instead
 type Probe_STATUS struct {
@@ -3993,13 +3257,8 @@ type Probe_STATUS struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromProbe_STATUS populates our Probe_STATUS from the provided source Probe_STATUS
 func (probe *Probe_STATUS) AssignPropertiesFromProbe_STATUS(source *v20201101s.Probe_STATUS) error {
-=======
-// AssignPropertiesFromProbeSTATUS populates our Probe_STATUS from the provided source Probe_STATUS
-func (probe *Probe_STATUS) AssignPropertiesFromProbeSTATUS(source *v20201101s.Probe_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4019,15 +3278,9 @@ func (probe *Probe_STATUS) AssignPropertiesFromProbeSTATUS(source *v20201101s.Pr
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule SubResource_STATUS
-<<<<<<< HEAD
 			err := loadBalancingRule.AssignPropertiesFromSubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRule.AssignPropertiesFromSubResourceSTATUS(&loadBalancingRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -4068,13 +3321,8 @@ func (probe *Probe_STATUS) AssignPropertiesFromProbeSTATUS(source *v20201101s.Pr
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToProbe_STATUS populates the provided destination Probe_STATUS from our Probe_STATUS
 func (probe *Probe_STATUS) AssignPropertiesToProbe_STATUS(destination *v20201101s.Probe_STATUS) error {
-=======
-// AssignPropertiesToProbeSTATUS populates the provided destination Probe_STATUS from our Probe_STATUS
-func (probe *Probe_STATUS) AssignPropertiesToProbeSTATUS(destination *v20201101s.Probe_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(probe.PropertyBag)
 
@@ -4094,15 +3342,9 @@ func (probe *Probe_STATUS) AssignPropertiesToProbeSTATUS(destination *v20201101s
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
 			var loadBalancingRule v20201101s.SubResource_STATUS
-<<<<<<< HEAD
 			err := loadBalancingRuleItem.AssignPropertiesToSubResource_STATUS(&loadBalancingRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field LoadBalancingRules")
-=======
-			err := loadBalancingRuleItem.AssignPropertiesToSubResourceSTATUS(&loadBalancingRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field LoadBalancingRules")
->>>>>>> main
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -4131,6 +3373,108 @@ func (probe *Probe_STATUS) AssignPropertiesToProbeSTATUS(destination *v20201101s
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(probe.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+// Deprecated version of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instead
+type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
+	ExtendedLocation *ExtendedLocation_STATUS   `json:"extendedLocation,omitempty"`
+	Id               *string                    `json:"id,omitempty"`
+	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Sku              *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
+	Zones            []string                   `json:"zones,omitempty"`
+}
+
+// AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation_STATUS
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		embedded.ExtendedLocation = &extendedLocation
+	} else {
+		embedded.ExtendedLocation = nil
+	}
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Sku
+	if source.Sku != nil {
+		var sku PublicIPAddressSku_STATUS
+		err := sku.AssignPropertiesFromPublicIPAddressSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSku_STATUS() to populate field Sku")
+		}
+		embedded.Sku = &sku
+	} else {
+		embedded.Sku = nil
+	}
+
+	// Zones
+	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// ExtendedLocation
+	if embedded.ExtendedLocation != nil {
+		var extendedLocation v20201101s.ExtendedLocation_STATUS
+		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Sku
+	if embedded.Sku != nil {
+		var sku v20201101s.PublicIPAddressSku_STATUS
+		err := embedded.Sku.AssignPropertiesToPublicIPAddressSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4491,143 +3835,6 @@ func (address *PublicIPAddressSpec) AssignPropertiesToPublicIPAddressSpec(destin
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-// Deprecated version of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instead
-type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	ExtendedLocation *ExtendedLocation_STATUS   `json:"extendedLocation,omitempty"`
-	Id               *string                    `json:"id,omitempty"`
-	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Sku              *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
-	Zones            []string                   `json:"zones,omitempty"`
-}
-
-<<<<<<< HEAD
-// AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded populates our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(source *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-<<<<<<< HEAD
-		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
-=======
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
->>>>>>> main
-		}
-		embedded.ExtendedLocation = &extendedLocation
-	} else {
-		embedded.ExtendedLocation = nil
-	}
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPAddressSku_STATUS
-<<<<<<< HEAD
-		err := sku.AssignPropertiesFromPublicIPAddressSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSku_STATUS() to populate field Sku")
-=======
-		err := sku.AssignPropertiesFromPublicIPAddressSkuSTATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		embedded.Sku = &sku
-	} else {
-		embedded.Sku = nil
-	}
-
-	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToPublicIPAddressSTATUSLoadBalancerSubResourceEmbedded(destination *v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation_STATUS
-<<<<<<< HEAD
-		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
-=======
-		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
->>>>>>> main
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Sku
-	if embedded.Sku != nil {
-		var sku v20201101s.PublicIPAddressSku_STATUS
-<<<<<<< HEAD
-		err := embedded.Sku.AssignPropertiesToPublicIPAddressSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku_STATUS() to populate field Sku")
-=======
-		err := embedded.Sku.AssignPropertiesToPublicIPAddressSkuSTATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSkuSTATUS() to populate field Sku")
->>>>>>> main
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
 // Storage version of v1alpha1api20201101.Subnet_LoadBalancer_SubResourceEmbedded
 // Deprecated version of Subnet_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_LoadBalancer_SubResourceEmbedded instead
 type Subnet_LoadBalancer_SubResourceEmbedded struct {
@@ -4683,8 +3890,6 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignPropertiesToSubne
 	return nil
 }
 
-=======
->>>>>>> main
 // Storage version of v1alpha1api20201101.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 // Deprecated version of Subnet_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_LoadBalancer_SubResourceEmbedded instead
 type Subnet_STATUS_LoadBalancer_SubResourceEmbedded struct {
@@ -4692,13 +3897,8 @@ type Subnet_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
 // AssignPropertiesFromSubnet_STATUS_LoadBalancer_SubResourceEmbedded populates our Subnet_STATUS_LoadBalancer_SubResourceEmbedded from the provided source Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromSubnet_STATUS_LoadBalancer_SubResourceEmbedded(source *v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded populates our Subnet_STATUS_LoadBalancer_SubResourceEmbedded from the provided source Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesFromSubnetSTATUSLoadBalancerSubResourceEmbedded(source *v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4716,13 +3916,8 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignPropertiesToSubnet_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination Subnet_STATUS_LoadBalancer_SubResourceEmbedded from our Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToSubnet_STATUS_LoadBalancer_SubResourceEmbedded(destination *v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded) error {
-=======
-// AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded populates the provided destination Subnet_STATUS_LoadBalancer_SubResourceEmbedded from our Subnet_STATUS_LoadBalancer_SubResourceEmbedded
-func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignPropertiesToSubnetSTATUSLoadBalancerSubResourceEmbedded(destination *v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
