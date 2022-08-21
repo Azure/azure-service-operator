@@ -117,11 +117,11 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	}
 
 	// We add ownership once we have all the resources in the map
-	err = t.setOwnerShip(samples.SamplesMap)
+	err = t.setOwnership(samples.SamplesMap)
 	if err != nil {
 		return nil, err
 	}
-	err = t.setOwnerShip(samples.RefsMap)
+	err = t.setOwnership(samples.RefsMap)
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +174,7 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 	return obj.(genruntime.ARMMetaObject), nil
 }
 
-func (t *SamplesTester) setOwnerShip(samples map[string]genruntime.ARMMetaObject) error {
+func (t *SamplesTester) setOwnership(samples map[string]genruntime.ARMMetaObject) error {
 	for gk, sample := range samples {
 		// We don't apply ownership to the resources which have no owner
 		if sample.Owner() == nil {

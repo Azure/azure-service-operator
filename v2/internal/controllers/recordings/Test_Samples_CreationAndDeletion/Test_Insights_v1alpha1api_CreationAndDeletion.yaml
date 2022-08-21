@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"web","location":"westcentralus","name":"asotestxelpqe","properties":{"Application_Type":"other"}}'
+    body: '{"kind":"web","location":"westus","name":"asotestxelpqe","properties":{"Application_Type":"other"}}'
     form: {}
     headers:
       Accept:
@@ -82,13 +82,13 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-btiqcz/providers/microsoft.insights/components/asotestxelpqe\",\r\n
       \ \"name\": \"asotestxelpqe\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"0900747b-0000-0100-0000-62da09580000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestxelpqe\",\r\n    \"AppId\": \"0072dd0f-29e1-44e7-99a5-b6073f00cb76\",\r\n
+      \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
+      \"\\\"d1025d66-0000-0200-0000-62ffd7270000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestxelpqe\",\r\n    \"AppId\": \"a7a84400-6406-4014-856d-04d3be20bc0c\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"7ec3941d-45ef-47d7-8b89-793f18ecaa18\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=7ec3941d-45ef-47d7-8b89-793f18ecaa18;IngestionEndpoint=https://westcentralus-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestxelpqe\",\r\n    \"CreationDate\": \"2022-07-22T02:20:08.1718206+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"98568bad-ff14-49a4-807d-ffc71592f07d\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=98568bad-ff14-49a4-807d-ffc71592f07d;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestxelpqe\",\r\n    \"CreationDate\": \"2022-08-19T18:32:07.0369976+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
@@ -133,13 +133,13 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-btiqcz/providers/microsoft.insights/components/asotestxelpqe\",\r\n
       \ \"name\": \"asotestxelpqe\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"0900747b-0000-0100-0000-62da09580000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestxelpqe\",\r\n    \"AppId\": \"0072dd0f-29e1-44e7-99a5-b6073f00cb76\",\r\n
+      \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
+      \"\\\"d1025d66-0000-0200-0000-62ffd7270000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestxelpqe\",\r\n    \"AppId\": \"a7a84400-6406-4014-856d-04d3be20bc0c\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"7ec3941d-45ef-47d7-8b89-793f18ecaa18\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=7ec3941d-45ef-47d7-8b89-793f18ecaa18;IngestionEndpoint=https://westcentralus-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestxelpqe\",\r\n    \"CreationDate\": \"2022-07-22T02:20:08.1718206+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"98568bad-ff14-49a4-807d-ffc71592f07d\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=98568bad-ff14-49a4-807d-ffc71592f07d;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestxelpqe\",\r\n    \"CreationDate\": \"2022-08-19T18:32:07.0369976+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
       90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":

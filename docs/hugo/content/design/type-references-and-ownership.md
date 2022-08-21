@@ -65,7 +65,7 @@ This section examines how other operator solutions have tackled these problems. 
 
 #### What does ARM do?
 These are just properties (often but not always called `id`) which refer to the fully qualified ARM ID of another resource. For example see a
-[sample deployment template for a VMSS refering to an existing vnet](https://github.com/Azure/azure-quickstart-templates/blob/master/201-vmss-existing-vnet/azuredeploy.json#L136).
+[sample deployment template for a VMSS refering to an existing vnet](https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.compute/vmss-existing-vnet/azuredeploy.json#L145).
 
 ```json
 "properties": {
