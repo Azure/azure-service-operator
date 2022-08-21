@@ -29,7 +29,7 @@ type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FlexibleServersConfigurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_Status               `json:"status,omitempty"`
+	Status            Configuration_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -112,7 +112,7 @@ func (configuration *FlexibleServersConfiguration) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -137,7 +137,7 @@ func (configuration *FlexibleServersConfiguration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Configuration_Status{}
+	return &Configuration_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceR
 // SetStatus sets the status of this resource
 func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Configuration_Status); ok {
+	if st, ok := status.(*Configuration_STATUS); ok {
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Configuration_Status
+	var st Configuration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleS
 	configuration.Spec = spec
 
 	// Status
-	var status Configuration_Status
-	err = status.AssignPropertiesFromConfigurationStatus(&source.Status)
+	var status Configuration_STATUS
+	err = status.AssignPropertiesFromConfigurationSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationSTATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -303,10 +303,10 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesToFlexibleSer
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210601s.Configuration_Status
-	err = configuration.Status.AssignPropertiesToConfigurationStatus(&status)
+	var status alpha20210601s.Configuration_STATUS
+	err = configuration.Status.AssignPropertiesToConfigurationSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToConfigurationSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,13 +331,13 @@ type FlexibleServersConfigurationList struct {
 	Items           []FlexibleServersConfiguration `json:"items"`
 }
 
-// Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
-type Configuration_Status struct {
+// Deprecated version of Configuration_STATUS. Use v1beta20210601.Configuration_STATUS instead
+type Configuration_STATUS struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions             []conditions.Condition                 `json:"conditions,omitempty"`
-	DataType               *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
+	DataType               *ConfigurationPropertiesSTATUSDataType `json:"dataType,omitempty"`
 	DefaultValue           *string                                `json:"defaultValue,omitempty"`
 	Description            *string                                `json:"description,omitempty"`
 	DocumentationLink      *string                                `json:"documentationLink,omitempty"`
@@ -347,31 +347,31 @@ type Configuration_Status struct {
 	IsReadOnly             *bool                                  `json:"isReadOnly,omitempty"`
 	Name                   *string                                `json:"name,omitempty"`
 	Source                 *string                                `json:"source,omitempty"`
-	SystemData             *SystemData_Status                     `json:"systemData,omitempty"`
+	SystemData             *SystemData_STATUS                     `json:"systemData,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
 	Unit                   *string                                `json:"unit,omitempty"`
 	Value                  *string                                `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Configuration_Status{}
+var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
 
-// ConvertStatusFrom populates our Configuration_Status from the provided source
-func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210601s.Configuration_Status)
+// ConvertStatusFrom populates our Configuration_STATUS from the provided source
+func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210601s.Configuration_STATUS)
 	if ok {
 		// Populate our instance from source
-		return configuration.AssignPropertiesFromConfigurationStatus(src)
+		return configuration.AssignPropertiesFromConfigurationSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210601s.Configuration_Status{}
+	src = &alpha20210601s.Configuration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = configuration.AssignPropertiesFromConfigurationStatus(src)
+	err = configuration.AssignPropertiesFromConfigurationSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -379,17 +379,17 @@ func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.C
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Configuration_Status
-func (configuration *Configuration_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210601s.Configuration_Status)
+// ConvertStatusTo populates the provided destination from our Configuration_STATUS
+func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210601s.Configuration_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return configuration.AssignPropertiesToConfigurationStatus(dst)
+		return configuration.AssignPropertiesToConfigurationSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210601s.Configuration_Status{}
-	err := configuration.AssignPropertiesToConfigurationStatus(dst)
+	dst = &alpha20210601s.Configuration_STATUS{}
+	err := configuration.AssignPropertiesToConfigurationSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -403,18 +403,18 @@ func (configuration *Configuration_Status) ConvertStatusTo(destination genruntim
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Configuration_Status{}
+var _ genruntime.FromARMConverter = &Configuration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *Configuration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Configuration_StatusARM{}
+func (configuration *Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Configuration_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Configuration_StatusARM)
+func (configuration *Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Configuration_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedValues’:
@@ -514,7 +514,7 @@ func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -551,8 +551,8 @@ func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromConfigurationStatus populates our Configuration_Status from the provided source Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStatus(source *alpha20210601s.Configuration_Status) error {
+// AssignPropertiesFromConfigurationSTATUS populates our Configuration_STATUS from the provided source Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignPropertiesFromConfigurationSTATUS(source *alpha20210601s.Configuration_STATUS) error {
 
 	// AllowedValues
 	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
@@ -562,7 +562,7 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 
 	// DataType
 	if source.DataType != nil {
-		dataType := ConfigurationPropertiesStatusDataType(*source.DataType)
+		dataType := ConfigurationPropertiesSTATUSDataType(*source.DataType)
 		configuration.DataType = &dataType
 	} else {
 		configuration.DataType = nil
@@ -612,10 +612,10 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -635,8 +635,8 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	return nil
 }
 
-// AssignPropertiesToConfigurationStatus populates the provided destination Configuration_Status from our Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus(destination *alpha20210601s.Configuration_Status) error {
+// AssignPropertiesToConfigurationSTATUS populates the provided destination Configuration_STATUS from our Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignPropertiesToConfigurationSTATUS(destination *alpha20210601s.Configuration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -698,10 +698,10 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 
 	// SystemData
 	if configuration.SystemData != nil {
-		var systemDatum alpha20210601s.SystemData_Status
-		err := configuration.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum alpha20210601s.SystemData_STATUS
+		err := configuration.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

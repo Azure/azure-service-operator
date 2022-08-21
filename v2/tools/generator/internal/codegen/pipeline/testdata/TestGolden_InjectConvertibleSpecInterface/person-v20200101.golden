@@ -16,7 +16,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
@@ -34,10 +34,10 @@ func (person *Person) AssignPropertiesFromPerson(source *v20200101s.Person) erro
 	person.Spec = spec
 
 	// Status
-	var status Person_Status
-	err = status.AssignPropertiesFromPersonStatus(&source.Status)
+	var status Person_STATUS
+	err = status.AssignPropertiesFromPersonSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPersonStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromPersonSTATUS() to populate field Status")
 	}
 	person.Status = status
 
@@ -60,10 +60,10 @@ func (person *Person) AssignPropertiesToPerson(destination *v20200101s.Person) e
 	destination.Spec = spec
 
 	// Status
-	var status v20200101s.Person_Status
-	err = person.Status.AssignPropertiesToPersonStatus(&status)
+	var status v20200101s.Person_STATUS
+	err = person.Status.AssignPropertiesToPersonSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToPersonSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -163,12 +163,12 @@ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101s.
 	return nil
 }
 
-type Person_Status struct {
+type Person_STATUS struct {
 	Status string `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
-func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101s.Person_Status) error {
+// AssignPropertiesFromPersonSTATUS populates our Person_STATUS from the provided source Person_STATUS
+func (person *Person_STATUS) AssignPropertiesFromPersonSTATUS(source *v20200101s.Person_STATUS) error {
 
 	// Status
 	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -177,8 +177,8 @@ func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101s
 	return nil
 }
 
-// AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
-func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101s.Person_Status) error {
+// AssignPropertiesToPersonSTATUS populates the provided destination Person_STATUS from our Person_STATUS
+func (person *Person_STATUS) AssignPropertiesToPersonSTATUS(destination *v20200101s.Person_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

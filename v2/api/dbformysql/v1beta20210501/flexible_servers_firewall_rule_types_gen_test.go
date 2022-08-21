@@ -162,35 +162,35 @@ func FlexibleServersFirewallRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServersFirewallRulesSpecGenerator()
-	gens["Status"] = FirewallRuleStatusGenerator()
+	gens["Status"] = FirewallRuleSTATUSGenerator()
 }
 
-func Test_FirewallRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_FirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from FirewallRule_Status to FirewallRule_Status via AssignPropertiesToFirewallRuleStatus & AssignPropertiesFromFirewallRuleStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFirewallRuleStatus, FirewallRuleStatusGenerator()))
+		"Round trip from FirewallRule_STATUS to FirewallRule_STATUS via AssignPropertiesToFirewallRuleSTATUS & AssignPropertiesFromFirewallRuleSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFirewallRuleSTATUS, FirewallRuleSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFirewallRuleStatus tests if a specific instance of FirewallRule_Status can be assigned to v1beta20210501storage and back losslessly
-func RunPropertyAssignmentTestForFirewallRuleStatus(subject FirewallRule_Status) string {
+// RunPropertyAssignmentTestForFirewallRuleSTATUS tests if a specific instance of FirewallRule_STATUS can be assigned to v1beta20210501storage and back losslessly
+func RunPropertyAssignmentTestForFirewallRuleSTATUS(subject FirewallRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210501s.FirewallRule_Status
-	err := copied.AssignPropertiesToFirewallRuleStatus(&other)
+	var other v20210501s.FirewallRule_STATUS
+	err := copied.AssignPropertiesToFirewallRuleSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FirewallRule_Status
-	err = actual.AssignPropertiesFromFirewallRuleStatus(&other)
+	var actual FirewallRule_STATUS
+	err = actual.AssignPropertiesFromFirewallRuleSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForFirewallRuleStatus(subject FirewallRule_Status)
 	return ""
 }
 
-func Test_FirewallRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FirewallRule_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFirewallRuleStatus, FirewallRuleStatusGenerator()))
+		"Round trip of FirewallRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFirewallRuleSTATUS, FirewallRuleSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFirewallRuleStatus runs a test to see if a specific instance of FirewallRule_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForFirewallRuleStatus(subject FirewallRule_Status) string {
+// RunJSONSerializationTestForFirewallRuleSTATUS runs a test to see if a specific instance of FirewallRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFirewallRuleSTATUS(subject FirewallRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForFirewallRuleStatus(subject FirewallRule_Status) 
 	}
 
 	// Deserialize back into memory
-	var actual FirewallRule_Status
+	var actual FirewallRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,33 +246,33 @@ func RunJSONSerializationTestForFirewallRuleStatus(subject FirewallRule_Status) 
 	return ""
 }
 
-// Generator of FirewallRule_Status instances for property testing - lazily instantiated by FirewallRuleStatusGenerator()
-var firewallRuleStatusGenerator gopter.Gen
+// Generator of FirewallRule_STATUS instances for property testing - lazily instantiated by FirewallRuleSTATUSGenerator()
+var firewallRuleSTATUSGenerator gopter.Gen
 
-// FirewallRuleStatusGenerator returns a generator of FirewallRule_Status instances for property testing.
-// We first initialize firewallRuleStatusGenerator with a simplified generator based on the
+// FirewallRuleSTATUSGenerator returns a generator of FirewallRule_STATUS instances for property testing.
+// We first initialize firewallRuleSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FirewallRuleStatusGenerator() gopter.Gen {
-	if firewallRuleStatusGenerator != nil {
-		return firewallRuleStatusGenerator
+func FirewallRuleSTATUSGenerator() gopter.Gen {
+	if firewallRuleSTATUSGenerator != nil {
+		return firewallRuleSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRuleStatus(generators)
-	firewallRuleStatusGenerator = gen.Struct(reflect.TypeOf(FirewallRule_Status{}), generators)
+	AddIndependentPropertyGeneratorsForFirewallRuleSTATUS(generators)
+	firewallRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRuleStatus(generators)
-	AddRelatedPropertyGeneratorsForFirewallRuleStatus(generators)
-	firewallRuleStatusGenerator = gen.Struct(reflect.TypeOf(FirewallRule_Status{}), generators)
+	AddIndependentPropertyGeneratorsForFirewallRuleSTATUS(generators)
+	AddRelatedPropertyGeneratorsForFirewallRuleSTATUS(generators)
+	firewallRuleSTATUSGenerator = gen.Struct(reflect.TypeOf(FirewallRule_STATUS{}), generators)
 
-	return firewallRuleStatusGenerator
+	return firewallRuleSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFirewallRuleStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFirewallRuleStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFirewallRuleSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFirewallRuleSTATUS(gens map[string]gopter.Gen) {
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -280,9 +280,9 @@ func AddIndependentPropertyGeneratorsForFirewallRuleStatus(gens map[string]gopte
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFirewallRuleStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFirewallRuleStatus(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForFirewallRuleSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFirewallRuleSTATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
 }
 
 func Test_FlexibleServersFirewallRules_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

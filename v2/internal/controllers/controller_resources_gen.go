@@ -129,6 +129,9 @@ import (
 	storage_alpha20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
 	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
+	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -476,6 +479,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(subscription_v20211001s.Alias),
 	})
 	return result
 }
@@ -849,6 +855,8 @@ func getKnownTypes() []client.Object {
 		new(storage_v20210401s.StorageAccountsManagementPolicy),
 		new(storage_v20210401s.StorageAccountsQueueService),
 		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
+	result = append(result, new(subscription_v20211001.Alias))
+	result = append(result, new(subscription_v20211001s.Alias))
 	return result
 }
 
@@ -958,6 +966,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_alpha20210401s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
+	_ = subscription_v20211001.AddToScheme(scheme)
+	_ = subscription_v20211001s.AddToScheme(scheme)
 	return scheme
 }
 
@@ -1044,6 +1054,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsManagementPolicyExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
+	result = append(result, &subscription_customizations.AliasExtension{})
 	return result
 }
 

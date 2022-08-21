@@ -20,7 +20,7 @@ import (
 func Test_RouteTablesRoutes_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -154,9 +154,9 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormatARM(gens map[string
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RoutePropertiesFormatNextHopTypeInternet,
-		RoutePropertiesFormatNextHopTypeNone,
-		RoutePropertiesFormatNextHopTypeVirtualAppliance,
-		RoutePropertiesFormatNextHopTypeVirtualNetworkGateway,
-		RoutePropertiesFormatNextHopTypeVnetLocal))
+		RoutePropertiesFormatNextHopType_Internet,
+		RoutePropertiesFormatNextHopType_None,
+		RoutePropertiesFormatNextHopType_VirtualAppliance,
+		RoutePropertiesFormatNextHopType_VirtualNetworkGateway,
+		RoutePropertiesFormatNextHopType_VnetLocal))
 }

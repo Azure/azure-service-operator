@@ -20,7 +20,7 @@ import (
 func Test_DatabaseAccounts_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -84,7 +84,7 @@ func DatabaseAccountsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountsSpecARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountsSpecKindGlobalDocumentDB, DatabaseAccountsSpecKindMongoDB, DatabaseAccountsSpecKindParse))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountsSpecKind_GlobalDocumentDB, DatabaseAccountsSpecKind_MongoDB, DatabaseAccountsSpecKind_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -163,8 +163,8 @@ func DatabaseAccountCreateUpdatePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM(gens map[string]gopter.Gen) {
-	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall))
-	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard))
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesConnectorOffer_Small))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType_Standard))
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
@@ -174,9 +174,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesNetworkAclBypassAzureServices, DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone))
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_AzureServices, DatabaseAccountCreateUpdatePropertiesNetworkAclBypass_None))
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessDisabled, DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Disabled, DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdatePropertiesARM is a factory method for creating gopter generators
@@ -251,10 +251,10 @@ func ManagedServiceIdentityARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedServiceIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentityARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityTypeNone,
-		ManagedServiceIdentityTypeSystemAssigned,
-		ManagedServiceIdentityTypeSystemAssignedUserAssigned,
-		ManagedServiceIdentityTypeUserAssigned))
+		ManagedServiceIdentityType_None,
+		ManagedServiceIdentityType_SystemAssigned,
+		ManagedServiceIdentityType_SystemAssignedUserAssigned,
+		ManagedServiceIdentityType_UserAssigned))
 }
 
 func Test_AnalyticalStorageConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -315,7 +315,7 @@ func AnalyticalStorageConfigurationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAnalyticalStorageConfigurationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAnalyticalStorageConfigurationARM(gens map[string]gopter.Gen) {
-	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageConfigurationSchemaTypeFullFidelity, AnalyticalStorageConfigurationSchemaTypeWellDefined))
+	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageConfigurationSchemaType_FullFidelity, AnalyticalStorageConfigurationSchemaType_WellDefined))
 }
 
 func Test_ApiPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -375,7 +375,7 @@ func ApiPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApiPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiPropertiesARM(gens map[string]gopter.Gen) {
-	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiPropertiesServerVersion32, ApiPropertiesServerVersion36, ApiPropertiesServerVersion40))
+	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiPropertiesServerVersion_32, ApiPropertiesServerVersion_36, ApiPropertiesServerVersion_40))
 }
 
 func Test_BackupPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -570,11 +570,11 @@ func ConsistencyPolicyARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConsistencyPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicyARM(gens map[string]gopter.Gen) {
 	gens["DefaultConsistencyLevel"] = gen.PtrOf(gen.OneConstOf(
-		ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness,
-		ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix,
-		ConsistencyPolicyDefaultConsistencyLevelEventual,
-		ConsistencyPolicyDefaultConsistencyLevelSession,
-		ConsistencyPolicyDefaultConsistencyLevelStrong))
+		ConsistencyPolicyDefaultConsistencyLevel_BoundedStaleness,
+		ConsistencyPolicyDefaultConsistencyLevel_ConsistentPrefix,
+		ConsistencyPolicyDefaultConsistencyLevel_Eventual,
+		ConsistencyPolicyDefaultConsistencyLevel_Session,
+		ConsistencyPolicyDefaultConsistencyLevel_Strong))
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -886,7 +886,7 @@ func ContinuousModeBackupPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContinuousModeBackupPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContinuousModeBackupPolicyARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(ContinuousModeBackupPolicyTypeContinuous)
+	gens["Type"] = gen.OneConstOf(ContinuousModeBackupPolicyType_Continuous)
 }
 
 func Test_PeriodicModeBackupPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -956,7 +956,7 @@ func PeriodicModeBackupPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicyARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(PeriodicModeBackupPolicyTypePeriodic)
+	gens["Type"] = gen.OneConstOf(PeriodicModeBackupPolicyType_Periodic)
 }
 
 // AddRelatedPropertyGeneratorsForPeriodicModeBackupPolicyARM is a factory method for creating gopter generators

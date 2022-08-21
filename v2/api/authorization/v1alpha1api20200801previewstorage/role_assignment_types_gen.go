@@ -26,7 +26,7 @@ type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RoleAssignments_Spec  `json:"spec,omitempty"`
-	Status            RoleAssignment_Status `json:"status,omitempty"`
+	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RoleAssignment{}
@@ -72,7 +72,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -97,7 +97,7 @@ func (assignment *RoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RoleAssignment_Status{}
+	return &RoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -112,13 +112,13 @@ func (assignment *RoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *RoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RoleAssignment_Status); ok {
+	if st, ok := status.(*RoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RoleAssignment_Status
+	var st RoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,10 +143,10 @@ func (assignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *v20
 	assignment.Spec = spec
 
 	// Status
-	var status RoleAssignment_Status
-	err = status.AssignPropertiesFromRoleAssignmentStatus(&source.Status)
+	var status RoleAssignment_STATUS
+	err = status.AssignPropertiesFromRoleAssignmentSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentSTATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -169,10 +169,10 @@ func (assignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v20200801ps.RoleAssignment_Status
-	err = assignment.Status.AssignPropertiesToRoleAssignmentStatus(&status)
+	var status v20200801ps.RoleAssignment_STATUS
+	err = assignment.Status.AssignPropertiesToRoleAssignmentSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -203,11 +203,11 @@ type RoleAssignmentList struct {
 // +kubebuilder:validation:Enum={"2020-08-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-08-01-preview")
+const APIVersion_Value = APIVersion("2020-08-01-preview")
 
-// Storage version of v1alpha1api20200801preview.RoleAssignment_Status
-// Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
-type RoleAssignment_Status struct {
+// Storage version of v1alpha1api20200801preview.RoleAssignment_STATUS
+// Deprecated version of RoleAssignment_STATUS. Use v1beta20200801preview.RoleAssignment_STATUS instead
+type RoleAssignment_STATUS struct {
 	Condition                          *string                `json:"condition,omitempty"`
 	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`
 	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
@@ -227,25 +227,25 @@ type RoleAssignment_Status struct {
 	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RoleAssignment_Status{}
+var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our RoleAssignment_Status from the provided source
-func (assignment *RoleAssignment_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200801ps.RoleAssignment_Status)
+// ConvertStatusFrom populates our RoleAssignment_STATUS from the provided source
+func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
-		return assignment.AssignPropertiesFromRoleAssignmentStatus(src)
+		return assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200801ps.RoleAssignment_Status{}
+	src = &v20200801ps.RoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = assignment.AssignPropertiesFromRoleAssignmentStatus(src)
+	err = assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -253,17 +253,17 @@ func (assignment *RoleAssignment_Status) ConvertStatusFrom(source genruntime.Con
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RoleAssignment_Status
-func (assignment *RoleAssignment_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200801ps.RoleAssignment_Status)
+// ConvertStatusTo populates the provided destination from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return assignment.AssignPropertiesToRoleAssignmentStatus(dst)
+		return assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200801ps.RoleAssignment_Status{}
-	err := assignment.AssignPropertiesToRoleAssignmentStatus(dst)
+	dst = &v20200801ps.RoleAssignment_STATUS{}
+	err := assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -277,8 +277,8 @@ func (assignment *RoleAssignment_Status) ConvertStatusTo(destination genruntime.
 	return nil
 }
 
-// AssignPropertiesFromRoleAssignmentStatus populates our RoleAssignment_Status from the provided source RoleAssignment_Status
-func (assignment *RoleAssignment_Status) AssignPropertiesFromRoleAssignmentStatus(source *v20200801ps.RoleAssignment_Status) error {
+// AssignPropertiesFromRoleAssignmentSTATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignmentSTATUS(source *v20200801ps.RoleAssignment_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -341,8 +341,8 @@ func (assignment *RoleAssignment_Status) AssignPropertiesFromRoleAssignmentStatu
 	return nil
 }
 
-// AssignPropertiesToRoleAssignmentStatus populates the provided destination RoleAssignment_Status from our RoleAssignment_Status
-func (assignment *RoleAssignment_Status) AssignPropertiesToRoleAssignmentStatus(destination *v20200801ps.RoleAssignment_Status) error {
+// AssignPropertiesToRoleAssignmentSTATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignmentSTATUS(destination *v20200801ps.RoleAssignment_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
 

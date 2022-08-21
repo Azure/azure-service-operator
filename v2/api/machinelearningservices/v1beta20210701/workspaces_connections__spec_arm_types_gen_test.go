@@ -20,7 +20,7 @@ import (
 func Test_WorkspacesConnections_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -156,5 +156,5 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionPropsARM(gens map[str
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormatJSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormat_JSON))
 }

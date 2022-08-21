@@ -23,7 +23,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
-	createOption := compute.CreationDataCreateOptionEmpty
+	createOption := compute.CreationDataCreateOption_Empty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute.Snapshots_Spec{
@@ -56,7 +56,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(snapshot)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

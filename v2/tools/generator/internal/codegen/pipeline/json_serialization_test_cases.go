@@ -115,10 +115,10 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 	if _, isResource := astmodel.AsResourceType(def.Type()); isResource {
 		// Don't need to test resources many times, the spec and status types are tested independently
 		testcase.SetMinSuccessfulTests(resourceTestCount)
-	} else if astmodel.IsSpec(def.Name()) {
+	} else if def.Name().IsSpec() {
 		// Reduce count of Spec and Status tests to reflect those done by the resource tests
 		testcase.SetMinSuccessfulTests(specTestCount)
-	} else if astmodel.IsStatus(def.Name()) {
+	} else if def.Name().IsStatus() {
 		// Reduce count of Spec and Status tests to reflect those done by the resource tests
 		testcase.SetMinSuccessfulTests(statusTestCount)
 	}

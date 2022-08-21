@@ -20,7 +20,7 @@ import (
 func Test_Workspaces_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -163,15 +163,15 @@ func WorkspacePropertiesARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspacePropertiesARM(gens map[string]gopter.Gen) {
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspacePropertiesProvisioningStateCanceled,
-		WorkspacePropertiesProvisioningStateCreating,
-		WorkspacePropertiesProvisioningStateDeleting,
-		WorkspacePropertiesProvisioningStateFailed,
-		WorkspacePropertiesProvisioningStateProvisioningAccount,
-		WorkspacePropertiesProvisioningStateSucceeded,
-		WorkspacePropertiesProvisioningStateUpdating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesPublicNetworkAccessForIngestionDisabled, WorkspacePropertiesPublicNetworkAccessForIngestionEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesPublicNetworkAccessForQueryDisabled, WorkspacePropertiesPublicNetworkAccessForQueryEnabled))
+		WorkspacePropertiesProvisioningState_Canceled,
+		WorkspacePropertiesProvisioningState_Creating,
+		WorkspacePropertiesProvisioningState_Deleting,
+		WorkspacePropertiesProvisioningState_Failed,
+		WorkspacePropertiesProvisioningState_ProvisioningAccount,
+		WorkspacePropertiesProvisioningState_Succeeded,
+		WorkspacePropertiesProvisioningState_Updating))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesPublicNetworkAccessForIngestion_Disabled, WorkspacePropertiesPublicNetworkAccessForIngestion_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(WorkspacePropertiesPublicNetworkAccessForQuery_Disabled, WorkspacePropertiesPublicNetworkAccessForQuery_Enabled))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -367,12 +367,12 @@ func WorkspaceSkuARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceSkuARM(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSkuNameCapacityReservation,
-		WorkspaceSkuNameFree,
-		WorkspaceSkuNameLACluster,
-		WorkspaceSkuNamePerGB2018,
-		WorkspaceSkuNamePerNode,
-		WorkspaceSkuNamePremium,
-		WorkspaceSkuNameStandalone,
-		WorkspaceSkuNameStandard))
+		WorkspaceSkuName_CapacityReservation,
+		WorkspaceSkuName_Free,
+		WorkspaceSkuName_LACluster,
+		WorkspaceSkuName_PerGB2018,
+		WorkspaceSkuName_PerNode,
+		WorkspaceSkuName_Premium,
+		WorkspaceSkuName_Standalone,
+		WorkspaceSkuName_Standard))
 }

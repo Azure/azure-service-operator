@@ -20,7 +20,7 @@ import (
 func Test_Redis_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -162,8 +162,8 @@ func RedisCreatePropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisCreatePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesMinimumTlsVersion10, RedisCreatePropertiesMinimumTlsVersion11, RedisCreatePropertiesMinimumTlsVersion12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesPublicNetworkAccessDisabled, RedisCreatePropertiesPublicNetworkAccessEnabled))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesMinimumTlsVersion_10, RedisCreatePropertiesMinimumTlsVersion_11, RedisCreatePropertiesMinimumTlsVersion_12))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesPublicNetworkAccess_Disabled, RedisCreatePropertiesPublicNetworkAccess_Enabled))
 	gens["RedisConfiguration"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
@@ -237,6 +237,6 @@ func SkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamilyC, SkuFamilyP))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNameBasic, SkuNamePremium, SkuNameStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamily_C, SkuFamily_P))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuName_Basic, SkuName_Premium, SkuName_Standard))
 }

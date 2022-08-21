@@ -27,7 +27,7 @@ type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Registries_Spec `json:"spec,omitempty"`
-	Status            Registry_Status `json:"status,omitempty"`
+	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Registry{}
@@ -51,7 +51,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (registry *Registry) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (registry *Registry) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Registry_Status{}
+	return &Registry_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (registry *Registry) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Registry_Status); ok {
+	if st, ok := status.(*Registry_STATUS); ok {
 		registry.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Registry_Status
+	var st Registry_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,7 +133,7 @@ type RegistryList struct {
 // +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-09-01")
+const APIVersion_Value = APIVersion("2021-09-01")
 
 // Storage version of v1beta20210901.Registries_Spec
 type Registries_Spec struct {
@@ -186,38 +186,38 @@ func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(registries)
 }
 
-// Storage version of v1beta20210901.Registry_Status
-type Registry_Status struct {
+// Storage version of v1beta20210901.Registry_STATUS
+type Registry_STATUS struct {
 	AdminUserEnabled           *bool                                                  `json:"adminUserEnabled,omitempty"`
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreationDate               *string                                                `json:"creationDate,omitempty"`
 	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
 	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_Status                             `json:"encryption,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
 	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *IdentityProperties_Status                             `json:"identity,omitempty"`
+	Identity                   *IdentityProperties_STATUS                             `json:"identity,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
 	LoginServer                *string                                                `json:"loginServer,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
 	NetworkRuleBypassOptions   *string                                                `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_Status                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_Status                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS                                 `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS                                       `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
-	Status                     *Status_Status                                         `json:"status,omitempty"`
-	SystemData                 *SystemData_Status                                     `json:"systemData,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
+	Status                     *Status_STATUS                                         `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
 	ZoneRedundancy             *string                                                `json:"zoneRedundancy,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Registry_Status{}
+var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
 
-// ConvertStatusFrom populates our Registry_Status from the provided source
-func (registry *Registry_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Registry_STATUS from the provided source
+func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == registry {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -225,8 +225,8 @@ func (registry *Registry_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(registry)
 }
 
-// ConvertStatusTo populates the provided destination from our Registry_Status
-func (registry *Registry_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Registry_STATUS
+func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == registry {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -242,9 +242,9 @@ type EncryptionProperty struct {
 	Status             *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20210901.EncryptionProperty_Status
-type EncryptionProperty_Status struct {
-	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+// Storage version of v1beta20210901.EncryptionProperty_STATUS
+type EncryptionProperty_STATUS struct {
+	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status             *string                    `json:"status,omitempty"`
 }
@@ -259,13 +259,13 @@ type IdentityProperties struct {
 	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20210901.IdentityProperties_Status
-type IdentityProperties_Status struct {
+// Storage version of v1beta20210901.IdentityProperties_STATUS
+type IdentityProperties_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 	TenantId               *string                                  `json:"tenantId,omitempty"`
 	Type                   *string                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties_Status `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210901.NetworkRuleSet
@@ -276,10 +276,10 @@ type NetworkRuleSet struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210901.NetworkRuleSet_Status
-type NetworkRuleSet_Status struct {
+// Storage version of v1beta20210901.NetworkRuleSet_STATUS
+type NetworkRuleSet_STATUS struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
-	IpRules       []IPRule_Status        `json:"ipRules,omitempty"`
+	IpRules       []IPRule_STATUS        `json:"ipRules,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -293,20 +293,20 @@ type Policies struct {
 	TrustPolicy      *TrustPolicy           `json:"trustPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210901.Policies_Status
-type Policies_Status struct {
-	ExportPolicy     *ExportPolicy_Status     `json:"exportPolicy,omitempty"`
+// Storage version of v1beta20210901.Policies_STATUS
+type Policies_STATUS struct {
+	ExportPolicy     *ExportPolicy_STATUS     `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	QuarantinePolicy *QuarantinePolicy_Status `json:"quarantinePolicy,omitempty"`
-	RetentionPolicy  *RetentionPolicy_Status  `json:"retentionPolicy,omitempty"`
-	TrustPolicy      *TrustPolicy_Status      `json:"trustPolicy,omitempty"`
+	QuarantinePolicy *QuarantinePolicy_STATUS `json:"quarantinePolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_STATUS  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+// Storage version of v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku
@@ -316,23 +316,23 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210901.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20210901.Sku_STATUS
+type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20210901.Status_Status
-type Status_Status struct {
+// Storage version of v1beta20210901.Status_STATUS
+type Status_STATUS struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Message       *string                `json:"message,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Timestamp     *string                `json:"timestamp,omitempty"`
 }
 
-// Storage version of v1beta20210901.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20210901.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -349,8 +349,8 @@ type ExportPolicy struct {
 	Status      *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20210901.ExportPolicy_Status
-type ExportPolicy_Status struct {
+// Storage version of v1beta20210901.ExportPolicy_STATUS
+type ExportPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
@@ -363,8 +363,8 @@ type IPRule struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1beta20210901.IPRule_Status
-type IPRule_Status struct {
+// Storage version of v1beta20210901.IPRule_STATUS
+type IPRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
@@ -378,8 +378,8 @@ type KeyVaultProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210901.KeyVaultProperties_Status
-type KeyVaultProperties_Status struct {
+// Storage version of v1beta20210901.KeyVaultProperties_STATUS
+type KeyVaultProperties_STATUS struct {
 	Identity                 *string                `json:"identity,omitempty"`
 	KeyIdentifier            *string                `json:"keyIdentifier,omitempty"`
 	KeyRotationEnabled       *bool                  `json:"keyRotationEnabled,omitempty"`
@@ -395,8 +395,8 @@ type QuarantinePolicy struct {
 	Status      *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20210901.QuarantinePolicy_Status
-type QuarantinePolicy_Status struct {
+// Storage version of v1beta20210901.QuarantinePolicy_STATUS
+type QuarantinePolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
@@ -409,8 +409,8 @@ type RetentionPolicy struct {
 	Status      *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20210901.RetentionPolicy_Status
-type RetentionPolicy_Status struct {
+// Storage version of v1beta20210901.RetentionPolicy_STATUS
+type RetentionPolicy_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
 	LastUpdatedTime *string                `json:"lastUpdatedTime,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -425,8 +425,8 @@ type TrustPolicy struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210901.TrustPolicy_Status
-type TrustPolicy_Status struct {
+// Storage version of v1beta20210901.TrustPolicy_STATUS
+type TrustPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -440,8 +440,8 @@ type UserIdentityProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210901.UserIdentityProperties_Status
-type UserIdentityProperties_Status struct {
+// Storage version of v1beta20210901.UserIdentityProperties_STATUS
+type UserIdentityProperties_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

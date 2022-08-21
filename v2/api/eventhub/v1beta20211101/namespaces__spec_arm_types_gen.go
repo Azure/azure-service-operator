@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &Namespaces_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespaces Namespaces_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -105,10 +105,10 @@ type EncryptionARM struct {
 type IdentityType string
 
 const (
-	IdentityTypeNone                       = IdentityType("None")
-	IdentityTypeSystemAssigned             = IdentityType("SystemAssigned")
-	IdentityTypeSystemAssignedUserAssigned = IdentityType("SystemAssigned, UserAssigned")
-	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned, UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
 type Namespaces_Spec_Properties_PrivateEndpointConnectionsARM struct {
@@ -120,18 +120,18 @@ type Namespaces_Spec_Properties_PrivateEndpointConnectionsARM struct {
 type SkuName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuName_Basic    = SkuName("Basic")
+	SkuName_Premium  = SkuName("Premium")
+	SkuName_Standard = SkuName("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuTier string
 
 const (
-	SkuTierBasic    = SkuTier("Basic")
-	SkuTierPremium  = SkuTier("Premium")
-	SkuTierStandard = SkuTier("Standard")
+	SkuTier_Basic    = SkuTier("Basic")
+	SkuTier_Premium  = SkuTier("Premium")
+	SkuTier_Standard = SkuTier("Standard")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties

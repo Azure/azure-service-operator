@@ -20,7 +20,7 @@ import (
 func Test_StorageAccountsManagementPolicies_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -284,7 +284,7 @@ func ManagementPolicyRuleARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagementPolicyRuleARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleTypeLifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleType_Lifecycle))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRuleARM is a factory method for creating gopter generators

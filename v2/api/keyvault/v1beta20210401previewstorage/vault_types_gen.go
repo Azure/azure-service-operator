@@ -27,7 +27,7 @@ type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Vaults_Spec  `json:"spec,omitempty"`
-	Status            Vault_Status `json:"status,omitempty"`
+	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Vault{}
@@ -51,7 +51,7 @@ func (vault *Vault) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
 func (vault Vault) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (vault *Vault) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Vault_Status{}
+	return &Vault_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (vault *Vault) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Vault_Status); ok {
+	if st, ok := status.(*Vault_STATUS); ok {
 		vault.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Vault_Status
+	var st Vault_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,25 +133,25 @@ type VaultList struct {
 // +kubebuilder:validation:Enum={"2021-04-01-preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-04-01-preview")
+const APIVersion_Value = APIVersion("2021-04-01-preview")
 
-// Storage version of v1beta20210401preview.Vault_Status
-type Vault_Status struct {
+// Storage version of v1beta20210401preview.Vault_STATUS
+type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
 	Id          *string                 `json:"id,omitempty"`
 	Location    *string                 `json:"location,omitempty"`
 	Name        *string                 `json:"name,omitempty"`
-	Properties  *VaultProperties_Status `json:"properties,omitempty"`
+	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status      `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS      `json:"systemData,omitempty"`
 	Tags        map[string]string       `json:"tags,omitempty"`
 	Type        *string                 `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Vault_Status{}
+var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
 
-// ConvertStatusFrom populates our Vault_Status from the provided source
-func (vault *Vault_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Vault_STATUS from the provided source
+func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == vault {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -159,8 +159,8 @@ func (vault *Vault_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	return source.ConvertStatusTo(vault)
 }
 
-// ConvertStatusTo populates the provided destination from our Vault_Status
-func (vault *Vault_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Vault_STATUS
+func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == vault {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -207,8 +207,8 @@ func (vaults *Vaults_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return destination.ConvertSpecFrom(vaults)
 }
 
-// Storage version of v1beta20210401preview.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20210401preview.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -238,9 +238,9 @@ type VaultProperties struct {
 	VaultUri                     *string                `json:"vaultUri,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.VaultProperties_Status
-type VaultProperties_Status struct {
-	AccessPolicies               []AccessPolicyEntry_Status             `json:"accessPolicies,omitempty"`
+// Storage version of v1beta20210401preview.VaultProperties_STATUS
+type VaultProperties_STATUS struct {
+	AccessPolicies               []AccessPolicyEntry_STATUS             `json:"accessPolicies,omitempty"`
 	CreateMode                   *string                                `json:"createMode,omitempty"`
 	EnablePurgeProtection        *bool                                  `json:"enablePurgeProtection,omitempty"`
 	EnableRbacAuthorization      *bool                                  `json:"enableRbacAuthorization,omitempty"`
@@ -249,11 +249,11 @@ type VaultProperties_Status struct {
 	EnabledForDiskEncryption     *bool                                  `json:"enabledForDiskEncryption,omitempty"`
 	EnabledForTemplateDeployment *bool                                  `json:"enabledForTemplateDeployment,omitempty"`
 	HsmPoolResourceId            *string                                `json:"hsmPoolResourceId,omitempty"`
-	NetworkAcls                  *NetworkRuleSet_Status                 `json:"networkAcls,omitempty"`
-	PrivateEndpointConnections   []PrivateEndpointConnectionItem_Status `json:"privateEndpointConnections,omitempty"`
+	NetworkAcls                  *NetworkRuleSet_STATUS                 `json:"networkAcls,omitempty"`
+	PrivateEndpointConnections   []PrivateEndpointConnectionItem_STATUS `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                  genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                                `json:"provisioningState,omitempty"`
-	Sku                          *Sku_Status                            `json:"sku,omitempty"`
+	Sku                          *Sku_STATUS                            `json:"sku,omitempty"`
 	SoftDeleteRetentionInDays    *int                                   `json:"softDeleteRetentionInDays,omitempty"`
 	TenantId                     *string                                `json:"tenantId,omitempty"`
 	VaultUri                     *string                                `json:"vaultUri,omitempty"`
@@ -269,11 +269,11 @@ type AccessPolicyEntry struct {
 	TenantId      *string                `json:"tenantId,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.AccessPolicyEntry_Status
-type AccessPolicyEntry_Status struct {
+// Storage version of v1beta20210401preview.AccessPolicyEntry_STATUS
+type AccessPolicyEntry_STATUS struct {
 	ApplicationId *string                `json:"applicationId,omitempty"`
 	ObjectId      *string                `json:"objectId,omitempty"`
-	Permissions   *Permissions_Status    `json:"permissions,omitempty"`
+	Permissions   *Permissions_STATUS    `json:"permissions,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TenantId      *string                `json:"tenantId,omitempty"`
 }
@@ -288,21 +288,21 @@ type NetworkRuleSet struct {
 	VirtualNetworkRules []VirtualNetworkRule   `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.NetworkRuleSet_Status
-type NetworkRuleSet_Status struct {
+// Storage version of v1beta20210401preview.NetworkRuleSet_STATUS
+type NetworkRuleSet_STATUS struct {
 	Bypass              *string                     `json:"bypass,omitempty"`
 	DefaultAction       *string                     `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_Status             `json:"ipRules,omitempty"`
+	IpRules             []IPRule_STATUS             `json:"ipRules,omitempty"`
 	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_Status `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.PrivateEndpointConnectionItem_Status
-type PrivateEndpointConnectionItem_Status struct {
+// Storage version of v1beta20210401preview.PrivateEndpointConnectionItem_STATUS
+type PrivateEndpointConnectionItem_STATUS struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
 	Id                                *string                                   `json:"id,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_Status                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
 	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
 }
@@ -315,8 +315,8 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20210401preview.Sku_STATUS
+type Sku_STATUS struct {
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -329,8 +329,8 @@ type IPRule struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.IPRule_Status
-type IPRule_Status struct {
+// Storage version of v1beta20210401preview.IPRule_STATUS
+type IPRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
@@ -345,8 +345,8 @@ type Permissions struct {
 	Storage      []string               `json:"storage,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.Permissions_Status
-type Permissions_Status struct {
+// Storage version of v1beta20210401preview.Permissions_STATUS
+type Permissions_STATUS struct {
 	Certificates []string               `json:"certificates,omitempty"`
 	Keys         []string               `json:"keys,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -354,14 +354,14 @@ type Permissions_Status struct {
 	Storage      []string               `json:"storage,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.PrivateEndpoint_Status
-type PrivateEndpoint_Status struct {
+// Storage version of v1beta20210401preview.PrivateEndpoint_STATUS
+type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.PrivateLinkServiceConnectionState_Status
-type PrivateLinkServiceConnectionState_Status struct {
+// Storage version of v1beta20210401preview.PrivateLinkServiceConnectionState_STATUS
+type PrivateLinkServiceConnectionState_STATUS struct {
 	ActionsRequired *string                `json:"actionsRequired,omitempty"`
 	Description     *string                `json:"description,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -380,8 +380,8 @@ type VirtualNetworkRule struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.VirtualNetworkRule_Status
-type VirtualNetworkRule_Status struct {
+// Storage version of v1beta20210401preview.VirtualNetworkRule_STATUS
+type VirtualNetworkRule_STATUS struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -24,8 +24,8 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a Cosmos DB account
-	kind := documentdb.DatabaseAccountsSpecKindMongoDB
-	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard
+	kind := documentdb.DatabaseAccountsSpecKind_MongoDB
+	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType_Standard
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccounts_Spec{
@@ -65,7 +65,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
-	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindMongoDB
+	expectedKind := documentdb.DatabaseAccountGetResultsSTATUSKind_MongoDB
 	tc.Expect(acct.Status.Kind).ToNot(BeNil())
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
@@ -138,8 +138,8 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	)
 	tc.PatchResourceAndWait(old, &collection)
 	tc.Expect(collection.Status.Resource).ToNot(BeNil())
-	tc.Expect(collection.Status.Resource.Indexes).To(ContainElement(documentdb.MongoIndex_Status{
-		Key: &documentdb.MongoIndexKeys_Status{
+	tc.Expect(collection.Status.Resource.Indexes).To(ContainElement(documentdb.MongoIndex_STATUS{
+		Key: &documentdb.MongoIndexKeys_STATUS{
 			Keys: []string{"col1"},
 		},
 	}))

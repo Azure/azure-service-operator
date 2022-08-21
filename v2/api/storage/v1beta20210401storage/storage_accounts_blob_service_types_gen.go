@@ -27,7 +27,7 @@ type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              StorageAccountsBlobServices_Spec `json:"spec,omitempty"`
-	Status            BlobServiceProperties_Status     `json:"status,omitempty"`
+	Status            BlobServiceProperties_STATUS     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -51,7 +51,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (service *StorageAccountsBlobService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobServiceProperties_Status{}
+	return &BlobServiceProperties_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobServiceProperties_Status); ok {
+	if st, ok := status.(*BlobServiceProperties_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobServiceProperties_Status
+	var st BlobServiceProperties_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,29 +129,29 @@ type StorageAccountsBlobServiceList struct {
 	Items           []StorageAccountsBlobService `json:"items"`
 }
 
-// Storage version of v1beta20210401.BlobServiceProperties_Status
-type BlobServiceProperties_Status struct {
+// Storage version of v1beta20210401.BlobServiceProperties_STATUS
+type BlobServiceProperties_STATUS struct {
 	AutomaticSnapshotPolicyEnabled *bool                                `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed_Status                   `json:"changeFeed,omitempty"`
+	ChangeFeed                     *ChangeFeed_STATUS                   `json:"changeFeed,omitempty"`
 	Conditions                     []conditions.Condition               `json:"conditions,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_Status        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules_Status                    `json:"cors,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules_STATUS                    `json:"cors,omitempty"`
 	DefaultServiceVersion          *string                              `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy_Status        `json:"deleteRetentionPolicy,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_STATUS        `json:"deleteRetentionPolicy,omitempty"`
 	Id                             *string                              `json:"id,omitempty"`
 	IsVersioningEnabled            *bool                                `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_Status `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_STATUS `json:"lastAccessTimeTrackingPolicy,omitempty"`
 	Name                           *string                              `json:"name,omitempty"`
 	PropertyBag                    genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-	RestorePolicy                  *RestorePolicyProperties_Status      `json:"restorePolicy,omitempty"`
-	Sku                            *Sku_Status                          `json:"sku,omitempty"`
+	RestorePolicy                  *RestorePolicyProperties_STATUS      `json:"restorePolicy,omitempty"`
+	Sku                            *Sku_STATUS                          `json:"sku,omitempty"`
 	Type                           *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobServiceProperties_Status{}
+var _ genruntime.ConvertibleStatus = &BlobServiceProperties_STATUS{}
 
-// ConvertStatusFrom populates our BlobServiceProperties_Status from the provided source
-func (properties *BlobServiceProperties_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our BlobServiceProperties_STATUS from the provided source
+func (properties *BlobServiceProperties_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == properties {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -159,8 +159,8 @@ func (properties *BlobServiceProperties_Status) ConvertStatusFrom(source genrunt
 	return source.ConvertStatusTo(properties)
 }
 
-// ConvertStatusTo populates the provided destination from our BlobServiceProperties_Status
-func (properties *BlobServiceProperties_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our BlobServiceProperties_STATUS
+func (properties *BlobServiceProperties_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == properties {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -219,8 +219,8 @@ type ChangeFeed struct {
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
 }
 
-// Storage version of v1beta20210401.ChangeFeed_Status
-type ChangeFeed_Status struct {
+// Storage version of v1beta20210401.ChangeFeed_STATUS
+type ChangeFeed_STATUS struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
@@ -233,9 +233,9 @@ type CorsRules struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.CorsRules_Status
-type CorsRules_Status struct {
-	CorsRules   []CorsRule_Status      `json:"corsRules,omitempty"`
+// Storage version of v1beta20210401.CorsRules_STATUS
+type CorsRules_STATUS struct {
+	CorsRules   []CorsRule_STATUS      `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -247,8 +247,8 @@ type DeleteRetentionPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.DeleteRetentionPolicy_Status
-type DeleteRetentionPolicy_Status struct {
+// Storage version of v1beta20210401.DeleteRetentionPolicy_STATUS
+type DeleteRetentionPolicy_STATUS struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -264,8 +264,8 @@ type LastAccessTimeTrackingPolicy struct {
 	TrackingGranularityInDays *int                   `json:"trackingGranularityInDays,omitempty"`
 }
 
-// Storage version of v1beta20210401.LastAccessTimeTrackingPolicy_Status
-type LastAccessTimeTrackingPolicy_Status struct {
+// Storage version of v1beta20210401.LastAccessTimeTrackingPolicy_STATUS
+type LastAccessTimeTrackingPolicy_STATUS struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
 	Name                      *string                `json:"name,omitempty"`
@@ -281,8 +281,8 @@ type RestorePolicyProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.RestorePolicyProperties_Status
-type RestorePolicyProperties_Status struct {
+// Storage version of v1beta20210401.RestorePolicyProperties_STATUS
+type RestorePolicyProperties_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
@@ -301,8 +301,8 @@ type CorsRule struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.CorsRule_Status
-type CorsRule_Status struct {
+// Storage version of v1beta20210401.CorsRule_STATUS
+type CorsRule_STATUS struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
 	AllowedOrigins  []string               `json:"allowedOrigins,omitempty"`

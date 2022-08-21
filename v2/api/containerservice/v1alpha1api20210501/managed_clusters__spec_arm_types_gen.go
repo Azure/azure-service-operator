@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &ManagedClusters_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (clusters ManagedClusters_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -111,7 +111,7 @@ type ContainerServiceNetworkProfileARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
 type ManagedClusterAADProfileARM struct {
@@ -122,14 +122,6 @@ type ManagedClusterAADProfileARM struct {
 	ServerAppID         *string  `json:"serverAppID,omitempty"`
 	ServerAppSecret     *string  `json:"serverAppSecret,omitempty"`
 	TenantID            *string  `json:"tenantID,omitempty"`
-}
-
-// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
-type ManagedClusterAPIServerAccessProfileARM struct {
-	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
-	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
-	EnablePrivateClusterPublicFQDN *bool    `json:"enablePrivateClusterPublicFQDN,omitempty"`
-	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
@@ -176,6 +168,14 @@ type ManagedClusterAgentPoolProfileARM struct {
 	VnetSubnetID              *string                                               `json:"vnetSubnetID,omitempty"`
 }
 
+// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
+type ManagedClusterAPIServerAccessProfileARM struct {
+	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
+	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
+	EnablePrivateClusterPublicFQDN *bool    `json:"enablePrivateClusterPublicFQDN,omitempty"`
+	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
+}
+
 // Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
 type ManagedClusterAutoUpgradeProfileARM struct {
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileUpgradeChannel `json:"upgradeChannel,omitempty"`
@@ -194,9 +194,9 @@ type ManagedClusterHTTPProxyConfigARM struct {
 type ManagedClusterIdentityType string
 
 const (
-	ManagedClusterIdentityTypeNone           = ManagedClusterIdentityType("None")
-	ManagedClusterIdentityTypeSystemAssigned = ManagedClusterIdentityType("SystemAssigned")
-	ManagedClusterIdentityTypeUserAssigned   = ManagedClusterIdentityType("UserAssigned")
+	ManagedClusterIdentityType_None           = ManagedClusterIdentityType("None")
+	ManagedClusterIdentityType_SystemAssigned = ManagedClusterIdentityType("SystemAssigned")
+	ManagedClusterIdentityType_UserAssigned   = ManagedClusterIdentityType("UserAssigned")
 )
 
 // Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
@@ -228,26 +228,26 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 	SkipNodesWithSystemPods       *string                                            `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
+type ManagedClusterServicePrincipalProfileARM struct {
+	ClientId *string `json:"clientId,omitempty"`
+	Secret   *string `json:"secret,omitempty"`
+}
+
 // Deprecated version of ManagedClusterSKUName. Use v1beta20210501.ManagedClusterSKUName instead
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKUName string
 
-const ManagedClusterSKUNameBasic = ManagedClusterSKUName("Basic")
+const ManagedClusterSKUName_Basic = ManagedClusterSKUName("Basic")
 
 // Deprecated version of ManagedClusterSKUTier. Use v1beta20210501.ManagedClusterSKUTier instead
 // +kubebuilder:validation:Enum={"Free","Paid"}
 type ManagedClusterSKUTier string
 
 const (
-	ManagedClusterSKUTierFree = ManagedClusterSKUTier("Free")
-	ManagedClusterSKUTierPaid = ManagedClusterSKUTier("Paid")
+	ManagedClusterSKUTier_Free = ManagedClusterSKUTier("Free")
+	ManagedClusterSKUTier_Paid = ManagedClusterSKUTier("Paid")
 )
-
-// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
-type ManagedClusterServicePrincipalProfileARM struct {
-	ClientId *string `json:"clientId,omitempty"`
-	Secret   *string `json:"secret,omitempty"`
-}
 
 // Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
 type ManagedClusterWindowsProfileARM struct {

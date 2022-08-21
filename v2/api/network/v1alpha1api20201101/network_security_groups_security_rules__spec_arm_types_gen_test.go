@@ -20,7 +20,7 @@ import (
 func Test_NetworkSecurityGroupsSecurityRules_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -161,21 +161,21 @@ func SecurityRulePropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccessAllow, SecurityRulePropertiesFormatAccessDeny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatAccess_Allow, SecurityRulePropertiesFormatAccess_Deny))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatDirection_Inbound, SecurityRulePropertiesFormatDirection_Outbound))
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormatProtocolAh,
-		SecurityRulePropertiesFormatProtocolEsp,
-		SecurityRulePropertiesFormatProtocolIcmp,
-		SecurityRulePropertiesFormatProtocolStar,
-		SecurityRulePropertiesFormatProtocolTcp,
-		SecurityRulePropertiesFormatProtocolUdp))
+		SecurityRulePropertiesFormatProtocol_Ah,
+		SecurityRulePropertiesFormatProtocol_Esp,
+		SecurityRulePropertiesFormatProtocol_Icmp,
+		SecurityRulePropertiesFormatProtocol_Star,
+		SecurityRulePropertiesFormatProtocol_Tcp,
+		SecurityRulePropertiesFormatProtocol_Udp))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

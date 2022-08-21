@@ -193,6 +193,12 @@ func (schema GoJSONSchema) additionalPropertiesSchema() Schema {
 		return nil
 	}
 
+	r, ok := result.(bool)
+	if ok && r {
+		// AdditionalProperties are allowed but no schema was given
+		return nil
+	}
+
 	return schema.withInner(result.(*gojsonschema.SubSchema))
 }
 

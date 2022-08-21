@@ -27,7 +27,7 @@ type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              StorageAccountsBlobServicesContainers_Spec `json:"spec,omitempty"`
-	Status            BlobContainer_Status                       `json:"status,omitempty"`
+	Status            BlobContainer_STATUS                       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -51,7 +51,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (container *StorageAccountsBlobServicesContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobContainer_Status{}
+	return &BlobContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.Resou
 // SetStatus sets the status of this resource
 func (container *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobContainer_Status); ok {
+	if st, ok := status.(*BlobContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobContainer_Status
+	var st BlobContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,8 +129,8 @@ type StorageAccountsBlobServicesContainerList struct {
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-// Storage version of v1beta20210401.BlobContainer_Status
-type BlobContainer_Status struct {
+// Storage version of v1beta20210401.BlobContainer_STATUS
+type BlobContainer_STATUS struct {
 	Conditions                     []conditions.Condition                 `json:"conditions,omitempty"`
 	DefaultEncryptionScope         *string                                `json:"defaultEncryptionScope,omitempty"`
 	Deleted                        *bool                                  `json:"deleted,omitempty"`
@@ -140,13 +140,13 @@ type BlobContainer_Status struct {
 	HasImmutabilityPolicy          *bool                                  `json:"hasImmutabilityPolicy,omitempty"`
 	HasLegalHold                   *bool                                  `json:"hasLegalHold,omitempty"`
 	Id                             *string                                `json:"id,omitempty"`
-	ImmutabilityPolicy             *ImmutabilityPolicyProperties_Status   `json:"immutabilityPolicy,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Status `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUS   `json:"immutabilityPolicy,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS `json:"immutableStorageWithVersioning,omitempty"`
 	LastModifiedTime               *string                                `json:"lastModifiedTime,omitempty"`
 	LeaseDuration                  *string                                `json:"leaseDuration,omitempty"`
 	LeaseState                     *string                                `json:"leaseState,omitempty"`
 	LeaseStatus                    *string                                `json:"leaseStatus,omitempty"`
-	LegalHold                      *LegalHoldProperties_Status            `json:"legalHold,omitempty"`
+	LegalHold                      *LegalHoldProperties_STATUS            `json:"legalHold,omitempty"`
 	Metadata                       map[string]string                      `json:"metadata,omitempty"`
 	Name                           *string                                `json:"name,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -156,10 +156,10 @@ type BlobContainer_Status struct {
 	Version                        *string                                `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobContainer_Status{}
+var _ genruntime.ConvertibleStatus = &BlobContainer_STATUS{}
 
-// ConvertStatusFrom populates our BlobContainer_Status from the provided source
-func (container *BlobContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our BlobContainer_STATUS from the provided source
+func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -167,8 +167,8 @@ func (container *BlobContainer_Status) ConvertStatusFrom(source genruntime.Conve
 	return source.ConvertStatusTo(container)
 }
 
-// ConvertStatusTo populates the provided destination from our BlobContainer_Status
-func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our BlobContainer_STATUS
+func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -220,14 +220,14 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(dest
 	return destination.ConvertSpecFrom(containers)
 }
 
-// Storage version of v1beta20210401.ImmutabilityPolicyProperties_Status
-type ImmutabilityPolicyProperties_Status struct {
+// Storage version of v1beta20210401.ImmutabilityPolicyProperties_STATUS
+type ImmutabilityPolicyProperties_STATUS struct {
 	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`
 	Etag                                  *string                        `json:"etag,omitempty"`
 	ImmutabilityPeriodSinceCreationInDays *int                           `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	PropertyBag                           genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	State                                 *string                        `json:"state,omitempty"`
-	UpdateHistory                         []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
+	UpdateHistory                         []UpdateHistoryProperty_STATUS `json:"updateHistory,omitempty"`
 }
 
 // Storage version of v1beta20210401.ImmutableStorageWithVersioning
@@ -237,23 +237,23 @@ type ImmutableStorageWithVersioning struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.ImmutableStorageWithVersioning_Status
-type ImmutableStorageWithVersioning_Status struct {
+// Storage version of v1beta20210401.ImmutableStorageWithVersioning_STATUS
+type ImmutableStorageWithVersioning_STATUS struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	MigrationState *string                `json:"migrationState,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TimeStamp      *string                `json:"timeStamp,omitempty"`
 }
 
-// Storage version of v1beta20210401.LegalHoldProperties_Status
-type LegalHoldProperties_Status struct {
+// Storage version of v1beta20210401.LegalHoldProperties_STATUS
+type LegalHoldProperties_STATUS struct {
 	HasLegalHold *bool                  `json:"hasLegalHold,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tags         []TagProperty_Status   `json:"tags,omitempty"`
+	Tags         []TagProperty_STATUS   `json:"tags,omitempty"`
 }
 
-// Storage version of v1beta20210401.TagProperty_Status
-type TagProperty_Status struct {
+// Storage version of v1beta20210401.TagProperty_STATUS
+type TagProperty_STATUS struct {
 	ObjectIdentifier *string                `json:"objectIdentifier,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag              *string                `json:"tag,omitempty"`
@@ -262,8 +262,8 @@ type TagProperty_Status struct {
 	Upn              *string                `json:"upn,omitempty"`
 }
 
-// Storage version of v1beta20210401.UpdateHistoryProperty_Status
-type UpdateHistoryProperty_Status struct {
+// Storage version of v1beta20210401.UpdateHistoryProperty_STATUS
+type UpdateHistoryProperty_STATUS struct {
 	ImmutabilityPeriodSinceCreationInDays *int                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                `json:"objectIdentifier,omitempty"`
 	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`

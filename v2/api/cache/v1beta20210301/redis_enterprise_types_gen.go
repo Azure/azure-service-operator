@@ -29,7 +29,7 @@ type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
-	Status            Cluster_Status       `json:"status,omitempty"`
+	Status            Cluster_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterprise{}
@@ -98,7 +98,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -123,7 +123,7 @@ func (enterprise *RedisEnterprise) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Cluster_Status{}
+	return &Cluster_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +139,13 @@ func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Cluster_Status); ok {
+	if st, ok := status.(*Cluster_STATUS); ok {
 		enterprise.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Cluster_Status
+	var st Cluster_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +263,10 @@ func (enterprise *RedisEnterprise) AssignPropertiesFromRedisEnterprise(source *v
 	enterprise.Spec = spec
 
 	// Status
-	var status Cluster_Status
-	err = status.AssignPropertiesFromClusterStatus(&source.Status)
+	var status Cluster_STATUS
+	err = status.AssignPropertiesFromClusterSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromClusterStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromClusterSTATUS() to populate field Status")
 	}
 	enterprise.Status = status
 
@@ -289,10 +289,10 @@ func (enterprise *RedisEnterprise) AssignPropertiesToRedisEnterprise(destination
 	destination.Spec = spec
 
 	// Status
-	var status v20210301s.Cluster_Status
-	err = enterprise.Status.AssignPropertiesToClusterStatus(&status)
+	var status v20210301s.Cluster_STATUS
+	err = enterprise.Status.AssignPropertiesToClusterSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToClusterStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToClusterSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -320,9 +320,9 @@ type RedisEnterpriseList struct {
 // +kubebuilder:validation:Enum={"2021-03-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-03-01")
+const APIVersion_Value = APIVersion("2021-03-01")
 
-type Cluster_Status struct {
+type Cluster_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -337,25 +337,25 @@ type Cluster_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterPropertiesSTATUSMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RedisVersion: Version of redis the cluster supports, e.g. '6'
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 
 	// Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_Status `json:"sku,omitempty"`
+	Sku *Sku_STATUS `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -367,25 +367,25 @@ type Cluster_Status struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Cluster_Status{}
+var _ genruntime.ConvertibleStatus = &Cluster_STATUS{}
 
-// ConvertStatusFrom populates our Cluster_Status from the provided source
-func (cluster *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210301s.Cluster_Status)
+// ConvertStatusFrom populates our Cluster_STATUS from the provided source
+func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210301s.Cluster_STATUS)
 	if ok {
 		// Populate our instance from source
-		return cluster.AssignPropertiesFromClusterStatus(src)
+		return cluster.AssignPropertiesFromClusterSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210301s.Cluster_Status{}
+	src = &v20210301s.Cluster_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = cluster.AssignPropertiesFromClusterStatus(src)
+	err = cluster.AssignPropertiesFromClusterSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -393,17 +393,17 @@ func (cluster *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleSt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Cluster_Status
-func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210301s.Cluster_Status)
+// ConvertStatusTo populates the provided destination from our Cluster_STATUS
+func (cluster *Cluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210301s.Cluster_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return cluster.AssignPropertiesToClusterStatus(dst)
+		return cluster.AssignPropertiesToClusterSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210301s.Cluster_Status{}
-	err := cluster.AssignPropertiesToClusterStatus(dst)
+	dst = &v20210301s.Cluster_STATUS{}
+	err := cluster.AssignPropertiesToClusterSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -417,18 +417,18 @@ func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.Convertibl
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Cluster_Status{}
+var _ genruntime.FromARMConverter = &Cluster_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cluster *Cluster_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Cluster_StatusARM{}
+func (cluster *Cluster_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Cluster_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Cluster_StatusARM)
+func (cluster *Cluster_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Cluster_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Cluster_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Cluster_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -473,7 +473,7 @@ func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_Status_SubResourceEmbedded
+			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -511,7 +511,7 @@ func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku_Status
+		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
@@ -543,8 +543,8 @@ func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromClusterStatus populates our Cluster_Status from the provided source Cluster_Status
-func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v20210301s.Cluster_Status) error {
+// AssignPropertiesFromClusterSTATUS populates our Cluster_STATUS from the provided source Cluster_STATUS
+func (cluster *Cluster_STATUS) AssignPropertiesFromClusterSTATUS(source *v20210301s.Cluster_STATUS) error {
 
 	// Conditions
 	cluster.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -560,7 +560,7 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := ClusterPropertiesSTATUSMinimumTlsVersion(*source.MinimumTlsVersion)
 		cluster.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		cluster.MinimumTlsVersion = nil
@@ -571,14 +571,14 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -589,7 +589,7 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
 		cluster.ProvisioningState = &provisioningState
 	} else {
 		cluster.ProvisioningState = nil
@@ -600,7 +600,7 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ResourceState_Status(*source.ResourceState)
+		resourceState := ResourceState_STATUS(*source.ResourceState)
 		cluster.ResourceState = &resourceState
 	} else {
 		cluster.ResourceState = nil
@@ -608,10 +608,10 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
 		}
 		cluster.Sku = &sku
 	} else {
@@ -631,8 +631,8 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 	return nil
 }
 
-// AssignPropertiesToClusterStatus populates the provided destination Cluster_Status from our Cluster_Status
-func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v20210301s.Cluster_Status) error {
+// AssignPropertiesToClusterSTATUS populates the provided destination Cluster_STATUS from our Cluster_STATUS
+func (cluster *Cluster_STATUS) AssignPropertiesToClusterSTATUS(destination *v20210301s.Cluster_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -661,14 +661,14 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 
 	// PrivateEndpointConnections
 	if cluster.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded, len(cluster.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(cluster.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range cluster.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
+			var privateEndpointConnection v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -698,10 +698,10 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 
 	// Sku
 	if cluster.Sku != nil {
-		var sku v20210301s.Sku_Status
-		err := cluster.Sku.AssignPropertiesToSkuStatus(&sku)
+		var sku v20210301s.Sku_STATUS
+		err := cluster.Sku.AssignPropertiesToSkuSTATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1041,29 +1041,29 @@ func (enterprise *RedisEnterprise_Spec) SetAzureName(azureName string) {
 type ClusterPropertiesMinimumTlsVersion string
 
 const (
-	ClusterPropertiesMinimumTlsVersion10 = ClusterPropertiesMinimumTlsVersion("1.0")
-	ClusterPropertiesMinimumTlsVersion11 = ClusterPropertiesMinimumTlsVersion("1.1")
-	ClusterPropertiesMinimumTlsVersion12 = ClusterPropertiesMinimumTlsVersion("1.2")
+	ClusterPropertiesMinimumTlsVersion_10 = ClusterPropertiesMinimumTlsVersion("1.0")
+	ClusterPropertiesMinimumTlsVersion_11 = ClusterPropertiesMinimumTlsVersion("1.1")
+	ClusterPropertiesMinimumTlsVersion_12 = ClusterPropertiesMinimumTlsVersion("1.2")
 )
 
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_Status_SubResourceEmbeddedARM)
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_Status_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1076,8 +1076,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1086,8 +1086,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1212,27 +1212,27 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210301s.Sku) error {
 	return nil
 }
 
-type Sku_Status struct {
+type Sku_STATUS struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *SkuSTATUSName `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Sku_Status{}
+var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_StatusARM{}
+func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_StatusARM)
+func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1251,15 +1251,15 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Status) error {
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210301s.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
+		name := SkuSTATUSName(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1269,8 +1269,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210301s.Sku_Status) error {
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210301s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

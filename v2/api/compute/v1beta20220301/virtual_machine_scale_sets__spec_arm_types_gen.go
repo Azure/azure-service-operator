@@ -45,7 +45,7 @@ var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
 func (sets VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -224,10 +224,10 @@ type UpgradePolicyARM struct {
 type VirtualMachineScaleSetIdentityType string
 
 const (
-	VirtualMachineScaleSetIdentityTypeNone                       = VirtualMachineScaleSetIdentityType("None")
-	VirtualMachineScaleSetIdentityTypeSystemAssigned             = VirtualMachineScaleSetIdentityType("SystemAssigned")
-	VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned = VirtualMachineScaleSetIdentityType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentityTypeUserAssigned               = VirtualMachineScaleSetIdentityType("UserAssigned")
+	VirtualMachineScaleSetIdentityType_None                       = VirtualMachineScaleSetIdentityType("None")
+	VirtualMachineScaleSetIdentityType_SystemAssigned             = VirtualMachineScaleSetIdentityType("SystemAssigned")
+	VirtualMachineScaleSetIdentityType_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentityType("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentityType_UserAssigned               = VirtualMachineScaleSetIdentityType("UserAssigned")
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM struct {
@@ -347,23 +347,6 @@ type VirtualMachineScaleSetHardwareProfileARM struct {
 	VmSizeProperties *VMSizePropertiesARM `json:"vmSizeProperties,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
-type VirtualMachineScaleSetStorageProfileARM struct {
-	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Describes a virtual machine scale set operating system disk.
-	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
-}
-
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
 	// Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
@@ -443,6 +426,23 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM 
 
 	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
+type VirtualMachineScaleSetStorageProfileARM struct {
+	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
+	DataDisks []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
+
+	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
+	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
+	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
+	// publisher and offer can only be set when you create the scale set.
+	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
+
+	// OsDisk: Describes a virtual machine scale set operating system disk.
+	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ApiEntityReference

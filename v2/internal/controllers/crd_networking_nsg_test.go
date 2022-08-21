@@ -58,16 +58,16 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(nsg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, nsg client.Object) {
-	protocol := network.SecurityRulePropertiesFormatProtocolTcp
-	allow := network.SecurityRulePropertiesFormatAccessAllow
-	direction := network.SecurityRulePropertiesFormatDirectionInbound
+	protocol := network.SecurityRulePropertiesFormatProtocol_Tcp
+	allow := network.SecurityRulePropertiesFormatAccess_Allow
+	direction := network.SecurityRulePropertiesFormatDirection_Inbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
 		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
@@ -84,7 +84,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 		},
 	}
 
-	deny := network.SecurityRulePropertiesFormatAccessDeny
+	deny := network.SecurityRulePropertiesFormatAccess_Deny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
 		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{

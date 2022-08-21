@@ -26,7 +26,7 @@ type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              StorageAccountsQueueServicesQueues_Spec `json:"spec,omitempty"`
-	Status            StorageQueue_Status                     `json:"status,omitempty"`
+	Status            StorageQueue_STATUS                     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -72,7 +72,7 @@ func (queue *StorageAccountsQueueServicesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (queue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -97,7 +97,7 @@ func (queue *StorageAccountsQueueServicesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageQueue_Status{}
+	return &StorageQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceRefe
 // SetStatus sets the status of this resource
 func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageQueue_Status); ok {
+	if st, ok := status.(*StorageQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageQueue_Status
+	var st StorageQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 	queue.Spec = spec
 
 	// Status
-	var status StorageQueue_Status
-	err = status.AssignPropertiesFromStorageQueueStatus(&source.Status)
+	var status StorageQueue_STATUS
+	err = status.AssignPropertiesFromStorageQueueSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueSTATUS() to populate field Status")
 	}
 	queue.Status = status
 
@@ -170,10 +170,10 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.StorageQueue_Status
-	err = queue.Status.AssignPropertiesToStorageQueueStatus(&status)
+	var status v20210401s.StorageQueue_STATUS
+	err = queue.Status.AssignPropertiesToStorageQueueSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -347,9 +347,9 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorage
 	return nil
 }
 
-// Storage version of v1alpha1api20210401.StorageQueue_Status
-// Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead
-type StorageQueue_Status struct {
+// Storage version of v1alpha1api20210401.StorageQueue_STATUS
+// Deprecated version of StorageQueue_STATUS. Use v1beta20210401.StorageQueue_STATUS instead
+type StorageQueue_STATUS struct {
 	ApproximateMessageCount *int                   `json:"approximateMessageCount,omitempty"`
 	Conditions              []conditions.Condition `json:"conditions,omitempty"`
 	Id                      *string                `json:"id,omitempty"`
@@ -359,25 +359,25 @@ type StorageQueue_Status struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageQueue_Status{}
+var _ genruntime.ConvertibleStatus = &StorageQueue_STATUS{}
 
-// ConvertStatusFrom populates our StorageQueue_Status from the provided source
-func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.StorageQueue_Status)
+// ConvertStatusFrom populates our StorageQueue_STATUS from the provided source
+func (queue *StorageQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.StorageQueue_STATUS)
 	if ok {
 		// Populate our instance from source
-		return queue.AssignPropertiesFromStorageQueueStatus(src)
+		return queue.AssignPropertiesFromStorageQueueSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.StorageQueue_Status{}
+	src = &v20210401s.StorageQueue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = queue.AssignPropertiesFromStorageQueueStatus(src)
+	err = queue.AssignPropertiesFromStorageQueueSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -385,17 +385,17 @@ func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.Convertibl
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageQueue_Status
-func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.StorageQueue_Status)
+// ConvertStatusTo populates the provided destination from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.StorageQueue_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return queue.AssignPropertiesToStorageQueueStatus(dst)
+		return queue.AssignPropertiesToStorageQueueSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.StorageQueue_Status{}
-	err := queue.AssignPropertiesToStorageQueueStatus(dst)
+	dst = &v20210401s.StorageQueue_STATUS{}
+	err := queue.AssignPropertiesToStorageQueueSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -409,8 +409,8 @@ func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.Convert
 	return nil
 }
 
-// AssignPropertiesFromStorageQueueStatus populates our StorageQueue_Status from the provided source StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source *v20210401s.StorageQueue_Status) error {
+// AssignPropertiesFromStorageQueueSTATUS populates our StorageQueue_STATUS from the provided source StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesFromStorageQueueSTATUS(source *v20210401s.StorageQueue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -443,8 +443,8 @@ func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source 
 	return nil
 }
 
-// AssignPropertiesToStorageQueueStatus populates the provided destination StorageQueue_Status from our StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesToStorageQueueStatus(destination *v20210401s.StorageQueue_Status) error {
+// AssignPropertiesToStorageQueueSTATUS populates the provided destination StorageQueue_STATUS from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesToStorageQueueSTATUS(destination *v20210401s.StorageQueue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(queue.PropertyBag)
 

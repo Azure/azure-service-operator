@@ -27,7 +27,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTrigge
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -69,17 +69,17 @@ type SqlTriggerResourceARM struct {
 type SqlTriggerResourceTriggerOperation string
 
 const (
-	SqlTriggerResourceTriggerOperationAll     = SqlTriggerResourceTriggerOperation("All")
-	SqlTriggerResourceTriggerOperationCreate  = SqlTriggerResourceTriggerOperation("Create")
-	SqlTriggerResourceTriggerOperationDelete  = SqlTriggerResourceTriggerOperation("Delete")
-	SqlTriggerResourceTriggerOperationReplace = SqlTriggerResourceTriggerOperation("Replace")
-	SqlTriggerResourceTriggerOperationUpdate  = SqlTriggerResourceTriggerOperation("Update")
+	SqlTriggerResourceTriggerOperation_All     = SqlTriggerResourceTriggerOperation("All")
+	SqlTriggerResourceTriggerOperation_Create  = SqlTriggerResourceTriggerOperation("Create")
+	SqlTriggerResourceTriggerOperation_Delete  = SqlTriggerResourceTriggerOperation("Delete")
+	SqlTriggerResourceTriggerOperation_Replace = SqlTriggerResourceTriggerOperation("Replace")
+	SqlTriggerResourceTriggerOperation_Update  = SqlTriggerResourceTriggerOperation("Update")
 )
 
 // +kubebuilder:validation:Enum={"Post","Pre"}
 type SqlTriggerResourceTriggerType string
 
 const (
-	SqlTriggerResourceTriggerTypePost = SqlTriggerResourceTriggerType("Post")
-	SqlTriggerResourceTriggerTypePre  = SqlTriggerResourceTriggerType("Pre")
+	SqlTriggerResourceTriggerType_Post = SqlTriggerResourceTriggerType("Post")
+	SqlTriggerResourceTriggerType_Pre  = SqlTriggerResourceTriggerType("Pre")
 )

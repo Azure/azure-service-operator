@@ -29,7 +29,7 @@ func newVMSS20220301(
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	upgradePolicyMode := compute2022.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute2022.UpgradePolicyMode_Automatic
 	adminUsername := "adminUser"
 
 	inboundNATPoolRef := genruntime.ResourceReference{
@@ -160,7 +160,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2022.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

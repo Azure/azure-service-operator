@@ -26,7 +26,7 @@ type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureGetResults_Status                         `json:"status,omitempty"`
+	Status            SqlStoredProcedureGetResults_STATUS                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -72,7 +72,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (procedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -97,7 +97,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureGetResults_Status{}
+	return &SqlStoredProcedureGetResults_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
+	if st, ok := status.(*SqlStoredProcedureGetResults_STATUS); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureGetResults_Status
+	var st SqlStoredProcedureGetResults_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDat
 	procedure.Spec = spec
 
 	// Status
-	var status SqlStoredProcedureGetResults_Status
-	err = status.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(&source.Status)
+	var status SqlStoredProcedureGetResults_STATUS
+	err = status.AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS() to populate field Status")
 	}
 	procedure.Status = status
 
@@ -170,10 +170,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlStoredProcedureGetResults_Status
-	err = procedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
+	var status v20210515s.SqlStoredProcedureGetResults_STATUS
+	err = procedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetResultsSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -388,38 +388,38 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) A
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlStoredProcedureGetResults_Status
-// Deprecated version of SqlStoredProcedureGetResults_Status. Use v1beta20210515.SqlStoredProcedureGetResults_Status instead
-type SqlStoredProcedureGetResults_Status struct {
+// Storage version of v1alpha1api20210515.SqlStoredProcedureGetResults_STATUS
+// Deprecated version of SqlStoredProcedureGetResults_STATUS. Use v1beta20210515.SqlStoredProcedureGetResults_STATUS instead
+type SqlStoredProcedureGetResults_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
 	Name        *string                                          `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureGetProperties_Status_Resource `json:"resource,omitempty"`
+	Resource    *SqlStoredProcedureGetProperties_STATUS_Resource `json:"resource,omitempty"`
 	Tags        map[string]string                                `json:"tags,omitempty"`
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_STATUS{}
 
-// ConvertStatusFrom populates our SqlStoredProcedureGetResults_Status from the provided source
-func (results *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlStoredProcedureGetResults_Status)
+// ConvertStatusFrom populates our SqlStoredProcedureGetResults_STATUS from the provided source
+func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.SqlStoredProcedureGetResults_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
+		return results.AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.SqlStoredProcedureGetResults_Status{}
+	src = &v20210515s.SqlStoredProcedureGetResults_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
+	err = results.AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -427,17 +427,17 @@ func (results *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source gen
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_Status
-func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlStoredProcedureGetResults_Status)
+// ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_STATUS
+func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.SqlStoredProcedureGetResults_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
+		return results.AssignPropertiesToSqlStoredProcedureGetResultsSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.SqlStoredProcedureGetResults_Status{}
-	err := results.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
+	dst = &v20210515s.SqlStoredProcedureGetResults_STATUS{}
+	err := results.AssignPropertiesToSqlStoredProcedureGetResultsSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -451,8 +451,8 @@ func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination 
 	return nil
 }
 
-// AssignPropertiesFromSqlStoredProcedureGetResultsStatus populates our SqlStoredProcedureGetResults_Status from the provided source SqlStoredProcedureGetResults_Status
-func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStoredProcedureGetResultsStatus(source *v20210515s.SqlStoredProcedureGetResults_Status) error {
+// AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS populates our SqlStoredProcedureGetResults_STATUS from the provided source SqlStoredProcedureGetResults_STATUS
+func (results *SqlStoredProcedureGetResults_STATUS) AssignPropertiesFromSqlStoredProcedureGetResultsSTATUS(source *v20210515s.SqlStoredProcedureGetResults_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -470,10 +470,10 @@ func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStore
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlStoredProcedureGetProperties_Status_Resource
-		err := resource.AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source.Resource)
+		var resource SqlStoredProcedureGetProperties_STATUS_Resource
+		err := resource.AssignPropertiesFromSqlStoredProcedureGetPropertiesSTATUSResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetPropertiesSTATUSResource() to populate field Resource")
 		}
 		results.Resource = &resource
 	} else {
@@ -497,8 +497,8 @@ func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStore
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureGetResultsStatus populates the provided destination SqlStoredProcedureGetResults_Status from our SqlStoredProcedureGetResults_Status
-func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesToSqlStoredProcedureGetResultsStatus(destination *v20210515s.SqlStoredProcedureGetResults_Status) error {
+// AssignPropertiesToSqlStoredProcedureGetResultsSTATUS populates the provided destination SqlStoredProcedureGetResults_STATUS from our SqlStoredProcedureGetResults_STATUS
+func (results *SqlStoredProcedureGetResults_STATUS) AssignPropertiesToSqlStoredProcedureGetResultsSTATUS(destination *v20210515s.SqlStoredProcedureGetResults_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
 
@@ -516,10 +516,10 @@ func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesToSqlStoredP
 
 	// Resource
 	if results.Resource != nil {
-		var resource v20210515s.SqlStoredProcedureGetProperties_Status_Resource
-		err := results.Resource.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&resource)
+		var resource v20210515s.SqlStoredProcedureGetProperties_STATUS_Resource
+		err := results.Resource.AssignPropertiesToSqlStoredProcedureGetPropertiesSTATUSResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetPropertiesSTATUSResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -543,9 +543,9 @@ func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesToSqlStoredP
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlStoredProcedureGetProperties_Status_Resource
-// Deprecated version of SqlStoredProcedureGetProperties_Status_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource instead
-type SqlStoredProcedureGetProperties_Status_Resource struct {
+// Storage version of v1alpha1api20210515.SqlStoredProcedureGetProperties_STATUS_Resource
+// Deprecated version of SqlStoredProcedureGetProperties_STATUS_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_STATUS_Resource instead
+type SqlStoredProcedureGetProperties_STATUS_Resource struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -554,8 +554,8 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
-// AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource populates our SqlStoredProcedureGetProperties_Status_Resource from the provided source SqlStoredProcedureGetProperties_Status_Resource
-func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source *v20210515s.SqlStoredProcedureGetProperties_Status_Resource) error {
+// AssignPropertiesFromSqlStoredProcedureGetPropertiesSTATUSResource populates our SqlStoredProcedureGetProperties_STATUS_Resource from the provided source SqlStoredProcedureGetProperties_STATUS_Resource
+func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) AssignPropertiesFromSqlStoredProcedureGetPropertiesSTATUSResource(source *v20210515s.SqlStoredProcedureGetProperties_STATUS_Resource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -590,8 +590,8 @@ func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertie
 	return nil
 }
 
-// AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource populates the provided destination SqlStoredProcedureGetProperties_Status_Resource from our SqlStoredProcedureGetProperties_Status_Resource
-func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(destination *v20210515s.SqlStoredProcedureGetProperties_Status_Resource) error {
+// AssignPropertiesToSqlStoredProcedureGetPropertiesSTATUSResource populates the provided destination SqlStoredProcedureGetProperties_STATUS_Resource from our SqlStoredProcedureGetProperties_STATUS_Resource
+func (resource *SqlStoredProcedureGetProperties_STATUS_Resource) AssignPropertiesToSqlStoredProcedureGetPropertiesSTATUSResource(destination *v20210515s.SqlStoredProcedureGetProperties_STATUS_Resource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

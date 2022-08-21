@@ -96,7 +96,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -282,7 +282,7 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -298,20 +298,11 @@ func (resource *FakeResource_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type EmbeddedTestTypeARM struct {
 	FancyProp int `json:"fancyProp,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"blue","green","red"}
-type FakeResourceSpecColor string
-
-const (
-	FakeResourceSpecColorBlue  = FakeResourceSpecColor("blue")
-	FakeResourceSpecColorGreen = FakeResourceSpecColor("green")
-	FakeResourceSpecColorRed   = FakeResourceSpecColor("red")
-)
 
 type FakeResource_Spec struct {
 	EmbeddedTestType `json:",inline,omitempty"`
@@ -593,6 +584,15 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"blue","green","red"}
+type FakeResourceSpecColor string
+
+const (
+	FakeResourceSpecColor_Blue  = FakeResourceSpecColor("blue")
+	FakeResourceSpecColor_Green = FakeResourceSpecColor("green")
+	FakeResourceSpecColor_Red   = FakeResourceSpecColor("red")
+)
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {

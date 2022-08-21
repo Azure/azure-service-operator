@@ -65,6 +65,10 @@ var (
 	BatchPkg2021  = MakeLocalPackageReference(BatchGroup, "v20210630")
 	BatchPkg2021s = astmodel.MakeStoragePackageReference(BatchPkg2021)
 
+	// Reference Package Batch 2021 - beta
+	BatchPkgBeta2021  = MakeLocalPackageReference(BatchGroup, "v1beta20210101")
+	BatchPkgBeta2021s = astmodel.MakeStoragePackageReference(BatchPkg2021)
+
 	// Objects in Pkg2021
 
 	Address2021 = CreateObjectDefinition(Pkg2021, "Address", FullAddressProperty, CityProperty)

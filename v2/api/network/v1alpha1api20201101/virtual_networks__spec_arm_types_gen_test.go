@@ -20,7 +20,7 @@ import (
 func Test_VirtualNetworks_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -98,7 +98,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecARM(gens map[string]gopte
 func Test_VirtualNetworks_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -240,7 +240,7 @@ func AddIndependentPropertyGeneratorsForDhcpOptionsARM(gens map[string]gopter.Ge
 func Test_VirtualNetworks_Spec_Properties_SubnetsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -315,7 +315,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsARM(gens
 func Test_VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -390,7 +390,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesVirtualNetworkP
 func Test_VirtualNetworks_Spec_Properties_Subnets_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -474,7 +474,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsProperti
 func Test_VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(

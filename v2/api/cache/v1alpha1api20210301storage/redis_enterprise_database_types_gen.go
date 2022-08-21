@@ -26,7 +26,7 @@ type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RedisEnterpriseDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_Status               `json:"status,omitempty"`
+	Status            Database_STATUS               `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -72,7 +72,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -97,7 +97,7 @@ func (database *RedisEnterpriseDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Database_Status{}
+	return &Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *RedisEnterpriseDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Database_Status); ok {
+	if st, ok := status.(*Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Database_Status
+	var st Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (database *RedisEnterpriseDatabase) AssignPropertiesFromRedisEnterpriseData
 	database.Spec = spec
 
 	// Status
-	var status Database_Status
-	err = status.AssignPropertiesFromDatabaseStatus(&source.Status)
+	var status Database_STATUS
+	err = status.AssignPropertiesFromDatabaseSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseSTATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -170,10 +170,10 @@ func (database *RedisEnterpriseDatabase) AssignPropertiesToRedisEnterpriseDataba
 	destination.Spec = spec
 
 	// Status
-	var status v20210301s.Database_Status
-	err = database.Status.AssignPropertiesToDatabaseStatus(&status)
+	var status v20210301s.Database_STATUS
+	err = database.Status.AssignPropertiesToDatabaseSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,17 +199,17 @@ type RedisEnterpriseDatabaseList struct {
 	Items           []RedisEnterpriseDatabase `json:"items"`
 }
 
-// Storage version of v1alpha1api20210301.Database_Status
-// Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
-type Database_Status struct {
+// Storage version of v1alpha1api20210301.Database_STATUS
+// Deprecated version of Database_STATUS. Use v1beta20210301.Database_STATUS instead
+type Database_STATUS struct {
 	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	EvictionPolicy    *string                `json:"evictionPolicy,omitempty"`
 	Id                *string                `json:"id,omitempty"`
-	Modules           []Module_Status        `json:"modules,omitempty"`
+	Modules           []Module_STATUS        `json:"modules,omitempty"`
 	Name              *string                `json:"name,omitempty"`
-	Persistence       *Persistence_Status    `json:"persistence,omitempty"`
+	Persistence       *Persistence_STATUS    `json:"persistence,omitempty"`
 	Port              *int                   `json:"port,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
@@ -217,25 +217,25 @@ type Database_Status struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Database_Status{}
+var _ genruntime.ConvertibleStatus = &Database_STATUS{}
 
-// ConvertStatusFrom populates our Database_Status from the provided source
-func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210301s.Database_Status)
+// ConvertStatusFrom populates our Database_STATUS from the provided source
+func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210301s.Database_STATUS)
 	if ok {
 		// Populate our instance from source
-		return database.AssignPropertiesFromDatabaseStatus(src)
+		return database.AssignPropertiesFromDatabaseSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210301s.Database_Status{}
+	src = &v20210301s.Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignPropertiesFromDatabaseStatus(src)
+	err = database.AssignPropertiesFromDatabaseSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -243,17 +243,17 @@ func (database *Database_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Database_Status
-func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210301s.Database_Status)
+// ConvertStatusTo populates the provided destination from our Database_STATUS
+func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210301s.Database_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignPropertiesToDatabaseStatus(dst)
+		return database.AssignPropertiesToDatabaseSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210301s.Database_Status{}
-	err := database.AssignPropertiesToDatabaseStatus(dst)
+	dst = &v20210301s.Database_STATUS{}
+	err := database.AssignPropertiesToDatabaseSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -267,8 +267,8 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromDatabaseStatus populates our Database_Status from the provided source Database_Status
-func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v20210301s.Database_Status) error {
+// AssignPropertiesFromDatabaseSTATUS populates our Database_STATUS from the provided source Database_STATUS
+func (database *Database_STATUS) AssignPropertiesFromDatabaseSTATUS(source *v20210301s.Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -289,14 +289,14 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v202
 
 	// Modules
 	if source.Modules != nil {
-		moduleList := make([]Module_Status, len(source.Modules))
+		moduleList := make([]Module_STATUS, len(source.Modules))
 		for moduleIndex, moduleItem := range source.Modules {
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
-			var module Module_Status
-			err := module.AssignPropertiesFromModuleStatus(&moduleItem)
+			var module Module_STATUS
+			err := module.AssignPropertiesFromModuleSTATUS(&moduleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromModuleStatus() to populate field Modules")
+				return errors.Wrap(err, "calling AssignPropertiesFromModuleSTATUS() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -310,10 +310,10 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v202
 
 	// Persistence
 	if source.Persistence != nil {
-		var persistence Persistence_Status
-		err := persistence.AssignPropertiesFromPersistenceStatus(source.Persistence)
+		var persistence Persistence_STATUS
+		err := persistence.AssignPropertiesFromPersistenceSTATUS(source.Persistence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPersistenceStatus() to populate field Persistence")
+			return errors.Wrap(err, "calling AssignPropertiesFromPersistenceSTATUS() to populate field Persistence")
 		}
 		database.Persistence = &persistence
 	} else {
@@ -343,8 +343,8 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToDatabaseStatus populates the provided destination Database_Status from our Database_Status
-func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v20210301s.Database_Status) error {
+// AssignPropertiesToDatabaseSTATUS populates the provided destination Database_STATUS from our Database_STATUS
+func (database *Database_STATUS) AssignPropertiesToDatabaseSTATUS(destination *v20210301s.Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -365,14 +365,14 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 
 	// Modules
 	if database.Modules != nil {
-		moduleList := make([]v20210301s.Module_Status, len(database.Modules))
+		moduleList := make([]v20210301s.Module_STATUS, len(database.Modules))
 		for moduleIndex, moduleItem := range database.Modules {
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
-			var module v20210301s.Module_Status
-			err := moduleItem.AssignPropertiesToModuleStatus(&module)
+			var module v20210301s.Module_STATUS
+			err := moduleItem.AssignPropertiesToModuleSTATUS(&module)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToModuleStatus() to populate field Modules")
+				return errors.Wrap(err, "calling AssignPropertiesToModuleSTATUS() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -386,10 +386,10 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 
 	// Persistence
 	if database.Persistence != nil {
-		var persistence v20210301s.Persistence_Status
-		err := database.Persistence.AssignPropertiesToPersistenceStatus(&persistence)
+		var persistence v20210301s.Persistence_STATUS
+		err := database.Persistence.AssignPropertiesToPersistenceSTATUS(&persistence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPersistenceStatus() to populate field Persistence")
+			return errors.Wrap(err, "calling AssignPropertiesToPersistenceSTATUS() to populate field Persistence")
 		}
 		destination.Persistence = &persistence
 	} else {
@@ -700,17 +700,17 @@ func (module *Module) AssignPropertiesToModule(destination *v20210301s.Module) e
 	return nil
 }
 
-// Storage version of v1alpha1api20210301.Module_Status
-// Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
-type Module_Status struct {
+// Storage version of v1alpha1api20210301.Module_STATUS
+// Deprecated version of Module_STATUS. Use v1beta20210301.Module_STATUS instead
+type Module_STATUS struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Version     *string                `json:"version,omitempty"`
 }
 
-// AssignPropertiesFromModuleStatus populates our Module_Status from the provided source Module_Status
-func (module *Module_Status) AssignPropertiesFromModuleStatus(source *v20210301s.Module_Status) error {
+// AssignPropertiesFromModuleSTATUS populates our Module_STATUS from the provided source Module_STATUS
+func (module *Module_STATUS) AssignPropertiesFromModuleSTATUS(source *v20210301s.Module_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -734,8 +734,8 @@ func (module *Module_Status) AssignPropertiesFromModuleStatus(source *v20210301s
 	return nil
 }
 
-// AssignPropertiesToModuleStatus populates the provided destination Module_Status from our Module_Status
-func (module *Module_Status) AssignPropertiesToModuleStatus(destination *v20210301s.Module_Status) error {
+// AssignPropertiesToModuleSTATUS populates the provided destination Module_STATUS from our Module_STATUS
+func (module *Module_STATUS) AssignPropertiesToModuleSTATUS(destination *v20210301s.Module_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(module.PropertyBag)
 
@@ -845,9 +845,9 @@ func (persistence *Persistence) AssignPropertiesToPersistence(destination *v2021
 	return nil
 }
 
-// Storage version of v1alpha1api20210301.Persistence_Status
-// Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
-type Persistence_Status struct {
+// Storage version of v1alpha1api20210301.Persistence_STATUS
+// Deprecated version of Persistence_STATUS. Use v1beta20210301.Persistence_STATUS instead
+type Persistence_STATUS struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -855,8 +855,8 @@ type Persistence_Status struct {
 	RdbFrequency *string                `json:"rdbFrequency,omitempty"`
 }
 
-// AssignPropertiesFromPersistenceStatus populates our Persistence_Status from the provided source Persistence_Status
-func (persistence *Persistence_Status) AssignPropertiesFromPersistenceStatus(source *v20210301s.Persistence_Status) error {
+// AssignPropertiesFromPersistenceSTATUS populates our Persistence_STATUS from the provided source Persistence_STATUS
+func (persistence *Persistence_STATUS) AssignPropertiesFromPersistenceSTATUS(source *v20210301s.Persistence_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -893,8 +893,8 @@ func (persistence *Persistence_Status) AssignPropertiesFromPersistenceStatus(sou
 	return nil
 }
 
-// AssignPropertiesToPersistenceStatus populates the provided destination Persistence_Status from our Persistence_Status
-func (persistence *Persistence_Status) AssignPropertiesToPersistenceStatus(destination *v20210301s.Persistence_Status) error {
+// AssignPropertiesToPersistenceSTATUS populates the provided destination Persistence_STATUS from our Persistence_STATUS
+func (persistence *Persistence_STATUS) AssignPropertiesToPersistenceSTATUS(destination *v20210301s.Persistence_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(persistence.PropertyBag)
 
