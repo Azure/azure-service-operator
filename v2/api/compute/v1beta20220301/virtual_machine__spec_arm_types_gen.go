@@ -557,6 +557,33 @@ type UefiSettingsARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine__spec_arm_types_gen.go
+=======
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
+type VaultSecretGroupARM struct {
+	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
+
+	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
+	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurationsARM struct {
+	// Name: The network interface configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes a virtual machine network profile's IP configuration.
+	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM `json:"properties,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Properties: Describes a network interface reference properties.
+	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMGalleryApplication
+>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machines__spec_arm_types_gen.go
 type VMGalleryApplicationARM struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
 	// package if provided
@@ -593,6 +620,7 @@ type VMSizePropertiesARM struct {
 	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine__spec_arm_types_gen.go
 type VaultSecretGroupARM struct {
 	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
@@ -607,6 +635,9 @@ type VirtualMachineNetworkInterfaceConfigurationARM struct {
 	Properties *VirtualMachineNetworkInterfaceConfigurationPropertiesARM `json:"properties,omitempty"`
 }
 
+=======
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
+>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machines__spec_arm_types_gen.go
 type WindowsConfigurationARM struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -845,6 +876,24 @@ type SshPublicKeySpecARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine__spec_arm_types_gen.go
+=======
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
+	// DnsServers: List of DNS servers IP addresses
+	DnsServers []string `json:"dnsServers,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM struct {
+	// Name: The IP configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes a virtual machine network interface IP configuration properties.
+	Properties *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM `json:"properties,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMDiskSecurityProfile
+>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machines__spec_arm_types_gen.go
 type VMDiskSecurityProfileARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk that is used for
 	// Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
@@ -857,6 +906,7 @@ type VMDiskSecurityProfileARM struct {
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine__spec_arm_types_gen.go
 type VirtualMachineNetworkInterfaceDnsSettingsConfigurationARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -866,6 +916,12 @@ type VirtualMachineNetworkInterfaceIPConfigurationARM struct {
 	// Name: The IP configuration name.
 	Name       *string                                                     `json:"name,omitempty"`
 	Properties *VirtualMachineNetworkInterfaceIPConfigurationPropertiesARM `json:"properties,omitempty"`
+=======
+// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsVMGuestPatchAutomaticByPlatformSettings
+type WindowsVMGuestPatchAutomaticByPlatformSettingsARM struct {
+	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettingsRebootSetting `json:"rebootSetting,omitempty"`
+>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machines__spec_arm_types_gen.go
 }
 
 type WinRMListenerARM struct {
@@ -890,12 +946,16 @@ type WinRMListenerARM struct {
 	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/compute/v1beta20220301/virtual_machine__spec_arm_types_gen.go
 type WindowsVMGuestPatchAutomaticByPlatformSettingsARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
 }
 
 type VirtualMachineNetworkInterfaceIPConfigurationPropertiesARM struct {
+=======
+type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM struct {
+>>>>>>> main:v2/api/compute/v1beta20220301/virtual_machines__spec_arm_types_gen.go
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
 	// machines cannot use the same application gateway.

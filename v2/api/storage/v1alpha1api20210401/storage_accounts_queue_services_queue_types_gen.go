@@ -28,8 +28,13 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              StorageAccountsQueueServicesQueue_Spec   `json:"spec,omitempty"`
 	Status            StorageAccountsQueueServicesQueue_STATUS `json:"status,omitempty"`
+=======
+	Spec              StorageAccountsQueueServicesQueues_Spec `json:"spec,omitempty"`
+	Status            StorageQueue_STATUS                     `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -137,7 +142,11 @@ func (queue *StorageAccountsQueueServicesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &StorageAccountsQueueServicesQueue_STATUS{}
+=======
+	return &StorageQueue_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceRefe
 // SetStatus sets the status of this resource
 func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*StorageAccountsQueueServicesQueue_STATUS); ok {
+=======
+	if st, ok := status.(*StorageQueue_STATUS); ok {
+>>>>>>> main
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st StorageAccountsQueueServicesQueue_STATUS
+=======
+	var st StorageQueue_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 	queue.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status StorageAccountsQueueServicesQueue_STATUS
 	err = status.AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS() to populate field Status")
+=======
+	var status StorageQueue_STATUS
+	err = status.AssignPropertiesFromStorageQueueSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	queue.Status = status
 
@@ -303,10 +327,17 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20210401s.StorageAccountsQueueServicesQueue_STATUS
 	err = queue.Status.AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS() to populate field Status")
+=======
+	var status alpha20210401s.StorageQueue_STATUS
+	err = queue.Status.AssignPropertiesToStorageQueueSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -331,8 +362,244 @@ type StorageAccountsQueueServicesQueueList struct {
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of StorageAccountsQueueServicesQueue_STATUS. Use v1beta20210401.StorageAccountsQueueServicesQueue_STATUS instead
 type StorageAccountsQueueServicesQueue_STATUS struct {
+=======
+type StorageAccountsQueueServicesQueues_Spec struct {
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=3
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string            `json:"azureName,omitempty"`
+	Location  *string           `json:"location,omitempty"`
+	Metadata  map[string]string `json:"metadata,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsQueueService resource
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &StorageAccountsQueueServicesQueues_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if queues == nil {
+		return nil, nil
+	}
+	result := &StorageAccountsQueueServicesQueues_SpecARM{}
+
+	// Set property ‘Location’:
+	if queues.Location != nil {
+		location := *queues.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if queues.Metadata != nil {
+		result.Properties = &QueuePropertiesARM{}
+	}
+	if queues.Metadata != nil {
+		result.Properties.Metadata = make(map[string]string, len(queues.Metadata))
+		for key, value := range queues.Metadata {
+			result.Properties.Metadata[key] = value
+		}
+	}
+
+	// Set property ‘Tags’:
+	if queues.Tags != nil {
+		result.Tags = make(map[string]string, len(queues.Tags))
+		for key, value := range queues.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (queues *StorageAccountsQueueServicesQueues_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsQueueServicesQueues_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (queues *StorageAccountsQueueServicesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsQueueServicesQueues_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServicesQueues_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	queues.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		queues.Location = &location
+	}
+
+	// Set property ‘Metadata’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Metadata != nil {
+			queues.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			for key, value := range typedInput.Properties.Metadata {
+				queues.Metadata[key] = value
+			}
+		}
+	}
+
+	// Set property ‘Owner’:
+	queues.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			queues.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_Spec{}
+
+// ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_Spec from the provided source
+func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210401s.StorageAccountsQueueServicesQueues_Spec)
+	if ok {
+		// Populate our instance from source
+		return queues.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210401s.StorageAccountsQueueServicesQueues_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = queues.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_Spec
+func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210401s.StorageAccountsQueueServicesQueues_Spec)
+	if ok {
+		// Populate destination from our instance
+		return queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210401s.StorageAccountsQueueServicesQueues_Spec{}
+	err := queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec populates our StorageAccountsQueueServicesQueues_Spec from the provided source StorageAccountsQueueServicesQueues_Spec
+func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(source *alpha20210401s.StorageAccountsQueueServicesQueues_Spec) error {
+
+	// AzureName
+	queues.AzureName = source.AzureName
+
+	// Location
+	queues.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Metadata
+	queues.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		queues.Owner = &owner
+	} else {
+		queues.Owner = nil
+	}
+
+	// Tags
+	queues.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountsQueueServicesQueuesSpec populates the provided destination StorageAccountsQueueServicesQueues_Spec from our StorageAccountsQueueServicesQueues_Spec
+func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(destination *alpha20210401s.StorageAccountsQueueServicesQueues_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = queues.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(queues.Location)
+
+	// Metadata
+	destination.Metadata = genruntime.CloneMapOfStringToString(queues.Metadata)
+
+	// OriginalVersion
+	destination.OriginalVersion = queues.OriginalVersion()
+
+	// Owner
+	if queues.Owner != nil {
+		owner := queues.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(queues.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (queues *StorageAccountsQueueServicesQueues_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (queues *StorageAccountsQueueServicesQueues_Spec) SetAzureName(azureName string) {
+	queues.AzureName = azureName
+}
+
+// Deprecated version of StorageQueue_STATUS. Use v1beta20210401.StorageQueue_STATUS instead
+type StorageQueue_STATUS struct {
+>>>>>>> main
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
 	// Conditions: The observed state of the resource
@@ -343,6 +610,7 @@ type StorageAccountsQueueServicesQueue_STATUS struct {
 	Type       *string                `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &StorageAccountsQueueServicesQueue_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccountsQueueServicesQueue_STATUS from the provided source
@@ -355,13 +623,31 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusFrom(source 
 
 	// Convert to an intermediate form
 	src = &alpha20210401s.StorageAccountsQueueServicesQueue_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &StorageQueue_STATUS{}
+
+// ConvertStatusFrom populates our StorageQueue_STATUS from the provided source
+func (queue *StorageQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210401s.StorageQueue_STATUS)
+	if ok {
+		// Populate our instance from source
+		return queue.AssignPropertiesFromStorageQueueSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210401s.StorageQueue_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = queue.AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS(src)
+=======
+	err = queue.AssignPropertiesFromStorageQueueSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -369,6 +655,7 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusFrom(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our StorageAccountsQueueServicesQueue_STATUS
 func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20210401s.StorageAccountsQueueServicesQueue_STATUS)
@@ -380,6 +667,19 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusTo(destinati
 	// Convert to an intermediate form
 	dst = &alpha20210401s.StorageAccountsQueueServicesQueue_STATUS{}
 	err := queue.AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210401s.StorageQueue_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return queue.AssignPropertiesToStorageQueueSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210401s.StorageQueue_STATUS{}
+	err := queue.AssignPropertiesToStorageQueueSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -393,6 +693,7 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) ConvertStatusTo(destinati
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &StorageAccountsQueueServicesQueue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -405,6 +706,20 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) PopulateFromARM(owner gen
 	typedInput, ok := armInput.(StorageAccountsQueueServicesQueue_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServicesQueue_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &StorageQueue_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (queue *StorageQueue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageQueue_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (queue *StorageQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageQueue_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueue_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘ApproximateMessageCount’:
@@ -451,8 +766,13 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS populates our StorageAccountsQueueServicesQueue_STATUS from the provided source StorageAccountsQueueServicesQueue_STATUS
 func (queue *StorageAccountsQueueServicesQueue_STATUS) AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS(source *alpha20210401s.StorageAccountsQueueServicesQueue_STATUS) error {
+=======
+// AssignPropertiesFromStorageQueueSTATUS populates our StorageQueue_STATUS from the provided source StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesFromStorageQueueSTATUS(source *alpha20210401s.StorageQueue_STATUS) error {
+>>>>>>> main
 
 	// ApproximateMessageCount
 	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
@@ -476,8 +796,13 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) AssignPropertiesFromStora
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS populates the provided destination StorageAccountsQueueServicesQueue_STATUS from our StorageAccountsQueueServicesQueue_STATUS
 func (queue *StorageAccountsQueueServicesQueue_STATUS) AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS(destination *alpha20210401s.StorageAccountsQueueServicesQueue_STATUS) error {
+=======
+// AssignPropertiesToStorageQueueSTATUS populates the provided destination StorageQueue_STATUS from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesToStorageQueueSTATUS(destination *alpha20210401s.StorageQueue_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

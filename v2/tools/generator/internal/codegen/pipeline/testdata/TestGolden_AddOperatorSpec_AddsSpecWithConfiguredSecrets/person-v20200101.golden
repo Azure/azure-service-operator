@@ -24,10 +24,6 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-type Person_STATUS struct {
-	Status string `json:"status,omitempty"`
-}
-
 type Person_Spec struct {
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -41,6 +37,10 @@ type Person_Spec struct {
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
 	OperatorSpec *PersonOperatorSpec `json:"operatorSpec,omitempty"`
+}
+
+type Person_STATUS struct {
+	Status string `json:"status,omitempty"`
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

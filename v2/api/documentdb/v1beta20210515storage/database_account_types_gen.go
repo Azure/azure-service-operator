@@ -28,8 +28,13 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccount_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_Spec            `json:"spec,omitempty"`
+	Status            DatabaseAccountGetResults_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -78,7 +83,11 @@ func (account *DatabaseAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccount_STATUS{}
+=======
+	return &DatabaseAccountGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccount_STATUS); ok {
+=======
+	if st, ok := status.(*DatabaseAccountGetResults_STATUS); ok {
+>>>>>>> main
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccount_STATUS
+=======
+	var st DatabaseAccountGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,6 +156,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-15")
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.DatabaseAccount_STATUS
 type DatabaseAccount_STATUS struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
@@ -186,15 +204,70 @@ var _ genruntime.ConvertibleStatus = &DatabaseAccount_STATUS{}
 // ConvertStatusFrom populates our DatabaseAccount_STATUS from the provided source
 func (account *DatabaseAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == account {
+=======
+// Storage version of v1beta20210515.DatabaseAccountGetResults_STATUS
+type DatabaseAccountGetResults_STATUS struct {
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS                 `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_STATUS                                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_STATUS                                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_STATUS                                    `json:"capabilities,omitempty"`
+	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
+	ConnectorOffer                     *string                                                `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUS                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUS                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                                                `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                  `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                  `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                  `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                  `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                  `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUS                                `json:"failoverPolicies,omitempty"`
+	Id                                 *string                                                `json:"id,omitempty"`
+	Identity                           *ManagedServiceIdentity_STATUS                         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUS                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                                                `json:"kind,omitempty"`
+	Location                           *string                                                `json:"location,omitempty"`
+	Locations                          []Location_STATUS                                      `json:"locations,omitempty"`
+	Name                               *string                                                `json:"name,omitempty"`
+	NetworkAclBypass                   *string                                                `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                        genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *string                                                `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUS                                      `json:"readLocations,omitempty"`
+	Tags                               map[string]string                                      `json:"tags,omitempty"`
+	Type                               *string                                                `json:"type,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUS                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUS                                      `json:"writeLocations,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountGetResults_STATUS from the provided source
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(account)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our DatabaseAccount_STATUS
 func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == account {
+=======
+// ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_STATUS
+func (results *DatabaseAccountGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
@@ -407,11 +480,19 @@ type ManagedServiceIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
+<<<<<<< HEAD
 	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210515.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
+=======
+	UserAssignedIdentities map[string]ManagedServiceIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1beta20210515.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+>>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -443,8 +524,13 @@ type DatabaseAccountOperatorSecrets struct {
 	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
+=======
+// Storage version of v1beta20210515.ManagedServiceIdentity_STATUS_UserAssignedIdentities
+type ManagedServiceIdentity_STATUS_UserAssignedIdentities struct {
+>>>>>>> main
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

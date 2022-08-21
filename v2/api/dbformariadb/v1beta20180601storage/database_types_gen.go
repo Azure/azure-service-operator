@@ -28,8 +28,13 @@ import (
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              ServersDatabase_Spec   `json:"spec,omitempty"`
 	Status            ServersDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS       `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -78,7 +83,11 @@ func (database *Database) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *Database) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &ServersDatabase_STATUS{}
+=======
+	return &Database_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (database *Database) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*ServersDatabase_STATUS); ok {
+=======
+	if st, ok := status.(*Database_STATUS); ok {
+>>>>>>> main
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st ServersDatabase_STATUS
+=======
+	var st Database_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,8 +150,13 @@ type DatabaseList struct {
 	Items           []Database `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20180601.ServersDatabase_STATUS
 type ServersDatabase_STATUS struct {
+=======
+// Storage version of v1beta20180601.Database_STATUS
+type Database_STATUS struct {
+>>>>>>> main
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -144,10 +166,17 @@ type ServersDatabase_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &ServersDatabase_STATUS{}
 
 // ConvertStatusFrom populates our ServersDatabase_STATUS from the provided source
 func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+=======
+var _ genruntime.ConvertibleStatus = &Database_STATUS{}
+
+// ConvertStatusFrom populates our Database_STATUS from the provided source
+func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -155,8 +184,13 @@ func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return source.ConvertStatusTo(database)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our ServersDatabase_STATUS
 func (database *ServersDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+=======
+// ConvertStatusTo populates the provided destination from our Database_STATUS
+func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

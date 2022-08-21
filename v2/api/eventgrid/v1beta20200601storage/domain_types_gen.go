@@ -28,7 +28,11 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Domain_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Domains_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
@@ -234,8 +238,13 @@ type InboundIpRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20200601.InputSchemaMapping
 type InputSchemaMapping struct {
+=======
+// Storage version of v1beta20200601.InputSchemaMapping_STATUS
+type InputSchemaMapping_STATUS struct {
+>>>>>>> main
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

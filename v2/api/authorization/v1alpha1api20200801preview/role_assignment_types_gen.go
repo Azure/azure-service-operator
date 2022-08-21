@@ -28,7 +28,11 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
+=======
+	Spec              RoleAssignments_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 
@@ -277,9 +281,15 @@ func (assignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *alp
 
 	// Status
 	var status RoleAssignment_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromRoleAssignment_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignment_STATUS() to populate field Status")
+=======
+	err = status.AssignPropertiesFromRoleAssignmentSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	assignment.Status = status
 
@@ -303,9 +313,15 @@ func (assignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *
 
 	// Status
 	var status alpha20200801ps.RoleAssignment_STATUS
+<<<<<<< HEAD
 	err = assignment.Status.AssignPropertiesToRoleAssignment_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignment_STATUS() to populate field Status")
+=======
+	err = assignment.Status.AssignPropertiesToRoleAssignmentSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -342,6 +358,7 @@ type RoleAssignment_STATUS struct {
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
 	// Conditions: The observed state of the resource
+<<<<<<< HEAD
 	Conditions                         []conditions.Condition                         `json:"conditions,omitempty"`
 	CreatedBy                          *string                                        `json:"createdBy,omitempty"`
 	CreatedOn                          *string                                        `json:"createdOn,omitempty"`
@@ -356,6 +373,22 @@ type RoleAssignment_STATUS struct {
 	Type                               *string                                        `json:"type,omitempty"`
 	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`
 	UpdatedOn                          *string                                        `json:"updatedOn,omitempty"`
+=======
+	Conditions                         []conditions.Condition                       `json:"conditions,omitempty"`
+	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
+	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string                                      `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                                      `json:"description,omitempty"`
+	Id                                 *string                                      `json:"id,omitempty"`
+	Name                               *string                                      `json:"name,omitempty"`
+	PrincipalId                        *string                                      `json:"principalId,omitempty"`
+	PrincipalType                      *RoleAssignmentPropertiesSTATUSPrincipalType `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string                                      `json:"roleDefinitionId,omitempty"`
+	Scope                              *string                                      `json:"scope,omitempty"`
+	Type                               *string                                      `json:"type,omitempty"`
+	UpdatedBy                          *string                                      `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string                                      `json:"updatedOn,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
@@ -365,7 +398,11 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.Con
 	src, ok := source.(*alpha20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return assignment.AssignPropertiesFromRoleAssignment_STATUS(src)
+=======
+		return assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -376,7 +413,11 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.Con
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = assignment.AssignPropertiesFromRoleAssignment_STATUS(src)
+=======
+	err = assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -389,12 +430,20 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.
 	dst, ok := destination.(*alpha20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return assignment.AssignPropertiesToRoleAssignment_STATUS(dst)
+=======
+		return assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20200801ps.RoleAssignment_STATUS{}
+<<<<<<< HEAD
 	err := assignment.AssignPropertiesToRoleAssignment_STATUS(dst)
+=======
+	err := assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -554,8 +603,13 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromRoleAssignment_STATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
 func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STATUS(source *alpha20200801ps.RoleAssignment_STATUS) error {
+=======
+// AssignPropertiesFromRoleAssignmentSTATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignmentSTATUS(source *alpha20200801ps.RoleAssignment_STATUS) error {
+>>>>>>> main
 
 	// Condition
 	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -589,7 +643,11 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 
 	// PrincipalType
 	if source.PrincipalType != nil {
+<<<<<<< HEAD
 		principalType := RoleAssignmentProperties_PrincipalType_STATUS(*source.PrincipalType)
+=======
+		principalType := RoleAssignmentPropertiesSTATUSPrincipalType(*source.PrincipalType)
+>>>>>>> main
 		assignment.PrincipalType = &principalType
 	} else {
 		assignment.PrincipalType = nil
@@ -614,8 +672,13 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToRoleAssignment_STATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
 func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS(destination *alpha20200801ps.RoleAssignment_STATUS) error {
+=======
+// AssignPropertiesToRoleAssignmentSTATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignmentSTATUS(destination *alpha20200801ps.RoleAssignment_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1026,6 +1089,7 @@ const (
 	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
+<<<<<<< HEAD
 // Deprecated version of RoleAssignmentProperties_PrincipalType_STATUS. Use
 // v1beta20200801preview.RoleAssignmentProperties_PrincipalType_STATUS instead
 type RoleAssignmentProperties_PrincipalType_STATUS string
@@ -1035,6 +1099,17 @@ const (
 	RoleAssignmentProperties_PrincipalType_Group_STATUS            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
 	RoleAssignmentProperties_PrincipalType_ServicePrincipal_STATUS = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
 	RoleAssignmentProperties_PrincipalType_User_STATUS             = RoleAssignmentProperties_PrincipalType_STATUS("User")
+=======
+// Deprecated version of RoleAssignmentPropertiesSTATUSPrincipalType. Use
+// v1beta20200801preview.RoleAssignmentPropertiesSTATUSPrincipalType instead
+type RoleAssignmentPropertiesSTATUSPrincipalType string
+
+const (
+	RoleAssignmentPropertiesSTATUSPrincipalType_ForeignGroup     = RoleAssignmentPropertiesSTATUSPrincipalType("ForeignGroup")
+	RoleAssignmentPropertiesSTATUSPrincipalType_Group            = RoleAssignmentPropertiesSTATUSPrincipalType("Group")
+	RoleAssignmentPropertiesSTATUSPrincipalType_ServicePrincipal = RoleAssignmentPropertiesSTATUSPrincipalType("ServicePrincipal")
+	RoleAssignmentPropertiesSTATUSPrincipalType_User             = RoleAssignmentPropertiesSTATUSPrincipalType("User")
+>>>>>>> main
 )
 
 func init() {

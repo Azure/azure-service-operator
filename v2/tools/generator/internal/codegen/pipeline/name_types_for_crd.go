@@ -162,14 +162,14 @@ func nameInnerTypes(
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		nameHint := ctx.(string)
 
-		spec, err := this.Visit(it.SpecType(), nameHint+"_Spec")
+		spec, err := this.Visit(it.SpecType(), nameHint+astmodel.SpecSuffix)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to name spec type %s", it.SpecType())
 		}
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status, err = this.Visit(it.StatusType(), nameHint+astmodel.StatusNameSuffix)
+			status, err = this.Visit(it.StatusType(), nameHint+astmodel.StatusSuffix)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}

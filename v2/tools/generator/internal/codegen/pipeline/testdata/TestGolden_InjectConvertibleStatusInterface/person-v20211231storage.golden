@@ -27,6 +27,12 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
+// Storage version of v20211231.Person_Spec
+type Person_Spec struct {
+	FullName    *string                `json:"fullName,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v20211231.Person_STATUS
 type Person_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -51,12 +57,6 @@ func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	}
 
 	return destination.ConvertStatusFrom(person)
-}
-
-// Storage version of v20211231.Person_Spec
-type Person_Spec struct {
-	FullName    *string                `json:"fullName,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

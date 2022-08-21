@@ -258,7 +258,10 @@ func createReservedWords() map[string]string {
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
 func createForbiddenReceiverSuffixes() set.Set[string] {
-	return set.Make("STATUS", "Spec", "ARM")
+	// If/when Status or Spec are all capitals, ARM isn't separated as a different word
+	status := strings.TrimPrefix(StatusSuffix, "_")
+	spec := strings.TrimPrefix(SpecSuffix, "_")
+	return set.Make(status, spec, "ARM", status+"ARM", spec+"ARM")
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
@@ -276,7 +279,9 @@ func transformToSnakeCase(input string) string {
 	// my kingdom for LINQ
 	lowerWords := make([]string, 0, len(words))
 	for _, word := range words {
-		lowerWords = append(lowerWords, strings.ToLower(word))
+		if len(word) > 0 {
+			lowerWords = append(lowerWords, strings.ToLower(word))
+		}
 	}
 
 	return strings.Join(lowerWords, "_")

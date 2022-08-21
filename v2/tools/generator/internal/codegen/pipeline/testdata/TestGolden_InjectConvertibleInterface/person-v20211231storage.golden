@@ -26,16 +26,16 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-// Storage version of v20211231.Person_STATUS
-type Person_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status      *string                `json:"status,omitempty"`
-}
-
 // Storage version of v20211231.Person_Spec
 type Person_Spec struct {
 	FullName    *string                `json:"fullName,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v20211231.Person_STATUS
+type Person_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 func init() {

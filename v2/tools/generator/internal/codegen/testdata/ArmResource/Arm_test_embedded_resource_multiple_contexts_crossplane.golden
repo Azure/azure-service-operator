@@ -28,15 +28,15 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-01-01")
-
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider           AParameters `json:"forProvider,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"2020-01-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2020-01-01")
 
 type AParameters struct {
 	// +kubebuilder:validation:Required
@@ -53,12 +53,6 @@ type AParameters struct {
 	Type A_Spec_Type `json:"type,omitempty"`
 }
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
-type AProperties struct {
-	Left  *Left  `json:"left,omitempty"`
-	Right *Right `json:"right,omitempty"`
-}
-
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type A_Spec_APIVersion string
 
@@ -68,6 +62,12 @@ const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
 type A_Spec_Type string
 
 const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+type AProperties struct {
+	Left  *Left  `json:"left,omitempty"`
+	Right *Right `json:"right,omitempty"`
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left struct {

@@ -28,7 +28,11 @@ import (
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              BatchAccount_Spec   `json:"spec,omitempty"`
+=======
+	Spec              BatchAccounts_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            BatchAccount_STATUS `json:"status,omitempty"`
 }
 
@@ -257,7 +261,11 @@ type BatchAccountIdentity_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
+<<<<<<< HEAD
 	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+=======
+	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+>>>>>>> main
 }
 
 // Storage version of v1beta20210101.EncryptionProperties
@@ -310,8 +318,13 @@ type VirtualMachineFamilyCoreQuota_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
 type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
+=======
+// Storage version of v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities
+type BatchAccountIdentity_STATUS_UserAssignedIdentities struct {
+>>>>>>> main
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

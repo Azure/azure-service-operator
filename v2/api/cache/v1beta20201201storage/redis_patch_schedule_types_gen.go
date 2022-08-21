@@ -28,7 +28,11 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisPatchSchedule_Spec   `json:"spec,omitempty"`
+=======
+	Spec              RedisPatchSchedules_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
 }
 

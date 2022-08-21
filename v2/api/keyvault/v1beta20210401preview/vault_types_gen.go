@@ -30,7 +30,11 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Vault_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Vaults_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
@@ -266,9 +270,15 @@ func (vault *Vault) AssignPropertiesFromVault(source *v20210401ps.Vault) error {
 
 	// Status
 	var status Vault_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromVault_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromVault_STATUS() to populate field Status")
+=======
+	err = status.AssignPropertiesFromVaultSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromVaultSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	vault.Status = status
 
@@ -292,9 +302,15 @@ func (vault *Vault) AssignPropertiesToVault(destination *v20210401ps.Vault) erro
 
 	// Status
 	var status v20210401ps.Vault_STATUS
+<<<<<<< HEAD
 	err = vault.Status.AssignPropertiesToVault_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToVault_STATUS() to populate field Status")
+=======
+	err = vault.Status.AssignPropertiesToVaultSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToVaultSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -359,7 +375,11 @@ func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src, ok := source.(*v20210401ps.Vault_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return vault.AssignPropertiesFromVault_STATUS(src)
+=======
+		return vault.AssignPropertiesFromVaultSTATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -370,7 +390,11 @@ func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = vault.AssignPropertiesFromVault_STATUS(src)
+=======
+	err = vault.AssignPropertiesFromVaultSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -383,12 +407,20 @@ func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst, ok := destination.(*v20210401ps.Vault_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return vault.AssignPropertiesToVault_STATUS(dst)
+=======
+		return vault.AssignPropertiesToVaultSTATUS(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210401ps.Vault_STATUS{}
+<<<<<<< HEAD
 	err := vault.AssignPropertiesToVault_STATUS(dst)
+=======
+	err := vault.AssignPropertiesToVaultSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -476,8 +508,13 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromVault_STATUS populates our Vault_STATUS from the provided source Vault_STATUS
 func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.Vault_STATUS) error {
+=======
+// AssignPropertiesFromVaultSTATUS populates our Vault_STATUS from the provided source Vault_STATUS
+func (vault *Vault_STATUS) AssignPropertiesFromVaultSTATUS(source *v20210401ps.Vault_STATUS) error {
+>>>>>>> main
 
 	// Conditions
 	vault.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -494,9 +531,15 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 	// Properties
 	if source.Properties != nil {
 		var property VaultProperties_STATUS
+<<<<<<< HEAD
 		err := property.AssignPropertiesFromVaultProperties_STATUS(source.Properties)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromVaultProperties_STATUS() to populate field Properties")
+=======
+		err := property.AssignPropertiesFromVaultPropertiesSTATUS(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVaultPropertiesSTATUS() to populate field Properties")
+>>>>>>> main
 		}
 		vault.Properties = &property
 	} else {
@@ -506,9 +549,15 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		vault.SystemData = &systemDatum
 	} else {
@@ -525,8 +574,13 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToVault_STATUS populates the provided destination Vault_STATUS from our Vault_STATUS
 func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401ps.Vault_STATUS) error {
+=======
+// AssignPropertiesToVaultSTATUS populates the provided destination Vault_STATUS from our Vault_STATUS
+func (vault *Vault_STATUS) AssignPropertiesToVaultSTATUS(destination *v20210401ps.Vault_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -545,9 +599,15 @@ func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401
 	// Properties
 	if vault.Properties != nil {
 		var property v20210401ps.VaultProperties_STATUS
+<<<<<<< HEAD
 		err := vault.Properties.AssignPropertiesToVaultProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToVaultProperties_STATUS() to populate field Properties")
+=======
+		err := vault.Properties.AssignPropertiesToVaultPropertiesSTATUS(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVaultPropertiesSTATUS() to populate field Properties")
+>>>>>>> main
 		}
 		destination.Properties = &property
 	} else {
@@ -557,9 +617,15 @@ func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401
 	// SystemData
 	if vault.SystemData != nil {
 		var systemDatum v20210401ps.SystemData_STATUS
+<<<<<<< HEAD
 		err := vault.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+		err := vault.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -912,8 +978,13 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20210401ps.SystemData_STATUS) error {
+=======
+// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20210401ps.SystemData_STATUS) error {
+>>>>>>> main
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -947,8 +1018,13 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20210401ps.SystemData_STATUS) error {
+=======
+// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20210401ps.SystemData_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1542,7 +1618,11 @@ type VaultProperties_STATUS struct {
 	AccessPolicies []AccessPolicyEntry_STATUS `json:"accessPolicies,omitempty"`
 
 	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
+<<<<<<< HEAD
 	CreateMode *VaultProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+=======
+	CreateMode *VaultPropertiesSTATUSCreateMode `json:"createMode,omitempty"`
+>>>>>>> main
 
 	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
 	// property to true activates protection against purge for this vault and its content - only the Key Vault service may
@@ -1584,7 +1664,11 @@ type VaultProperties_STATUS struct {
 	PrivateEndpointConnections []PrivateEndpointConnectionItem_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
+<<<<<<< HEAD
 	ProvisioningState *VaultProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState *VaultPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 
 	// Sku: SKU details
 	Sku *Sku_STATUS `json:"sku,omitempty"`
@@ -1731,8 +1815,13 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromVaultProperties_STATUS populates our VaultProperties_STATUS from the provided source VaultProperties_STATUS
 func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_STATUS(source *v20210401ps.VaultProperties_STATUS) error {
+=======
+// AssignPropertiesFromVaultPropertiesSTATUS populates our VaultProperties_STATUS from the provided source VaultProperties_STATUS
+func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultPropertiesSTATUS(source *v20210401ps.VaultProperties_STATUS) error {
+>>>>>>> main
 
 	// AccessPolicies
 	if source.AccessPolicies != nil {
@@ -1741,9 +1830,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 			// Shadow the loop variable to avoid aliasing
 			accessPolicyItem := accessPolicyItem
 			var accessPolicy AccessPolicyEntry_STATUS
+<<<<<<< HEAD
 			err := accessPolicy.AssignPropertiesFromAccessPolicyEntry_STATUS(&accessPolicyItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromAccessPolicyEntry_STATUS() to populate field AccessPolicies")
+=======
+			err := accessPolicy.AssignPropertiesFromAccessPolicyEntrySTATUS(&accessPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromAccessPolicyEntrySTATUS() to populate field AccessPolicies")
+>>>>>>> main
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -1754,7 +1849,11 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 
 	// CreateMode
 	if source.CreateMode != nil {
+<<<<<<< HEAD
 		createMode := VaultProperties_CreateMode_STATUS(*source.CreateMode)
+=======
+		createMode := VaultPropertiesSTATUSCreateMode(*source.CreateMode)
+>>>>>>> main
 		properties.CreateMode = &createMode
 	} else {
 		properties.CreateMode = nil
@@ -1814,9 +1913,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 	// NetworkAcls
 	if source.NetworkAcls != nil {
 		var networkAcl NetworkRuleSet_STATUS
+<<<<<<< HEAD
 		err := networkAcl.AssignPropertiesFromNetworkRuleSet_STATUS(source.NetworkAcls)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_STATUS() to populate field NetworkAcls")
+=======
+		err := networkAcl.AssignPropertiesFromNetworkRuleSetSTATUS(source.NetworkAcls)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetSTATUS() to populate field NetworkAcls")
+>>>>>>> main
 		}
 		properties.NetworkAcls = &networkAcl
 	} else {
@@ -1830,9 +1935,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnectionItem_STATUS
+<<<<<<< HEAD
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionItem_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
+=======
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionItemSTATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionItemSTATUS() to populate field PrivateEndpointConnections")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1843,7 +1954,11 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
+<<<<<<< HEAD
 		provisioningState := VaultProperties_ProvisioningState_STATUS(*source.ProvisioningState)
+=======
+		provisioningState := VaultPropertiesSTATUSProvisioningState(*source.ProvisioningState)
+>>>>>>> main
 		properties.ProvisioningState = &provisioningState
 	} else {
 		properties.ProvisioningState = nil
@@ -1852,9 +1967,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
+<<<<<<< HEAD
 		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
+=======
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		properties.Sku = &sku
 	} else {
@@ -1874,8 +1995,13 @@ func (properties *VaultProperties_STATUS) AssignPropertiesFromVaultProperties_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToVaultProperties_STATUS populates the provided destination VaultProperties_STATUS from our VaultProperties_STATUS
 func (properties *VaultProperties_STATUS) AssignPropertiesToVaultProperties_STATUS(destination *v20210401ps.VaultProperties_STATUS) error {
+=======
+// AssignPropertiesToVaultPropertiesSTATUS populates the provided destination VaultProperties_STATUS from our VaultProperties_STATUS
+func (properties *VaultProperties_STATUS) AssignPropertiesToVaultPropertiesSTATUS(destination *v20210401ps.VaultProperties_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1886,9 +2012,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesToVaultProperties_STAT
 			// Shadow the loop variable to avoid aliasing
 			accessPolicyItem := accessPolicyItem
 			var accessPolicy v20210401ps.AccessPolicyEntry_STATUS
+<<<<<<< HEAD
 			err := accessPolicyItem.AssignPropertiesToAccessPolicyEntry_STATUS(&accessPolicy)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToAccessPolicyEntry_STATUS() to populate field AccessPolicies")
+=======
+			err := accessPolicyItem.AssignPropertiesToAccessPolicyEntrySTATUS(&accessPolicy)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToAccessPolicyEntrySTATUS() to populate field AccessPolicies")
+>>>>>>> main
 			}
 			accessPolicyList[accessPolicyIndex] = accessPolicy
 		}
@@ -1959,9 +2091,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesToVaultProperties_STAT
 	// NetworkAcls
 	if properties.NetworkAcls != nil {
 		var networkAcl v20210401ps.NetworkRuleSet_STATUS
+<<<<<<< HEAD
 		err := properties.NetworkAcls.AssignPropertiesToNetworkRuleSet_STATUS(&networkAcl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_STATUS() to populate field NetworkAcls")
+=======
+		err := properties.NetworkAcls.AssignPropertiesToNetworkRuleSetSTATUS(&networkAcl)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetSTATUS() to populate field NetworkAcls")
+>>>>>>> main
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1975,9 +2113,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesToVaultProperties_STAT
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection v20210401ps.PrivateEndpointConnectionItem_STATUS
+<<<<<<< HEAD
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionItem_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionItem_STATUS() to populate field PrivateEndpointConnections")
+=======
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionItemSTATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionItemSTATUS() to populate field PrivateEndpointConnections")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1997,9 +2141,15 @@ func (properties *VaultProperties_STATUS) AssignPropertiesToVaultProperties_STAT
 	// Sku
 	if properties.Sku != nil {
 		var sku v20210401ps.Sku_STATUS
+<<<<<<< HEAD
 		err := properties.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
+=======
+		err := properties.Sku.AssignPropertiesToSkuSTATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -2277,8 +2427,13 @@ func (entry *AccessPolicyEntry_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromAccessPolicyEntry_STATUS populates our AccessPolicyEntry_STATUS from the provided source AccessPolicyEntry_STATUS
 func (entry *AccessPolicyEntry_STATUS) AssignPropertiesFromAccessPolicyEntry_STATUS(source *v20210401ps.AccessPolicyEntry_STATUS) error {
+=======
+// AssignPropertiesFromAccessPolicyEntrySTATUS populates our AccessPolicyEntry_STATUS from the provided source AccessPolicyEntry_STATUS
+func (entry *AccessPolicyEntry_STATUS) AssignPropertiesFromAccessPolicyEntrySTATUS(source *v20210401ps.AccessPolicyEntry_STATUS) error {
+>>>>>>> main
 
 	// ApplicationId
 	entry.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
@@ -2289,9 +2444,15 @@ func (entry *AccessPolicyEntry_STATUS) AssignPropertiesFromAccessPolicyEntry_STA
 	// Permissions
 	if source.Permissions != nil {
 		var permission Permissions_STATUS
+<<<<<<< HEAD
 		err := permission.AssignPropertiesFromPermissions_STATUS(source.Permissions)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPermissions_STATUS() to populate field Permissions")
+=======
+		err := permission.AssignPropertiesFromPermissionsSTATUS(source.Permissions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPermissionsSTATUS() to populate field Permissions")
+>>>>>>> main
 		}
 		entry.Permissions = &permission
 	} else {
@@ -2305,8 +2466,13 @@ func (entry *AccessPolicyEntry_STATUS) AssignPropertiesFromAccessPolicyEntry_STA
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToAccessPolicyEntry_STATUS populates the provided destination AccessPolicyEntry_STATUS from our AccessPolicyEntry_STATUS
 func (entry *AccessPolicyEntry_STATUS) AssignPropertiesToAccessPolicyEntry_STATUS(destination *v20210401ps.AccessPolicyEntry_STATUS) error {
+=======
+// AssignPropertiesToAccessPolicyEntrySTATUS populates the provided destination AccessPolicyEntry_STATUS from our AccessPolicyEntry_STATUS
+func (entry *AccessPolicyEntry_STATUS) AssignPropertiesToAccessPolicyEntrySTATUS(destination *v20210401ps.AccessPolicyEntry_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2319,9 +2485,15 @@ func (entry *AccessPolicyEntry_STATUS) AssignPropertiesToAccessPolicyEntry_STATU
 	// Permissions
 	if entry.Permissions != nil {
 		var permission v20210401ps.Permissions_STATUS
+<<<<<<< HEAD
 		err := entry.Permissions.AssignPropertiesToPermissions_STATUS(&permission)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPermissions_STATUS() to populate field Permissions")
+=======
+		err := entry.Permissions.AssignPropertiesToPermissionsSTATUS(&permission)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPermissionsSTATUS() to populate field Permissions")
+>>>>>>> main
 		}
 		destination.Permissions = &permission
 	} else {
@@ -2577,11 +2749,19 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v20
 type NetworkRuleSet_STATUS struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
+<<<<<<< HEAD
 	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass,omitempty"`
 
 	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
 	// the bypass property has been evaluated.
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+=======
+	Bypass *NetworkRuleSetSTATUSBypass `json:"bypass,omitempty"`
+
+	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+	// the bypass property has been evaluated.
+	DefaultAction *NetworkRuleSetSTATUSDefaultAction `json:"defaultAction,omitempty"`
+>>>>>>> main
 
 	// IpRules: The list of IP address rules.
 	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
@@ -2640,12 +2820,21 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkRuleSet_STATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(source *v20210401ps.NetworkRuleSet_STATUS) error {
 
 	// Bypass
 	if source.Bypass != nil {
 		bypass := NetworkRuleSet_Bypass_STATUS(*source.Bypass)
+=======
+// AssignPropertiesFromNetworkRuleSetSTATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
+func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSetSTATUS(source *v20210401ps.NetworkRuleSet_STATUS) error {
+
+	// Bypass
+	if source.Bypass != nil {
+		bypass := NetworkRuleSetSTATUSBypass(*source.Bypass)
+>>>>>>> main
 		ruleSet.Bypass = &bypass
 	} else {
 		ruleSet.Bypass = nil
@@ -2653,7 +2842,11 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 
 	// DefaultAction
 	if source.DefaultAction != nil {
+<<<<<<< HEAD
 		defaultAction := NetworkRuleSet_DefaultAction_STATUS(*source.DefaultAction)
+=======
+		defaultAction := NetworkRuleSetSTATUSDefaultAction(*source.DefaultAction)
+>>>>>>> main
 		ruleSet.DefaultAction = &defaultAction
 	} else {
 		ruleSet.DefaultAction = nil
@@ -2666,9 +2859,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule IPRule_STATUS
+<<<<<<< HEAD
 			err := ipRule.AssignPropertiesFromIPRule_STATUS(&ipRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromIPRule_STATUS() to populate field IpRules")
+=======
+			err := ipRule.AssignPropertiesFromIPRuleSTATUS(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleSTATUS() to populate field IpRules")
+>>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2684,9 +2883,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule VirtualNetworkRule_STATUS
+<<<<<<< HEAD
 			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+=======
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleSTATUS(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleSTATUS() to populate field VirtualNetworkRules")
+>>>>>>> main
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -2699,8 +2904,13 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkRuleSet_STATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(destination *v20210401ps.NetworkRuleSet_STATUS) error {
+=======
+// AssignPropertiesToNetworkRuleSetSTATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
+func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSetSTATUS(destination *v20210401ps.NetworkRuleSet_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2727,9 +2937,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(de
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule v20210401ps.IPRule_STATUS
+<<<<<<< HEAD
 			err := ipRuleItem.AssignPropertiesToIPRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIPRule_STATUS() to populate field IpRules")
+=======
+			err := ipRuleItem.AssignPropertiesToIPRuleSTATUS(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIPRuleSTATUS() to populate field IpRules")
+>>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2745,9 +2961,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(de
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule v20210401ps.VirtualNetworkRule_STATUS
+<<<<<<< HEAD
 			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule_STATUS(&virtualNetworkRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+=======
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleSTATUS(&virtualNetworkRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleSTATUS() to populate field VirtualNetworkRules")
+>>>>>>> main
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -2851,8 +3073,13 @@ func (item *PrivateEndpointConnectionItem_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnectionItem_STATUS populates our PrivateEndpointConnectionItem_STATUS from the provided source PrivateEndpointConnectionItem_STATUS
 func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesFromPrivateEndpointConnectionItem_STATUS(source *v20210401ps.PrivateEndpointConnectionItem_STATUS) error {
+=======
+// AssignPropertiesFromPrivateEndpointConnectionItemSTATUS populates our PrivateEndpointConnectionItem_STATUS from the provided source PrivateEndpointConnectionItem_STATUS
+func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesFromPrivateEndpointConnectionItemSTATUS(source *v20210401ps.PrivateEndpointConnectionItem_STATUS) error {
+>>>>>>> main
 
 	// Etag
 	item.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2863,9 +3090,15 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesFromPrivateEnd
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
 		var privateEndpoint PrivateEndpoint_STATUS
+<<<<<<< HEAD
 		err := privateEndpoint.AssignPropertiesFromPrivateEndpoint_STATUS(source.PrivateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+=======
+		err := privateEndpoint.AssignPropertiesFromPrivateEndpointSTATUS(source.PrivateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointSTATUS() to populate field PrivateEndpoint")
+>>>>>>> main
 		}
 		item.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2875,9 +3108,15 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesFromPrivateEnd
 	// PrivateLinkServiceConnectionState
 	if source.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
+<<<<<<< HEAD
 		err := privateLinkServiceConnectionState.AssignPropertiesFromPrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+=======
+		err := privateLinkServiceConnectionState.AssignPropertiesFromPrivateLinkServiceConnectionStateSTATUS(source.PrivateLinkServiceConnectionState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkServiceConnectionStateSTATUS() to populate field PrivateLinkServiceConnectionState")
+>>>>>>> main
 		}
 		item.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2896,8 +3135,13 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesFromPrivateEnd
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnectionItem_STATUS populates the provided destination PrivateEndpointConnectionItem_STATUS from our PrivateEndpointConnectionItem_STATUS
 func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesToPrivateEndpointConnectionItem_STATUS(destination *v20210401ps.PrivateEndpointConnectionItem_STATUS) error {
+=======
+// AssignPropertiesToPrivateEndpointConnectionItemSTATUS populates the provided destination PrivateEndpointConnectionItem_STATUS from our PrivateEndpointConnectionItem_STATUS
+func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesToPrivateEndpointConnectionItemSTATUS(destination *v20210401ps.PrivateEndpointConnectionItem_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2910,9 +3154,15 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesToPrivateEndpo
 	// PrivateEndpoint
 	if item.PrivateEndpoint != nil {
 		var privateEndpoint v20210401ps.PrivateEndpoint_STATUS
+<<<<<<< HEAD
 		err := item.PrivateEndpoint.AssignPropertiesToPrivateEndpoint_STATUS(&privateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+=======
+		err := item.PrivateEndpoint.AssignPropertiesToPrivateEndpointSTATUS(&privateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointSTATUS() to populate field PrivateEndpoint")
+>>>>>>> main
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2922,9 +3172,15 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignPropertiesToPrivateEndpo
 	// PrivateLinkServiceConnectionState
 	if item.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState v20210401ps.PrivateLinkServiceConnectionState_STATUS
+<<<<<<< HEAD
 		err := item.PrivateLinkServiceConnectionState.AssignPropertiesToPrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+=======
+		err := item.PrivateLinkServiceConnectionState.AssignPropertiesToPrivateLinkServiceConnectionStateSTATUS(&privateLinkServiceConnectionState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkServiceConnectionStateSTATUS() to populate field PrivateLinkServiceConnectionState")
+>>>>>>> main
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -3068,10 +3324,17 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210401ps.Sku) error {
 
 type Sku_STATUS struct {
 	// Family: SKU family name
+<<<<<<< HEAD
 	Family *Sku_Family_STATUS `json:"family,omitempty"`
 
 	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
+=======
+	Family *SkuSTATUSFamily `json:"family,omitempty"`
+
+	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
+	Name *SkuSTATUSName `json:"name,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -3104,12 +3367,21 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210401ps.Sku_STATUS) error {
 
 	// Family
 	if source.Family != nil {
 		family := Sku_Family_STATUS(*source.Family)
+=======
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210401ps.Sku_STATUS) error {
+
+	// Family
+	if source.Family != nil {
+		family := SkuSTATUSFamily(*source.Family)
+>>>>>>> main
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -3117,7 +3389,11 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210401ps.Sku_ST
 
 	// Name
 	if source.Name != nil {
+<<<<<<< HEAD
 		name := Sku_Name_STATUS(*source.Name)
+=======
+		name := SkuSTATUSName(*source.Name)
+>>>>>>> main
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -3127,8 +3403,13 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210401ps.Sku_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210401ps.Sku_STATUS) error {
+=======
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210401ps.Sku_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3264,8 +3545,13 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIPRule_STATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesFromIPRule_STATUS(source *v20210401ps.IPRule_STATUS) error {
+=======
+// AssignPropertiesFromIPRuleSTATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
+func (rule *IPRule_STATUS) AssignPropertiesFromIPRuleSTATUS(source *v20210401ps.IPRule_STATUS) error {
+>>>>>>> main
 
 	// Value
 	rule.Value = genruntime.ClonePointerToString(source.Value)
@@ -3274,8 +3560,13 @@ func (rule *IPRule_STATUS) AssignPropertiesFromIPRule_STATUS(source *v20210401ps
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIPRule_STATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *v20210401ps.IPRule_STATUS) error {
+=======
+// AssignPropertiesToIPRuleSTATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
+func (rule *IPRule_STATUS) AssignPropertiesToIPRuleSTATUS(destination *v20210401ps.IPRule_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3503,6 +3794,7 @@ func (permissions *Permissions) AssignPropertiesToPermissions(destination *v2021
 
 type Permissions_STATUS struct {
 	// Certificates: Permissions to certificates
+<<<<<<< HEAD
 	Certificates []Permissions_Certificates_STATUS `json:"certificates,omitempty"`
 
 	// Keys: Permissions to keys
@@ -3513,6 +3805,18 @@ type Permissions_STATUS struct {
 
 	// Storage: Permissions to storage accounts
 	Storage []Permissions_Storage_STATUS `json:"storage,omitempty"`
+=======
+	Certificates []PermissionsSTATUSCertificates `json:"certificates,omitempty"`
+
+	// Keys: Permissions to keys
+	Keys []PermissionsSTATUSKeys `json:"keys,omitempty"`
+
+	// Secrets: Permissions to secrets
+	Secrets []PermissionsSTATUSSecrets `json:"secrets,omitempty"`
+
+	// Storage: Permissions to storage accounts
+	Storage []PermissionsSTATUSStorage `json:"storage,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &Permissions_STATUS{}
@@ -3553,6 +3857,7 @@ func (permissions *Permissions_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPermissions_STATUS populates our Permissions_STATUS from the provided source Permissions_STATUS
 func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(source *v20210401ps.Permissions_STATUS) error {
 
@@ -3563,6 +3868,18 @@ func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(so
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
 			certificateList[certificateIndex] = Permissions_Certificates_STATUS(certificateItem)
+=======
+// AssignPropertiesFromPermissionsSTATUS populates our Permissions_STATUS from the provided source Permissions_STATUS
+func (permissions *Permissions_STATUS) AssignPropertiesFromPermissionsSTATUS(source *v20210401ps.Permissions_STATUS) error {
+
+	// Certificates
+	if source.Certificates != nil {
+		certificateList := make([]PermissionsSTATUSCertificates, len(source.Certificates))
+		for certificateIndex, certificateItem := range source.Certificates {
+			// Shadow the loop variable to avoid aliasing
+			certificateItem := certificateItem
+			certificateList[certificateIndex] = PermissionsSTATUSCertificates(certificateItem)
+>>>>>>> main
 		}
 		permissions.Certificates = certificateList
 	} else {
@@ -3571,11 +3888,19 @@ func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(so
 
 	// Keys
 	if source.Keys != nil {
+<<<<<<< HEAD
 		keyList := make([]Permissions_Keys_STATUS, len(source.Keys))
 		for keyIndex, keyItem := range source.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyItem := keyItem
 			keyList[keyIndex] = Permissions_Keys_STATUS(keyItem)
+=======
+		keyList := make([]PermissionsSTATUSKeys, len(source.Keys))
+		for keyIndex, keyItem := range source.Keys {
+			// Shadow the loop variable to avoid aliasing
+			keyItem := keyItem
+			keyList[keyIndex] = PermissionsSTATUSKeys(keyItem)
+>>>>>>> main
 		}
 		permissions.Keys = keyList
 	} else {
@@ -3584,11 +3909,19 @@ func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(so
 
 	// Secrets
 	if source.Secrets != nil {
+<<<<<<< HEAD
 		secretList := make([]Permissions_Secrets_STATUS, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
 			secretList[secretIndex] = Permissions_Secrets_STATUS(secretItem)
+=======
+		secretList := make([]PermissionsSTATUSSecrets, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			secretList[secretIndex] = PermissionsSTATUSSecrets(secretItem)
+>>>>>>> main
 		}
 		permissions.Secrets = secretList
 	} else {
@@ -3597,11 +3930,19 @@ func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(so
 
 	// Storage
 	if source.Storage != nil {
+<<<<<<< HEAD
 		storageList := make([]Permissions_Storage_STATUS, len(source.Storage))
 		for storageIndex, storageItem := range source.Storage {
 			// Shadow the loop variable to avoid aliasing
 			storageItem := storageItem
 			storageList[storageIndex] = Permissions_Storage_STATUS(storageItem)
+=======
+		storageList := make([]PermissionsSTATUSStorage, len(source.Storage))
+		for storageIndex, storageItem := range source.Storage {
+			// Shadow the loop variable to avoid aliasing
+			storageItem := storageItem
+			storageList[storageIndex] = PermissionsSTATUSStorage(storageItem)
+>>>>>>> main
 		}
 		permissions.Storage = storageList
 	} else {
@@ -3612,8 +3953,13 @@ func (permissions *Permissions_STATUS) AssignPropertiesFromPermissions_STATUS(so
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPermissions_STATUS populates the provided destination Permissions_STATUS from our Permissions_STATUS
 func (permissions *Permissions_STATUS) AssignPropertiesToPermissions_STATUS(destination *v20210401ps.Permissions_STATUS) error {
+=======
+// AssignPropertiesToPermissionsSTATUS populates the provided destination Permissions_STATUS from our Permissions_STATUS
+func (permissions *Permissions_STATUS) AssignPropertiesToPermissionsSTATUS(destination *v20210401ps.Permissions_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3680,6 +4026,7 @@ func (permissions *Permissions_STATUS) AssignPropertiesToPermissions_STATUS(dest
 	return nil
 }
 
+<<<<<<< HEAD
 type PrivateEndpointConnectionProvisioningState_STATUS string
 
 const (
@@ -3691,6 +4038,8 @@ const (
 	PrivateEndpointConnectionProvisioningState_Updating_STATUS     = PrivateEndpointConnectionProvisioningState_STATUS("Updating")
 )
 
+=======
+>>>>>>> main
 type PrivateEndpoint_STATUS struct {
 	// Id: Full identifier of the private endpoint resource.
 	Id *string `json:"id,omitempty"`
@@ -3720,8 +4069,13 @@ func (endpoint *PrivateEndpoint_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpoint_STATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
 func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesFromPrivateEndpoint_STATUS(source *v20210401ps.PrivateEndpoint_STATUS) error {
+=======
+// AssignPropertiesFromPrivateEndpointSTATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
+func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesFromPrivateEndpointSTATUS(source *v20210401ps.PrivateEndpoint_STATUS) error {
+>>>>>>> main
 
 	// Id
 	endpoint.Id = genruntime.ClonePointerToString(source.Id)
@@ -3730,8 +4084,13 @@ func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesFromPrivateEndpoint_STAT
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpoint_STATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
 func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesToPrivateEndpoint_STATUS(destination *v20210401ps.PrivateEndpoint_STATUS) error {
+=======
+// AssignPropertiesToPrivateEndpointSTATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
+func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesToPrivateEndpointSTATUS(destination *v20210401ps.PrivateEndpoint_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3749,9 +4108,26 @@ func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesToPrivateEndpoint_STATUS
 	return nil
 }
 
+<<<<<<< HEAD
 type PrivateLinkServiceConnectionState_STATUS struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
+=======
+type PrivateEndpointConnectionProvisioningState_STATUS string
+
+const (
+	PrivateEndpointConnectionProvisioningState_STATUS_Creating     = PrivateEndpointConnectionProvisioningState_STATUS("Creating")
+	PrivateEndpointConnectionProvisioningState_STATUS_Deleting     = PrivateEndpointConnectionProvisioningState_STATUS("Deleting")
+	PrivateEndpointConnectionProvisioningState_STATUS_Disconnected = PrivateEndpointConnectionProvisioningState_STATUS("Disconnected")
+	PrivateEndpointConnectionProvisioningState_STATUS_Failed       = PrivateEndpointConnectionProvisioningState_STATUS("Failed")
+	PrivateEndpointConnectionProvisioningState_STATUS_Succeeded    = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
+	PrivateEndpointConnectionProvisioningState_STATUS_Updating     = PrivateEndpointConnectionProvisioningState_STATUS("Updating")
+)
+
+type PrivateLinkServiceConnectionState_STATUS struct {
+	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
+	ActionsRequired *PrivateLinkServiceConnectionStateSTATUSActionsRequired `json:"actionsRequired,omitempty"`
+>>>>>>> main
 
 	// Description: The reason for approval or rejection.
 	Description *string `json:"description,omitempty"`
@@ -3796,12 +4172,21 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
 func (state *PrivateLinkServiceConnectionState_STATUS) AssignPropertiesFromPrivateLinkServiceConnectionState_STATUS(source *v20210401ps.PrivateLinkServiceConnectionState_STATUS) error {
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
 		actionsRequired := PrivateLinkServiceConnectionState_ActionsRequired_STATUS(*source.ActionsRequired)
+=======
+// AssignPropertiesFromPrivateLinkServiceConnectionStateSTATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignPropertiesFromPrivateLinkServiceConnectionStateSTATUS(source *v20210401ps.PrivateLinkServiceConnectionState_STATUS) error {
+
+	// ActionsRequired
+	if source.ActionsRequired != nil {
+		actionsRequired := PrivateLinkServiceConnectionStateSTATUSActionsRequired(*source.ActionsRequired)
+>>>>>>> main
 		state.ActionsRequired = &actionsRequired
 	} else {
 		state.ActionsRequired = nil
@@ -3822,8 +4207,13 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignPropertiesFromPriva
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
 func (state *PrivateLinkServiceConnectionState_STATUS) AssignPropertiesToPrivateLinkServiceConnectionState_STATUS(destination *v20210401ps.PrivateLinkServiceConnectionState_STATUS) error {
+=======
+// AssignPropertiesToPrivateLinkServiceConnectionStateSTATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignPropertiesToPrivateLinkServiceConnectionStateSTATUS(destination *v20210401ps.PrivateLinkServiceConnectionState_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4014,8 +4404,13 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromVirtualNetworkRule_STATUS populates our VirtualNetworkRule_STATUS from the provided source VirtualNetworkRule_STATUS
 func (rule *VirtualNetworkRule_STATUS) AssignPropertiesFromVirtualNetworkRule_STATUS(source *v20210401ps.VirtualNetworkRule_STATUS) error {
+=======
+// AssignPropertiesFromVirtualNetworkRuleSTATUS populates our VirtualNetworkRule_STATUS from the provided source VirtualNetworkRule_STATUS
+func (rule *VirtualNetworkRule_STATUS) AssignPropertiesFromVirtualNetworkRuleSTATUS(source *v20210401ps.VirtualNetworkRule_STATUS) error {
+>>>>>>> main
 
 	// Id
 	rule.Id = genruntime.ClonePointerToString(source.Id)
@@ -4032,8 +4427,13 @@ func (rule *VirtualNetworkRule_STATUS) AssignPropertiesFromVirtualNetworkRule_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToVirtualNetworkRule_STATUS populates the provided destination VirtualNetworkRule_STATUS from our VirtualNetworkRule_STATUS
 func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRule_STATUS(destination *v20210401ps.VirtualNetworkRule_STATUS) error {
+=======
+// AssignPropertiesToVirtualNetworkRuleSTATUS populates the provided destination VirtualNetworkRule_STATUS from our VirtualNetworkRule_STATUS
+func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRuleSTATUS(destination *v20210401ps.VirtualNetworkRule_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4062,6 +4462,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRule_STAT
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
+<<<<<<< HEAD
 	PrivateEndpointServiceConnectionStatus_Approved_STATUS     = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
 	PrivateEndpointServiceConnectionStatus_Disconnected_STATUS = PrivateEndpointServiceConnectionStatus_STATUS("Disconnected")
 	PrivateEndpointServiceConnectionStatus_Pending_STATUS      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
@@ -4071,6 +4472,17 @@ const (
 type PrivateLinkServiceConnectionState_ActionsRequired_STATUS string
 
 const PrivateLinkServiceConnectionState_ActionsRequired_None_STATUS = PrivateLinkServiceConnectionState_ActionsRequired_STATUS("None")
+=======
+	PrivateEndpointServiceConnectionStatus_STATUS_Approved     = PrivateEndpointServiceConnectionStatus_STATUS("Approved")
+	PrivateEndpointServiceConnectionStatus_STATUS_Disconnected = PrivateEndpointServiceConnectionStatus_STATUS("Disconnected")
+	PrivateEndpointServiceConnectionStatus_STATUS_Pending      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
+	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
+)
+
+type PrivateLinkServiceConnectionStateSTATUSActionsRequired string
+
+const PrivateLinkServiceConnectionStateSTATUSActionsRequired_None = PrivateLinkServiceConnectionStateSTATUSActionsRequired("None")
+>>>>>>> main
 
 func init() {
 	SchemeBuilder.Register(&Vault{}, &VaultList{})

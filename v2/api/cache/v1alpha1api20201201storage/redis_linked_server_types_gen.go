@@ -25,7 +25,11 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisLinkedServer_Spec                 `json:"spec,omitempty"`
+=======
+	Spec              RedisLinkedServers_Spec                `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
 }
 
@@ -145,9 +149,15 @@ func (server *RedisLinkedServer) AssignPropertiesFromRedisLinkedServer(source *v
 
 	// Status
 	var status RedisLinkedServerWithProperties_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromRedisLinkedServerWithProperties_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerWithProperties_STATUS() to populate field Status")
+=======
+	err = status.AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	server.Status = status
 
@@ -171,9 +181,15 @@ func (server *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(destination
 
 	// Status
 	var status v20201201s.RedisLinkedServerWithProperties_STATUS
+<<<<<<< HEAD
 	err = server.Status.AssignPropertiesToRedisLinkedServerWithProperties_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerWithProperties_STATUS() to populate field Status")
+=======
+	err = server.Status.AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -199,6 +215,7 @@ type RedisLinkedServerList struct {
 	Items           []RedisLinkedServer `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20201201.RedisLinkedServerWithProperties_STATUS
 // Deprecated version of RedisLinkedServerWithProperties_STATUS. Use v1beta20201201.RedisLinkedServerWithProperties_STATUS instead
 type RedisLinkedServerWithProperties_STATUS struct {
@@ -345,6 +362,10 @@ func (properties *RedisLinkedServerWithProperties_STATUS) AssignPropertiesToRedi
 
 // Storage version of v1alpha1api20201201.RedisLinkedServer_Spec
 type RedisLinkedServer_Spec struct {
+=======
+// Storage version of v1alpha1api20201201.RedisLinkedServers_Spec
+type RedisLinkedServers_Spec struct {
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                string  `json:"azureName,omitempty"`
@@ -489,6 +510,150 @@ func (server *RedisLinkedServer_Spec) AssignPropertiesToRedisLinkedServer_Spec(d
 
 	// ServerRole
 	destination.ServerRole = genruntime.ClonePointerToString(server.ServerRole)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.RedisLinkedServerWithProperties_STATUS
+// Deprecated version of RedisLinkedServerWithProperties_STATUS. Use v1beta20201201.RedisLinkedServerWithProperties_STATUS instead
+type RedisLinkedServerWithProperties_STATUS struct {
+	Conditions               []conditions.Condition `json:"conditions,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
+	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState        *string                `json:"provisioningState,omitempty"`
+	ServerRole               *string                `json:"serverRole,omitempty"`
+	Type                     *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisLinkedServerWithProperties_STATUS{}
+
+// ConvertStatusFrom populates our RedisLinkedServerWithProperties_STATUS from the provided source
+func (properties *RedisLinkedServerWithProperties_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201201s.RedisLinkedServerWithProperties_STATUS)
+	if ok {
+		// Populate our instance from source
+		return properties.AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201201s.RedisLinkedServerWithProperties_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = properties.AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our RedisLinkedServerWithProperties_STATUS
+func (properties *RedisLinkedServerWithProperties_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201201s.RedisLinkedServerWithProperties_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return properties.AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201201s.RedisLinkedServerWithProperties_STATUS{}
+	err := properties.AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS populates our RedisLinkedServerWithProperties_STATUS from the provided source RedisLinkedServerWithProperties_STATUS
+func (properties *RedisLinkedServerWithProperties_STATUS) AssignPropertiesFromRedisLinkedServerWithPropertiesSTATUS(source *v20201201s.RedisLinkedServerWithProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	properties.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	properties.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LinkedRedisCacheId
+	properties.LinkedRedisCacheId = genruntime.ClonePointerToString(source.LinkedRedisCacheId)
+
+	// LinkedRedisCacheLocation
+	properties.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
+
+	// Name
+	properties.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ServerRole
+	properties.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
+
+	// Type
+	properties.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS populates the provided destination RedisLinkedServerWithProperties_STATUS from our RedisLinkedServerWithProperties_STATUS
+func (properties *RedisLinkedServerWithProperties_STATUS) AssignPropertiesToRedisLinkedServerWithPropertiesSTATUS(destination *v20201201s.RedisLinkedServerWithProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(properties.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(properties.Id)
+
+	// LinkedRedisCacheId
+	destination.LinkedRedisCacheId = genruntime.ClonePointerToString(properties.LinkedRedisCacheId)
+
+	// LinkedRedisCacheLocation
+	destination.LinkedRedisCacheLocation = genruntime.ClonePointerToString(properties.LinkedRedisCacheLocation)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(properties.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// ServerRole
+	destination.ServerRole = genruntime.ClonePointerToString(properties.ServerRole)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(properties.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

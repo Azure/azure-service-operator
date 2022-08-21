@@ -28,7 +28,11 @@ import (
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              VirtualNetwork_Spec   `json:"spec,omitempty"`
+=======
+	Spec              VirtualNetworks_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            VirtualNetwork_STATUS `json:"status,omitempty"`
 }
 

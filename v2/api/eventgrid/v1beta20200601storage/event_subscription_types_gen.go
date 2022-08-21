@@ -28,7 +28,11 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
+=======
+	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
@@ -213,12 +217,15 @@ func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime
 	return destination.ConvertSpecFrom(subscription)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20200601.DeadLetterDestination
 type DeadLetterDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
 type DeadLetterDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
@@ -273,6 +280,26 @@ type RetryPolicy_STATUS struct {
 
 // Storage version of v1beta20200601.AdvancedFilter
 type AdvancedFilter struct {
+<<<<<<< HEAD
+=======
+	BoolEquals                *AdvancedFilter_BoolEquals                `json:"boolEqualsAdvancedFilter,omitempty"`
+	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan         `json:"numberGreaterThanAdvancedFilter,omitempty"`
+	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
+	NumberIn                  *AdvancedFilter_NumberIn                  `json:"numberInAdvancedFilter,omitempty"`
+	NumberLessThan            *AdvancedFilter_NumberLessThan            `json:"numberLessThanAdvancedFilter,omitempty"`
+	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEquals    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
+	NumberNotIn               *AdvancedFilter_NumberNotIn               `json:"numberNotInAdvancedFilter,omitempty"`
+	PropertyBag               genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	StringBeginsWith          *AdvancedFilter_StringBeginsWith          `json:"stringBeginsWithAdvancedFilter,omitempty"`
+	StringContains            *AdvancedFilter_StringContains            `json:"stringContainsAdvancedFilter,omitempty"`
+	StringEndsWith            *AdvancedFilter_StringEndsWith            `json:"stringEndsWithAdvancedFilter,omitempty"`
+	StringIn                  *AdvancedFilter_StringIn                  `json:"stringInAdvancedFilter,omitempty"`
+	StringNotIn               *AdvancedFilter_StringNotIn               `json:"stringNotInAdvancedFilter,omitempty"`
+}
+
+// Storage version of v1beta20200601.AdvancedFilter_STATUS
+type AdvancedFilter_STATUS struct {
+>>>>>>> main
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

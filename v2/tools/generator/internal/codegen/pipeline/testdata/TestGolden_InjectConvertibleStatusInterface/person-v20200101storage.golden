@@ -80,6 +80,50 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
+// Storage version of v20200101.Person_Spec
+type Person_Spec struct {
+	FullName    *string                `json:"fullName,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
+func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Person_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FullName
+	person.FullName = genruntime.ClonePointerToString(source.FullName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		person.PropertyBag = propertyBag
+	} else {
+		person.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
+func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231s.Person_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
+
+	// FullName
+	destination.FullName = genruntime.ClonePointerToString(person.FullName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20200101.Person_STATUS
 type Person_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -162,50 +206,6 @@ func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20211
 
 	// Status
 	destination.Status = genruntime.ClonePointerToString(person.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v20200101.Person_Spec
-type Person_Spec struct {
-	FullName    *string                `json:"fullName,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Person_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// FullName
-	person.FullName = genruntime.ClonePointerToString(source.FullName)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		person.PropertyBag = propertyBag
-	} else {
-		person.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231s.Person_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
-
-	// FullName
-	destination.FullName = genruntime.ClonePointerToString(person.FullName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

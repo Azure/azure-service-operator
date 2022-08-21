@@ -24,9 +24,15 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	HostedWorkloads             []string                                                                          `json:"hostedWorkloads,omitempty"`
 	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedARM  `json:"ipConfigurations,omitempty"`
 	MacAddress                  *string                                                                           `json:"macAddress,omitempty"`
+<<<<<<< HEAD
 	MigrationPhase              *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS                           `json:"migrationPhase,omitempty"`
 	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM              `json:"networkSecurityGroup,omitempty"`
 	NicType                     *NetworkInterfacePropertiesFormat_NicType_STATUS                                  `json:"nicType,omitempty"`
+=======
+	MigrationPhase              *NetworkInterfacePropertiesFormatSTATUSMigrationPhase                             `json:"migrationPhase,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormatSTATUSNicType                                    `json:"nicType,omitempty"`
+>>>>>>> main
 	Primary                     *bool                                                                             `json:"primary,omitempty"`
 	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbeddedARM                   `json:"privateEndpoint,omitempty"`
 	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbeddedARM                `json:"privateLinkService,omitempty"`

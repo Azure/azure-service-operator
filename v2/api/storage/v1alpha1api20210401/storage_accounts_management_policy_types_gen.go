@@ -28,8 +28,13 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              StorageAccountsManagementPolicy_Spec   `json:"spec,omitempty"`
 	Status            StorageAccountsManagementPolicy_STATUS `json:"status,omitempty"`
+=======
+	Spec              StorageAccountsManagementPolicies_Spec `json:"spec,omitempty"`
+	Status            ManagementPolicy_STATUS                `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -137,7 +142,11 @@ func (policy *StorageAccountsManagementPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &StorageAccountsManagementPolicy_STATUS{}
+=======
+	return &ManagementPolicy_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*StorageAccountsManagementPolicy_STATUS); ok {
+=======
+	if st, ok := status.(*ManagementPolicy_STATUS); ok {
+>>>>>>> main
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st StorageAccountsManagementPolicy_STATUS
+=======
+	var st ManagementPolicy_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (policy *StorageAccountsManagementPolicy) AssignPropertiesFromStorageAccoun
 	policy.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status StorageAccountsManagementPolicy_STATUS
 	err = status.AssignPropertiesFromStorageAccountsManagementPolicy_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsManagementPolicy_STATUS() to populate field Status")
+=======
+	var status ManagementPolicy_STATUS
+	err = status.AssignPropertiesFromManagementPolicySTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySTATUS() to populate field Status")
+>>>>>>> main
 	}
 	policy.Status = status
 
@@ -303,10 +327,17 @@ func (policy *StorageAccountsManagementPolicy) AssignPropertiesToStorageAccounts
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20210401s.StorageAccountsManagementPolicy_STATUS
 	err = policy.Status.AssignPropertiesToStorageAccountsManagementPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsManagementPolicy_STATUS() to populate field Status")
+=======
+	var status alpha20210401s.ManagementPolicy_STATUS
+	err = policy.Status.AssignPropertiesToManagementPolicySTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -331,8 +362,13 @@ type StorageAccountsManagementPolicyList struct {
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of StorageAccountsManagementPolicy_STATUS. Use v1beta20210401.StorageAccountsManagementPolicy_STATUS instead
 type StorageAccountsManagementPolicy_STATUS struct {
+=======
+// Deprecated version of ManagementPolicy_STATUS. Use v1beta20210401.ManagementPolicy_STATUS instead
+type ManagementPolicy_STATUS struct {
+>>>>>>> main
 	// Conditions: The observed state of the resource
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
@@ -342,6 +378,7 @@ type StorageAccountsManagementPolicy_STATUS struct {
 	Type             *string                        `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &StorageAccountsManagementPolicy_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccountsManagementPolicy_STATUS from the provided source
@@ -354,13 +391,31 @@ func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusFrom(source g
 
 	// Convert to an intermediate form
 	src = &alpha20210401s.StorageAccountsManagementPolicy_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &ManagementPolicy_STATUS{}
+
+// ConvertStatusFrom populates our ManagementPolicy_STATUS from the provided source
+func (policy *ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210401s.ManagementPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignPropertiesFromManagementPolicySTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210401s.ManagementPolicy_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = policy.AssignPropertiesFromStorageAccountsManagementPolicy_STATUS(src)
+=======
+	err = policy.AssignPropertiesFromManagementPolicySTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -368,6 +423,7 @@ func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusFrom(source g
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our StorageAccountsManagementPolicy_STATUS
 func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20210401s.StorageAccountsManagementPolicy_STATUS)
@@ -379,6 +435,19 @@ func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destinatio
 	// Convert to an intermediate form
 	dst = &alpha20210401s.StorageAccountsManagementPolicy_STATUS{}
 	err := policy.AssignPropertiesToStorageAccountsManagementPolicy_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our ManagementPolicy_STATUS
+func (policy *ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210401s.ManagementPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignPropertiesToManagementPolicySTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210401s.ManagementPolicy_STATUS{}
+	err := policy.AssignPropertiesToManagementPolicySTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -392,6 +461,7 @@ func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destinatio
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &StorageAccountsManagementPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -404,6 +474,20 @@ func (policy *StorageAccountsManagementPolicy_STATUS) PopulateFromARM(owner genr
 	typedInput, ok := armInput.(StorageAccountsManagementPolicy_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsManagementPolicy_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &ManagementPolicy_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *ManagementPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagementPolicy_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *ManagementPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagementPolicy_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicy_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// no assignment for property ‘Conditions’
@@ -453,8 +537,13 @@ func (policy *StorageAccountsManagementPolicy_STATUS) PopulateFromARM(owner genr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromStorageAccountsManagementPolicy_STATUS populates our StorageAccountsManagementPolicy_STATUS from the provided source StorageAccountsManagementPolicy_STATUS
 func (policy *StorageAccountsManagementPolicy_STATUS) AssignPropertiesFromStorageAccountsManagementPolicy_STATUS(source *alpha20210401s.StorageAccountsManagementPolicy_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicySTATUS populates our ManagementPolicy_STATUS from the provided source ManagementPolicy_STATUS
+func (policy *ManagementPolicy_STATUS) AssignPropertiesFromManagementPolicySTATUS(source *alpha20210401s.ManagementPolicy_STATUS) error {
+>>>>>>> main
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -471,9 +560,15 @@ func (policy *StorageAccountsManagementPolicy_STATUS) AssignPropertiesFromStorag
 	// Policy
 	if source.Policy != nil {
 		var policyLocal ManagementPolicySchema_STATUS
+<<<<<<< HEAD
 		err := policyLocal.AssignPropertiesFromManagementPolicySchema_STATUS(source.Policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySchema_STATUS() to populate field Policy")
+=======
+		err := policyLocal.AssignPropertiesFromManagementPolicySchemaSTATUS(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySchemaSTATUS() to populate field Policy")
+>>>>>>> main
 		}
 		policy.Policy = &policyLocal
 	} else {
@@ -487,8 +582,13 @@ func (policy *StorageAccountsManagementPolicy_STATUS) AssignPropertiesFromStorag
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToStorageAccountsManagementPolicy_STATUS populates the provided destination StorageAccountsManagementPolicy_STATUS from our StorageAccountsManagementPolicy_STATUS
 func (policy *StorageAccountsManagementPolicy_STATUS) AssignPropertiesToStorageAccountsManagementPolicy_STATUS(destination *alpha20210401s.StorageAccountsManagementPolicy_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicySTATUS populates the provided destination ManagementPolicy_STATUS from our ManagementPolicy_STATUS
+func (policy *ManagementPolicy_STATUS) AssignPropertiesToManagementPolicySTATUS(destination *alpha20210401s.ManagementPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -507,9 +607,15 @@ func (policy *StorageAccountsManagementPolicy_STATUS) AssignPropertiesToStorageA
 	// Policy
 	if policy.Policy != nil {
 		var policyLocal alpha20210401s.ManagementPolicySchema_STATUS
+<<<<<<< HEAD
 		err := policy.Policy.AssignPropertiesToManagementPolicySchema_STATUS(&policyLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySchema_STATUS() to populate field Policy")
+=======
+		err := policy.Policy.AssignPropertiesToManagementPolicySchemaSTATUS(&policyLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySchemaSTATUS() to populate field Policy")
+>>>>>>> main
 		}
 		destination.Policy = &policyLocal
 	} else {
@@ -889,8 +995,13 @@ func (schema *ManagementPolicySchema_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicySchema_STATUS populates our ManagementPolicySchema_STATUS from the provided source ManagementPolicySchema_STATUS
 func (schema *ManagementPolicySchema_STATUS) AssignPropertiesFromManagementPolicySchema_STATUS(source *alpha20210401s.ManagementPolicySchema_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicySchemaSTATUS populates our ManagementPolicySchema_STATUS from the provided source ManagementPolicySchema_STATUS
+func (schema *ManagementPolicySchema_STATUS) AssignPropertiesFromManagementPolicySchemaSTATUS(source *alpha20210401s.ManagementPolicySchema_STATUS) error {
+>>>>>>> main
 
 	// Rules
 	if source.Rules != nil {
@@ -899,9 +1010,15 @@ func (schema *ManagementPolicySchema_STATUS) AssignPropertiesFromManagementPolic
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule ManagementPolicyRule_STATUS
+<<<<<<< HEAD
 			err := rule.AssignPropertiesFromManagementPolicyRule_STATUS(&ruleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyRule_STATUS() to populate field Rules")
+=======
+			err := rule.AssignPropertiesFromManagementPolicyRuleSTATUS(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyRuleSTATUS() to populate field Rules")
+>>>>>>> main
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -914,8 +1031,13 @@ func (schema *ManagementPolicySchema_STATUS) AssignPropertiesFromManagementPolic
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicySchema_STATUS populates the provided destination ManagementPolicySchema_STATUS from our ManagementPolicySchema_STATUS
 func (schema *ManagementPolicySchema_STATUS) AssignPropertiesToManagementPolicySchema_STATUS(destination *alpha20210401s.ManagementPolicySchema_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicySchemaSTATUS populates the provided destination ManagementPolicySchema_STATUS from our ManagementPolicySchema_STATUS
+func (schema *ManagementPolicySchema_STATUS) AssignPropertiesToManagementPolicySchemaSTATUS(destination *alpha20210401s.ManagementPolicySchema_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -926,9 +1048,15 @@ func (schema *ManagementPolicySchema_STATUS) AssignPropertiesToManagementPolicyS
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
 			var rule alpha20210401s.ManagementPolicyRule_STATUS
+<<<<<<< HEAD
 			err := ruleItem.AssignPropertiesToManagementPolicyRule_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyRule_STATUS() to populate field Rules")
+=======
+			err := ruleItem.AssignPropertiesToManagementPolicyRuleSTATUS(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyRuleSTATUS() to populate field Rules")
+>>>>>>> main
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -1135,7 +1263,11 @@ type ManagementPolicyRule_STATUS struct {
 	Definition *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
 	Enabled    *bool                              `json:"enabled,omitempty"`
 	Name       *string                            `json:"name,omitempty"`
+<<<<<<< HEAD
 	Type       *ManagementPolicyRule_Type_STATUS  `json:"type,omitempty"`
+=======
+	Type       *ManagementPolicyRuleSTATUSType    `json:"type,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_STATUS{}
@@ -1185,15 +1317,26 @@ func (rule *ManagementPolicyRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyRule_STATUS populates our ManagementPolicyRule_STATUS from the provided source ManagementPolicyRule_STATUS
 func (rule *ManagementPolicyRule_STATUS) AssignPropertiesFromManagementPolicyRule_STATUS(source *alpha20210401s.ManagementPolicyRule_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyRuleSTATUS populates our ManagementPolicyRule_STATUS from the provided source ManagementPolicyRule_STATUS
+func (rule *ManagementPolicyRule_STATUS) AssignPropertiesFromManagementPolicyRuleSTATUS(source *alpha20210401s.ManagementPolicyRule_STATUS) error {
+>>>>>>> main
 
 	// Definition
 	if source.Definition != nil {
 		var definition ManagementPolicyDefinition_STATUS
+<<<<<<< HEAD
 		err := definition.AssignPropertiesFromManagementPolicyDefinition_STATUS(source.Definition)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinition_STATUS() to populate field Definition")
+=======
+		err := definition.AssignPropertiesFromManagementPolicyDefinitionSTATUS(source.Definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinitionSTATUS() to populate field Definition")
+>>>>>>> main
 		}
 		rule.Definition = &definition
 	} else {
@@ -1213,7 +1356,11 @@ func (rule *ManagementPolicyRule_STATUS) AssignPropertiesFromManagementPolicyRul
 
 	// Type
 	if source.Type != nil {
+<<<<<<< HEAD
 		typeVar := ManagementPolicyRule_Type_STATUS(*source.Type)
+=======
+		typeVar := ManagementPolicyRuleSTATUSType(*source.Type)
+>>>>>>> main
 		rule.Type = &typeVar
 	} else {
 		rule.Type = nil
@@ -1223,17 +1370,28 @@ func (rule *ManagementPolicyRule_STATUS) AssignPropertiesFromManagementPolicyRul
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyRule_STATUS populates the provided destination ManagementPolicyRule_STATUS from our ManagementPolicyRule_STATUS
 func (rule *ManagementPolicyRule_STATUS) AssignPropertiesToManagementPolicyRule_STATUS(destination *alpha20210401s.ManagementPolicyRule_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyRuleSTATUS populates the provided destination ManagementPolicyRule_STATUS from our ManagementPolicyRule_STATUS
+func (rule *ManagementPolicyRule_STATUS) AssignPropertiesToManagementPolicyRuleSTATUS(destination *alpha20210401s.ManagementPolicyRule_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Definition
 	if rule.Definition != nil {
 		var definition alpha20210401s.ManagementPolicyDefinition_STATUS
+<<<<<<< HEAD
 		err := rule.Definition.AssignPropertiesToManagementPolicyDefinition_STATUS(&definition)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinition_STATUS() to populate field Definition")
+=======
+		err := rule.Definition.AssignPropertiesToManagementPolicyDefinitionSTATUS(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinitionSTATUS() to populate field Definition")
+>>>>>>> main
 		}
 		destination.Definition = &definition
 	} else {
@@ -1463,15 +1621,26 @@ func (definition *ManagementPolicyDefinition_STATUS) PopulateFromARM(owner genru
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyDefinition_STATUS populates our ManagementPolicyDefinition_STATUS from the provided source ManagementPolicyDefinition_STATUS
 func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesFromManagementPolicyDefinition_STATUS(source *alpha20210401s.ManagementPolicyDefinition_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyDefinitionSTATUS populates our ManagementPolicyDefinition_STATUS from the provided source ManagementPolicyDefinition_STATUS
+func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesFromManagementPolicyDefinitionSTATUS(source *alpha20210401s.ManagementPolicyDefinition_STATUS) error {
+>>>>>>> main
 
 	// Actions
 	if source.Actions != nil {
 		var action ManagementPolicyAction_STATUS
+<<<<<<< HEAD
 		err := action.AssignPropertiesFromManagementPolicyAction_STATUS(source.Actions)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyAction_STATUS() to populate field Actions")
+=======
+		err := action.AssignPropertiesFromManagementPolicyActionSTATUS(source.Actions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyActionSTATUS() to populate field Actions")
+>>>>>>> main
 		}
 		definition.Actions = &action
 	} else {
@@ -1481,9 +1650,15 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesFromManagem
 	// Filters
 	if source.Filters != nil {
 		var filter ManagementPolicyFilter_STATUS
+<<<<<<< HEAD
 		err := filter.AssignPropertiesFromManagementPolicyFilter_STATUS(source.Filters)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyFilter_STATUS() to populate field Filters")
+=======
+		err := filter.AssignPropertiesFromManagementPolicyFilterSTATUS(source.Filters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyFilterSTATUS() to populate field Filters")
+>>>>>>> main
 		}
 		definition.Filters = &filter
 	} else {
@@ -1494,17 +1669,28 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesFromManagem
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyDefinition_STATUS populates the provided destination ManagementPolicyDefinition_STATUS from our ManagementPolicyDefinition_STATUS
 func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesToManagementPolicyDefinition_STATUS(destination *alpha20210401s.ManagementPolicyDefinition_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyDefinitionSTATUS populates the provided destination ManagementPolicyDefinition_STATUS from our ManagementPolicyDefinition_STATUS
+func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesToManagementPolicyDefinitionSTATUS(destination *alpha20210401s.ManagementPolicyDefinition_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if definition.Actions != nil {
 		var action alpha20210401s.ManagementPolicyAction_STATUS
+<<<<<<< HEAD
 		err := definition.Actions.AssignPropertiesToManagementPolicyAction_STATUS(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyAction_STATUS() to populate field Actions")
+=======
+		err := definition.Actions.AssignPropertiesToManagementPolicyActionSTATUS(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyActionSTATUS() to populate field Actions")
+>>>>>>> main
 		}
 		destination.Actions = &action
 	} else {
@@ -1514,9 +1700,15 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesToManagemen
 	// Filters
 	if definition.Filters != nil {
 		var filter alpha20210401s.ManagementPolicyFilter_STATUS
+<<<<<<< HEAD
 		err := definition.Filters.AssignPropertiesToManagementPolicyFilter_STATUS(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilter_STATUS() to populate field Filters")
+=======
+		err := definition.Filters.AssignPropertiesToManagementPolicyFilterSTATUS(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilterSTATUS() to populate field Filters")
+>>>>>>> main
 		}
 		destination.Filters = &filter
 	} else {
@@ -1795,15 +1987,26 @@ func (action *ManagementPolicyAction_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyAction_STATUS populates our ManagementPolicyAction_STATUS from the provided source ManagementPolicyAction_STATUS
 func (action *ManagementPolicyAction_STATUS) AssignPropertiesFromManagementPolicyAction_STATUS(source *alpha20210401s.ManagementPolicyAction_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyActionSTATUS populates our ManagementPolicyAction_STATUS from the provided source ManagementPolicyAction_STATUS
+func (action *ManagementPolicyAction_STATUS) AssignPropertiesFromManagementPolicyActionSTATUS(source *alpha20210401s.ManagementPolicyAction_STATUS) error {
+>>>>>>> main
 
 	// BaseBlob
 	if source.BaseBlob != nil {
 		var baseBlob ManagementPolicyBaseBlob_STATUS
+<<<<<<< HEAD
 		err := baseBlob.AssignPropertiesFromManagementPolicyBaseBlob_STATUS(source.BaseBlob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
+=======
+		err := baseBlob.AssignPropertiesFromManagementPolicyBaseBlobSTATUS(source.BaseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyBaseBlobSTATUS() to populate field BaseBlob")
+>>>>>>> main
 		}
 		action.BaseBlob = &baseBlob
 	} else {
@@ -1813,9 +2016,15 @@ func (action *ManagementPolicyAction_STATUS) AssignPropertiesFromManagementPolic
 	// Snapshot
 	if source.Snapshot != nil {
 		var snapshot ManagementPolicySnapShot_STATUS
+<<<<<<< HEAD
 		err := snapshot.AssignPropertiesFromManagementPolicySnapShot_STATUS(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySnapShot_STATUS() to populate field Snapshot")
+=======
+		err := snapshot.AssignPropertiesFromManagementPolicySnapShotSTATUS(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySnapShotSTATUS() to populate field Snapshot")
+>>>>>>> main
 		}
 		action.Snapshot = &snapshot
 	} else {
@@ -1825,9 +2034,15 @@ func (action *ManagementPolicyAction_STATUS) AssignPropertiesFromManagementPolic
 	// Version
 	if source.Version != nil {
 		var version ManagementPolicyVersion_STATUS
+<<<<<<< HEAD
 		err := version.AssignPropertiesFromManagementPolicyVersion_STATUS(source.Version)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyVersion_STATUS() to populate field Version")
+=======
+		err := version.AssignPropertiesFromManagementPolicyVersionSTATUS(source.Version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyVersionSTATUS() to populate field Version")
+>>>>>>> main
 		}
 		action.Version = &version
 	} else {
@@ -1838,17 +2053,28 @@ func (action *ManagementPolicyAction_STATUS) AssignPropertiesFromManagementPolic
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyAction_STATUS populates the provided destination ManagementPolicyAction_STATUS from our ManagementPolicyAction_STATUS
 func (action *ManagementPolicyAction_STATUS) AssignPropertiesToManagementPolicyAction_STATUS(destination *alpha20210401s.ManagementPolicyAction_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyActionSTATUS populates the provided destination ManagementPolicyAction_STATUS from our ManagementPolicyAction_STATUS
+func (action *ManagementPolicyAction_STATUS) AssignPropertiesToManagementPolicyActionSTATUS(destination *alpha20210401s.ManagementPolicyAction_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BaseBlob
 	if action.BaseBlob != nil {
 		var baseBlob alpha20210401s.ManagementPolicyBaseBlob_STATUS
+<<<<<<< HEAD
 		err := action.BaseBlob.AssignPropertiesToManagementPolicyBaseBlob_STATUS(&baseBlob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
+=======
+		err := action.BaseBlob.AssignPropertiesToManagementPolicyBaseBlobSTATUS(&baseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyBaseBlobSTATUS() to populate field BaseBlob")
+>>>>>>> main
 		}
 		destination.BaseBlob = &baseBlob
 	} else {
@@ -1858,9 +2084,15 @@ func (action *ManagementPolicyAction_STATUS) AssignPropertiesToManagementPolicyA
 	// Snapshot
 	if action.Snapshot != nil {
 		var snapshot alpha20210401s.ManagementPolicySnapShot_STATUS
+<<<<<<< HEAD
 		err := action.Snapshot.AssignPropertiesToManagementPolicySnapShot_STATUS(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySnapShot_STATUS() to populate field Snapshot")
+=======
+		err := action.Snapshot.AssignPropertiesToManagementPolicySnapShotSTATUS(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySnapShotSTATUS() to populate field Snapshot")
+>>>>>>> main
 		}
 		destination.Snapshot = &snapshot
 	} else {
@@ -1870,9 +2102,15 @@ func (action *ManagementPolicyAction_STATUS) AssignPropertiesToManagementPolicyA
 	// Version
 	if action.Version != nil {
 		var version alpha20210401s.ManagementPolicyVersion_STATUS
+<<<<<<< HEAD
 		err := action.Version.AssignPropertiesToManagementPolicyVersion_STATUS(&version)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyVersion_STATUS() to populate field Version")
+=======
+		err := action.Version.AssignPropertiesToManagementPolicyVersionSTATUS(&version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyVersionSTATUS() to populate field Version")
+>>>>>>> main
 		}
 		destination.Version = &version
 	} else {
@@ -2081,8 +2319,13 @@ func (filter *ManagementPolicyFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyFilter_STATUS populates our ManagementPolicyFilter_STATUS from the provided source ManagementPolicyFilter_STATUS
 func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesFromManagementPolicyFilter_STATUS(source *alpha20210401s.ManagementPolicyFilter_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyFilterSTATUS populates our ManagementPolicyFilter_STATUS from the provided source ManagementPolicyFilter_STATUS
+func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesFromManagementPolicyFilterSTATUS(source *alpha20210401s.ManagementPolicyFilter_STATUS) error {
+>>>>>>> main
 
 	// BlobIndexMatch
 	if source.BlobIndexMatch != nil {
@@ -2091,9 +2334,15 @@ func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesFromManagementPolic
 			// Shadow the loop variable to avoid aliasing
 			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch TagFilter_STATUS
+<<<<<<< HEAD
 			err := blobIndexMatch.AssignPropertiesFromTagFilter_STATUS(&blobIndexMatchItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromTagFilter_STATUS() to populate field BlobIndexMatch")
+=======
+			err := blobIndexMatch.AssignPropertiesFromTagFilterSTATUS(&blobIndexMatchItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromTagFilterSTATUS() to populate field BlobIndexMatch")
+>>>>>>> main
 			}
 			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
 		}
@@ -2112,8 +2361,13 @@ func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesFromManagementPolic
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyFilter_STATUS populates the provided destination ManagementPolicyFilter_STATUS from our ManagementPolicyFilter_STATUS
 func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesToManagementPolicyFilter_STATUS(destination *alpha20210401s.ManagementPolicyFilter_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyFilterSTATUS populates the provided destination ManagementPolicyFilter_STATUS from our ManagementPolicyFilter_STATUS
+func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesToManagementPolicyFilterSTATUS(destination *alpha20210401s.ManagementPolicyFilter_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2124,9 +2378,15 @@ func (filter *ManagementPolicyFilter_STATUS) AssignPropertiesToManagementPolicyF
 			// Shadow the loop variable to avoid aliasing
 			blobIndexMatchItem := blobIndexMatchItem
 			var blobIndexMatch alpha20210401s.TagFilter_STATUS
+<<<<<<< HEAD
 			err := blobIndexMatchItem.AssignPropertiesToTagFilter_STATUS(&blobIndexMatch)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToTagFilter_STATUS() to populate field BlobIndexMatch")
+=======
+			err := blobIndexMatchItem.AssignPropertiesToTagFilterSTATUS(&blobIndexMatch)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToTagFilterSTATUS() to populate field BlobIndexMatch")
+>>>>>>> main
 			}
 			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
 		}
@@ -2438,15 +2698,26 @@ func (blob *ManagementPolicyBaseBlob_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyBaseBlob_STATUS populates our ManagementPolicyBaseBlob_STATUS from the provided source ManagementPolicyBaseBlob_STATUS
 func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesFromManagementPolicyBaseBlob_STATUS(source *alpha20210401s.ManagementPolicyBaseBlob_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyBaseBlobSTATUS populates our ManagementPolicyBaseBlob_STATUS from the provided source ManagementPolicyBaseBlob_STATUS
+func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesFromManagementPolicyBaseBlobSTATUS(source *alpha20210401s.ManagementPolicyBaseBlob_STATUS) error {
+>>>>>>> main
 
 	// Delete
 	if source.Delete != nil {
 		var delete DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := delete.AssignPropertiesFromDateAfterModification_STATUS(source.Delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification_STATUS() to populate field Delete")
+=======
+		err := delete.AssignPropertiesFromDateAfterModificationSTATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		blob.Delete = &delete
 	} else {
@@ -2464,9 +2735,15 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesFromManagementPolic
 	// TierToArchive
 	if source.TierToArchive != nil {
 		var tierToArchive DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := tierToArchive.AssignPropertiesFromDateAfterModification_STATUS(source.TierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification_STATUS() to populate field TierToArchive")
+=======
+		err := tierToArchive.AssignPropertiesFromDateAfterModificationSTATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		blob.TierToArchive = &tierToArchive
 	} else {
@@ -2476,9 +2753,15 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesFromManagementPolic
 	// TierToCool
 	if source.TierToCool != nil {
 		var tierToCool DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := tierToCool.AssignPropertiesFromDateAfterModification_STATUS(source.TierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification_STATUS() to populate field TierToCool")
+=======
+		err := tierToCool.AssignPropertiesFromDateAfterModificationSTATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		blob.TierToCool = &tierToCool
 	} else {
@@ -2489,17 +2772,28 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesFromManagementPolic
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyBaseBlob_STATUS populates the provided destination ManagementPolicyBaseBlob_STATUS from our ManagementPolicyBaseBlob_STATUS
 func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesToManagementPolicyBaseBlob_STATUS(destination *alpha20210401s.ManagementPolicyBaseBlob_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyBaseBlobSTATUS populates the provided destination ManagementPolicyBaseBlob_STATUS from our ManagementPolicyBaseBlob_STATUS
+func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesToManagementPolicyBaseBlobSTATUS(destination *alpha20210401s.ManagementPolicyBaseBlob_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Delete
 	if blob.Delete != nil {
 		var delete alpha20210401s.DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := blob.Delete.AssignPropertiesToDateAfterModification_STATUS(&delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification_STATUS() to populate field Delete")
+=======
+		err := blob.Delete.AssignPropertiesToDateAfterModificationSTATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		destination.Delete = &delete
 	} else {
@@ -2517,9 +2811,15 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesToManagementPolicyB
 	// TierToArchive
 	if blob.TierToArchive != nil {
 		var tierToArchive alpha20210401s.DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := blob.TierToArchive.AssignPropertiesToDateAfterModification_STATUS(&tierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification_STATUS() to populate field TierToArchive")
+=======
+		err := blob.TierToArchive.AssignPropertiesToDateAfterModificationSTATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		destination.TierToArchive = &tierToArchive
 	} else {
@@ -2529,9 +2829,15 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignPropertiesToManagementPolicyB
 	// TierToCool
 	if blob.TierToCool != nil {
 		var tierToCool alpha20210401s.DateAfterModification_STATUS
+<<<<<<< HEAD
 		err := blob.TierToCool.AssignPropertiesToDateAfterModification_STATUS(&tierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification_STATUS() to populate field TierToCool")
+=======
+		err := blob.TierToCool.AssignPropertiesToDateAfterModificationSTATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		destination.TierToCool = &tierToCool
 	} else {
@@ -2799,15 +3105,26 @@ func (shot *ManagementPolicySnapShot_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicySnapShot_STATUS populates our ManagementPolicySnapShot_STATUS from the provided source ManagementPolicySnapShot_STATUS
 func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesFromManagementPolicySnapShot_STATUS(source *alpha20210401s.ManagementPolicySnapShot_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicySnapShotSTATUS populates our ManagementPolicySnapShot_STATUS from the provided source ManagementPolicySnapShot_STATUS
+func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesFromManagementPolicySnapShotSTATUS(source *alpha20210401s.ManagementPolicySnapShot_STATUS) error {
+>>>>>>> main
 
 	// Delete
 	if source.Delete != nil {
 		var delete DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := delete.AssignPropertiesFromDateAfterCreation_STATUS(source.Delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field Delete")
+=======
+		err := delete.AssignPropertiesFromDateAfterCreationSTATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		shot.Delete = &delete
 	} else {
@@ -2817,9 +3134,15 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesFromManagementPolic
 	// TierToArchive
 	if source.TierToArchive != nil {
 		var tierToArchive DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := tierToArchive.AssignPropertiesFromDateAfterCreation_STATUS(source.TierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field TierToArchive")
+=======
+		err := tierToArchive.AssignPropertiesFromDateAfterCreationSTATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		shot.TierToArchive = &tierToArchive
 	} else {
@@ -2829,9 +3152,15 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesFromManagementPolic
 	// TierToCool
 	if source.TierToCool != nil {
 		var tierToCool DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := tierToCool.AssignPropertiesFromDateAfterCreation_STATUS(source.TierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field TierToCool")
+=======
+		err := tierToCool.AssignPropertiesFromDateAfterCreationSTATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		shot.TierToCool = &tierToCool
 	} else {
@@ -2842,17 +3171,28 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesFromManagementPolic
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicySnapShot_STATUS populates the provided destination ManagementPolicySnapShot_STATUS from our ManagementPolicySnapShot_STATUS
 func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesToManagementPolicySnapShot_STATUS(destination *alpha20210401s.ManagementPolicySnapShot_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicySnapShotSTATUS populates the provided destination ManagementPolicySnapShot_STATUS from our ManagementPolicySnapShot_STATUS
+func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesToManagementPolicySnapShotSTATUS(destination *alpha20210401s.ManagementPolicySnapShot_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Delete
 	if shot.Delete != nil {
 		var delete alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := shot.Delete.AssignPropertiesToDateAfterCreation_STATUS(&delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field Delete")
+=======
+		err := shot.Delete.AssignPropertiesToDateAfterCreationSTATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		destination.Delete = &delete
 	} else {
@@ -2862,9 +3202,15 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesToManagementPolicyS
 	// TierToArchive
 	if shot.TierToArchive != nil {
 		var tierToArchive alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := shot.TierToArchive.AssignPropertiesToDateAfterCreation_STATUS(&tierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field TierToArchive")
+=======
+		err := shot.TierToArchive.AssignPropertiesToDateAfterCreationSTATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		destination.TierToArchive = &tierToArchive
 	} else {
@@ -2874,9 +3220,15 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignPropertiesToManagementPolicyS
 	// TierToCool
 	if shot.TierToCool != nil {
 		var tierToCool alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := shot.TierToCool.AssignPropertiesToDateAfterCreation_STATUS(&tierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field TierToCool")
+=======
+		err := shot.TierToCool.AssignPropertiesToDateAfterCreationSTATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		destination.TierToCool = &tierToCool
 	} else {
@@ -3144,15 +3496,26 @@ func (version *ManagementPolicyVersion_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagementPolicyVersion_STATUS populates our ManagementPolicyVersion_STATUS from the provided source ManagementPolicyVersion_STATUS
 func (version *ManagementPolicyVersion_STATUS) AssignPropertiesFromManagementPolicyVersion_STATUS(source *alpha20210401s.ManagementPolicyVersion_STATUS) error {
+=======
+// AssignPropertiesFromManagementPolicyVersionSTATUS populates our ManagementPolicyVersion_STATUS from the provided source ManagementPolicyVersion_STATUS
+func (version *ManagementPolicyVersion_STATUS) AssignPropertiesFromManagementPolicyVersionSTATUS(source *alpha20210401s.ManagementPolicyVersion_STATUS) error {
+>>>>>>> main
 
 	// Delete
 	if source.Delete != nil {
 		var delete DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := delete.AssignPropertiesFromDateAfterCreation_STATUS(source.Delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field Delete")
+=======
+		err := delete.AssignPropertiesFromDateAfterCreationSTATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		version.Delete = &delete
 	} else {
@@ -3162,9 +3525,15 @@ func (version *ManagementPolicyVersion_STATUS) AssignPropertiesFromManagementPol
 	// TierToArchive
 	if source.TierToArchive != nil {
 		var tierToArchive DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := tierToArchive.AssignPropertiesFromDateAfterCreation_STATUS(source.TierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field TierToArchive")
+=======
+		err := tierToArchive.AssignPropertiesFromDateAfterCreationSTATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		version.TierToArchive = &tierToArchive
 	} else {
@@ -3174,9 +3543,15 @@ func (version *ManagementPolicyVersion_STATUS) AssignPropertiesFromManagementPol
 	// TierToCool
 	if source.TierToCool != nil {
 		var tierToCool DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := tierToCool.AssignPropertiesFromDateAfterCreation_STATUS(source.TierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation_STATUS() to populate field TierToCool")
+=======
+		err := tierToCool.AssignPropertiesFromDateAfterCreationSTATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		version.TierToCool = &tierToCool
 	} else {
@@ -3187,17 +3562,28 @@ func (version *ManagementPolicyVersion_STATUS) AssignPropertiesFromManagementPol
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagementPolicyVersion_STATUS populates the provided destination ManagementPolicyVersion_STATUS from our ManagementPolicyVersion_STATUS
 func (version *ManagementPolicyVersion_STATUS) AssignPropertiesToManagementPolicyVersion_STATUS(destination *alpha20210401s.ManagementPolicyVersion_STATUS) error {
+=======
+// AssignPropertiesToManagementPolicyVersionSTATUS populates the provided destination ManagementPolicyVersion_STATUS from our ManagementPolicyVersion_STATUS
+func (version *ManagementPolicyVersion_STATUS) AssignPropertiesToManagementPolicyVersionSTATUS(destination *alpha20210401s.ManagementPolicyVersion_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Delete
 	if version.Delete != nil {
 		var delete alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := version.Delete.AssignPropertiesToDateAfterCreation_STATUS(&delete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field Delete")
+=======
+		err := version.Delete.AssignPropertiesToDateAfterCreationSTATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field Delete")
+>>>>>>> main
 		}
 		destination.Delete = &delete
 	} else {
@@ -3207,9 +3593,15 @@ func (version *ManagementPolicyVersion_STATUS) AssignPropertiesToManagementPolic
 	// TierToArchive
 	if version.TierToArchive != nil {
 		var tierToArchive alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := version.TierToArchive.AssignPropertiesToDateAfterCreation_STATUS(&tierToArchive)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field TierToArchive")
+=======
+		err := version.TierToArchive.AssignPropertiesToDateAfterCreationSTATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field TierToArchive")
+>>>>>>> main
 		}
 		destination.TierToArchive = &tierToArchive
 	} else {
@@ -3219,9 +3611,15 @@ func (version *ManagementPolicyVersion_STATUS) AssignPropertiesToManagementPolic
 	// TierToCool
 	if version.TierToCool != nil {
 		var tierToCool alpha20210401s.DateAfterCreation_STATUS
+<<<<<<< HEAD
 		err := version.TierToCool.AssignPropertiesToDateAfterCreation_STATUS(&tierToCool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation_STATUS() to populate field TierToCool")
+=======
+		err := version.TierToCool.AssignPropertiesToDateAfterCreationSTATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationSTATUS() to populate field TierToCool")
+>>>>>>> main
 		}
 		destination.TierToCool = &tierToCool
 	} else {
@@ -3422,8 +3820,13 @@ func (filter *TagFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromTagFilter_STATUS populates our TagFilter_STATUS from the provided source TagFilter_STATUS
 func (filter *TagFilter_STATUS) AssignPropertiesFromTagFilter_STATUS(source *alpha20210401s.TagFilter_STATUS) error {
+=======
+// AssignPropertiesFromTagFilterSTATUS populates our TagFilter_STATUS from the provided source TagFilter_STATUS
+func (filter *TagFilter_STATUS) AssignPropertiesFromTagFilterSTATUS(source *alpha20210401s.TagFilter_STATUS) error {
+>>>>>>> main
 
 	// Name
 	filter.Name = genruntime.ClonePointerToString(source.Name)
@@ -3438,8 +3841,13 @@ func (filter *TagFilter_STATUS) AssignPropertiesFromTagFilter_STATUS(source *alp
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToTagFilter_STATUS populates the provided destination TagFilter_STATUS from our TagFilter_STATUS
 func (filter *TagFilter_STATUS) AssignPropertiesToTagFilter_STATUS(destination *alpha20210401s.TagFilter_STATUS) error {
+=======
+// AssignPropertiesToTagFilterSTATUS populates the provided destination TagFilter_STATUS from our TagFilter_STATUS
+func (filter *TagFilter_STATUS) AssignPropertiesToTagFilterSTATUS(destination *alpha20210401s.TagFilter_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3578,8 +3986,13 @@ func (creation *DateAfterCreation_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDateAfterCreation_STATUS populates our DateAfterCreation_STATUS from the provided source DateAfterCreation_STATUS
 func (creation *DateAfterCreation_STATUS) AssignPropertiesFromDateAfterCreation_STATUS(source *alpha20210401s.DateAfterCreation_STATUS) error {
+=======
+// AssignPropertiesFromDateAfterCreationSTATUS populates our DateAfterCreation_STATUS from the provided source DateAfterCreation_STATUS
+func (creation *DateAfterCreation_STATUS) AssignPropertiesFromDateAfterCreationSTATUS(source *alpha20210401s.DateAfterCreation_STATUS) error {
+>>>>>>> main
 
 	// DaysAfterCreationGreaterThan
 	if source.DaysAfterCreationGreaterThan != nil {
@@ -3593,8 +4006,13 @@ func (creation *DateAfterCreation_STATUS) AssignPropertiesFromDateAfterCreation_
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDateAfterCreation_STATUS populates the provided destination DateAfterCreation_STATUS from our DateAfterCreation_STATUS
 func (creation *DateAfterCreation_STATUS) AssignPropertiesToDateAfterCreation_STATUS(destination *alpha20210401s.DateAfterCreation_STATUS) error {
+=======
+// AssignPropertiesToDateAfterCreationSTATUS populates the provided destination DateAfterCreation_STATUS from our DateAfterCreation_STATUS
+func (creation *DateAfterCreation_STATUS) AssignPropertiesToDateAfterCreationSTATUS(destination *alpha20210401s.DateAfterCreation_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3770,8 +4188,13 @@ func (modification *DateAfterModification_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDateAfterModification_STATUS populates our DateAfterModification_STATUS from the provided source DateAfterModification_STATUS
 func (modification *DateAfterModification_STATUS) AssignPropertiesFromDateAfterModification_STATUS(source *alpha20210401s.DateAfterModification_STATUS) error {
+=======
+// AssignPropertiesFromDateAfterModificationSTATUS populates our DateAfterModification_STATUS from the provided source DateAfterModification_STATUS
+func (modification *DateAfterModification_STATUS) AssignPropertiesFromDateAfterModificationSTATUS(source *alpha20210401s.DateAfterModification_STATUS) error {
+>>>>>>> main
 
 	// DaysAfterLastAccessTimeGreaterThan
 	if source.DaysAfterLastAccessTimeGreaterThan != nil {
@@ -3793,8 +4216,13 @@ func (modification *DateAfterModification_STATUS) AssignPropertiesFromDateAfterM
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDateAfterModification_STATUS populates the provided destination DateAfterModification_STATUS from our DateAfterModification_STATUS
 func (modification *DateAfterModification_STATUS) AssignPropertiesToDateAfterModification_STATUS(destination *alpha20210401s.DateAfterModification_STATUS) error {
+=======
+// AssignPropertiesToDateAfterModificationSTATUS populates the provided destination DateAfterModification_STATUS from our DateAfterModification_STATUS
+func (modification *DateAfterModification_STATUS) AssignPropertiesToDateAfterModificationSTATUS(destination *alpha20210401s.DateAfterModification_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

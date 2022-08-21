@@ -161,16 +161,25 @@ func UserAssignedIdentityGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForUserAssignedIdentity is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUserAssignedIdentity(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = UserAssignedIdentity_SpecGenerator()
 	gens["Status"] = UserAssignedIdentity_STATUSGenerator()
 }
 
 func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+=======
+	gens["Spec"] = UserAssignedIdentitiesSpecGenerator()
+	gens["Status"] = IdentitySTATUSGenerator()
+}
+
+func Test_Identity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from UserAssignedIdentity_STATUS to UserAssignedIdentity_STATUS via AssignPropertiesToUserAssignedIdentity_STATUS & AssignPropertiesFromUserAssignedIdentity_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentity_STATUS, UserAssignedIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
@@ -178,19 +187,38 @@ func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForUserAssignedIdentity_STATUS tests if a specific instance of UserAssignedIdentity_STATUS can be assigned to v1beta20181130storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssignedIdentity_STATUS) string {
+=======
+		"Round trip from Identity_STATUS to Identity_STATUS via AssignPropertiesToIdentitySTATUS & AssignPropertiesFromIdentitySTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIdentitySTATUS, IdentitySTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIdentitySTATUS tests if a specific instance of Identity_STATUS can be assigned to v1beta20181130storage and back losslessly
+func RunPropertyAssignmentTestForIdentitySTATUS(subject Identity_STATUS) string {
+>>>>>>> main
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
+<<<<<<< HEAD
 	var other v20181130s.UserAssignedIdentity_STATUS
 	err := copied.AssignPropertiesToUserAssignedIdentity_STATUS(&other)
+=======
+	var other v20181130s.Identity_STATUS
+	err := copied.AssignPropertiesToIdentitySTATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
+<<<<<<< HEAD
 	var actual UserAssignedIdentity_STATUS
 	err = actual.AssignPropertiesFromUserAssignedIdentity_STATUS(&other)
+=======
+	var actual Identity_STATUS
+	err = actual.AssignPropertiesFromIdentitySTATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -207,13 +235,18 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	return ""
 }
 
+<<<<<<< HEAD
 func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_Identity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of UserAssignedIdentity_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_STATUS, UserAssignedIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -221,6 +254,15 @@ func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 
 // RunJSONSerializationTestForUserAssignedIdentity_STATUS runs a test to see if a specific instance of UserAssignedIdentity_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForUserAssignedIdentity_STATUS(subject UserAssignedIdentity_STATUS) string {
+=======
+		"Round trip of Identity_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentitySTATUS, IdentitySTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIdentitySTATUS runs a test to see if a specific instance of Identity_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentitySTATUS(subject Identity_STATUS) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +270,11 @@ func RunJSONSerializationTestForUserAssignedIdentity_STATUS(subject UserAssigned
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual UserAssignedIdentity_STATUS
+=======
+	var actual Identity_STATUS
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,6 +292,7 @@ func RunJSONSerializationTestForUserAssignedIdentity_STATUS(subject UserAssigned
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of UserAssignedIdentity_STATUS instances for property testing - lazily instantiated by
 // UserAssignedIdentity_STATUSGenerator()
 var userAssignedIdentity_STATUSGenerator gopter.Gen
@@ -265,6 +312,26 @@ func UserAssignedIdentity_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of Identity_STATUS instances for property testing - lazily instantiated by IdentitySTATUSGenerator()
+var identitySTATUSGenerator gopter.Gen
+
+// IdentitySTATUSGenerator returns a generator of Identity_STATUS instances for property testing.
+func IdentitySTATUSGenerator() gopter.Gen {
+	if identitySTATUSGenerator != nil {
+		return identitySTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIdentitySTATUS(generators)
+	identitySTATUSGenerator = gen.Struct(reflect.TypeOf(Identity_STATUS{}), generators)
+
+	return identitySTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIdentitySTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentitySTATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

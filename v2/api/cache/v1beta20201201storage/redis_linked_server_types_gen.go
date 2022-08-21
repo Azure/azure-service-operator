@@ -28,7 +28,11 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisLinkedServer_Spec                 `json:"spec,omitempty"`
+=======
+	Spec              RedisLinkedServers_Spec                `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
 }
 
@@ -133,6 +137,7 @@ type RedisLinkedServerList struct {
 	Items           []RedisLinkedServer `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.RedisLinkedServerWithProperties_STATUS
 type RedisLinkedServerWithProperties_STATUS struct {
 	Conditions               []conditions.Condition `json:"conditions,omitempty"`
@@ -168,6 +173,10 @@ func (properties *RedisLinkedServerWithProperties_STATUS) ConvertStatusTo(destin
 
 // Storage version of v1beta20201201.RedisLinkedServer_Spec
 type RedisLinkedServer_Spec struct {
+=======
+// Storage version of v1beta20201201.RedisLinkedServers_Spec
+type RedisLinkedServers_Spec struct {
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                string  `json:"azureName,omitempty"`
@@ -205,6 +214,39 @@ func (server *RedisLinkedServer_Spec) ConvertSpecTo(destination genruntime.Conve
 	}
 
 	return destination.ConvertSpecFrom(server)
+}
+
+// Storage version of v1beta20201201.RedisLinkedServerWithProperties_STATUS
+type RedisLinkedServerWithProperties_STATUS struct {
+	Conditions               []conditions.Condition `json:"conditions,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
+	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState        *string                `json:"provisioningState,omitempty"`
+	ServerRole               *string                `json:"serverRole,omitempty"`
+	Type                     *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisLinkedServerWithProperties_STATUS{}
+
+// ConvertStatusFrom populates our RedisLinkedServerWithProperties_STATUS from the provided source
+func (properties *RedisLinkedServerWithProperties_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == properties {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(properties)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisLinkedServerWithProperties_STATUS
+func (properties *RedisLinkedServerWithProperties_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == properties {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(properties)
 }
 
 func init() {

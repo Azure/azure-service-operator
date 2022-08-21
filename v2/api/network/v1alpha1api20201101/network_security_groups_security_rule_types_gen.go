@@ -28,8 +28,13 @@ import (
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NetworkSecurityGroupsSecurityRule_Spec   `json:"spec,omitempty"`
 	Status            NetworkSecurityGroupsSecurityRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              NetworkSecurityGroupsSecurityRules_Spec                                   `json:"spec,omitempty"`
+	Status            SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}
@@ -137,7 +142,11 @@ func (rule *NetworkSecurityGroupsSecurityRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NetworkSecurityGroupsSecurityRule_STATUS{}
+=======
+	return &SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (rule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (rule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NetworkSecurityGroupsSecurityRule_STATUS); ok {
+=======
+	if st, ok := status.(*SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded); ok {
+>>>>>>> main
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NetworkSecurityGroupsSecurityRule_STATUS
+=======
+	var st SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignPropertiesFromNetworkSecuri
 	rule.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status NetworkSecurityGroupsSecurityRule_STATUS
 	err = status.AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
+=======
+	var status SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err = status.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field Status")
+>>>>>>> main
 	}
 	rule.Status = status
 
@@ -303,10 +327,17 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignPropertiesToNetworkSecurity
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS
 	err = rule.Status.AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
+=======
+	var status alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+	err = rule.Status.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -331,8 +362,636 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 	Items           []NetworkSecurityGroupsSecurityRule `json:"items"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of NetworkSecurityGroupsSecurityRule_STATUS. Use v1beta20201101.NetworkSecurityGroupsSecurityRule_STATUS instead
 type NetworkSecurityGroupsSecurityRule_STATUS struct {
+=======
+type NetworkSecurityGroupsSecurityRules_Spec struct {
+	// +kubebuilder:validation:Required
+	Access *SecurityRulePropertiesFormatAccess `json:"access,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                            string        `json:"azureName,omitempty"`
+	Description                          *string       `json:"description,omitempty"`
+	DestinationAddressPrefix             *string       `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string      `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []SubResource `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string       `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string      `json:"destinationPortRanges,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Direction *SecurityRulePropertiesFormatDirection `json:"direction,omitempty"`
+	Location  *string                                `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/NetworkSecurityGroup resource
+	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
+
+	// +kubebuilder:validation:Required
+	Priority *int `json:"priority,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Protocol                        *SecurityRulePropertiesFormatProtocol `json:"protocol,omitempty"`
+	SourceAddressPrefix             *string                               `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes           []string                              `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups []SubResource                         `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                 *string                               `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                []string                              `json:"sourcePortRanges,omitempty"`
+	Tags                            map[string]string                     `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NetworkSecurityGroupsSecurityRules_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if rules == nil {
+		return nil, nil
+	}
+	result := &NetworkSecurityGroupsSecurityRules_SpecARM{}
+
+	// Set property ‘Location’:
+	if rules.Location != nil {
+		location := *rules.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if rules.Access != nil ||
+		rules.Description != nil ||
+		rules.DestinationAddressPrefix != nil ||
+		rules.DestinationAddressPrefixes != nil ||
+		rules.DestinationApplicationSecurityGroups != nil ||
+		rules.DestinationPortRange != nil ||
+		rules.DestinationPortRanges != nil ||
+		rules.Direction != nil ||
+		rules.Priority != nil ||
+		rules.Protocol != nil ||
+		rules.SourceAddressPrefix != nil ||
+		rules.SourceAddressPrefixes != nil ||
+		rules.SourceApplicationSecurityGroups != nil ||
+		rules.SourcePortRange != nil ||
+		rules.SourcePortRanges != nil {
+		result.Properties = &SecurityRulePropertiesFormatARM{}
+	}
+	if rules.Access != nil {
+		access := *rules.Access
+		result.Properties.Access = &access
+	}
+	if rules.Description != nil {
+		description := *rules.Description
+		result.Properties.Description = &description
+	}
+	if rules.DestinationAddressPrefix != nil {
+		destinationAddressPrefix := *rules.DestinationAddressPrefix
+		result.Properties.DestinationAddressPrefix = &destinationAddressPrefix
+	}
+	for _, item := range rules.DestinationAddressPrefixes {
+		result.Properties.DestinationAddressPrefixes = append(result.Properties.DestinationAddressPrefixes, item)
+	}
+	for _, item := range rules.DestinationApplicationSecurityGroups {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *itemARM.(*SubResourceARM))
+	}
+	if rules.DestinationPortRange != nil {
+		destinationPortRange := *rules.DestinationPortRange
+		result.Properties.DestinationPortRange = &destinationPortRange
+	}
+	for _, item := range rules.DestinationPortRanges {
+		result.Properties.DestinationPortRanges = append(result.Properties.DestinationPortRanges, item)
+	}
+	if rules.Direction != nil {
+		direction := *rules.Direction
+		result.Properties.Direction = &direction
+	}
+	if rules.Priority != nil {
+		priority := *rules.Priority
+		result.Properties.Priority = &priority
+	}
+	if rules.Protocol != nil {
+		protocol := *rules.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	if rules.SourceAddressPrefix != nil {
+		sourceAddressPrefix := *rules.SourceAddressPrefix
+		result.Properties.SourceAddressPrefix = &sourceAddressPrefix
+	}
+	for _, item := range rules.SourceAddressPrefixes {
+		result.Properties.SourceAddressPrefixes = append(result.Properties.SourceAddressPrefixes, item)
+	}
+	for _, item := range rules.SourceApplicationSecurityGroups {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *itemARM.(*SubResourceARM))
+	}
+	if rules.SourcePortRange != nil {
+		sourcePortRange := *rules.SourcePortRange
+		result.Properties.SourcePortRange = &sourcePortRange
+	}
+	for _, item := range rules.SourcePortRanges {
+		result.Properties.SourcePortRanges = append(result.Properties.SourcePortRanges, item)
+	}
+
+	// Set property ‘Tags’:
+	if rules.Tags != nil {
+		result.Tags = make(map[string]string, len(rules.Tags))
+		for key, value := range rules.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroupsSecurityRules_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRules_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRules_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘Access’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Access != nil {
+			access := *typedInput.Properties.Access
+			rules.Access = &access
+		}
+	}
+
+	// Set property ‘AzureName’:
+	rules.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Description’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Description != nil {
+			description := *typedInput.Properties.Description
+			rules.Description = &description
+		}
+	}
+
+	// Set property ‘DestinationAddressPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DestinationAddressPrefix != nil {
+			destinationAddressPrefix := *typedInput.Properties.DestinationAddressPrefix
+			rules.DestinationAddressPrefix = &destinationAddressPrefix
+		}
+	}
+
+	// Set property ‘DestinationAddressPrefixes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationAddressPrefixes {
+			rules.DestinationAddressPrefixes = append(rules.DestinationAddressPrefixes, item)
+		}
+	}
+
+	// Set property ‘DestinationApplicationSecurityGroups’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			rules.DestinationApplicationSecurityGroups = append(rules.DestinationApplicationSecurityGroups, item1)
+		}
+	}
+
+	// Set property ‘DestinationPortRange’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DestinationPortRange != nil {
+			destinationPortRange := *typedInput.Properties.DestinationPortRange
+			rules.DestinationPortRange = &destinationPortRange
+		}
+	}
+
+	// Set property ‘DestinationPortRanges’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.DestinationPortRanges {
+			rules.DestinationPortRanges = append(rules.DestinationPortRanges, item)
+		}
+	}
+
+	// Set property ‘Direction’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Direction != nil {
+			direction := *typedInput.Properties.Direction
+			rules.Direction = &direction
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		rules.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	rules.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Priority’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			rules.Priority = &priority
+		}
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rules.Protocol = &protocol
+		}
+	}
+
+	// Set property ‘SourceAddressPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourceAddressPrefix != nil {
+			sourceAddressPrefix := *typedInput.Properties.SourceAddressPrefix
+			rules.SourceAddressPrefix = &sourceAddressPrefix
+		}
+	}
+
+	// Set property ‘SourceAddressPrefixes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourceAddressPrefixes {
+			rules.SourceAddressPrefixes = append(rules.SourceAddressPrefixes, item)
+		}
+	}
+
+	// Set property ‘SourceApplicationSecurityGroups’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourceApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			rules.SourceApplicationSecurityGroups = append(rules.SourceApplicationSecurityGroups, item1)
+		}
+	}
+
+	// Set property ‘SourcePortRange’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourcePortRange != nil {
+			sourcePortRange := *typedInput.Properties.SourcePortRange
+			rules.SourcePortRange = &sourcePortRange
+		}
+	}
+
+	// Set property ‘SourcePortRanges’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.SourcePortRanges {
+			rules.SourcePortRanges = append(rules.SourcePortRanges, item)
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		rules.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			rules.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroupsSecurityRules_Spec{}
+
+// ConvertSpecFrom populates our NetworkSecurityGroupsSecurityRules_Spec from the provided source
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec)
+	if ok {
+		// Populate our instance from source
+		return rules.AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rules.AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroupsSecurityRules_Spec
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rules.AssignPropertiesToNetworkSecurityGroupsSecurityRulesSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec{}
+	err := rules.AssignPropertiesToNetworkSecurityGroupsSecurityRulesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec populates our NetworkSecurityGroupsSecurityRules_Spec from the provided source NetworkSecurityGroupsSecurityRules_Spec
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec(source *alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec) error {
+
+	// Access
+	if source.Access != nil {
+		access := SecurityRulePropertiesFormatAccess(*source.Access)
+		rules.Access = &access
+	} else {
+		rules.Access = nil
+	}
+
+	// AzureName
+	rules.AzureName = source.AzureName
+
+	// Description
+	rules.Description = genruntime.ClonePointerToString(source.Description)
+
+	// DestinationAddressPrefix
+	rules.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
+
+	// DestinationAddressPrefixes
+	rules.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
+
+	// DestinationApplicationSecurityGroups
+	if source.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]SubResource, len(source.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup SubResource
+			err := destinationApplicationSecurityGroup.AssignPropertiesFromSubResource(&destinationApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field DestinationApplicationSecurityGroups")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		}
+		rules.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		rules.DestinationApplicationSecurityGroups = nil
+	}
+
+	// DestinationPortRange
+	rules.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
+
+	// DestinationPortRanges
+	rules.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
+
+	// Direction
+	if source.Direction != nil {
+		direction := SecurityRulePropertiesFormatDirection(*source.Direction)
+		rules.Direction = &direction
+	} else {
+		rules.Direction = nil
+	}
+
+	// Location
+	rules.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
+
+	// Priority
+	rules.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := SecurityRulePropertiesFormatProtocol(*source.Protocol)
+		rules.Protocol = &protocol
+	} else {
+		rules.Protocol = nil
+	}
+
+	// SourceAddressPrefix
+	rules.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
+
+	// SourceAddressPrefixes
+	rules.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
+
+	// SourceApplicationSecurityGroups
+	if source.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]SubResource, len(source.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup SubResource
+			err := sourceApplicationSecurityGroup.AssignPropertiesFromSubResource(&sourceApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceApplicationSecurityGroups")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		}
+		rules.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		rules.SourceApplicationSecurityGroups = nil
+	}
+
+	// SourcePortRange
+	rules.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
+
+	// SourcePortRanges
+	rules.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
+
+	// Tags
+	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNetworkSecurityGroupsSecurityRulesSpec populates the provided destination NetworkSecurityGroupsSecurityRules_Spec from our NetworkSecurityGroupsSecurityRules_Spec
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesToNetworkSecurityGroupsSecurityRulesSpec(destination *alpha20201101s.NetworkSecurityGroupsSecurityRules_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Access
+	if rules.Access != nil {
+		access := string(*rules.Access)
+		destination.Access = &access
+	} else {
+		destination.Access = nil
+	}
+
+	// AzureName
+	destination.AzureName = rules.AzureName
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(rules.Description)
+
+	// DestinationAddressPrefix
+	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(rules.DestinationAddressPrefix)
+
+	// DestinationAddressPrefixes
+	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(rules.DestinationAddressPrefixes)
+
+	// DestinationApplicationSecurityGroups
+	if rules.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]alpha20201101s.SubResource, len(rules.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rules.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup alpha20201101s.SubResource
+			err := destinationApplicationSecurityGroupItem.AssignPropertiesToSubResource(&destinationApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DestinationApplicationSecurityGroups")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		}
+		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		destination.DestinationApplicationSecurityGroups = nil
+	}
+
+	// DestinationPortRange
+	destination.DestinationPortRange = genruntime.ClonePointerToString(rules.DestinationPortRange)
+
+	// DestinationPortRanges
+	destination.DestinationPortRanges = genruntime.CloneSliceOfString(rules.DestinationPortRanges)
+
+	// Direction
+	if rules.Direction != nil {
+		direction := string(*rules.Direction)
+		destination.Direction = &direction
+	} else {
+		destination.Direction = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rules.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = rules.OriginalVersion()
+
+	// Owner
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(rules.Priority)
+
+	// Protocol
+	if rules.Protocol != nil {
+		protocol := string(*rules.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
+
+	// SourceAddressPrefix
+	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rules.SourceAddressPrefix)
+
+	// SourceAddressPrefixes
+	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(rules.SourceAddressPrefixes)
+
+	// SourceApplicationSecurityGroups
+	if rules.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]alpha20201101s.SubResource, len(rules.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rules.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup alpha20201101s.SubResource
+			err := sourceApplicationSecurityGroupItem.AssignPropertiesToSubResource(&sourceApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceApplicationSecurityGroups")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		}
+		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		destination.SourceApplicationSecurityGroups = nil
+	}
+
+	// SourcePortRange
+	destination.SourcePortRange = genruntime.ClonePointerToString(rules.SourcePortRange)
+
+	// SourcePortRanges
+	destination.SourcePortRanges = genruntime.CloneSliceOfString(rules.SourcePortRanges)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) SetAzureName(azureName string) {
+	rules.AzureName = azureName
+}
+
+// Deprecated version of SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+type SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
+>>>>>>> main
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
 	// Conditions: The observed state of the resource
@@ -348,7 +1007,11 @@ type NetworkSecurityGroupsSecurityRule_STATUS struct {
 	Id                                   *string                                                                                 `json:"id,omitempty"`
 	Name                                 *string                                                                                 `json:"name,omitempty"`
 	Priority                             *int                                                                                    `json:"priority,omitempty"`
+<<<<<<< HEAD
 	Protocol                             *SecurityRulePropertiesFormat_Protocol_STATUS                                           `json:"protocol,omitempty"`
+=======
+	Protocol                             *SecurityRulePropertiesFormatSTATUSProtocol                                             `json:"protocol,omitempty"`
+>>>>>>> main
 	ProvisioningState                    *ProvisioningState_STATUS                                                               `json:"provisioningState,omitempty"`
 	SourceAddressPrefix                  *string                                                                                 `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                                                                `json:"sourceAddressPrefixes,omitempty"`
@@ -358,6 +1021,7 @@ type NetworkSecurityGroupsSecurityRule_STATUS struct {
 	Type                                 *string                                                                                 `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NetworkSecurityGroupsSecurityRule_STATUS{}
 
 // ConvertStatusFrom populates our NetworkSecurityGroupsSecurityRule_STATUS from the provided source
@@ -370,13 +1034,31 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusFrom(source g
 
 	// Convert to an intermediate form
 	src = &alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+
+// ConvertStatusFrom populates our SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from the provided source
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded)
+	if ok {
+		// Populate our instance from source
+		return embedded.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = rule.AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS(src)
+=======
+	err = embedded.AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -384,6 +1066,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusFrom(source g
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NetworkSecurityGroupsSecurityRule_STATUS
 func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS)
@@ -395,6 +1078,19 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusTo(destinatio
 	// Convert to an intermediate form
 	dst = &alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS{}
 	err := rule.AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded)
+	if ok {
+		// Populate destination from our instance
+		return embedded.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+	err := embedded.AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -408,6 +1104,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusTo(destinatio
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &NetworkSecurityGroupsSecurityRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -420,6 +1117,20 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) PopulateFromARM(owner genr
 	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRule_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRule_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘Access’:
@@ -600,13 +1311,22 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) PopulateFromARM(owner genr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS populates our NetworkSecurityGroupsSecurityRule_STATUS from the provided source NetworkSecurityGroupsSecurityRule_STATUS
 func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetworkSecurityGroupsSecurityRule_STATUS(source *alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS) error {
+=======
+// AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded populates our SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from the provided source SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesFromSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(source *alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Access
 	if source.Access != nil {
 		access := SecurityRuleAccess_STATUS(*source.Access)
+<<<<<<< HEAD
 		rule.Access = &access
+=======
+		embedded.Access = &access
+>>>>>>> main
 	} else {
 		rule.Access = nil
 	}
@@ -630,9 +1350,15 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 			// Shadow the loop variable to avoid aliasing
 			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
 			var destinationApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+<<<<<<< HEAD
 			err := destinationApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+=======
+			err := destinationApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+>>>>>>> main
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -650,7 +1376,11 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 	// Direction
 	if source.Direction != nil {
 		direction := SecurityRuleDirection_STATUS(*source.Direction)
+<<<<<<< HEAD
 		rule.Direction = &direction
+=======
+		embedded.Direction = &direction
+>>>>>>> main
 	} else {
 		rule.Direction = nil
 	}
@@ -669,8 +1399,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 
 	// Protocol
 	if source.Protocol != nil {
+<<<<<<< HEAD
 		protocol := SecurityRulePropertiesFormat_Protocol_STATUS(*source.Protocol)
 		rule.Protocol = &protocol
+=======
+		protocol := SecurityRulePropertiesFormatSTATUSProtocol(*source.Protocol)
+		embedded.Protocol = &protocol
+>>>>>>> main
 	} else {
 		rule.Protocol = nil
 	}
@@ -678,7 +1413,11 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
+<<<<<<< HEAD
 		rule.ProvisioningState = &provisioningState
+=======
+		embedded.ProvisioningState = &provisioningState
+>>>>>>> main
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -696,9 +1435,15 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 			// Shadow the loop variable to avoid aliasing
 			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
 			var sourceApplicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+<<<<<<< HEAD
 			err := sourceApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+=======
+			err := sourceApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+>>>>>>> main
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -720,8 +1465,13 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesFromNetwor
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS populates the provided destination NetworkSecurityGroupsSecurityRule_STATUS from our NetworkSecurityGroupsSecurityRule_STATUS
 func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkSecurityGroupsSecurityRule_STATUS(destination *alpha20201101s.NetworkSecurityGroupsSecurityRule_STATUS) error {
+=======
+// AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded populates the provided destination SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from our SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+func (embedded *SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesToSecurityRuleSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(destination *alpha20201101s.SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -746,6 +1496,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkS
 	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(rule.DestinationAddressPrefixes)
 
 	// DestinationApplicationSecurityGroups
+<<<<<<< HEAD
 	if rule.DestinationApplicationSecurityGroups != nil {
 		destinationApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(rule.DestinationApplicationSecurityGroups))
 		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
@@ -755,6 +1506,17 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkS
 			err := destinationApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&destinationApplicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+=======
+	if embedded.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(embedded.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range embedded.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := destinationApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+>>>>>>> main
 			}
 			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
@@ -812,6 +1574,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkS
 	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(rule.SourceAddressPrefixes)
 
 	// SourceApplicationSecurityGroups
+<<<<<<< HEAD
 	if rule.SourceApplicationSecurityGroups != nil {
 		sourceApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(rule.SourceApplicationSecurityGroups))
 		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
@@ -821,6 +1584,17 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkS
 			err := sourceApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(&sourceApplicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+=======
+	if embedded.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(embedded.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range embedded.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := sourceApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+>>>>>>> main
 			}
 			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
@@ -849,6 +1623,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignPropertiesToNetworkS
 	return nil
 }
 
+<<<<<<< HEAD
 type NetworkSecurityGroupsSecurityRule_Spec struct {
 	// +kubebuilder:validation:Required
 	Access *SecurityRuleAccess `json:"access,omitempty"`
@@ -1620,6 +2395,24 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRul
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM)
 	if !ok {
+=======
+// Deprecated version of ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+type ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
+	Id *string `json:"id,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM)
+	if !ok {
+>>>>>>> main
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
@@ -1633,8 +2426,13 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRul
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(source *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+=======
+// AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesFromApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(source *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1643,8 +2441,13 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRul
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded(destination *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+=======
+// AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesToApplicationSecurityGroupSTATUSNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(destination *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1662,7 +2465,27 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRul
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of SecurityRuleAccess. Use v1beta20201101.SecurityRuleAccess instead
+=======
+// Deprecated version of SecurityRuleAccess_STATUS. Use v1beta20201101.SecurityRuleAccess_STATUS instead
+type SecurityRuleAccess_STATUS string
+
+const (
+	SecurityRuleAccess_STATUS_Allow = SecurityRuleAccess_STATUS("Allow")
+	SecurityRuleAccess_STATUS_Deny  = SecurityRuleAccess_STATUS("Deny")
+)
+
+// Deprecated version of SecurityRuleDirection_STATUS. Use v1beta20201101.SecurityRuleDirection_STATUS instead
+type SecurityRuleDirection_STATUS string
+
+const (
+	SecurityRuleDirection_STATUS_Inbound  = SecurityRuleDirection_STATUS("Inbound")
+	SecurityRuleDirection_STATUS_Outbound = SecurityRuleDirection_STATUS("Outbound")
+)
+
+// Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead
+>>>>>>> main
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SecurityRuleAccess string
 
@@ -1710,6 +2533,7 @@ const (
 	SecurityRulePropertiesFormat_Protocol_Udp  = SecurityRulePropertiesFormat_Protocol("Udp")
 )
 
+<<<<<<< HEAD
 // Deprecated version of SecurityRulePropertiesFormat_Protocol_STATUS. Use
 // v1beta20201101.SecurityRulePropertiesFormat_Protocol_STATUS instead
 type SecurityRulePropertiesFormat_Protocol_STATUS string
@@ -1721,6 +2545,19 @@ const (
 	SecurityRulePropertiesFormat_Protocol_Star_STATUS = SecurityRulePropertiesFormat_Protocol_STATUS("*")
 	SecurityRulePropertiesFormat_Protocol_Tcp_STATUS  = SecurityRulePropertiesFormat_Protocol_STATUS("Tcp")
 	SecurityRulePropertiesFormat_Protocol_Udp_STATUS  = SecurityRulePropertiesFormat_Protocol_STATUS("Udp")
+=======
+// Deprecated version of SecurityRulePropertiesFormatSTATUSProtocol. Use
+// v1beta20201101.SecurityRulePropertiesFormatSTATUSProtocol instead
+type SecurityRulePropertiesFormatSTATUSProtocol string
+
+const (
+	SecurityRulePropertiesFormatSTATUSProtocol_Ah   = SecurityRulePropertiesFormatSTATUSProtocol("Ah")
+	SecurityRulePropertiesFormatSTATUSProtocol_Esp  = SecurityRulePropertiesFormatSTATUSProtocol("Esp")
+	SecurityRulePropertiesFormatSTATUSProtocol_Icmp = SecurityRulePropertiesFormatSTATUSProtocol("Icmp")
+	SecurityRulePropertiesFormatSTATUSProtocol_Star = SecurityRulePropertiesFormatSTATUSProtocol("*")
+	SecurityRulePropertiesFormatSTATUSProtocol_Tcp  = SecurityRulePropertiesFormatSTATUSProtocol("Tcp")
+	SecurityRulePropertiesFormatSTATUSProtocol_Udp  = SecurityRulePropertiesFormatSTATUSProtocol("Udp")
+>>>>>>> main
 )
 
 func init() {

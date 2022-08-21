@@ -28,7 +28,11 @@ import (
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Disk_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Disks_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Disk_STATUS `json:"status,omitempty"`
 }
 
@@ -278,9 +282,15 @@ func (disk *Disk) AssignPropertiesFromDisk(source *alpha20200930s.Disk) error {
 
 	// Status
 	var status Disk_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromDisk_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDisk_STATUS() to populate field Status")
+=======
+	err = status.AssignPropertiesFromDiskSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDiskSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	disk.Status = status
 
@@ -304,9 +314,15 @@ func (disk *Disk) AssignPropertiesToDisk(destination *alpha20200930s.Disk) error
 
 	// Status
 	var status alpha20200930s.Disk_STATUS
+<<<<<<< HEAD
 	err = disk.Status.AssignPropertiesToDisk_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDisk_STATUS() to populate field Status")
+=======
+	err = disk.Status.AssignPropertiesToDiskSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDiskSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -342,6 +358,7 @@ type Disk_STATUS struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	// Conditions: The observed state of the resource
+<<<<<<< HEAD
 	Conditions                   []conditions.Condition                  `json:"conditions,omitempty"`
 	CreationData                 *CreationData_STATUS                    `json:"creationData,omitempty"`
 	DiskAccessId                 *string                                 `json:"diskAccessId,omitempty"`
@@ -374,6 +391,40 @@ type Disk_STATUS struct {
 	Type                         *string                                 `json:"type,omitempty"`
 	UniqueId                     *string                                 `json:"uniqueId,omitempty"`
 	Zones                        []string                                `json:"zones,omitempty"`
+=======
+	Conditions                   []conditions.Condition                `json:"conditions,omitempty"`
+	CreationData                 *CreationData_STATUS                  `json:"creationData,omitempty"`
+	DiskAccessId                 *string                               `json:"diskAccessId,omitempty"`
+	DiskIOPSReadOnly             *int                                  `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                                  `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                                  `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                                  `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeBytes                *int                                  `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                  `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState_STATUS                     `json:"diskState,omitempty"`
+	Encryption                   *Encryption_STATUS                    `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS  `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS              `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *DiskPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Id                           *string                               `json:"id,omitempty"`
+	Location                     *string                               `json:"location,omitempty"`
+	ManagedBy                    *string                               `json:"managedBy,omitempty"`
+	ManagedByExtended            []string                              `json:"managedByExtended,omitempty"`
+	MaxShares                    *int                                  `json:"maxShares,omitempty"`
+	Name                         *string                               `json:"name,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS           `json:"networkAccessPolicy,omitempty"`
+	OsType                       *DiskPropertiesSTATUSOsType           `json:"osType,omitempty"`
+	ProvisioningState            *string                               `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                  `json:"purchasePlan,omitempty"`
+	ShareInfo                    []ShareInfoElement_STATUS             `json:"shareInfo,omitempty"`
+	Sku                          *DiskSku_STATUS                       `json:"sku,omitempty"`
+	Tags                         map[string]string                     `json:"tags,omitempty"`
+	Tier                         *string                               `json:"tier,omitempty"`
+	TimeCreated                  *string                               `json:"timeCreated,omitempty"`
+	Type                         *string                               `json:"type,omitempty"`
+	UniqueId                     *string                               `json:"uniqueId,omitempty"`
+	Zones                        []string                              `json:"zones,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleStatus = &Disk_STATUS{}
@@ -383,7 +434,11 @@ func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	src, ok := source.(*alpha20200930s.Disk_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return disk.AssignPropertiesFromDisk_STATUS(src)
+=======
+		return disk.AssignPropertiesFromDiskSTATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -394,7 +449,11 @@ func (disk *Disk_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = disk.AssignPropertiesFromDisk_STATUS(src)
+=======
+	err = disk.AssignPropertiesFromDiskSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -407,12 +466,20 @@ func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	dst, ok := destination.(*alpha20200930s.Disk_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return disk.AssignPropertiesToDisk_STATUS(dst)
+=======
+		return disk.AssignPropertiesToDiskSTATUS(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20200930s.Disk_STATUS{}
+<<<<<<< HEAD
 	err := disk.AssignPropertiesToDisk_STATUS(dst)
+=======
+	err := disk.AssignPropertiesToDiskSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -738,8 +805,13 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDisk_STATUS populates our Disk_STATUS from the provided source Disk_STATUS
 func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.Disk_STATUS) error {
+=======
+// AssignPropertiesFromDiskSTATUS populates our Disk_STATUS from the provided source Disk_STATUS
+func (disk *Disk_STATUS) AssignPropertiesFromDiskSTATUS(source *alpha20200930s.Disk_STATUS) error {
+>>>>>>> main
 
 	// BurstingEnabled
 	if source.BurstingEnabled != nil {
@@ -755,9 +827,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// CreationData
 	if source.CreationData != nil {
 		var creationDatum CreationData_STATUS
+<<<<<<< HEAD
 		err := creationDatum.AssignPropertiesFromCreationData_STATUS(source.CreationData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreationData_STATUS() to populate field CreationData")
+=======
+		err := creationDatum.AssignPropertiesFromCreationDataSTATUS(source.CreationData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreationDataSTATUS() to populate field CreationData")
+>>>>>>> main
 		}
 		disk.CreationData = &creationDatum
 	} else {
@@ -796,9 +874,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// Encryption
 	if source.Encryption != nil {
 		var encryption Encryption_STATUS
+<<<<<<< HEAD
 		err := encryption.AssignPropertiesFromEncryption_STATUS(source.Encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_STATUS() to populate field Encryption")
+=======
+		err := encryption.AssignPropertiesFromEncryptionSTATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSTATUS() to populate field Encryption")
+>>>>>>> main
 		}
 		disk.Encryption = &encryption
 	} else {
@@ -808,9 +892,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// EncryptionSettingsCollection
 	if source.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection EncryptionSettingsCollection_STATUS
+<<<<<<< HEAD
 		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+=======
+		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollectionSTATUS(source.EncryptionSettingsCollection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollectionSTATUS() to populate field EncryptionSettingsCollection")
+>>>>>>> main
 		}
 		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -820,9 +910,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		disk.ExtendedLocation = &extendedLocation
 	} else {
@@ -831,7 +927,11 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
+<<<<<<< HEAD
 		hyperVGeneration := DiskProperties_HyperVGeneration_STATUS(*source.HyperVGeneration)
+=======
+		hyperVGeneration := DiskPropertiesSTATUSHyperVGeneration(*source.HyperVGeneration)
+>>>>>>> main
 		disk.HyperVGeneration = &hyperVGeneration
 	} else {
 		disk.HyperVGeneration = nil
@@ -865,7 +965,11 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 
 	// OsType
 	if source.OsType != nil {
+<<<<<<< HEAD
 		osType := DiskProperties_OsType_STATUS(*source.OsType)
+=======
+		osType := DiskPropertiesSTATUSOsType(*source.OsType)
+>>>>>>> main
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -877,9 +981,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan_STATUS
+<<<<<<< HEAD
 		err := purchasePlan.AssignPropertiesFromPurchasePlan_STATUS(source.PurchasePlan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlan_STATUS() to populate field PurchasePlan")
+=======
+		err := purchasePlan.AssignPropertiesFromPurchasePlanSTATUS(source.PurchasePlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlanSTATUS() to populate field PurchasePlan")
+>>>>>>> main
 		}
 		disk.PurchasePlan = &purchasePlan
 	} else {
@@ -893,9 +1003,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 			// Shadow the loop variable to avoid aliasing
 			shareInfoItem := shareInfoItem
 			var shareInfo ShareInfoElement_STATUS
+<<<<<<< HEAD
 			err := shareInfo.AssignPropertiesFromShareInfoElement_STATUS(&shareInfoItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromShareInfoElement_STATUS() to populate field ShareInfo")
+=======
+			err := shareInfo.AssignPropertiesFromShareInfoElementSTATUS(&shareInfoItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromShareInfoElementSTATUS() to populate field ShareInfo")
+>>>>>>> main
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -907,9 +1023,15 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	// Sku
 	if source.Sku != nil {
 		var sku DiskSku_STATUS
+<<<<<<< HEAD
 		err := sku.AssignPropertiesFromDiskSku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDiskSku_STATUS() to populate field Sku")
+=======
+		err := sku.AssignPropertiesFromDiskSkuSTATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		disk.Sku = &sku
 	} else {
@@ -938,8 +1060,13 @@ func (disk *Disk_STATUS) AssignPropertiesFromDisk_STATUS(source *alpha20200930s.
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDisk_STATUS populates the provided destination Disk_STATUS from our Disk_STATUS
 func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha20200930s.Disk_STATUS) error {
+=======
+// AssignPropertiesToDiskSTATUS populates the provided destination Disk_STATUS from our Disk_STATUS
+func (disk *Disk_STATUS) AssignPropertiesToDiskSTATUS(destination *alpha20200930s.Disk_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -957,9 +1084,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// CreationData
 	if disk.CreationData != nil {
 		var creationDatum alpha20200930s.CreationData_STATUS
+<<<<<<< HEAD
 		err := disk.CreationData.AssignPropertiesToCreationData_STATUS(&creationDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreationData_STATUS() to populate field CreationData")
+=======
+		err := disk.CreationData.AssignPropertiesToCreationDataSTATUS(&creationDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreationDataSTATUS() to populate field CreationData")
+>>>>>>> main
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -998,9 +1131,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// Encryption
 	if disk.Encryption != nil {
 		var encryption alpha20200930s.Encryption_STATUS
+<<<<<<< HEAD
 		err := disk.Encryption.AssignPropertiesToEncryption_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryption_STATUS() to populate field Encryption")
+=======
+		err := disk.Encryption.AssignPropertiesToEncryptionSTATUS(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSTATUS() to populate field Encryption")
+>>>>>>> main
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1010,9 +1149,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// EncryptionSettingsCollection
 	if disk.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection alpha20200930s.EncryptionSettingsCollection_STATUS
+<<<<<<< HEAD
 		err := disk.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollection_STATUS(&encryptionSettingsCollection)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+=======
+		err := disk.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollectionSTATUS(&encryptionSettingsCollection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollectionSTATUS() to populate field EncryptionSettingsCollection")
+>>>>>>> main
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1022,9 +1167,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// ExtendedLocation
 	if disk.ExtendedLocation != nil {
 		var extendedLocation alpha20200930s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := disk.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := disk.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1079,9 +1230,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
 		var purchasePlan alpha20200930s.PurchasePlan_STATUS
+<<<<<<< HEAD
 		err := disk.PurchasePlan.AssignPropertiesToPurchasePlan_STATUS(&purchasePlan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlan_STATUS() to populate field PurchasePlan")
+=======
+		err := disk.PurchasePlan.AssignPropertiesToPurchasePlanSTATUS(&purchasePlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlanSTATUS() to populate field PurchasePlan")
+>>>>>>> main
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1095,9 +1252,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 			// Shadow the loop variable to avoid aliasing
 			shareInfoItem := shareInfoItem
 			var shareInfo alpha20200930s.ShareInfoElement_STATUS
+<<<<<<< HEAD
 			err := shareInfoItem.AssignPropertiesToShareInfoElement_STATUS(&shareInfo)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToShareInfoElement_STATUS() to populate field ShareInfo")
+=======
+			err := shareInfoItem.AssignPropertiesToShareInfoElementSTATUS(&shareInfo)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToShareInfoElementSTATUS() to populate field ShareInfo")
+>>>>>>> main
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -1109,9 +1272,15 @@ func (disk *Disk_STATUS) AssignPropertiesToDisk_STATUS(destination *alpha2020093
 	// Sku
 	if disk.Sku != nil {
 		var sku alpha20200930s.DiskSku_STATUS
+<<<<<<< HEAD
 		err := disk.Sku.AssignPropertiesToDiskSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiskSku_STATUS() to populate field Sku")
+=======
+		err := disk.Sku.AssignPropertiesToDiskSkuSTATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDiskSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -2239,6 +2408,7 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *alpha20200
 
 // Deprecated version of CreationData_STATUS. Use v1beta20200930.CreationData_STATUS instead
 type CreationData_STATUS struct {
+<<<<<<< HEAD
 	CreateOption          *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference_STATUS        `json:"galleryImageReference,omitempty"`
 	ImageReference        *ImageDiskReference_STATUS        `json:"imageReference,omitempty"`
@@ -2248,6 +2418,17 @@ type CreationData_STATUS struct {
 	SourceUri             *string                           `json:"sourceUri,omitempty"`
 	StorageAccountId      *string                           `json:"storageAccountId,omitempty"`
 	UploadSizeBytes       *int                              `json:"uploadSizeBytes,omitempty"`
+=======
+	CreateOption          *CreationDataSTATUSCreateOption `json:"createOption,omitempty"`
+	GalleryImageReference *ImageDiskReference_STATUS      `json:"galleryImageReference,omitempty"`
+	ImageReference        *ImageDiskReference_STATUS      `json:"imageReference,omitempty"`
+	LogicalSectorSize     *int                            `json:"logicalSectorSize,omitempty"`
+	SourceResourceId      *string                         `json:"sourceResourceId,omitempty"`
+	SourceUniqueId        *string                         `json:"sourceUniqueId,omitempty"`
+	SourceUri             *string                         `json:"sourceUri,omitempty"`
+	StorageAccountId      *string                         `json:"storageAccountId,omitempty"`
+	UploadSizeBytes       *int                            `json:"uploadSizeBytes,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &CreationData_STATUS{}
@@ -2332,12 +2513,21 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromCreationData_STATUS populates our CreationData_STATUS from the provided source CreationData_STATUS
 func (data *CreationData_STATUS) AssignPropertiesFromCreationData_STATUS(source *alpha20200930s.CreationData_STATUS) error {
 
 	// CreateOption
 	if source.CreateOption != nil {
 		createOption := CreationData_CreateOption_STATUS(*source.CreateOption)
+=======
+// AssignPropertiesFromCreationDataSTATUS populates our CreationData_STATUS from the provided source CreationData_STATUS
+func (data *CreationData_STATUS) AssignPropertiesFromCreationDataSTATUS(source *alpha20200930s.CreationData_STATUS) error {
+
+	// CreateOption
+	if source.CreateOption != nil {
+		createOption := CreationDataSTATUSCreateOption(*source.CreateOption)
+>>>>>>> main
 		data.CreateOption = &createOption
 	} else {
 		data.CreateOption = nil
@@ -2346,9 +2536,15 @@ func (data *CreationData_STATUS) AssignPropertiesFromCreationData_STATUS(source 
 	// GalleryImageReference
 	if source.GalleryImageReference != nil {
 		var galleryImageReference ImageDiskReference_STATUS
+<<<<<<< HEAD
 		err := galleryImageReference.AssignPropertiesFromImageDiskReference_STATUS(source.GalleryImageReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReference_STATUS() to populate field GalleryImageReference")
+=======
+		err := galleryImageReference.AssignPropertiesFromImageDiskReferenceSTATUS(source.GalleryImageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReferenceSTATUS() to populate field GalleryImageReference")
+>>>>>>> main
 		}
 		data.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2358,9 +2554,15 @@ func (data *CreationData_STATUS) AssignPropertiesFromCreationData_STATUS(source 
 	// ImageReference
 	if source.ImageReference != nil {
 		var imageReference ImageDiskReference_STATUS
+<<<<<<< HEAD
 		err := imageReference.AssignPropertiesFromImageDiskReference_STATUS(source.ImageReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReference_STATUS() to populate field ImageReference")
+=======
+		err := imageReference.AssignPropertiesFromImageDiskReferenceSTATUS(source.ImageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReferenceSTATUS() to populate field ImageReference")
+>>>>>>> main
 		}
 		data.ImageReference = &imageReference
 	} else {
@@ -2389,8 +2591,13 @@ func (data *CreationData_STATUS) AssignPropertiesFromCreationData_STATUS(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToCreationData_STATUS populates the provided destination CreationData_STATUS from our CreationData_STATUS
 func (data *CreationData_STATUS) AssignPropertiesToCreationData_STATUS(destination *alpha20200930s.CreationData_STATUS) error {
+=======
+// AssignPropertiesToCreationDataSTATUS populates the provided destination CreationData_STATUS from our CreationData_STATUS
+func (data *CreationData_STATUS) AssignPropertiesToCreationDataSTATUS(destination *alpha20200930s.CreationData_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2405,9 +2612,15 @@ func (data *CreationData_STATUS) AssignPropertiesToCreationData_STATUS(destinati
 	// GalleryImageReference
 	if data.GalleryImageReference != nil {
 		var galleryImageReference alpha20200930s.ImageDiskReference_STATUS
+<<<<<<< HEAD
 		err := data.GalleryImageReference.AssignPropertiesToImageDiskReference_STATUS(&galleryImageReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReference_STATUS() to populate field GalleryImageReference")
+=======
+		err := data.GalleryImageReference.AssignPropertiesToImageDiskReferenceSTATUS(&galleryImageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReferenceSTATUS() to populate field GalleryImageReference")
+>>>>>>> main
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2417,9 +2630,15 @@ func (data *CreationData_STATUS) AssignPropertiesToCreationData_STATUS(destinati
 	// ImageReference
 	if data.ImageReference != nil {
 		var imageReference alpha20200930s.ImageDiskReference_STATUS
+<<<<<<< HEAD
 		err := data.ImageReference.AssignPropertiesToImageDiskReference_STATUS(&imageReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReference_STATUS() to populate field ImageReference")
+=======
+		err := data.ImageReference.AssignPropertiesToImageDiskReferenceSTATUS(&imageReference)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReferenceSTATUS() to populate field ImageReference")
+>>>>>>> main
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -2464,6 +2683,7 @@ const (
 	DiskProperties_HyperVGeneration_V2 = DiskProperties_HyperVGeneration("V2")
 )
 
+<<<<<<< HEAD
 // Deprecated version of DiskProperties_HyperVGeneration_STATUS. Use v1beta20200930.DiskProperties_HyperVGeneration_STATUS
 // instead
 type DiskProperties_HyperVGeneration_STATUS string
@@ -2488,6 +2708,42 @@ type DiskProperties_OsType_STATUS string
 const (
 	DiskProperties_OsType_Linux_STATUS   = DiskProperties_OsType_STATUS("Linux")
 	DiskProperties_OsType_Windows_STATUS = DiskProperties_OsType_STATUS("Windows")
+=======
+// Deprecated version of DiskPropertiesNetworkAccessPolicy. Use v1beta20200930.DiskPropertiesNetworkAccessPolicy instead
+// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
+type DiskPropertiesNetworkAccessPolicy string
+
+const (
+	DiskPropertiesNetworkAccessPolicy_AllowAll     = DiskPropertiesNetworkAccessPolicy("AllowAll")
+	DiskPropertiesNetworkAccessPolicy_AllowPrivate = DiskPropertiesNetworkAccessPolicy("AllowPrivate")
+	DiskPropertiesNetworkAccessPolicy_DenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
+)
+
+// Deprecated version of DiskPropertiesOsType. Use v1beta20200930.DiskPropertiesOsType instead
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type DiskPropertiesOsType string
+
+const (
+	DiskPropertiesOsType_Linux   = DiskPropertiesOsType("Linux")
+	DiskPropertiesOsType_Windows = DiskPropertiesOsType("Windows")
+)
+
+// Deprecated version of DiskPropertiesSTATUSHyperVGeneration. Use v1beta20200930.DiskPropertiesSTATUSHyperVGeneration
+// instead
+type DiskPropertiesSTATUSHyperVGeneration string
+
+const (
+	DiskPropertiesSTATUSHyperVGeneration_V1 = DiskPropertiesSTATUSHyperVGeneration("V1")
+	DiskPropertiesSTATUSHyperVGeneration_V2 = DiskPropertiesSTATUSHyperVGeneration("V2")
+)
+
+// Deprecated version of DiskPropertiesSTATUSOsType. Use v1beta20200930.DiskPropertiesSTATUSOsType instead
+type DiskPropertiesSTATUSOsType string
+
+const (
+	DiskPropertiesSTATUSOsType_Linux   = DiskPropertiesSTATUSOsType("Linux")
+	DiskPropertiesSTATUSOsType_Windows = DiskPropertiesSTATUSOsType("Windows")
+>>>>>>> main
 )
 
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
@@ -2575,8 +2831,13 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *alpha20200930s.Di
 
 // Deprecated version of DiskSku_STATUS. Use v1beta20200930.DiskSku_STATUS instead
 type DiskSku_STATUS struct {
+<<<<<<< HEAD
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
 	Tier *string              `json:"tier,omitempty"`
+=======
+	Name *DiskSkuSTATUSName `json:"name,omitempty"`
+	Tier *string            `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &DiskSku_STATUS{}
@@ -2609,12 +2870,21 @@ func (diskSku *DiskSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDiskSku_STATUS populates our DiskSku_STATUS from the provided source DiskSku_STATUS
 func (diskSku *DiskSku_STATUS) AssignPropertiesFromDiskSku_STATUS(source *alpha20200930s.DiskSku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
 		name := DiskSku_Name_STATUS(*source.Name)
+=======
+// AssignPropertiesFromDiskSkuSTATUS populates our DiskSku_STATUS from the provided source DiskSku_STATUS
+func (diskSku *DiskSku_STATUS) AssignPropertiesFromDiskSkuSTATUS(source *alpha20200930s.DiskSku_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := DiskSkuSTATUSName(*source.Name)
+>>>>>>> main
 		diskSku.Name = &name
 	} else {
 		diskSku.Name = nil
@@ -2627,8 +2897,13 @@ func (diskSku *DiskSku_STATUS) AssignPropertiesFromDiskSku_STATUS(source *alpha2
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDiskSku_STATUS populates the provided destination DiskSku_STATUS from our DiskSku_STATUS
 func (diskSku *DiskSku_STATUS) AssignPropertiesToDiskSku_STATUS(destination *alpha20200930s.DiskSku_STATUS) error {
+=======
+// AssignPropertiesToDiskSkuSTATUS populates the provided destination DiskSku_STATUS from our DiskSku_STATUS
+func (diskSku *DiskSku_STATUS) AssignPropertiesToDiskSkuSTATUS(destination *alpha20200930s.DiskSku_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2658,12 +2933,21 @@ func (diskSku *DiskSku_STATUS) AssignPropertiesToDiskSku_STATUS(destination *alp
 type DiskState_STATUS string
 
 const (
+<<<<<<< HEAD
 	DiskState_ActiveSAS_STATUS     = DiskState_STATUS("ActiveSAS")
 	DiskState_ActiveUpload_STATUS  = DiskState_STATUS("ActiveUpload")
 	DiskState_Attached_STATUS      = DiskState_STATUS("Attached")
 	DiskState_ReadyToUpload_STATUS = DiskState_STATUS("ReadyToUpload")
 	DiskState_Reserved_STATUS      = DiskState_STATUS("Reserved")
 	DiskState_Unattached_STATUS    = DiskState_STATUS("Unattached")
+=======
+	DiskState_STATUS_ActiveSAS     = DiskState_STATUS("ActiveSAS")
+	DiskState_STATUS_ActiveUpload  = DiskState_STATUS("ActiveUpload")
+	DiskState_STATUS_Attached      = DiskState_STATUS("Attached")
+	DiskState_STATUS_ReadyToUpload = DiskState_STATUS("ReadyToUpload")
+	DiskState_STATUS_Reserved      = DiskState_STATUS("Reserved")
+	DiskState_STATUS_Unattached    = DiskState_STATUS("Unattached")
+>>>>>>> main
 )
 
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
@@ -2758,6 +3042,87 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 	} else {
 		destination.DiskEncryptionSetReference = nil
 	}
+
+	// Type
+	if encryption.Type != nil {
+		typeVar := string(*encryption.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of Encryption_STATUS. Use v1beta20200930.Encryption_STATUS instead
+type Encryption_STATUS struct {
+	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
+	Type                *EncryptionType_STATUS `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &Encryption_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryption *Encryption_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Encryption_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Encryption_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘DiskEncryptionSetId’:
+	if typedInput.DiskEncryptionSetId != nil {
+		diskEncryptionSetId := *typedInput.DiskEncryptionSetId
+		encryption.DiskEncryptionSetId = &diskEncryptionSetId
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		encryption.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromEncryptionSTATUS populates our Encryption_STATUS from the provided source Encryption_STATUS
+func (encryption *Encryption_STATUS) AssignPropertiesFromEncryptionSTATUS(source *alpha20200930s.Encryption_STATUS) error {
+
+	// DiskEncryptionSetId
+	encryption.DiskEncryptionSetId = genruntime.ClonePointerToString(source.DiskEncryptionSetId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := EncryptionType_STATUS(*source.Type)
+		encryption.Type = &typeVar
+	} else {
+		encryption.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEncryptionSTATUS populates the provided destination Encryption_STATUS from our Encryption_STATUS
+func (encryption *Encryption_STATUS) AssignPropertiesToEncryptionSTATUS(destination *alpha20200930s.Encryption_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DiskEncryptionSetId
+	destination.DiskEncryptionSetId = genruntime.ClonePointerToString(encryption.DiskEncryptionSetId)
 
 	// Type
 	if encryption.Type != nil {
@@ -2984,8 +3349,13 @@ func (collection *EncryptionSettingsCollection_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromEncryptionSettingsCollection_STATUS populates our EncryptionSettingsCollection_STATUS from the provided source EncryptionSettingsCollection_STATUS
 func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesFromEncryptionSettingsCollection_STATUS(source *alpha20200930s.EncryptionSettingsCollection_STATUS) error {
+=======
+// AssignPropertiesFromEncryptionSettingsCollectionSTATUS populates our EncryptionSettingsCollection_STATUS from the provided source EncryptionSettingsCollection_STATUS
+func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesFromEncryptionSettingsCollectionSTATUS(source *alpha20200930s.EncryptionSettingsCollection_STATUS) error {
+>>>>>>> main
 
 	// Enabled
 	if source.Enabled != nil {
@@ -3002,9 +3372,15 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesFromEncry
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting EncryptionSettingsElement_STATUS
+<<<<<<< HEAD
 			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElement_STATUS(&encryptionSettingItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+=======
+			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElementSTATUS(&encryptionSettingItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsElementSTATUS() to populate field EncryptionSettings")
+>>>>>>> main
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -3020,8 +3396,13 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesFromEncry
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToEncryptionSettingsCollection_STATUS populates the provided destination EncryptionSettingsCollection_STATUS from our EncryptionSettingsCollection_STATUS
 func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesToEncryptionSettingsCollection_STATUS(destination *alpha20200930s.EncryptionSettingsCollection_STATUS) error {
+=======
+// AssignPropertiesToEncryptionSettingsCollectionSTATUS populates the provided destination EncryptionSettingsCollection_STATUS from our EncryptionSettingsCollection_STATUS
+func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesToEncryptionSettingsCollectionSTATUS(destination *alpha20200930s.EncryptionSettingsCollection_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3040,9 +3421,15 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesToEncrypt
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting alpha20200930s.EncryptionSettingsElement_STATUS
+<<<<<<< HEAD
 			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElement_STATUS(&encryptionSetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
+=======
+			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElementSTATUS(&encryptionSetting)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsElementSTATUS() to populate field EncryptionSettings")
+>>>>>>> main
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -3065,6 +3452,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignPropertiesToEncrypt
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of Encryption_STATUS. Use v1beta20200930.Encryption_STATUS instead
 type Encryption_STATUS struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
@@ -3146,6 +3534,8 @@ func (encryption *Encryption_STATUS) AssignPropertiesToEncryption_STATUS(destina
 	return nil
 }
 
+=======
+>>>>>>> main
 // Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name *string               `json:"name,omitempty"`
@@ -3284,8 +3674,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *alpha20200930s.ExtendedLocation_STATUS) error {
+=======
+// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *alpha20200930s.ExtendedLocation_STATUS) error {
+>>>>>>> main
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3302,8 +3697,13 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *alpha20200930s.ExtendedLocation_STATUS) error {
+=======
+// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *alpha20200930s.ExtendedLocation_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3329,6 +3729,7 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STAT
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of NetworkAccessPolicy. Use v1beta20200930.NetworkAccessPolicy instead
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type NetworkAccessPolicy string
@@ -3346,6 +3747,15 @@ const (
 	NetworkAccessPolicy_AllowAll_STATUS     = NetworkAccessPolicy_STATUS("AllowAll")
 	NetworkAccessPolicy_AllowPrivate_STATUS = NetworkAccessPolicy_STATUS("AllowPrivate")
 	NetworkAccessPolicy_DenyAll_STATUS      = NetworkAccessPolicy_STATUS("DenyAll")
+=======
+// Deprecated version of NetworkAccessPolicy_STATUS. Use v1beta20200930.NetworkAccessPolicy_STATUS instead
+type NetworkAccessPolicy_STATUS string
+
+const (
+	NetworkAccessPolicy_STATUS_AllowAll     = NetworkAccessPolicy_STATUS("AllowAll")
+	NetworkAccessPolicy_STATUS_AllowPrivate = NetworkAccessPolicy_STATUS("AllowPrivate")
+	NetworkAccessPolicy_STATUS_DenyAll      = NetworkAccessPolicy_STATUS("DenyAll")
+>>>>>>> main
 )
 
 // Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
@@ -3533,8 +3943,13 @@ func (plan *PurchasePlan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPurchasePlan_STATUS populates our PurchasePlan_STATUS from the provided source PurchasePlan_STATUS
 func (plan *PurchasePlan_STATUS) AssignPropertiesFromPurchasePlan_STATUS(source *alpha20200930s.PurchasePlan_STATUS) error {
+=======
+// AssignPropertiesFromPurchasePlanSTATUS populates our PurchasePlan_STATUS from the provided source PurchasePlan_STATUS
+func (plan *PurchasePlan_STATUS) AssignPropertiesFromPurchasePlanSTATUS(source *alpha20200930s.PurchasePlan_STATUS) error {
+>>>>>>> main
 
 	// Name
 	plan.Name = genruntime.ClonePointerToString(source.Name)
@@ -3552,8 +3967,13 @@ func (plan *PurchasePlan_STATUS) AssignPropertiesFromPurchasePlan_STATUS(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPurchasePlan_STATUS populates the provided destination PurchasePlan_STATUS from our PurchasePlan_STATUS
 func (plan *PurchasePlan_STATUS) AssignPropertiesToPurchasePlan_STATUS(destination *alpha20200930s.PurchasePlan_STATUS) error {
+=======
+// AssignPropertiesToPurchasePlanSTATUS populates the provided destination PurchasePlan_STATUS from our PurchasePlan_STATUS
+func (plan *PurchasePlan_STATUS) AssignPropertiesToPurchasePlanSTATUS(destination *alpha20200930s.PurchasePlan_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3609,8 +4029,13 @@ func (element *ShareInfoElement_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromShareInfoElement_STATUS populates our ShareInfoElement_STATUS from the provided source ShareInfoElement_STATUS
 func (element *ShareInfoElement_STATUS) AssignPropertiesFromShareInfoElement_STATUS(source *alpha20200930s.ShareInfoElement_STATUS) error {
+=======
+// AssignPropertiesFromShareInfoElementSTATUS populates our ShareInfoElement_STATUS from the provided source ShareInfoElement_STATUS
+func (element *ShareInfoElement_STATUS) AssignPropertiesFromShareInfoElementSTATUS(source *alpha20200930s.ShareInfoElement_STATUS) error {
+>>>>>>> main
 
 	// VmUri
 	element.VmUri = genruntime.ClonePointerToString(source.VmUri)
@@ -3619,8 +4044,13 @@ func (element *ShareInfoElement_STATUS) AssignPropertiesFromShareInfoElement_STA
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToShareInfoElement_STATUS populates the provided destination ShareInfoElement_STATUS from our ShareInfoElement_STATUS
 func (element *ShareInfoElement_STATUS) AssignPropertiesToShareInfoElement_STATUS(destination *alpha20200930s.ShareInfoElement_STATUS) error {
+=======
+// AssignPropertiesToShareInfoElementSTATUS populates the provided destination ShareInfoElement_STATUS from our ShareInfoElement_STATUS
+func (element *ShareInfoElement_STATUS) AssignPropertiesToShareInfoElementSTATUS(destination *alpha20200930s.ShareInfoElement_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3652,6 +4082,7 @@ const (
 	CreationData_CreateOption_Upload    = CreationData_CreateOption("Upload")
 )
 
+<<<<<<< HEAD
 // Deprecated version of CreationData_CreateOption_STATUS. Use v1beta20200930.CreationData_CreateOption_STATUS instead
 type CreationData_CreateOption_STATUS string
 
@@ -3663,6 +4094,19 @@ const (
 	CreationData_CreateOption_Import_STATUS    = CreationData_CreateOption_STATUS("Import")
 	CreationData_CreateOption_Restore_STATUS   = CreationData_CreateOption_STATUS("Restore")
 	CreationData_CreateOption_Upload_STATUS    = CreationData_CreateOption_STATUS("Upload")
+=======
+// Deprecated version of CreationDataSTATUSCreateOption. Use v1beta20200930.CreationDataSTATUSCreateOption instead
+type CreationDataSTATUSCreateOption string
+
+const (
+	CreationDataSTATUSCreateOption_Attach    = CreationDataSTATUSCreateOption("Attach")
+	CreationDataSTATUSCreateOption_Copy      = CreationDataSTATUSCreateOption("Copy")
+	CreationDataSTATUSCreateOption_Empty     = CreationDataSTATUSCreateOption("Empty")
+	CreationDataSTATUSCreateOption_FromImage = CreationDataSTATUSCreateOption("FromImage")
+	CreationDataSTATUSCreateOption_Import    = CreationDataSTATUSCreateOption("Import")
+	CreationDataSTATUSCreateOption_Restore   = CreationDataSTATUSCreateOption("Restore")
+	CreationDataSTATUSCreateOption_Upload    = CreationDataSTATUSCreateOption("Upload")
+>>>>>>> main
 )
 
 // Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
@@ -3857,15 +4301,26 @@ func (element *EncryptionSettingsElement_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromEncryptionSettingsElement_STATUS populates our EncryptionSettingsElement_STATUS from the provided source EncryptionSettingsElement_STATUS
 func (element *EncryptionSettingsElement_STATUS) AssignPropertiesFromEncryptionSettingsElement_STATUS(source *alpha20200930s.EncryptionSettingsElement_STATUS) error {
+=======
+// AssignPropertiesFromEncryptionSettingsElementSTATUS populates our EncryptionSettingsElement_STATUS from the provided source EncryptionSettingsElement_STATUS
+func (element *EncryptionSettingsElement_STATUS) AssignPropertiesFromEncryptionSettingsElementSTATUS(source *alpha20200930s.EncryptionSettingsElement_STATUS) error {
+>>>>>>> main
 
 	// DiskEncryptionKey
 	if source.DiskEncryptionKey != nil {
 		var diskEncryptionKey KeyVaultAndSecretReference_STATUS
+<<<<<<< HEAD
 		err := diskEncryptionKey.AssignPropertiesFromKeyVaultAndSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+=======
+		err := diskEncryptionKey.AssignPropertiesFromKeyVaultAndSecretReferenceSTATUS(source.DiskEncryptionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndSecretReferenceSTATUS() to populate field DiskEncryptionKey")
+>>>>>>> main
 		}
 		element.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3875,9 +4330,15 @@ func (element *EncryptionSettingsElement_STATUS) AssignPropertiesFromEncryptionS
 	// KeyEncryptionKey
 	if source.KeyEncryptionKey != nil {
 		var keyEncryptionKey KeyVaultAndKeyReference_STATUS
+<<<<<<< HEAD
 		err := keyEncryptionKey.AssignPropertiesFromKeyVaultAndKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+=======
+		err := keyEncryptionKey.AssignPropertiesFromKeyVaultAndKeyReferenceSTATUS(source.KeyEncryptionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndKeyReferenceSTATUS() to populate field KeyEncryptionKey")
+>>>>>>> main
 		}
 		element.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3888,17 +4349,28 @@ func (element *EncryptionSettingsElement_STATUS) AssignPropertiesFromEncryptionS
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToEncryptionSettingsElement_STATUS populates the provided destination EncryptionSettingsElement_STATUS from our EncryptionSettingsElement_STATUS
 func (element *EncryptionSettingsElement_STATUS) AssignPropertiesToEncryptionSettingsElement_STATUS(destination *alpha20200930s.EncryptionSettingsElement_STATUS) error {
+=======
+// AssignPropertiesToEncryptionSettingsElementSTATUS populates the provided destination EncryptionSettingsElement_STATUS from our EncryptionSettingsElement_STATUS
+func (element *EncryptionSettingsElement_STATUS) AssignPropertiesToEncryptionSettingsElementSTATUS(destination *alpha20200930s.EncryptionSettingsElement_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DiskEncryptionKey
 	if element.DiskEncryptionKey != nil {
 		var diskEncryptionKey alpha20200930s.KeyVaultAndSecretReference_STATUS
+<<<<<<< HEAD
 		err := element.DiskEncryptionKey.AssignPropertiesToKeyVaultAndSecretReference_STATUS(&diskEncryptionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
+=======
+		err := element.DiskEncryptionKey.AssignPropertiesToKeyVaultAndSecretReferenceSTATUS(&diskEncryptionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndSecretReferenceSTATUS() to populate field DiskEncryptionKey")
+>>>>>>> main
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3908,9 +4380,15 @@ func (element *EncryptionSettingsElement_STATUS) AssignPropertiesToEncryptionSet
 	// KeyEncryptionKey
 	if element.KeyEncryptionKey != nil {
 		var keyEncryptionKey alpha20200930s.KeyVaultAndKeyReference_STATUS
+<<<<<<< HEAD
 		err := element.KeyEncryptionKey.AssignPropertiesToKeyVaultAndKeyReference_STATUS(&keyEncryptionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
+=======
+		err := element.KeyEncryptionKey.AssignPropertiesToKeyVaultAndKeyReferenceSTATUS(&keyEncryptionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndKeyReferenceSTATUS() to populate field KeyEncryptionKey")
+>>>>>>> main
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3942,9 +4420,15 @@ const (
 type EncryptionType_STATUS string
 
 const (
+<<<<<<< HEAD
 	EncryptionType_EncryptionAtRestWithCustomerKey_STATUS             = EncryptionType_STATUS("EncryptionAtRestWithCustomerKey")
 	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys_STATUS = EncryptionType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
 	EncryptionType_EncryptionAtRestWithPlatformKey_STATUS             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
+=======
+	EncryptionType_STATUS_EncryptionAtRestWithCustomerKey             = EncryptionType_STATUS("EncryptionAtRestWithCustomerKey")
+	EncryptionType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_STATUS_EncryptionAtRestWithPlatformKey             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
+>>>>>>> main
 )
 
 // Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead
@@ -4087,8 +4571,13 @@ func (reference *ImageDiskReference_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromImageDiskReference_STATUS populates our ImageDiskReference_STATUS from the provided source ImageDiskReference_STATUS
 func (reference *ImageDiskReference_STATUS) AssignPropertiesFromImageDiskReference_STATUS(source *alpha20200930s.ImageDiskReference_STATUS) error {
+=======
+// AssignPropertiesFromImageDiskReferenceSTATUS populates our ImageDiskReference_STATUS from the provided source ImageDiskReference_STATUS
+func (reference *ImageDiskReference_STATUS) AssignPropertiesFromImageDiskReferenceSTATUS(source *alpha20200930s.ImageDiskReference_STATUS) error {
+>>>>>>> main
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -4100,8 +4589,13 @@ func (reference *ImageDiskReference_STATUS) AssignPropertiesFromImageDiskReferen
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToImageDiskReference_STATUS populates the provided destination ImageDiskReference_STATUS from our ImageDiskReference_STATUS
 func (reference *ImageDiskReference_STATUS) AssignPropertiesToImageDiskReference_STATUS(destination *alpha20200930s.ImageDiskReference_STATUS) error {
+=======
+// AssignPropertiesToImageDiskReferenceSTATUS populates the provided destination ImageDiskReference_STATUS from our ImageDiskReference_STATUS
+func (reference *ImageDiskReference_STATUS) AssignPropertiesToImageDiskReferenceSTATUS(destination *alpha20200930s.ImageDiskReference_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4285,8 +4779,13 @@ func (reference *KeyVaultAndKeyReference_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromKeyVaultAndKeyReference_STATUS populates our KeyVaultAndKeyReference_STATUS from the provided source KeyVaultAndKeyReference_STATUS
 func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesFromKeyVaultAndKeyReference_STATUS(source *alpha20200930s.KeyVaultAndKeyReference_STATUS) error {
+=======
+// AssignPropertiesFromKeyVaultAndKeyReferenceSTATUS populates our KeyVaultAndKeyReference_STATUS from the provided source KeyVaultAndKeyReference_STATUS
+func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesFromKeyVaultAndKeyReferenceSTATUS(source *alpha20200930s.KeyVaultAndKeyReference_STATUS) error {
+>>>>>>> main
 
 	// KeyUrl
 	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
@@ -4294,9 +4793,15 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesFromKeyVaultAnd
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SourceVault_STATUS
+<<<<<<< HEAD
 		err := sourceVault.AssignPropertiesFromSourceVault_STATUS(source.SourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSourceVault_STATUS() to populate field SourceVault")
+=======
+		err := sourceVault.AssignPropertiesFromSourceVaultSTATUS(source.SourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVaultSTATUS() to populate field SourceVault")
+>>>>>>> main
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -4307,8 +4812,13 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesFromKeyVaultAnd
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToKeyVaultAndKeyReference_STATUS populates the provided destination KeyVaultAndKeyReference_STATUS from our KeyVaultAndKeyReference_STATUS
 func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesToKeyVaultAndKeyReference_STATUS(destination *alpha20200930s.KeyVaultAndKeyReference_STATUS) error {
+=======
+// AssignPropertiesToKeyVaultAndKeyReferenceSTATUS populates the provided destination KeyVaultAndKeyReference_STATUS from our KeyVaultAndKeyReference_STATUS
+func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesToKeyVaultAndKeyReferenceSTATUS(destination *alpha20200930s.KeyVaultAndKeyReference_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4318,9 +4828,15 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignPropertiesToKeyVaultAndKe
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20200930s.SourceVault_STATUS
+<<<<<<< HEAD
 		err := reference.SourceVault.AssignPropertiesToSourceVault_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSourceVault_STATUS() to populate field SourceVault")
+=======
+		err := reference.SourceVault.AssignPropertiesToSourceVaultSTATUS(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSourceVaultSTATUS() to populate field SourceVault")
+>>>>>>> main
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -4501,8 +5017,13 @@ func (reference *KeyVaultAndSecretReference_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromKeyVaultAndSecretReference_STATUS populates our KeyVaultAndSecretReference_STATUS from the provided source KeyVaultAndSecretReference_STATUS
 func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesFromKeyVaultAndSecretReference_STATUS(source *alpha20200930s.KeyVaultAndSecretReference_STATUS) error {
+=======
+// AssignPropertiesFromKeyVaultAndSecretReferenceSTATUS populates our KeyVaultAndSecretReference_STATUS from the provided source KeyVaultAndSecretReference_STATUS
+func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesFromKeyVaultAndSecretReferenceSTATUS(source *alpha20200930s.KeyVaultAndSecretReference_STATUS) error {
+>>>>>>> main
 
 	// SecretUrl
 	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
@@ -4510,9 +5031,15 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesFromKeyVault
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SourceVault_STATUS
+<<<<<<< HEAD
 		err := sourceVault.AssignPropertiesFromSourceVault_STATUS(source.SourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSourceVault_STATUS() to populate field SourceVault")
+=======
+		err := sourceVault.AssignPropertiesFromSourceVaultSTATUS(source.SourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVaultSTATUS() to populate field SourceVault")
+>>>>>>> main
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -4523,8 +5050,13 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesFromKeyVault
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToKeyVaultAndSecretReference_STATUS populates the provided destination KeyVaultAndSecretReference_STATUS from our KeyVaultAndSecretReference_STATUS
 func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesToKeyVaultAndSecretReference_STATUS(destination *alpha20200930s.KeyVaultAndSecretReference_STATUS) error {
+=======
+// AssignPropertiesToKeyVaultAndSecretReferenceSTATUS populates the provided destination KeyVaultAndSecretReference_STATUS from our KeyVaultAndSecretReference_STATUS
+func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesToKeyVaultAndSecretReferenceSTATUS(destination *alpha20200930s.KeyVaultAndSecretReference_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4534,9 +5066,15 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignPropertiesToKeyVaultAn
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20200930s.SourceVault_STATUS
+<<<<<<< HEAD
 		err := reference.SourceVault.AssignPropertiesToSourceVault_STATUS(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSourceVault_STATUS() to populate field SourceVault")
+=======
+		err := reference.SourceVault.AssignPropertiesToSourceVaultSTATUS(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSourceVaultSTATUS() to populate field SourceVault")
+>>>>>>> main
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -4666,8 +5204,13 @@ func (vault *SourceVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSourceVault_STATUS populates our SourceVault_STATUS from the provided source SourceVault_STATUS
 func (vault *SourceVault_STATUS) AssignPropertiesFromSourceVault_STATUS(source *alpha20200930s.SourceVault_STATUS) error {
+=======
+// AssignPropertiesFromSourceVaultSTATUS populates our SourceVault_STATUS from the provided source SourceVault_STATUS
+func (vault *SourceVault_STATUS) AssignPropertiesFromSourceVaultSTATUS(source *alpha20200930s.SourceVault_STATUS) error {
+>>>>>>> main
 
 	// Id
 	vault.Id = genruntime.ClonePointerToString(source.Id)
@@ -4676,8 +5219,13 @@ func (vault *SourceVault_STATUS) AssignPropertiesFromSourceVault_STATUS(source *
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSourceVault_STATUS populates the provided destination SourceVault_STATUS from our SourceVault_STATUS
 func (vault *SourceVault_STATUS) AssignPropertiesToSourceVault_STATUS(destination *alpha20200930s.SourceVault_STATUS) error {
+=======
+// AssignPropertiesToSourceVaultSTATUS populates the provided destination SourceVault_STATUS from our SourceVault_STATUS
+func (vault *SourceVault_STATUS) AssignPropertiesToSourceVaultSTATUS(destination *alpha20200930s.SourceVault_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

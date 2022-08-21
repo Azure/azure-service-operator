@@ -28,8 +28,13 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabasesContainer_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabasesContainer_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabasesContainers_Spec `json:"spec,omitempty"`
+	Status            SqlContainerGetResults_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -78,7 +83,11 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabasesContainer_STATUS{}
+=======
+	return &SqlContainerGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainer_STATUS); ok {
+=======
+	if st, ok := status.(*SqlContainerGetResults_STATUS); ok {
+>>>>>>> main
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabasesContainer_STATUS
+=======
+	var st SqlContainerGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -205,8 +222,46 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertSpecTo(desti
 	return destination.ConvertSpecFrom(container)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.SqlContainerGetProperties_Resource_STATUS
 type SqlContainerGetProperties_Resource_STATUS struct {
+=======
+// Storage version of v1beta20210515.SqlContainerGetResults_STATUS
+type SqlContainerGetResults_STATUS struct {
+	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
+	Id          *string                                    `json:"id,omitempty"`
+	Location    *string                                    `json:"location,omitempty"`
+	Name        *string                                    `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                    `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+	Resource    *SqlContainerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Tags        map[string]string                          `json:"tags,omitempty"`
+	Type        *string                                    `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_STATUS{}
+
+// ConvertStatusFrom populates our SqlContainerGetResults_STATUS from the provided source
+func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(results)
+}
+
+// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_STATUS
+func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(results)
+}
+
+// Storage version of v1beta20210515.SqlContainerGetProperties_STATUS_Resource
+type SqlContainerGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`

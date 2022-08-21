@@ -25,8 +25,13 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DomainsTopic_Spec   `json:"spec,omitempty"`
 	Status            DomainsTopic_STATUS `json:"status,omitempty"`
+=======
+	Spec              DomainsTopics_Spec `json:"spec,omitempty"`
+	Status            DomainTopic_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -97,7 +102,11 @@ func (topic *DomainsTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DomainsTopic_STATUS{}
+=======
+	return &DomainTopic_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +122,21 @@ func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DomainsTopic_STATUS); ok {
+=======
+	if st, ok := status.(*DomainTopic_STATUS); ok {
+>>>>>>> main
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DomainsTopic_STATUS
+=======
+	var st DomainTopic_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +161,17 @@ func (topic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v20200601s.D
 	topic.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status DomainsTopic_STATUS
 	err = status.AssignPropertiesFromDomainsTopic_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDomainsTopic_STATUS() to populate field Status")
+=======
+	var status DomainTopic_STATUS
+	err = status.AssignPropertiesFromDomainTopicSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDomainTopicSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	topic.Status = status
 
@@ -170,10 +194,17 @@ func (topic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v20200601
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20200601s.DomainsTopic_STATUS
 	err = topic.Status.AssignPropertiesToDomainsTopic_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDomainsTopic_STATUS() to populate field Status")
+=======
+	var status v20200601s.DomainTopic_STATUS
+	err = topic.Status.AssignPropertiesToDomainTopicSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDomainTopicSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -199,6 +230,7 @@ type DomainsTopicList struct {
 	Items           []DomainsTopic `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20200601.DomainsTopic_STATUS
 // Deprecated version of DomainsTopic_STATUS. Use v1beta20200601.DomainsTopic_STATUS instead
 type DomainsTopic_STATUS struct {
@@ -349,6 +381,10 @@ func (topic *DomainsTopic_STATUS) AssignPropertiesToDomainsTopic_STATUS(destinat
 
 // Storage version of v1alpha1api20200601.DomainsTopic_Spec
 type DomainsTopic_Spec struct {
+=======
+// Storage version of v1alpha1api20200601.DomainsTopics_Spec
+type DomainsTopics_Spec struct {
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -460,6 +496,154 @@ func (topic *DomainsTopic_Spec) AssignPropertiesToDomainsTopic_Spec(destination 
 	} else {
 		destination.Owner = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.DomainTopic_STATUS
+// Deprecated version of DomainTopic_STATUS. Use v1beta20200601.DomainTopic_STATUS instead
+type DomainTopic_STATUS struct {
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	SystemData        *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DomainTopic_STATUS{}
+
+// ConvertStatusFrom populates our DomainTopic_STATUS from the provided source
+func (topic *DomainTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200601s.DomainTopic_STATUS)
+	if ok {
+		// Populate our instance from source
+		return topic.AssignPropertiesFromDomainTopicSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20200601s.DomainTopic_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = topic.AssignPropertiesFromDomainTopicSTATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our DomainTopic_STATUS
+func (topic *DomainTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200601s.DomainTopic_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return topic.AssignPropertiesToDomainTopicSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20200601s.DomainTopic_STATUS{}
+	err := topic.AssignPropertiesToDomainTopicSTATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDomainTopicSTATUS populates our DomainTopic_STATUS from the provided source DomainTopic_STATUS
+func (topic *DomainTopic_STATUS) AssignPropertiesFromDomainTopicSTATUS(source *v20200601s.DomainTopic_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	topic.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	topic.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	topic.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+		}
+		topic.SystemData = &systemDatum
+	} else {
+		topic.SystemData = nil
+	}
+
+	// Type
+	topic.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		topic.PropertyBag = propertyBag
+	} else {
+		topic.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDomainTopicSTATUS populates the provided destination DomainTopic_STATUS from our DomainTopic_STATUS
+func (topic *DomainTopic_STATUS) AssignPropertiesToDomainTopicSTATUS(destination *v20200601s.DomainTopic_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(topic.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(topic.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(topic.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
+
+	// SystemData
+	if topic.SystemData != nil {
+		var systemDatum v20200601s.SystemData_STATUS
+		err := topic.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(topic.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

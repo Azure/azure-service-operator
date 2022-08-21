@@ -105,9 +105,13 @@ type BgpSettingsARM struct {
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway__spec_arm_types_gen.go
 type VirtualNetworkGatewayIPConfigurationARM struct {
 	Id *string `json:"id,omitempty"`
 
+=======
+type VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM struct {
+>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateways__spec_arm_types_gen.go
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
@@ -164,6 +168,19 @@ type VpnClientConfigurationARM struct {
 	VpnClientRootCertificates []VpnClientRootCertificateARM `json:"vpnClientRootCertificates,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_network_gateway__spec_arm_types_gen.go
+=======
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
+type VirtualNetworkGatewaySkuARM struct {
+	// Name: Gateway SKU name.
+	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
+
+	// Tier: Gateway SKU tier.
+	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress
+>>>>>>> main:v2/api/network/v1beta20201101/virtual_network_gateways__spec_arm_types_gen.go
 type IPConfigurationBgpPeeringAddressARM struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`

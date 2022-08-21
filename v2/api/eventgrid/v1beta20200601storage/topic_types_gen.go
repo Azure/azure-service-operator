@@ -28,7 +28,11 @@ import (
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Topic_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Topics_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Topic_STATUS `json:"status,omitempty"`
 }
 

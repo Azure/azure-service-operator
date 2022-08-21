@@ -161,8 +161,13 @@ func SqlDatabaseThroughputSettingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = DatabaseAccountsSqlDatabasesThroughputSetting_SpecGenerator()
 	gens["Status"] = DatabaseAccountsSqlDatabasesThroughputSetting_STATUSGenerator()
+=======
+	gens["Spec"] = DatabaseAccountsSqlDatabasesThroughputSettingsSpecGenerator()
+	gens["Status"] = ThroughputSettingsGetResultsSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_DatabaseAccountsSqlDatabasesThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

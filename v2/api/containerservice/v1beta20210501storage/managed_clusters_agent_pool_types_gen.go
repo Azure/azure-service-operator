@@ -28,8 +28,13 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
 	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
+=======
+	Spec              ManagedClustersAgentPools_Spec `json:"spec,omitempty"`
+	Status            AgentPool_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -78,7 +83,11 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &ManagedClustersAgentPool_STATUS{}
+=======
+	return &AgentPool_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
+=======
+	if st, ok := status.(*AgentPool_STATUS); ok {
+>>>>>>> main
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st ManagedClustersAgentPool_STATUS
+=======
+	var st AgentPool_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,8 +150,13 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210501.ManagedClustersAgentPool_STATUS
 type ManagedClustersAgentPool_STATUS struct {
+=======
+// Storage version of v1beta20210501.AgentPool_STATUS
+type AgentPool_STATUS struct {
+>>>>>>> main
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -178,10 +200,17 @@ type ManagedClustersAgentPool_STATUS struct {
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
 // ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
 func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+=======
+var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
+
+// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
+func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -189,8 +218,13 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime
 	return source.ConvertStatusTo(pool)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
 func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+=======
+// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
+func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

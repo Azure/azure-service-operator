@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 | Type Definitions in package "keyvault"                   | v1beta20210401preview |
 |----------------------------------------------------------|-----------------------|
 | APIVersion                                               | v1beta20210401preview |
@@ -47,3 +48,54 @@
 | Vault_Spec                                               | v1beta20210401preview |
 | VirtualNetworkRule                                       | v1beta20210401preview |
 | VirtualNetworkRule_STATUS                                | v1beta20210401preview |
+=======
+| Type Definitions in package "keyvault"                 | v1beta20210401preview |
+|--------------------------------------------------------|-----------------------|
+| APIVersion                                             | v1beta20210401preview |
+| AccessPolicyEntry                                      | v1beta20210401preview |
+| AccessPolicyEntry_STATUS                               | v1beta20210401preview |
+| IPRule                                                 | v1beta20210401preview |
+| IPRule_STATUS                                          | v1beta20210401preview |
+| IdentityType_STATUS                                    | v1beta20210401preview |
+| NetworkRuleSet                                         | v1beta20210401preview |
+| NetworkRuleSetBypass                                   | v1beta20210401preview |
+| NetworkRuleSetDefaultAction                            | v1beta20210401preview |
+| NetworkRuleSetSTATUSBypass                             | v1beta20210401preview |
+| NetworkRuleSetSTATUSDefaultAction                      | v1beta20210401preview |
+| NetworkRuleSet_STATUS                                  | v1beta20210401preview |
+| Permissions                                            | v1beta20210401preview |
+| PermissionsCertificates                                | v1beta20210401preview |
+| PermissionsKeys                                        | v1beta20210401preview |
+| PermissionsSTATUSCertificates                          | v1beta20210401preview |
+| PermissionsSTATUSKeys                                  | v1beta20210401preview |
+| PermissionsSTATUSSecrets                               | v1beta20210401preview |
+| PermissionsSTATUSStorage                               | v1beta20210401preview |
+| PermissionsSecrets                                     | v1beta20210401preview |
+| PermissionsStorage                                     | v1beta20210401preview |
+| Permissions_STATUS                                     | v1beta20210401preview |
+| PrivateEndpointConnectionItem_STATUS                   | v1beta20210401preview |
+| PrivateEndpointConnectionProperties_STATUS             | v1beta20210401preview |
+| PrivateEndpointConnectionProvisioningState_STATUS      | v1beta20210401preview |
+| PrivateEndpointServiceConnectionStatus_STATUS          | v1beta20210401preview |
+| PrivateEndpoint_STATUS                                 | v1beta20210401preview |
+| PrivateLinkServiceConnectionStateSTATUSActionsRequired | v1beta20210401preview |
+| PrivateLinkServiceConnectionState_STATUS               | v1beta20210401preview |
+| Sku                                                    | v1beta20210401preview |
+| SkuFamily                                              | v1beta20210401preview |
+| SkuName                                                | v1beta20210401preview |
+| SkuSTATUSFamily                                        | v1beta20210401preview |
+| SkuSTATUSName                                          | v1beta20210401preview |
+| Sku_STATUS                                             | v1beta20210401preview |
+| SystemData_STATUS                                      | v1beta20210401preview |
+| Vault                                                  | v1beta20210401preview |
+| VaultProperties                                        | v1beta20210401preview |
+| VaultPropertiesCreateMode                              | v1beta20210401preview |
+| VaultPropertiesProvisioningState                       | v1beta20210401preview |
+| VaultPropertiesSTATUSCreateMode                        | v1beta20210401preview |
+| VaultPropertiesSTATUSProvisioningState                 | v1beta20210401preview |
+| VaultProperties_STATUS                                 | v1beta20210401preview |
+| Vault_STATUS                                           | v1beta20210401preview |
+| Vaults_Spec                                            | v1beta20210401preview |
+| VirtualNetworkRule                                     | v1beta20210401preview |
+| VirtualNetworkRule_STATUS                              | v1beta20210401preview |
+>>>>>>> main

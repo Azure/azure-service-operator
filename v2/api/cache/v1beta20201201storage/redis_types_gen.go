@@ -29,8 +29,13 @@ import (
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Redis_Spec   `json:"spec,omitempty"`
 	Status            Redis_STATUS `json:"status,omitempty"`
+=======
+	Spec              Redis_Spec           `json:"spec,omitempty"`
+	Status            RedisResource_STATUS `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &Redis{}
@@ -79,7 +84,11 @@ func (redis *Redis) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &Redis_STATUS{}
+=======
+	return &RedisResource_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -95,13 +104,21 @@ func (redis *Redis) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*Redis_STATUS); ok {
+=======
+	if st, ok := status.(*RedisResource_STATUS); ok {
+>>>>>>> main
 		redis.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st Redis_STATUS
+=======
+	var st RedisResource_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -140,6 +157,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-12-01")
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.Redis_STATUS
 type Redis_STATUS struct {
 	AccessKeys                 *RedisAccessKeys_STATUS            `json:"accessKeys,omitempty"`
@@ -192,6 +210,8 @@ func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(redis)
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201201.Redis_Spec
 type Redis_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -246,14 +266,75 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(redis)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
+=======
+// Storage version of v1beta20201201.RedisResource_STATUS
+type RedisResource_STATUS struct {
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	EnableNonSslPort           *bool                                                  `json:"enableNonSslPort,omitempty"`
+	HostName                   *string                                                `json:"hostName,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUS                          `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUS                             `json:"linkedServers,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
+	Port                       *int                                                   `json:"port,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration         map[string]string                                      `json:"redisConfiguration,omitempty"`
+	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
+	ReplicasPerMaster          *int                                                   `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary         *int                                                   `json:"replicasPerPrimary,omitempty"`
+	ShardCount                 *int                                                   `json:"shardCount,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
+	SslPort                    *int                                                   `json:"sslPort,omitempty"`
+	StaticIP                   *string                                                `json:"staticIP,omitempty"`
+	SubnetId                   *string                                                `json:"subnetId,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	TenantSettings             map[string]string                                      `json:"tenantSettings,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	Zones                      []string                                               `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisResource_STATUS{}
+
+// ConvertStatusFrom populates our RedisResource_STATUS from the provided source
+func (resource *RedisResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == resource {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(resource)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisResource_STATUS
+func (resource *RedisResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == resource {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(resource)
+}
+
+// Storage version of v1beta20201201.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+>>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210301s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -271,8 +352,13 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateE
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210301s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -290,6 +376,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 	return nil
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.RedisAccessKeys_STATUS
 type RedisAccessKeys_STATUS struct {
 	PrimaryKey   *string                `json:"primaryKey,omitempty"`
@@ -297,6 +384,8 @@ type RedisAccessKeys_STATUS struct {
 	SecondaryKey *string                `json:"secondaryKey,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201201.RedisInstanceDetails_STATUS
 type RedisInstanceDetails_STATUS struct {
 	IsMaster    *bool                  `json:"isMaster,omitempty"`
@@ -401,8 +490,13 @@ type Sku_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210301s.Sku_STATUS) error {
+=======
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210301s.Sku_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -436,8 +530,13 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210301s.Sku_STA
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210301s.Sku_STATUS) error {
+=======
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210301s.Sku_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 

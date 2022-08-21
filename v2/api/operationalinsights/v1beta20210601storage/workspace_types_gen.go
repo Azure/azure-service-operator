@@ -28,7 +28,11 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Workspace_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Workspaces_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 

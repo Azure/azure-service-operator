@@ -29,7 +29,11 @@ import (
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              ContainerGroup_Spec   `json:"spec,omitempty"`
+=======
+	Spec              ContainerGroups_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            ContainerGroup_STATUS `json:"status,omitempty"`
 }
 
@@ -151,7 +155,11 @@ type ContainerGroup_STATUS struct {
 	Identity                 *ContainerGroupIdentity_STATUS                 `json:"identity,omitempty"`
 	ImageRegistryCredentials []ImageRegistryCredential_STATUS               `json:"imageRegistryCredentials,omitempty"`
 	InitContainers           []InitContainerDefinition_STATUS               `json:"initContainers,omitempty"`
+<<<<<<< HEAD
 	InstanceView             *ContainerGroup_Properties_InstanceView_STATUS `json:"instanceView,omitempty"`
+=======
+	InstanceView             *ContainerGroup_STATUS_Properties_InstanceView `json:"instanceView,omitempty"`
+>>>>>>> main
 	IpAddress                *IpAddress_STATUS                              `json:"ipAddress,omitempty"`
 	Location                 *string                                        `json:"location,omitempty"`
 	Name                     *string                                        `json:"name,omitempty"`
@@ -238,8 +246,64 @@ func (group *ContainerGroup_Spec) ConvertSpecTo(destination genruntime.Convertib
 	return destination.ConvertSpecFrom(group)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211001.Container
 type Container struct {
+=======
+// Storage version of v1beta20211001.Container_STATUS
+type Container_STATUS struct {
+	Command              []string                                 `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS             `json:"environmentVariables,omitempty"`
+	Image                *string                                  `json:"image,omitempty"`
+	InstanceView         *ContainerProperties_STATUS_InstanceView `json:"instanceView,omitempty"`
+	LivenessProbe        *ContainerProbe_STATUS                   `json:"livenessProbe,omitempty"`
+	Name                 *string                                  `json:"name,omitempty"`
+	Ports                []ContainerPort_STATUS                   `json:"ports,omitempty"`
+	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	ReadinessProbe       *ContainerProbe_STATUS                   `json:"readinessProbe,omitempty"`
+	Resources            *ResourceRequirements_STATUS             `json:"resources,omitempty"`
+	VolumeMounts         []VolumeMount_STATUS                     `json:"volumeMounts,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroup_STATUS_Properties_InstanceView
+type ContainerGroup_STATUS_Properties_InstanceView struct {
+	Events      []Event_STATUS         `json:"events,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	State       *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroupDiagnostics
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupDiagnostics
+type ContainerGroupDiagnostics struct {
+	LogAnalytics *LogAnalytics          `json:"logAnalytics,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroupDiagnostics_STATUS
+type ContainerGroupDiagnostics_STATUS struct {
+	LogAnalytics *LogAnalytics_STATUS   `json:"logAnalytics,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroupIdentity
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupIdentity
+type ContainerGroupIdentity struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroupIdentity_STATUS
+type ContainerGroupIdentity_STATUS struct {
+	PrincipalId            *string                                                         `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                         `json:"tenantId,omitempty"`
+	Type                   *string                                                         `json:"type,omitempty"`
+	UserAssignedIdentities map[string]ContainerGroupIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroups_Spec_Properties_Containers
+type ContainerGroups_Spec_Properties_Containers struct {
+>>>>>>> main
 	Command              []string               `json:"command,omitempty"`
 	EnvironmentVariables []EnvironmentVariable  `json:"environmentVariables,omitempty"`
 	Image                *string                `json:"image,omitempty"`
@@ -379,12 +443,80 @@ type InitContainerDefinition struct {
 	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20211001.ContainerGroupSubnetId
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
+type ContainerGroupSubnetId struct {
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Reference: Resource ID of virtual network and subnet.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1beta20211001.ContainerGroupSubnetId_STATUS
+type ContainerGroupSubnetId_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20211001.DnsConfiguration
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration
+type DnsConfiguration struct {
+	NameServers   []string               `json:"nameServers,omitempty"`
+	Options       *string                `json:"options,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SearchDomains *string                `json:"searchDomains,omitempty"`
+}
+
+// Storage version of v1beta20211001.DnsConfiguration_STATUS
+type DnsConfiguration_STATUS struct {
+	NameServers   []string               `json:"nameServers,omitempty"`
+	Options       *string                `json:"options,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SearchDomains *string                `json:"searchDomains,omitempty"`
+}
+
+// Storage version of v1beta20211001.EncryptionProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EncryptionProperties
+type EncryptionProperties struct {
+	KeyName      *string                `json:"keyName,omitempty"`
+	KeyVersion   *string                `json:"keyVersion,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	VaultBaseUrl *string                `json:"vaultBaseUrl,omitempty"`
+}
+
+// Storage version of v1beta20211001.EncryptionProperties_STATUS
+type EncryptionProperties_STATUS struct {
+	KeyName      *string                `json:"keyName,omitempty"`
+	KeyVersion   *string                `json:"keyVersion,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	VaultBaseUrl *string                `json:"vaultBaseUrl,omitempty"`
+}
+
+// Storage version of v1beta20211001.ImageRegistryCredential_STATUS
+type ImageRegistryCredential_STATUS struct {
+	Identity    *string                `json:"identity,omitempty"`
+	IdentityUrl *string                `json:"identityUrl,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Server      *string                `json:"server,omitempty"`
+	Username    *string                `json:"username,omitempty"`
+}
+
+>>>>>>> main
 // Storage version of v1beta20211001.InitContainerDefinition_STATUS
 type InitContainerDefinition_STATUS struct {
 	Command              []string                                               `json:"command,omitempty"`
 	EnvironmentVariables []EnvironmentVariable_STATUS                           `json:"environmentVariables,omitempty"`
 	Image                *string                                                `json:"image,omitempty"`
+<<<<<<< HEAD
 	InstanceView         *InitContainerPropertiesDefinition_InstanceView_STATUS `json:"instanceView,omitempty"`
+=======
+	InstanceView         *InitContainerPropertiesDefinition_STATUS_InstanceView `json:"instanceView,omitempty"`
+>>>>>>> main
 	Name                 *string                                                `json:"name,omitempty"`
 	PropertyBag          genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	VolumeMounts         []VolumeMount_STATUS                                   `json:"volumeMounts,omitempty"`
@@ -449,8 +581,13 @@ type AzureFileVolume_STATUS struct {
 	StorageAccountName *string                `json:"storageAccountName,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211001.ContainerGroupIdentity_UserAssignedIdentities_STATUS
 type ContainerGroupIdentity_UserAssignedIdentities_STATUS struct {
+=======
+// Storage version of v1beta20211001.ContainerGroupIdentity_STATUS_UserAssignedIdentities
+type ContainerGroupIdentity_STATUS_UserAssignedIdentities struct {
+>>>>>>> main
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -494,8 +631,13 @@ type ContainerProbe_STATUS struct {
 	TimeoutSeconds      *int                     `json:"timeoutSeconds,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211001.ContainerProperties_InstanceView_STATUS
 type ContainerProperties_InstanceView_STATUS struct {
+=======
+// Storage version of v1beta20211001.ContainerProperties_STATUS_InstanceView
+type ContainerProperties_STATUS_InstanceView struct {
+>>>>>>> main
 	CurrentState  *ContainerState_STATUS `json:"currentState,omitempty"`
 	Events        []Event_STATUS         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS `json:"previousState,omitempty"`
@@ -546,8 +688,13 @@ type GitRepoVolume_STATUS struct {
 	Revision    *string                `json:"revision,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211001.InitContainerPropertiesDefinition_InstanceView_STATUS
 type InitContainerPropertiesDefinition_InstanceView_STATUS struct {
+=======
+// Storage version of v1beta20211001.InitContainerPropertiesDefinition_STATUS_InstanceView
+type InitContainerPropertiesDefinition_STATUS_InstanceView struct {
+>>>>>>> main
 	CurrentState  *ContainerState_STATUS `json:"currentState,omitempty"`
 	Events        []Event_STATUS         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS `json:"previousState,omitempty"`

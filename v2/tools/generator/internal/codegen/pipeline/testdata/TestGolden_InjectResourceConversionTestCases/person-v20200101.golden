@@ -115,40 +115,6 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-type Person_STATUS struct {
-	Status string `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromPerson_STATUS populates our Person_STATUS from the provided source Person_STATUS
-func (person *Person_STATUS) AssignPropertiesFromPerson_STATUS(source *v20200101s.Person_STATUS) error {
-
-	// Status
-	person.Status = genruntime.GetOptionalStringValue(source.Status)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPerson_STATUS populates the provided destination Person_STATUS from our Person_STATUS
-func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20200101s.Person_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Status
-	status := person.Status
-	destination.Status = &status
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type Person_Spec struct {
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -192,6 +158,40 @@ func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20200101s
 	// KnownAs
 	knownA := person.KnownAs
 	destination.KnownAs = &knownA
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type Person_STATUS struct {
+	Status string `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromPerson_STATUS populates our Person_STATUS from the provided source Person_STATUS
+func (person *Person_STATUS) AssignPropertiesFromPerson_STATUS(source *v20200101s.Person_STATUS) error {
+
+	// Status
+	person.Status = genruntime.GetOptionalStringValue(source.Status)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPerson_STATUS populates the provided destination Person_STATUS from our Person_STATUS
+func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20200101s.Person_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Status
+	status := person.Status
+	destination.Status = &status
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -28,7 +28,11 @@ import (
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Image_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Images_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Image_STATUS `json:"status,omitempty"`
 }
 
@@ -262,6 +266,7 @@ type SubResource_STATUS struct {
 
 // Storage version of v1beta20220301.ImageDataDisk
 type ImageDataDisk struct {
+<<<<<<< HEAD
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
 	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
@@ -282,12 +287,35 @@ type ImageDataDisk_STATUS struct {
 	Lun                *int                   `json:"lun,omitempty"`
 	ManagedDisk        *SubResource_STATUS    `json:"managedDisk,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+=======
+	BlobUri            *string                      `json:"blobUri,omitempty"`
+	Caching            *string                      `json:"caching,omitempty"`
+	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                         `json:"diskSizeGB,omitempty"`
+	Lun                *int                         `json:"lun,omitempty"`
+	ManagedDisk        *SubResource                 `json:"managedDisk,omitempty"`
+	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Snapshot           *SubResource                 `json:"snapshot,omitempty"`
+	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+}
+
+// Storage version of v1beta20220301.ImageDataDisk_STATUS
+type ImageDataDisk_STATUS struct {
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	Lun                *int                   `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_STATUS    `json:"managedDisk,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+>>>>>>> main
 	Snapshot           *SubResource_STATUS    `json:"snapshot,omitempty"`
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // Storage version of v1beta20220301.ImageOSDisk
 type ImageOSDisk struct {
+<<<<<<< HEAD
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
 	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
@@ -297,6 +325,31 @@ type ImageOSDisk struct {
 	OsType             *string                `json:"osType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Snapshot           *SubResource           `json:"snapshot,omitempty"`
+=======
+	BlobUri            *string                      `json:"blobUri,omitempty"`
+	Caching            *string                      `json:"caching,omitempty"`
+	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                         `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource                 `json:"managedDisk,omitempty"`
+	OsState            *string                      `json:"osState,omitempty"`
+	OsType             *string                      `json:"osType,omitempty"`
+	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Snapshot           *SubResource                 `json:"snapshot,omitempty"`
+	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+}
+
+// Storage version of v1beta20220301.ImageOSDisk_STATUS
+type ImageOSDisk_STATUS struct {
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_STATUS    `json:"managedDisk,omitempty"`
+	OsState            *string                `json:"osState,omitempty"`
+	OsType             *string                `json:"osType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Snapshot           *SubResource_STATUS    `json:"snapshot,omitempty"`
+>>>>>>> main
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 

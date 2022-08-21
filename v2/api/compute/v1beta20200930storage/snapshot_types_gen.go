@@ -28,7 +28,11 @@ import (
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Snapshot_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Snapshots_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Snapshot_STATUS `json:"status,omitempty"`
 }
 

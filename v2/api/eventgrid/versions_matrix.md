@@ -2,6 +2,7 @@
 |-------------------------------------------------------------|---------------------|----------------|
 | APIVersion                                                  | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilter                                              | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
 | AdvancedFilter_OperatorType                                 | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilter_OperatorType_STATUS                          | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilter_STATUS                                       | v1alpha1api20200601 | v1beta20200601 |
@@ -21,17 +22,67 @@
 | DomainTopicProperties_STATUS                                | v1alpha1api20200601 | v1beta20200601 |
 | Domain_STATUS                                               | v1alpha1api20200601 | v1beta20200601 |
 | Domain_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
+=======
+| AdvancedFilterBoolEqualsOperatorType                        | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberGreaterThanOperatorType                 | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberGreaterThanOrEqualsOperatorType         | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberInOperatorType                          | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberLessThanOperatorType                    | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberLessThanOrEqualsOperatorType            | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterNumberNotInOperatorType                       | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterSTATUSOperatorType                            | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterStringBeginsWithOperatorType                  | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterStringContainsOperatorType                    | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterStringEndsWithOperatorType                    | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterStringInOperatorType                          | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilterStringNotInOperatorType                       | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_BoolEquals                                   | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberGreaterThan                            | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberGreaterThanOrEquals                    | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberIn                                     | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberLessThan                               | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberLessThanOrEquals                       | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_NumberNotIn                                  | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_STATUS                                       | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_StringBeginsWith                             | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_StringContains                               | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_StringEndsWith                               | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_StringIn                                     | v1alpha1api20200601 | v1beta20200601 |
+| AdvancedFilter_StringNotIn                                  | v1alpha1api20200601 | v1beta20200601 |
+| AzureFunctionEventSubscriptionDestination                   | v1alpha1api20200601 | v1beta20200601 |
+| AzureFunctionEventSubscriptionDestinationEndpointType       | v1alpha1api20200601 | v1beta20200601 |
+| AzureFunctionEventSubscriptionDestinationProperties         | v1alpha1api20200601 | v1beta20200601 |
+| DeadLetterDestinationSTATUSEndpointType                     | v1alpha1api20200601 | v1beta20200601 |
+| DeadLetterDestination_STATUS                                | v1alpha1api20200601 | v1beta20200601 |
+| Domain                                                      | v1alpha1api20200601 | v1beta20200601 |
+| DomainProperties                                            | v1alpha1api20200601 | v1beta20200601 |
+| DomainPropertiesInputSchema                                 | v1alpha1api20200601 | v1beta20200601 |
+| DomainPropertiesPublicNetworkAccess                         | v1alpha1api20200601 | v1beta20200601 |
+| DomainPropertiesSTATUSInputSchema                           | v1alpha1api20200601 | v1beta20200601 |
+| DomainPropertiesSTATUSProvisioningState                     | v1alpha1api20200601 | v1beta20200601 |
+| DomainPropertiesSTATUSPublicNetworkAccess                   | v1alpha1api20200601 | v1beta20200601 |
+| DomainProperties_STATUS                                     | v1alpha1api20200601 | v1beta20200601 |
+| DomainTopicPropertiesSTATUSProvisioningState                | v1alpha1api20200601 | v1beta20200601 |
+| DomainTopicProperties_STATUS                                | v1alpha1api20200601 | v1beta20200601 |
+| DomainTopic_STATUS                                          | v1alpha1api20200601 | v1beta20200601 |
+| Domain_STATUS                                               | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main
 | DomainsTopic                                                | v1alpha1api20200601 | v1beta20200601 |
 | DomainsTopic_STATUS                                         | v1alpha1api20200601 | v1beta20200601 |
 | DomainsTopic_Spec                                           | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription                                           | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination                                | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
 | EventSubscriptionDestination_EndpointType                   | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination_EndpointType_STATUS            | v1alpha1api20200601 | v1beta20200601 |
+=======
+| EventSubscriptionDestinationSTATUSEndpointType              | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main
 | EventSubscriptionDestination_STATUS                         | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionFilter                                     | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionFilter_STATUS                              | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionProperties                                 | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
 | EventSubscriptionProperties_EventDeliverySchema             | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionProperties_EventDeliverySchema_STATUS      | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionProperties_ProvisioningState_STATUS        | v1alpha1api20200601 | v1beta20200601 |
@@ -46,10 +97,33 @@
 | InputSchemaMapping_InputSchemaMappingType                   | v1alpha1api20200601 | v1beta20200601 |
 | InputSchemaMapping_InputSchemaMappingType_STATUS            | v1alpha1api20200601 | v1beta20200601 |
 | InputSchemaMapping_STATUS                                   | v1alpha1api20200601 | v1beta20200601 |
+=======
+| EventSubscriptionPropertiesEventDeliverySchema              | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscriptionPropertiesSTATUSEventDeliverySchema        | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscriptionPropertiesSTATUSProvisioningState          | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscriptionProperties_STATUS                          | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscription_STATUS                                    | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscriptions_Spec                                     | v1alpha1api20200601 | v1beta20200601 |
+| HybridConnectionEventSubscriptionDestination                | v1alpha1api20200601 | v1beta20200601 |
+| HybridConnectionEventSubscriptionDestinationEndpointType    | v1alpha1api20200601 | v1beta20200601 |
+| HybridConnectionEventSubscriptionDestinationProperties      | v1alpha1api20200601 | v1beta20200601 |
+| InboundIpRule                                               | v1alpha1api20200601 | v1beta20200601 |
+| InboundIpRuleAction                                         | v1alpha1api20200601 | v1beta20200601 |
+| InboundIpRuleSTATUSAction                                   | v1alpha1api20200601 | v1beta20200601 |
+| InboundIpRule_STATUS                                        | v1alpha1api20200601 | v1beta20200601 |
+| InputSchemaMappingSTATUSInputSchemaMappingType              | v1alpha1api20200601 | v1beta20200601 |
+| InputSchemaMapping_STATUS                                   | v1alpha1api20200601 | v1beta20200601 |
+| JsonField                                                   | v1alpha1api20200601 | v1beta20200601 |
+| JsonFieldWithDefault                                        | v1alpha1api20200601 | v1beta20200601 |
+| JsonInputSchemaMapping                                      | v1alpha1api20200601 | v1beta20200601 |
+| JsonInputSchemaMappingInputSchemaMappingType                | v1alpha1api20200601 | v1beta20200601 |
+| JsonInputSchemaMappingProperties                            | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main
 | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | v1alpha1api20200601 | v1beta20200601 |
 | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | v1alpha1api20200601 | v1beta20200601 |
 | RetryPolicy                                                 | v1alpha1api20200601 | v1beta20200601 |
 | RetryPolicy_STATUS                                          | v1alpha1api20200601 | v1beta20200601 |
+<<<<<<< HEAD
 | SystemData_CreatedByType_STATUS                             | v1alpha1api20200601 | v1beta20200601 |
 | SystemData_LastModifiedByType_STATUS                        | v1alpha1api20200601 | v1beta20200601 |
 | SystemData_STATUS                                           | v1alpha1api20200601 | v1beta20200601 |
@@ -63,3 +137,30 @@
 | TopicProperties_STATUS                                      | v1alpha1api20200601 | v1beta20200601 |
 | Topic_STATUS                                                | v1alpha1api20200601 | v1beta20200601 |
 | Topic_Spec                                                  | v1alpha1api20200601 | v1beta20200601 |
+=======
+| ServiceBusQueueEventSubscriptionDestination                 | v1alpha1api20200601 | v1beta20200601 |
+| ServiceBusQueueEventSubscriptionDestinationEndpointType     | v1alpha1api20200601 | v1beta20200601 |
+| ServiceBusQueueEventSubscriptionDestinationProperties       | v1alpha1api20200601 | v1beta20200601 |
+| ServiceBusTopicEventSubscriptionDestination                 | v1alpha1api20200601 | v1beta20200601 |
+| ServiceBusTopicEventSubscriptionDestinationEndpointType     | v1alpha1api20200601 | v1beta20200601 |
+| ServiceBusTopicEventSubscriptionDestinationProperties       | v1alpha1api20200601 | v1beta20200601 |
+| StorageBlobDeadLetterDestination                            | v1alpha1api20200601 | v1beta20200601 |
+| StorageBlobDeadLetterDestinationEndpointType                | v1alpha1api20200601 | v1beta20200601 |
+| StorageBlobDeadLetterDestinationProperties                  | v1alpha1api20200601 | v1beta20200601 |
+| StorageQueueEventSubscriptionDestination                    | v1alpha1api20200601 | v1beta20200601 |
+| StorageQueueEventSubscriptionDestinationEndpointType        | v1alpha1api20200601 | v1beta20200601 |
+| StorageQueueEventSubscriptionDestinationProperties          | v1alpha1api20200601 | v1beta20200601 |
+| SystemDataSTATUSCreatedByType                               | v1alpha1api20200601 | v1beta20200601 |
+| SystemDataSTATUSLastModifiedByType                          | v1alpha1api20200601 | v1beta20200601 |
+| SystemData_STATUS                                           | v1alpha1api20200601 | v1beta20200601 |
+| Topic                                                       | v1alpha1api20200601 | v1beta20200601 |
+| TopicPropertiesSTATUSInputSchema                            | v1alpha1api20200601 | v1beta20200601 |
+| TopicPropertiesSTATUSProvisioningState                      | v1alpha1api20200601 | v1beta20200601 |
+| TopicPropertiesSTATUSPublicNetworkAccess                    | v1alpha1api20200601 | v1beta20200601 |
+| TopicProperties_STATUS                                      | v1alpha1api20200601 | v1beta20200601 |
+| Topic_STATUS                                                | v1alpha1api20200601 | v1beta20200601 |
+| Topics_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
+| WebHookEventSubscriptionDestination                         | v1alpha1api20200601 | v1beta20200601 |
+| WebHookEventSubscriptionDestinationEndpointType             | v1alpha1api20200601 | v1beta20200601 |
+| WebHookEventSubscriptionDestinationProperties               | v1alpha1api20200601 | v1beta20200601 |
+>>>>>>> main

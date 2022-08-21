@@ -116,6 +116,7 @@ const (
 	ContainerGroupIdentity_Type_UserAssigned               = ContainerGroupIdentity_Type("UserAssigned")
 )
 
+<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group__spec_arm_types_gen.go
 type ContainerGroupSubnetIdARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -126,6 +127,11 @@ type ContainerGroupSubnetIdARM struct {
 type DnsConfigurationARM struct {
 	// NameServers: The DNS servers for the container group.
 	NameServers []string `json:"nameServers,omitempty"`
+=======
+type ContainerGroups_Spec_Properties_ContainersARM struct {
+	// Name: The user-provided name of the container instance.
+	Name *string `json:"name,omitempty"`
+>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_groups__spec_arm_types_gen.go
 
 	// Options: The DNS options for the container group.
 	Options *string `json:"options,omitempty"`
@@ -170,6 +176,42 @@ type InitContainerDefinitionARM struct {
 	Properties *InitContainerPropertiesDefinitionARM `json:"properties,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/containerinstance/v1beta20211001/container_group__spec_arm_types_gen.go
+=======
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
+type ContainerGroupSubnetIdARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Name: Friendly name for the subnet.
+	Name *string `json:"name,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration
+type DnsConfigurationARM struct {
+	// NameServers: The DNS servers for the container group.
+	NameServers []string `json:"nameServers,omitempty"`
+
+	// Options: The DNS options for the container group.
+	Options *string `json:"options,omitempty"`
+
+	// SearchDomains: The DNS search domains for hostname lookup in the container group.
+	SearchDomains *string `json:"searchDomains,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EncryptionProperties
+type EncryptionPropertiesARM struct {
+	// KeyName: The encryption key name.
+	KeyName *string `json:"keyName,omitempty"`
+
+	// KeyVersion: The encryption key version.
+	KeyVersion *string `json:"keyVersion,omitempty"`
+
+	// VaultBaseUrl: The keyvault base url.
+	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress
+>>>>>>> main:v2/api/containerinstance/v1beta20211001/container_groups__spec_arm_types_gen.go
 type IpAddressARM struct {
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`

@@ -160,8 +160,13 @@ func NamespacesTopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = NamespacesTopic_SpecGenerator()
 	gens["Status"] = NamespacesTopic_STATUSGenerator()
+=======
+	gens["Spec"] = NamespacesTopicsSpecGenerator()
+	gens["Status"] = SBTopicSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_NamespacesTopic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -249,6 +254,7 @@ func RunJSONSerializationTestForNamespacesTopic_STATUS(subject NamespacesTopic_S
 // NamespacesTopic_STATUSGenerator()
 var namespacesTopic_STATUSGenerator gopter.Gen
 
+<<<<<<< HEAD
 // NamespacesTopic_STATUSGenerator returns a generator of NamespacesTopic_STATUS instances for property testing.
 // We first initialize namespacesTopic_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
@@ -273,6 +279,146 @@ func NamespacesTopic_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespacesTopic_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesTopic_STATUS(gens map[string]gopter.Gen) {
+=======
+// NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.
+func NamespacesTopicsSpecGenerator() gopter.Gen {
+	if namespacesTopicsSpecGenerator != nil {
+		return namespacesTopicsSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(generators)
+	namespacesTopicsSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopics_Spec{}), generators)
+
+	return namespacesTopicsSpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespacesTopicsSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(gens map[string]gopter.Gen) {
+	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
+	gens["AzureName"] = gen.AlphaString()
+	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
+	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
+	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
+	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
+	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
+	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_SBTopic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SBTopic_STATUS to SBTopic_STATUS via AssignPropertiesToSBTopicSTATUS & AssignPropertiesFromSBTopicSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSBTopicSTATUS, SBTopicSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSBTopicSTATUS tests if a specific instance of SBTopic_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSBTopicSTATUS(subject SBTopic_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210101ps.SBTopic_STATUS
+	err := copied.AssignPropertiesToSBTopicSTATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SBTopic_STATUS
+	err = actual.AssignPropertiesFromSBTopicSTATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SBTopic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SBTopic_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBTopicSTATUS, SBTopicSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSBTopicSTATUS runs a test to see if a specific instance of SBTopic_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBTopicSTATUS(subject SBTopic_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SBTopic_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SBTopic_STATUS instances for property testing - lazily instantiated by SBTopicSTATUSGenerator()
+var sbTopicSTATUSGenerator gopter.Gen
+
+// SBTopicSTATUSGenerator returns a generator of SBTopic_STATUS instances for property testing.
+// We first initialize sbTopicSTATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SBTopicSTATUSGenerator() gopter.Gen {
+	if sbTopicSTATUSGenerator != nil {
+		return sbTopicSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSBTopicSTATUS(generators)
+	sbTopicSTATUSGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSBTopicSTATUS(generators)
+	AddRelatedPropertyGeneratorsForSBTopicSTATUS(generators)
+	sbTopicSTATUSGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS{}), generators)
+
+	return sbTopicSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSBTopicSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBTopicSTATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -293,6 +439,7 @@ func AddIndependentPropertyGeneratorsForNamespacesTopic_STATUS(gens map[string]g
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForNamespacesTopic_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
@@ -410,4 +557,10 @@ func AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(gens map[string]gop
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
+=======
+// AddRelatedPropertyGeneratorsForSBTopicSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSBTopicSTATUS(gens map[string]gopter.Gen) {
+	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsSTATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
+>>>>>>> main
 }

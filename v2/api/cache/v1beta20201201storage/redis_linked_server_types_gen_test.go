@@ -74,6 +74,7 @@ func RedisLinkedServerGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisLinkedServer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisLinkedServer(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = RedisLinkedServer_SpecGenerator()
 	gens["Status"] = RedisLinkedServerWithProperties_STATUSGenerator()
 }
@@ -143,6 +144,10 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServerWithProperties_STATUS(g
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerRole"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+=======
+	gens["Spec"] = RedisLinkedServersSpecGenerator()
+	gens["Status"] = RedisLinkedServerWithPropertiesSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_RedisLinkedServer_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -207,4 +212,71 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServer_Spec(gens map[string]g
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ServerRole"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RedisLinkedServerWithProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisLinkedServerWithProperties_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUS, RedisLinkedServerWithPropertiesSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUS runs a test to see if a specific instance of RedisLinkedServerWithProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisLinkedServerWithPropertiesSTATUS(subject RedisLinkedServerWithProperties_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisLinkedServerWithProperties_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisLinkedServerWithProperties_STATUS instances for property testing - lazily instantiated by
+// RedisLinkedServerWithPropertiesSTATUSGenerator()
+var redisLinkedServerWithPropertiesSTATUSGenerator gopter.Gen
+
+// RedisLinkedServerWithPropertiesSTATUSGenerator returns a generator of RedisLinkedServerWithProperties_STATUS instances for property testing.
+func RedisLinkedServerWithPropertiesSTATUSGenerator() gopter.Gen {
+	if redisLinkedServerWithPropertiesSTATUSGenerator != nil {
+		return redisLinkedServerWithPropertiesSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUS(generators)
+	redisLinkedServerWithPropertiesSTATUSGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerWithProperties_STATUS{}), generators)
+
+	return redisLinkedServerWithPropertiesSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisLinkedServerWithPropertiesSTATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
+	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ServerRole"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

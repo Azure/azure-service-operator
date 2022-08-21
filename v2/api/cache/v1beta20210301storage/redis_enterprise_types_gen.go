@@ -28,8 +28,13 @@ import (
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisEnterprise_Spec   `json:"spec,omitempty"`
 	Status            RedisEnterprise_STATUS `json:"status,omitempty"`
+=======
+	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
+	Status            Cluster_STATUS       `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisEnterprise{}
@@ -78,7 +83,11 @@ func (enterprise *RedisEnterprise) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &RedisEnterprise_STATUS{}
+=======
+	return &Cluster_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*RedisEnterprise_STATUS); ok {
+=======
+	if st, ok := status.(*Cluster_STATUS); ok {
+>>>>>>> main
 		enterprise.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st RedisEnterprise_STATUS
+=======
+	var st Cluster_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,6 +156,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-03-01")
 
+<<<<<<< HEAD
 // Storage version of v1beta20210301.RedisEnterprise_STATUS
 type RedisEnterprise_STATUS struct {
 	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
@@ -163,15 +181,47 @@ var _ genruntime.ConvertibleStatus = &RedisEnterprise_STATUS{}
 // ConvertStatusFrom populates our RedisEnterprise_STATUS from the provided source
 func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == enterprise {
+=======
+// Storage version of v1beta20210301.Cluster_STATUS
+type Cluster_STATUS struct {
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	HostName                   *string                                                `json:"hostName,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
+	ResourceState              *string                                                `json:"resourceState,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	Zones                      []string                                               `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Cluster_STATUS{}
+
+// ConvertStatusFrom populates our Cluster_STATUS from the provided source
+func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == cluster {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(enterprise)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our RedisEnterprise_STATUS
 func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == enterprise {
+=======
+// ConvertStatusTo populates the provided destination from our Cluster_STATUS
+func (cluster *Cluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == cluster {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
@@ -218,8 +268,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(enterprise)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210301.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
+=======
+// Storage version of v1beta20210301.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+>>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

@@ -28,8 +28,13 @@ import (
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
+	Status            SqlStoredProcedureGetResults_STATUS                         `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -78,7 +83,11 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
+=======
+	return &SqlStoredProcedureGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS); ok {
+=======
+	if st, ok := status.(*SqlStoredProcedureGetResults_STATUS); ok {
+>>>>>>> main
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+=======
+	var st SqlStoredProcedureGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -204,8 +221,45 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Con
 	return destination.ConvertSpecFrom(procedure)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS
 type SqlStoredProcedureGetProperties_Resource_STATUS struct {
+=======
+// Storage version of v1beta20210515.SqlStoredProcedureGetResults_STATUS
+type SqlStoredProcedureGetResults_STATUS struct {
+	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
+	Id          *string                                          `json:"id,omitempty"`
+	Location    *string                                          `json:"location,omitempty"`
+	Name        *string                                          `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	Resource    *SqlStoredProcedureGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Tags        map[string]string                                `json:"tags,omitempty"`
+	Type        *string                                          `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_STATUS{}
+
+// ConvertStatusFrom populates our SqlStoredProcedureGetResults_STATUS from the provided source
+func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(results)
+}
+
+// ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_STATUS
+func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(results)
+}
+
+// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_STATUS_Resource
+type SqlStoredProcedureGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`

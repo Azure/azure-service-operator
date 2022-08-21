@@ -28,8 +28,13 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesEventhubsAuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            NamespacesEventhubsAuthorizationRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesEventhubsAuthorizationRules_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_STATUS                   `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -78,7 +83,11 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesEventhubsAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesEventhubsAuthorizationRule_STATUS{}
+=======
+	return &AuthorizationRule_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (rule *NamespacesEventhubsAuthorizationRule) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (rule *NamespacesEventhubsAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesEventhubsAuthorizationRule_STATUS); ok {
+=======
+	if st, ok := status.(*AuthorizationRule_STATUS); ok {
+>>>>>>> main
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesEventhubsAuthorizationRule_STATUS
+=======
+	var st AuthorizationRule_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")

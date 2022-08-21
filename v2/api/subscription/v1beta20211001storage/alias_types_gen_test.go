@@ -74,8 +74,13 @@ func AliasGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForAlias is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = Alias_SpecGenerator()
 	gens["Status"] = Alias_STATUSGenerator()
+=======
+	gens["Spec"] = AliasesSpecGenerator()
+	gens["Status"] = SubscriptionAliasResponseSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -142,13 +147,95 @@ func Alias_STATUSGenerator() gopter.Gen {
 	return alias_STATUSGenerator
 }
 
+<<<<<<< HEAD
 // AddIndependentPropertyGeneratorsForAlias_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
+=======
+// AddIndependentPropertyGeneratorsForAliasesSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAliasesSpec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForAliasesSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAliasesSpec(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
+}
+
+func Test_SubscriptionAliasResponse_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SubscriptionAliasResponse_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubscriptionAliasResponseSTATUS, SubscriptionAliasResponseSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubscriptionAliasResponseSTATUS runs a test to see if a specific instance of SubscriptionAliasResponse_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubscriptionAliasResponseSTATUS(subject SubscriptionAliasResponse_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SubscriptionAliasResponse_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SubscriptionAliasResponse_STATUS instances for property testing - lazily instantiated by
+// SubscriptionAliasResponseSTATUSGenerator()
+var subscriptionAliasResponseSTATUSGenerator gopter.Gen
+
+// SubscriptionAliasResponseSTATUSGenerator returns a generator of SubscriptionAliasResponse_STATUS instances for property testing.
+// We first initialize subscriptionAliasResponseSTATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SubscriptionAliasResponseSTATUSGenerator() gopter.Gen {
+	if subscriptionAliasResponseSTATUSGenerator != nil {
+		return subscriptionAliasResponseSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubscriptionAliasResponseSTATUS(generators)
+	subscriptionAliasResponseSTATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionAliasResponse_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubscriptionAliasResponseSTATUS(generators)
+	AddRelatedPropertyGeneratorsForSubscriptionAliasResponseSTATUS(generators)
+	subscriptionAliasResponseSTATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionAliasResponse_STATUS{}), generators)
+
+	return subscriptionAliasResponseSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubscriptionAliasResponseSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseSTATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForAlias_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SubscriptionAliasResponseProperties_STATUSGenerator())
@@ -228,6 +315,12 @@ func AddIndependentPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForAlias_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
+=======
+// AddRelatedPropertyGeneratorsForSubscriptionAliasResponseSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSubscriptionAliasResponseSTATUS(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SubscriptionAliasResponsePropertiesSTATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
+>>>>>>> main
 }
 
 func Test_PutAliasRequestProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -317,12 +410,21 @@ func Test_SubscriptionAliasResponseProperties_STATUS_WhenSerializedToJson_Deseri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SubscriptionAliasResponseProperties_STATUS via JSON returns original",
+<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForSubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForSubscriptionAliasResponseProperties_STATUS runs a test to see if a specific instance of SubscriptionAliasResponseProperties_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForSubscriptionAliasResponseProperties_STATUS(subject SubscriptionAliasResponseProperties_STATUS) string {
+=======
+		prop.ForAll(RunJSONSerializationTestForSubscriptionAliasResponsePropertiesSTATUS, SubscriptionAliasResponsePropertiesSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubscriptionAliasResponsePropertiesSTATUS runs a test to see if a specific instance of SubscriptionAliasResponseProperties_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubscriptionAliasResponsePropertiesSTATUS(subject SubscriptionAliasResponseProperties_STATUS) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -349,6 +451,7 @@ func RunJSONSerializationTestForSubscriptionAliasResponseProperties_STATUS(subje
 }
 
 // Generator of SubscriptionAliasResponseProperties_STATUS instances for property testing - lazily instantiated by
+<<<<<<< HEAD
 // SubscriptionAliasResponseProperties_STATUSGenerator()
 var subscriptionAliasResponseProperties_STATUSGenerator gopter.Gen
 
@@ -367,6 +470,26 @@ func SubscriptionAliasResponseProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STATUS(gens map[string]gopter.Gen) {
+=======
+// SubscriptionAliasResponsePropertiesSTATUSGenerator()
+var subscriptionAliasResponsePropertiesSTATUSGenerator gopter.Gen
+
+// SubscriptionAliasResponsePropertiesSTATUSGenerator returns a generator of SubscriptionAliasResponseProperties_STATUS instances for property testing.
+func SubscriptionAliasResponsePropertiesSTATUSGenerator() gopter.Gen {
+	if subscriptionAliasResponsePropertiesSTATUSGenerator != nil {
+		return subscriptionAliasResponsePropertiesSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubscriptionAliasResponsePropertiesSTATUS(generators)
+	subscriptionAliasResponsePropertiesSTATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionAliasResponseProperties_STATUS{}), generators)
+
+	return subscriptionAliasResponsePropertiesSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubscriptionAliasResponsePropertiesSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubscriptionAliasResponsePropertiesSTATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["AcceptOwnershipState"] = gen.PtrOf(gen.AlphaString())
 	gens["AcceptOwnershipUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["BillingScope"] = gen.PtrOf(gen.AlphaString())
@@ -389,12 +512,21 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SystemData_STATUS via JSON returns original",
+<<<<<<< HEAD
 		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+=======
+		prop.ForAll(RunJSONSerializationTestForSystemDataSTATUS, SystemDataSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSystemDataSTATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemDataSTATUS(subject SystemData_STATUS) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -420,6 +552,7 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
 var systemData_STATUSGenerator gopter.Gen
 
@@ -438,6 +571,26 @@ func SystemData_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemDataSTATUSGenerator()
+var systemDataSTATUSGenerator gopter.Gen
+
+// SystemDataSTATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
+func SystemDataSTATUSGenerator() gopter.Gen {
+	if systemDataSTATUSGenerator != nil {
+		return systemDataSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSystemDataSTATUS(generators)
+	systemDataSTATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+
+	return systemDataSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSystemDataSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemDataSTATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())

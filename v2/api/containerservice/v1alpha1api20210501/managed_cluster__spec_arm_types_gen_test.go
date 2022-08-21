@@ -20,7 +20,7 @@ import (
 func Test_ManagedCluster_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -601,13 +601,18 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfileARM(gens map[str
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD:v2/api/containerservice/v1alpha1api20210501/managed_cluster__spec_arm_types_gen_test.go
 func Test_ManagedClusterAPIServerAccessProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_ManagedClusterAddonProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main:v2/api/containerservice/v1alpha1api20210501/managed_clusters__spec_arm_types_gen_test.go
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD:v2/api/containerservice/v1alpha1api20210501/managed_cluster__spec_arm_types_gen_test.go
 		"Round trip of ManagedClusterAPIServerAccessProfileARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM, ManagedClusterAPIServerAccessProfileARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -615,6 +620,15 @@ func Test_ManagedClusterAPIServerAccessProfileARM_WhenSerializedToJson_Deseriali
 
 // RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfileARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject ManagedClusterAPIServerAccessProfileARM) string {
+=======
+		"Round trip of ManagedClusterAddonProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAddonProfileARM, ManagedClusterAddonProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAddonProfileARM runs a test to see if a specific instance of ManagedClusterAddonProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAddonProfileARM(subject ManagedClusterAddonProfileARM) string {
+>>>>>>> main:v2/api/containerservice/v1alpha1api20210501/managed_clusters__spec_arm_types_gen_test.go
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -622,7 +636,11 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject 
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD:v2/api/containerservice/v1alpha1api20210501/managed_cluster__spec_arm_types_gen_test.go
 	var actual ManagedClusterAPIServerAccessProfileARM
+=======
+	var actual ManagedClusterAddonProfileARM
+>>>>>>> main:v2/api/containerservice/v1alpha1api20210501/managed_clusters__spec_arm_types_gen_test.go
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -640,6 +658,7 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject 
 	return ""
 }
 
+<<<<<<< HEAD:v2/api/containerservice/v1alpha1api20210501/managed_cluster__spec_arm_types_gen_test.go
 // Generator of ManagedClusterAPIServerAccessProfileARM instances for property testing - lazily instantiated by
 // ManagedClusterAPIServerAccessProfileARMGenerator()
 var managedClusterAPIServerAccessProfileARMGenerator gopter.Gen
@@ -663,6 +682,29 @@ func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(
 	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
 	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
+=======
+// Generator of ManagedClusterAddonProfileARM instances for property testing - lazily instantiated by
+// ManagedClusterAddonProfileARMGenerator()
+var managedClusterAddonProfileARMGenerator gopter.Gen
+
+// ManagedClusterAddonProfileARMGenerator returns a generator of ManagedClusterAddonProfileARM instances for property testing.
+func ManagedClusterAddonProfileARMGenerator() gopter.Gen {
+	if managedClusterAddonProfileARMGenerator != nil {
+		return managedClusterAddonProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAddonProfileARM(generators)
+	managedClusterAddonProfileARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAddonProfileARM{}), generators)
+
+	return managedClusterAddonProfileARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAddonProfileARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAddonProfileARM(gens map[string]gopter.Gen) {
+	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+>>>>>>> main:v2/api/containerservice/v1alpha1api20210501/managed_clusters__spec_arm_types_gen_test.go
 }
 
 func Test_ManagedClusterAgentPoolProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -777,6 +819,70 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileARM(gens map[s
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigARMGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigARMGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsARMGenerator())
+}
+
+func Test_ManagedClusterAPIServerAccessProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterAPIServerAccessProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM, ManagedClusterAPIServerAccessProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileARM(subject ManagedClusterAPIServerAccessProfileARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterAPIServerAccessProfileARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterAPIServerAccessProfileARM instances for property testing - lazily instantiated by
+// ManagedClusterAPIServerAccessProfileARMGenerator()
+var managedClusterAPIServerAccessProfileARMGenerator gopter.Gen
+
+// ManagedClusterAPIServerAccessProfileARMGenerator returns a generator of ManagedClusterAPIServerAccessProfileARM instances for property testing.
+func ManagedClusterAPIServerAccessProfileARMGenerator() gopter.Gen {
+	if managedClusterAPIServerAccessProfileARMGenerator != nil {
+		return managedClusterAPIServerAccessProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(generators)
+	managedClusterAPIServerAccessProfileARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfileARM{}), generators)
+
+	return managedClusterAPIServerAccessProfileARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileARM(gens map[string]gopter.Gen) {
+	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
+	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
+	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
+	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterAutoUpgradeProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

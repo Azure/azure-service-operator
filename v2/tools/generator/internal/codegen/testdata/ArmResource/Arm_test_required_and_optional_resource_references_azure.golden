@@ -299,12 +299,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
-type FakeResourcePropertiesARM struct {
-	OptionalVNet *string `json:"optionalVNet,omitempty"`
-	RequiredVNet *string `json:"requiredVNet,omitempty"`
-}
-
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
 	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
@@ -556,6 +550,12 @@ const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020
 type FakeResource_Spec_Type string
 
 const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+type FakeResourcePropertiesARM struct {
+	OptionalVNet *string `json:"optionalVNet,omitempty"`
+	RequiredVNet *string `json:"requiredVNet,omitempty"`
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {

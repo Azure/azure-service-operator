@@ -21,13 +21,13 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-type Person_STATUS struct {
-	Status string `json:"status,omitempty"`
-}
-
 type Person_Spec struct {
 	// FullName: As would be used to address mail
 	FullName string `json:"fullName,omitempty"`
+}
+
+type Person_STATUS struct {
+	Status string `json:"status,omitempty"`
 }
 
 func init() {

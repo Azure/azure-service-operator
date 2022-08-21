@@ -28,7 +28,11 @@ import (
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RouteTable_Spec   `json:"spec,omitempty"`
+=======
+	Spec              RouteTables_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 

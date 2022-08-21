@@ -29,7 +29,11 @@ import (
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Disk_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Disks_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Disk_STATUS `json:"status,omitempty"`
 }
 
@@ -306,6 +310,13 @@ type Encryption struct {
 	Type                       *string                       `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20200930.Encryption_STATUS
+type Encryption_STATUS struct {
+	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                *string                `json:"type,omitempty"`
+}
+
 // Storage version of v1beta20200930.EncryptionSettingsCollection
 type EncryptionSettingsCollection struct {
 	Enabled                   *bool                       `json:"enabled,omitempty"`
@@ -322,6 +333,7 @@ type EncryptionSettingsCollection_STATUS struct {
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20200930.Encryption_STATUS
 type Encryption_STATUS struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
@@ -329,6 +341,8 @@ type Encryption_STATUS struct {
 	Type                *string                `json:"type,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20200930.ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
@@ -387,8 +401,13 @@ type ExtendedLocation_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *v20201201s.ExtendedLocation_STATUS) error {
+=======
+// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *v20201201s.ExtendedLocation_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -409,8 +428,13 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
 func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
+=======
+// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 

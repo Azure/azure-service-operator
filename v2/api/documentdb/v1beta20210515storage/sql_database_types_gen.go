@@ -28,8 +28,13 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabase_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabases_Spec `json:"spec,omitempty"`
+	Status            SqlDatabaseGetResults_STATUS      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -78,7 +83,11 @@ func (database *SqlDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabase_STATUS{}
+=======
+	return &SqlDatabaseGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabase_STATUS); ok {
+=======
+	if st, ok := status.(*SqlDatabaseGetResults_STATUS); ok {
+>>>>>>> main
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabase_STATUS
+=======
+	var st SqlDatabaseGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -205,8 +222,46 @@ func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecTo(destination genr
 	return destination.ConvertSpecFrom(database)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS
 type SqlDatabaseGetProperties_Resource_STATUS struct {
+=======
+// Storage version of v1beta20210515.SqlDatabaseGetResults_STATUS
+type SqlDatabaseGetResults_STATUS struct {
+	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
+	Id          *string                                   `json:"id,omitempty"`
+	Location    *string                                   `json:"location,omitempty"`
+	Name        *string                                   `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                   `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	Resource    *SqlDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Tags        map[string]string                         `json:"tags,omitempty"`
+	Type        *string                                   `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &SqlDatabaseGetResults_STATUS{}
+
+// ConvertStatusFrom populates our SqlDatabaseGetResults_STATUS from the provided source
+func (results *SqlDatabaseGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(results)
+}
+
+// ConvertStatusTo populates the provided destination from our SqlDatabaseGetResults_STATUS
+func (results *SqlDatabaseGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(results)
+}
+
+// Storage version of v1beta20210515.SqlDatabaseGetProperties_STATUS_Resource
+type SqlDatabaseGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	Colls       *string                `json:"_colls,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`

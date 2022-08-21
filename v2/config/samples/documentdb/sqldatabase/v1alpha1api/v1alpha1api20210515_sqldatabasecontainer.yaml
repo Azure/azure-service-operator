@@ -6,7 +6,7 @@ metadata:
   name: sample-sql-container
   namespace: default
 spec:
-  location: westcentralus
+  location: eastus
   owner:
     name: sample-sql-db
   options:

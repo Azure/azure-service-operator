@@ -347,8 +347,8 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 
 			for _, def := range state.Definitions() {
 				// Skip Status types
-				// TODO: we need flags?
-				if def.Name().RepresentsStatusType() {
+				// TODO: we need flags
+				if def.Name().IsStatus() {
 					defs.Add(def)
 					continue
 				}

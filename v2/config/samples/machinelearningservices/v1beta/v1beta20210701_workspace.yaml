@@ -16,11 +16,11 @@ spec:
   storageAccountReference:
     group: "storage.azure.com"
     kind:  "StorageAccount"
-    name:  "samplekubestorage"
+    name:  "asomlworkspacestorage"
   keyVaultReference:
     group: "keyvault.azure.com"
     kind:  "Vault"
-    name:  "samplevaul"
+    name:  "mlworkspace-vault"
   # Optional: Save the keys for the storage account into a Kubernetes secret
   operatorSpec:
     secrets:

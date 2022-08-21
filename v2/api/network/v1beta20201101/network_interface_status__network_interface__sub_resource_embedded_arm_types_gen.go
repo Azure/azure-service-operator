@@ -52,13 +52,21 @@ type NetworkInterfacePropertiesFormat_STATUSARM struct {
 	MacAddress *string `json:"macAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Network Interface resource.
+<<<<<<< HEAD
 	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
+=======
+	MigrationPhase *NetworkInterfacePropertiesFormatSTATUSMigrationPhase `json:"migrationPhase,omitempty"`
+>>>>>>> main
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
+<<<<<<< HEAD
 	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS `json:"nicType,omitempty"`
+=======
+	NicType *NetworkInterfacePropertiesFormatSTATUSNicType `json:"nicType,omitempty"`
+>>>>>>> main
 
 	// Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`

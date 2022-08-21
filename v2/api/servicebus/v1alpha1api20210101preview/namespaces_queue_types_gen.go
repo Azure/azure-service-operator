@@ -28,8 +28,13 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
 	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesQueues_Spec `json:"spec,omitempty"`
+	Status            SBQueue_STATUS        `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -137,7 +142,11 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesQueue_STATUS{}
+=======
+	return &SBQueue_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesQueue_STATUS); ok {
+=======
+	if st, ok := status.(*SBQueue_STATUS); ok {
+>>>>>>> main
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesQueue_STATUS
+=======
+	var st SBQueue_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (queue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(source *alpha2
 	queue.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status NamespacesQueue_STATUS
 	err = status.AssignPropertiesFromNamespacesQueue_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesQueue_STATUS() to populate field Status")
+=======
+	var status SBQueue_STATUS
+	err = status.AssignPropertiesFromSBQueueSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromSBQueueSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	queue.Status = status
 
@@ -303,10 +327,17 @@ func (queue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destination *alp
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20210101ps.NamespacesQueue_STATUS
 	err = queue.Status.AssignPropertiesToNamespacesQueue_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNamespacesQueue_STATUS() to populate field Status")
+=======
+	var status alpha20210101ps.SBQueue_STATUS
+	err = queue.Status.AssignPropertiesToSBQueueSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToSBQueueSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -331,8 +362,611 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of NamespacesQueue_STATUS. Use v1beta20210101preview.NamespacesQueue_STATUS instead
 type NamespacesQueue_STATUS struct {
+=======
+type NamespacesQueues_Spec struct {
+	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
+
+	// +kubebuilder:validation:MinLength=1
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                           string  `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string `json:"forwardTo,omitempty"`
+	Location                            *string `json:"location,omitempty"`
+	LockDuration                        *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a servicebus.azure.com/Namespace resource
+	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
+	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NamespacesQueues_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if queues == nil {
+		return nil, nil
+	}
+	result := &NamespacesQueues_SpecARM{}
+
+	// Set property ‘Location’:
+	if queues.Location != nil {
+		location := *queues.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if queues.AutoDeleteOnIdle != nil ||
+		queues.DeadLetteringOnMessageExpiration != nil ||
+		queues.DefaultMessageTimeToLive != nil ||
+		queues.DuplicateDetectionHistoryTimeWindow != nil ||
+		queues.EnableBatchedOperations != nil ||
+		queues.EnableExpress != nil ||
+		queues.EnablePartitioning != nil ||
+		queues.ForwardDeadLetteredMessagesTo != nil ||
+		queues.ForwardTo != nil ||
+		queues.LockDuration != nil ||
+		queues.MaxDeliveryCount != nil ||
+		queues.MaxSizeInMegabytes != nil ||
+		queues.RequiresDuplicateDetection != nil ||
+		queues.RequiresSession != nil {
+		result.Properties = &SBQueuePropertiesARM{}
+	}
+	if queues.AutoDeleteOnIdle != nil {
+		autoDeleteOnIdle := *queues.AutoDeleteOnIdle
+		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
+	}
+	if queues.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *queues.DeadLetteringOnMessageExpiration
+		result.Properties.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	}
+	if queues.DefaultMessageTimeToLive != nil {
+		defaultMessageTimeToLive := *queues.DefaultMessageTimeToLive
+		result.Properties.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+	}
+	if queues.DuplicateDetectionHistoryTimeWindow != nil {
+		duplicateDetectionHistoryTimeWindow := *queues.DuplicateDetectionHistoryTimeWindow
+		result.Properties.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+	}
+	if queues.EnableBatchedOperations != nil {
+		enableBatchedOperations := *queues.EnableBatchedOperations
+		result.Properties.EnableBatchedOperations = &enableBatchedOperations
+	}
+	if queues.EnableExpress != nil {
+		enableExpress := *queues.EnableExpress
+		result.Properties.EnableExpress = &enableExpress
+	}
+	if queues.EnablePartitioning != nil {
+		enablePartitioning := *queues.EnablePartitioning
+		result.Properties.EnablePartitioning = &enablePartitioning
+	}
+	if queues.ForwardDeadLetteredMessagesTo != nil {
+		forwardDeadLetteredMessagesTo := *queues.ForwardDeadLetteredMessagesTo
+		result.Properties.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
+	}
+	if queues.ForwardTo != nil {
+		forwardTo := *queues.ForwardTo
+		result.Properties.ForwardTo = &forwardTo
+	}
+	if queues.LockDuration != nil {
+		lockDuration := *queues.LockDuration
+		result.Properties.LockDuration = &lockDuration
+	}
+	if queues.MaxDeliveryCount != nil {
+		maxDeliveryCount := *queues.MaxDeliveryCount
+		result.Properties.MaxDeliveryCount = &maxDeliveryCount
+	}
+	if queues.MaxSizeInMegabytes != nil {
+		maxSizeInMegabytes := *queues.MaxSizeInMegabytes
+		result.Properties.MaxSizeInMegabytes = &maxSizeInMegabytes
+	}
+	if queues.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *queues.RequiresDuplicateDetection
+		result.Properties.RequiresDuplicateDetection = &requiresDuplicateDetection
+	}
+	if queues.RequiresSession != nil {
+		requiresSession := *queues.RequiresSession
+		result.Properties.RequiresSession = &requiresSession
+	}
+
+	// Set property ‘Tags’:
+	if queues.Tags != nil {
+		result.Tags = make(map[string]string, len(queues.Tags))
+		for key, value := range queues.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (queues *NamespacesQueues_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesQueues_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamespacesQueues_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueues_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AutoDeleteOnIdle’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoDeleteOnIdle != nil {
+			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
+			queues.AutoDeleteOnIdle = &autoDeleteOnIdle
+		}
+	}
+
+	// Set property ‘AzureName’:
+	queues.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
+			deadLetteringOnMessageExpiration := *typedInput.Properties.DeadLetteringOnMessageExpiration
+			queues.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+		}
+	}
+
+	// Set property ‘DefaultMessageTimeToLive’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultMessageTimeToLive != nil {
+			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
+			queues.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		}
+	}
+
+	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
+			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
+			queues.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		}
+	}
+
+	// Set property ‘EnableBatchedOperations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableBatchedOperations != nil {
+			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
+			queues.EnableBatchedOperations = &enableBatchedOperations
+		}
+	}
+
+	// Set property ‘EnableExpress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableExpress != nil {
+			enableExpress := *typedInput.Properties.EnableExpress
+			queues.EnableExpress = &enableExpress
+		}
+	}
+
+	// Set property ‘EnablePartitioning’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePartitioning != nil {
+			enablePartitioning := *typedInput.Properties.EnablePartitioning
+			queues.EnablePartitioning = &enablePartitioning
+		}
+	}
+
+	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
+			forwardDeadLetteredMessagesTo := *typedInput.Properties.ForwardDeadLetteredMessagesTo
+			queues.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
+		}
+	}
+
+	// Set property ‘ForwardTo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardTo != nil {
+			forwardTo := *typedInput.Properties.ForwardTo
+			queues.ForwardTo = &forwardTo
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		queues.Location = &location
+	}
+
+	// Set property ‘LockDuration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LockDuration != nil {
+			lockDuration := *typedInput.Properties.LockDuration
+			queues.LockDuration = &lockDuration
+		}
+	}
+
+	// Set property ‘MaxDeliveryCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxDeliveryCount != nil {
+			maxDeliveryCount := *typedInput.Properties.MaxDeliveryCount
+			queues.MaxDeliveryCount = &maxDeliveryCount
+		}
+	}
+
+	// Set property ‘MaxSizeInMegabytes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxSizeInMegabytes != nil {
+			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
+			queues.MaxSizeInMegabytes = &maxSizeInMegabytes
+		}
+	}
+
+	// Set property ‘Owner’:
+	queues.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘RequiresDuplicateDetection’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresDuplicateDetection != nil {
+			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
+			queues.RequiresDuplicateDetection = &requiresDuplicateDetection
+		}
+	}
+
+	// Set property ‘RequiresSession’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresSession != nil {
+			requiresSession := *typedInput.Properties.RequiresSession
+			queues.RequiresSession = &requiresSession
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			queues.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}
+
+// ConvertSpecFrom populates our NamespacesQueues_Spec from the provided source
+func (queues *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210101ps.NamespacesQueues_Spec)
+	if ok {
+		// Populate our instance from source
+		return queues.AssignPropertiesFromNamespacesQueuesSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210101ps.NamespacesQueues_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = queues.AssignPropertiesFromNamespacesQueuesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our NamespacesQueues_Spec
+func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210101ps.NamespacesQueues_Spec)
+	if ok {
+		// Populate destination from our instance
+		return queues.AssignPropertiesToNamespacesQueuesSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210101ps.NamespacesQueues_Spec{}
+	err := queues.AssignPropertiesToNamespacesQueuesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromNamespacesQueuesSpec populates our NamespacesQueues_Spec from the provided source NamespacesQueues_Spec
+func (queues *NamespacesQueues_Spec) AssignPropertiesFromNamespacesQueuesSpec(source *alpha20210101ps.NamespacesQueues_Spec) error {
+
+	// AutoDeleteOnIdle
+	if source.AutoDeleteOnIdle != nil {
+		autoDeleteOnIdle := *source.AutoDeleteOnIdle
+		queues.AutoDeleteOnIdle = &autoDeleteOnIdle
+	} else {
+		queues.AutoDeleteOnIdle = nil
+	}
+
+	// AzureName
+	queues.AzureName = source.AzureName
+
+	// DeadLetteringOnMessageExpiration
+	if source.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
+		queues.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		queues.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	if source.DefaultMessageTimeToLive != nil {
+		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
+		queues.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+	} else {
+		queues.DefaultMessageTimeToLive = nil
+	}
+
+	// DuplicateDetectionHistoryTimeWindow
+	if source.DuplicateDetectionHistoryTimeWindow != nil {
+		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
+		queues.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+	} else {
+		queues.DuplicateDetectionHistoryTimeWindow = nil
+	}
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		queues.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		queues.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if source.EnableExpress != nil {
+		enableExpress := *source.EnableExpress
+		queues.EnableExpress = &enableExpress
+	} else {
+		queues.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if source.EnablePartitioning != nil {
+		enablePartitioning := *source.EnablePartitioning
+		queues.EnablePartitioning = &enablePartitioning
+	} else {
+		queues.EnablePartitioning = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	queues.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	queues.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
+
+	// Location
+	queues.Location = genruntime.ClonePointerToString(source.Location)
+
+	// LockDuration
+	if source.LockDuration != nil {
+		lockDuration := *source.LockDuration
+		queues.LockDuration = &lockDuration
+	} else {
+		queues.LockDuration = nil
+	}
+
+	// MaxDeliveryCount
+	queues.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
+
+	// MaxSizeInMegabytes
+	queues.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		queues.Owner = &owner
+	} else {
+		queues.Owner = nil
+	}
+
+	// RequiresDuplicateDetection
+	if source.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *source.RequiresDuplicateDetection
+		queues.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		queues.RequiresDuplicateDetection = nil
+	}
+
+	// RequiresSession
+	if source.RequiresSession != nil {
+		requiresSession := *source.RequiresSession
+		queues.RequiresSession = &requiresSession
+	} else {
+		queues.RequiresSession = nil
+	}
+
+	// Tags
+	queues.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespacesQueuesSpec populates the provided destination NamespacesQueues_Spec from our NamespacesQueues_Spec
+func (queues *NamespacesQueues_Spec) AssignPropertiesToNamespacesQueuesSpec(destination *alpha20210101ps.NamespacesQueues_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AutoDeleteOnIdle
+	if queues.AutoDeleteOnIdle != nil {
+		autoDeleteOnIdle := *queues.AutoDeleteOnIdle
+		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
+	} else {
+		destination.AutoDeleteOnIdle = nil
+	}
+
+	// AzureName
+	destination.AzureName = queues.AzureName
+
+	// DeadLetteringOnMessageExpiration
+	if queues.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *queues.DeadLetteringOnMessageExpiration
+		destination.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		destination.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	if queues.DefaultMessageTimeToLive != nil {
+		defaultMessageTimeToLive := *queues.DefaultMessageTimeToLive
+		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+	} else {
+		destination.DefaultMessageTimeToLive = nil
+	}
+
+	// DuplicateDetectionHistoryTimeWindow
+	if queues.DuplicateDetectionHistoryTimeWindow != nil {
+		duplicateDetectionHistoryTimeWindow := *queues.DuplicateDetectionHistoryTimeWindow
+		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+	} else {
+		destination.DuplicateDetectionHistoryTimeWindow = nil
+	}
+
+	// EnableBatchedOperations
+	if queues.EnableBatchedOperations != nil {
+		enableBatchedOperation := *queues.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if queues.EnableExpress != nil {
+		enableExpress := *queues.EnableExpress
+		destination.EnableExpress = &enableExpress
+	} else {
+		destination.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if queues.EnablePartitioning != nil {
+		enablePartitioning := *queues.EnablePartitioning
+		destination.EnablePartitioning = &enablePartitioning
+	} else {
+		destination.EnablePartitioning = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(queues.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	destination.ForwardTo = genruntime.ClonePointerToString(queues.ForwardTo)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(queues.Location)
+
+	// LockDuration
+	if queues.LockDuration != nil {
+		lockDuration := *queues.LockDuration
+		destination.LockDuration = &lockDuration
+	} else {
+		destination.LockDuration = nil
+	}
+
+	// MaxDeliveryCount
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queues.MaxDeliveryCount)
+
+	// MaxSizeInMegabytes
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queues.MaxSizeInMegabytes)
+
+	// OriginalVersion
+	destination.OriginalVersion = queues.OriginalVersion()
+
+	// Owner
+	if queues.Owner != nil {
+		owner := queues.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RequiresDuplicateDetection
+	if queues.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *queues.RequiresDuplicateDetection
+		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		destination.RequiresDuplicateDetection = nil
+	}
+
+	// RequiresSession
+	if queues.RequiresSession != nil {
+		requiresSession := *queues.RequiresSession
+		destination.RequiresSession = &requiresSession
+	} else {
+		destination.RequiresSession = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(queues.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (queues *NamespacesQueues_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (queues *NamespacesQueues_Spec) SetAzureName(azureName string) { queues.AzureName = azureName }
+
+// Deprecated version of SBQueue_STATUS. Use v1beta20210101preview.SBQueue_STATUS instead
+type SBQueue_STATUS struct {
+>>>>>>> main
 	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
@@ -363,6 +997,7 @@ type NamespacesQueue_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NamespacesQueue_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesQueue_STATUS from the provided source
@@ -375,13 +1010,31 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.Convert
 
 	// Convert to an intermediate form
 	src = &alpha20210101ps.NamespacesQueue_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &SBQueue_STATUS{}
+
+// ConvertStatusFrom populates our SBQueue_STATUS from the provided source
+func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210101ps.SBQueue_STATUS)
+	if ok {
+		// Populate our instance from source
+		return queue.AssignPropertiesFromSBQueueSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210101ps.SBQueue_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = queue.AssignPropertiesFromNamespacesQueue_STATUS(src)
+=======
+	err = queue.AssignPropertiesFromSBQueueSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -389,6 +1042,7 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NamespacesQueue_STATUS
 func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20210101ps.NamespacesQueue_STATUS)
@@ -400,6 +1054,19 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.Conv
 	// Convert to an intermediate form
 	dst = &alpha20210101ps.NamespacesQueue_STATUS{}
 	err := queue.AssignPropertiesToNamespacesQueue_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our SBQueue_STATUS
+func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210101ps.SBQueue_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return queue.AssignPropertiesToSBQueueSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210101ps.SBQueue_STATUS{}
+	err := queue.AssignPropertiesToSBQueueSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -413,6 +1080,7 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &NamespacesQueue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -425,6 +1093,20 @@ func (queue *NamespacesQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	typedInput, ok := armInput.(NamespacesQueue_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueue_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SBQueue_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (queue *SBQueue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBQueue_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (queue *SBQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SBQueue_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBQueue_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘AccessedAt’:
@@ -656,8 +1338,13 @@ func (queue *NamespacesQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNamespacesQueue_STATUS populates our NamespacesQueue_STATUS from the provided source NamespacesQueue_STATUS
 func (queue *NamespacesQueue_STATUS) AssignPropertiesFromNamespacesQueue_STATUS(source *alpha20210101ps.NamespacesQueue_STATUS) error {
+=======
+// AssignPropertiesFromSBQueueSTATUS populates our SBQueue_STATUS from the provided source SBQueue_STATUS
+func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueueSTATUS(source *alpha20210101ps.SBQueue_STATUS) error {
+>>>>>>> main
 
 	// AccessedAt
 	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -671,9 +1358,15 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesFromNamespacesQueue_STATUS(
 	// CountDetails
 	if source.CountDetails != nil {
 		var countDetail MessageCountDetails_STATUS
+<<<<<<< HEAD
 		err := countDetail.AssignPropertiesFromMessageCountDetails_STATUS(source.CountDetails)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails_STATUS() to populate field CountDetails")
+=======
+		err := countDetail.AssignPropertiesFromMessageCountDetailsSTATUS(source.CountDetails)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsSTATUS() to populate field CountDetails")
+>>>>>>> main
 		}
 		queue.CountDetails = &countDetail
 	} else {
@@ -775,9 +1468,15 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesFromNamespacesQueue_STATUS(
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		queue.SystemData = &systemDatum
 	} else {
@@ -794,8 +1493,13 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesFromNamespacesQueue_STATUS(
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNamespacesQueue_STATUS populates the provided destination NamespacesQueue_STATUS from our NamespacesQueue_STATUS
 func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(destination *alpha20210101ps.NamespacesQueue_STATUS) error {
+=======
+// AssignPropertiesToSBQueueSTATUS populates the provided destination SBQueue_STATUS from our SBQueue_STATUS
+func (queue *SBQueue_STATUS) AssignPropertiesToSBQueueSTATUS(destination *alpha20210101ps.SBQueue_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -811,9 +1515,15 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(de
 	// CountDetails
 	if queue.CountDetails != nil {
 		var countDetail alpha20210101ps.MessageCountDetails_STATUS
+<<<<<<< HEAD
 		err := queue.CountDetails.AssignPropertiesToMessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails_STATUS() to populate field CountDetails")
+=======
+		err := queue.CountDetails.AssignPropertiesToMessageCountDetailsSTATUS(&countDetail)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsSTATUS() to populate field CountDetails")
+>>>>>>> main
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -915,9 +1625,15 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(de
 	// SystemData
 	if queue.SystemData != nil {
 		var systemDatum alpha20210101ps.SystemData_STATUS
+<<<<<<< HEAD
 		err := queue.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+		err := queue.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -941,6 +1657,7 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(de
 	return nil
 }
 
+<<<<<<< HEAD
 type NamespacesQueue_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
@@ -1499,10 +2216,13 @@ func (queue *NamespacesQueue_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (queue *NamespacesQueue_Spec) SetAzureName(azureName string) { queue.AzureName = azureName }
 
+=======
+>>>>>>> main
 // Deprecated version of EntityStatus_STATUS. Use v1beta20210101preview.EntityStatus_STATUS instead
 type EntityStatus_STATUS string
 
 const (
+<<<<<<< HEAD
 	EntityStatus_Active_STATUS          = EntityStatus_STATUS("Active")
 	EntityStatus_Creating_STATUS        = EntityStatus_STATUS("Creating")
 	EntityStatus_Deleting_STATUS        = EntityStatus_STATUS("Deleting")
@@ -1512,6 +2232,17 @@ const (
 	EntityStatus_Restoring_STATUS       = EntityStatus_STATUS("Restoring")
 	EntityStatus_SendDisabled_STATUS    = EntityStatus_STATUS("SendDisabled")
 	EntityStatus_Unknown_STATUS         = EntityStatus_STATUS("Unknown")
+=======
+	EntityStatus_STATUS_Active          = EntityStatus_STATUS("Active")
+	EntityStatus_STATUS_Creating        = EntityStatus_STATUS("Creating")
+	EntityStatus_STATUS_Deleting        = EntityStatus_STATUS("Deleting")
+	EntityStatus_STATUS_Disabled        = EntityStatus_STATUS("Disabled")
+	EntityStatus_STATUS_ReceiveDisabled = EntityStatus_STATUS("ReceiveDisabled")
+	EntityStatus_STATUS_Renaming        = EntityStatus_STATUS("Renaming")
+	EntityStatus_STATUS_Restoring       = EntityStatus_STATUS("Restoring")
+	EntityStatus_STATUS_SendDisabled    = EntityStatus_STATUS("SendDisabled")
+	EntityStatus_STATUS_Unknown         = EntityStatus_STATUS("Unknown")
+>>>>>>> main
 )
 
 // Deprecated version of MessageCountDetails_STATUS. Use v1beta20210101preview.MessageCountDetails_STATUS instead
@@ -1571,8 +2302,13 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromMessageCountDetails_STATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
 func (details *MessageCountDetails_STATUS) AssignPropertiesFromMessageCountDetails_STATUS(source *alpha20210101ps.MessageCountDetails_STATUS) error {
+=======
+// AssignPropertiesFromMessageCountDetailsSTATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
+func (details *MessageCountDetails_STATUS) AssignPropertiesFromMessageCountDetailsSTATUS(source *alpha20210101ps.MessageCountDetails_STATUS) error {
+>>>>>>> main
 
 	// ActiveMessageCount
 	details.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
@@ -1593,8 +2329,13 @@ func (details *MessageCountDetails_STATUS) AssignPropertiesFromMessageCountDetai
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToMessageCountDetails_STATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
 func (details *MessageCountDetails_STATUS) AssignPropertiesToMessageCountDetails_STATUS(destination *alpha20210101ps.MessageCountDetails_STATUS) error {
+=======
+// AssignPropertiesToMessageCountDetailsSTATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
+func (details *MessageCountDetails_STATUS) AssignPropertiesToMessageCountDetailsSTATUS(destination *alpha20210101ps.MessageCountDetails_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

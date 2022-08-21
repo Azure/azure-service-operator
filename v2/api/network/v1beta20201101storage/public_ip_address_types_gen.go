@@ -28,7 +28,11 @@ import (
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              PublicIPAddress_Spec                                       `json:"spec,omitempty"`
+=======
+	Spec              PublicIPAddresses_Spec                                     `json:"spec,omitempty"`
+>>>>>>> main
 	Status            PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -278,6 +282,7 @@ type IpTag_STATUS struct {
 	Tag         *string                `json:"tag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.NatGatewaySpec
 type NatGatewaySpec struct {
 	IdleTimeoutInMinutes *int                   `json:"idleTimeoutInMinutes,omitempty"`
@@ -293,6 +298,8 @@ type NatGatewaySpec struct {
 	Zones     []string                      `json:"zones,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
@@ -331,6 +338,7 @@ type PublicIPAddressSku_STATUS struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.PublicIPAddressSpec_SubResourceEmbedded
 type PublicIPAddressSpec_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation      `json:"extendedLocation,omitempty"`
@@ -354,16 +362,23 @@ type SubResource struct {
 
 // Storage version of v1beta20201101.NatGatewaySku
 type NatGatewaySku struct {
+=======
+// Storage version of v1beta20201101.NatGatewaySku_STATUS
+type NatGatewaySku_STATUS struct {
+>>>>>>> main
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.NatGatewaySku_STATUS
 type NatGatewaySku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
 type Subnet_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`

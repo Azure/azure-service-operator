@@ -26,8 +26,13 @@ import (
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisEnterprise_Spec   `json:"spec,omitempty"`
 	Status            RedisEnterprise_STATUS `json:"status,omitempty"`
+=======
+	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
+	Status            Cluster_STATUS       `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &RedisEnterprise{}
@@ -98,7 +103,11 @@ func (enterprise *RedisEnterprise) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &RedisEnterprise_STATUS{}
+=======
+	return &Cluster_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -114,13 +123,21 @@ func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*RedisEnterprise_STATUS); ok {
+=======
+	if st, ok := status.(*Cluster_STATUS); ok {
+>>>>>>> main
 		enterprise.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st RedisEnterprise_STATUS
+=======
+	var st Cluster_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -145,10 +162,17 @@ func (enterprise *RedisEnterprise) AssignPropertiesFromRedisEnterprise(source *v
 	enterprise.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status RedisEnterprise_STATUS
 	err = status.AssignPropertiesFromRedisEnterprise_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterprise_STATUS() to populate field Status")
+=======
+	var status Cluster_STATUS
+	err = status.AssignPropertiesFromClusterSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromClusterSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	enterprise.Status = status
 
@@ -171,10 +195,17 @@ func (enterprise *RedisEnterprise) AssignPropertiesToRedisEnterprise(destination
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20210301s.RedisEnterprise_STATUS
 	err = enterprise.Status.AssignPropertiesToRedisEnterprise_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterprise_STATUS() to populate field Status")
+=======
+	var status v20210301s.Cluster_STATUS
+	err = enterprise.Status.AssignPropertiesToClusterSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToClusterSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -207,6 +238,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-03-01")
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20210301.RedisEnterprise_STATUS
 // Deprecated version of RedisEnterprise_STATUS. Use v1beta20210301.RedisEnterprise_STATUS instead
 type RedisEnterprise_STATUS struct {
@@ -239,13 +271,51 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.Co
 
 	// Convert to an intermediate form
 	src = &v20210301s.RedisEnterprise_STATUS{}
+=======
+// Storage version of v1alpha1api20210301.Cluster_STATUS
+// Deprecated version of Cluster_STATUS. Use v1beta20210301.Cluster_STATUS instead
+type Cluster_STATUS struct {
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	HostName                   *string                                                `json:"hostName,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
+	ResourceState              *string                                                `json:"resourceState,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	Zones                      []string                                               `json:"zones,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Cluster_STATUS{}
+
+// ConvertStatusFrom populates our Cluster_STATUS from the provided source
+func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210301s.Cluster_STATUS)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignPropertiesFromClusterSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210301s.Cluster_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = enterprise.AssignPropertiesFromRedisEnterprise_STATUS(src)
+=======
+	err = cluster.AssignPropertiesFromClusterSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -253,6 +323,7 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusFrom(source genruntime.Co
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our RedisEnterprise_STATUS
 func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v20210301s.RedisEnterprise_STATUS)
@@ -264,6 +335,19 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime
 	// Convert to an intermediate form
 	dst = &v20210301s.RedisEnterprise_STATUS{}
 	err := enterprise.AssignPropertiesToRedisEnterprise_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our Cluster_STATUS
+func (cluster *Cluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210301s.Cluster_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignPropertiesToClusterSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210301s.Cluster_STATUS{}
+	err := cluster.AssignPropertiesToClusterSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -277,8 +361,13 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromRedisEnterprise_STATUS populates our RedisEnterprise_STATUS from the provided source RedisEnterprise_STATUS
 func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_STATUS(source *v20210301s.RedisEnterprise_STATUS) error {
+=======
+// AssignPropertiesFromClusterSTATUS populates our Cluster_STATUS from the provided source Cluster_STATUS
+func (cluster *Cluster_STATUS) AssignPropertiesFromClusterSTATUS(source *v20210301s.Cluster_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -302,6 +391,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_ST
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
+<<<<<<< HEAD
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
@@ -315,6 +405,21 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_ST
 			err = privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnection_STATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+=======
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnectionSTATUSSubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionSTATUSSubResourceEmbeddedStash.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash from PrivateEndpointConnections")
+			}
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err = privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionSTATUSSubResourceEmbeddedStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -334,6 +439,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_ST
 
 	// Sku
 	if source.Sku != nil {
+<<<<<<< HEAD
 		var sku_STATUSStash v20201201s.Sku_STATUS
 		err := sku_STATUSStash.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
@@ -343,6 +449,17 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_ST
 		err = sku.AssignPropertiesFromSku_STATUS(&sku_STATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku from Sku_STATUSStash")
+=======
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := skuSTATUSStash.AssignPropertiesFromSkuSTATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku_STATUSStash from Sku")
+		}
+		var sku Sku_STATUS
+		err = sku.AssignPropertiesFromSkuSTATUS(&skuSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku from Sku_STATUSStash")
+>>>>>>> main
 		}
 		enterprise.Sku = &sku
 	} else {
@@ -369,8 +486,13 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesFromRedisEnterprise_ST
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToRedisEnterprise_STATUS populates the provided destination RedisEnterprise_STATUS from our RedisEnterprise_STATUS
 func (enterprise *RedisEnterprise_STATUS) AssignPropertiesToRedisEnterprise_STATUS(destination *v20210301s.RedisEnterprise_STATUS) error {
+=======
+// AssignPropertiesToClusterSTATUS populates the provided destination Cluster_STATUS from our Cluster_STATUS
+func (cluster *Cluster_STATUS) AssignPropertiesToClusterSTATUS(destination *v20210301s.Cluster_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(enterprise.PropertyBag)
 
@@ -393,6 +515,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesToRedisEnterprise_STAT
 	destination.Name = genruntime.ClonePointerToString(enterprise.Name)
 
 	// PrivateEndpointConnections
+<<<<<<< HEAD
 	if enterprise.PrivateEndpointConnections != nil {
 		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection_STATUS, len(enterprise.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range enterprise.PrivateEndpointConnections {
@@ -407,6 +530,22 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesToRedisEnterprise_STAT
 			err = privateEndpointConnection_STATUSStash.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+=======
+	if cluster.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(cluster.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range cluster.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnectionSTATUSSubResourceEmbeddedStash v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionSTATUSSubResourceEmbeddedStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash from PrivateEndpointConnections")
+			}
+			var privateEndpointConnection v20210301s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err = privateEndpointConnectionSTATUSSubResourceEmbeddedStash.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUS_SubResourceEmbeddedStash")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -425,6 +564,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesToRedisEnterprise_STAT
 	destination.ResourceState = genruntime.ClonePointerToString(enterprise.ResourceState)
 
 	// Sku
+<<<<<<< HEAD
 	if enterprise.Sku != nil {
 		var sku_STATUSStash v20201201s.Sku_STATUS
 		err := enterprise.Sku.AssignPropertiesToSku_STATUS(&sku_STATUSStash)
@@ -435,6 +575,18 @@ func (enterprise *RedisEnterprise_STATUS) AssignPropertiesToRedisEnterprise_STAT
 		err = sku_STATUSStash.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku from Sku_STATUSStash")
+=======
+	if cluster.Sku != nil {
+		var skuSTATUSStash v20201201s.Sku_STATUS
+		err := cluster.Sku.AssignPropertiesToSkuSTATUS(&skuSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku_STATUSStash from Sku")
+		}
+		var sku v20210301s.Sku_STATUS
+		err = skuSTATUSStash.AssignPropertiesToSkuSTATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku from Sku_STATUSStash")
+>>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -649,15 +801,26 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 	return nil
 }
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20210301.PrivateEndpointConnection_STATUS
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210301.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
+=======
+// Storage version of v1alpha1api20210301.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+>>>>>>> main
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20201201s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -675,8 +838,13 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateE
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20201201s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *v20201201s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -774,8 +942,13 @@ type Sku_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20201201s.Sku_STATUS) error {
+=======
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20201201s.Sku_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -803,8 +976,13 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20201201s.Sku_STA
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20201201s.Sku_STATUS) error {
+=======
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20201201s.Sku_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 

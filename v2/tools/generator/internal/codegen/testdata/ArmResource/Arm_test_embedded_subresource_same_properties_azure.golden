@@ -566,11 +566,6 @@ func (b *B_SpecARM) GetType() string {
 	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-01-01")
-
 type A_Spec struct {
 	// +kubebuilder:validation:Required
 	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
@@ -822,6 +817,11 @@ const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
 type A_Spec_Type string
 
 const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+
+// +kubebuilder:validation:Enum={"2020-01-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2020-01-01")
 
 type B_Spec struct {
 	// +kubebuilder:validation:Required

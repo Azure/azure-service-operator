@@ -53,6 +53,16 @@ type FakeResourceParameters struct {
 	Type FakeResource_Spec_Type `json:"type,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_Spec_APIVersion string
+
+const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
+type FakeResource_Spec_Type string
+
+const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
 	// Id: A string of the form
@@ -71,16 +81,6 @@ type FakeResourceProperties struct {
 	// /SUBSCRIPTIONS/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	SubnetId *string `json:"subnetId,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_Spec_APIVersion string
-
-const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResource_Spec_Type string
-
-const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

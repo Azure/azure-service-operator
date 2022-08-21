@@ -28,8 +28,13 @@ import (
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesEventhub_Spec   `json:"spec,omitempty"`
 	Status            NamespacesEventhub_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesEventhubs_Spec `json:"spec,omitempty"`
+	Status            Eventhub_STATUS          `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhub{}
@@ -78,7 +83,11 @@ func (eventhub *NamespacesEventhub) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesEventhub_STATUS{}
+=======
+	return &Eventhub_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesEventhub_STATUS); ok {
+=======
+	if st, ok := status.(*Eventhub_STATUS); ok {
+>>>>>>> main
 		eventhub.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesEventhub_STATUS
+=======
+	var st Eventhub_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,8 +150,13 @@ type NamespacesEventhubList struct {
 	Items           []NamespacesEventhub `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211101.NamespacesEventhub_STATUS
 type NamespacesEventhub_STATUS struct {
+=======
+// Storage version of v1beta20211101.Eventhub_STATUS
+type Eventhub_STATUS struct {
+>>>>>>> main
 	CaptureDescription     *CaptureDescription_STATUS `json:"captureDescription,omitempty"`
 	Conditions             []conditions.Condition     `json:"conditions,omitempty"`
 	CreatedAt              *string                    `json:"createdAt,omitempty"`
@@ -151,10 +173,17 @@ type NamespacesEventhub_STATUS struct {
 	UpdatedAt              *string                    `json:"updatedAt,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NamespacesEventhub_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesEventhub_STATUS from the provided source
 func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+=======
+var _ genruntime.ConvertibleStatus = &Eventhub_STATUS{}
+
+// ConvertStatusFrom populates our Eventhub_STATUS from the provided source
+func (eventhub *Eventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if source == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -162,8 +191,13 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(eventhub)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NamespacesEventhub_STATUS
 func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+=======
+// ConvertStatusTo populates the provided destination from our Eventhub_STATUS
+func (eventhub *Eventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if destination == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -210,9 +244,15 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(eventhub)
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211101.CaptureDescription
 type CaptureDescription struct {
 	Destination       *Destination           `json:"destination,omitempty"`
+=======
+// Storage version of v1beta20211101.CaptureDescription_STATUS
+type CaptureDescription_STATUS struct {
+	Destination       *Destination_STATUS    `json:"destination,omitempty"`
+>>>>>>> main
 	Enabled           *bool                  `json:"enabled,omitempty"`
 	Encoding          *string                `json:"encoding,omitempty"`
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
@@ -232,8 +272,25 @@ type CaptureDescription_STATUS struct {
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211101.Destination
 type Destination struct {
+=======
+// Storage version of v1beta20211101.Destination_STATUS
+type Destination_STATUS struct {
+	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
+	BlobContainer            *string                `json:"blobContainer,omitempty"`
+	DataLakeAccountName      *string                `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath       *string                `json:"dataLakeFolderPath,omitempty"`
+	DataLakeSubscriptionId   *string                `json:"dataLakeSubscriptionId,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
+}
+
+// Storage version of v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
+type NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination struct {
+>>>>>>> main
 	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer          *string                `json:"blobContainer,omitempty"`
 	DataLakeAccountName    *string                `json:"dataLakeAccountName,omitempty"`

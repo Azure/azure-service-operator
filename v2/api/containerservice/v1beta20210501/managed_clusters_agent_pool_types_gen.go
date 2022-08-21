@@ -30,8 +30,13 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
 	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
+=======
+	Spec              ManagedClustersAgentPools_Spec `json:"spec,omitempty"`
+	Status            AgentPool_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -125,7 +130,11 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &ManagedClustersAgentPool_STATUS{}
+=======
+	return &AgentPool_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +150,21 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
+=======
+	if st, ok := status.(*AgentPool_STATUS); ok {
+>>>>>>> main
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st ManagedClustersAgentPool_STATUS
+=======
+	var st AgentPool_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -265,10 +282,17 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPo
 	pool.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status ManagedClustersAgentPool_STATUS
 	err = status.AssignPropertiesFromManagedClustersAgentPool_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromManagedClustersAgentPool_STATUS() to populate field Status")
+=======
+	var status AgentPool_STATUS
+	err = status.AssignPropertiesFromAgentPoolSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	pool.Status = status
 
@@ -291,10 +315,17 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20210501s.ManagedClustersAgentPool_STATUS
 	err = pool.Status.AssignPropertiesToManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPool_STATUS() to populate field Status")
+=======
+	var status v20210501s.AgentPool_STATUS
+	err = pool.Status.AssignPropertiesToAgentPoolSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToAgentPoolSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -321,7 +352,11 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
+<<<<<<< HEAD
 type ManagedClustersAgentPool_STATUS struct {
+=======
+type AgentPool_STATUS struct {
+>>>>>>> main
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
@@ -452,6 +487,7 @@ type ManagedClustersAgentPool_STATUS struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
 // ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
@@ -464,13 +500,31 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime
 
 	// Convert to an intermediate form
 	src = &v20210501s.ManagedClustersAgentPool_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
+
+// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
+func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.AgentPool_STATUS)
+	if ok {
+		// Populate our instance from source
+		return pool.AssignPropertiesFromAgentPoolSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210501s.AgentPool_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
+=======
+	err = pool.AssignPropertiesFromAgentPoolSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -478,6 +532,7 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
 func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v20210501s.ManagedClustersAgentPool_STATUS)
@@ -489,6 +544,19 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genrunt
 	// Convert to an intermediate form
 	dst = &v20210501s.ManagedClustersAgentPool_STATUS{}
 	err := pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
+func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.AgentPool_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return pool.AssignPropertiesToAgentPoolSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210501s.AgentPool_STATUS{}
+	err := pool.AssignPropertiesToAgentPoolSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -502,6 +570,7 @@ func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genrunt
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &ManagedClustersAgentPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -514,6 +583,20 @@ func (pool *ManagedClustersAgentPool_STATUS) PopulateFromARM(owner genruntime.Ar
 	typedInput, ok := armInput.(ManagedClustersAgentPool_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClustersAgentPool_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &AgentPool_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (pool *AgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AgentPool_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AgentPool_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘AvailabilityZones’:
@@ -886,8 +969,13 @@ func (pool *ManagedClustersAgentPool_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
 func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClustersAgentPool_STATUS(source *v20210501s.ManagedClustersAgentPool_STATUS) error {
+=======
+// AssignPropertiesFromAgentPoolSTATUS populates our AgentPool_STATUS from the provided source AgentPool_STATUS
+func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPoolSTATUS(source *v20210501s.AgentPool_STATUS) error {
+>>>>>>> main
 
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -952,9 +1040,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClusters
 	// KubeletConfig
 	if source.KubeletConfig != nil {
 		var kubeletConfig KubeletConfig_STATUS
+<<<<<<< HEAD
 		err := kubeletConfig.AssignPropertiesFromKubeletConfig_STATUS(source.KubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfig_STATUS() to populate field KubeletConfig")
+=======
+		err := kubeletConfig.AssignPropertiesFromKubeletConfigSTATUS(source.KubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfigSTATUS() to populate field KubeletConfig")
+>>>>>>> main
 		}
 		pool.KubeletConfig = &kubeletConfig
 	} else {
@@ -972,9 +1066,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClusters
 	// LinuxOSConfig
 	if source.LinuxOSConfig != nil {
 		var linuxOSConfig LinuxOSConfig_STATUS
+<<<<<<< HEAD
 		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfig_STATUS(source.LinuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+=======
+		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfigSTATUS(source.LinuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfigSTATUS() to populate field LinuxOSConfig")
+>>>>>>> main
 		}
 		pool.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1049,9 +1149,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClusters
 	// PowerState
 	if source.PowerState != nil {
 		var powerState PowerState_STATUS
+<<<<<<< HEAD
 		err := powerState.AssignPropertiesFromPowerState_STATUS(source.PowerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPowerState_STATUS() to populate field PowerState")
+=======
+		err := powerState.AssignPropertiesFromPowerStateSTATUS(source.PowerState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPowerStateSTATUS() to populate field PowerState")
+>>>>>>> main
 		}
 		pool.PowerState = &powerState
 	} else {
@@ -1105,9 +1211,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClusters
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
 		var upgradeSetting AgentPoolUpgradeSettings_STATUS
+<<<<<<< HEAD
 		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettings_STATUS(source.UpgradeSettings)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+=======
+		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS(source.UpgradeSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS() to populate field UpgradeSettings")
+>>>>>>> main
 		}
 		pool.UpgradeSettings = &upgradeSetting
 	} else {
@@ -1124,8 +1236,13 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClusters
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
 func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAgentPool_STATUS(destination *v20210501s.ManagedClustersAgentPool_STATUS) error {
+=======
+// AssignPropertiesToAgentPoolSTATUS populates the provided destination AgentPool_STATUS from our AgentPool_STATUS
+func (pool *AgentPool_STATUS) AssignPropertiesToAgentPoolSTATUS(destination *v20210501s.AgentPool_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1192,9 +1309,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAg
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
 		var kubeletConfig v20210501s.KubeletConfig_STATUS
+<<<<<<< HEAD
 		err := pool.KubeletConfig.AssignPropertiesToKubeletConfig_STATUS(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig_STATUS() to populate field KubeletConfig")
+=======
+		err := pool.KubeletConfig.AssignPropertiesToKubeletConfigSTATUS(&kubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfigSTATUS() to populate field KubeletConfig")
+>>>>>>> main
 		}
 		destination.KubeletConfig = &kubeletConfig
 	} else {
@@ -1212,9 +1335,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAg
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
 		var linuxOSConfig v20210501s.LinuxOSConfig_STATUS
+<<<<<<< HEAD
 		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfig_STATUS(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig_STATUS() to populate field LinuxOSConfig")
+=======
+		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfigSTATUS(&linuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfigSTATUS() to populate field LinuxOSConfig")
+>>>>>>> main
 		}
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1289,9 +1418,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAg
 	// PowerState
 	if pool.PowerState != nil {
 		var powerState v20210501s.PowerState_STATUS
+<<<<<<< HEAD
 		err := pool.PowerState.AssignPropertiesToPowerState_STATUS(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPowerState_STATUS() to populate field PowerState")
+=======
+		err := pool.PowerState.AssignPropertiesToPowerStateSTATUS(&powerState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPowerStateSTATUS() to populate field PowerState")
+>>>>>>> main
 		}
 		destination.PowerState = &powerState
 	} else {
@@ -1345,9 +1480,15 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAg
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
 		var upgradeSetting v20210501s.AgentPoolUpgradeSettings_STATUS
+<<<<<<< HEAD
 		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
+=======
+		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettingsSTATUS(&upgradeSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettingsSTATUS() to populate field UpgradeSettings")
+>>>>>>> main
 		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
@@ -2706,8 +2847,13 @@ func (settings *AgentPoolUpgradeSettings_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromAgentPoolUpgradeSettings_STATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
 func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUpgradeSettings_STATUS(source *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+=======
+// AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUpgradeSettingsSTATUS(source *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+>>>>>>> main
 
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
@@ -2716,8 +2862,13 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesFromAgentPoolUp
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToAgentPoolUpgradeSettings_STATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
 func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesToAgentPoolUpgradeSettings_STATUS(destination *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+=======
+// AssignPropertiesToAgentPoolUpgradeSettingsSTATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignPropertiesToAgentPoolUpgradeSettingsSTATUS(destination *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3202,8 +3353,13 @@ func (config *KubeletConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromKubeletConfig_STATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
 func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfig_STATUS(source *v20210501s.KubeletConfig_STATUS) error {
+=======
+// AssignPropertiesFromKubeletConfigSTATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
+func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfigSTATUS(source *v20210501s.KubeletConfig_STATUS) error {
+>>>>>>> main
 
 	// AllowedUnsafeSysctls
 	config.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
@@ -3252,8 +3408,13 @@ func (config *KubeletConfig_STATUS) AssignPropertiesFromKubeletConfig_STATUS(sou
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToKubeletConfig_STATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
 func (config *KubeletConfig_STATUS) AssignPropertiesToKubeletConfig_STATUS(destination *v20210501s.KubeletConfig_STATUS) error {
+=======
+// AssignPropertiesToKubeletConfigSTATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
+func (config *KubeletConfig_STATUS) AssignPropertiesToKubeletConfigSTATUS(destination *v20210501s.KubeletConfig_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3558,8 +3719,13 @@ func (config *LinuxOSConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromLinuxOSConfig_STATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
 func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfig_STATUS(source *v20210501s.LinuxOSConfig_STATUS) error {
+=======
+// AssignPropertiesFromLinuxOSConfigSTATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
+func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfigSTATUS(source *v20210501s.LinuxOSConfig_STATUS) error {
+>>>>>>> main
 
 	// SwapFileSizeMB
 	config.SwapFileSizeMB = genruntime.ClonePointerToInt(source.SwapFileSizeMB)
@@ -3567,9 +3733,15 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfig_STATUS(sou
 	// Sysctls
 	if source.Sysctls != nil {
 		var sysctl SysctlConfig_STATUS
+<<<<<<< HEAD
 		err := sysctl.AssignPropertiesFromSysctlConfig_STATUS(source.Sysctls)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfig_STATUS() to populate field Sysctls")
+=======
+		err := sysctl.AssignPropertiesFromSysctlConfigSTATUS(source.Sysctls)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfigSTATUS() to populate field Sysctls")
+>>>>>>> main
 		}
 		config.Sysctls = &sysctl
 	} else {
@@ -3586,8 +3758,13 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesFromLinuxOSConfig_STATUS(sou
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToLinuxOSConfig_STATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
 func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfig_STATUS(destination *v20210501s.LinuxOSConfig_STATUS) error {
+=======
+// AssignPropertiesToLinuxOSConfigSTATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
+func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfigSTATUS(destination *v20210501s.LinuxOSConfig_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3597,9 +3774,15 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfig_STATUS(desti
 	// Sysctls
 	if config.Sysctls != nil {
 		var sysctl v20210501s.SysctlConfig_STATUS
+<<<<<<< HEAD
 		err := config.Sysctls.AssignPropertiesToSysctlConfig_STATUS(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfig_STATUS() to populate field Sysctls")
+=======
+		err := config.Sysctls.AssignPropertiesToSysctlConfigSTATUS(&sysctl)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfigSTATUS() to populate field Sysctls")
+>>>>>>> main
 		}
 		destination.Sysctls = &sysctl
 	} else {
@@ -4620,8 +4803,13 @@ func (config *SysctlConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSysctlConfig_STATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
 func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfig_STATUS(source *v20210501s.SysctlConfig_STATUS) error {
+=======
+// AssignPropertiesFromSysctlConfigSTATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
+func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfigSTATUS(source *v20210501s.SysctlConfig_STATUS) error {
+>>>>>>> main
 
 	// FsAioMaxNr
 	config.FsAioMaxNr = genruntime.ClonePointerToInt(source.FsAioMaxNr)
@@ -4716,8 +4904,13 @@ func (config *SysctlConfig_STATUS) AssignPropertiesFromSysctlConfig_STATUS(sourc
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSysctlConfig_STATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
 func (config *SysctlConfig_STATUS) AssignPropertiesToSysctlConfig_STATUS(destination *v20210501s.SysctlConfig_STATUS) error {
+=======
+// AssignPropertiesToSysctlConfigSTATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
+func (config *SysctlConfig_STATUS) AssignPropertiesToSysctlConfigSTATUS(destination *v20210501s.SysctlConfig_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

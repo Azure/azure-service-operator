@@ -28,7 +28,11 @@ import (
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Registry_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Registries_Spec `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Registry_STATUS `json:"status,omitempty"`
 }
 
@@ -278,9 +282,15 @@ func (registry *Registry) AssignPropertiesFromRegistry(source *alpha20210901s.Re
 
 	// Status
 	var status Registry_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromRegistry_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromRegistry_STATUS() to populate field Status")
+=======
+	err = status.AssignPropertiesFromRegistrySTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromRegistrySTATUS() to populate field Status")
+>>>>>>> main
 	}
 	registry.Status = status
 
@@ -304,9 +314,15 @@ func (registry *Registry) AssignPropertiesToRegistry(destination *alpha20210901s
 
 	// Status
 	var status alpha20210901s.Registry_STATUS
+<<<<<<< HEAD
 	err = registry.Status.AssignPropertiesToRegistry_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRegistry_STATUS() to populate field Status")
+=======
+	err = registry.Status.AssignPropertiesToRegistrySTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToRegistrySTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -337,11 +353,614 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
+<<<<<<< HEAD
+=======
+type Registries_Spec struct {
+	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=5
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                string                                      `json:"azureName,omitempty"`
+	DataEndpointEnabled      *bool                                       `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionProperty                         `json:"encryption,omitempty"`
+	Identity                 *IdentityProperties                         `json:"identity,omitempty"`
+	Location                 *string                                     `json:"location,omitempty"`
+	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet                             `json:"networkRuleSet,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner               *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                              `json:"policies,omitempty"`
+	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Sku            *Sku                              `json:"sku,omitempty"`
+	Tags           map[string]string                 `json:"tags,omitempty"`
+	ZoneRedundancy *RegistryPropertiesZoneRedundancy `json:"zoneRedundancy,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Registries_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if registries == nil {
+		return nil, nil
+	}
+	result := &Registries_SpecARM{}
+
+	// Set property ‘Identity’:
+	if registries.Identity != nil {
+		identityARM, err := (*registries.Identity).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		identity := *identityARM.(*IdentityPropertiesARM)
+		result.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if registries.Location != nil {
+		location := *registries.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if registries.AdminUserEnabled != nil ||
+		registries.DataEndpointEnabled != nil ||
+		registries.Encryption != nil ||
+		registries.NetworkRuleBypassOptions != nil ||
+		registries.NetworkRuleSet != nil ||
+		registries.Policies != nil ||
+		registries.PublicNetworkAccess != nil ||
+		registries.ZoneRedundancy != nil {
+		result.Properties = &RegistryPropertiesARM{}
+	}
+	if registries.AdminUserEnabled != nil {
+		adminUserEnabled := *registries.AdminUserEnabled
+		result.Properties.AdminUserEnabled = &adminUserEnabled
+	}
+	if registries.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registries.DataEndpointEnabled
+		result.Properties.DataEndpointEnabled = &dataEndpointEnabled
+	}
+	if registries.Encryption != nil {
+		encryptionARM, err := (*registries.Encryption).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		encryption := *encryptionARM.(*EncryptionPropertyARM)
+		result.Properties.Encryption = &encryption
+	}
+	if registries.NetworkRuleBypassOptions != nil {
+		networkRuleBypassOptions := *registries.NetworkRuleBypassOptions
+		result.Properties.NetworkRuleBypassOptions = &networkRuleBypassOptions
+	}
+	if registries.NetworkRuleSet != nil {
+		networkRuleSetARM, err := (*registries.NetworkRuleSet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkRuleSet := *networkRuleSetARM.(*NetworkRuleSetARM)
+		result.Properties.NetworkRuleSet = &networkRuleSet
+	}
+	if registries.Policies != nil {
+		policiesARM, err := (*registries.Policies).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		policies := *policiesARM.(*PoliciesARM)
+		result.Properties.Policies = &policies
+	}
+	if registries.PublicNetworkAccess != nil {
+		publicNetworkAccess := *registries.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
+	if registries.ZoneRedundancy != nil {
+		zoneRedundancy := *registries.ZoneRedundancy
+		result.Properties.ZoneRedundancy = &zoneRedundancy
+	}
+
+	// Set property ‘Sku’:
+	if registries.Sku != nil {
+		skuARM, err := (*registries.Sku).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		sku := *skuARM.(*SkuARM)
+		result.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if registries.Tags != nil {
+		result.Tags = make(map[string]string, len(registries.Tags))
+		for key, value := range registries.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (registries *Registries_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Registries_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Registries_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Registries_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AdminUserEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdminUserEnabled != nil {
+			adminUserEnabled := *typedInput.Properties.AdminUserEnabled
+			registries.AdminUserEnabled = &adminUserEnabled
+		}
+	}
+
+	// Set property ‘AzureName’:
+	registries.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DataEndpointEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataEndpointEnabled != nil {
+			dataEndpointEnabled := *typedInput.Properties.DataEndpointEnabled
+			registries.DataEndpointEnabled = &dataEndpointEnabled
+		}
+	}
+
+	// Set property ‘Encryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 EncryptionProperty
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			registries.Encryption = &encryption
+		}
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 IdentityProperties
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		registries.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		registries.Location = &location
+	}
+
+	// Set property ‘NetworkRuleBypassOptions’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkRuleBypassOptions != nil {
+			networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
+			registries.NetworkRuleBypassOptions = &networkRuleBypassOptions
+		}
+	}
+
+	// Set property ‘NetworkRuleSet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkRuleSet != nil {
+			var networkRuleSet1 NetworkRuleSet
+			err := networkRuleSet1.PopulateFromARM(owner, *typedInput.Properties.NetworkRuleSet)
+			if err != nil {
+				return err
+			}
+			networkRuleSet := networkRuleSet1
+			registries.NetworkRuleSet = &networkRuleSet
+		}
+	}
+
+	// Set property ‘Owner’:
+	registries.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Policies’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Policies != nil {
+			var policies1 Policies
+			err := policies1.PopulateFromARM(owner, *typedInput.Properties.Policies)
+			if err != nil {
+				return err
+			}
+			policies := policies1
+			registries.Policies = &policies
+		}
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			registries.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		registries.Sku = &sku
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		registries.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			registries.Tags[key] = value
+		}
+	}
+
+	// Set property ‘ZoneRedundancy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundancy != nil {
+			zoneRedundancy := *typedInput.Properties.ZoneRedundancy
+			registries.ZoneRedundancy = &zoneRedundancy
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Registries_Spec{}
+
+// ConvertSpecFrom populates our Registries_Spec from the provided source
+func (registries *Registries_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210901s.Registries_Spec)
+	if ok {
+		// Populate our instance from source
+		return registries.AssignPropertiesFromRegistriesSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210901s.Registries_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = registries.AssignPropertiesFromRegistriesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Registries_Spec
+func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210901s.Registries_Spec)
+	if ok {
+		// Populate destination from our instance
+		return registries.AssignPropertiesToRegistriesSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210901s.Registries_Spec{}
+	err := registries.AssignPropertiesToRegistriesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromRegistriesSpec populates our Registries_Spec from the provided source Registries_Spec
+func (registries *Registries_Spec) AssignPropertiesFromRegistriesSpec(source *alpha20210901s.Registries_Spec) error {
+
+	// AdminUserEnabled
+	if source.AdminUserEnabled != nil {
+		adminUserEnabled := *source.AdminUserEnabled
+		registries.AdminUserEnabled = &adminUserEnabled
+	} else {
+		registries.AdminUserEnabled = nil
+	}
+
+	// AzureName
+	registries.AzureName = source.AzureName
+
+	// DataEndpointEnabled
+	if source.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *source.DataEndpointEnabled
+		registries.DataEndpointEnabled = &dataEndpointEnabled
+	} else {
+		registries.DataEndpointEnabled = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperty
+		err := encryption.AssignPropertiesFromEncryptionProperty(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty() to populate field Encryption")
+		}
+		registries.Encryption = &encryption
+	} else {
+		registries.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity IdentityProperties
+		err := identity.AssignPropertiesFromIdentityProperties(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityProperties() to populate field Identity")
+		}
+		registries.Identity = &identity
+	} else {
+		registries.Identity = nil
+	}
+
+	// Location
+	registries.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkRuleBypassOptions
+	if source.NetworkRuleBypassOptions != nil {
+		networkRuleBypassOption := RegistryPropertiesNetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
+		registries.NetworkRuleBypassOptions = &networkRuleBypassOption
+	} else {
+		registries.NetworkRuleBypassOptions = nil
+	}
+
+	// NetworkRuleSet
+	if source.NetworkRuleSet != nil {
+		var networkRuleSet NetworkRuleSet
+		err := networkRuleSet.AssignPropertiesFromNetworkRuleSet(source.NetworkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet() to populate field NetworkRuleSet")
+		}
+		registries.NetworkRuleSet = &networkRuleSet
+	} else {
+		registries.NetworkRuleSet = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		registries.Owner = &owner
+	} else {
+		registries.Owner = nil
+	}
+
+	// Policies
+	if source.Policies != nil {
+		var policy Policies
+		err := policy.AssignPropertiesFromPolicies(source.Policies)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPolicies() to populate field Policies")
+		}
+		registries.Policies = &policy
+	} else {
+		registries.Policies = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := RegistryPropertiesPublicNetworkAccess(*source.PublicNetworkAccess)
+		registries.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		registries.PublicNetworkAccess = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignPropertiesFromSku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+		}
+		registries.Sku = &sku
+	} else {
+		registries.Sku = nil
+	}
+
+	// Tags
+	registries.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// ZoneRedundancy
+	if source.ZoneRedundancy != nil {
+		zoneRedundancy := RegistryPropertiesZoneRedundancy(*source.ZoneRedundancy)
+		registries.ZoneRedundancy = &zoneRedundancy
+	} else {
+		registries.ZoneRedundancy = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRegistriesSpec populates the provided destination Registries_Spec from our Registries_Spec
+func (registries *Registries_Spec) AssignPropertiesToRegistriesSpec(destination *alpha20210901s.Registries_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminUserEnabled
+	if registries.AdminUserEnabled != nil {
+		adminUserEnabled := *registries.AdminUserEnabled
+		destination.AdminUserEnabled = &adminUserEnabled
+	} else {
+		destination.AdminUserEnabled = nil
+	}
+
+	// AzureName
+	destination.AzureName = registries.AzureName
+
+	// DataEndpointEnabled
+	if registries.DataEndpointEnabled != nil {
+		dataEndpointEnabled := *registries.DataEndpointEnabled
+		destination.DataEndpointEnabled = &dataEndpointEnabled
+	} else {
+		destination.DataEndpointEnabled = nil
+	}
+
+	// Encryption
+	if registries.Encryption != nil {
+		var encryption alpha20210901s.EncryptionProperty
+		err := registries.Encryption.AssignPropertiesToEncryptionProperty(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// Identity
+	if registries.Identity != nil {
+		var identity alpha20210901s.IdentityProperties
+		err := registries.Identity.AssignPropertiesToIdentityProperties(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityProperties() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(registries.Location)
+
+	// NetworkRuleBypassOptions
+	if registries.NetworkRuleBypassOptions != nil {
+		networkRuleBypassOption := string(*registries.NetworkRuleBypassOptions)
+		destination.NetworkRuleBypassOptions = &networkRuleBypassOption
+	} else {
+		destination.NetworkRuleBypassOptions = nil
+	}
+
+	// NetworkRuleSet
+	if registries.NetworkRuleSet != nil {
+		var networkRuleSet alpha20210901s.NetworkRuleSet
+		err := registries.NetworkRuleSet.AssignPropertiesToNetworkRuleSet(&networkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet() to populate field NetworkRuleSet")
+		}
+		destination.NetworkRuleSet = &networkRuleSet
+	} else {
+		destination.NetworkRuleSet = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = registries.OriginalVersion()
+
+	// Owner
+	if registries.Owner != nil {
+		owner := registries.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Policies
+	if registries.Policies != nil {
+		var policy alpha20210901s.Policies
+		err := registries.Policies.AssignPropertiesToPolicies(&policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPolicies() to populate field Policies")
+		}
+		destination.Policies = &policy
+	} else {
+		destination.Policies = nil
+	}
+
+	// PublicNetworkAccess
+	if registries.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*registries.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// Sku
+	if registries.Sku != nil {
+		var sku alpha20210901s.Sku
+		err := registries.Sku.AssignPropertiesToSku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(registries.Tags)
+
+	// ZoneRedundancy
+	if registries.ZoneRedundancy != nil {
+		zoneRedundancy := string(*registries.ZoneRedundancy)
+		destination.ZoneRedundancy = &zoneRedundancy
+	} else {
+		destination.ZoneRedundancy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (registries *Registries_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (registries *Registries_Spec) SetAzureName(azureName string) { registries.AzureName = azureName }
+
+>>>>>>> main
 // Deprecated version of Registry_STATUS. Use v1beta20210901.Registry_STATUS instead
 type Registry_STATUS struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// Conditions: The observed state of the resource
+<<<<<<< HEAD
 	Conditions                 []conditions.Condition                              `json:"conditions,omitempty"`
 	CreationDate               *string                                             `json:"creationDate,omitempty"`
 	DataEndpointEnabled        *bool                                               `json:"dataEndpointEnabled,omitempty"`
@@ -364,6 +983,30 @@ type Registry_STATUS struct {
 	Tags                       map[string]string                                   `json:"tags,omitempty"`
 	Type                       *string                                             `json:"type,omitempty"`
 	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS           `json:"zoneRedundancy,omitempty"`
+=======
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	CreationDate               *string                                                `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Identity                   *IdentityProperties_STATUS                             `json:"identity,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	LoginServer                *string                                                `json:"loginServer,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
+	NetworkRuleBypassOptions   *RegistryPropertiesSTATUSNetworkRuleBypassOptions      `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS                                 `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS                                       `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RegistryPropertiesSTATUSProvisioningState             `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryPropertiesSTATUSPublicNetworkAccess           `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
+	Status                     *Status_STATUS                                         `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	ZoneRedundancy             *RegistryPropertiesSTATUSZoneRedundancy                `json:"zoneRedundancy,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
@@ -373,7 +1016,11 @@ func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	src, ok := source.(*alpha20210901s.Registry_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return registry.AssignPropertiesFromRegistry_STATUS(src)
+=======
+		return registry.AssignPropertiesFromRegistrySTATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -384,7 +1031,11 @@ func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = registry.AssignPropertiesFromRegistry_STATUS(src)
+=======
+	err = registry.AssignPropertiesFromRegistrySTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -397,12 +1048,20 @@ func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.Converti
 	dst, ok := destination.(*alpha20210901s.Registry_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return registry.AssignPropertiesToRegistry_STATUS(dst)
+=======
+		return registry.AssignPropertiesToRegistrySTATUS(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20210901s.Registry_STATUS{}
+<<<<<<< HEAD
 	err := registry.AssignPropertiesToRegistry_STATUS(dst)
+=======
+	err := registry.AssignPropertiesToRegistrySTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -560,7 +1219,11 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+<<<<<<< HEAD
 			var item1 PrivateEndpointConnection_STATUS
+=======
+			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
+>>>>>>> main
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -650,8 +1313,13 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromRegistry_STATUS populates our Registry_STATUS from the provided source Registry_STATUS
 func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alpha20210901s.Registry_STATUS) error {
+=======
+// AssignPropertiesFromRegistrySTATUS populates our Registry_STATUS from the provided source Registry_STATUS
+func (registry *Registry_STATUS) AssignPropertiesFromRegistrySTATUS(source *alpha20210901s.Registry_STATUS) error {
+>>>>>>> main
 
 	// AdminUserEnabled
 	if source.AdminUserEnabled != nil {
@@ -681,9 +1349,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// Encryption
 	if source.Encryption != nil {
 		var encryption EncryptionProperty_STATUS
+<<<<<<< HEAD
 		err := encryption.AssignPropertiesFromEncryptionProperty_STATUS(source.Encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperty_STATUS() to populate field Encryption")
+=======
+		err := encryption.AssignPropertiesFromEncryptionPropertySTATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertySTATUS() to populate field Encryption")
+>>>>>>> main
 		}
 		registry.Encryption = &encryption
 	} else {
@@ -696,9 +1370,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// Identity
 	if source.Identity != nil {
 		var identity IdentityProperties_STATUS
+<<<<<<< HEAD
 		err := identity.AssignPropertiesFromIdentityProperties_STATUS(source.Identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromIdentityProperties_STATUS() to populate field Identity")
+=======
+		err := identity.AssignPropertiesFromIdentityPropertiesSTATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityPropertiesSTATUS() to populate field Identity")
+>>>>>>> main
 		}
 		registry.Identity = &identity
 	} else {
@@ -716,7 +1396,11 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
+<<<<<<< HEAD
 		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions_STATUS(*source.NetworkRuleBypassOptions)
+=======
+		networkRuleBypassOption := RegistryPropertiesSTATUSNetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
+>>>>>>> main
 		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
 	} else {
 		registry.NetworkRuleBypassOptions = nil
@@ -725,9 +1409,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// NetworkRuleSet
 	if source.NetworkRuleSet != nil {
 		var networkRuleSet NetworkRuleSet_STATUS
+<<<<<<< HEAD
 		err := networkRuleSet.AssignPropertiesFromNetworkRuleSet_STATUS(source.NetworkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+=======
+		err := networkRuleSet.AssignPropertiesFromNetworkRuleSetSTATUS(source.NetworkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetSTATUS() to populate field NetworkRuleSet")
+>>>>>>> main
 		}
 		registry.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -737,9 +1427,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// Policies
 	if source.Policies != nil {
 		var policy Policies_STATUS
+<<<<<<< HEAD
 		err := policy.AssignPropertiesFromPolicies_STATUS(source.Policies)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPolicies_STATUS() to populate field Policies")
+=======
+		err := policy.AssignPropertiesFromPoliciesSTATUS(source.Policies)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPoliciesSTATUS() to populate field Policies")
+>>>>>>> main
 		}
 		registry.Policies = &policy
 	} else {
@@ -748,6 +1444,7 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
+<<<<<<< HEAD
 		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
@@ -756,6 +1453,16 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+=======
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -766,7 +1473,11 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
+<<<<<<< HEAD
 		provisioningState := RegistryProperties_ProvisioningState_STATUS(*source.ProvisioningState)
+=======
+		provisioningState := RegistryPropertiesSTATUSProvisioningState(*source.ProvisioningState)
+>>>>>>> main
 		registry.ProvisioningState = &provisioningState
 	} else {
 		registry.ProvisioningState = nil
@@ -774,7 +1485,11 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
+<<<<<<< HEAD
 		publicNetworkAccess := RegistryProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
+=======
+		publicNetworkAccess := RegistryPropertiesSTATUSPublicNetworkAccess(*source.PublicNetworkAccess)
+>>>>>>> main
 		registry.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		registry.PublicNetworkAccess = nil
@@ -783,9 +1498,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
+<<<<<<< HEAD
 		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
+=======
+		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		registry.Sku = &sku
 	} else {
@@ -795,9 +1516,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// Status
 	if source.Status != nil {
 		var status Status_STATUS
+<<<<<<< HEAD
 		err := status.AssignPropertiesFromStatus_STATUS(source.Status)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromStatus_STATUS() to populate field Status")
+=======
+		err := status.AssignPropertiesFromStatusSTATUS(source.Status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStatusSTATUS() to populate field Status")
+>>>>>>> main
 		}
 		registry.Status = &status
 	} else {
@@ -807,9 +1534,15 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		registry.SystemData = &systemDatum
 	} else {
@@ -824,7 +1557,11 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
+<<<<<<< HEAD
 		zoneRedundancy := RegistryProperties_ZoneRedundancy_STATUS(*source.ZoneRedundancy)
+=======
+		zoneRedundancy := RegistryPropertiesSTATUSZoneRedundancy(*source.ZoneRedundancy)
+>>>>>>> main
 		registry.ZoneRedundancy = &zoneRedundancy
 	} else {
 		registry.ZoneRedundancy = nil
@@ -834,8 +1571,13 @@ func (registry *Registry_STATUS) AssignPropertiesFromRegistry_STATUS(source *alp
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToRegistry_STATUS populates the provided destination Registry_STATUS from our Registry_STATUS
 func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *alpha20210901s.Registry_STATUS) error {
+=======
+// AssignPropertiesToRegistrySTATUS populates the provided destination Registry_STATUS from our Registry_STATUS
+func (registry *Registry_STATUS) AssignPropertiesToRegistrySTATUS(destination *alpha20210901s.Registry_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -867,9 +1609,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// Encryption
 	if registry.Encryption != nil {
 		var encryption alpha20210901s.EncryptionProperty_STATUS
+<<<<<<< HEAD
 		err := registry.Encryption.AssignPropertiesToEncryptionProperty_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperty_STATUS() to populate field Encryption")
+=======
+		err := registry.Encryption.AssignPropertiesToEncryptionPropertySTATUS(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertySTATUS() to populate field Encryption")
+>>>>>>> main
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -882,9 +1630,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// Identity
 	if registry.Identity != nil {
 		var identity alpha20210901s.IdentityProperties_STATUS
+<<<<<<< HEAD
 		err := registry.Identity.AssignPropertiesToIdentityProperties_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIdentityProperties_STATUS() to populate field Identity")
+=======
+		err := registry.Identity.AssignPropertiesToIdentityPropertiesSTATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityPropertiesSTATUS() to populate field Identity")
+>>>>>>> main
 		}
 		destination.Identity = &identity
 	} else {
@@ -911,9 +1665,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// NetworkRuleSet
 	if registry.NetworkRuleSet != nil {
 		var networkRuleSet alpha20210901s.NetworkRuleSet_STATUS
+<<<<<<< HEAD
 		err := registry.NetworkRuleSet.AssignPropertiesToNetworkRuleSet_STATUS(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_STATUS() to populate field NetworkRuleSet")
+=======
+		err := registry.NetworkRuleSet.AssignPropertiesToNetworkRuleSetSTATUS(&networkRuleSet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetSTATUS() to populate field NetworkRuleSet")
+>>>>>>> main
 		}
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
@@ -923,9 +1683,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// Policies
 	if registry.Policies != nil {
 		var policy alpha20210901s.Policies_STATUS
+<<<<<<< HEAD
 		err := registry.Policies.AssignPropertiesToPolicies_STATUS(&policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPolicies_STATUS() to populate field Policies")
+=======
+		err := registry.Policies.AssignPropertiesToPoliciesSTATUS(&policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPoliciesSTATUS() to populate field Policies")
+>>>>>>> main
 		}
 		destination.Policies = &policy
 	} else {
@@ -934,6 +1700,7 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 
 	// PrivateEndpointConnections
 	if registry.PrivateEndpointConnections != nil {
+<<<<<<< HEAD
 		privateEndpointConnectionList := make([]alpha20210901s.PrivateEndpointConnection_STATUS, len(registry.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
@@ -942,6 +1709,16 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+=======
+		privateEndpointConnectionList := make([]alpha20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(registry.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection alpha20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded() to populate field PrivateEndpointConnections")
+>>>>>>> main
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -969,9 +1746,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// Sku
 	if registry.Sku != nil {
 		var sku alpha20210901s.Sku_STATUS
+<<<<<<< HEAD
 		err := registry.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
+=======
+		err := registry.Sku.AssignPropertiesToSkuSTATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
+>>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -981,9 +1764,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// Status
 	if registry.Status != nil {
 		var status alpha20210901s.Status_STATUS
+<<<<<<< HEAD
 		err := registry.Status.AssignPropertiesToStatus_STATUS(&status)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStatus_STATUS() to populate field Status")
+=======
+		err := registry.Status.AssignPropertiesToStatusSTATUS(&status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStatusSTATUS() to populate field Status")
+>>>>>>> main
 		}
 		destination.Status = &status
 	} else {
@@ -993,9 +1782,15 @@ func (registry *Registry_STATUS) AssignPropertiesToRegistry_STATUS(destination *
 	// SystemData
 	if registry.SystemData != nil {
 		var systemDatum alpha20210901s.SystemData_STATUS
+<<<<<<< HEAD
 		err := registry.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+		err := registry.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1759,8 +2554,13 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 
 // Deprecated version of EncryptionProperty_STATUS. Use v1beta20210901.EncryptionProperty_STATUS instead
 type EncryptionProperty_STATUS struct {
+<<<<<<< HEAD
 	KeyVaultProperties *KeyVaultProperties_STATUS        `json:"keyVaultProperties,omitempty"`
 	Status             *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
+=======
+	KeyVaultProperties *KeyVaultProperties_STATUS      `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_STATUS{}
@@ -1798,15 +2598,26 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromEncryptionProperty_STATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionProperty_STATUS(source *alpha20210901s.EncryptionProperty_STATUS) error {
+=======
+// AssignPropertiesFromEncryptionPropertySTATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
+func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropertySTATUS(source *alpha20210901s.EncryptionProperty_STATUS) error {
+>>>>>>> main
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
 		var keyVaultProperty KeyVaultProperties_STATUS
+<<<<<<< HEAD
 		err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties_STATUS(source.KeyVaultProperties)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+=======
+		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSTATUS(source.KeyVaultProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
+>>>>>>> main
 		}
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -1815,7 +2626,11 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 
 	// Status
 	if source.Status != nil {
+<<<<<<< HEAD
 		status := EncryptionProperty_Status_STATUS(*source.Status)
+=======
+		status := EncryptionPropertySTATUSStatus(*source.Status)
+>>>>>>> main
 		property.Status = &status
 	} else {
 		property.Status = nil
@@ -1825,17 +2640,28 @@ func (property *EncryptionProperty_STATUS) AssignPropertiesFromEncryptionPropert
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToEncryptionProperty_STATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
 func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionProperty_STATUS(destination *alpha20210901s.EncryptionProperty_STATUS) error {
+=======
+// AssignPropertiesToEncryptionPropertySTATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
+func (property *EncryptionProperty_STATUS) AssignPropertiesToEncryptionPropertySTATUS(destination *alpha20210901s.EncryptionProperty_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
 		var keyVaultProperty alpha20210901s.KeyVaultProperties_STATUS
+<<<<<<< HEAD
 		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+=======
+		err := property.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesSTATUS(&keyVaultProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSTATUS() to populate field KeyVaultProperties")
+>>>>>>> main
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2048,7 +2874,11 @@ func (properties *IdentityProperties) AssignPropertiesToIdentityProperties(desti
 type IdentityProperties_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	TenantId               *string                                  `json:"tenantId,omitempty"`
+<<<<<<< HEAD
 	Type                   *IdentityProperties_Type_STATUS          `json:"type,omitempty"`
+=======
+	Type                   *IdentityPropertiesSTATUSType            `json:"type,omitempty"`
+>>>>>>> main
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2101,8 +2931,13 @@ func (properties *IdentityProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIdentityProperties_STATUS populates our IdentityProperties_STATUS from the provided source IdentityProperties_STATUS
 func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityProperties_STATUS(source *alpha20210901s.IdentityProperties_STATUS) error {
+=======
+// AssignPropertiesFromIdentityPropertiesSTATUS populates our IdentityProperties_STATUS from the provided source IdentityProperties_STATUS
+func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropertiesSTATUS(source *alpha20210901s.IdentityProperties_STATUS) error {
+>>>>>>> main
 
 	// PrincipalId
 	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2112,7 +2947,11 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropert
 
 	// Type
 	if source.Type != nil {
+<<<<<<< HEAD
 		typeVar := IdentityProperties_Type_STATUS(*source.Type)
+=======
+		typeVar := IdentityPropertiesSTATUSType(*source.Type)
+>>>>>>> main
 		properties.Type = &typeVar
 	} else {
 		properties.Type = nil
@@ -2125,9 +2964,15 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropert
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity UserIdentityProperties_STATUS
+<<<<<<< HEAD
 			err := userAssignedIdentity.AssignPropertiesFromUserIdentityProperties_STATUS(&userAssignedIdentityValue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+=======
+			err := userAssignedIdentity.AssignPropertiesFromUserIdentityPropertiesSTATUS(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromUserIdentityPropertiesSTATUS() to populate field UserAssignedIdentities")
+>>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2140,8 +2985,13 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesFromIdentityPropert
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIdentityProperties_STATUS populates the provided destination IdentityProperties_STATUS from our IdentityProperties_STATUS
 func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityProperties_STATUS(destination *alpha20210901s.IdentityProperties_STATUS) error {
+=======
+// AssignPropertiesToIdentityPropertiesSTATUS populates the provided destination IdentityProperties_STATUS from our IdentityProperties_STATUS
+func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityPropertiesSTATUS(destination *alpha20210901s.IdentityProperties_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2166,9 +3016,15 @@ func (properties *IdentityProperties_STATUS) AssignPropertiesToIdentityPropertie
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
 			var userAssignedIdentity alpha20210901s.UserIdentityProperties_STATUS
+<<<<<<< HEAD
 			err := userAssignedIdentityValue.AssignPropertiesToUserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+=======
+			err := userAssignedIdentityValue.AssignPropertiesToUserIdentityPropertiesSTATUS(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToUserIdentityPropertiesSTATUS() to populate field UserAssignedIdentities")
+>>>>>>> main
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2330,8 +3186,13 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *alp
 
 // Deprecated version of NetworkRuleSet_STATUS. Use v1beta20210901.NetworkRuleSet_STATUS instead
 type NetworkRuleSet_STATUS struct {
+<<<<<<< HEAD
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
 	IpRules       []IPRule_STATUS                      `json:"ipRules,omitempty"`
+=======
+	DefaultAction *NetworkRuleSetSTATUSDefaultAction `json:"defaultAction,omitempty"`
+	IpRules       []IPRule_STATUS                    `json:"ipRules,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_STATUS{}
@@ -2368,12 +3229,21 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkRuleSet_STATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(source *alpha20210901s.NetworkRuleSet_STATUS) error {
 
 	// DefaultAction
 	if source.DefaultAction != nil {
 		defaultAction := NetworkRuleSet_DefaultAction_STATUS(*source.DefaultAction)
+=======
+// AssignPropertiesFromNetworkRuleSetSTATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
+func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSetSTATUS(source *alpha20210901s.NetworkRuleSet_STATUS) error {
+
+	// DefaultAction
+	if source.DefaultAction != nil {
+		defaultAction := NetworkRuleSetSTATUSDefaultAction(*source.DefaultAction)
+>>>>>>> main
 		ruleSet.DefaultAction = &defaultAction
 	} else {
 		ruleSet.DefaultAction = nil
@@ -2386,9 +3256,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule IPRule_STATUS
+<<<<<<< HEAD
 			err := ipRule.AssignPropertiesFromIPRule_STATUS(&ipRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromIPRule_STATUS() to populate field IpRules")
+=======
+			err := ipRule.AssignPropertiesFromIPRuleSTATUS(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleSTATUS() to populate field IpRules")
+>>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2401,8 +3277,13 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesFromNetworkRuleSet_STATUS(
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkRuleSet_STATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
 func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(destination *alpha20210901s.NetworkRuleSet_STATUS) error {
+=======
+// AssignPropertiesToNetworkRuleSetSTATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
+func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSetSTATUS(destination *alpha20210901s.NetworkRuleSet_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2421,9 +3302,15 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(de
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule alpha20210901s.IPRule_STATUS
+<<<<<<< HEAD
 			err := ipRuleItem.AssignPropertiesToIPRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIPRule_STATUS() to populate field IpRules")
+=======
+			err := ipRuleItem.AssignPropertiesToIPRuleSTATUS(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIPRuleSTATUS() to populate field IpRules")
+>>>>>>> main
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2751,15 +3638,26 @@ func (policies *Policies_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPolicies_STATUS populates our Policies_STATUS from the provided source Policies_STATUS
 func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *alpha20210901s.Policies_STATUS) error {
+=======
+// AssignPropertiesFromPoliciesSTATUS populates our Policies_STATUS from the provided source Policies_STATUS
+func (policies *Policies_STATUS) AssignPropertiesFromPoliciesSTATUS(source *alpha20210901s.Policies_STATUS) error {
+>>>>>>> main
 
 	// ExportPolicy
 	if source.ExportPolicy != nil {
 		var exportPolicy ExportPolicy_STATUS
+<<<<<<< HEAD
 		err := exportPolicy.AssignPropertiesFromExportPolicy_STATUS(source.ExportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExportPolicy_STATUS() to populate field ExportPolicy")
+=======
+		err := exportPolicy.AssignPropertiesFromExportPolicySTATUS(source.ExportPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromExportPolicySTATUS() to populate field ExportPolicy")
+>>>>>>> main
 		}
 		policies.ExportPolicy = &exportPolicy
 	} else {
@@ -2769,9 +3667,15 @@ func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *alp
 	// QuarantinePolicy
 	if source.QuarantinePolicy != nil {
 		var quarantinePolicy QuarantinePolicy_STATUS
+<<<<<<< HEAD
 		err := quarantinePolicy.AssignPropertiesFromQuarantinePolicy_STATUS(source.QuarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromQuarantinePolicy_STATUS() to populate field QuarantinePolicy")
+=======
+		err := quarantinePolicy.AssignPropertiesFromQuarantinePolicySTATUS(source.QuarantinePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromQuarantinePolicySTATUS() to populate field QuarantinePolicy")
+>>>>>>> main
 		}
 		policies.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -2781,9 +3685,15 @@ func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *alp
 	// RetentionPolicy
 	if source.RetentionPolicy != nil {
 		var retentionPolicy RetentionPolicy_STATUS
+<<<<<<< HEAD
 		err := retentionPolicy.AssignPropertiesFromRetentionPolicy_STATUS(source.RetentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromRetentionPolicy_STATUS() to populate field RetentionPolicy")
+=======
+		err := retentionPolicy.AssignPropertiesFromRetentionPolicySTATUS(source.RetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRetentionPolicySTATUS() to populate field RetentionPolicy")
+>>>>>>> main
 		}
 		policies.RetentionPolicy = &retentionPolicy
 	} else {
@@ -2793,9 +3703,15 @@ func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *alp
 	// TrustPolicy
 	if source.TrustPolicy != nil {
 		var trustPolicy TrustPolicy_STATUS
+<<<<<<< HEAD
 		err := trustPolicy.AssignPropertiesFromTrustPolicy_STATUS(source.TrustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromTrustPolicy_STATUS() to populate field TrustPolicy")
+=======
+		err := trustPolicy.AssignPropertiesFromTrustPolicySTATUS(source.TrustPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromTrustPolicySTATUS() to populate field TrustPolicy")
+>>>>>>> main
 		}
 		policies.TrustPolicy = &trustPolicy
 	} else {
@@ -2806,17 +3722,28 @@ func (policies *Policies_STATUS) AssignPropertiesFromPolicies_STATUS(source *alp
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPolicies_STATUS populates the provided destination Policies_STATUS from our Policies_STATUS
 func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *alpha20210901s.Policies_STATUS) error {
+=======
+// AssignPropertiesToPoliciesSTATUS populates the provided destination Policies_STATUS from our Policies_STATUS
+func (policies *Policies_STATUS) AssignPropertiesToPoliciesSTATUS(destination *alpha20210901s.Policies_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExportPolicy
 	if policies.ExportPolicy != nil {
 		var exportPolicy alpha20210901s.ExportPolicy_STATUS
+<<<<<<< HEAD
 		err := policies.ExportPolicy.AssignPropertiesToExportPolicy_STATUS(&exportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExportPolicy_STATUS() to populate field ExportPolicy")
+=======
+		err := policies.ExportPolicy.AssignPropertiesToExportPolicySTATUS(&exportPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToExportPolicySTATUS() to populate field ExportPolicy")
+>>>>>>> main
 		}
 		destination.ExportPolicy = &exportPolicy
 	} else {
@@ -2826,9 +3753,15 @@ func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *
 	// QuarantinePolicy
 	if policies.QuarantinePolicy != nil {
 		var quarantinePolicy alpha20210901s.QuarantinePolicy_STATUS
+<<<<<<< HEAD
 		err := policies.QuarantinePolicy.AssignPropertiesToQuarantinePolicy_STATUS(&quarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToQuarantinePolicy_STATUS() to populate field QuarantinePolicy")
+=======
+		err := policies.QuarantinePolicy.AssignPropertiesToQuarantinePolicySTATUS(&quarantinePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToQuarantinePolicySTATUS() to populate field QuarantinePolicy")
+>>>>>>> main
 		}
 		destination.QuarantinePolicy = &quarantinePolicy
 	} else {
@@ -2838,9 +3771,15 @@ func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *
 	// RetentionPolicy
 	if policies.RetentionPolicy != nil {
 		var retentionPolicy alpha20210901s.RetentionPolicy_STATUS
+<<<<<<< HEAD
 		err := policies.RetentionPolicy.AssignPropertiesToRetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToRetentionPolicy_STATUS() to populate field RetentionPolicy")
+=======
+		err := policies.RetentionPolicy.AssignPropertiesToRetentionPolicySTATUS(&retentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRetentionPolicySTATUS() to populate field RetentionPolicy")
+>>>>>>> main
 		}
 		destination.RetentionPolicy = &retentionPolicy
 	} else {
@@ -2850,9 +3789,15 @@ func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *
 	// TrustPolicy
 	if policies.TrustPolicy != nil {
 		var trustPolicy alpha20210901s.TrustPolicy_STATUS
+<<<<<<< HEAD
 		err := policies.TrustPolicy.AssignPropertiesToTrustPolicy_STATUS(&trustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTrustPolicy_STATUS() to populate field TrustPolicy")
+=======
+		err := policies.TrustPolicy.AssignPropertiesToTrustPolicySTATUS(&trustPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToTrustPolicySTATUS() to populate field TrustPolicy")
+>>>>>>> main
 		}
 		destination.TrustPolicy = &trustPolicy
 	} else {
@@ -2870,12 +3815,18 @@ func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210901.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
+=======
+// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+>>>>>>> main
 	Id         *string            `json:"id,omitempty"`
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -2888,6 +3839,20 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 	typedInput, ok := armInput.(PrivateEndpointConnection_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘Id’:
@@ -2911,8 +3876,13 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *alpha20210901s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSSubResourceEmbedded(source *alpha20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -2920,9 +3890,15 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateE
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		connection.SystemData = &systemDatum
 	} else {
@@ -2933,8 +3909,13 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateE
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *alpha20210901s.PrivateEndpointConnection_STATUS) error {
+=======
+// AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSSubResourceEmbedded(destination *alpha20210901s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2942,11 +3923,19 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// SystemData
+<<<<<<< HEAD
 	if connection.SystemData != nil {
 		var systemDatum alpha20210901s.SystemData_STATUS
 		err := connection.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+	if embedded.SystemData != nil {
+		var systemDatum alpha20210901s.SystemData_STATUS
+		err := embedded.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2964,6 +3953,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of RegistryProperties_NetworkRuleBypassOptions. Use
 // v1beta20210901.RegistryProperties_NetworkRuleBypassOptions instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
@@ -3031,6 +4021,46 @@ type RegistryProperties_ZoneRedundancy_STATUS string
 const (
 	RegistryProperties_ZoneRedundancy_Disabled_STATUS = RegistryProperties_ZoneRedundancy_STATUS("Disabled")
 	RegistryProperties_ZoneRedundancy_Enabled_STATUS  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
+=======
+// Deprecated version of RegistryPropertiesSTATUSNetworkRuleBypassOptions. Use
+// v1beta20210901.RegistryPropertiesSTATUSNetworkRuleBypassOptions instead
+type RegistryPropertiesSTATUSNetworkRuleBypassOptions string
+
+const (
+	RegistryPropertiesSTATUSNetworkRuleBypassOptions_AzureServices = RegistryPropertiesSTATUSNetworkRuleBypassOptions("AzureServices")
+	RegistryPropertiesSTATUSNetworkRuleBypassOptions_None          = RegistryPropertiesSTATUSNetworkRuleBypassOptions("None")
+)
+
+// Deprecated version of RegistryPropertiesSTATUSProvisioningState. Use
+// v1beta20210901.RegistryPropertiesSTATUSProvisioningState instead
+type RegistryPropertiesSTATUSProvisioningState string
+
+const (
+	RegistryPropertiesSTATUSProvisioningState_Canceled  = RegistryPropertiesSTATUSProvisioningState("Canceled")
+	RegistryPropertiesSTATUSProvisioningState_Creating  = RegistryPropertiesSTATUSProvisioningState("Creating")
+	RegistryPropertiesSTATUSProvisioningState_Deleting  = RegistryPropertiesSTATUSProvisioningState("Deleting")
+	RegistryPropertiesSTATUSProvisioningState_Failed    = RegistryPropertiesSTATUSProvisioningState("Failed")
+	RegistryPropertiesSTATUSProvisioningState_Succeeded = RegistryPropertiesSTATUSProvisioningState("Succeeded")
+	RegistryPropertiesSTATUSProvisioningState_Updating  = RegistryPropertiesSTATUSProvisioningState("Updating")
+)
+
+// Deprecated version of RegistryPropertiesSTATUSPublicNetworkAccess. Use
+// v1beta20210901.RegistryPropertiesSTATUSPublicNetworkAccess instead
+type RegistryPropertiesSTATUSPublicNetworkAccess string
+
+const (
+	RegistryPropertiesSTATUSPublicNetworkAccess_Disabled = RegistryPropertiesSTATUSPublicNetworkAccess("Disabled")
+	RegistryPropertiesSTATUSPublicNetworkAccess_Enabled  = RegistryPropertiesSTATUSPublicNetworkAccess("Enabled")
+)
+
+// Deprecated version of RegistryPropertiesSTATUSZoneRedundancy. Use v1beta20210901.RegistryPropertiesSTATUSZoneRedundancy
+// instead
+type RegistryPropertiesSTATUSZoneRedundancy string
+
+const (
+	RegistryPropertiesSTATUSZoneRedundancy_Disabled = RegistryPropertiesSTATUSZoneRedundancy("Disabled")
+	RegistryPropertiesSTATUSZoneRedundancy_Enabled  = RegistryPropertiesSTATUSZoneRedundancy("Enabled")
+>>>>>>> main
 )
 
 // Deprecated version of Sku. Use v1beta20210901.Sku instead
@@ -3119,8 +4149,13 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210901s.Sku) error {
 
 // Deprecated version of Sku_STATUS. Use v1beta20210901.Sku_STATUS instead
 type Sku_STATUS struct {
+<<<<<<< HEAD
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *SkuSTATUSName `json:"name,omitempty"`
+	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -3153,12 +4188,21 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *alpha20210901s.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
 		name := Sku_Name_STATUS(*source.Name)
+=======
+// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *alpha20210901s.Sku_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := SkuSTATUSName(*source.Name)
+>>>>>>> main
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -3166,7 +4210,11 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *alpha20210901s.Sku
 
 	// Tier
 	if source.Tier != nil {
+<<<<<<< HEAD
 		tier := Sku_Tier_STATUS(*source.Tier)
+=======
+		tier := SkuSTATUSTier(*source.Tier)
+>>>>>>> main
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil
@@ -3176,8 +4224,13 @@ func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *alpha20210901s.Sku
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
 func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *alpha20210901s.Sku_STATUS) error {
+=======
+// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *alpha20210901s.Sku_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3251,8 +4304,13 @@ func (status *Status_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromStatus_STATUS populates our Status_STATUS from the provided source Status_STATUS
 func (status *Status_STATUS) AssignPropertiesFromStatus_STATUS(source *alpha20210901s.Status_STATUS) error {
+=======
+// AssignPropertiesFromStatusSTATUS populates our Status_STATUS from the provided source Status_STATUS
+func (status *Status_STATUS) AssignPropertiesFromStatusSTATUS(source *alpha20210901s.Status_STATUS) error {
+>>>>>>> main
 
 	// DisplayStatus
 	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
@@ -3267,8 +4325,13 @@ func (status *Status_STATUS) AssignPropertiesFromStatus_STATUS(source *alpha2021
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToStatus_STATUS populates the provided destination Status_STATUS from our Status_STATUS
 func (status *Status_STATUS) AssignPropertiesToStatus_STATUS(destination *alpha20210901s.Status_STATUS) error {
+=======
+// AssignPropertiesToStatusSTATUS populates the provided destination Status_STATUS from our Status_STATUS
+func (status *Status_STATUS) AssignPropertiesToStatusSTATUS(destination *alpha20210901s.Status_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3294,12 +4357,21 @@ func (status *Status_STATUS) AssignPropertiesToStatus_STATUS(destination *alpha2
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210901.SystemData_STATUS instead
 type SystemData_STATUS struct {
+<<<<<<< HEAD
 	CreatedAt          *string                               `json:"createdAt,omitempty"`
 	CreatedBy          *string                               `json:"createdBy,omitempty"`
 	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
 	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
 	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+=======
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &SystemData_STATUS{}
@@ -3356,8 +4428,13 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *alpha20210901s.SystemData_STATUS) error {
+=======
+// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *alpha20210901s.SystemData_STATUS) error {
+>>>>>>> main
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3367,7 +4444,11 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *alp
 
 	// CreatedByType
 	if source.CreatedByType != nil {
+<<<<<<< HEAD
 		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
+=======
+		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
+>>>>>>> main
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -3381,7 +4462,11 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *alp
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
+<<<<<<< HEAD
 		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
+=======
+		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
+>>>>>>> main
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -3391,8 +4476,13 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *alp
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
 func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *alpha20210901s.SystemData_STATUS) error {
+=======
+// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *alpha20210901s.SystemData_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3435,6 +4525,7 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type EncryptionProperty_Status string
@@ -3450,6 +4541,14 @@ type EncryptionProperty_Status_STATUS string
 const (
 	EncryptionProperty_Status_Disabled_STATUS = EncryptionProperty_Status_STATUS("disabled")
 	EncryptionProperty_Status_Enabled_STATUS  = EncryptionProperty_Status_STATUS("enabled")
+=======
+// Deprecated version of EncryptionPropertySTATUSStatus. Use v1beta20210901.EncryptionPropertySTATUSStatus instead
+type EncryptionPropertySTATUSStatus string
+
+const (
+	EncryptionPropertySTATUSStatus_Disabled = EncryptionPropertySTATUSStatus("disabled")
+	EncryptionPropertySTATUSStatus_Enabled  = EncryptionPropertySTATUSStatus("enabled")
+>>>>>>> main
 )
 
 // Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
@@ -3537,7 +4636,11 @@ func (policy *ExportPolicy) AssignPropertiesToExportPolicy(destination *alpha202
 
 // Deprecated version of ExportPolicy_STATUS. Use v1beta20210901.ExportPolicy_STATUS instead
 type ExportPolicy_STATUS struct {
+<<<<<<< HEAD
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Status *ExportPolicySTATUSStatus `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &ExportPolicy_STATUS{}
@@ -3564,12 +4667,21 @@ func (policy *ExportPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromExportPolicy_STATUS populates our ExportPolicy_STATUS from the provided source ExportPolicy_STATUS
 func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicy_STATUS(source *alpha20210901s.ExportPolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
 		status := ExportPolicy_Status_STATUS(*source.Status)
+=======
+// AssignPropertiesFromExportPolicySTATUS populates our ExportPolicy_STATUS from the provided source ExportPolicy_STATUS
+func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicySTATUS(source *alpha20210901s.ExportPolicy_STATUS) error {
+
+	// Status
+	if source.Status != nil {
+		status := ExportPolicySTATUSStatus(*source.Status)
+>>>>>>> main
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -3579,8 +4691,13 @@ func (policy *ExportPolicy_STATUS) AssignPropertiesFromExportPolicy_STATUS(sourc
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToExportPolicy_STATUS populates the provided destination ExportPolicy_STATUS from our ExportPolicy_STATUS
 func (policy *ExportPolicy_STATUS) AssignPropertiesToExportPolicy_STATUS(destination *alpha20210901s.ExportPolicy_STATUS) error {
+=======
+// AssignPropertiesToExportPolicySTATUS populates the provided destination ExportPolicy_STATUS from our ExportPolicy_STATUS
+func (policy *ExportPolicy_STATUS) AssignPropertiesToExportPolicySTATUS(destination *alpha20210901s.ExportPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3709,8 +4826,13 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *alpha20210901s.IPRule)
 
 // Deprecated version of IPRule_STATUS. Use v1beta20210901.IPRule_STATUS instead
 type IPRule_STATUS struct {
+<<<<<<< HEAD
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
 	Value  *string               `json:"value,omitempty"`
+=======
+	Action *IPRuleSTATUSAction `json:"action,omitempty"`
+	Value  *string             `json:"value,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &IPRule_STATUS{}
@@ -3743,12 +4865,21 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIPRule_STATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesFromIPRule_STATUS(source *alpha20210901s.IPRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
 		action := IPRule_Action_STATUS(*source.Action)
+=======
+// AssignPropertiesFromIPRuleSTATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
+func (rule *IPRule_STATUS) AssignPropertiesFromIPRuleSTATUS(source *alpha20210901s.IPRule_STATUS) error {
+
+	// Action
+	if source.Action != nil {
+		action := IPRuleSTATUSAction(*source.Action)
+>>>>>>> main
 		rule.Action = &action
 	} else {
 		rule.Action = nil
@@ -3761,8 +4892,13 @@ func (rule *IPRule_STATUS) AssignPropertiesFromIPRule_STATUS(source *alpha202109
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIPRule_STATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
 func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *alpha20210901s.IPRule_STATUS) error {
+=======
+// AssignPropertiesToIPRuleSTATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
+func (rule *IPRule_STATUS) AssignPropertiesToIPRuleSTATUS(destination *alpha20210901s.IPRule_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3937,8 +5073,13 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromKeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultProperties_STATUS(source *alpha20210901s.KeyVaultProperties_STATUS) error {
+=======
+// AssignPropertiesFromKeyVaultPropertiesSTATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropertiesSTATUS(source *alpha20210901s.KeyVaultProperties_STATUS) error {
+>>>>>>> main
 
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
@@ -3964,8 +5105,13 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesFromKeyVaultPropert
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToKeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
 func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultProperties_STATUS(destination *alpha20210901s.KeyVaultProperties_STATUS) error {
+=======
+// AssignPropertiesToKeyVaultPropertiesSTATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertiesSTATUS(destination *alpha20210901s.KeyVaultProperties_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4000,6 +5146,7 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of NetworkRuleSet_DefaultAction. Use v1beta20210901.NetworkRuleSet_DefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
@@ -4015,6 +5162,14 @@ type NetworkRuleSet_DefaultAction_STATUS string
 const (
 	NetworkRuleSet_DefaultAction_Allow_STATUS = NetworkRuleSet_DefaultAction_STATUS("Allow")
 	NetworkRuleSet_DefaultAction_Deny_STATUS  = NetworkRuleSet_DefaultAction_STATUS("Deny")
+=======
+// Deprecated version of NetworkRuleSetSTATUSDefaultAction. Use v1beta20210901.NetworkRuleSetSTATUSDefaultAction instead
+type NetworkRuleSetSTATUSDefaultAction string
+
+const (
+	NetworkRuleSetSTATUSDefaultAction_Allow = NetworkRuleSetSTATUSDefaultAction("Allow")
+	NetworkRuleSetSTATUSDefaultAction_Deny  = NetworkRuleSetSTATUSDefaultAction("Deny")
+>>>>>>> main
 )
 
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
@@ -4102,7 +5257,11 @@ func (policy *QuarantinePolicy) AssignPropertiesToQuarantinePolicy(destination *
 
 // Deprecated version of QuarantinePolicy_STATUS. Use v1beta20210901.QuarantinePolicy_STATUS instead
 type QuarantinePolicy_STATUS struct {
+<<<<<<< HEAD
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Status *QuarantinePolicySTATUSStatus `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &QuarantinePolicy_STATUS{}
@@ -4129,12 +5288,21 @@ func (policy *QuarantinePolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromQuarantinePolicy_STATUS populates our QuarantinePolicy_STATUS from the provided source QuarantinePolicy_STATUS
 func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicy_STATUS(source *alpha20210901s.QuarantinePolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
 		status := QuarantinePolicy_Status_STATUS(*source.Status)
+=======
+// AssignPropertiesFromQuarantinePolicySTATUS populates our QuarantinePolicy_STATUS from the provided source QuarantinePolicy_STATUS
+func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicySTATUS(source *alpha20210901s.QuarantinePolicy_STATUS) error {
+
+	// Status
+	if source.Status != nil {
+		status := QuarantinePolicySTATUSStatus(*source.Status)
+>>>>>>> main
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -4144,8 +5312,13 @@ func (policy *QuarantinePolicy_STATUS) AssignPropertiesFromQuarantinePolicy_STAT
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToQuarantinePolicy_STATUS populates the provided destination QuarantinePolicy_STATUS from our QuarantinePolicy_STATUS
 func (policy *QuarantinePolicy_STATUS) AssignPropertiesToQuarantinePolicy_STATUS(destination *alpha20210901s.QuarantinePolicy_STATUS) error {
+=======
+// AssignPropertiesToQuarantinePolicySTATUS populates the provided destination QuarantinePolicy_STATUS from our QuarantinePolicy_STATUS
+func (policy *QuarantinePolicy_STATUS) AssignPropertiesToQuarantinePolicySTATUS(destination *alpha20210901s.QuarantinePolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4272,9 +5445,15 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *al
 
 // Deprecated version of RetentionPolicy_STATUS. Use v1beta20210901.RetentionPolicy_STATUS instead
 type RetentionPolicy_STATUS struct {
+<<<<<<< HEAD
 	Days            *int                           `json:"days,omitempty"`
 	LastUpdatedTime *string                        `json:"lastUpdatedTime,omitempty"`
 	Status          *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Days            *int                         `json:"days,omitempty"`
+	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
+	Status          *RetentionPolicySTATUSStatus `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &RetentionPolicy_STATUS{}
@@ -4313,8 +5492,13 @@ func (policy *RetentionPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromRetentionPolicy_STATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
 func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicy_STATUS(source *alpha20210901s.RetentionPolicy_STATUS) error {
+=======
+// AssignPropertiesFromRetentionPolicySTATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
+func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicySTATUS(source *alpha20210901s.RetentionPolicy_STATUS) error {
+>>>>>>> main
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -4324,7 +5508,11 @@ func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicy_STATUS
 
 	// Status
 	if source.Status != nil {
+<<<<<<< HEAD
 		status := RetentionPolicy_Status_STATUS(*source.Status)
+=======
+		status := RetentionPolicySTATUSStatus(*source.Status)
+>>>>>>> main
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -4334,8 +5522,13 @@ func (policy *RetentionPolicy_STATUS) AssignPropertiesFromRetentionPolicy_STATUS
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToRetentionPolicy_STATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
 func (policy *RetentionPolicy_STATUS) AssignPropertiesToRetentionPolicy_STATUS(destination *alpha20210901s.RetentionPolicy_STATUS) error {
+=======
+// AssignPropertiesToRetentionPolicySTATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
+func (policy *RetentionPolicy_STATUS) AssignPropertiesToRetentionPolicySTATUS(destination *alpha20210901s.RetentionPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4478,8 +5671,13 @@ func (policy *TrustPolicy) AssignPropertiesToTrustPolicy(destination *alpha20210
 
 // Deprecated version of TrustPolicy_STATUS. Use v1beta20210901.TrustPolicy_STATUS instead
 type TrustPolicy_STATUS struct {
+<<<<<<< HEAD
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`
 	Type   *TrustPolicy_Type_STATUS   `json:"type,omitempty"`
+=======
+	Status *TrustPolicySTATUSStatus `json:"status,omitempty"`
+	Type   *TrustPolicySTATUSType   `json:"type,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &TrustPolicy_STATUS{}
@@ -4512,12 +5710,21 @@ func (policy *TrustPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromTrustPolicy_STATUS populates our TrustPolicy_STATUS from the provided source TrustPolicy_STATUS
 func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicy_STATUS(source *alpha20210901s.TrustPolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
 		status := TrustPolicy_Status_STATUS(*source.Status)
+=======
+// AssignPropertiesFromTrustPolicySTATUS populates our TrustPolicy_STATUS from the provided source TrustPolicy_STATUS
+func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicySTATUS(source *alpha20210901s.TrustPolicy_STATUS) error {
+
+	// Status
+	if source.Status != nil {
+		status := TrustPolicySTATUSStatus(*source.Status)
+>>>>>>> main
 		policy.Status = &status
 	} else {
 		policy.Status = nil
@@ -4525,7 +5732,11 @@ func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicy_STATUS(source 
 
 	// Type
 	if source.Type != nil {
+<<<<<<< HEAD
 		typeVar := TrustPolicy_Type_STATUS(*source.Type)
+=======
+		typeVar := TrustPolicySTATUSType(*source.Type)
+>>>>>>> main
 		policy.Type = &typeVar
 	} else {
 		policy.Type = nil
@@ -4535,8 +5746,13 @@ func (policy *TrustPolicy_STATUS) AssignPropertiesFromTrustPolicy_STATUS(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToTrustPolicy_STATUS populates the provided destination TrustPolicy_STATUS from our TrustPolicy_STATUS
 func (policy *TrustPolicy_STATUS) AssignPropertiesToTrustPolicy_STATUS(destination *alpha20210901s.TrustPolicy_STATUS) error {
+=======
+// AssignPropertiesToTrustPolicySTATUS populates the provided destination TrustPolicy_STATUS from our TrustPolicy_STATUS
+func (policy *TrustPolicy_STATUS) AssignPropertiesToTrustPolicySTATUS(destination *alpha20210901s.TrustPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4695,8 +5911,13 @@ func (properties *UserIdentityProperties_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromUserIdentityProperties_STATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
 func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentityProperties_STATUS(source *alpha20210901s.UserIdentityProperties_STATUS) error {
+=======
+// AssignPropertiesFromUserIdentityPropertiesSTATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
+func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentityPropertiesSTATUS(source *alpha20210901s.UserIdentityProperties_STATUS) error {
+>>>>>>> main
 
 	// ClientId
 	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -4708,8 +5929,13 @@ func (properties *UserIdentityProperties_STATUS) AssignPropertiesFromUserIdentit
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToUserIdentityProperties_STATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
 func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityProperties_STATUS(destination *alpha20210901s.UserIdentityProperties_STATUS) error {
+=======
+// AssignPropertiesToUserIdentityPropertiesSTATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
+func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityPropertiesSTATUS(destination *alpha20210901s.UserIdentityProperties_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4730,6 +5956,7 @@ func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityP
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type ExportPolicy_Status string
@@ -4819,6 +6046,49 @@ const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 type TrustPolicy_Type_STATUS string
 
 const TrustPolicy_Type_Notary_STATUS = TrustPolicy_Type_STATUS("Notary")
+=======
+// Deprecated version of ExportPolicySTATUSStatus. Use v1beta20210901.ExportPolicySTATUSStatus instead
+type ExportPolicySTATUSStatus string
+
+const (
+	ExportPolicySTATUSStatus_Disabled = ExportPolicySTATUSStatus("disabled")
+	ExportPolicySTATUSStatus_Enabled  = ExportPolicySTATUSStatus("enabled")
+)
+
+// Deprecated version of IPRuleSTATUSAction. Use v1beta20210901.IPRuleSTATUSAction instead
+type IPRuleSTATUSAction string
+
+const IPRuleSTATUSAction_Allow = IPRuleSTATUSAction("Allow")
+
+// Deprecated version of QuarantinePolicySTATUSStatus. Use v1beta20210901.QuarantinePolicySTATUSStatus instead
+type QuarantinePolicySTATUSStatus string
+
+const (
+	QuarantinePolicySTATUSStatus_Disabled = QuarantinePolicySTATUSStatus("disabled")
+	QuarantinePolicySTATUSStatus_Enabled  = QuarantinePolicySTATUSStatus("enabled")
+)
+
+// Deprecated version of RetentionPolicySTATUSStatus. Use v1beta20210901.RetentionPolicySTATUSStatus instead
+type RetentionPolicySTATUSStatus string
+
+const (
+	RetentionPolicySTATUSStatus_Disabled = RetentionPolicySTATUSStatus("disabled")
+	RetentionPolicySTATUSStatus_Enabled  = RetentionPolicySTATUSStatus("enabled")
+)
+
+// Deprecated version of TrustPolicySTATUSStatus. Use v1beta20210901.TrustPolicySTATUSStatus instead
+type TrustPolicySTATUSStatus string
+
+const (
+	TrustPolicySTATUSStatus_Disabled = TrustPolicySTATUSStatus("disabled")
+	TrustPolicySTATUSStatus_Enabled  = TrustPolicySTATUSStatus("enabled")
+)
+
+// Deprecated version of TrustPolicySTATUSType. Use v1beta20210901.TrustPolicySTATUSType instead
+type TrustPolicySTATUSType string
+
+const TrustPolicySTATUSType_Notary = TrustPolicySTATUSType("Notary")
+>>>>>>> main
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

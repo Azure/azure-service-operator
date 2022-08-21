@@ -25,8 +25,13 @@ import (
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              FlexibleServersFirewallRule_Spec   `json:"spec,omitempty"`
 	Status            FlexibleServersFirewallRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              FlexibleServersFirewallRules_Spec `json:"spec,omitempty"`
+	Status            FirewallRule_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &FlexibleServersFirewallRule{}
@@ -97,7 +102,11 @@ func (rule *FlexibleServersFirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *FlexibleServersFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &FlexibleServersFirewallRule_STATUS{}
+=======
+	return &FirewallRule_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +122,21 @@ func (rule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*FlexibleServersFirewallRule_STATUS); ok {
+=======
+	if st, ok := status.(*FirewallRule_STATUS); ok {
+>>>>>>> main
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st FlexibleServersFirewallRule_STATUS
+=======
+	var st FirewallRule_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +161,17 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesFromFlexibleServersFire
 	rule.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status FlexibleServersFirewallRule_STATUS
 	err = status.AssignPropertiesFromFlexibleServersFirewallRule_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRule_STATUS() to populate field Status")
+=======
+	var status FirewallRule_STATUS
+	err = status.AssignPropertiesFromFirewallRuleSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromFirewallRuleSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	rule.Status = status
 
@@ -170,10 +194,17 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesToFlexibleServersFirewa
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20210501s.FlexibleServersFirewallRule_STATUS
 	err = rule.Status.AssignPropertiesToFlexibleServersFirewallRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRule_STATUS() to populate field Status")
+=======
+	var status v20210501s.FirewallRule_STATUS
+	err = rule.Status.AssignPropertiesToFirewallRuleSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToFirewallRuleSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -199,9 +230,15 @@ type FlexibleServersFirewallRuleList struct {
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1alpha1api20210501.FlexibleServersFirewallRule_STATUS
 // Deprecated version of FlexibleServersFirewallRule_STATUS. Use v1beta20210501.FlexibleServersFirewallRule_STATUS instead
 type FlexibleServersFirewallRule_STATUS struct {
+=======
+// Storage version of v1alpha1api20210501.FirewallRule_STATUS
+// Deprecated version of FirewallRule_STATUS. Use v1beta20210501.FirewallRule_STATUS instead
+type FirewallRule_STATUS struct {
+>>>>>>> main
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
 	Id             *string                `json:"id,omitempty"`
@@ -212,6 +249,7 @@ type FlexibleServersFirewallRule_STATUS struct {
 	Type           *string                `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &FlexibleServersFirewallRule_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServersFirewallRule_STATUS from the provided source
@@ -224,13 +262,31 @@ func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusFrom(source genrunt
 
 	// Convert to an intermediate form
 	src = &v20210501s.FlexibleServersFirewallRule_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &FirewallRule_STATUS{}
+
+// ConvertStatusFrom populates our FirewallRule_STATUS from the provided source
+func (rule *FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.FirewallRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignPropertiesFromFirewallRuleSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210501s.FirewallRule_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = rule.AssignPropertiesFromFlexibleServersFirewallRule_STATUS(src)
+=======
+	err = rule.AssignPropertiesFromFirewallRuleSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -238,6 +294,7 @@ func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our FlexibleServersFirewallRule_STATUS
 func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v20210501s.FlexibleServersFirewallRule_STATUS)
@@ -249,6 +306,19 @@ func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusTo(destination genr
 	// Convert to an intermediate form
 	dst = &v20210501s.FlexibleServersFirewallRule_STATUS{}
 	err := rule.AssignPropertiesToFlexibleServersFirewallRule_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our FirewallRule_STATUS
+func (rule *FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.FirewallRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignPropertiesToFirewallRuleSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210501s.FirewallRule_STATUS{}
+	err := rule.AssignPropertiesToFirewallRuleSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -262,8 +332,13 @@ func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromFlexibleServersFirewallRule_STATUS populates our FlexibleServersFirewallRule_STATUS from the provided source FlexibleServersFirewallRule_STATUS
 func (rule *FlexibleServersFirewallRule_STATUS) AssignPropertiesFromFlexibleServersFirewallRule_STATUS(source *v20210501s.FlexibleServersFirewallRule_STATUS) error {
+=======
+// AssignPropertiesFromFirewallRuleSTATUS populates our FirewallRule_STATUS from the provided source FirewallRule_STATUS
+func (rule *FirewallRule_STATUS) AssignPropertiesFromFirewallRuleSTATUS(source *v20210501s.FirewallRule_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -285,9 +360,15 @@ func (rule *FlexibleServersFirewallRule_STATUS) AssignPropertiesFromFlexibleServ
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -308,8 +389,13 @@ func (rule *FlexibleServersFirewallRule_STATUS) AssignPropertiesFromFlexibleServ
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToFlexibleServersFirewallRule_STATUS populates the provided destination FlexibleServersFirewallRule_STATUS from our FlexibleServersFirewallRule_STATUS
 func (rule *FlexibleServersFirewallRule_STATUS) AssignPropertiesToFlexibleServersFirewallRule_STATUS(destination *v20210501s.FlexibleServersFirewallRule_STATUS) error {
+=======
+// AssignPropertiesToFirewallRuleSTATUS populates the provided destination FirewallRule_STATUS from our FirewallRule_STATUS
+func (rule *FirewallRule_STATUS) AssignPropertiesToFirewallRuleSTATUS(destination *v20210501s.FirewallRule_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -331,9 +417,15 @@ func (rule *FlexibleServersFirewallRule_STATUS) AssignPropertiesToFlexibleServer
 	// SystemData
 	if rule.SystemData != nil {
 		var systemDatum v20210501s.SystemData_STATUS
+<<<<<<< HEAD
 		err := rule.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+		err := rule.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {

@@ -162,8 +162,13 @@ func MongodbDatabaseThroughputSettingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForMongodbDatabaseThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseThroughputSetting(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator()
 	gens["Status"] = DatabaseAccountsMongodbDatabasesThroughputSetting_STATUSGenerator()
+=======
+	gens["Spec"] = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()
+	gens["Status"] = ThroughputSettingsGetResultsSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

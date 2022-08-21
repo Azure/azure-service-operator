@@ -28,8 +28,13 @@ import (
 type SqlDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabasesThroughputSetting_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabasesThroughputSetting_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabasesThroughputSettings_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                 `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseThroughputSetting{}
@@ -137,7 +142,11 @@ func (setting *SqlDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabasesThroughputSetting_STATUS{}
+=======
+	return &ThroughputSettingsGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (setting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabasesThroughputSetting_STATUS); ok {
+=======
+	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
+>>>>>>> main
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
+=======
+	var st ThroughputSettingsGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThro
 	setting.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
 	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSetting_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSetting_STATUS() to populate field Status")
+=======
+	var status ThroughputSettingsGetResults_STATUS
+	err = status.AssignPropertiesFromThroughputSettingsGetResultsSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	setting.Status = status
 
@@ -303,10 +327,17 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroug
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
 	err = setting.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSetting_STATUS() to populate field Status")
+=======
+	var status alpha20210515s.ThroughputSettingsGetResults_STATUS
+	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 

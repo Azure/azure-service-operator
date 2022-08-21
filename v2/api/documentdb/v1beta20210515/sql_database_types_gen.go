@@ -30,8 +30,13 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabase_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabases_Spec `json:"spec,omitempty"`
+	Status            SqlDatabaseGetResults_STATUS      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -125,7 +130,11 @@ func (database *SqlDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabase_STATUS{}
+=======
+	return &SqlDatabaseGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +150,21 @@ func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabase_STATUS); ok {
+=======
+	if st, ok := status.(*SqlDatabaseGetResults_STATUS); ok {
+>>>>>>> main
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabase_STATUS
+=======
+	var st SqlDatabaseGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -265,10 +282,17 @@ func (database *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v20210515s.
 	database.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status DatabaseAccountsSqlDatabase_STATUS
 	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabase_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabase_STATUS() to populate field Status")
+=======
+	var status SqlDatabaseGetResults_STATUS
+	err = status.AssignPropertiesFromSqlDatabaseGetResultsSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	database.Status = status
 
@@ -291,10 +315,17 @@ func (database *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v2021051
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20210515s.DatabaseAccountsSqlDatabase_STATUS
 	err = database.Status.AssignPropertiesToDatabaseAccountsSqlDatabase_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabase_STATUS() to populate field Status")
+=======
+	var status v20210515s.SqlDatabaseGetResults_STATUS
+	err = database.Status.AssignPropertiesToSqlDatabaseGetResultsSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -321,7 +352,324 @@ type SqlDatabaseList struct {
 	Items           []SqlDatabase `json:"items"`
 }
 
+<<<<<<< HEAD
 type DatabaseAccountsSqlDatabase_STATUS struct {
+=======
+type DatabaseAccountsSqlDatabases_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: The location of the resource group to which the resource belongs.
+	Location *string `json:"location,omitempty"`
+
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
+	Options *CreateUpdateOptions `json:"options,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/DatabaseAccount resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
+
+	// +kubebuilder:validation:Required
+	// Resource: Cosmos DB SQL database resource object
+	Resource *SqlDatabaseResource `json:"resource,omitempty"`
+
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabases_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if databases == nil {
+		return nil, nil
+	}
+	result := &DatabaseAccountsSqlDatabases_SpecARM{}
+
+	// Set property ‘Location’:
+	if databases.Location != nil {
+		location := *databases.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if databases.Options != nil || databases.Resource != nil {
+		result.Properties = &SqlDatabaseCreateUpdatePropertiesARM{}
+	}
+	if databases.Options != nil {
+		optionsARM, err := (*databases.Options).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		options := *optionsARM.(*CreateUpdateOptionsARM)
+		result.Properties.Options = &options
+	}
+	if databases.Resource != nil {
+		resourceARM, err := (*databases.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := *resourceARM.(*SqlDatabaseResourceARM)
+		result.Properties.Resource = &resource
+	}
+
+	// Set property ‘Tags’:
+	if databases.Tags != nil {
+		result.Tags = make(map[string]string, len(databases.Tags))
+		for key, value := range databases.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databases *DatabaseAccountsSqlDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabases_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (databases *DatabaseAccountsSqlDatabases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabases_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabases_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	databases.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		databases.Location = &location
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			databases.Options = &options
+		}
+	}
+
+	// Set property ‘Owner’:
+	databases.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlDatabaseResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			databases.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			databases.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabases_Spec{}
+
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabases_Spec from the provided source
+func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccountsSqlDatabases_Spec)
+	if ok {
+		// Populate our instance from source
+		return databases.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.DatabaseAccountsSqlDatabases_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = databases.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabases_Spec
+func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabases_Spec)
+	if ok {
+		// Populate destination from our instance
+		return databases.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.DatabaseAccountsSqlDatabases_Spec{}
+	err := databases.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec populates our DatabaseAccountsSqlDatabases_Spec from the provided source DatabaseAccountsSqlDatabases_Spec
+func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(source *v20210515s.DatabaseAccountsSqlDatabases_Spec) error {
+
+	// AzureName
+	databases.AzureName = source.AzureName
+
+	// Location
+	databases.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions
+		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+		}
+		databases.Options = &option
+	} else {
+		databases.Options = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		databases.Owner = &owner
+	} else {
+		databases.Owner = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlDatabaseResource
+		err := resource.AssignPropertiesFromSqlDatabaseResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseResource() to populate field Resource")
+		}
+		databases.Resource = &resource
+	} else {
+		databases.Resource = nil
+	}
+
+	// Tags
+	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesSpec populates the provided destination DatabaseAccountsSqlDatabases_Spec from our DatabaseAccountsSqlDatabases_Spec
+func (databases *DatabaseAccountsSqlDatabases_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(destination *v20210515s.DatabaseAccountsSqlDatabases_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = databases.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(databases.Location)
+
+	// Options
+	if databases.Options != nil {
+		var option v20210515s.CreateUpdateOptions
+		err := databases.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = databases.OriginalVersion()
+
+	// Owner
+	if databases.Owner != nil {
+		owner := databases.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Resource
+	if databases.Resource != nil {
+		var resource v20210515s.SqlDatabaseResource
+		err := databases.Resource.AssignPropertiesToSqlDatabaseResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (databases *DatabaseAccountsSqlDatabases_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (databases *DatabaseAccountsSqlDatabases_Spec) SetAzureName(azureName string) {
+	databases.AzureName = azureName
+}
+
+type SqlDatabaseGetResults_STATUS struct {
+>>>>>>> main
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -334,13 +682,18 @@ type DatabaseAccountsSqlDatabase_STATUS struct {
 	// Name: The name of the ARM resource.
 	Name     *string                                   `json:"name,omitempty"`
 	Options  *OptionsResource_STATUS                   `json:"options,omitempty"`
+<<<<<<< HEAD
 	Resource *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+=======
+	Resource *SqlDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+>>>>>>> main
 	Tags     map[string]string                         `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabase_STATUS{}
 
 // ConvertStatusFrom populates our DatabaseAccountsSqlDatabase_STATUS from the provided source
@@ -353,13 +706,31 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusFrom(source gen
 
 	// Convert to an intermediate form
 	src = &v20210515s.DatabaseAccountsSqlDatabase_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &SqlDatabaseGetResults_STATUS{}
+
+// ConvertStatusFrom populates our SqlDatabaseGetResults_STATUS from the provided source
+func (results *SqlDatabaseGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.SqlDatabaseGetResults_STATUS)
+	if ok {
+		// Populate our instance from source
+		return results.AssignPropertiesFromSqlDatabaseGetResultsSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.SqlDatabaseGetResults_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = database.AssignPropertiesFromDatabaseAccountsSqlDatabase_STATUS(src)
+=======
+	err = results.AssignPropertiesFromSqlDatabaseGetResultsSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -367,6 +738,7 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusFrom(source gen
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabase_STATUS
 func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabase_STATUS)
@@ -378,6 +750,19 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusTo(destination 
 	// Convert to an intermediate form
 	dst = &v20210515s.DatabaseAccountsSqlDatabase_STATUS{}
 	err := database.AssignPropertiesToDatabaseAccountsSqlDatabase_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our SqlDatabaseGetResults_STATUS
+func (results *SqlDatabaseGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.SqlDatabaseGetResults_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return results.AssignPropertiesToSqlDatabaseGetResultsSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.SqlDatabaseGetResults_STATUS{}
+	err := results.AssignPropertiesToSqlDatabaseGetResultsSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -391,6 +776,7 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusTo(destination 
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -403,6 +789,20 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) PopulateFromARM(owner genrun
 	typedInput, ok := armInput.(DatabaseAccountsSqlDatabase_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabase_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SqlDatabaseGetResults_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (results *SqlDatabaseGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlDatabaseGetResults_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (results *SqlDatabaseGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlDatabaseGetResults_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseGetResults_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// no assignment for property ‘Conditions’
@@ -443,7 +843,11 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
+<<<<<<< HEAD
 			var resource1 SqlDatabaseGetProperties_Resource_STATUS
+=======
+			var resource1 SqlDatabaseGetProperties_STATUS_Resource
+>>>>>>> main
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -471,8 +875,13 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDatabaseAccountsSqlDatabase_STATUS populates our DatabaseAccountsSqlDatabase_STATUS from the provided source DatabaseAccountsSqlDatabase_STATUS
 func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabase_STATUS(source *v20210515s.DatabaseAccountsSqlDatabase_STATUS) error {
+=======
+// AssignPropertiesFromSqlDatabaseGetResultsSTATUS populates our SqlDatabaseGetResults_STATUS from the provided source SqlDatabaseGetResults_STATUS
+func (results *SqlDatabaseGetResults_STATUS) AssignPropertiesFromSqlDatabaseGetResultsSTATUS(source *v20210515s.SqlDatabaseGetResults_STATUS) error {
+>>>>>>> main
 
 	// Conditions
 	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -489,9 +898,15 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 	// Options
 	if source.Options != nil {
 		var option OptionsResource_STATUS
+<<<<<<< HEAD
 		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
+=======
+		err := option.AssignPropertiesFromOptionsResourceSTATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceSTATUS() to populate field Options")
+>>>>>>> main
 		}
 		database.Options = &option
 	} else {
@@ -500,10 +915,17 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 
 	// Resource
 	if source.Resource != nil {
+<<<<<<< HEAD
 		var resource SqlDatabaseGetProperties_Resource_STATUS
 		err := resource.AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+=======
+		var resource SqlDatabaseGetProperties_STATUS_Resource
+		err := resource.AssignPropertiesFromSqlDatabaseGetPropertiesSTATUSResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetPropertiesSTATUSResource() to populate field Resource")
+>>>>>>> main
 		}
 		database.Resource = &resource
 	} else {
@@ -520,8 +942,13 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDatabaseAccountsSqlDatabase_STATUS populates the provided destination DatabaseAccountsSqlDatabase_STATUS from our DatabaseAccountsSqlDatabase_STATUS
 func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabase_STATUS(destination *v20210515s.DatabaseAccountsSqlDatabase_STATUS) error {
+=======
+// AssignPropertiesToSqlDatabaseGetResultsSTATUS populates the provided destination SqlDatabaseGetResults_STATUS from our SqlDatabaseGetResults_STATUS
+func (results *SqlDatabaseGetResults_STATUS) AssignPropertiesToSqlDatabaseGetResultsSTATUS(destination *v20210515s.SqlDatabaseGetResults_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -538,11 +965,19 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 	destination.Name = genruntime.ClonePointerToString(database.Name)
 
 	// Options
+<<<<<<< HEAD
 	if database.Options != nil {
 		var option v20210515s.OptionsResource_STATUS
 		err := database.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
+=======
+	if results.Options != nil {
+		var option v20210515s.OptionsResource_STATUS
+		err := results.Options.AssignPropertiesToOptionsResourceSTATUS(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceSTATUS() to populate field Options")
+>>>>>>> main
 		}
 		destination.Options = &option
 	} else {
@@ -550,11 +985,19 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 	}
 
 	// Resource
+<<<<<<< HEAD
 	if database.Resource != nil {
 		var resource v20210515s.SqlDatabaseGetProperties_Resource_STATUS
 		err := database.Resource.AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+=======
+	if results.Resource != nil {
+		var resource v20210515s.SqlDatabaseGetProperties_STATUS_Resource
+		err := results.Resource.AssignPropertiesToSqlDatabaseGetPropertiesSTATUSResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetPropertiesSTATUSResource() to populate field Resource")
+>>>>>>> main
 		}
 		destination.Resource = &resource
 	} else {
@@ -578,6 +1021,7 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 	return nil
 }
 
+<<<<<<< HEAD
 type DatabaseAccountsSqlDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -889,6 +1333,9 @@ func (database *DatabaseAccountsSqlDatabase_Spec) SetAzureName(azureName string)
 }
 
 type SqlDatabaseGetProperties_Resource_STATUS struct {
+=======
+type SqlDatabaseGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	// Colls: A system generated property that specified the addressable path of the collections resource.
 	Colls *string `json:"_colls,omitempty"`
 
@@ -908,6 +1355,7 @@ type SqlDatabaseGetProperties_Resource_STATUS struct {
 	Users *string `json:"_users,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -920,6 +1368,20 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner 
 	typedInput, ok := armInput.(SqlDatabaseGetProperties_Resource_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseGetProperties_Resource_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_STATUS_Resource{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlDatabaseGetProperties_STATUS_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlDatabaseGetProperties_STATUS_ResourceARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlDatabaseGetProperties_STATUS_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlDatabaseGetProperties_STATUS_ResourceARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseGetProperties_STATUS_ResourceARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘Colls’:
@@ -962,8 +1424,13 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseGetProperties_Resource_STATUS from the provided source SqlDatabaseGetProperties_Resource_STATUS
 func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+=======
+// AssignPropertiesFromSqlDatabaseGetPropertiesSTATUSResource populates our SqlDatabaseGetProperties_STATUS_Resource from the provided source SqlDatabaseGetProperties_STATUS_Resource
+func (resource *SqlDatabaseGetProperties_STATUS_Resource) AssignPropertiesFromSqlDatabaseGetPropertiesSTATUSResource(source *v20210515s.SqlDatabaseGetProperties_STATUS_Resource) error {
+>>>>>>> main
 
 	// Colls
 	resource.Colls = genruntime.ClonePointerToString(source.Colls)
@@ -992,8 +1459,13 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSq
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS populates the provided destination SqlDatabaseGetProperties_Resource_STATUS from our SqlDatabaseGetProperties_Resource_STATUS
 func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(destination *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+=======
+// AssignPropertiesToSqlDatabaseGetPropertiesSTATUSResource populates the provided destination SqlDatabaseGetProperties_STATUS_Resource from our SqlDatabaseGetProperties_STATUS_Resource
+func (resource *SqlDatabaseGetProperties_STATUS_Resource) AssignPropertiesToSqlDatabaseGetPropertiesSTATUSResource(destination *v20210515s.SqlDatabaseGetProperties_STATUS_Resource) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

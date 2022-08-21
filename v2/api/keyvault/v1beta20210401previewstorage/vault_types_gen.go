@@ -28,7 +28,11 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              Vault_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Vaults_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            Vault_STATUS `json:"status,omitempty"`
 }
 

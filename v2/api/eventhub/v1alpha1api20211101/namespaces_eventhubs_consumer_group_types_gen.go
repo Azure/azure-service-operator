@@ -28,8 +28,13 @@ import (
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesEventhubsConsumergroup_Spec   `json:"spec,omitempty"`
 	Status            NamespacesEventhubsConsumergroup_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesEventhubsConsumergroups_Spec `json:"spec,omitempty"`
+	Status            ConsumerGroup_STATUS                   `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -137,7 +142,11 @@ func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesEventhubsConsumergroup_STATUS{}
+=======
+	return &ConsumerGroup_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +162,21 @@ func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesEventhubsConsumergroup_STATUS); ok {
+=======
+	if st, ok := status.(*ConsumerGroup_STATUS); ok {
+>>>>>>> main
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesEventhubsConsumergroup_STATUS
+=======
+	var st ConsumerGroup_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +294,17 @@ func (group *NamespacesEventhubsConsumerGroup) AssignPropertiesFromNamespacesEve
 	group.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status NamespacesEventhubsConsumergroup_STATUS
 	err = status.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS() to populate field Status")
+=======
+	var status ConsumerGroup_STATUS
+	err = status.AssignPropertiesFromConsumerGroupSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromConsumerGroupSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	group.Status = status
 
@@ -303,10 +327,17 @@ func (group *NamespacesEventhubsConsumerGroup) AssignPropertiesToNamespacesEvent
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20211101s.NamespacesEventhubsConsumergroup_STATUS
 	err = group.Status.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS() to populate field Status")
+=======
+	var status alpha20211101s.ConsumerGroup_STATUS
+	err = group.Status.AssignPropertiesToConsumerGroupSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToConsumerGroupSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -331,8 +362,13 @@ type NamespacesEventhubsConsumerGroupList struct {
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of NamespacesEventhubsConsumergroup_STATUS. Use v1beta20211101.NamespacesEventhubsConsumergroup_STATUS instead
 type NamespacesEventhubsConsumergroup_STATUS struct {
+=======
+// Deprecated version of ConsumerGroup_STATUS. Use v1beta20211101.ConsumerGroup_STATUS instead
+type ConsumerGroup_STATUS struct {
+>>>>>>> main
 	// Conditions: The observed state of the resource
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreatedAt    *string                `json:"createdAt,omitempty"`
@@ -345,6 +381,7 @@ type NamespacesEventhubsConsumergroup_STATUS struct {
 	UserMetadata *string                `json:"userMetadata,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NamespacesEventhubsConsumergroup_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesEventhubsConsumergroup_STATUS from the provided source
@@ -357,13 +394,31 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusFrom(
 
 	// Convert to an intermediate form
 	src = &alpha20211101s.NamespacesEventhubsConsumergroup_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &ConsumerGroup_STATUS{}
+
+// ConvertStatusFrom populates our ConsumerGroup_STATUS from the provided source
+func (group *ConsumerGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20211101s.ConsumerGroup_STATUS)
+	if ok {
+		// Populate our instance from source
+		return group.AssignPropertiesFromConsumerGroupSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20211101s.ConsumerGroup_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = consumergroup.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(src)
+=======
+	err = group.AssignPropertiesFromConsumerGroupSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -371,6 +426,7 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusFrom(
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NamespacesEventhubsConsumergroup_STATUS
 func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*alpha20211101s.NamespacesEventhubsConsumergroup_STATUS)
@@ -382,6 +438,19 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(de
 	// Convert to an intermediate form
 	dst = &alpha20211101s.NamespacesEventhubsConsumergroup_STATUS{}
 	err := consumergroup.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20211101s.ConsumerGroup_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignPropertiesToConsumerGroupSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20211101s.ConsumerGroup_STATUS{}
+	err := group.AssignPropertiesToConsumerGroupSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -395,6 +464,7 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(de
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &NamespacesEventhubsConsumergroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -407,6 +477,20 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) PopulateFromARM(ow
 	typedInput, ok := armInput.(NamespacesEventhubsConsumergroup_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhubsConsumergroup_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &ConsumerGroup_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (group *ConsumerGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConsumerGroup_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (group *ConsumerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ConsumerGroup_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConsumerGroup_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// no assignment for property ‘Conditions’
@@ -477,8 +561,13 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) PopulateFromARM(ow
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS populates our NamespacesEventhubsConsumergroup_STATUS from the provided source NamespacesEventhubsConsumergroup_STATUS
 func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(source *alpha20211101s.NamespacesEventhubsConsumergroup_STATUS) error {
+=======
+// AssignPropertiesFromConsumerGroupSTATUS populates our ConsumerGroup_STATUS from the provided source ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) AssignPropertiesFromConsumerGroupSTATUS(source *alpha20211101s.ConsumerGroup_STATUS) error {
+>>>>>>> main
 
 	// Conditions
 	consumergroup.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -498,9 +587,15 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesFr
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		consumergroup.SystemData = &systemDatum
 	} else {
@@ -520,8 +615,13 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesFr
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS populates the provided destination NamespacesEventhubsConsumergroup_STATUS from our NamespacesEventhubsConsumergroup_STATUS
 func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(destination *alpha20211101s.NamespacesEventhubsConsumergroup_STATUS) error {
+=======
+// AssignPropertiesToConsumerGroupSTATUS populates the provided destination ConsumerGroup_STATUS from our ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) AssignPropertiesToConsumerGroupSTATUS(destination *alpha20211101s.ConsumerGroup_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -541,11 +641,19 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesTo
 	destination.Name = genruntime.ClonePointerToString(consumergroup.Name)
 
 	// SystemData
+<<<<<<< HEAD
 	if consumergroup.SystemData != nil {
 		var systemDatum alpha20211101s.SystemData_STATUS
 		err := consumergroup.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+	if group.SystemData != nil {
+		var systemDatum alpha20211101s.SystemData_STATUS
+		err := group.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {

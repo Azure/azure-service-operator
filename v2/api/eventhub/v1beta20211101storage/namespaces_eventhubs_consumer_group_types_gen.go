@@ -28,8 +28,13 @@ import (
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesEventhubsConsumergroup_Spec   `json:"spec,omitempty"`
 	Status            NamespacesEventhubsConsumergroup_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesEventhubsConsumergroups_Spec `json:"spec,omitempty"`
+	Status            ConsumerGroup_STATUS                   `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -78,7 +83,11 @@ func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesEventhubsConsumergroup_STATUS{}
+=======
+	return &ConsumerGroup_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesEventhubsConsumergroup_STATUS); ok {
+=======
+	if st, ok := status.(*ConsumerGroup_STATUS); ok {
+>>>>>>> main
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesEventhubsConsumergroup_STATUS
+=======
+	var st ConsumerGroup_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,8 +150,13 @@ type NamespacesEventhubsConsumerGroupList struct {
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20211101.NamespacesEventhubsConsumergroup_STATUS
 type NamespacesEventhubsConsumergroup_STATUS struct {
+=======
+// Storage version of v1beta20211101.ConsumerGroup_STATUS
+type ConsumerGroup_STATUS struct {
+>>>>>>> main
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreatedAt    *string                `json:"createdAt,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -147,20 +169,34 @@ type NamespacesEventhubsConsumergroup_STATUS struct {
 	UserMetadata *string                `json:"userMetadata,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &NamespacesEventhubsConsumergroup_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesEventhubsConsumergroup_STATUS from the provided source
 func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == consumergroup {
+=======
+var _ genruntime.ConvertibleStatus = &ConsumerGroup_STATUS{}
+
+// ConvertStatusFrom populates our ConsumerGroup_STATUS from the provided source
+func (group *ConsumerGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == group {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
 	return source.ConvertStatusTo(consumergroup)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our NamespacesEventhubsConsumergroup_STATUS
 func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == consumergroup {
+=======
+// ConvertStatusTo populates the provided destination from our ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == group {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 

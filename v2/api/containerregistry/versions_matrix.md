@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 | Type Definitions in package "containerregistry"    | v1alpha1api20210901 | v1beta20210901 |
 |----------------------------------------------------|---------------------|----------------|
 | APIVersion                                         | v1alpha1api20210901 | v1beta20210901 |
@@ -63,3 +64,70 @@
 | TrustPolicy_Type_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
 | UserIdentityProperties                             | v1alpha1api20210901 | v1beta20210901 |
 | UserIdentityProperties_STATUS                      | v1alpha1api20210901 | v1beta20210901 |
+=======
+| Type Definitions in package "containerregistry"      | v1alpha1api20210901 | v1beta20210901 |
+|------------------------------------------------------|---------------------|----------------|
+| APIVersion                                           | v1alpha1api20210901 | v1beta20210901 |
+| EncryptionProperty                                   | v1alpha1api20210901 | v1beta20210901 |
+| EncryptionPropertySTATUSStatus                       | v1alpha1api20210901 | v1beta20210901 |
+| EncryptionPropertyStatus                             | v1alpha1api20210901 | v1beta20210901 |
+| EncryptionProperty_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
+| ExportPolicy                                         | v1alpha1api20210901 | v1beta20210901 |
+| ExportPolicySTATUSStatus                             | v1alpha1api20210901 | v1beta20210901 |
+| ExportPolicyStatus                                   | v1alpha1api20210901 | v1beta20210901 |
+| ExportPolicy_STATUS                                  | v1alpha1api20210901 | v1beta20210901 |
+| IPRule                                               | v1alpha1api20210901 | v1beta20210901 |
+| IPRuleAction                                         | v1alpha1api20210901 | v1beta20210901 |
+| IPRuleSTATUSAction                                   | v1alpha1api20210901 | v1beta20210901 |
+| IPRule_STATUS                                        | v1alpha1api20210901 | v1beta20210901 |
+| IdentityProperties                                   | v1alpha1api20210901 | v1beta20210901 |
+| IdentityPropertiesSTATUSType                         | v1alpha1api20210901 | v1beta20210901 |
+| IdentityPropertiesType                               | v1alpha1api20210901 | v1beta20210901 |
+| IdentityProperties_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
+| KeyVaultProperties                                   | v1alpha1api20210901 | v1beta20210901 |
+| KeyVaultProperties_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
+| NetworkRuleSet                                       | v1alpha1api20210901 | v1beta20210901 |
+| NetworkRuleSetDefaultAction                          | v1alpha1api20210901 | v1beta20210901 |
+| NetworkRuleSetSTATUSDefaultAction                    | v1alpha1api20210901 | v1beta20210901 |
+| NetworkRuleSet_STATUS                                | v1alpha1api20210901 | v1beta20210901 |
+| Policies                                             | v1alpha1api20210901 | v1beta20210901 |
+| Policies_STATUS                                      | v1alpha1api20210901 | v1beta20210901 |
+| PrivateEndpointConnection_STATUS_SubResourceEmbedded | v1alpha1api20210901 | v1beta20210901 |
+| QuarantinePolicy                                     | v1alpha1api20210901 | v1beta20210901 |
+| QuarantinePolicySTATUSStatus                         | v1alpha1api20210901 | v1beta20210901 |
+| QuarantinePolicyStatus                               | v1alpha1api20210901 | v1beta20210901 |
+| QuarantinePolicy_STATUS                              | v1alpha1api20210901 | v1beta20210901 |
+| Registries_Spec                                      | v1alpha1api20210901 | v1beta20210901 |
+| Registry                                             | v1alpha1api20210901 | v1beta20210901 |
+| RegistryProperties                                   | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesNetworkRuleBypassOptions           | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesPublicNetworkAccess                | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesSTATUSNetworkRuleBypassOptions     | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesSTATUSProvisioningState            | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesSTATUSPublicNetworkAccess          | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesSTATUSZoneRedundancy               | v1alpha1api20210901 | v1beta20210901 |
+| RegistryPropertiesZoneRedundancy                     | v1alpha1api20210901 | v1beta20210901 |
+| RegistryProperties_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
+| Registry_STATUS                                      | v1alpha1api20210901 | v1beta20210901 |
+| RetentionPolicy                                      | v1alpha1api20210901 | v1beta20210901 |
+| RetentionPolicySTATUSStatus                          | v1alpha1api20210901 | v1beta20210901 |
+| RetentionPolicyStatus                                | v1alpha1api20210901 | v1beta20210901 |
+| RetentionPolicy_STATUS                               | v1alpha1api20210901 | v1beta20210901 |
+| Sku                                                  | v1alpha1api20210901 | v1beta20210901 |
+| SkuName                                              | v1alpha1api20210901 | v1beta20210901 |
+| SkuSTATUSName                                        | v1alpha1api20210901 | v1beta20210901 |
+| SkuSTATUSTier                                        | v1alpha1api20210901 | v1beta20210901 |
+| Sku_STATUS                                           | v1alpha1api20210901 | v1beta20210901 |
+| Status_STATUS                                        | v1alpha1api20210901 | v1beta20210901 |
+| SystemDataSTATUSCreatedByType                        | v1alpha1api20210901 | v1beta20210901 |
+| SystemDataSTATUSLastModifiedByType                   | v1alpha1api20210901 | v1beta20210901 |
+| SystemData_STATUS                                    | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicy                                          | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicySTATUSStatus                              | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicySTATUSType                                | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicyStatus                                    | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicyType                                      | v1alpha1api20210901 | v1beta20210901 |
+| TrustPolicy_STATUS                                   | v1alpha1api20210901 | v1beta20210901 |
+| UserIdentityProperties                               | v1alpha1api20210901 | v1beta20210901 |
+| UserIdentityProperties_STATUS                        | v1alpha1api20210901 | v1beta20210901 |
+>>>>>>> main

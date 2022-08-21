@@ -21,10 +21,6 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
-type Person_STATUS struct {
-	Status string `json:"status,omitempty"`
-}
-
 type Person_Spec struct {
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -36,6 +32,10 @@ type Person_Spec struct {
 	KnownAs            string  `json:"knownAs,omitempty"`
 	PostalAddress      Address `json:"postalAddress,omitempty"`
 	ResidentialAddress Address `json:"residentialAddress,omitempty"`
+}
+
+type Person_STATUS struct {
+	Status string `json:"status,omitempty"`
 }
 
 type Address struct {

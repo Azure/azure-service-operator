@@ -25,7 +25,11 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	IpAddress                *string                                                        `json:"ipAddress,omitempty"`
 	IpConfiguration          *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbeddedARM `json:"ipConfiguration,omitempty"`
 	IpTags                   []IpTag_STATUSARM                                              `json:"ipTags,omitempty"`
+<<<<<<< HEAD
 	MigrationPhase           *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS         `json:"migrationPhase,omitempty"`
+=======
+	MigrationPhase           *PublicIPAddressPropertiesFormatSTATUSMigrationPhase           `json:"migrationPhase,omitempty"`
+>>>>>>> main
 	NatGateway               *NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedARM      `json:"natGateway,omitempty"`
 	ProvisioningState        *ProvisioningState_STATUS                                      `json:"provisioningState,omitempty"`
 	PublicIPAddressVersion   *IPVersion_STATUS                                              `json:"publicIPAddressVersion,omitempty"`
@@ -36,15 +40,26 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 
 // Deprecated version of PublicIPAddressSku_STATUS. Use v1beta20201101.PublicIPAddressSku_STATUS instead
 type PublicIPAddressSku_STATUSARM struct {
+<<<<<<< HEAD
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *PublicIPAddressSkuSTATUSName `json:"name,omitempty"`
+	Tier *PublicIPAddressSkuSTATUSTier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of DdosSettings_STATUS. Use v1beta20201101.DdosSettings_STATUS instead
 type DdosSettings_STATUSARM struct {
+<<<<<<< HEAD
 	DdosCustomPolicy   *SubResource_STATUSARM                  `json:"ddosCustomPolicy,omitempty"`
 	ProtectedIP        *bool                                   `json:"protectedIP,omitempty"`
 	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
+=======
+	DdosCustomPolicy   *SubResource_STATUSARM                `json:"ddosCustomPolicy,omitempty"`
+	ProtectedIP        *bool                                 `json:"protectedIP,omitempty"`
+	ProtectionCoverage *DdosSettingsSTATUSProtectionCoverage `json:"protectionCoverage,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded instead
@@ -75,6 +90,7 @@ type PublicIPAddressDnsSettings_STATUSARM struct {
 	ReverseFqdn     *string `json:"reverseFqdn,omitempty"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of PublicIPAddressSku_Name_STATUS. Use v1beta20201101.PublicIPAddressSku_Name_STATUS instead
 type PublicIPAddressSku_Name_STATUS string
 
@@ -89,6 +105,22 @@ type PublicIPAddressSku_Tier_STATUS string
 const (
 	PublicIPAddressSku_Tier_Global_STATUS   = PublicIPAddressSku_Tier_STATUS("Global")
 	PublicIPAddressSku_Tier_Regional_STATUS = PublicIPAddressSku_Tier_STATUS("Regional")
+=======
+// Deprecated version of PublicIPAddressSkuSTATUSName. Use v1beta20201101.PublicIPAddressSkuSTATUSName instead
+type PublicIPAddressSkuSTATUSName string
+
+const (
+	PublicIPAddressSkuSTATUSName_Basic    = PublicIPAddressSkuSTATUSName("Basic")
+	PublicIPAddressSkuSTATUSName_Standard = PublicIPAddressSkuSTATUSName("Standard")
+)
+
+// Deprecated version of PublicIPAddressSkuSTATUSTier. Use v1beta20201101.PublicIPAddressSkuSTATUSTier instead
+type PublicIPAddressSkuSTATUSTier string
+
+const (
+	PublicIPAddressSkuSTATUSTier_Global   = PublicIPAddressSkuSTATUSTier("Global")
+	PublicIPAddressSkuSTATUSTier_Regional = PublicIPAddressSkuSTATUSTier("Regional")
+>>>>>>> main
 )
 
 // Deprecated version of IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbedded instead
@@ -101,7 +133,11 @@ type IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbeddedA
 
 // Deprecated version of NatGatewaySku_STATUS. Use v1beta20201101.NatGatewaySku_STATUS instead
 type NatGatewaySku_STATUSARM struct {
+<<<<<<< HEAD
 	Name *NatGatewaySku_Name_STATUS `json:"name,omitempty"`
+=======
+	Name *NatGatewaySkuSTATUSName `json:"name,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of Subnet_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded instead

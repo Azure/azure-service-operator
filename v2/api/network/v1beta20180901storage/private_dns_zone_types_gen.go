@@ -28,8 +28,13 @@ import (
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              PrivateDnsZone_Spec   `json:"spec,omitempty"`
 	Status            PrivateDnsZone_STATUS `json:"status,omitempty"`
+=======
+	Spec              PrivateDnsZones_Spec `json:"spec,omitempty"`
+	Status            PrivateZone_STATUS   `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -78,7 +83,11 @@ func (zone *PrivateDnsZone) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &PrivateDnsZone_STATUS{}
+=======
+	return &PrivateZone_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (zone *PrivateDnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*PrivateDnsZone_STATUS); ok {
+=======
+	if st, ok := status.(*PrivateZone_STATUS); ok {
+>>>>>>> main
 		zone.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st PrivateDnsZone_STATUS
+=======
+	var st PrivateZone_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,8 +156,51 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-09-01")
 
+<<<<<<< HEAD
 // Storage version of v1beta20180901.PrivateDnsZone_STATUS
 type PrivateDnsZone_STATUS struct {
+=======
+// Storage version of v1beta20180901.PrivateDnsZones_Spec
+type PrivateDnsZones_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Etag            *string `json:"etag,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &PrivateDnsZones_Spec{}
+
+// ConvertSpecFrom populates our PrivateDnsZones_Spec from the provided source
+func (zones *PrivateDnsZones_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == zones {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(zones)
+}
+
+// ConvertSpecTo populates the provided destination from our PrivateDnsZones_Spec
+func (zones *PrivateDnsZones_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == zones {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(zones)
+}
+
+// Storage version of v1beta20180901.PrivateZone_STATUS
+type PrivateZone_STATUS struct {
+>>>>>>> main
 	Conditions                                     []conditions.Condition `json:"conditions,omitempty"`
 	Etag                                           *string                `json:"etag,omitempty"`
 	MaxNumberOfRecordSets                          *int                   `json:"maxNumberOfRecordSets,omitempty"`
@@ -153,10 +213,17 @@ type PrivateDnsZone_STATUS struct {
 	ProvisioningState                              *string                `json:"provisioningState,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZone_STATUS from the provided source
 func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+=======
+var _ genruntime.ConvertibleStatus = &PrivateZone_STATUS{}
+
+// ConvertStatusFrom populates our PrivateZone_STATUS from the provided source
+func (zone *PrivateZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if source == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -164,8 +231,13 @@ func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	return source.ConvertStatusTo(zone)
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our PrivateDnsZone_STATUS
 func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+=======
+// ConvertStatusTo populates the provided destination from our PrivateZone_STATUS
+func (zone *PrivateZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+>>>>>>> main
 	if destination == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

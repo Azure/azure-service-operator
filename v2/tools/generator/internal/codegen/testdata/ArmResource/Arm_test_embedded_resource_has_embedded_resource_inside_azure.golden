@@ -840,18 +840,6 @@ func (c *C_SpecARM) GetType() string {
 	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-01-01")
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
-type APropertiesARM struct {
-	IntField    *int          `json:"intField,omitempty"`
-	RefField    *BResourceARM `json:"refField,omitempty"`
-	StringField *string       `json:"stringField,omitempty"`
-}
-
 type A_Spec struct {
 	// +kubebuilder:validation:Required
 	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
@@ -1104,10 +1092,16 @@ type A_Spec_Type string
 
 const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
-type BPropertiesARM struct {
-	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
-	RefField  *CResourceARM          `json:"refField,omitempty"`
+// +kubebuilder:validation:Enum={"2020-01-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2020-01-01")
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+type APropertiesARM struct {
+	IntField    *int          `json:"intField,omitempty"`
+	RefField    *BResourceARM `json:"refField,omitempty"`
+	StringField *string       `json:"stringField,omitempty"`
 }
 
 type B_Spec struct {
@@ -1362,10 +1356,10 @@ type B_Spec_Type string
 
 const B_Spec_Type_MicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
 
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
-type CPropertiesARM struct {
-	IntField    *int    `json:"intField,omitempty"`
-	StringField *string `json:"stringField,omitempty"`
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
+type BPropertiesARM struct {
+	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
+	RefField  *CResourceARM          `json:"refField,omitempty"`
 }
 
 type C_Spec struct {
@@ -1619,6 +1613,12 @@ const C_Spec_APIVersion_20200601 = C_Spec_APIVersion("2020-06-01")
 type C_Spec_Type string
 
 const C_Spec_Type_MicrosoftAzureC = C_Spec_Type("Microsoft.Azure/C")
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
+type CPropertiesARM struct {
+	IntField    *int    `json:"intField,omitempty"`
+	StringField *string `json:"stringField,omitempty"`
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {

@@ -28,7 +28,11 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
+=======
+	Spec              RoleAssignments_Spec  `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 

@@ -30,8 +30,13 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabasesContainer_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabasesContainer_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsSqlDatabasesContainers_Spec `json:"spec,omitempty"`
+	Status            SqlContainerGetResults_STATUS               `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -125,7 +130,11 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsSqlDatabasesContainer_STATUS{}
+=======
+	return &SqlContainerGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +150,21 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainer_STATUS); ok {
+=======
+	if st, ok := status.(*SqlContainerGetResults_STATUS); ok {
+>>>>>>> main
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsSqlDatabasesContainer_STATUS
+=======
+	var st SqlContainerGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -265,10 +282,17 @@ func (container *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(
 	container.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status DatabaseAccountsSqlDatabasesContainer_STATUS
 	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS() to populate field Status")
+=======
+	var status SqlContainerGetResults_STATUS
+	err = status.AssignPropertiesFromSqlContainerGetResultsSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	container.Status = status
 
@@ -291,10 +315,17 @@ func (container *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(de
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS
 	err = container.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS() to populate field Status")
+=======
+	var status v20210515s.SqlContainerGetResults_STATUS
+	err = container.Status.AssignPropertiesToSqlContainerGetResultsSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetResultsSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -321,7 +352,324 @@ type SqlDatabaseContainerList struct {
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
+<<<<<<< HEAD
 type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
+=======
+type DatabaseAccountsSqlDatabasesContainers_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// Location: The location of the resource group to which the resource belongs.
+	Location *string `json:"location,omitempty"`
+
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
+	Options *CreateUpdateOptions `json:"options,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabase resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
+
+	// +kubebuilder:validation:Required
+	// Resource: Cosmos DB SQL container resource object
+	Resource *SqlContainerResource `json:"resource,omitempty"`
+
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainers_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if containers == nil {
+		return nil, nil
+	}
+	result := &DatabaseAccountsSqlDatabasesContainers_SpecARM{}
+
+	// Set property ‘Location’:
+	if containers.Location != nil {
+		location := *containers.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if containers.Options != nil || containers.Resource != nil {
+		result.Properties = &SqlContainerCreateUpdatePropertiesARM{}
+	}
+	if containers.Options != nil {
+		optionsARM, err := (*containers.Options).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		options := *optionsARM.(*CreateUpdateOptionsARM)
+		result.Properties.Options = &options
+	}
+	if containers.Resource != nil {
+		resourceARM, err := (*containers.Resource).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resource := *resourceARM.(*SqlContainerResourceARM)
+		result.Properties.Resource = &resource
+	}
+
+	// Set property ‘Tags’:
+	if containers.Tags != nil {
+		result.Tags = make(map[string]string, len(containers.Tags))
+		for key, value := range containers.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainers_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainers_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainers_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	containers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		containers.Location = &location
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			containers.Options = &options
+		}
+	}
+
+	// Set property ‘Owner’:
+	containers.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlContainerResource
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			containers.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		containers.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			containers.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainers_Spec{}
+
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainers_Spec from the provided source
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec)
+	if ok {
+		// Populate our instance from source
+		return containers.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = containers.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainers_Spec
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec)
+	if ok {
+		// Populate destination from our instance
+		return containers.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec{}
+	err := containers.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec populates our DatabaseAccountsSqlDatabasesContainers_Spec from the provided source DatabaseAccountsSqlDatabasesContainers_Spec
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(source *v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec) error {
+
+	// AzureName
+	containers.AzureName = source.AzureName
+
+	// Location
+	containers.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions
+		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+		}
+		containers.Options = &option
+	} else {
+		containers.Options = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		containers.Owner = &owner
+	} else {
+		containers.Owner = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlContainerResource
+		err := resource.AssignPropertiesFromSqlContainerResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource() to populate field Resource")
+		}
+		containers.Resource = &resource
+	} else {
+		containers.Resource = nil
+	}
+
+	// Tags
+	containers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec populates the provided destination DatabaseAccountsSqlDatabasesContainers_Spec from our DatabaseAccountsSqlDatabasesContainers_Spec
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(destination *v20210515s.DatabaseAccountsSqlDatabasesContainers_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = containers.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(containers.Location)
+
+	// Options
+	if containers.Options != nil {
+		var option v20210515s.CreateUpdateOptions
+		err := containers.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = containers.OriginalVersion()
+
+	// Owner
+	if containers.Owner != nil {
+		owner := containers.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Resource
+	if containers.Resource != nil {
+		var resource v20210515s.SqlContainerResource
+		err := containers.Resource.AssignPropertiesToSqlContainerResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) SetAzureName(azureName string) {
+	containers.AzureName = azureName
+}
+
+type SqlContainerGetResults_STATUS struct {
+>>>>>>> main
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -334,13 +682,18 @@ type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
 	// Name: The name of the ARM resource.
 	Name     *string                                    `json:"name,omitempty"`
 	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
+<<<<<<< HEAD
 	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+=======
+	Resource *SqlContainerGetProperties_STATUS_Resource `json:"resource,omitempty"`
+>>>>>>> main
 	Tags     map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
 
 // ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainer_STATUS from the provided source
@@ -353,13 +706,31 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusFrom
 
 	// Convert to an intermediate form
 	src = &v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS{}
+=======
+var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_STATUS{}
+
+// ConvertStatusFrom populates our SqlContainerGetResults_STATUS from the provided source
+func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.SqlContainerGetResults_STATUS)
+	if ok {
+		// Populate our instance from source
+		return results.AssignPropertiesFromSqlContainerGetResultsSTATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.SqlContainerGetResults_STATUS{}
+>>>>>>> main
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = container.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(src)
+=======
+	err = results.AssignPropertiesFromSqlContainerGetResultsSTATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -367,6 +738,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusFrom
 	return nil
 }
 
+<<<<<<< HEAD
 // ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainer_STATUS
 func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS)
@@ -378,6 +750,19 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusTo(d
 	// Convert to an intermediate form
 	dst = &v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS{}
 	err := container.AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(dst)
+=======
+// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_STATUS
+func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.SqlContainerGetResults_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return results.AssignPropertiesToSqlContainerGetResultsSTATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.SqlContainerGetResults_STATUS{}
+	err := results.AssignPropertiesToSqlContainerGetResultsSTATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -391,6 +776,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusTo(d
 	return nil
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -403,6 +789,20 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainer_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainer_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SqlContainerGetResults_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (results *SqlContainerGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerGetResults_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerGetResults_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetResults_STATUSARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// no assignment for property ‘Conditions’
@@ -443,7 +843,11 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
+<<<<<<< HEAD
 			var resource1 SqlContainerGetProperties_Resource_STATUS
+=======
+			var resource1 SqlContainerGetProperties_STATUS_Resource
+>>>>>>> main
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -471,8 +875,13 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS populates our DatabaseAccountsSqlDatabasesContainer_STATUS from the provided source DatabaseAccountsSqlDatabasesContainer_STATUS
 func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(source *v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS) error {
+=======
+// AssignPropertiesFromSqlContainerGetResultsSTATUS populates our SqlContainerGetResults_STATUS from the provided source SqlContainerGetResults_STATUS
+func (results *SqlContainerGetResults_STATUS) AssignPropertiesFromSqlContainerGetResultsSTATUS(source *v20210515s.SqlContainerGetResults_STATUS) error {
+>>>>>>> main
 
 	// Conditions
 	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -489,9 +898,15 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesF
 	// Options
 	if source.Options != nil {
 		var option OptionsResource_STATUS
+<<<<<<< HEAD
 		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
+=======
+		err := option.AssignPropertiesFromOptionsResourceSTATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceSTATUS() to populate field Options")
+>>>>>>> main
 		}
 		container.Options = &option
 	} else {
@@ -500,10 +915,17 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesF
 
 	// Resource
 	if source.Resource != nil {
+<<<<<<< HEAD
 		var resource SqlContainerGetProperties_Resource_STATUS
 		err := resource.AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS() to populate field Resource")
+=======
+		var resource SqlContainerGetProperties_STATUS_Resource
+		err := resource.AssignPropertiesFromSqlContainerGetPropertiesSTATUSResource(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetPropertiesSTATUSResource() to populate field Resource")
+>>>>>>> main
 		}
 		container.Resource = &resource
 	} else {
@@ -520,8 +942,13 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesF
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS populates the provided destination DatabaseAccountsSqlDatabasesContainer_STATUS from our DatabaseAccountsSqlDatabasesContainer_STATUS
 func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(destination *v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS) error {
+=======
+// AssignPropertiesToSqlContainerGetResultsSTATUS populates the provided destination SqlContainerGetResults_STATUS from our SqlContainerGetResults_STATUS
+func (results *SqlContainerGetResults_STATUS) AssignPropertiesToSqlContainerGetResultsSTATUS(destination *v20210515s.SqlContainerGetResults_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -538,11 +965,19 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesT
 	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// Options
+<<<<<<< HEAD
 	if container.Options != nil {
 		var option v20210515s.OptionsResource_STATUS
 		err := container.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
+=======
+	if results.Options != nil {
+		var option v20210515s.OptionsResource_STATUS
+		err := results.Options.AssignPropertiesToOptionsResourceSTATUS(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceSTATUS() to populate field Options")
+>>>>>>> main
 		}
 		destination.Options = &option
 	} else {
@@ -550,11 +985,19 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesT
 	}
 
 	// Resource
+<<<<<<< HEAD
 	if container.Resource != nil {
 		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
 		err := container.Resource.AssignPropertiesToSqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetProperties_Resource_STATUS() to populate field Resource")
+=======
+	if results.Resource != nil {
+		var resource v20210515s.SqlContainerGetProperties_STATUS_Resource
+		err := results.Resource.AssignPropertiesToSqlContainerGetPropertiesSTATUSResource(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetPropertiesSTATUSResource() to populate field Resource")
+>>>>>>> main
 		}
 		destination.Resource = &resource
 	} else {
@@ -578,6 +1021,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesT
 	return nil
 }
 
+<<<<<<< HEAD
 type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -889,6 +1333,9 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) SetAzureName(azureN
 }
 
 type SqlContainerGetProperties_Resource_STATUS struct {
+=======
+type SqlContainerGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -922,6 +1369,7 @@ type SqlContainerGetProperties_Resource_STATUS struct {
 	UniqueKeyPolicy *UniqueKeyPolicy_STATUS `json:"uniqueKeyPolicy,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
@@ -934,6 +1382,20 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 	typedInput, ok := armInput.(SqlContainerGetProperties_Resource_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_Resource_STATUSARM, got %T", armInput)
+=======
+var _ genruntime.FromARMConverter = &SqlContainerGetProperties_STATUS_Resource{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlContainerGetProperties_STATUS_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerGetProperties_STATUS_ResourceARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlContainerGetProperties_STATUS_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerGetProperties_STATUS_ResourceARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_STATUS_ResourceARM, got %T", armInput)
+>>>>>>> main
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -1020,8 +1482,13 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS populates our SqlContainerGetProperties_Resource_STATUS from the provided source SqlContainerGetProperties_Resource_STATUS
 func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS(source *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
+=======
+// AssignPropertiesFromSqlContainerGetPropertiesSTATUSResource populates our SqlContainerGetProperties_STATUS_Resource from the provided source SqlContainerGetProperties_STATUS_Resource
+func (resource *SqlContainerGetProperties_STATUS_Resource) AssignPropertiesFromSqlContainerGetPropertiesSTATUSResource(source *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+>>>>>>> main
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1029,9 +1496,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 	// ConflictResolutionPolicy
 	if source.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy ConflictResolutionPolicy_STATUS
+<<<<<<< HEAD
 		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy_STATUS(source.ConflictResolutionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
+=======
+		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicySTATUS(source.ConflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicySTATUS() to populate field ConflictResolutionPolicy")
+>>>>>>> main
 		}
 		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1050,9 +1523,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 	// IndexingPolicy
 	if source.IndexingPolicy != nil {
 		var indexingPolicy IndexingPolicy_STATUS
+<<<<<<< HEAD
 		err := indexingPolicy.AssignPropertiesFromIndexingPolicy_STATUS(source.IndexingPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy_STATUS() to populate field IndexingPolicy")
+=======
+		err := indexingPolicy.AssignPropertiesFromIndexingPolicySTATUS(source.IndexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicySTATUS() to populate field IndexingPolicy")
+>>>>>>> main
 		}
 		resource.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1062,9 +1541,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 	// PartitionKey
 	if source.PartitionKey != nil {
 		var partitionKey ContainerPartitionKey_STATUS
+<<<<<<< HEAD
 		err := partitionKey.AssignPropertiesFromContainerPartitionKey_STATUS(source.PartitionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey_STATUS() to populate field PartitionKey")
+=======
+		err := partitionKey.AssignPropertiesFromContainerPartitionKeySTATUS(source.PartitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKeySTATUS() to populate field PartitionKey")
+>>>>>>> main
 		}
 		resource.PartitionKey = &partitionKey
 	} else {
@@ -1085,9 +1570,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 	// UniqueKeyPolicy
 	if source.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy UniqueKeyPolicy_STATUS
+<<<<<<< HEAD
 		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy_STATUS(source.UniqueKeyPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
+=======
+		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicySTATUS(source.UniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicySTATUS() to populate field UniqueKeyPolicy")
+>>>>>>> main
 		}
 		resource.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1098,8 +1589,13 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSqlContainerGetProperties_Resource_STATUS populates the provided destination SqlContainerGetProperties_Resource_STATUS from our SqlContainerGetProperties_Resource_STATUS
 func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSqlContainerGetProperties_Resource_STATUS(destination *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
+=======
+// AssignPropertiesToSqlContainerGetPropertiesSTATUSResource populates the provided destination SqlContainerGetProperties_STATUS_Resource from our SqlContainerGetProperties_STATUS_Resource
+func (resource *SqlContainerGetProperties_STATUS_Resource) AssignPropertiesToSqlContainerGetPropertiesSTATUSResource(destination *v20210515s.SqlContainerGetProperties_STATUS_Resource) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1109,9 +1605,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 	// ConflictResolutionPolicy
 	if resource.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy v20210515s.ConflictResolutionPolicy_STATUS
+<<<<<<< HEAD
 		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy_STATUS(&conflictResolutionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
+=======
+		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicySTATUS(&conflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicySTATUS() to populate field ConflictResolutionPolicy")
+>>>>>>> main
 		}
 		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
 	} else {
@@ -1130,9 +1632,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 	// IndexingPolicy
 	if resource.IndexingPolicy != nil {
 		var indexingPolicy v20210515s.IndexingPolicy_STATUS
+<<<<<<< HEAD
 		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy_STATUS(&indexingPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy_STATUS() to populate field IndexingPolicy")
+=======
+		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicySTATUS(&indexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicySTATUS() to populate field IndexingPolicy")
+>>>>>>> main
 		}
 		destination.IndexingPolicy = &indexingPolicy
 	} else {
@@ -1142,9 +1650,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 	// PartitionKey
 	if resource.PartitionKey != nil {
 		var partitionKey v20210515s.ContainerPartitionKey_STATUS
+<<<<<<< HEAD
 		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey_STATUS(&partitionKey)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey_STATUS() to populate field PartitionKey")
+=======
+		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKeySTATUS(&partitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKeySTATUS() to populate field PartitionKey")
+>>>>>>> main
 		}
 		destination.PartitionKey = &partitionKey
 	} else {
@@ -1165,9 +1679,15 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 	// UniqueKeyPolicy
 	if resource.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy v20210515s.UniqueKeyPolicy_STATUS
+<<<<<<< HEAD
 		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy_STATUS(&uniqueKeyPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
+=======
+		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicySTATUS(&uniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicySTATUS() to populate field UniqueKeyPolicy")
+>>>>>>> main
 		}
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
@@ -1628,7 +2148,11 @@ type ConflictResolutionPolicy_STATUS struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
+<<<<<<< HEAD
 	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
+=======
+	Mode *ConflictResolutionPolicySTATUSMode `json:"mode,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_STATUS{}
@@ -1667,8 +2191,13 @@ func (policy *ConflictResolutionPolicy_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromConflictResolutionPolicy_STATUS populates our ConflictResolutionPolicy_STATUS from the provided source ConflictResolutionPolicy_STATUS
 func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesFromConflictResolutionPolicy_STATUS(source *v20210515s.ConflictResolutionPolicy_STATUS) error {
+=======
+// AssignPropertiesFromConflictResolutionPolicySTATUS populates our ConflictResolutionPolicy_STATUS from the provided source ConflictResolutionPolicy_STATUS
+func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesFromConflictResolutionPolicySTATUS(source *v20210515s.ConflictResolutionPolicy_STATUS) error {
+>>>>>>> main
 
 	// ConflictResolutionPath
 	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
@@ -1678,7 +2207,11 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesFromConflictResol
 
 	// Mode
 	if source.Mode != nil {
+<<<<<<< HEAD
 		mode := ConflictResolutionPolicy_Mode_STATUS(*source.Mode)
+=======
+		mode := ConflictResolutionPolicySTATUSMode(*source.Mode)
+>>>>>>> main
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -1688,8 +2221,13 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesFromConflictResol
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToConflictResolutionPolicy_STATUS populates the provided destination ConflictResolutionPolicy_STATUS from our ConflictResolutionPolicy_STATUS
 func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesToConflictResolutionPolicy_STATUS(destination *v20210515s.ConflictResolutionPolicy_STATUS) error {
+=======
+// AssignPropertiesToConflictResolutionPolicySTATUS populates the provided destination ConflictResolutionPolicy_STATUS from our ConflictResolutionPolicy_STATUS
+func (policy *ConflictResolutionPolicy_STATUS) AssignPropertiesToConflictResolutionPolicySTATUS(destination *v20210515s.ConflictResolutionPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1857,7 +2395,11 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 type ContainerPartitionKey_STATUS struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
+<<<<<<< HEAD
 	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
+=======
+	Kind *ContainerPartitionKeySTATUSKind `json:"kind,omitempty"`
+>>>>>>> main
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -1910,12 +2452,21 @@ func (partitionKey *ContainerPartitionKey_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromContainerPartitionKey_STATUS populates our ContainerPartitionKey_STATUS from the provided source ContainerPartitionKey_STATUS
 func (partitionKey *ContainerPartitionKey_STATUS) AssignPropertiesFromContainerPartitionKey_STATUS(source *v20210515s.ContainerPartitionKey_STATUS) error {
 
 	// Kind
 	if source.Kind != nil {
 		kind := ContainerPartitionKey_Kind_STATUS(*source.Kind)
+=======
+// AssignPropertiesFromContainerPartitionKeySTATUS populates our ContainerPartitionKey_STATUS from the provided source ContainerPartitionKey_STATUS
+func (partitionKey *ContainerPartitionKey_STATUS) AssignPropertiesFromContainerPartitionKeySTATUS(source *v20210515s.ContainerPartitionKey_STATUS) error {
+
+	// Kind
+	if source.Kind != nil {
+		kind := ContainerPartitionKeySTATUSKind(*source.Kind)
+>>>>>>> main
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -1939,8 +2490,13 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignPropertiesFromContainerP
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToContainerPartitionKey_STATUS populates the provided destination ContainerPartitionKey_STATUS from our ContainerPartitionKey_STATUS
 func (partitionKey *ContainerPartitionKey_STATUS) AssignPropertiesToContainerPartitionKey_STATUS(destination *v20210515s.ContainerPartitionKey_STATUS) error {
+=======
+// AssignPropertiesToContainerPartitionKeySTATUS populates the provided destination ContainerPartitionKey_STATUS from our ContainerPartitionKey_STATUS
+func (partitionKey *ContainerPartitionKey_STATUS) AssignPropertiesToContainerPartitionKeySTATUS(destination *v20210515s.ContainerPartitionKey_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2365,7 +2921,11 @@ type IndexingPolicy_STATUS struct {
 	IncludedPaths []IncludedPath_STATUS `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
+<<<<<<< HEAD
 	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
+=======
+	IndexingMode *IndexingPolicySTATUSIndexingMode `json:"indexingMode,omitempty"`
+>>>>>>> main
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_STATUS `json:"spatialIndexes,omitempty"`
@@ -2445,8 +3005,13 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIndexingPolicy_STATUS populates our IndexingPolicy_STATUS from the provided source IndexingPolicy_STATUS
 func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(source *v20210515s.IndexingPolicy_STATUS) error {
+=======
+// AssignPropertiesFromIndexingPolicySTATUS populates our IndexingPolicy_STATUS from the provided source IndexingPolicy_STATUS
+func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicySTATUS(source *v20210515s.IndexingPolicy_STATUS) error {
+>>>>>>> main
 
 	// Automatic
 	if source.Automatic != nil {
@@ -2468,9 +3033,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal CompositePath_STATUS
+<<<<<<< HEAD
 					err := compositeIndexLocal.AssignPropertiesFromCompositePath_STATUS(&compositeIndexItem1)
 					if err != nil {
 						return errors.Wrap(err, "calling AssignPropertiesFromCompositePath_STATUS() to populate field CompositeIndexes")
+=======
+					err := compositeIndexLocal.AssignPropertiesFromCompositePathSTATUS(&compositeIndexItem1)
+					if err != nil {
+						return errors.Wrap(err, "calling AssignPropertiesFromCompositePathSTATUS() to populate field CompositeIndexes")
+>>>>>>> main
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2491,9 +3062,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath ExcludedPath_STATUS
+<<<<<<< HEAD
 			err := excludedPath.AssignPropertiesFromExcludedPath_STATUS(&excludedPathItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPath_STATUS() to populate field ExcludedPaths")
+=======
+			err := excludedPath.AssignPropertiesFromExcludedPathSTATUS(&excludedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPathSTATUS() to populate field ExcludedPaths")
+>>>>>>> main
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2509,9 +3086,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath IncludedPath_STATUS
+<<<<<<< HEAD
 			err := includedPath.AssignPropertiesFromIncludedPath_STATUS(&includedPathItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPath_STATUS() to populate field IncludedPaths")
+=======
+			err := includedPath.AssignPropertiesFromIncludedPathSTATUS(&includedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPathSTATUS() to populate field IncludedPaths")
+>>>>>>> main
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2522,7 +3105,11 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 
 	// IndexingMode
 	if source.IndexingMode != nil {
+<<<<<<< HEAD
 		indexingMode := IndexingPolicy_IndexingMode_STATUS(*source.IndexingMode)
+=======
+		indexingMode := IndexingPolicySTATUSIndexingMode(*source.IndexingMode)
+>>>>>>> main
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -2535,9 +3122,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal SpatialSpec_STATUS
+<<<<<<< HEAD
 			err := spatialIndexLocal.AssignPropertiesFromSpatialSpec_STATUS(&spatialIndexItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpec_STATUS() to populate field SpatialIndexes")
+=======
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpecSTATUS(&spatialIndexItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpecSTATUS() to populate field SpatialIndexes")
+>>>>>>> main
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2550,8 +3143,13 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesFromIndexingPolicy_STATUS(s
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIndexingPolicy_STATUS populates the provided destination IndexingPolicy_STATUS from our IndexingPolicy_STATUS
 func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicy_STATUS(destination *v20210515s.IndexingPolicy_STATUS) error {
+=======
+// AssignPropertiesToIndexingPolicySTATUS populates the provided destination IndexingPolicy_STATUS from our IndexingPolicy_STATUS
+func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicySTATUS(destination *v20210515s.IndexingPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2575,9 +3173,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicy_STATUS(des
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
 					var compositeIndexLocal v20210515s.CompositePath_STATUS
+<<<<<<< HEAD
 					err := compositeIndexItem1.AssignPropertiesToCompositePath_STATUS(&compositeIndexLocal)
 					if err != nil {
 						return errors.Wrap(err, "calling AssignPropertiesToCompositePath_STATUS() to populate field CompositeIndexes")
+=======
+					err := compositeIndexItem1.AssignPropertiesToCompositePathSTATUS(&compositeIndexLocal)
+					if err != nil {
+						return errors.Wrap(err, "calling AssignPropertiesToCompositePathSTATUS() to populate field CompositeIndexes")
+>>>>>>> main
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2598,9 +3202,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicy_STATUS(des
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
 			var excludedPath v20210515s.ExcludedPath_STATUS
+<<<<<<< HEAD
 			err := excludedPathItem.AssignPropertiesToExcludedPath_STATUS(&excludedPath)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToExcludedPath_STATUS() to populate field ExcludedPaths")
+=======
+			err := excludedPathItem.AssignPropertiesToExcludedPathSTATUS(&excludedPath)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToExcludedPathSTATUS() to populate field ExcludedPaths")
+>>>>>>> main
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2616,9 +3226,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicy_STATUS(des
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
 			var includedPath v20210515s.IncludedPath_STATUS
+<<<<<<< HEAD
 			err := includedPathItem.AssignPropertiesToIncludedPath_STATUS(&includedPath)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIncludedPath_STATUS() to populate field IncludedPaths")
+=======
+			err := includedPathItem.AssignPropertiesToIncludedPathSTATUS(&includedPath)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIncludedPathSTATUS() to populate field IncludedPaths")
+>>>>>>> main
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2642,9 +3258,15 @@ func (policy *IndexingPolicy_STATUS) AssignPropertiesToIndexingPolicy_STATUS(des
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
 			var spatialIndexLocal v20210515s.SpatialSpec_STATUS
+<<<<<<< HEAD
 			err := spatialIndexItem.AssignPropertiesToSpatialSpec_STATUS(&spatialIndexLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpec_STATUS() to populate field SpatialIndexes")
+=======
+			err := spatialIndexItem.AssignPropertiesToSpatialSpecSTATUS(&spatialIndexLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpecSTATUS() to populate field SpatialIndexes")
+>>>>>>> main
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2809,8 +3431,13 @@ func (policy *UniqueKeyPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromUniqueKeyPolicy_STATUS populates our UniqueKeyPolicy_STATUS from the provided source UniqueKeyPolicy_STATUS
 func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesFromUniqueKeyPolicy_STATUS(source *v20210515s.UniqueKeyPolicy_STATUS) error {
+=======
+// AssignPropertiesFromUniqueKeyPolicySTATUS populates our UniqueKeyPolicy_STATUS from the provided source UniqueKeyPolicy_STATUS
+func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesFromUniqueKeyPolicySTATUS(source *v20210515s.UniqueKeyPolicy_STATUS) error {
+>>>>>>> main
 
 	// UniqueKeys
 	if source.UniqueKeys != nil {
@@ -2819,9 +3446,15 @@ func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesFromUniqueKeyPolicy_STATUS
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey UniqueKey_STATUS
+<<<<<<< HEAD
 			err := uniqueKey.AssignPropertiesFromUniqueKey_STATUS(&uniqueKeyItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKey_STATUS() to populate field UniqueKeys")
+=======
+			err := uniqueKey.AssignPropertiesFromUniqueKeySTATUS(&uniqueKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeySTATUS() to populate field UniqueKeys")
+>>>>>>> main
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2834,8 +3467,13 @@ func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesFromUniqueKeyPolicy_STATUS
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToUniqueKeyPolicy_STATUS populates the provided destination UniqueKeyPolicy_STATUS from our UniqueKeyPolicy_STATUS
 func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesToUniqueKeyPolicy_STATUS(destination *v20210515s.UniqueKeyPolicy_STATUS) error {
+=======
+// AssignPropertiesToUniqueKeyPolicySTATUS populates the provided destination UniqueKeyPolicy_STATUS from our UniqueKeyPolicy_STATUS
+func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesToUniqueKeyPolicySTATUS(destination *v20210515s.UniqueKeyPolicy_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2846,9 +3484,15 @@ func (policy *UniqueKeyPolicy_STATUS) AssignPropertiesToUniqueKeyPolicy_STATUS(d
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
 			var uniqueKey v20210515s.UniqueKey_STATUS
+<<<<<<< HEAD
 			err := uniqueKeyItem.AssignPropertiesToUniqueKey_STATUS(&uniqueKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUniqueKey_STATUS() to populate field UniqueKeys")
+=======
+			err := uniqueKeyItem.AssignPropertiesToUniqueKeySTATUS(&uniqueKey)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToUniqueKeySTATUS() to populate field UniqueKeys")
+>>>>>>> main
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2975,7 +3619,11 @@ func (path *CompositePath) AssignPropertiesToCompositePath(destination *v2021051
 
 type CompositePath_STATUS struct {
 	// Order: Sort order for composite paths.
+<<<<<<< HEAD
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
+=======
+	Order *CompositePathSTATUSOrder `json:"order,omitempty"`
+>>>>>>> main
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -3012,12 +3660,21 @@ func (path *CompositePath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromCompositePath_STATUS populates our CompositePath_STATUS from the provided source CompositePath_STATUS
 func (path *CompositePath_STATUS) AssignPropertiesFromCompositePath_STATUS(source *v20210515s.CompositePath_STATUS) error {
 
 	// Order
 	if source.Order != nil {
 		order := CompositePath_Order_STATUS(*source.Order)
+=======
+// AssignPropertiesFromCompositePathSTATUS populates our CompositePath_STATUS from the provided source CompositePath_STATUS
+func (path *CompositePath_STATUS) AssignPropertiesFromCompositePathSTATUS(source *v20210515s.CompositePath_STATUS) error {
+
+	// Order
+	if source.Order != nil {
+		order := CompositePathSTATUSOrder(*source.Order)
+>>>>>>> main
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -3030,8 +3687,13 @@ func (path *CompositePath_STATUS) AssignPropertiesFromCompositePath_STATUS(sourc
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToCompositePath_STATUS populates the provided destination CompositePath_STATUS from our CompositePath_STATUS
 func (path *CompositePath_STATUS) AssignPropertiesToCompositePath_STATUS(destination *v20210515s.CompositePath_STATUS) error {
+=======
+// AssignPropertiesToCompositePathSTATUS populates the provided destination CompositePath_STATUS from our CompositePath_STATUS
+func (path *CompositePath_STATUS) AssignPropertiesToCompositePathSTATUS(destination *v20210515s.CompositePath_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3161,8 +3823,13 @@ func (path *ExcludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromExcludedPath_STATUS populates our ExcludedPath_STATUS from the provided source ExcludedPath_STATUS
 func (path *ExcludedPath_STATUS) AssignPropertiesFromExcludedPath_STATUS(source *v20210515s.ExcludedPath_STATUS) error {
+=======
+// AssignPropertiesFromExcludedPathSTATUS populates our ExcludedPath_STATUS from the provided source ExcludedPath_STATUS
+func (path *ExcludedPath_STATUS) AssignPropertiesFromExcludedPathSTATUS(source *v20210515s.ExcludedPath_STATUS) error {
+>>>>>>> main
 
 	// Path
 	path.Path = genruntime.ClonePointerToString(source.Path)
@@ -3171,8 +3838,13 @@ func (path *ExcludedPath_STATUS) AssignPropertiesFromExcludedPath_STATUS(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToExcludedPath_STATUS populates the provided destination ExcludedPath_STATUS from our ExcludedPath_STATUS
 func (path *ExcludedPath_STATUS) AssignPropertiesToExcludedPath_STATUS(destination *v20210515s.ExcludedPath_STATUS) error {
+=======
+// AssignPropertiesToExcludedPathSTATUS populates the provided destination ExcludedPath_STATUS from our ExcludedPath_STATUS
+func (path *ExcludedPath_STATUS) AssignPropertiesToExcludedPathSTATUS(destination *v20210515s.ExcludedPath_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3365,8 +4037,13 @@ func (path *IncludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIncludedPath_STATUS populates our IncludedPath_STATUS from the provided source IncludedPath_STATUS
 func (path *IncludedPath_STATUS) AssignPropertiesFromIncludedPath_STATUS(source *v20210515s.IncludedPath_STATUS) error {
+=======
+// AssignPropertiesFromIncludedPathSTATUS populates our IncludedPath_STATUS from the provided source IncludedPath_STATUS
+func (path *IncludedPath_STATUS) AssignPropertiesFromIncludedPathSTATUS(source *v20210515s.IncludedPath_STATUS) error {
+>>>>>>> main
 
 	// Indexes
 	if source.Indexes != nil {
@@ -3375,9 +4052,15 @@ func (path *IncludedPath_STATUS) AssignPropertiesFromIncludedPath_STATUS(source 
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal Indexes_STATUS
+<<<<<<< HEAD
 			err := indexLocal.AssignPropertiesFromIndexes_STATUS(&indexItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromIndexes_STATUS() to populate field Indexes")
+=======
+			err := indexLocal.AssignPropertiesFromIndexesSTATUS(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIndexesSTATUS() to populate field Indexes")
+>>>>>>> main
 			}
 			indexList[index] = indexLocal
 		}
@@ -3393,8 +4076,13 @@ func (path *IncludedPath_STATUS) AssignPropertiesFromIncludedPath_STATUS(source 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIncludedPath_STATUS populates the provided destination IncludedPath_STATUS from our IncludedPath_STATUS
 func (path *IncludedPath_STATUS) AssignPropertiesToIncludedPath_STATUS(destination *v20210515s.IncludedPath_STATUS) error {
+=======
+// AssignPropertiesToIncludedPathSTATUS populates the provided destination IncludedPath_STATUS from our IncludedPath_STATUS
+func (path *IncludedPath_STATUS) AssignPropertiesToIncludedPathSTATUS(destination *v20210515s.IncludedPath_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3405,9 +4093,15 @@ func (path *IncludedPath_STATUS) AssignPropertiesToIncludedPath_STATUS(destinati
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal v20210515s.Indexes_STATUS
+<<<<<<< HEAD
 			err := indexItem.AssignPropertiesToIndexes_STATUS(&indexLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIndexes_STATUS() to populate field Indexes")
+=======
+			err := indexItem.AssignPropertiesToIndexesSTATUS(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIndexesSTATUS() to populate field Indexes")
+>>>>>>> main
 			}
 			indexList[index] = indexLocal
 		}
@@ -3581,8 +4275,13 @@ func (spatial *SpatialSpec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSpatialSpec_STATUS populates our SpatialSpec_STATUS from the provided source SpatialSpec_STATUS
 func (spatial *SpatialSpec_STATUS) AssignPropertiesFromSpatialSpec_STATUS(source *v20210515s.SpatialSpec_STATUS) error {
+=======
+// AssignPropertiesFromSpatialSpecSTATUS populates our SpatialSpec_STATUS from the provided source SpatialSpec_STATUS
+func (spatial *SpatialSpec_STATUS) AssignPropertiesFromSpatialSpecSTATUS(source *v20210515s.SpatialSpec_STATUS) error {
+>>>>>>> main
 
 	// Path
 	spatial.Path = genruntime.ClonePointerToString(source.Path)
@@ -3604,8 +4303,13 @@ func (spatial *SpatialSpec_STATUS) AssignPropertiesFromSpatialSpec_STATUS(source
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSpatialSpec_STATUS populates the provided destination SpatialSpec_STATUS from our SpatialSpec_STATUS
 func (spatial *SpatialSpec_STATUS) AssignPropertiesToSpatialSpec_STATUS(destination *v20210515s.SpatialSpec_STATUS) error {
+=======
+// AssignPropertiesToSpatialSpecSTATUS populates the provided destination SpatialSpec_STATUS from our SpatialSpec_STATUS
+func (spatial *SpatialSpec_STATUS) AssignPropertiesToSpatialSpecSTATUS(destination *v20210515s.SpatialSpec_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3735,8 +4439,13 @@ func (uniqueKey *UniqueKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromUniqueKey_STATUS populates our UniqueKey_STATUS from the provided source UniqueKey_STATUS
 func (uniqueKey *UniqueKey_STATUS) AssignPropertiesFromUniqueKey_STATUS(source *v20210515s.UniqueKey_STATUS) error {
+=======
+// AssignPropertiesFromUniqueKeySTATUS populates our UniqueKey_STATUS from the provided source UniqueKey_STATUS
+func (uniqueKey *UniqueKey_STATUS) AssignPropertiesFromUniqueKeySTATUS(source *v20210515s.UniqueKey_STATUS) error {
+>>>>>>> main
 
 	// Paths
 	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
@@ -3745,8 +4454,13 @@ func (uniqueKey *UniqueKey_STATUS) AssignPropertiesFromUniqueKey_STATUS(source *
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToUniqueKey_STATUS populates the provided destination UniqueKey_STATUS from our UniqueKey_STATUS
 func (uniqueKey *UniqueKey_STATUS) AssignPropertiesToUniqueKey_STATUS(destination *v20210515s.UniqueKey_STATUS) error {
+=======
+// AssignPropertiesToUniqueKeySTATUS populates the provided destination UniqueKey_STATUS from our UniqueKey_STATUS
+func (uniqueKey *UniqueKey_STATUS) AssignPropertiesToUniqueKeySTATUS(destination *v20210515s.UniqueKey_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3901,10 +4615,17 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *v20210515s.Indexe
 
 type Indexes_STATUS struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
+<<<<<<< HEAD
 	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
 	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
+=======
+	DataType *IndexesSTATUSDataType `json:"dataType,omitempty"`
+
+	// Kind: Indicates the type of index.
+	Kind *IndexesSTATUSKind `json:"kind,omitempty"`
+>>>>>>> main
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -3946,12 +4667,21 @@ func (indexes *Indexes_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromIndexes_STATUS populates our Indexes_STATUS from the provided source Indexes_STATUS
 func (indexes *Indexes_STATUS) AssignPropertiesFromIndexes_STATUS(source *v20210515s.Indexes_STATUS) error {
 
 	// DataType
 	if source.DataType != nil {
 		dataType := Indexes_DataType_STATUS(*source.DataType)
+=======
+// AssignPropertiesFromIndexesSTATUS populates our Indexes_STATUS from the provided source Indexes_STATUS
+func (indexes *Indexes_STATUS) AssignPropertiesFromIndexesSTATUS(source *v20210515s.Indexes_STATUS) error {
+
+	// DataType
+	if source.DataType != nil {
+		dataType := IndexesSTATUSDataType(*source.DataType)
+>>>>>>> main
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -3959,7 +4689,11 @@ func (indexes *Indexes_STATUS) AssignPropertiesFromIndexes_STATUS(source *v20210
 
 	// Kind
 	if source.Kind != nil {
+<<<<<<< HEAD
 		kind := Indexes_Kind_STATUS(*source.Kind)
+=======
+		kind := IndexesSTATUSKind(*source.Kind)
+>>>>>>> main
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil
@@ -3972,8 +4706,13 @@ func (indexes *Indexes_STATUS) AssignPropertiesFromIndexes_STATUS(source *v20210
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToIndexes_STATUS populates the provided destination Indexes_STATUS from our Indexes_STATUS
 func (indexes *Indexes_STATUS) AssignPropertiesToIndexes_STATUS(destination *v20210515s.Indexes_STATUS) error {
+=======
+// AssignPropertiesToIndexesSTATUS populates the provided destination Indexes_STATUS from our Indexes_STATUS
+func (indexes *Indexes_STATUS) AssignPropertiesToIndexesSTATUS(destination *v20210515s.Indexes_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

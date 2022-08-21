@@ -28,7 +28,11 @@ import (
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NetworkInterface_Spec                                        `json:"spec,omitempty"`
+=======
+	Spec              NetworkInterfaces_Spec                                       `json:"spec,omitempty"`
+>>>>>>> main
 	Status            NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded `json:"status,omitempty"`
 }
 
@@ -249,6 +253,7 @@ type NetworkInterfaceDnsSettings_STATUS struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded struct {
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool                    `json:"applicationGatewayBackendAddressPools,omitempty"`
@@ -270,6 +275,8 @@ type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded struct
 	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded `json:"virtualNetworkTaps,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
@@ -290,12 +297,15 @@ type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	Subnet                                *Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
 	Type                                  *string                                                                            `json:"type,omitempty"`
 	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                    `json:"virtualNetworkTaps,omitempty"`
+<<<<<<< HEAD
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+=======
+>>>>>>> main
 }
 
 // Storage version of v1beta20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
@@ -309,12 +319,26 @@ type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
 	Tags          map[string]string                                   `json:"tags,omitempty"`
 }
 
+<<<<<<< HEAD
+// Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+=======
+// Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+>>>>>>> main
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+<<<<<<< HEAD
+=======
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+>>>>>>> main
 // Storage version of v1beta20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
@@ -322,6 +346,7 @@ type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.PrivateLinkServiceSpec
 type PrivateLinkServiceSpec struct {
 	AutoApproval                         *ResourceSet                                                             `json:"autoApproval,omitempty"`
@@ -339,6 +364,8 @@ type PrivateLinkServiceSpec struct {
 	Visibility *ResourceSet                  `json:"visibility,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
@@ -362,6 +389,15 @@ type ApplicationGatewayBackendAddressPool struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20201101.SubResource_STATUS
+type SubResource_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+>>>>>>> main
 // Storage version of v1beta20201101.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	BackendAddresses  []ApplicationGatewayBackendAddress_STATUS `json:"backendAddresses,omitempty"`
@@ -379,6 +415,7 @@ type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded
 type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -387,12 +424,15 @@ type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded
 type FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded struct {
 	Name                      *string                `json:"name,omitempty"`
@@ -417,6 +457,8 @@ type InboundNatRule_NetworkInterface_SubResourceEmbedded struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
@@ -431,6 +473,7 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS struc
 	RequiredMemberName *string                `json:"requiredMemberName,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded
 type PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded struct {
 	Name                      *string                `json:"name,omitempty"`
@@ -445,6 +488,8 @@ type PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded stru
 	Subnet    *Subnet_NetworkInterface_SubResourceEmbedded `json:"subnet,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_STATUS   `json:"extendedLocation,omitempty"`
@@ -454,6 +499,7 @@ type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Zones            []string                   `json:"zones,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.ResourceSet
 type ResourceSet struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -476,12 +522,15 @@ type Subnet_NetworkInterface_SubResourceEmbedded struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 type Subnet_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded struct {
 	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
@@ -494,12 +543,15 @@ type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded struct {
 	Tags      map[string]string             `json:"tags,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201101.ApplicationGatewayBackendAddress
 type ApplicationGatewayBackendAddress struct {
 	Fqdn        *string                `json:"fqdn,omitempty"`
@@ -507,6 +559,8 @@ type ApplicationGatewayBackendAddress struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+=======
+>>>>>>> main
 // Storage version of v1beta20201101.ApplicationGatewayBackendAddress_STATUS
 type ApplicationGatewayBackendAddress_STATUS struct {
 	Fqdn        *string                `json:"fqdn,omitempty"`

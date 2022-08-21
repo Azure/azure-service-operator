@@ -74,6 +74,7 @@ func DomainsTopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDomainsTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainsTopic(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = DomainsTopic_SpecGenerator()
 	gens["Status"] = DomainsTopic_STATUSGenerator()
 }
@@ -154,6 +155,10 @@ func AddIndependentPropertyGeneratorsForDomainsTopic_STATUS(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForDomainsTopic_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainsTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+=======
+	gens["Spec"] = DomainsTopicsSpecGenerator()
+	gens["Status"] = DomainTopicSTATUSGenerator()
+>>>>>>> main
 }
 
 func Test_DomainsTopic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -215,4 +220,81 @@ func DomainsTopic_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomainsTopic_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+func Test_DomainTopic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DomainTopic_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainTopicSTATUS, DomainTopicSTATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDomainTopicSTATUS runs a test to see if a specific instance of DomainTopic_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainTopicSTATUS(subject DomainTopic_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DomainTopic_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DomainTopic_STATUS instances for property testing - lazily instantiated by DomainTopicSTATUSGenerator()
+var domainTopicSTATUSGenerator gopter.Gen
+
+// DomainTopicSTATUSGenerator returns a generator of DomainTopic_STATUS instances for property testing.
+// We first initialize domainTopicSTATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func DomainTopicSTATUSGenerator() gopter.Gen {
+	if domainTopicSTATUSGenerator != nil {
+		return domainTopicSTATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomainTopicSTATUS(generators)
+	domainTopicSTATUSGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDomainTopicSTATUS(generators)
+	AddRelatedPropertyGeneratorsForDomainTopicSTATUS(generators)
+	domainTopicSTATUSGenerator = gen.Struct(reflect.TypeOf(DomainTopic_STATUS{}), generators)
+
+	return domainTopicSTATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDomainTopicSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomainTopicSTATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForDomainTopicSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDomainTopicSTATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemDataSTATUSGenerator())
 }

@@ -28,8 +28,13 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsMongodbDatabase_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsMongodbDatabase_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccountsMongodbDatabases_Spec `json:"spec,omitempty"`
+	Status            MongoDBDatabaseGetResults_STATUS      `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -78,7 +83,11 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &DatabaseAccountsMongodbDatabase_STATUS{}
+=======
+	return &MongoDBDatabaseGetResults_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +103,21 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*DatabaseAccountsMongodbDatabase_STATUS); ok {
+=======
+	if st, ok := status.(*MongoDBDatabaseGetResults_STATUS); ok {
+>>>>>>> main
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st DatabaseAccountsMongodbDatabase_STATUS
+=======
+	var st MongoDBDatabaseGetResults_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -202,7 +219,44 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecTo(destination 
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
+<<<<<<< HEAD
 	return destination.ConvertSpecFrom(database)
+=======
+	return destination.ConvertSpecFrom(databases)
+}
+
+// Storage version of v1beta20210515.MongoDBDatabaseGetResults_STATUS
+type MongoDBDatabaseGetResults_STATUS struct {
+	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
+	Id          *string                                       `json:"id,omitempty"`
+	Location    *string                                       `json:"location,omitempty"`
+	Name        *string                                       `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                       `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	Resource    *MongoDBDatabaseGetProperties_STATUS_Resource `json:"resource,omitempty"`
+	Tags        map[string]string                             `json:"tags,omitempty"`
+	Type        *string                                       `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_STATUS{}
+
+// ConvertStatusFrom populates our MongoDBDatabaseGetResults_STATUS from the provided source
+func (results *MongoDBDatabaseGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(results)
+}
+
+// ConvertStatusTo populates the provided destination from our MongoDBDatabaseGetResults_STATUS
+func (results *MongoDBDatabaseGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(results)
+>>>>>>> main
 }
 
 // Storage version of v1beta20210515.CreateUpdateOptions
@@ -212,8 +266,13 @@ type CreateUpdateOptions struct {
 	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS
 type MongoDBDatabaseGetProperties_Resource_STATUS struct {
+=======
+// Storage version of v1beta20210515.MongoDBDatabaseGetProperties_STATUS_Resource
+type MongoDBDatabaseGetProperties_STATUS_Resource struct {
+>>>>>>> main
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

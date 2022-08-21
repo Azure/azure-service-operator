@@ -78,6 +78,41 @@ type PersonList struct {
 	Items           []Person `json:"items"`
 }
 
+type Person_Spec struct {
+	// FullName: As would be used to address mail
+	FullName string `json:"fullName,omitempty"`
+}
+
+// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
+func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20200101s.Person_Spec) error {
+
+	// FullName
+	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
+func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20200101s.Person_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// FullName
+	fullName := person.FullName
+	destination.FullName = &fullName
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Person_STATUS struct {
 	Status string `json:"status,omitempty"`
 }
@@ -150,41 +185,6 @@ func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20200
 	// Status
 	status := person.Status
 	destination.Status = &status
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Person_Spec struct {
-	// FullName: As would be used to address mail
-	FullName string `json:"fullName,omitempty"`
-}
-
-// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20200101s.Person_Spec) error {
-
-	// FullName
-	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20200101s.Person_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// FullName
-	fullName := person.FullName
-	destination.FullName = &fullName
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

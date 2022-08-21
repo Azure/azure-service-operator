@@ -25,8 +25,13 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesEventhubsAuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            NamespacesEventhubsAuthorizationRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              NamespacesEventhubsAuthorizationRules_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_STATUS                   `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -97,7 +102,11 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesEventhubsAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+<<<<<<< HEAD
 	return &NamespacesEventhubsAuthorizationRule_STATUS{}
+=======
+	return &AuthorizationRule_STATUS{}
+>>>>>>> main
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +122,21 @@ func (rule *NamespacesEventhubsAuthorizationRule) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (rule *NamespacesEventhubsAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
+<<<<<<< HEAD
 	if st, ok := status.(*NamespacesEventhubsAuthorizationRule_STATUS); ok {
+=======
+	if st, ok := status.(*AuthorizationRule_STATUS); ok {
+>>>>>>> main
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
+<<<<<<< HEAD
 	var st NamespacesEventhubsAuthorizationRule_STATUS
+=======
+	var st AuthorizationRule_STATUS
+>>>>>>> main
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +161,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespaces
 	rule.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status NamespacesEventhubsAuthorizationRule_STATUS
 	err = status.AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS() to populate field Status")
+=======
+	var status AuthorizationRule_STATUS
+	err = status.AssignPropertiesFromAuthorizationRuleSTATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	rule.Status = status
 
@@ -170,10 +194,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEv
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20211101s.NamespacesEventhubsAuthorizationRule_STATUS
 	err = rule.Status.AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS() to populate field Status")
+=======
+	var status v20211101s.AuthorizationRule_STATUS
+	err = rule.Status.AssignPropertiesToAuthorizationRuleSTATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleSTATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
