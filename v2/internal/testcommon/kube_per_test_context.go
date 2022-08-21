@@ -281,7 +281,7 @@ var OperationTimeoutReplaying = 2 * time.Minute
 //   * Deleting an AKS cluster.
 //   * Creating a Redis Enterprise Database.
 //   * Deleting a CosmosDB MongoDB.
-var OperationTimeoutRecording = 20 * time.Minute
+var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
 	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
