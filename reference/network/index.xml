@@ -24205,6 +24205,591 @@ VpnClientRootCertificatePropertiesFormat_StatusARM
     </item>
     
     <item>
+      <title>Reference: network.azure.com/v1beta20180901</title>
+      <link>https://azure.github.io/azure-service-operator/reference/network/v1beta20180901/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/network/v1beta20180901/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;network.azure.com/v1beta20180901&#34;&gt;network.azure.com/v1beta20180901&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1beta20180901 contains API Schema definitions for the network v1beta20180901 API group&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2018-09-01&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateDnsZone&#34;&gt;PrivateDnsZone
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generated from: &lt;a href=&#34;https://schema.management.azure.com/schemas/2018-09-01/Microsoft.Network.json#/resourceDefinitions/privateDnsZones&#34;&gt;https://schema.management.azure.com/schemas/2018-09-01/Microsoft.Network.json#/resourceDefinitions/privateDnsZones&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateDnsZones_Spec&#34;&gt;
+PrivateDnsZones_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: The ETag of the Private DNS zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: Location to deploy resource to&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZone_Status&#34;&gt;
+PrivateZone_Status
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateDnsZones_Spec&#34;&gt;PrivateDnsZones_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateDnsZone&#34;&gt;PrivateDnsZone&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: The ETag of the Private DNS zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: Location to deploy resource to&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateDnsZones_SpecARM&#34;&gt;PrivateDnsZones_SpecARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: The ETag of the Private DNS zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: Location to deploy resource to&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: Name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateZonePropertiesStatusProvisioningState&#34;&gt;PrivateZonePropertiesStatusProvisioningState
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZoneProperties_StatusARM&#34;&gt;PrivateZoneProperties_StatusARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZone_Status&#34;&gt;PrivateZone_Status&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateZoneProperties_StatusARM&#34;&gt;PrivateZoneProperties_StatusARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZone_StatusARM&#34;&gt;PrivateZone_StatusARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfRecordSets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
+read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfVirtualNetworkLinks&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
+is a read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfVirtualNetworkLinksWithRegistration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
+Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
+ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfRecordSets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
+attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfVirtualNetworkLinks&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
+read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfVirtualNetworkLinksWithRegistration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
+zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZonePropertiesStatusProvisioningState&#34;&gt;
+PrivateZonePropertiesStatusProvisioningState
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
+value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateZone_Status&#34;&gt;PrivateZone_Status
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateDnsZone&#34;&gt;PrivateDnsZone&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: The ETag of the zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfRecordSets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
+read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfVirtualNetworkLinks&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
+is a read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;maxNumberOfVirtualNetworkLinksWithRegistration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
+Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
+ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfRecordSets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
+attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfVirtualNetworkLinks&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
+read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;numberOfVirtualNetworkLinksWithRegistration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
+zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZonePropertiesStatusProvisioningState&#34;&gt;
+PrivateZonePropertiesStatusProvisioningState
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
+value will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20180901.PrivateZone_StatusARM&#34;&gt;PrivateZone_StatusARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: The ETag of the zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20180901.PrivateZoneProperties_StatusARM&#34;&gt;
+PrivateZoneProperties_StatusARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Properties of the Private DNS zone.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Reference: network.azure.com/v1beta20201101</title>
       <link>https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

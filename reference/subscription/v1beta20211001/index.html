@@ -1,0 +1,1911 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.88.1" />
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/azure-service-operator/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/azure-service-operator/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
+
+<title>subscription.azure.com/v1beta20211001 | Azure Service Operator</title>
+<meta name="description" content="subscription.azure.com/v1beta20211001
+
+Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
+
+Resource …">
+<meta property="og:title" content="subscription.azure.com/v1beta20211001" />
+<meta property="og:description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-10-01&#34;
+    AcceptOwnershipState_Status (string alias)  (Appears on:SubscriptionAliasResponseProperties_Status, SubscriptionAliasResponseProperties_StatusARM)      Value Description   &#34;Completed&#34;
+  &#34;Expired&#34;
+  &#34;Pending&#34;
+    Alias   Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases
+    Field Description      metadata  Kubernetes meta/v1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/" /><meta property="article:section" content="reference" />
+
+
+
+<meta itemprop="name" content="subscription.azure.com/v1beta20211001">
+<meta itemprop="description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-10-01&#34;
+    AcceptOwnershipState_Status (string alias)  (Appears on:SubscriptionAliasResponseProperties_Status, SubscriptionAliasResponseProperties_StatusARM)      Value Description   &#34;Completed&#34;
+  &#34;Expired&#34;
+  &#34;Pending&#34;
+    Alias   Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases
+    Field Description      metadata  Kubernetes meta/v1.">
+
+<meta itemprop="wordCount" content="816">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="subscription.azure.com/v1beta20211001"/>
+<meta name="twitter:description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-10-01&#34;
+    AcceptOwnershipState_Status (string alias)  (Appears on:SubscriptionAliasResponseProperties_Status, SubscriptionAliasResponseProperties_StatusARM)      Value Description   &#34;Completed&#34;
+  &#34;Expired&#34;
+  &#34;Pending&#34;
+    Alias   Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases
+    Field Description      metadata  Kubernetes meta/v1."/>
+
+
+
+
+<link rel="preload" href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" as="style">
+<link href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/azure-service-operator/">
+		<span class="navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="font-weight-bold">Azure Service Operator</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/azure-service-operator/reference/" ><span class="active">Supported Resources</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/contributing/" ><span>Contributing</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block"></div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pr-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
+  <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
+  <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
+  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
+  <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
+  <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+  <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
+  <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+  <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+  <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+  <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+  <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
+  <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionuninstalling-li">
+  <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionupgrading-li">
+  <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+  <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+  <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization/v1alpha1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview"><span class="">authorization.azure.com/v1alpha1api20200801preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+  <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
+  <a href="/azure-service-operator/reference/batch/v1alpha1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1alpha1api20210101"><span class="">batch.azure.com/v1alpha1api20210101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1beta20210101-li">
+  <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+  <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
+  <a href="/azure-service-operator/reference/cache/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20201201"><span class="">cache.azure.com/v1alpha1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20210301-li">
+  <a href="/azure-service-operator/reference/cache/v1alpha1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20210301"><span class="">cache.azure.com/v1alpha1api20210301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20201201-li">
+  <a href="/azure-service-operator/reference/cache/v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20201201"><span class="">cache.azure.com/v1beta20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20210301-li">
+  <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+  <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
+  <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+  <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
+  <a href="/azure-service-operator/reference/compute/v1alpha1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20200930"><span class="">compute.azure.com/v1alpha1api20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20201201-li">
+  <a href="/azure-service-operator/reference/compute/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20201201"><span class="">compute.azure.com/v1alpha1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20210701-li">
+  <a href="/azure-service-operator/reference/compute/v1alpha1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20210701"><span class="">compute.azure.com/v1alpha1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
+  <a href="/azure-service-operator/reference/compute/v1beta20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20200930"><span class="">compute.azure.com/v1beta20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
+  <a href="/azure-service-operator/reference/compute/v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20201201"><span class="">compute.azure.com/v1beta20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20210701-li">
+  <a href="/azure-service-operator/reference/compute/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20210701"><span class="">compute.azure.com/v1beta20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20220301-li">
+  <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+  <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
+  <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+  <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1alpha1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901"><span class="">containerregistry.azure.com/v1alpha1api20210901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+  <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
+  <a href="/azure-service-operator/reference/containerservice/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501"><span class="">containerservice.azure.com/v1alpha1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1beta20210501-li">
+  <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+  <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
+  <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+  <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501"><span class="">dbformysql.azure.com/v1alpha1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta1-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta1"><span class="">dbformysql.azure.com/v1beta1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601"><span class="">dbforpostgresql.azure.com/v1alpha1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+  <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
+  <a href="/azure-service-operator/reference/documentdb/v1alpha1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515"><span class="">documentdb.azure.com/v1alpha1api20210515</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1beta20210515-li">
+  <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+  <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601"><span class="">eventgrid.azure.com/v1alpha1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1beta20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+  <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
+  <a href="/azure-service-operator/reference/eventhub/v1alpha1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101"><span class="">eventhub.azure.com/v1alpha1api20211101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1beta20211101-li">
+  <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+  <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1alpha1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview"><span class="">insights.azure.com/v1alpha1api20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202-li">
+  <a href="/azure-service-operator/reference/insights/v1alpha1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202"><span class="">insights.azure.com/v1alpha1api20200202</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1beta20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="">insights.azure.com/v1beta20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
+  <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+  <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
+  <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+  <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1alpha1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130"><span class="">managedidentity.azure.com/v1alpha1api20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+  <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
+  <a href="/azure-service-operator/reference/network/v1alpha1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101"><span class="">network.azure.com/v1alpha1api20201101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20180901-li">
+  <a href="/azure-service-operator/reference/network/v1beta20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20180901"><span class="">network.azure.com/v1beta20180901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20201101-li">
+  <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+  <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601"><span class="">operationalinsights.azure.com/v1alpha1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+  <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
+  <a href="/azure-service-operator/reference/resources/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601"><span class="">resources.azure.com/v1alpha1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1beta20200601-li">
+  <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+  <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview"><span class="">servicebus.azure.com/v1alpha1api20210101preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+  <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice/v1alpha1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001"><span class="">signalrservice.azure.com/v1alpha1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+  <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
+  <a href="/azure-service-operator/reference/storage/v1alpha1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1alpha1api20210401"><span class="">storage.azure.com/v1alpha1api20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1beta20210401-li">
+  <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencesubscription-li">
+  <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
+  <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="td-sidebar-nav-active-item">subscription.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+  <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+  <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
+  <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+  <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+  <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+  <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+  <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+  <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+  <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+  <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+  <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+  <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+  <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+  <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+  <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+  <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+  <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+  <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+  <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioningcase-studies"><span class="">Case Studies</span></a>
+  <ul class="ul-4 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions"><span class="">Chained Storage Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studiesfixed-storage-version-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studiesfixed-storage-version"><span class="">Fixed Storage Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studiesrolling-storage-versions-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studiesrolling-storage-versions"><span class="">Rolling Storage Versions</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+  <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+</div>
+
+            
+
+
+
+
+            
+
+	
+		
+
+
+
+  
+  
+
+	
+		
+
+
+
+  
+  
+
+	
+
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/reference/subscription/">subscription</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/">subscription.azure.com/v1beta20211001</a>
+  </li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>subscription.azure.com/v1beta20211001</h1>
+	
+	<header class="article-meta">
+		
+
+  
+    
+
+
+  
+    
+
+
+  
+
+		
+	</header>    
+	<h2 id="subscription.azure.com/v1beta20211001">subscription.azure.com/v1beta20211001</h2>
+<div>
+<p>Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group</p>
+</div>
+Resource Types:
+<ul></ul>
+<h3 id="subscription.azure.com/v1beta20211001.APIVersion">APIVersion
+(<code>string</code> alias)</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;2021-10-01&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.AcceptOwnershipState_Status">AcceptOwnershipState_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_Status">SubscriptionAliasResponseProperties_Status</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_StatusARM">SubscriptionAliasResponseProperties_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Expired&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Pending&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.Alias">Alias
+</h3>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.Aliases_Spec">
+Aliases_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">
+PutAliasRequestProperties
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Put subscription properties.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_Status">
+SubscriptionAliasResponse_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.Aliases_Spec">Aliases_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias">Alias</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">
+PutAliasRequestProperties
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Put subscription properties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.Aliases_SpecARM">Aliases_SpecARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: AliasName is the name for the subscription creation request. Note that this is not the same as subscription name
+and this doesn’t have any other lifecycle need beyond the request for subscription creation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesARM">
+PutAliasRequestPropertiesARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Put subscription properties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties">PutAliasRequestAdditionalProperties
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>managementGroupId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagementGroupId: Management group Id for the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionOwnerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionOwnerId: Owner Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionTenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionTenantId: Tenant Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Tags for the subscription</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalPropertiesARM">PutAliasRequestAdditionalPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesARM">PutAliasRequestPropertiesARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>managementGroupId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagementGroupId: Management group Id for the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionOwnerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionOwnerId: Owner Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionTenantId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionTenantId: Tenant Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Tags for the subscription</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Aliases_Spec">Aliases_Spec</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>additionalProperties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties">
+PutAliasRequestAdditionalProperties
+</a>
+</em>
+</td>
+<td>
+<p>AdditionalProperties: Put subscription additional properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>billingScope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>BillingScope: Billing scope of the subscription.
+For CustomerLed and FieldLed -
+/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
+For PartnerLed - /billingAccounts/{billingAccountName}/customers/{customerName}
+For Legacy EA - /billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: The friendly name of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resellerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResellerId: Reseller Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionId: This parameter can be used to create alias for existing subscription Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>workload</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesWorkload">
+PutAliasRequestPropertiesWorkload
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesARM">PutAliasRequestPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Aliases_SpecARM">Aliases_SpecARM</a>)
+</p>
+<div>
+<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties</a></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>additionalProperties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalPropertiesARM">
+PutAliasRequestAdditionalPropertiesARM
+</a>
+</em>
+</td>
+<td>
+<p>AdditionalProperties: Put subscription additional properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>billingScope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>BillingScope: Billing scope of the subscription.
+For CustomerLed and FieldLed -
+/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
+For PartnerLed - /billingAccounts/{billingAccountName}/customers/{customerName}
+For Legacy EA - /billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: The friendly name of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resellerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResellerId: Reseller Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionId: This parameter can be used to create alias for existing subscription Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>workload</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesWorkload">
+PutAliasRequestPropertiesWorkload
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesWorkload">PutAliasRequestPropertiesWorkload
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties</a>, <a href="#subscription.azure.com/v1beta20211001.PutAliasRequestPropertiesARM">PutAliasRequestPropertiesARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DevTest&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Production&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponsePropertiesStatusProvisioningState">SubscriptionAliasResponsePropertiesStatusProvisioningState
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_Status">SubscriptionAliasResponseProperties_Status</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_StatusARM">SubscriptionAliasResponseProperties_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Accepted&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_Status">SubscriptionAliasResponseProperties_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_Status">SubscriptionAliasResponse_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>acceptOwnershipState</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.AcceptOwnershipState_Status">
+AcceptOwnershipState_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>acceptOwnershipUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AcceptOwnershipUrl: Url to accept ownership of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>billingScope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedTime: Created Time</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: The display name of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managementGroupId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagementGroupId: The Management Group Id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponsePropertiesStatusProvisioningState">
+SubscriptionAliasResponsePropertiesStatusProvisioningState
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The provisioning state of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resellerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResellerId: Reseller Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionId: Newly created subscription Id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionOwnerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionOwnerId: Owner Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Tags for the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>workload</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.Workload_Status">
+Workload_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_StatusARM">SubscriptionAliasResponseProperties_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_StatusARM">SubscriptionAliasResponse_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>acceptOwnershipState</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.AcceptOwnershipState_Status">
+AcceptOwnershipState_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>acceptOwnershipUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AcceptOwnershipUrl: Url to accept ownership of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>billingScope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedTime: Created Time</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: The display name of the subscription.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managementGroupId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagementGroupId: The Management Group Id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponsePropertiesStatusProvisioningState">
+SubscriptionAliasResponsePropertiesStatusProvisioningState
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The provisioning state of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resellerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResellerId: Reseller Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionId: Newly created subscription Id.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionOwnerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SubscriptionOwnerId: Owner Id of the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Tags for the subscription</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>workload</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.Workload_Status">
+Workload_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_Status">SubscriptionAliasResponse_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias">Alias</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified ID for the alias resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Alias ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_Status">
+SubscriptionAliasResponseProperties_Status
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Subscription Alias response properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemData_Status">
+SystemData_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: Resource type, Microsoft.Subscription/aliases.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_StatusARM">SubscriptionAliasResponse_StatusARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified ID for the alias resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Alias ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_StatusARM">
+SubscriptionAliasResponseProperties_StatusARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Subscription Alias response properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemData_StatusARM">
+SystemData_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: Resource type, Microsoft.Subscription/aliases.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SystemDataStatusCreatedByType">SystemDataStatusCreatedByType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SystemData_Status">SystemData_Status</a>, <a href="#subscription.azure.com/v1beta20211001.SystemData_StatusARM">SystemData_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SystemDataStatusLastModifiedByType">SystemDataStatusLastModifiedByType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SystemData_Status">SystemData_Status</a>, <a href="#subscription.azure.com/v1beta20211001.SystemData_StatusARM">SystemData_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SystemData_Status">SystemData_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_Status">SubscriptionAliasResponse_Status</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemDataStatusCreatedByType">
+SystemDataStatusCreatedByType
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemDataStatusLastModifiedByType">
+SystemDataStatusLastModifiedByType
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.SystemData_StatusARM">SystemData_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponse_StatusARM">SubscriptionAliasResponse_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemDataStatusCreatedByType">
+SystemDataStatusCreatedByType
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#subscription.azure.com/v1beta20211001.SystemDataStatusLastModifiedByType">
+SystemDataStatusLastModifiedByType
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription.azure.com/v1beta20211001.Workload_Status">Workload_Status
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_Status">SubscriptionAliasResponseProperties_Status</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_StatusARM">SubscriptionAliasResponseProperties_StatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DevTest&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Production&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<hr/>
+
+	
+	
+	
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
+    <a class="text-white" target="_blank" rel="noopener" href="https://github.com/azure/azure-service-operator" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2022 Microsoft All Rights Reserved</small>
+        <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></small>
+	
+		
+	
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='/azure-service-operator/js/tabpane-persist.js'></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/azure-service-operator/js/main.min.9248ae44d5c41028f8b01a0e0e7036e33e50bda8079240954a2d4889d51e4554.js" integrity="sha256-kkiuRNXEECj4sBoODnA24z5QvagHkkCVSi1IidUeRVQ=" crossorigin="anonymous"></script>
+
+
+
+
+  </body>
+</html>

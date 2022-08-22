@@ -86,6 +86,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v1beta20211001/</loc>
@@ -186,6 +188,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1beta20180901/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
@@ -223,6 +227,10 @@
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/subscription/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
