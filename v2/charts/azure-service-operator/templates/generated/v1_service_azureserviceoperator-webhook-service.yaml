@@ -1,0 +1,13 @@
+{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster true) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: azureserviceoperator-webhook-service
+  namespace: {{.Release.Namespace}}
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    control-plane: controller-manager
+{{- end }}

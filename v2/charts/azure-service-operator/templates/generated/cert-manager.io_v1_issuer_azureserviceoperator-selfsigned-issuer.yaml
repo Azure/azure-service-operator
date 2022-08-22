@@ -1,0 +1,9 @@
+{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster true) }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: azureserviceoperator-selfsigned-issuer
+  namespace: {{.Release.Namespace}}
+spec:
+  selfSigned: {}
+{{- end }}

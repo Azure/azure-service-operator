@@ -46,23 +46,27 @@ sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*
-sed -i '/metrics-addr/a \  \ {{ end }}' "$GEN_FILES_DIR"/*_deployment_* # End metrics flow control
 sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*_deployment_*
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
+find "$DIR"charts/azure-service-operator/templates/generated/ -type f -exec sed -i 's/azureserviceoperator-system/{{.Release.Namespace}}/g' {} \;
+
+# Azure-Service-Operator-crds actions
+# We had to split charts here here as with a single chart, we were running into the max size issue with helm
+# See https://github.com/helm/helm/issues/9788
+find "$GEN_FILES_DIR"/*_customresourcedefinition_* -exec mv '{}' "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/templates/crds \; # move CRD definitions to crds chart folder
+sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/Chart.yaml  # find version key and update the value with the current version for crds chart
 
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
 do
     if [[ $file == *"clusterrolebinding_azureserviceoperator-manager"* ]]; then
       sed -i "1 s/^/$IF_TENANT\n/;$ a {{- end }}" "$file"
-      sed -i 's/namespace: azureserviceoperator-system/namespace: {{.Release.Namespace}}/g' "$file" # TODO: flow control here
-      sed -i 's/azureserviceoperator-manager-rolebinding/azureserviceoperator-manager-rolebinding-{{ .Values.tenantName }}/g' "$file" # TODO: flow control here
-    elif [[ $file == *"leader-election"* ]] || [[ $file == *"deployment"* ]]; then
-      flow_control "namespace: azureserviceoperator-system" "namespace: azureserviceoperator-system" "$IF_CLUSTER" "$file" # TODO: flow control on L60, 61 like 63 and 64
-      sed -i "/namespace: azureserviceoperator-system/a \  \ {{ else }}\n \ namespace: {{.Release.Namespace}}" "$file"
-    else
+      flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multiTenant.enable }}" "$file" # TODO: flow control on L60, 61 like 63 and 64
+      sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Values.multiTenant.tenantName }}" "$file"
+    elif [[ $file != *"leader-election"* ]] && [[ $file != *"deployment"* ]]; then
+      echo $file
       sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
     fi
 done
@@ -73,12 +77,6 @@ flow_control "--enable-leader-election" "--enable-leader-election" "$IF_TENANT" 
 
 flow_control "volumeMounts:" "secretName:" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
 
-
-# Azure-Service-Operator-crds actions
-# We had to split charts here here as with a single chart, we were running into the max size issue with helm
-# See https://github.com/helm/helm/issues/9788
-find "$GEN_FILES_DIR"/*_customresourcedefinition_* -exec mv '{}' "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/templates/crds \; # move CRD definitions to crds chart folder
-sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/Chart.yaml  # find version key and update the value with the current version for crds chart
 
 # Helm chart packaging, indexing and updating dependencies
 echo "Packaging helm charts"

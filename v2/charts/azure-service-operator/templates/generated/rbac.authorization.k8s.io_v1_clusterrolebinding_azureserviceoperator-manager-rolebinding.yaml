@@ -1,0 +1,18 @@
+{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster false) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+   {{- if not .Values.multiTenant.enable }}
+  name: azureserviceoperator-manager-rolebinding
+   {{ else }}
+  name: azureserviceoperator-manager-rolebinding-{{ .Values.multiTenant.tenantName }}
+   {{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureserviceoperator-manager-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{.Release.Namespace}}
+{{- end }}
