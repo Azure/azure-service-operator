@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"samplemanagedcluster","properties":{"agentPoolProfiles":[{"count":1,"mode":"System","name":"pool1","osType":"Linux","vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso"}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus3","name":"samplemanagedcluster","properties":{"agentPoolProfiles":[{"count":1,"mode":"System","name":"pool1","osType":"Linux","vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "237"
+      - "231"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -83,7 +83,7 @@ interactions:
     body: |-
       {
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-hrbfkw/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
-        "location": "westcentralus",
+        "location": "westus3",
         "name": "samplemanagedcluster",
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
@@ -93,8 +93,8 @@ interactions:
          },
          "kubernetesVersion": "1.22.11",
          "dnsPrefix": "aso",
-         "fqdn": "aso-e7ff9e7c.hcp.westcentralus.azmk8s.io",
-         "azurePortalFQDN": "aso-e7ff9e7c.portal.hcp.westcentralus.azmk8s.io",
+         "fqdn": "aso-5cea80e2.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-5cea80e2.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "pool1",
@@ -113,14 +113,14 @@ interactions:
            "mode": "System",
            "osType": "Linux",
            "osSKU": "Ubuntu",
-           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
            "enableFIPS": false
           }
          ],
          "servicePrincipalProfile": {
           "clientId": "msi"
          },
-         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus",
+         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3",
          "enableRBAC": true,
          "networkProfile": {
           "networkPlugin": "kubenet",
@@ -140,7 +140,7 @@ interactions:
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "0c966912-2f0c-4ec6-9d7e-2653f79823c1",
+         "principalId": "30877eac-43b6-4ae9-b6bb-faae3e6b8e07",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -150,11 +150,11 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
-      - "1910"
+      - "1886"
       Content-Type:
       - application/json
       Expires:
@@ -176,12 +176,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -211,12 +211,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -246,12 +246,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -281,12 +281,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -316,12 +316,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -351,12 +351,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -386,47 +386,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/34d4bb7b-00db-4ae1-ad4c-93941fecb429?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
-        "status": "InProgress",
-        "startTime": "2001-02-03T04:05:06Z"
-       }
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/9abdeda7-e6f4-4f9c-867a-ed748be8fba0?api-version=2016-03-30
-    method: GET
-  response:
-    body: |-
-      {
-        "name": "a7edbd9a-f4e6-9c4f-867a-ed748be8fba0",
+        "name": "7bbbd434-db00-e14a-ad4c-93941fecb429",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -463,7 +428,7 @@ interactions:
     body: |-
       {
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-hrbfkw/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
-        "location": "westcentralus",
+        "location": "westus3",
         "name": "samplemanagedcluster",
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
@@ -473,8 +438,8 @@ interactions:
          },
          "kubernetesVersion": "1.22.11",
          "dnsPrefix": "aso",
-         "fqdn": "aso-e7ff9e7c.hcp.westcentralus.azmk8s.io",
-         "azurePortalFQDN": "aso-e7ff9e7c.portal.hcp.westcentralus.azmk8s.io",
+         "fqdn": "aso-5cea80e2.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-5cea80e2.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "pool1",
@@ -493,14 +458,14 @@ interactions:
            "mode": "System",
            "osType": "Linux",
            "osSKU": "Ubuntu",
-           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
            "enableFIPS": false
           }
          ],
          "servicePrincipalProfile": {
           "clientId": "msi"
          },
-         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus",
+         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3",
          "enableRBAC": true,
          "networkProfile": {
           "networkPlugin": "kubenet",
@@ -511,7 +476,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/b952dc08-d16e-4080-9bd7-bd85dcd7ec14"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3/providers/Microsoft.Network/publicIPAddresses/b4be0f05-6080-454d-b2ff-63a5ccb30e32"
             }
            ]
           },
@@ -524,15 +489,15 @@ interactions:
          "maxAgentPools": 100,
          "identityProfile": {
           "kubeletidentity": {
-           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
-           "clientId": "a1963b35-b3fb-4f78-8907-c5f05f5bae09",
-           "objectId": "bd804151-2428-488f-b3a0-535305c149bf"
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "49731461-e7fe-4766-90e1-a3a62392b920",
+           "objectId": "01a789c8-a1fd-4479-b5c9-c642f33e2a72"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "0c966912-2f0c-4ec6-9d7e-2653f79823c1",
+         "principalId": "30877eac-43b6-4ae9-b6bb-faae3e6b8e07",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -574,7 +539,7 @@ interactions:
     body: |-
       {
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-hrbfkw/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
-        "location": "westcentralus",
+        "location": "westus3",
         "name": "samplemanagedcluster",
         "type": "Microsoft.ContainerService/ManagedClusters",
         "properties": {
@@ -584,8 +549,8 @@ interactions:
          },
          "kubernetesVersion": "1.22.11",
          "dnsPrefix": "aso",
-         "fqdn": "aso-e7ff9e7c.hcp.westcentralus.azmk8s.io",
-         "azurePortalFQDN": "aso-e7ff9e7c.portal.hcp.westcentralus.azmk8s.io",
+         "fqdn": "aso-5cea80e2.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-5cea80e2.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "pool1",
@@ -604,14 +569,14 @@ interactions:
            "mode": "System",
            "osType": "Linux",
            "osSKU": "Ubuntu",
-           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
            "enableFIPS": false
           }
          ],
          "servicePrincipalProfile": {
           "clientId": "msi"
          },
-         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus",
+         "nodeResourceGroup": "MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3",
          "enableRBAC": true,
          "networkProfile": {
           "networkPlugin": "kubenet",
@@ -622,7 +587,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/b952dc08-d16e-4080-9bd7-bd85dcd7ec14"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3/providers/Microsoft.Network/publicIPAddresses/b4be0f05-6080-454d-b2ff-63a5ccb30e32"
             }
            ]
           },
@@ -635,15 +600,15 @@ interactions:
          "maxAgentPools": 100,
          "identityProfile": {
           "kubeletidentity": {
-           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
-           "clientId": "a1963b35-b3fb-4f78-8907-c5f05f5bae09",
-           "objectId": "bd804151-2428-488f-b3a0-535305c149bf"
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-hrbfkw_samplemanagedcluster_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "49731461-e7fe-4766-90e1-a3a62392b920",
+           "objectId": "01a789c8-a1fd-4479-b5c9-c642f33e2a72"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "0c966912-2f0c-4ec6-9d7e-2653f79823c1",
+         "principalId": "30877eac-43b6-4ae9-b6bb-faae3e6b8e07",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -707,13 +672,13 @@ interactions:
          "mode": "User",
          "osType": "Linux",
          "osSKU": "Ubuntu",
-         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
          "enableFIPS": false
         }
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/d0142fbb-b855-49c7-840b-dece76eae994?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d2dbe8c1-f9a6-438d-a058-fc57a4d5ff6a?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -739,12 +704,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/d0142fbb-b855-49c7-840b-dece76eae994?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d2dbe8c1-f9a6-438d-a058-fc57a4d5ff6a?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "bb2f14d0-55b8-c749-840b-dece76eae994",
+        "name": "c1e8dbd2-a6f9-8d43-a058-fc57a4d5ff6a",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -774,12 +739,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/d0142fbb-b855-49c7-840b-dece76eae994?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d2dbe8c1-f9a6-438d-a058-fc57a4d5ff6a?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "bb2f14d0-55b8-c749-840b-dece76eae994",
+        "name": "c1e8dbd2-a6f9-8d43-a058-fc57a4d5ff6a",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -809,12 +774,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/d0142fbb-b855-49c7-840b-dece76eae994?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d2dbe8c1-f9a6-438d-a058-fc57a4d5ff6a?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "bb2f14d0-55b8-c749-840b-dece76eae994",
+        "name": "c1e8dbd2-a6f9-8d43-a058-fc57a4d5ff6a",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -869,7 +834,7 @@ interactions:
          "mode": "User",
          "osType": "Linux",
          "osSKU": "Ubuntu",
-         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
          "enableFIPS": false
         }
        }
@@ -925,7 +890,7 @@ interactions:
          "mode": "User",
          "osType": "Linux",
          "osSKU": "Ubuntu",
-         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.11",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.07.18",
          "enableFIPS": false
         }
        }

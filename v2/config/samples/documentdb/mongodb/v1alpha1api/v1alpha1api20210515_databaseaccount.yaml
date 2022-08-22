@@ -4,7 +4,7 @@ metadata:
   name: sample-mongodb-account
   namespace: default
 spec:
-  location: westcentralus
+  location: eastus
   owner:
     name: aso-sample-rg
   kind: MongoDB
@@ -12,4 +12,4 @@ spec:
     - name: EnableMongo
   databaseAccountOfferType: Standard
   locations:
-    - locationName: westcentralus
+    - locationName: eastus
