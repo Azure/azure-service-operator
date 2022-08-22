@@ -35,6 +35,7 @@ sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
 sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
+find "$DIR"charts/azure-service-operator/templates/generated/ -type f -exec sed -i 's/azureserviceoperator-system/{{.Release.Namespace}}/g' {} \;
 
 # Azure-Service-Operator-crds actions
 # We had to split charts here here as with a single chart, we were running into the max size issue with helm
