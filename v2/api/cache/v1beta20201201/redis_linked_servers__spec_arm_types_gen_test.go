@@ -20,7 +20,7 @@ import (
 func Test_RedisLinkedServers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -154,5 +154,5 @@ func RedisLinkedServerCreatePropertiesARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisLinkedServerCreatePropertiesARM(gens map[string]gopter.Gen) {
 	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRolePrimary, RedisLinkedServerCreatePropertiesServerRoleSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreatePropertiesServerRole_Primary, RedisLinkedServerCreatePropertiesServerRole_Secondary))
 }

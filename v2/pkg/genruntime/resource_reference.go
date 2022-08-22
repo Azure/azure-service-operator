@@ -66,7 +66,14 @@ type ResourceReference struct {
 
 	// TODO: The below regex may be overly restrictive
 
-	// +kubebuilder:validation:Pattern="(?i)^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$"
+	// Here are some test patterns for it:
+	// /providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635
+	// /subscriptions/00000000-0000-0000-0000-000000000000
+	// /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/abcd
+	// /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635
+	// /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/abcd/providers/Microsoft.Compute/snapshots/snapshot
+
+	// +kubebuilder:validation:Pattern="(?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)"
 	// ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
 	// The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
 	// ARMID is mutually exclusive with Group, Kind, Namespace and Name.

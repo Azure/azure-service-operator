@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &LoadBalancers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancers LoadBalancers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -38,12 +38,6 @@ type ExtendedLocationARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-// Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
-type LoadBalancerSkuARM struct {
-	Name *LoadBalancerSkuName `json:"name,omitempty"`
-	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
-}
-
 // Deprecated version of LoadBalancers_Spec_Properties. Use v1beta20201101.LoadBalancers_Spec_Properties instead
 type LoadBalancers_Spec_PropertiesARM struct {
 	BackendAddressPools      []LoadBalancers_Spec_Properties_BackendAddressPoolsARM      `json:"backendAddressPools,omitempty"`
@@ -54,29 +48,17 @@ type LoadBalancers_Spec_PropertiesARM struct {
 	Probes                   []LoadBalancers_Spec_Properties_ProbesARM                   `json:"probes,omitempty"`
 }
 
+// Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
+type LoadBalancerSkuARM struct {
+	Name *LoadBalancerSkuName `json:"name,omitempty"`
+	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
+}
+
 // Deprecated version of ExtendedLocationType. Use v1beta20201101.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
-
-// Deprecated version of LoadBalancerSkuName. Use v1beta20201101.LoadBalancerSkuName instead
-// +kubebuilder:validation:Enum={"Basic","Standard"}
-type LoadBalancerSkuName string
-
-const (
-	LoadBalancerSkuNameBasic    = LoadBalancerSkuName("Basic")
-	LoadBalancerSkuNameStandard = LoadBalancerSkuName("Standard")
-)
-
-// Deprecated version of LoadBalancerSkuTier. Use v1beta20201101.LoadBalancerSkuTier instead
-// +kubebuilder:validation:Enum={"Global","Regional"}
-type LoadBalancerSkuTier string
-
-const (
-	LoadBalancerSkuTierGlobal   = LoadBalancerSkuTier("Global")
-	LoadBalancerSkuTierRegional = LoadBalancerSkuTier("Regional")
-)
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
 type LoadBalancers_Spec_Properties_BackendAddressPoolsARM struct {
@@ -114,6 +96,24 @@ type LoadBalancers_Spec_Properties_ProbesARM struct {
 	Name       *string                   `json:"name,omitempty"`
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
 }
+
+// Deprecated version of LoadBalancerSkuName. Use v1beta20201101.LoadBalancerSkuName instead
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type LoadBalancerSkuName string
+
+const (
+	LoadBalancerSkuName_Basic    = LoadBalancerSkuName("Basic")
+	LoadBalancerSkuName_Standard = LoadBalancerSkuName("Standard")
+)
+
+// Deprecated version of LoadBalancerSkuTier. Use v1beta20201101.LoadBalancerSkuTier instead
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type LoadBalancerSkuTier string
+
+const (
+	LoadBalancerSkuTier_Global   = LoadBalancerSkuTier("Global")
+	LoadBalancerSkuTier_Regional = LoadBalancerSkuTier("Regional")
+)
 
 // Deprecated version of FrontendIPConfigurationPropertiesFormat. Use v1beta20201101.FrontendIPConfigurationPropertiesFormat instead
 type FrontendIPConfigurationPropertiesFormatARM struct {

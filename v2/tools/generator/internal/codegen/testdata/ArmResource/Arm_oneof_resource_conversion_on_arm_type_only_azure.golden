@@ -97,7 +97,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -280,7 +280,7 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -296,7 +296,7 @@ func (resource *FakeResource_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -870,7 +870,7 @@ func (bar *Bar) AssignPropertiesToBar(destination *v20200101s.Bar) error {
 // +kubebuilder:validation:Enum={"bar"}
 type BarDiscrim string
 
-const BarDiscrimBar = BarDiscrim("bar")
+const BarDiscrim_Bar = BarDiscrim("bar")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
@@ -986,7 +986,7 @@ func (baz *Baz) AssignPropertiesToBaz(destination *v20200101s.Baz) error {
 // +kubebuilder:validation:Enum={"baz"}
 type BazDiscrim string
 
-const BazDiscrimBaz = BazDiscrim("baz")
+const BazDiscrim_Baz = BazDiscrim("baz")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
@@ -1090,7 +1090,7 @@ func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
 // +kubebuilder:validation:Enum={"foo"}
 type FooDiscrim string
 
-const FooDiscrimFoo = FooDiscrim("foo")
+const FooDiscrim_Foo = FooDiscrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

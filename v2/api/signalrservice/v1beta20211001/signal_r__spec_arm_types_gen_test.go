@@ -20,7 +20,7 @@ import (
 func Test_SignalR_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -83,7 +83,7 @@ func SignalRSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRSpecARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(SignalRSpecKindRawWebSockets, SignalRSpecKindSignalR))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(SignalRSpecKind_RawWebSockets, SignalRSpecKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -153,7 +153,7 @@ func ManagedIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityTypeNone, ManagedIdentityTypeSystemAssigned, ManagedIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityType_None, ManagedIdentityType_SystemAssigned, ManagedIdentityType_UserAssigned))
 }
 
 func Test_ResourceSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -216,10 +216,10 @@ func AddIndependentPropertyGeneratorsForResourceSkuARM(gens map[string]gopter.Ge
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		ResourceSkuTierBasic,
-		ResourceSkuTierFree,
-		ResourceSkuTierPremium,
-		ResourceSkuTierStandard))
+		ResourceSkuTier_Basic,
+		ResourceSkuTier_Free,
+		ResourceSkuTier_Premium,
+		ResourceSkuTier_Standard))
 }
 
 func Test_SignalRPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -545,10 +545,10 @@ func SignalRFeatureARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSignalRFeatureARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeatureARM(gens map[string]gopter.Gen) {
 	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
-		SignalRFeatureFlagEnableConnectivityLogs,
-		SignalRFeatureFlagEnableLiveTrace,
-		SignalRFeatureFlagEnableMessagingLogs,
-		SignalRFeatureFlagServiceMode))
+		SignalRFeatureFlag_EnableConnectivityLogs,
+		SignalRFeatureFlag_EnableLiveTrace,
+		SignalRFeatureFlag_EnableMessagingLogs,
+		SignalRFeatureFlag_ServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
@@ -620,7 +620,7 @@ func SignalRNetworkACLsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRNetworkACLsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRNetworkACLsARM(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(SignalRNetworkACLsDefaultActionAllow, SignalRNetworkACLsDefaultActionDeny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(SignalRNetworkACLsDefaultAction_Allow, SignalRNetworkACLsDefaultAction_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForSignalRNetworkACLsARM is a factory method for creating gopter generators
@@ -748,15 +748,15 @@ func NetworkACLARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNetworkACLARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkACLARM(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		NetworkACLAllowClientConnection,
-		NetworkACLAllowRESTAPI,
-		NetworkACLAllowServerConnection,
-		NetworkACLAllowTrace))
+		NetworkACLAllow_ClientConnection,
+		NetworkACLAllow_RESTAPI,
+		NetworkACLAllow_ServerConnection,
+		NetworkACLAllow_Trace))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		NetworkACLDenyClientConnection,
-		NetworkACLDenyRESTAPI,
-		NetworkACLDenyServerConnection,
-		NetworkACLDenyTrace))
+		NetworkACLDeny_ClientConnection,
+		NetworkACLDeny_RESTAPI,
+		NetworkACLDeny_ServerConnection,
+		NetworkACLDeny_Trace))
 }
 
 func Test_PrivateEndpointACLARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -818,15 +818,15 @@ func PrivateEndpointACLARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateEndpointACLARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointACLARM(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		PrivateEndpointACLAllowClientConnection,
-		PrivateEndpointACLAllowRESTAPI,
-		PrivateEndpointACLAllowServerConnection,
-		PrivateEndpointACLAllowTrace))
+		PrivateEndpointACLAllow_ClientConnection,
+		PrivateEndpointACLAllow_RESTAPI,
+		PrivateEndpointACLAllow_ServerConnection,
+		PrivateEndpointACLAllow_Trace))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		PrivateEndpointACLDenyClientConnection,
-		PrivateEndpointACLDenyRESTAPI,
-		PrivateEndpointACLDenyServerConnection,
-		PrivateEndpointACLDenyTrace))
+		PrivateEndpointACLDeny_ClientConnection,
+		PrivateEndpointACLDeny_RESTAPI,
+		PrivateEndpointACLDeny_ServerConnection,
+		PrivateEndpointACLDeny_Trace))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1037,7 +1037,7 @@ func UpstreamAuthSettingsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpstreamAuthSettingsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpstreamAuthSettingsARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthSettingsTypeManagedIdentity, UpstreamAuthSettingsTypeNone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthSettingsType_ManagedIdentity, UpstreamAuthSettingsType_None))
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamAuthSettingsARM is a factory method for creating gopter generators

@@ -26,7 +26,7 @@ var _ genruntime.ARMResourceSpec = &ProfilesEndpoints_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (endpoints ProfilesEndpoints_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

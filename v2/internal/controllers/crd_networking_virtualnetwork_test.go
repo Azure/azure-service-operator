@@ -42,7 +42,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vnet)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -104,7 +104,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 
 	// Now ensure that the Subnet still exists
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

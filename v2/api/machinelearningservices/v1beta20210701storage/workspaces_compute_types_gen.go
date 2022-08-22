@@ -28,7 +28,7 @@ type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              WorkspacesComputes_Spec `json:"spec,omitempty"`
-	Status            ComputeResource_Status  `json:"status,omitempty"`
+	Status            ComputeResource_STATUS  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -52,7 +52,7 @@ func (compute *WorkspacesCompute) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (compute WorkspacesCompute) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -77,7 +77,7 @@ func (compute *WorkspacesCompute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ComputeResource_Status{}
+	return &ComputeResource_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ComputeResource_Status); ok {
+	if st, ok := status.(*ComputeResource_STATUS); ok {
 		compute.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ComputeResource_Status
+	var st ComputeResource_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -130,25 +130,25 @@ type WorkspacesComputeList struct {
 	Items           []WorkspacesCompute `json:"items"`
 }
 
-// Storage version of v1beta20210701.ComputeResource_Status
-type ComputeResource_Status struct {
+// Storage version of v1beta20210701.ComputeResource_STATUS
+type ComputeResource_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
-	Identity    *Identity_Status       `json:"identity,omitempty"`
+	Identity    *Identity_STATUS       `json:"identity,omitempty"`
 	Location    *string                `json:"location,omitempty"`
 	Name        *string                `json:"name,omitempty"`
-	Properties  *Compute_Status        `json:"properties,omitempty"`
+	Properties  *Compute_STATUS        `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sku         *Sku_Status            `json:"sku,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	Sku         *Sku_STATUS            `json:"sku,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 	Tags        map[string]string      `json:"tags,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ComputeResource_Status{}
+var _ genruntime.ConvertibleStatus = &ComputeResource_STATUS{}
 
-// ConvertStatusFrom populates our ComputeResource_Status from the provided source
-func (resource *ComputeResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ComputeResource_STATUS from the provided source
+func (resource *ComputeResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -156,8 +156,8 @@ func (resource *ComputeResource_Status) ConvertStatusFrom(source genruntime.Conv
 	return source.ConvertStatusTo(resource)
 }
 
-// ConvertStatusTo populates the provided destination from our ComputeResource_Status
-func (resource *ComputeResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ComputeResource_STATUS
+func (resource *ComputeResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -221,8 +221,8 @@ type Compute struct {
 	VirtualMachine    *Compute_VirtualMachine    `json:"virtualMachine,omitempty"`
 }
 
-// Storage version of v1beta20210701.Compute_Status
-type Compute_Status struct {
+// Storage version of v1beta20210701.Compute_STATUS
+type Compute_STATUS struct {
 	ComputeLocation    *string                `json:"computeLocation,omitempty"`
 	ComputeType        *string                `json:"computeType,omitempty"`
 	CreatedOn          *string                `json:"createdOn,omitempty"`
@@ -231,7 +231,7 @@ type Compute_Status struct {
 	IsAttachedCompute  *bool                  `json:"isAttachedCompute,omitempty"`
 	ModifiedOn         *string                `json:"modifiedOn,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningErrors []ErrorResponse_Status `json:"provisioningErrors,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
 	ProvisioningState  *string                `json:"provisioningState,omitempty"`
 	ResourceId         *string                `json:"resourceId,omitempty"`
 }
@@ -275,6 +275,19 @@ type Compute_ComputeInstance struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// Storage version of v1beta20210701.Compute_Databricks
+type Compute_Databricks struct {
+	ComputeLocation  *string                `json:"computeLocation,omitempty"`
+	ComputeType      *string                `json:"computeType,omitempty"`
+	Description      *string                `json:"description,omitempty"`
+	DisableLocalAuth *bool                  `json:"disableLocalAuth,omitempty"`
+	Properties       *DatabricksProperties  `json:"properties,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// ResourceReference: ARM resource id of the underlying compute
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
 // Storage version of v1beta20210701.Compute_DataFactory
 type Compute_DataFactory struct {
 	ComputeLocation  *string                `json:"computeLocation,omitempty"`
@@ -295,19 +308,6 @@ type Compute_DataLakeAnalytics struct {
 	DisableLocalAuth *bool                        `json:"disableLocalAuth,omitempty"`
 	Properties       *DataLakeAnalyticsProperties `json:"properties,omitempty"`
 	PropertyBag      genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// Storage version of v1beta20210701.Compute_Databricks
-type Compute_Databricks struct {
-	ComputeLocation  *string                `json:"computeLocation,omitempty"`
-	ComputeType      *string                `json:"computeType,omitempty"`
-	Description      *string                `json:"description,omitempty"`
-	DisableLocalAuth *bool                  `json:"disableLocalAuth,omitempty"`
-	Properties       *DatabricksProperties  `json:"properties,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: ARM resource id of the underlying compute
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -352,9 +352,9 @@ type Compute_VirtualMachine struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20210701.ErrorResponse_Status
-type ErrorResponse_Status struct {
-	Error       *ErrorDetail_Status    `json:"error,omitempty"`
+// Storage version of v1beta20210701.ErrorResponse_STATUS
+type ErrorResponse_STATUS struct {
+	Error       *ErrorDetail_STATUS    `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -401,13 +401,6 @@ type ComputeInstanceProperties struct {
 	VmSize                           *string                          `json:"vmSize,omitempty"`
 }
 
-// Storage version of v1beta20210701.DataLakeAnalyticsProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
-type DataLakeAnalyticsProperties struct {
-	DataLakeStoreAccountName *string                `json:"dataLakeStoreAccountName,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210701.DatabricksProperties
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DatabricksProperties
 type DatabricksProperties struct {
@@ -416,11 +409,18 @@ type DatabricksProperties struct {
 	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
 }
 
-// Storage version of v1beta20210701.ErrorDetail_Status
-type ErrorDetail_Status struct {
-	AdditionalInfo []ErrorAdditionalInfo_Status  `json:"additionalInfo,omitempty"`
+// Storage version of v1beta20210701.DataLakeAnalyticsProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
+type DataLakeAnalyticsProperties struct {
+	DataLakeStoreAccountName *string                `json:"dataLakeStoreAccountName,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210701.ErrorDetail_STATUS
+type ErrorDetail_STATUS struct {
+	AdditionalInfo []ErrorAdditionalInfo_STATUS  `json:"additionalInfo,omitempty"`
 	Code           *string                       `json:"code,omitempty"`
-	Details        []ErrorDetail_Status_Unrolled `json:"details,omitempty"`
+	Details        []ErrorDetail_STATUS_Unrolled `json:"details,omitempty"`
 	Message        *string                       `json:"message,omitempty"`
 	PropertyBag    genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Target         *string                       `json:"target,omitempty"`
@@ -499,16 +499,16 @@ type ComputeInstanceSshSettings struct {
 	SshPublicAccess *string                `json:"sshPublicAccess,omitempty"`
 }
 
-// Storage version of v1beta20210701.ErrorAdditionalInfo_Status
-type ErrorAdditionalInfo_Status struct {
+// Storage version of v1beta20210701.ErrorAdditionalInfo_STATUS
+type ErrorAdditionalInfo_STATUS struct {
 	Info        map[string]v1.JSON     `json:"info,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210701.ErrorDetail_Status_Unrolled
-type ErrorDetail_Status_Unrolled struct {
-	AdditionalInfo []ErrorAdditionalInfo_Status `json:"additionalInfo,omitempty"`
+// Storage version of v1beta20210701.ErrorDetail_STATUS_Unrolled
+type ErrorDetail_STATUS_Unrolled struct {
+	AdditionalInfo []ErrorAdditionalInfo_STATUS `json:"additionalInfo,omitempty"`
 	Code           *string                      `json:"code,omitempty"`
 	Message        *string                      `json:"message,omitempty"`
 	PropertyBag    genruntime.PropertyBag       `json:"$propertyBag,omitempty"`

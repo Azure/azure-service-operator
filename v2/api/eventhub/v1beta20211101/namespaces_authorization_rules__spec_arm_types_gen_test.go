@@ -20,7 +20,7 @@ import (
 func Test_NamespacesAuthorizationRules_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -152,5 +152,5 @@ func AuthorizationRulePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthorizationRulePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthorizationRulePropertiesARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRightsListen, AuthorizationRulePropertiesRightsManage, AuthorizationRulePropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRights_Listen, AuthorizationRulePropertiesRights_Manage, AuthorizationRulePropertiesRights_Send))
 }

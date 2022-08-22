@@ -23,10 +23,10 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	// Create a MariaDB Server
 	serverName := tc.NoSpaceNamer.GenerateName("msvr")
-	createMode := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateModeDefault
-	networkAccess := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccessEnabled
-	autogrow := mariadb.StorageProfileStorageAutogrowEnabled
-	tier := mariadb.SkuTierGeneralPurpose
+	createMode := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateMode_Default
+	networkAccess := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccess_Enabled
+	autogrow := mariadb.StorageProfileStorageAutogrow_Enabled
+	tier := mariadb.SkuTier_GeneralPurpose
 	location := "eastus" // Can't create MariaDB servers in WestUS2
 	adminUser := "testadmin"
 	adminPasswordRef := createPasswordSecret("admin", "password", tc)

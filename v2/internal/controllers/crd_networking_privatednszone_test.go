@@ -42,7 +42,7 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	armId, hasID := genruntime.GetResourceID(zone)
 	tc.Expect(hasID).To(BeTrue())
 
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

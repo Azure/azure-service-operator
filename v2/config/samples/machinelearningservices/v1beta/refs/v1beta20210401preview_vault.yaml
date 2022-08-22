@@ -1,7 +1,7 @@
 apiVersion: keyvault.azure.com/v1beta20210401preview
 kind: Vault
 metadata:
-  name: samplevaul
+  name: mlworkspace-vault
   namespace: default
 spec:
   location: westcentralus

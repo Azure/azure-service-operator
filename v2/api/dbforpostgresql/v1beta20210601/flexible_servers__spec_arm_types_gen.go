@@ -26,7 +26,7 @@ var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (servers FlexibleServers_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -130,9 +130,9 @@ type NetworkARM struct {
 type SkuTier string
 
 const (
-	SkuTierBurstable       = SkuTier("Burstable")
-	SkuTierGeneralPurpose  = SkuTier("GeneralPurpose")
-	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
+	SkuTier_Burstable       = SkuTier("Burstable")
+	SkuTier_GeneralPurpose  = SkuTier("GeneralPurpose")
+	SkuTier_MemoryOptimized = SkuTier("MemoryOptimized")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage

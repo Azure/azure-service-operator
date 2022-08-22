@@ -30,9 +30,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	identityKind := aks.ManagedClusterIdentityTypeSystemAssigned
-	osType := aks.ManagedClusterAgentPoolProfileOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfileModeSystem
+	identityKind := aks.ManagedClusterIdentityType_SystemAssigned
+	osType := aks.ManagedClusterAgentPoolProfileOsType_Linux
+	agentPoolMode := aks.ManagedClusterAgentPoolProfileMode_System
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
@@ -71,8 +71,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	armId := *cluster.Status.Id
 
 	// Perform a simple patch
-	skuName := aks.ManagedClusterSKUNameBasic
-	skuTier := aks.ManagedClusterSKUTierPaid
+	skuName := aks.ManagedClusterSKUName_Basic
+	skuTier := aks.ManagedClusterSKUTier_Paid
 	old := cluster.DeepCopy()
 	cluster.Spec.Sku = &aks.ManagedClusterSKU{
 		Name: &skuName,
@@ -81,9 +81,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUStatusNameBasic))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUSTATUSName_Basic))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUStatusTierPaid))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUSTATUSTier_Paid))
 
 	// Run sub tests
 	tc.RunSubtests(
@@ -105,15 +105,15 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(cluster)
 
 	// Ensure that the cluster was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
-	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
+	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsType_Linux
+	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesMode_System
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),

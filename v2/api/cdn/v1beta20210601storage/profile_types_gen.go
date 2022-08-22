@@ -27,7 +27,7 @@ type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Profiles_Spec  `json:"spec,omitempty"`
-	Status            Profile_Status `json:"status,omitempty"`
+	Status            Profile_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Profile{}
@@ -51,7 +51,7 @@ func (profile *Profile) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (profile Profile) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (profile *Profile) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profile_Status{}
+	return &Profile_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (profile *Profile) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profile_Status); ok {
+	if st, ok := status.(*Profile_STATUS); ok {
 		profile.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profile_Status
+	var st Profile_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,10 +133,10 @@ type ProfileList struct {
 // +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersion_Value = APIVersion("2021-06-01")
 
-// Storage version of v1beta20210601.Profile_Status
-type Profile_Status struct {
+// Storage version of v1beta20210601.Profile_STATUS
+type Profile_STATUS struct {
 	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
 	FrontDoorId                  *string                `json:"frontDoorId,omitempty"`
 	Id                           *string                `json:"id,omitempty"`
@@ -147,16 +147,16 @@ type Profile_Status struct {
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                `json:"provisioningState,omitempty"`
 	ResourceState                *string                `json:"resourceState,omitempty"`
-	Sku                          *Sku_Status            `json:"sku,omitempty"`
-	SystemData                   *SystemData_Status     `json:"systemData,omitempty"`
+	Sku                          *Sku_STATUS            `json:"sku,omitempty"`
+	SystemData                   *SystemData_STATUS     `json:"systemData,omitempty"`
 	Tags                         map[string]string      `json:"tags,omitempty"`
 	Type                         *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profile_Status{}
+var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
 
-// ConvertStatusFrom populates our Profile_Status from the provided source
-func (profile *Profile_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Profile_STATUS from the provided source
+func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == profile {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -164,8 +164,8 @@ func (profile *Profile_Status) ConvertStatusFrom(source genruntime.ConvertibleSt
 	return source.ConvertStatusTo(profile)
 }
 
-// ConvertStatusTo populates the provided destination from our Profile_Status
-func (profile *Profile_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Profile_STATUS
+func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == profile {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -219,14 +219,14 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20210601.Sku_STATUS
+type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210601.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20210601.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`

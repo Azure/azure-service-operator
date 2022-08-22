@@ -29,7 +29,7 @@ type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RouteTables_Spec  `json:"spec,omitempty"`
-	Status            RouteTable_Status `json:"status,omitempty"`
+	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTable{}
@@ -98,7 +98,7 @@ func (table *RouteTable) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (table RouteTable) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -123,7 +123,7 @@ func (table *RouteTable) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RouteTable_Status{}
+	return &RouteTable_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +139,13 @@ func (table *RouteTable) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RouteTable_Status); ok {
+	if st, ok := status.(*RouteTable_STATUS); ok {
 		table.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RouteTable_Status
+	var st RouteTable_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +263,10 @@ func (table *RouteTable) AssignPropertiesFromRouteTable(source *v20201101s.Route
 	table.Spec = spec
 
 	// Status
-	var status RouteTable_Status
-	err = status.AssignPropertiesFromRouteTableStatus(&source.Status)
+	var status RouteTable_STATUS
+	err = status.AssignPropertiesFromRouteTableSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRouteTableSTATUS() to populate field Status")
 	}
 	table.Status = status
 
@@ -289,10 +289,10 @@ func (table *RouteTable) AssignPropertiesToRouteTable(destination *v20201101s.Ro
 	destination.Spec = spec
 
 	// Status
-	var status v20201101s.RouteTable_Status
-	err = table.Status.AssignPropertiesToRouteTableStatus(&status)
+	var status v20201101s.RouteTable_STATUS
+	err = table.Status.AssignPropertiesToRouteTableSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRouteTableSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,7 +317,7 @@ type RouteTableList struct {
 	Items           []RouteTable `json:"items"`
 }
 
-type RouteTable_Status struct {
+type RouteTable_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -337,7 +337,7 @@ type RouteTable_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the route table.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -349,25 +349,25 @@ type RouteTable_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RouteTable_Status{}
+var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
 
-// ConvertStatusFrom populates our RouteTable_Status from the provided source
-func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.RouteTable_Status)
+// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
+func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate our instance from source
-		return table.AssignPropertiesFromRouteTableStatus(src)
+		return table.AssignPropertiesFromRouteTableSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.RouteTable_Status{}
+	src = &v20201101s.RouteTable_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = table.AssignPropertiesFromRouteTableStatus(src)
+	err = table.AssignPropertiesFromRouteTableSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -375,17 +375,17 @@ func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleS
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RouteTable_Status
-func (table *RouteTable_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.RouteTable_Status)
+// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
+func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return table.AssignPropertiesToRouteTableStatus(dst)
+		return table.AssignPropertiesToRouteTableSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.RouteTable_Status{}
-	err := table.AssignPropertiesToRouteTableStatus(dst)
+	dst = &v20201101s.RouteTable_STATUS{}
+	err := table.AssignPropertiesToRouteTableSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -399,18 +399,18 @@ func (table *RouteTable_Status) ConvertStatusTo(destination genruntime.Convertib
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &RouteTable_Status{}
+var _ genruntime.FromARMConverter = &RouteTable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (table *RouteTable_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_StatusARM{}
+func (table *RouteTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTable_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (table *RouteTable_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_StatusARM)
+func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTable_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -484,8 +484,8 @@ func (table *RouteTable_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromRouteTableStatus populates our RouteTable_Status from the provided source RouteTable_Status
-func (table *RouteTable_Status) AssignPropertiesFromRouteTableStatus(source *v20201101s.RouteTable_Status) error {
+// AssignPropertiesFromRouteTableSTATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
+func (table *RouteTable_STATUS) AssignPropertiesFromRouteTableSTATUS(source *v20201101s.RouteTable_STATUS) error {
 
 	// Conditions
 	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -512,7 +512,7 @@ func (table *RouteTable_Status) AssignPropertiesFromRouteTableStatus(source *v20
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
 		table.ProvisioningState = &provisioningState
 	} else {
 		table.ProvisioningState = nil
@@ -531,8 +531,8 @@ func (table *RouteTable_Status) AssignPropertiesFromRouteTableStatus(source *v20
 	return nil
 }
 
-// AssignPropertiesToRouteTableStatus populates the provided destination RouteTable_Status from our RouteTable_Status
-func (table *RouteTable_Status) AssignPropertiesToRouteTableStatus(destination *v20201101s.RouteTable_Status) error {
+// AssignPropertiesToRouteTableSTATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
+func (table *RouteTable_STATUS) AssignPropertiesToRouteTableSTATUS(destination *v20201101s.RouteTable_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

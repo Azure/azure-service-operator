@@ -20,7 +20,7 @@ import (
 func Test_Domains_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -160,8 +160,8 @@ func DomainPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDomainPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopter.Gen) {
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesInputSchemaCloudEventSchemaV10, DomainPropertiesInputSchemaCustomEventSchema, DomainPropertiesInputSchemaEventGridSchema))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesPublicNetworkAccessDisabled, DomainPropertiesPublicNetworkAccessEnabled))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesInputSchema_CloudEventSchemaV10, DomainPropertiesInputSchema_CustomEventSchema, DomainPropertiesInputSchema_EventGridSchema))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesPublicNetworkAccess_Disabled, DomainPropertiesPublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDomainPropertiesARM is a factory method for creating gopter generators
@@ -227,7 +227,7 @@ func InboundIpRuleARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRuleARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleActionAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleAction_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -298,7 +298,7 @@ func JsonInputSchemaMappingARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMappingARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMappingARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMappingInputSchemaMappingType_Json))
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMappingARM is a factory method for creating gopter generators

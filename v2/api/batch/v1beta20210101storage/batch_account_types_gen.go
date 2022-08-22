@@ -27,7 +27,7 @@ type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              BatchAccounts_Spec  `json:"spec,omitempty"`
-	Status            BatchAccount_Status `json:"status,omitempty"`
+	Status            BatchAccount_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BatchAccount{}
@@ -51,7 +51,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (account BatchAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (account *BatchAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BatchAccount_Status{}
+	return &BatchAccount_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (account *BatchAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BatchAccount_Status); ok {
+	if st, ok := status.(*BatchAccount_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BatchAccount_Status
+	var st BatchAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,27 +133,27 @@ type BatchAccountList struct {
 // +kubebuilder:validation:Enum={"2021-01-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-01-01")
+const APIVersion_Value = APIVersion("2021-01-01")
 
-// Storage version of v1beta20210101.BatchAccount_Status
-type BatchAccount_Status struct {
+// Storage version of v1beta20210101.BatchAccount_STATUS
+type BatchAccount_STATUS struct {
 	AccountEndpoint                       *string                                `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota          *int                                   `json:"activeJobAndJobScheduleQuota,omitempty"`
-	AutoStorage                           *AutoStorageProperties_Status          `json:"autoStorage,omitempty"`
+	AutoStorage                           *AutoStorageProperties_STATUS          `json:"autoStorage,omitempty"`
 	Conditions                            []conditions.Condition                 `json:"conditions,omitempty"`
 	DedicatedCoreQuota                    *int                                   `json:"dedicatedCoreQuota,omitempty"`
-	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_Status `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
+	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_STATUS `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
 	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                  `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
-	Encryption                            *EncryptionProperties_Status           `json:"encryption,omitempty"`
+	Encryption                            *EncryptionProperties_STATUS           `json:"encryption,omitempty"`
 	Id                                    *string                                `json:"id,omitempty"`
-	Identity                              *BatchAccountIdentity_Status           `json:"identity,omitempty"`
-	KeyVaultReference                     *KeyVaultReference_Status              `json:"keyVaultReference,omitempty"`
+	Identity                              *BatchAccountIdentity_STATUS           `json:"identity,omitempty"`
+	KeyVaultReference                     *KeyVaultReference_STATUS              `json:"keyVaultReference,omitempty"`
 	Location                              *string                                `json:"location,omitempty"`
 	LowPriorityCoreQuota                  *int                                   `json:"lowPriorityCoreQuota,omitempty"`
 	Name                                  *string                                `json:"name,omitempty"`
 	PoolAllocationMode                    *string                                `json:"poolAllocationMode,omitempty"`
 	PoolQuota                             *int                                   `json:"poolQuota,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_Status     `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS     `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	ProvisioningState                     *string                                `json:"provisioningState,omitempty"`
 	PublicNetworkAccess                   *string                                `json:"publicNetworkAccess,omitempty"`
@@ -161,10 +161,10 @@ type BatchAccount_Status struct {
 	Type                                  *string                                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
+var _ genruntime.ConvertibleStatus = &BatchAccount_STATUS{}
 
-// ConvertStatusFrom populates our BatchAccount_Status from the provided source
-func (account *BatchAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our BatchAccount_STATUS from the provided source
+func (account *BatchAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -172,8 +172,8 @@ func (account *BatchAccount_Status) ConvertStatusFrom(source genruntime.Converti
 	return source.ConvertStatusTo(account)
 }
 
-// ConvertStatusTo populates the provided destination from our BatchAccount_Status
-func (account *BatchAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our BatchAccount_STATUS
+func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -238,8 +238,8 @@ type AutoStorageBaseProperties struct {
 	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference,omitempty"`
 }
 
-// Storage version of v1beta20210101.AutoStorageProperties_Status
-type AutoStorageProperties_Status struct {
+// Storage version of v1beta20210101.AutoStorageProperties_STATUS
+type AutoStorageProperties_STATUS struct {
 	LastKeySync      *string                `json:"lastKeySync,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageAccountId *string                `json:"storageAccountId,omitempty"`
@@ -252,13 +252,13 @@ type BatchAccountIdentity struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210101.BatchAccountIdentity_Status
-type BatchAccountIdentity_Status struct {
+// Storage version of v1beta20210101.BatchAccountIdentity_STATUS
+type BatchAccountIdentity_STATUS struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
 	Type                   *string                                                       `json:"type,omitempty"`
-	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210101.EncryptionProperties
@@ -269,10 +269,10 @@ type EncryptionProperties struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.EncryptionProperties_Status
-type EncryptionProperties_Status struct {
+// Storage version of v1beta20210101.EncryptionProperties_STATUS
+type EncryptionProperties_STATUS struct {
 	KeySource          *string                    `json:"keySource,omitempty"`
-	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
@@ -287,34 +287,34 @@ type KeyVaultReference struct {
 	Url       *string                       `json:"url,omitempty"`
 }
 
-// Storage version of v1beta20210101.KeyVaultReference_Status
-type KeyVaultReference_Status struct {
+// Storage version of v1beta20210101.KeyVaultReference_STATUS
+type KeyVaultReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 }
 
-// Storage version of v1beta20210101.PrivateEndpointConnection_Status
-type PrivateEndpointConnection_Status struct {
+// Storage version of v1beta20210101.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
 	Id                                *string                                   `json:"id,omitempty"`
 	Name                              *string                                   `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_Status                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
 	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
 	Type                              *string                                   `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210101.VirtualMachineFamilyCoreQuota_Status
-type VirtualMachineFamilyCoreQuota_Status struct {
+// Storage version of v1beta20210101.VirtualMachineFamilyCoreQuota_STATUS
+type VirtualMachineFamilyCoreQuota_STATUS struct {
 	CoreQuota   *int                   `json:"coreQuota,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities
-type BatchAccountIdentity_Status_UserAssignedIdentities struct {
+// Storage version of v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities
+type BatchAccountIdentity_STATUS_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -327,20 +327,20 @@ type KeyVaultProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.KeyVaultProperties_Status
-type KeyVaultProperties_Status struct {
+// Storage version of v1beta20210101.KeyVaultProperties_STATUS
+type KeyVaultProperties_STATUS struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.PrivateEndpoint_Status
-type PrivateEndpoint_Status struct {
+// Storage version of v1beta20210101.PrivateEndpoint_STATUS
+type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210101.PrivateLinkServiceConnectionState_Status
-type PrivateLinkServiceConnectionState_Status struct {
+// Storage version of v1beta20210101.PrivateLinkServiceConnectionState_STATUS
+type PrivateLinkServiceConnectionState_STATUS struct {
 	ActionRequired *string                `json:"actionRequired,omitempty"`
 	Description    *string                `json:"description,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`

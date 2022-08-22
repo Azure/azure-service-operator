@@ -36,7 +36,7 @@ var _ genruntime.ARMResourceSpec = &WorkspacesComputes_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (computes WorkspacesComputes_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -250,6 +250,23 @@ type Compute_ComputeInstanceARM struct {
 	ResourceId *string                       `json:"resourceId,omitempty"`
 }
 
+type Compute_DatabricksARM struct {
+	// ComputeLocation: Location for the underlying compute
+	ComputeLocation *string                      `json:"computeLocation,omitempty"`
+	ComputeType     ComputeDatabricksComputeType `json:"computeType,omitempty"`
+
+	// Description: The description of the Machine Learning compute.
+	Description *string `json:"description,omitempty"`
+
+	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
+	// authentication.
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: Properties of Databricks
+	Properties *DatabricksPropertiesARM `json:"properties,omitempty"`
+	ResourceId *string                  `json:"resourceId,omitempty"`
+}
+
 type Compute_DataFactoryARM struct {
 	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string                       `json:"computeLocation,omitempty"`
@@ -277,23 +294,6 @@ type Compute_DataLakeAnalyticsARM struct {
 	DisableLocalAuth *bool                           `json:"disableLocalAuth,omitempty"`
 	Properties       *DataLakeAnalyticsPropertiesARM `json:"properties,omitempty"`
 	ResourceId       *string                         `json:"resourceId,omitempty"`
-}
-
-type Compute_DatabricksARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                      `json:"computeLocation,omitempty"`
-	ComputeType     ComputeDatabricksComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksPropertiesARM `json:"properties,omitempty"`
-	ResourceId *string                  `json:"resourceId,omitempty"`
 }
 
 type Compute_HDInsightARM struct {
@@ -347,30 +347,30 @@ type Compute_VirtualMachineARM struct {
 type IdentityType string
 
 const (
-	IdentityTypeNone                       = IdentityType("None")
-	IdentityTypeSystemAssigned             = IdentityType("SystemAssigned")
-	IdentityTypeSystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
-	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemDataCreatedByType string
 
 const (
-	SystemDataCreatedByTypeApplication     = SystemDataCreatedByType("Application")
-	SystemDataCreatedByTypeKey             = SystemDataCreatedByType("Key")
-	SystemDataCreatedByTypeManagedIdentity = SystemDataCreatedByType("ManagedIdentity")
-	SystemDataCreatedByTypeUser            = SystemDataCreatedByType("User")
+	SystemDataCreatedByType_Application     = SystemDataCreatedByType("Application")
+	SystemDataCreatedByType_Key             = SystemDataCreatedByType("Key")
+	SystemDataCreatedByType_ManagedIdentity = SystemDataCreatedByType("ManagedIdentity")
+	SystemDataCreatedByType_User            = SystemDataCreatedByType("User")
 )
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemDataLastModifiedByType string
 
 const (
-	SystemDataLastModifiedByTypeApplication     = SystemDataLastModifiedByType("Application")
-	SystemDataLastModifiedByTypeKey             = SystemDataLastModifiedByType("Key")
-	SystemDataLastModifiedByTypeManagedIdentity = SystemDataLastModifiedByType("ManagedIdentity")
-	SystemDataLastModifiedByTypeUser            = SystemDataLastModifiedByType("User")
+	SystemDataLastModifiedByType_Application     = SystemDataLastModifiedByType("Application")
+	SystemDataLastModifiedByType_Key             = SystemDataLastModifiedByType("Key")
+	SystemDataLastModifiedByType_ManagedIdentity = SystemDataLastModifiedByType("ManagedIdentity")
+	SystemDataLastModifiedByType_User            = SystemDataLastModifiedByType("User")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AKSProperties
@@ -442,37 +442,37 @@ type AmlComputePropertiesARM struct {
 // +kubebuilder:validation:Enum={"AKS"}
 type ComputeAKSComputeType string
 
-const ComputeAKSComputeTypeAKS = ComputeAKSComputeType("AKS")
+const ComputeAKSComputeType_AKS = ComputeAKSComputeType("AKS")
 
 // +kubebuilder:validation:Enum={"AmlCompute"}
 type ComputeAmlComputeComputeType string
 
-const ComputeAmlComputeComputeTypeAmlCompute = ComputeAmlComputeComputeType("AmlCompute")
+const ComputeAmlComputeComputeType_AmlCompute = ComputeAmlComputeComputeType("AmlCompute")
 
 // +kubebuilder:validation:Enum={"ComputeInstance"}
 type ComputeComputeInstanceComputeType string
 
-const ComputeComputeInstanceComputeTypeComputeInstance = ComputeComputeInstanceComputeType("ComputeInstance")
-
-// +kubebuilder:validation:Enum={"DataFactory"}
-type ComputeDataFactoryComputeType string
-
-const ComputeDataFactoryComputeTypeDataFactory = ComputeDataFactoryComputeType("DataFactory")
-
-// +kubebuilder:validation:Enum={"DataLakeAnalytics"}
-type ComputeDataLakeAnalyticsComputeType string
-
-const ComputeDataLakeAnalyticsComputeTypeDataLakeAnalytics = ComputeDataLakeAnalyticsComputeType("DataLakeAnalytics")
+const ComputeComputeInstanceComputeType_ComputeInstance = ComputeComputeInstanceComputeType("ComputeInstance")
 
 // +kubebuilder:validation:Enum={"Databricks"}
 type ComputeDatabricksComputeType string
 
-const ComputeDatabricksComputeTypeDatabricks = ComputeDatabricksComputeType("Databricks")
+const ComputeDatabricksComputeType_Databricks = ComputeDatabricksComputeType("Databricks")
+
+// +kubebuilder:validation:Enum={"DataFactory"}
+type ComputeDataFactoryComputeType string
+
+const ComputeDataFactoryComputeType_DataFactory = ComputeDataFactoryComputeType("DataFactory")
+
+// +kubebuilder:validation:Enum={"DataLakeAnalytics"}
+type ComputeDataLakeAnalyticsComputeType string
+
+const ComputeDataLakeAnalyticsComputeType_DataLakeAnalytics = ComputeDataLakeAnalyticsComputeType("DataLakeAnalytics")
 
 // +kubebuilder:validation:Enum={"HDInsight"}
 type ComputeHDInsightComputeType string
 
-const ComputeHDInsightComputeTypeHDInsight = ComputeHDInsightComputeType("HDInsight")
+const ComputeHDInsightComputeType_HDInsight = ComputeHDInsightComputeType("HDInsight")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ComputeInstanceProperties
 type ComputeInstancePropertiesARM struct {
@@ -503,18 +503,12 @@ type ComputeInstancePropertiesARM struct {
 // +kubebuilder:validation:Enum={"SynapseSpark"}
 type ComputeSynapseSparkComputeType string
 
-const ComputeSynapseSparkComputeTypeSynapseSpark = ComputeSynapseSparkComputeType("SynapseSpark")
+const ComputeSynapseSparkComputeType_SynapseSpark = ComputeSynapseSparkComputeType("SynapseSpark")
 
 // +kubebuilder:validation:Enum={"VirtualMachine"}
 type ComputeVirtualMachineComputeType string
 
-const ComputeVirtualMachineComputeTypeVirtualMachine = ComputeVirtualMachineComputeType("VirtualMachine")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
-type DataLakeAnalyticsPropertiesARM struct {
-	// DataLakeStoreAccountName: DataLake Store Account Name
-	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
-}
+const ComputeVirtualMachineComputeType_VirtualMachine = ComputeVirtualMachineComputeType("VirtualMachine")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DatabricksProperties
 type DatabricksPropertiesARM struct {
@@ -523,6 +517,12 @@ type DatabricksPropertiesARM struct {
 
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
+type DataLakeAnalyticsPropertiesARM struct {
+	// DataLakeStoreAccountName: DataLake Store Account Name
+	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/HDInsightProperties
@@ -588,23 +588,6 @@ type VirtualMachinePropertiesARM struct {
 	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
-type AKSPropertiesClusterPurpose string
-
-const (
-	AKSPropertiesClusterPurposeDenseProd = AKSPropertiesClusterPurpose("DenseProd")
-	AKSPropertiesClusterPurposeDevTest   = AKSPropertiesClusterPurpose("DevTest")
-	AKSPropertiesClusterPurposeFastProd  = AKSPropertiesClusterPurpose("FastProd")
-)
-
-// +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
-type AKSPropertiesLoadBalancerType string
-
-const (
-	AKSPropertiesLoadBalancerTypeInternalLoadBalancer = AKSPropertiesLoadBalancerType("InternalLoadBalancer")
-	AKSPropertiesLoadBalancerTypePublicIp             = AKSPropertiesLoadBalancerType("PublicIp")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AksNetworkingConfiguration
 type AksNetworkingConfigurationARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
@@ -621,29 +604,46 @@ type AksNetworkingConfigurationARM struct {
 	SubnetId    *string `json:"subnetId,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
+type AKSPropertiesClusterPurpose string
+
+const (
+	AKSPropertiesClusterPurpose_DenseProd = AKSPropertiesClusterPurpose("DenseProd")
+	AKSPropertiesClusterPurpose_DevTest   = AKSPropertiesClusterPurpose("DevTest")
+	AKSPropertiesClusterPurpose_FastProd  = AKSPropertiesClusterPurpose("FastProd")
+)
+
+// +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
+type AKSPropertiesLoadBalancerType string
+
+const (
+	AKSPropertiesLoadBalancerType_InternalLoadBalancer = AKSPropertiesLoadBalancerType("InternalLoadBalancer")
+	AKSPropertiesLoadBalancerType_PublicIp             = AKSPropertiesLoadBalancerType("PublicIp")
+)
+
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type AmlComputePropertiesOsType string
 
 const (
-	AmlComputePropertiesOsTypeLinux   = AmlComputePropertiesOsType("Linux")
-	AmlComputePropertiesOsTypeWindows = AmlComputePropertiesOsType("Windows")
+	AmlComputePropertiesOsType_Linux   = AmlComputePropertiesOsType("Linux")
+	AmlComputePropertiesOsType_Windows = AmlComputePropertiesOsType("Windows")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled","NotSpecified"}
 type AmlComputePropertiesRemoteLoginPortPublicAccess string
 
 const (
-	AmlComputePropertiesRemoteLoginPortPublicAccessDisabled     = AmlComputePropertiesRemoteLoginPortPublicAccess("Disabled")
-	AmlComputePropertiesRemoteLoginPortPublicAccessEnabled      = AmlComputePropertiesRemoteLoginPortPublicAccess("Enabled")
-	AmlComputePropertiesRemoteLoginPortPublicAccessNotSpecified = AmlComputePropertiesRemoteLoginPortPublicAccess("NotSpecified")
+	AmlComputePropertiesRemoteLoginPortPublicAccess_Disabled     = AmlComputePropertiesRemoteLoginPortPublicAccess("Disabled")
+	AmlComputePropertiesRemoteLoginPortPublicAccess_Enabled      = AmlComputePropertiesRemoteLoginPortPublicAccess("Enabled")
+	AmlComputePropertiesRemoteLoginPortPublicAccess_NotSpecified = AmlComputePropertiesRemoteLoginPortPublicAccess("NotSpecified")
 )
 
 // +kubebuilder:validation:Enum={"Dedicated","LowPriority"}
 type AmlComputePropertiesVmPriority string
 
 const (
-	AmlComputePropertiesVmPriorityDedicated   = AmlComputePropertiesVmPriority("Dedicated")
-	AmlComputePropertiesVmPriorityLowPriority = AmlComputePropertiesVmPriority("LowPriority")
+	AmlComputePropertiesVmPriority_Dedicated   = AmlComputePropertiesVmPriority("Dedicated")
+	AmlComputePropertiesVmPriority_LowPriority = AmlComputePropertiesVmPriority("LowPriority")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AutoPauseProperties
@@ -663,14 +663,14 @@ type AutoScalePropertiesARM struct {
 type ComputeInstancePropertiesApplicationSharingPolicy string
 
 const (
-	ComputeInstancePropertiesApplicationSharingPolicyPersonal = ComputeInstancePropertiesApplicationSharingPolicy("Personal")
-	ComputeInstancePropertiesApplicationSharingPolicyShared   = ComputeInstancePropertiesApplicationSharingPolicy("Shared")
+	ComputeInstancePropertiesApplicationSharingPolicy_Personal = ComputeInstancePropertiesApplicationSharingPolicy("Personal")
+	ComputeInstancePropertiesApplicationSharingPolicy_Shared   = ComputeInstancePropertiesApplicationSharingPolicy("Shared")
 )
 
 // +kubebuilder:validation:Enum={"personal"}
 type ComputeInstancePropertiesComputeInstanceAuthorizationType string
 
-const ComputeInstancePropertiesComputeInstanceAuthorizationTypePersonal = ComputeInstancePropertiesComputeInstanceAuthorizationType("personal")
+const ComputeInstancePropertiesComputeInstanceAuthorizationType_Personal = ComputeInstancePropertiesComputeInstanceAuthorizationType("personal")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ComputeInstanceSshSettings
 type ComputeInstanceSshSettingsARM struct {
@@ -779,8 +779,8 @@ type AssignedUserARM struct {
 type ComputeInstanceSshSettingsSshPublicAccess string
 
 const (
-	ComputeInstanceSshSettingsSshPublicAccessDisabled = ComputeInstanceSshSettingsSshPublicAccess("Disabled")
-	ComputeInstanceSshSettingsSshPublicAccessEnabled  = ComputeInstanceSshSettingsSshPublicAccess("Enabled")
+	ComputeInstanceSshSettingsSshPublicAccess_Disabled = ComputeInstanceSshSettingsSshPublicAccess("Disabled")
+	ComputeInstanceSshSettingsSshPublicAccess_Enabled  = ComputeInstanceSshSettingsSshPublicAccess("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ScriptsToExecute
@@ -796,9 +796,9 @@ type ScriptsToExecuteARM struct {
 type SslConfigurationStatus string
 
 const (
-	SslConfigurationStatusAuto     = SslConfigurationStatus("Auto")
-	SslConfigurationStatusDisabled = SslConfigurationStatus("Disabled")
-	SslConfigurationStatusEnabled  = SslConfigurationStatus("Enabled")
+	SslConfigurationStatus_Auto     = SslConfigurationStatus("Auto")
+	SslConfigurationStatus_Disabled = SslConfigurationStatus("Disabled")
+	SslConfigurationStatus_Enabled  = SslConfigurationStatus("Enabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ScriptReference

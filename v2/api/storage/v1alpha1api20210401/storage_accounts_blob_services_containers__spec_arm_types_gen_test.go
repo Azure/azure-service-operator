@@ -20,7 +20,7 @@ import (
 func Test_StorageAccountsBlobServicesContainers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -164,7 +164,7 @@ func AddIndependentPropertyGeneratorsForContainerPropertiesARM(gens map[string]g
 	gens["DefaultEncryptionScope"] = gen.PtrOf(gen.AlphaString())
 	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerPropertiesPublicAccessBlob, ContainerPropertiesPublicAccessContainer, ContainerPropertiesPublicAccessNone))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerPropertiesPublicAccess_Blob, ContainerPropertiesPublicAccess_Container, ContainerPropertiesPublicAccess_None))
 }
 
 // AddRelatedPropertyGeneratorsForContainerPropertiesARM is a factory method for creating gopter generators

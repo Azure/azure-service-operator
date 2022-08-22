@@ -29,7 +29,7 @@ type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              NamespacesAuthorizationRules_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_Status          `json:"status,omitempty"`
+	Status            AuthorizationRule_STATUS          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -98,7 +98,7 @@ func (rule *NamespacesAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -123,7 +123,7 @@ func (rule *NamespacesAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AuthorizationRule_Status{}
+	return &AuthorizationRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +139,13 @@ func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AuthorizationRule_Status); ok {
+	if st, ok := status.(*AuthorizationRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AuthorizationRule_Status
+	var st AuthorizationRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +263,10 @@ func (rule *NamespacesAuthorizationRule) AssignPropertiesFromNamespacesAuthoriza
 	rule.Spec = spec
 
 	// Status
-	var status AuthorizationRule_Status
-	err = status.AssignPropertiesFromAuthorizationRuleStatus(&source.Status)
+	var status AuthorizationRule_STATUS
+	err = status.AssignPropertiesFromAuthorizationRuleSTATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleSTATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -289,10 +289,10 @@ func (rule *NamespacesAuthorizationRule) AssignPropertiesToNamespacesAuthorizati
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.AuthorizationRule_Status
-	err = rule.Status.AssignPropertiesToAuthorizationRuleStatus(&status)
+	var status v20211101s.AuthorizationRule_STATUS
+	err = rule.Status.AssignPropertiesToAuthorizationRuleSTATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleSTATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,7 +317,7 @@ type NamespacesAuthorizationRuleList struct {
 	Items           []NamespacesAuthorizationRule `json:"items"`
 }
 
-type AuthorizationRule_Status struct {
+type AuthorizationRule_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -332,34 +332,34 @@ type AuthorizationRule_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Rights: The rights associated with the rule.
-	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
+	Rights []AuthorizationRuleSTATUSPropertiesRights `json:"rights,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AuthorizationRule_Status{}
+var _ genruntime.ConvertibleStatus = &AuthorizationRule_STATUS{}
 
-// ConvertStatusFrom populates our AuthorizationRule_Status from the provided source
-func (rule *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.AuthorizationRule_Status)
+// ConvertStatusFrom populates our AuthorizationRule_STATUS from the provided source
+func (rule *AuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20211101s.AuthorizationRule_STATUS)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignPropertiesFromAuthorizationRuleStatus(src)
+		return rule.AssignPropertiesFromAuthorizationRuleSTATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.AuthorizationRule_Status{}
+	src = &v20211101s.AuthorizationRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignPropertiesFromAuthorizationRuleStatus(src)
+	err = rule.AssignPropertiesFromAuthorizationRuleSTATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -367,17 +367,17 @@ func (rule *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our AuthorizationRule_Status
-func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.AuthorizationRule_Status)
+// ConvertStatusTo populates the provided destination from our AuthorizationRule_STATUS
+func (rule *AuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20211101s.AuthorizationRule_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignPropertiesToAuthorizationRuleStatus(dst)
+		return rule.AssignPropertiesToAuthorizationRuleSTATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.AuthorizationRule_Status{}
-	err := rule.AssignPropertiesToAuthorizationRuleStatus(dst)
+	dst = &v20211101s.AuthorizationRule_STATUS{}
+	err := rule.AssignPropertiesToAuthorizationRuleSTATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -391,18 +391,18 @@ func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.Con
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &AuthorizationRule_Status{}
+var _ genruntime.FromARMConverter = &AuthorizationRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *AuthorizationRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationRule_StatusARM{}
+func (rule *AuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AuthorizationRule_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *AuthorizationRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationRule_StatusARM)
+func (rule *AuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AuthorizationRule_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationRule_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationRule_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -435,7 +435,7 @@ func (rule *AuthorizationRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -454,8 +454,8 @@ func (rule *AuthorizationRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromAuthorizationRuleStatus populates our AuthorizationRule_Status from the provided source AuthorizationRule_Status
-func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatus(source *v20211101s.AuthorizationRule_Status) error {
+// AssignPropertiesFromAuthorizationRuleSTATUS populates our AuthorizationRule_STATUS from the provided source AuthorizationRule_STATUS
+func (rule *AuthorizationRule_STATUS) AssignPropertiesFromAuthorizationRuleSTATUS(source *v20211101s.AuthorizationRule_STATUS) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -471,11 +471,11 @@ func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatu
 
 	// Rights
 	if source.Rights != nil {
-		rightList := make([]AuthorizationRuleStatusPropertiesRights, len(source.Rights))
+		rightList := make([]AuthorizationRuleSTATUSPropertiesRights, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = AuthorizationRuleStatusPropertiesRights(rightItem)
+			rightList[rightIndex] = AuthorizationRuleSTATUSPropertiesRights(rightItem)
 		}
 		rule.Rights = rightList
 	} else {
@@ -484,10 +484,10 @@ func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatu
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -501,8 +501,8 @@ func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatu
 	return nil
 }
 
-// AssignPropertiesToAuthorizationRuleStatus populates the provided destination AuthorizationRule_Status from our AuthorizationRule_Status
-func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(destination *v20211101s.AuthorizationRule_Status) error {
+// AssignPropertiesToAuthorizationRuleSTATUS populates the provided destination AuthorizationRule_STATUS from our AuthorizationRule_STATUS
+func (rule *AuthorizationRule_STATUS) AssignPropertiesToAuthorizationRuleSTATUS(destination *v20211101s.AuthorizationRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -533,10 +533,10 @@ func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDatum v20211101s.SystemData_Status
-		err := rule.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20211101s.SystemData_STATUS
+		err := rule.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -812,9 +812,9 @@ func (rules *NamespacesAuthorizationRules_Spec) SetAzureName(azureName string) {
 type AuthorizationRulePropertiesRights string
 
 const (
-	AuthorizationRulePropertiesRightsListen = AuthorizationRulePropertiesRights("Listen")
-	AuthorizationRulePropertiesRightsManage = AuthorizationRulePropertiesRights("Manage")
-	AuthorizationRulePropertiesRightsSend   = AuthorizationRulePropertiesRights("Send")
+	AuthorizationRulePropertiesRights_Listen = AuthorizationRulePropertiesRights("Listen")
+	AuthorizationRulePropertiesRights_Manage = AuthorizationRulePropertiesRights("Manage")
+	AuthorizationRulePropertiesRights_Send   = AuthorizationRulePropertiesRights("Send")
 )
 
 func init() {

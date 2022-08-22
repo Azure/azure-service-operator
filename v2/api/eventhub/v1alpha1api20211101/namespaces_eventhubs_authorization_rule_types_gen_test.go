@@ -163,7 +163,7 @@ func NamespacesEventhubsAuthorizationRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = NamespacesEventhubsAuthorizationRulesSpecGenerator()
-	gens["Status"] = AuthorizationRuleStatusGenerator()
+	gens["Status"] = AuthorizationRuleSTATUSGenerator()
 }
 
 func Test_NamespacesEventhubsAuthorizationRules_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -268,6 +268,6 @@ func NamespacesEventhubsAuthorizationRulesSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRulesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRightsListen, AuthorizationRulePropertiesRightsManage, AuthorizationRulePropertiesRightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRulePropertiesRights_Listen, AuthorizationRulePropertiesRights_Manage, AuthorizationRulePropertiesRights_Send))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

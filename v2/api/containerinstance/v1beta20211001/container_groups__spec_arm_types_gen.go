@@ -32,7 +32,7 @@ var _ genruntime.ARMResourceSpec = &ContainerGroups_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (groups ContainerGroups_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -105,19 +105,11 @@ type ContainerGroupDiagnosticsARM struct {
 type ContainerGroupIdentityType string
 
 const (
-	ContainerGroupIdentityTypeNone                       = ContainerGroupIdentityType("None")
-	ContainerGroupIdentityTypeSystemAssigned             = ContainerGroupIdentityType("SystemAssigned")
-	ContainerGroupIdentityTypeSystemAssignedUserAssigned = ContainerGroupIdentityType("SystemAssigned, UserAssigned")
-	ContainerGroupIdentityTypeUserAssigned               = ContainerGroupIdentityType("UserAssigned")
+	ContainerGroupIdentityType_None                       = ContainerGroupIdentityType("None")
+	ContainerGroupIdentityType_SystemAssigned             = ContainerGroupIdentityType("SystemAssigned")
+	ContainerGroupIdentityType_SystemAssignedUserAssigned = ContainerGroupIdentityType("SystemAssigned, UserAssigned")
+	ContainerGroupIdentityType_UserAssigned               = ContainerGroupIdentityType("UserAssigned")
 )
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
-type ContainerGroupSubnetIdARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name for the subnet.
-	Name *string `json:"name,omitempty"`
-}
 
 type ContainerGroups_Spec_Properties_ContainersARM struct {
 	// Name: The user-provided name of the container instance.
@@ -150,6 +142,14 @@ type ContainerGroups_Spec_Properties_InitContainersARM struct {
 
 	// Properties: The init container definition properties.
 	Properties *InitContainerPropertiesDefinitionARM `json:"properties,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
+type ContainerGroupSubnetIdARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Name: Friendly name for the subnet.
+	Name *string `json:"name,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration

@@ -162,7 +162,7 @@ func StorageAccountsQueueServicesQueueGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccountsQueueServicesQueuesSpecGenerator()
-	gens["Status"] = StorageQueueStatusGenerator()
+	gens["Status"] = StorageQueueSTATUSGenerator()
 }
 
 func Test_StorageAccountsQueueServicesQueues_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -271,32 +271,32 @@ func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueuesSpec(g
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-func Test_StorageQueue_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageQueue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageQueue_Status to StorageQueue_Status via AssignPropertiesToStorageQueueStatus & AssignPropertiesFromStorageQueueStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageQueueStatus, StorageQueueStatusGenerator()))
+		"Round trip from StorageQueue_STATUS to StorageQueue_STATUS via AssignPropertiesToStorageQueueSTATUS & AssignPropertiesFromStorageQueueSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageQueueSTATUS, StorageQueueSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageQueueStatus tests if a specific instance of StorageQueue_Status can be assigned to v1beta20210401storage and back losslessly
-func RunPropertyAssignmentTestForStorageQueueStatus(subject StorageQueue_Status) string {
+// RunPropertyAssignmentTestForStorageQueueSTATUS tests if a specific instance of StorageQueue_STATUS can be assigned to v1beta20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageQueueSTATUS(subject StorageQueue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210401s.StorageQueue_Status
-	err := copied.AssignPropertiesToStorageQueueStatus(&other)
+	var other v20210401s.StorageQueue_STATUS
+	err := copied.AssignPropertiesToStorageQueueSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageQueue_Status
-	err = actual.AssignPropertiesFromStorageQueueStatus(&other)
+	var actual StorageQueue_STATUS
+	err = actual.AssignPropertiesFromStorageQueueSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -313,20 +313,20 @@ func RunPropertyAssignmentTestForStorageQueueStatus(subject StorageQueue_Status)
 	return ""
 }
 
-func Test_StorageQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageQueue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageQueue_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageQueueStatus, StorageQueueStatusGenerator()))
+		"Round trip of StorageQueue_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageQueueSTATUS, StorageQueueSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageQueueStatus runs a test to see if a specific instance of StorageQueue_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageQueueStatus(subject StorageQueue_Status) string {
+// RunJSONSerializationTestForStorageQueueSTATUS runs a test to see if a specific instance of StorageQueue_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageQueueSTATUS(subject StorageQueue_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -334,7 +334,7 @@ func RunJSONSerializationTestForStorageQueueStatus(subject StorageQueue_Status) 
 	}
 
 	// Deserialize back into memory
-	var actual StorageQueue_Status
+	var actual StorageQueue_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -352,24 +352,24 @@ func RunJSONSerializationTestForStorageQueueStatus(subject StorageQueue_Status) 
 	return ""
 }
 
-// Generator of StorageQueue_Status instances for property testing - lazily instantiated by StorageQueueStatusGenerator()
-var storageQueueStatusGenerator gopter.Gen
+// Generator of StorageQueue_STATUS instances for property testing - lazily instantiated by StorageQueueSTATUSGenerator()
+var storageQueueSTATUSGenerator gopter.Gen
 
-// StorageQueueStatusGenerator returns a generator of StorageQueue_Status instances for property testing.
-func StorageQueueStatusGenerator() gopter.Gen {
-	if storageQueueStatusGenerator != nil {
-		return storageQueueStatusGenerator
+// StorageQueueSTATUSGenerator returns a generator of StorageQueue_STATUS instances for property testing.
+func StorageQueueSTATUSGenerator() gopter.Gen {
+	if storageQueueSTATUSGenerator != nil {
+		return storageQueueSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageQueueStatus(generators)
-	storageQueueStatusGenerator = gen.Struct(reflect.TypeOf(StorageQueue_Status{}), generators)
+	AddIndependentPropertyGeneratorsForStorageQueueSTATUS(generators)
+	storageQueueSTATUSGenerator = gen.Struct(reflect.TypeOf(StorageQueue_STATUS{}), generators)
 
-	return storageQueueStatusGenerator
+	return storageQueueSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageQueueStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageQueueStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageQueueSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageQueueSTATUS(gens map[string]gopter.Gen) {
 	gens["ApproximateMessageCount"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

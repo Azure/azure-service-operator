@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &VirtualNetworkGateways_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (gateways VirtualNetworkGateways_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -106,15 +106,6 @@ type BgpSettingsARM struct {
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
-type VirtualNetworkGatewaySkuARM struct {
-	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
-
-	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
-}
-
 type VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -162,6 +153,15 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM struct {
 
 	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
 	VpnClientRootCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM `json:"vpnClientRootCertificates,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
+type VirtualNetworkGatewaySkuARM struct {
+	// Name: Gateway SKU name.
+	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
+
+	// Tier: Gateway SKU tier.
+	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress

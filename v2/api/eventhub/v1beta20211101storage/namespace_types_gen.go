@@ -27,7 +27,7 @@ type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Namespaces_Spec    `json:"spec,omitempty"`
-	Status            EHNamespace_Status `json:"status,omitempty"`
+	Status            EHNamespace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -51,7 +51,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (namespace *Namespace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EHNamespace_Status{}
+	return &EHNamespace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EHNamespace_Status); ok {
+	if st, ok := status.(*EHNamespace_STATUS); ok {
 		namespace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EHNamespace_Status
+	var st EHNamespace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -133,41 +133,41 @@ type NamespaceList struct {
 // +kubebuilder:validation:Enum={"2021-11-01"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-11-01")
+const APIVersion_Value = APIVersion("2021-11-01")
 
-// Storage version of v1beta20211101.EHNamespace_Status
-type EHNamespace_Status struct {
+// Storage version of v1beta20211101.EHNamespace_STATUS
+type EHNamespace_STATUS struct {
 	AlternateName              *string                                                `json:"alternateName,omitempty"`
 	ClusterArmId               *string                                                `json:"clusterArmId,omitempty"`
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
 	DisableLocalAuth           *bool                                                  `json:"disableLocalAuth,omitempty"`
-	Encryption                 *Encryption_Status                                     `json:"encryption,omitempty"`
+	Encryption                 *Encryption_STATUS                                     `json:"encryption,omitempty"`
 	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *Identity_Status                                       `json:"identity,omitempty"`
+	Identity                   *Identity_STATUS                                       `json:"identity,omitempty"`
 	IsAutoInflateEnabled       *bool                                                  `json:"isAutoInflateEnabled,omitempty"`
 	KafkaEnabled               *bool                                                  `json:"kafkaEnabled,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
 	MaximumThroughputUnits     *int                                                   `json:"maximumThroughputUnits,omitempty"`
 	MetricId                   *string                                                `json:"metricId,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
 	ServiceBusEndpoint         *string                                                `json:"serviceBusEndpoint,omitempty"`
-	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
 	Status                     *string                                                `json:"status,omitempty"`
-	SystemData                 *SystemData_Status                                     `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
 	UpdatedAt                  *string                                                `json:"updatedAt,omitempty"`
 	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EHNamespace_Status{}
+var _ genruntime.ConvertibleStatus = &EHNamespace_STATUS{}
 
-// ConvertStatusFrom populates our EHNamespace_Status from the provided source
-func (namespace *EHNamespace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our EHNamespace_STATUS from the provided source
+func (namespace *EHNamespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -175,8 +175,8 @@ func (namespace *EHNamespace_Status) ConvertStatusFrom(source genruntime.Convert
 	return source.ConvertStatusTo(namespace)
 }
 
-// ConvertStatusTo populates the provided destination from our EHNamespace_Status
-func (namespace *EHNamespace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our EHNamespace_STATUS
+func (namespace *EHNamespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -246,10 +246,10 @@ type Encryption struct {
 	RequireInfrastructureEncryption *bool                  `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-// Storage version of v1beta20211101.Encryption_Status
-type Encryption_Status struct {
+// Storage version of v1beta20211101.Encryption_STATUS
+type Encryption_STATUS struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
-	KeyVaultProperties              []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 	PropertyBag                     genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	RequireInfrastructureEncryption *bool                       `json:"requireInfrastructureEncryption,omitempty"`
 }
@@ -261,13 +261,13 @@ type Identity struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20211101.Identity_Status
-type Identity_Status struct {
+// Storage version of v1beta20211101.Identity_STATUS
+type Identity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	TenantId               *string                                `json:"tenantId,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_Status `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20211101.Namespaces_Spec_Properties_PrivateEndpointConnections
@@ -276,11 +276,11 @@ type Namespaces_Spec_Properties_PrivateEndpointConnections struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20211101.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+// Storage version of v1beta20211101.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211101.Sku
@@ -292,16 +292,16 @@ type Sku struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20211101.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20211101.Sku_STATUS
+type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20211101.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20211101.SystemData_STATUS
+type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -321,9 +321,9 @@ type KeyVaultProperties struct {
 	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20211101.KeyVaultProperties_Status
-type KeyVaultProperties_Status struct {
-	Identity    *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
+// Storage version of v1beta20211101.KeyVaultProperties_STATUS
+type KeyVaultProperties_STATUS struct {
+	Identity    *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
@@ -339,8 +339,8 @@ type PrivateEndpoint struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20211101.UserAssignedIdentity_Status
-type UserAssignedIdentity_Status struct {
+// Storage version of v1beta20211101.UserAssignedIdentity_STATUS
+type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -355,8 +355,8 @@ type UserAssignedIdentityProperties struct {
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
-// Storage version of v1beta20211101.UserAssignedIdentityProperties_Status
-type UserAssignedIdentityProperties_Status struct {
+// Storage version of v1beta20211101.UserAssignedIdentityProperties_STATUS
+type UserAssignedIdentityProperties_STATUS struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }

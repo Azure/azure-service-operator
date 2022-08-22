@@ -163,7 +163,7 @@ func SqlDatabaseContainerUserDefinedFunctionGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator()
-	gens["Status"] = SqlUserDefinedFunctionGetResultsStatusGenerator()
+	gens["Status"] = SqlUserDefinedFunctionGetResultsSTATUSGenerator()
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -286,32 +286,32 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDe
 	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionResourceGenerator())
 }
 
-func Test_SqlUserDefinedFunctionGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_SqlUserDefinedFunctionGetResults_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SqlUserDefinedFunctionGetResults_Status to SqlUserDefinedFunctionGetResults_Status via AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus & AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus, SqlUserDefinedFunctionGetResultsStatusGenerator()))
+		"Round trip from SqlUserDefinedFunctionGetResults_STATUS to SqlUserDefinedFunctionGetResults_STATUS via AssignPropertiesToSqlUserDefinedFunctionGetResultsSTATUS & AssignPropertiesFromSqlUserDefinedFunctionGetResultsSTATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsSTATUS, SqlUserDefinedFunctionGetResultsSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus tests if a specific instance of SqlUserDefinedFunctionGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus(subject SqlUserDefinedFunctionGetResults_Status) string {
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsSTATUS tests if a specific instance of SqlUserDefinedFunctionGetResults_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsSTATUS(subject SqlUserDefinedFunctionGetResults_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210515s.SqlUserDefinedFunctionGetResults_Status
-	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&other)
+	var other alpha20210515s.SqlUserDefinedFunctionGetResults_STATUS
+	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetResultsSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SqlUserDefinedFunctionGetResults_Status
-	err = actual.AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(&other)
+	var actual SqlUserDefinedFunctionGetResults_STATUS
+	err = actual.AssignPropertiesFromSqlUserDefinedFunctionGetResultsSTATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -328,20 +328,20 @@ func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus(subject 
 	return ""
 }
 
-func Test_SqlUserDefinedFunctionGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlUserDefinedFunctionGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlUserDefinedFunctionGetResults_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus, SqlUserDefinedFunctionGetResultsStatusGenerator()))
+		"Round trip of SqlUserDefinedFunctionGetResults_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsSTATUS, SqlUserDefinedFunctionGetResultsSTATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus runs a test to see if a specific instance of SqlUserDefinedFunctionGetResults_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus(subject SqlUserDefinedFunctionGetResults_Status) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsSTATUS runs a test to see if a specific instance of SqlUserDefinedFunctionGetResults_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsSTATUS(subject SqlUserDefinedFunctionGetResults_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -349,7 +349,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus(subject S
 	}
 
 	// Deserialize back into memory
-	var actual SqlUserDefinedFunctionGetResults_Status
+	var actual SqlUserDefinedFunctionGetResults_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -367,34 +367,34 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus(subject S
 	return ""
 }
 
-// Generator of SqlUserDefinedFunctionGetResults_Status instances for property testing - lazily instantiated by
-// SqlUserDefinedFunctionGetResultsStatusGenerator()
-var sqlUserDefinedFunctionGetResultsStatusGenerator gopter.Gen
+// Generator of SqlUserDefinedFunctionGetResults_STATUS instances for property testing - lazily instantiated by
+// SqlUserDefinedFunctionGetResultsSTATUSGenerator()
+var sqlUserDefinedFunctionGetResultsSTATUSGenerator gopter.Gen
 
-// SqlUserDefinedFunctionGetResultsStatusGenerator returns a generator of SqlUserDefinedFunctionGetResults_Status instances for property testing.
-// We first initialize sqlUserDefinedFunctionGetResultsStatusGenerator with a simplified generator based on the
+// SqlUserDefinedFunctionGetResultsSTATUSGenerator returns a generator of SqlUserDefinedFunctionGetResults_STATUS instances for property testing.
+// We first initialize sqlUserDefinedFunctionGetResultsSTATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlUserDefinedFunctionGetResultsStatusGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionGetResultsStatusGenerator != nil {
-		return sqlUserDefinedFunctionGetResultsStatusGenerator
+func SqlUserDefinedFunctionGetResultsSTATUSGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionGetResultsSTATUSGenerator != nil {
+		return sqlUserDefinedFunctionGetResultsSTATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(generators)
-	sqlUserDefinedFunctionGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS(generators)
+	sqlUserDefinedFunctionGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetResults_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(generators)
-	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(generators)
-	sqlUserDefinedFunctionGetResultsStatusGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetResults_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS(generators)
+	AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS(generators)
+	sqlUserDefinedFunctionGetResultsSTATUSGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetResults_STATUS{}), generators)
 
-	return sqlUserDefinedFunctionGetResultsStatusGenerator
+	return sqlUserDefinedFunctionGetResultsSTATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -402,37 +402,37 @@ func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(g
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator())
+// AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsSTATUS(gens map[string]gopter.Gen) {
+	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator())
 }
 
-func Test_SqlUserDefinedFunctionGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_SqlUserDefinedFunctionGetProperties_STATUS_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SqlUserDefinedFunctionGetProperties_Status_Resource to SqlUserDefinedFunctionGetProperties_Status_Resource via AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource & AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResource, SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator()))
+		"Round trip from SqlUserDefinedFunctionGetProperties_STATUS_Resource to SqlUserDefinedFunctionGetProperties_STATUS_Resource via AssignPropertiesToSqlUserDefinedFunctionGetPropertiesSTATUSResource & AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesSTATUSResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource, SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResource tests if a specific instance of SqlUserDefinedFunctionGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResource(subject SqlUserDefinedFunctionGetProperties_Status_Resource) string {
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource tests if a specific instance of SqlUserDefinedFunctionGetProperties_STATUS_Resource can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource(subject SqlUserDefinedFunctionGetProperties_STATUS_Resource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210515s.SqlUserDefinedFunctionGetProperties_Status_Resource
-	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&other)
+	var other alpha20210515s.SqlUserDefinedFunctionGetProperties_STATUS_Resource
+	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesSTATUSResource(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SqlUserDefinedFunctionGetProperties_Status_Resource
-	err = actual.AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource(&other)
+	var actual SqlUserDefinedFunctionGetProperties_STATUS_Resource
+	err = actual.AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesSTATUSResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -449,20 +449,20 @@ func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResour
 	return ""
 }
 
-func Test_SqlUserDefinedFunctionGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SqlUserDefinedFunctionGetProperties_STATUS_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlUserDefinedFunctionGetProperties_Status_Resource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResource, SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator()))
+		"Round trip of SqlUserDefinedFunctionGetProperties_STATUS_Resource via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource, SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResource runs a test to see if a specific instance of SqlUserDefinedFunctionGetProperties_Status_Resource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResource(subject SqlUserDefinedFunctionGetProperties_Status_Resource) string {
+// RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource runs a test to see if a specific instance of SqlUserDefinedFunctionGetProperties_STATUS_Resource round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesSTATUSResource(subject SqlUserDefinedFunctionGetProperties_STATUS_Resource) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -470,7 +470,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResourc
 	}
 
 	// Deserialize back into memory
-	var actual SqlUserDefinedFunctionGetProperties_Status_Resource
+	var actual SqlUserDefinedFunctionGetProperties_STATUS_Resource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -488,25 +488,25 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResourc
 	return ""
 }
 
-// Generator of SqlUserDefinedFunctionGetProperties_Status_Resource instances for property testing - lazily instantiated
-// by SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator()
-var sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator gopter.Gen
+// Generator of SqlUserDefinedFunctionGetProperties_STATUS_Resource instances for property testing - lazily instantiated
+// by SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator()
+var sqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator gopter.Gen
 
-// SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator returns a generator of SqlUserDefinedFunctionGetProperties_Status_Resource instances for property testing.
-func SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator() gopter.Gen {
-	if sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator != nil {
-		return sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator
+// SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator returns a generator of SqlUserDefinedFunctionGetProperties_STATUS_Resource instances for property testing.
+func SqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator() gopter.Gen {
+	if sqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator != nil {
+		return sqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesStatusResource(generators)
-	sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetProperties_Status_Resource{}), generators)
+	AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesSTATUSResource(generators)
+	sqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator = gen.Struct(reflect.TypeOf(SqlUserDefinedFunctionGetProperties_STATUS_Resource{}), generators)
 
-	return sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator
+	return sqlUserDefinedFunctionGetPropertiesSTATUSResourceGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesStatusResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesStatusResource(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesSTATUSResource is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesSTATUSResource(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())

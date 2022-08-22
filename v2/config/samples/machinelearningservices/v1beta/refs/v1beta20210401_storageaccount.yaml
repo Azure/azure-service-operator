@@ -1,7 +1,7 @@
 apiVersion: storage.azure.com/v1beta20210401
 kind: StorageAccount
 metadata:
-  name: samplekubestorage
+  name: asomlworkspacestorage
   namespace: default
 spec:
   location: westcentralus

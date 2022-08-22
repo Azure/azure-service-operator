@@ -23,11 +23,11 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 
 	// The test refers to the quick-start-template from https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.containerinstance/aci-linuxcontainer-public-ip
 	name := tc.NoSpaceNamer.GenerateName("containergroup")
-	protocol := containerinstance.ContainerPortProtocolTCP
-	osType := containerinstance.ContainerGroupsSpecPropertiesOsTypeLinux
-	restartPolicy := containerinstance.ContainerGroupsSpecPropertiesRestartPolicyAlways
-	ipAddressType := containerinstance.IpAddressTypePublic
-	portProtocol := containerinstance.PortProtocolTCP
+	protocol := containerinstance.ContainerPortProtocol_TCP
+	osType := containerinstance.ContainerGroupsSpecPropertiesOsType_Linux
+	restartPolicy := containerinstance.ContainerGroupsSpecPropertiesRestartPolicy_Always
+	ipAddressType := containerinstance.IpAddressType_Public
+	portProtocol := containerinstance.PortProtocol_TCP
 
 	// Create a ContainerGroup
 	cg := containerinstance.ContainerGroup{
@@ -74,7 +74,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(&cg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(containerinstance.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(containerinstance.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

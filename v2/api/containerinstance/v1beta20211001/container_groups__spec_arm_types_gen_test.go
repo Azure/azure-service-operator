@@ -20,7 +20,7 @@ import (
 func Test_ContainerGroups_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -155,16 +155,16 @@ func ContainerGroupIdentityARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForContainerGroupIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerGroupIdentityARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ContainerGroupIdentityTypeNone,
-		ContainerGroupIdentityTypeSystemAssigned,
-		ContainerGroupIdentityTypeSystemAssignedUserAssigned,
-		ContainerGroupIdentityTypeUserAssigned))
+		ContainerGroupIdentityType_None,
+		ContainerGroupIdentityType_SystemAssigned,
+		ContainerGroupIdentityType_SystemAssignedUserAssigned,
+		ContainerGroupIdentityType_UserAssigned))
 }
 
 func Test_ContainerGroups_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -228,9 +228,9 @@ func ContainerGroupsSpecPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerGroupsSpecPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerGroupsSpecPropertiesARM(gens map[string]gopter.Gen) {
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesOsTypeLinux, ContainerGroupsSpecPropertiesOsTypeWindows))
-	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesRestartPolicyAlways, ContainerGroupsSpecPropertiesRestartPolicyNever, ContainerGroupsSpecPropertiesRestartPolicyOnFailure))
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesSkuDedicated, ContainerGroupsSpecPropertiesSkuStandard))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesOsType_Linux, ContainerGroupsSpecPropertiesOsType_Windows))
+	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesRestartPolicy_Always, ContainerGroupsSpecPropertiesRestartPolicy_Never, ContainerGroupsSpecPropertiesRestartPolicy_OnFailure))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupsSpecPropertiesSku_Dedicated, ContainerGroupsSpecPropertiesSku_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForContainerGroupsSpecPropertiesARM is a factory method for creating gopter generators
@@ -307,72 +307,10 @@ func AddRelatedPropertyGeneratorsForContainerGroupDiagnosticsARM(gens map[string
 	gens["LogAnalytics"] = gen.PtrOf(LogAnalyticsARMGenerator())
 }
 
-func Test_ContainerGroupSubnetIdARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroupSubnetIdARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroupSubnetIdARM, ContainerGroupSubnetIdARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroupSubnetIdARM runs a test to see if a specific instance of ContainerGroupSubnetIdARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroupSubnetIdARM(subject ContainerGroupSubnetIdARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroupSubnetIdARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroupSubnetIdARM instances for property testing - lazily instantiated by
-// ContainerGroupSubnetIdARMGenerator()
-var containerGroupSubnetIdARMGenerator gopter.Gen
-
-// ContainerGroupSubnetIdARMGenerator returns a generator of ContainerGroupSubnetIdARM instances for property testing.
-func ContainerGroupSubnetIdARMGenerator() gopter.Gen {
-	if containerGroupSubnetIdARMGenerator != nil {
-		return containerGroupSubnetIdARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM(generators)
-	containerGroupSubnetIdARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupSubnetIdARM{}), generators)
-
-	return containerGroupSubnetIdARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_ContainerGroups_Spec_Properties_ContainersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -447,7 +385,7 @@ func AddRelatedPropertyGeneratorsForContainerGroupsSpecPropertiesContainersARM(g
 func Test_ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -512,7 +450,7 @@ func AddIndependentPropertyGeneratorsForContainerGroupsSpecPropertiesImageRegist
 func Test_ContainerGroups_Spec_Properties_InitContainersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -582,6 +520,68 @@ func AddIndependentPropertyGeneratorsForContainerGroupsSpecPropertiesInitContain
 // AddRelatedPropertyGeneratorsForContainerGroupsSpecPropertiesInitContainersARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerGroupsSpecPropertiesInitContainersARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(InitContainerPropertiesDefinitionARMGenerator())
+}
+
+func Test_ContainerGroupSubnetIdARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ContainerGroupSubnetIdARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupSubnetIdARM, ContainerGroupSubnetIdARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForContainerGroupSubnetIdARM runs a test to see if a specific instance of ContainerGroupSubnetIdARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupSubnetIdARM(subject ContainerGroupSubnetIdARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ContainerGroupSubnetIdARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ContainerGroupSubnetIdARM instances for property testing - lazily instantiated by
+// ContainerGroupSubnetIdARMGenerator()
+var containerGroupSubnetIdARMGenerator gopter.Gen
+
+// ContainerGroupSubnetIdARMGenerator returns a generator of ContainerGroupSubnetIdARM instances for property testing.
+func ContainerGroupSubnetIdARMGenerator() gopter.Gen {
+	if containerGroupSubnetIdARMGenerator != nil {
+		return containerGroupSubnetIdARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM(generators)
+	containerGroupSubnetIdARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupSubnetIdARM{}), generators)
+
+	return containerGroupSubnetIdARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerGroupSubnetIdARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DnsConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -778,13 +778,13 @@ func IpAddressARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIpAddressARM(gens map[string]gopter.Gen) {
 	gens["DnsNameLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["DnsNameLabelReusePolicy"] = gen.PtrOf(gen.OneConstOf(
-		IpAddressDnsNameLabelReusePolicyNoreuse,
-		IpAddressDnsNameLabelReusePolicyResourceGroupReuse,
-		IpAddressDnsNameLabelReusePolicySubscriptionReuse,
-		IpAddressDnsNameLabelReusePolicyTenantReuse,
-		IpAddressDnsNameLabelReusePolicyUnsecure))
+		IpAddressDnsNameLabelReusePolicy_Noreuse,
+		IpAddressDnsNameLabelReusePolicy_ResourceGroupReuse,
+		IpAddressDnsNameLabelReusePolicy_SubscriptionReuse,
+		IpAddressDnsNameLabelReusePolicy_TenantReuse,
+		IpAddressDnsNameLabelReusePolicy_Unsecure))
 	gens["Ip"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddressTypePrivate, IpAddressTypePublic))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IpAddressType_Private, IpAddressType_Public))
 }
 
 // AddRelatedPropertyGeneratorsForIpAddressARM is a factory method for creating gopter generators
@@ -1208,7 +1208,7 @@ func LogAnalyticsARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLogAnalyticsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalyticsARM(gens map[string]gopter.Gen) {
-	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalyticsLogTypeContainerInsights, LogAnalyticsLogTypeContainerInstanceLogs))
+	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalyticsLogType_ContainerInsights, LogAnalyticsLogType_ContainerInstanceLogs))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
@@ -1273,7 +1273,7 @@ func PortARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPortARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPortARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortProtocolTCP, PortProtocolUDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortProtocol_TCP, PortProtocol_UDP))
 }
 
 func Test_ContainerPortARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1334,7 +1334,7 @@ func ContainerPortARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForContainerPortARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPortARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPortProtocolTCP, ContainerPortProtocolUDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ContainerPortProtocol_TCP, ContainerPortProtocol_UDP))
 }
 
 func Test_ContainerProbeARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1732,7 +1732,7 @@ func ContainerHttpGetARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerHttpGetARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGetSchemeHttp, ContainerHttpGetSchemeHttps))
+	gens["Scheme"] = gen.PtrOf(gen.OneConstOf(ContainerHttpGetScheme_Http, ContainerHttpGetScheme_Https))
 }
 
 // AddRelatedPropertyGeneratorsForContainerHttpGetARM is a factory method for creating gopter generators
@@ -1949,7 +1949,7 @@ func GpuResourceARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGpuResourceARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGpuResourceARM(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResourceSkuK80, GpuResourceSkuP100, GpuResourceSkuV100))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(GpuResourceSku_K80, GpuResourceSku_P100, GpuResourceSku_V100))
 }
 
 func Test_HttpHeaderARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -4,13 +4,13 @@ metadata:
   name: sample-mongodb-account
   namespace: default
 spec:
-  location: westcentralus
+  location: eastus
   owner:
     name: aso-sample-rg
   kind: MongoDB
   databaseAccountOfferType: Standard
   locations:
-    - locationName: westcentralus
+    - locationName: eastus
   # Optional: Save the connection details for this DatabaseAccount into a Kubernetes secret
   operatorSpec:
     secrets:

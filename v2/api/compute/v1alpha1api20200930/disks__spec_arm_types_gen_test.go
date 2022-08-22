@@ -20,7 +20,7 @@ import (
 func Test_Disks_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -169,10 +169,10 @@ func AddIndependentPropertyGeneratorsForDiskPropertiesARM(gens map[string]gopter
 	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesHyperVGenerationV1, DiskPropertiesHyperVGenerationV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesHyperVGeneration_V1, DiskPropertiesHyperVGeneration_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesNetworkAccessPolicyAllowAll, DiskPropertiesNetworkAccessPolicyAllowPrivate, DiskPropertiesNetworkAccessPolicyDenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesOsTypeLinux, DiskPropertiesOsTypeWindows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesNetworkAccessPolicy_AllowAll, DiskPropertiesNetworkAccessPolicy_AllowPrivate, DiskPropertiesNetworkAccessPolicy_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesOsType_Linux, DiskPropertiesOsType_Windows))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -242,10 +242,10 @@ func DiskSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSkuARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DiskSkuNamePremiumLRS,
-		DiskSkuNameStandardLRS,
-		DiskSkuNameStandardSSDLRS,
-		DiskSkuNameUltraSSDLRS))
+		DiskSkuName_PremiumLRS,
+		DiskSkuName_StandardLRS,
+		DiskSkuName_StandardSSDLRS,
+		DiskSkuName_UltraSSDLRS))
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -307,7 +307,7 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_CreationDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -377,13 +377,13 @@ func CreationDataARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationDataARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataARM(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-		CreationDataCreateOptionAttach,
-		CreationDataCreateOptionCopy,
-		CreationDataCreateOptionEmpty,
-		CreationDataCreateOptionFromImage,
-		CreationDataCreateOptionImport,
-		CreationDataCreateOptionRestore,
-		CreationDataCreateOptionUpload))
+		CreationDataCreateOption_Attach,
+		CreationDataCreateOption_Copy,
+		CreationDataCreateOption_Empty,
+		CreationDataCreateOption_FromImage,
+		CreationDataCreateOption_Import,
+		CreationDataCreateOption_Restore,
+		CreationDataCreateOption_Upload))
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
@@ -455,7 +455,7 @@ func EncryptionARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionTypeEncryptionAtRestWithCustomerKey, EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys, EncryptionTypeEncryptionAtRestWithPlatformKey))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_EncryptionAtRestWithCustomerKey, EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_EncryptionAtRestWithPlatformKey))
 }
 
 func Test_EncryptionSettingsCollectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -20,7 +20,7 @@ import (
 func Test_DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
+	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
@@ -217,10 +217,10 @@ func AddIndependentPropertyGeneratorsForSqlTriggerResourceARM(gens map[string]go
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResourceTriggerOperationAll,
-		SqlTriggerResourceTriggerOperationCreate,
-		SqlTriggerResourceTriggerOperationDelete,
-		SqlTriggerResourceTriggerOperationReplace,
-		SqlTriggerResourceTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerTypePost, SqlTriggerResourceTriggerTypePre))
+		SqlTriggerResourceTriggerOperation_All,
+		SqlTriggerResourceTriggerOperation_Create,
+		SqlTriggerResourceTriggerOperation_Delete,
+		SqlTriggerResourceTriggerOperation_Replace,
+		SqlTriggerResourceTriggerOperation_Update))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerType_Post, SqlTriggerResourceTriggerType_Pre))
 }

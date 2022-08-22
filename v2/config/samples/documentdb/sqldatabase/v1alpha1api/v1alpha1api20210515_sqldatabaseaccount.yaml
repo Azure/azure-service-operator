@@ -6,10 +6,10 @@ metadata:
   name: sample-sqldb-account
   namespace: default
 spec:
-  location: westcentralus
+  location: eastus
   owner:
     name: aso-sample-rg
   kind: GlobalDocumentDB
   databaseAccountOfferType: Standard
   locations:
-    - locationName: westcentralus
+    - locationName: eastus

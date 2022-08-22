@@ -27,7 +27,7 @@ type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Topics_Spec  `json:"spec,omitempty"`
-	Status            Topic_Status `json:"status,omitempty"`
+	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Topic{}
@@ -51,7 +51,7 @@ func (topic *Topic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic Topic) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
@@ -76,7 +76,7 @@ func (topic *Topic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Topic_Status{}
+	return &Topic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +92,13 @@ func (topic *Topic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Topic_Status); ok {
+	if st, ok := status.(*Topic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Topic_Status
+	var st Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,30 +129,30 @@ type TopicList struct {
 	Items           []Topic `json:"items"`
 }
 
-// Storage version of v1beta20200601.Topic_Status
-type Topic_Status struct {
+// Storage version of v1beta20200601.Topic_STATUS
+type Topic_STATUS struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
 	Id                         *string                                                      `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_Status                                       `json:"inboundIpRules,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                       `json:"inboundIpRules,omitempty"`
 	InputSchema                *string                                                      `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_Status                                   `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                   `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                      `json:"location,omitempty"`
 	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
 	Name                       *string                                                      `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                      `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                      `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_Status                                           `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                           `json:"systemData,omitempty"`
 	Tags                       map[string]string                                            `json:"tags,omitempty"`
 	Type                       *string                                                      `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Topic_Status{}
+var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
 
-// ConvertStatusFrom populates our Topic_Status from the provided source
-func (topic *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Topic_STATUS from the provided source
+func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -160,8 +160,8 @@ func (topic *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our Topic_Status
-func (topic *Topic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Topic_STATUS
+func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +206,8 @@ func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return destination.ConvertSpecFrom(topics)
 }
 
-// Storage version of v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
-type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
+// Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

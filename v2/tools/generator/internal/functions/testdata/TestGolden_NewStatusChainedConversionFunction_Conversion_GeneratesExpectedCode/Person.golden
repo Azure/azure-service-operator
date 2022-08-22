@@ -9,27 +9,27 @@
 +	"github.com/pkg/errors"
 +)
 +
- type Person_Status struct {
+ type Person_STATUS struct {
  	Status string `json:"status,omitempty"`
  }
  
-+// ConvertStatusFrom populates our Person_Status from the provided source
-+func (person *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-+	src, ok := source.(*v20211231.Person_Status)
++// ConvertStatusFrom populates our Person_STATUS from the provided source
++func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
++	src, ok := source.(*v20211231.Person_STATUS)
 +	if ok {
 +		// Populate our instance from source
-+		return person.AssignPropertiesFromPersonStatus(src)
++		return person.AssignPropertiesFromPersonSTATUS(src)
 +	}
 +
 +	// Convert to an intermediate form
-+	src = &v20211231.Person_Status{}
++	src = &v20211231.Person_STATUS{}
 +	err := src.ConvertStatusFrom(source)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 +	}
 +
 +	// Update our instance from src
-+	err = person.AssignPropertiesFromPersonStatus(src)
++	err = person.AssignPropertiesFromPersonSTATUS(src)
 +	if err != nil {
 +		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 +	}
@@ -37,17 +37,17 @@
 +	return nil
 +}
 +
-+// ConvertStatusTo populates the provided destination from our Person_Status
-+func (person *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-+	dst, ok := destination.(*v20211231.Person_Status)
++// ConvertStatusTo populates the provided destination from our Person_STATUS
++func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
++	dst, ok := destination.(*v20211231.Person_STATUS)
 +	if ok {
 +		// Populate destination from our instance
-+		return person.AssignPropertiesToPersonStatus(dst)
++		return person.AssignPropertiesToPersonSTATUS(dst)
 +	}
 +
 +	// Convert to an intermediate form
-+	dst = &v20211231.Person_Status{}
-+	err := person.AssignPropertiesToPersonStatus(dst)
++	dst = &v20211231.Person_STATUS{}
++	err := person.AssignPropertiesToPersonSTATUS(dst)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 +	}

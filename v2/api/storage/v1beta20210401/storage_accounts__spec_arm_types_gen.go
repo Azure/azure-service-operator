@@ -40,7 +40,7 @@ var _ genruntime.ARMResourceSpec = &StorageAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (accounts StorageAccounts_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -136,11 +136,11 @@ type StorageAccountPropertiesCreateParametersARM struct {
 type StorageAccountsSpecKind string
 
 const (
-	StorageAccountsSpecKindBlobStorage      = StorageAccountsSpecKind("BlobStorage")
-	StorageAccountsSpecKindBlockBlobStorage = StorageAccountsSpecKind("BlockBlobStorage")
-	StorageAccountsSpecKindFileStorage      = StorageAccountsSpecKind("FileStorage")
-	StorageAccountsSpecKindStorage          = StorageAccountsSpecKind("Storage")
-	StorageAccountsSpecKindStorageV2        = StorageAccountsSpecKind("StorageV2")
+	StorageAccountsSpecKind_BlobStorage      = StorageAccountsSpecKind("BlobStorage")
+	StorageAccountsSpecKind_BlockBlobStorage = StorageAccountsSpecKind("BlockBlobStorage")
+	StorageAccountsSpecKind_FileStorage      = StorageAccountsSpecKind("FileStorage")
+	StorageAccountsSpecKind_Storage          = StorageAccountsSpecKind("Storage")
+	StorageAccountsSpecKind_StorageV2        = StorageAccountsSpecKind("StorageV2")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
@@ -188,16 +188,16 @@ type EncryptionARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type IdentityType string
 
 const (
-	IdentityTypeNone                       = IdentityType("None")
-	IdentityTypeSystemAssigned             = IdentityType("SystemAssigned")
-	IdentityTypeSystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
-	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
+	IdentityType_None                       = IdentityType("None")
+	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
+	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
+	IdentityType_UserAssigned               = IdentityType("UserAssigned")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy
@@ -250,22 +250,22 @@ type SasPolicyARM struct {
 type SkuName string
 
 const (
-	SkuNamePremiumLRS     = SkuName("Premium_LRS")
-	SkuNamePremiumZRS     = SkuName("Premium_ZRS")
-	SkuNameStandardGRS    = SkuName("Standard_GRS")
-	SkuNameStandardGZRS   = SkuName("Standard_GZRS")
-	SkuNameStandardLRS    = SkuName("Standard_LRS")
-	SkuNameStandardRAGRS  = SkuName("Standard_RAGRS")
-	SkuNameStandardRAGZRS = SkuName("Standard_RAGZRS")
-	SkuNameStandardZRS    = SkuName("Standard_ZRS")
+	SkuName_PremiumLRS     = SkuName("Premium_LRS")
+	SkuName_PremiumZRS     = SkuName("Premium_ZRS")
+	SkuName_StandardGRS    = SkuName("Standard_GRS")
+	SkuName_StandardGZRS   = SkuName("Standard_GZRS")
+	SkuName_StandardLRS    = SkuName("Standard_LRS")
+	SkuName_StandardRAGRS  = SkuName("Standard_RAGRS")
+	SkuName_StandardRAGZRS = SkuName("Standard_RAGZRS")
+	SkuName_StandardZRS    = SkuName("Standard_ZRS")
 )
 
 // +kubebuilder:validation:Enum={"Premium","Standard"}
 type SkuTier string
 
 const (
-	SkuTierPremium  = SkuTier("Premium")
-	SkuTierStandard = SkuTier("Standard")
+	SkuTier_Premium  = SkuTier("Premium")
+	SkuTier_Standard = SkuTier("Standard")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties

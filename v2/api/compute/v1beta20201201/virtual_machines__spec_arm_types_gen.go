@@ -38,7 +38,7 @@ var _ genruntime.ARMResourceSpec = &VirtualMachines_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machines VirtualMachines_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -214,10 +214,10 @@ type StorageProfileARM struct {
 type VirtualMachineIdentityType string
 
 const (
-	VirtualMachineIdentityTypeNone                       = VirtualMachineIdentityType("None")
-	VirtualMachineIdentityTypeSystemAssigned             = VirtualMachineIdentityType("SystemAssigned")
-	VirtualMachineIdentityTypeSystemAssignedUserAssigned = VirtualMachineIdentityType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentityTypeUserAssigned               = VirtualMachineIdentityType("UserAssigned")
+	VirtualMachineIdentityType_None                       = VirtualMachineIdentityType("None")
+	VirtualMachineIdentityType_SystemAssigned             = VirtualMachineIdentityType("SystemAssigned")
+	VirtualMachineIdentityType_SystemAssignedUserAssigned = VirtualMachineIdentityType("SystemAssigned, UserAssigned")
+	VirtualMachineIdentityType_UserAssigned               = VirtualMachineIdentityType("UserAssigned")
 )
 
 type VirtualMachines_Spec_Properties_NetworkProfileARM struct {
