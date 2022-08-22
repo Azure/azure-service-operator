@@ -263,11 +263,7 @@ func (in *ImageDataDisk_STATUS) DeepCopyInto(out *ImageDataDisk_STATUS) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(ImageDataDisk_Caching_STATUS)
-=======
-		*out = new(ImageDataDiskSTATUSCaching)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -322,11 +318,7 @@ func (in *ImageDataDisk_STATUSARM) DeepCopyInto(out *ImageDataDisk_STATUSARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(ImageDataDisk_Caching_STATUS)
-=======
-		*out = new(ImageDataDiskSTATUSCaching)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -533,11 +525,7 @@ func (in *ImageOSDisk_STATUS) DeepCopyInto(out *ImageOSDisk_STATUS) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_Caching_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSCaching)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -557,20 +545,12 @@ func (in *ImageOSDisk_STATUS) DeepCopyInto(out *ImageOSDisk_STATUS) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_OsState_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSOsState)
->>>>>>> main
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_OsType_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSOsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.Snapshot != nil {
@@ -605,11 +585,7 @@ func (in *ImageOSDisk_STATUSARM) DeepCopyInto(out *ImageOSDisk_STATUSARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_Caching_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSCaching)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -629,20 +605,12 @@ func (in *ImageOSDisk_STATUSARM) DeepCopyInto(out *ImageOSDisk_STATUSARM) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_OsState_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSOsState)
->>>>>>> main
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(ImageOSDisk_OsType_STATUS)
-=======
-		*out = new(ImageOSDiskSTATUSOsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.Snapshot != nil {
