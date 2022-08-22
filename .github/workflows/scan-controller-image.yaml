@@ -16,7 +16,7 @@ on:
       - ./v2/go.mod
 
 jobs:
-  deploy-site:
+  scan-image:
     runs-on: ubuntu-latest
     permissions:
       packages: read
