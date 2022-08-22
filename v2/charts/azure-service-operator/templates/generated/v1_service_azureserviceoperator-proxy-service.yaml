@@ -1,0 +1,16 @@
+{{- if or (eq .Values.multiTenant.enable false) (eq .Values.multiTenant.isCluster true) }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: azureserviceoperator-proxy-service
+  namespace: {{.Release.Namespace}}
+spec:
+  ports:
+  - name: https
+    port: 8443
+    targetPort: https
+  selector:
+    control-plane: controller-manager
+{{- end }}
