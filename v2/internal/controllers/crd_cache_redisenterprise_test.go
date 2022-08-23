@@ -21,7 +21,7 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 	tls12 := cache.ClusterProperties_MinimumTlsVersion_12
-	sku := cache.Sku_Name_Enterprise_E100
+	sku := cache.Sku_Name_Enterprise_E10
 	redis := cache.RedisEnterprise{
 		ObjectMeta: tc.MakeObjectMeta("redisent"),
 		Spec: cache.RedisEnterprise_Spec{

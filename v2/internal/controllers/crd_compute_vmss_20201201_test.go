@@ -134,9 +134,8 @@ func newVMSS20201201(
 	return &compute2020.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
 		Spec: compute2020.VirtualMachineScaleSets_Spec{
-			// TODO: Where has this gone? (donotmerge) (bearps)
-			//Location: tc.AzureRegion,
-			Owner: testcommon.AsOwner(rg),
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2020.Sku{
 				Name:     to.StringPtr("STANDARD_D1_v2"),
 				Capacity: to.IntPtr(1),
