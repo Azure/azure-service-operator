@@ -22,6 +22,11 @@ azureClientSecret: ""
 # https://pkg.go.dev/time#ParseDuration for more details.
 azureSyncPeriod: ""
 
+# useWorkloadIdentityAuth can be set to use workload identity authentication
+# See https://azure.github.io/azure-workload-identity/docs/introduction.html for more details about Azure Workload Identity.
+# See https://azure.github.io/azure-service-operator/introduction/authentication/ for details on setting up Workload Identity with ASO
+useWorkloadIdentityAuth: false
+
 # azureAuthorityHost is the URL of the AAD authority. If not specified, the default
 # is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
 # https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
