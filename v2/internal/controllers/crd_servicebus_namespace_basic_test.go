@@ -63,7 +63,8 @@ func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.Namespaces_Queues_Spec{
-			Owner: testcommon.AsOwner(sbNamespace),
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
