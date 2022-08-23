@@ -66,7 +66,8 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.Namespaces_Topics_Spec{
-			Owner: testcommon.AsOwner(sbNamespace),
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(sbNamespace),
 		},
 	}
 
