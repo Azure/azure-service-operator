@@ -23,30 +23,32 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	// Create a MariaDB Server
 	serverName := tc.NoSpaceNamer.GenerateName("msvr")
-	//createMode := mariadb.ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode_Default
-	//networkAccess := mariadb.PublicNetworkAccess_Enabled
-	//autogrow := mariadb.StorageProfile_StorageAutogrow_Enabled
+	createMode := mariadb.ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode_Default
+	networkAccess := mariadb.ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_PublicNetworkAccess_Enabled
+	autogrow := mariadb.StorageProfile_StorageAutogrow_Enabled
 	tier := mariadb.Sku_Tier_GeneralPurpose
 	location := "eastus" // Can't create MariaDB servers in WestUS2
 	fqdnSecret := "fqdnsecret"
-	// adminUser := "testadmin"
-	// adminPasswordRef := createPasswordSecret("admin", "password", tc)
+	adminUser := "testadmin"
+	adminPasswordRef := createPasswordSecret("admin", "password", tc)
 
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
 		Spec: mariadb.Servers_Spec{
-			AzureName:  serverName,
-			Location:   &location, // Can't do it in WestUS2
-			Owner:      testcommon.AsOwner(rg),
+			AzureName: serverName,
+			Location:  &location, // Can't do it in WestUS2
+			Owner:     testcommon.AsOwner(rg),
 			Properties: &mariadb.ServerPropertiesForCreate{
-				// AdministratorLogin:         to.StringPtr(adminUser), // TODO: pending (evildiscriminator)
-				// AdministratorLoginPassword: adminPasswordRef, // TODO: pending (evildiscriminator)
-				//CreateMode:          &createMode,
-				//PublicNetworkAccess: &networkAccess,
-				//StorageProfile: &mariadb.StorageProfile{
-				//	StorageAutogrow: &autogrow,
-				//	StorageMB:       to.IntPtr(5120),
-				//},
+				ServerPropertiesForDefaultCreate: &mariadb.ServerPropertiesForDefaultCreate{
+					AdministratorLogin:         to.StringPtr(adminUser),
+					AdministratorLoginPassword: adminPasswordRef,
+					CreateMode:                 &createMode,
+					PublicNetworkAccess:        &networkAccess,
+					StorageProfile: &mariadb.StorageProfile{
+						StorageAutogrow: &autogrow,
+						StorageMB:       to.IntPtr(5120),
+					},
+				},
 			},
 			Sku: &mariadb.Sku{
 				Name: to.StringPtr("GP_Gen5_2"),
@@ -76,6 +78,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 		Spec: mariadb.Servers_Configurations_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
+			Location:  &location,
 			Value:     to.StringPtr("102400"),
 		},
 	}
@@ -88,6 +91,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
 		Spec: mariadb.Servers_Databases_Spec{
 			AzureName: *to.StringPtr("adventureworks"),
+			Location:  &location,
 			Owner:     testcommon.AsOwner(&server),
 		},
 	}
