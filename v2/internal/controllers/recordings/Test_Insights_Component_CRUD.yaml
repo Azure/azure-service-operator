@@ -20,8 +20,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -30,10 +28,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -80,7 +80,20 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/components/asotest-component-gnjpja?api-version=2020-02-02
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja","name":"asotest-component-gnjpja","type":"microsoft.insights/components","location":"westus2","tags":{},"kind":"web","etag":"\"00005d0f-0000-0600-0000-621eb2880000\"","properties":{"Ver":"v2","ApplicationId":"asotest-component-gnjpja","AppId":"45250efb-f572-4fec-9ee5-d36081f72bde","Application_Type":"other","Flow_Type":null,"Request_Source":null,"InstrumentationKey":"2d1aff91-3569-411b-b7d2-1f2289b9e50a","ConnectionString":"InstrumentationKey=2d1aff91-3569-411b-b7d2-1f2289b9e50a;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/","Name":"asotest-component-gnjpja","CreationDate":"2022-03-01T23:55:52.1383672+00:00","TenantId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded","SamplingPercentage":null,"RetentionInDays":90,"IngestionMode":"ApplicationInsights","publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\",\r\n
+      \ \"name\": \"asotest-component-gnjpja\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"etag\": \"\\\"0300d1c2-0000-0600-0000-62f6e01b0000\\\"\",\r\n  \"properties\":
+      {\r\n    \"ApplicationId\": \"asotest-component-gnjpja\",\r\n    \"AppId\":
+      \"d720022c-4d7e-41fa-a607-61e51da1d8a2\",\r\n    \"Application_Type\": \"other\",\r\n
+      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
+      \"4553a2f0-64cd-4f61-a278-3e5398f4df45\",\r\n    \"ConnectionString\": \"InstrumentationKey=4553a2f0-64cd-4f61-a278-3e5398f4df45;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotest-component-gnjpja\",\r\n    \"CreationDate\": \"2022-08-12T19:27:22.3301023+00:00\",\r\n
+      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
+      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
+      60,\r\n    \"Retention\": \"P60D\",\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n
+      \   \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\":
+      \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -93,7 +106,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -118,7 +131,20 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/components/asotest-component-gnjpja?api-version=2020-02-02
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja","name":"asotest-component-gnjpja","type":"microsoft.insights/components","location":"westus2","tags":{},"kind":"web","etag":"\"00005d0f-0000-0600-0000-621eb2880000\"","properties":{"Ver":"v2","ApplicationId":"asotest-component-gnjpja","AppId":"45250efb-f572-4fec-9ee5-d36081f72bde","Application_Type":"other","Flow_Type":null,"Request_Source":null,"InstrumentationKey":"2d1aff91-3569-411b-b7d2-1f2289b9e50a","ConnectionString":"InstrumentationKey=2d1aff91-3569-411b-b7d2-1f2289b9e50a;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/","Name":"asotest-component-gnjpja","CreationDate":"2022-03-01T23:55:52.1383672+00:00","TenantId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded","SamplingPercentage":null,"RetentionInDays":90,"IngestionMode":"ApplicationInsights","publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\",\r\n
+      \ \"name\": \"asotest-component-gnjpja\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"etag\": \"\\\"0300d1c2-0000-0600-0000-62f6e01b0000\\\"\",\r\n  \"properties\":
+      {\r\n    \"ApplicationId\": \"asotest-component-gnjpja\",\r\n    \"AppId\":
+      \"d720022c-4d7e-41fa-a607-61e51da1d8a2\",\r\n    \"Application_Type\": \"other\",\r\n
+      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
+      \"4553a2f0-64cd-4f61-a278-3e5398f4df45\",\r\n    \"ConnectionString\": \"InstrumentationKey=4553a2f0-64cd-4f61-a278-3e5398f4df45;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotest-component-gnjpja\",\r\n    \"CreationDate\": \"2022-08-12T19:27:22.3301023+00:00\",\r\n
+      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
+      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
+      60,\r\n    \"Retention\": \"P60D\",\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n
+      \   \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\":
+      \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -131,7 +157,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -160,7 +186,20 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/components/asotest-component-gnjpja?api-version=2020-02-02
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja","name":"asotest-component-gnjpja","type":"microsoft.insights/components","location":"westus2","tags":{},"kind":"web","etag":"\"00008f0f-0000-0600-0000-621eb2900000\"","properties":{"Ver":"v2","ApplicationId":"asotest-component-gnjpja","AppId":"45250efb-f572-4fec-9ee5-d36081f72bde","Application_Type":"other","Flow_Type":null,"Request_Source":null,"InstrumentationKey":"2d1aff91-3569-411b-b7d2-1f2289b9e50a","ConnectionString":"InstrumentationKey=2d1aff91-3569-411b-b7d2-1f2289b9e50a;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/","Name":"asotest-component-gnjpja","CreationDate":"2022-03-01T23:55:52.1383672+00:00","TenantId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded","SamplingPercentage":null,"RetentionInDays":60,"Retention":"P60D","IngestionMode":"ApplicationInsights","publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\",\r\n
+      \ \"name\": \"asotest-component-gnjpja\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"etag\": \"\\\"03000dc3-0000-0600-0000-62f6e0200000\\\"\",\r\n  \"properties\":
+      {\r\n    \"ApplicationId\": \"asotest-component-gnjpja\",\r\n    \"AppId\":
+      \"d720022c-4d7e-41fa-a607-61e51da1d8a2\",\r\n    \"Application_Type\": \"other\",\r\n
+      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
+      \"4553a2f0-64cd-4f61-a278-3e5398f4df45\",\r\n    \"ConnectionString\": \"InstrumentationKey=4553a2f0-64cd-4f61-a278-3e5398f4df45;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotest-component-gnjpja\",\r\n    \"CreationDate\": \"2022-08-12T19:27:22.3301023+00:00\",\r\n
+      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
+      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
+      60,\r\n    \"Retention\": \"P60D\",\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n
+      \   \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\":
+      \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -173,7 +212,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -198,7 +237,20 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/components/asotest-component-gnjpja?api-version=2020-02-02
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja","name":"asotest-component-gnjpja","type":"microsoft.insights/components","location":"westus2","tags":{},"kind":"web","etag":"\"00008f0f-0000-0600-0000-621eb2900000\"","properties":{"Ver":"v2","ApplicationId":"asotest-component-gnjpja","AppId":"45250efb-f572-4fec-9ee5-d36081f72bde","Application_Type":"other","Flow_Type":null,"Request_Source":null,"InstrumentationKey":"2d1aff91-3569-411b-b7d2-1f2289b9e50a","ConnectionString":"InstrumentationKey=2d1aff91-3569-411b-b7d2-1f2289b9e50a;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/","Name":"asotest-component-gnjpja","CreationDate":"2022-03-01T23:55:52.1383672+00:00","TenantId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded","SamplingPercentage":null,"RetentionInDays":60,"Retention":"P60D","IngestionMode":"ApplicationInsights","publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\",\r\n
+      \ \"name\": \"asotest-component-gnjpja\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"etag\": \"\\\"03000dc3-0000-0600-0000-62f6e0200000\\\"\",\r\n  \"properties\":
+      {\r\n    \"ApplicationId\": \"asotest-component-gnjpja\",\r\n    \"AppId\":
+      \"d720022c-4d7e-41fa-a607-61e51da1d8a2\",\r\n    \"Application_Type\": \"other\",\r\n
+      \   \"Flow_Type\": null,\r\n    \"Request_Source\": null,\r\n    \"InstrumentationKey\":
+      \"4553a2f0-64cd-4f61-a278-3e5398f4df45\",\r\n    \"ConnectionString\": \"InstrumentationKey=4553a2f0-64cd-4f61-a278-3e5398f4df45;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotest-component-gnjpja\",\r\n    \"CreationDate\": \"2022-08-12T19:27:22.3301023+00:00\",\r\n
+      \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
+      \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
+      60,\r\n    \"Retention\": \"P60D\",\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n
+      \   \"publicNetworkAccessForIngestion\": \"Enabled\",\r\n    \"publicNetworkAccessForQuery\":
+      \"Enabled\",\r\n    \"Ver\": \"v2\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -211,7 +263,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -240,7 +292,22 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/webtests/asotest-webtest-wckswv?api-version=2018-05-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv","name":"asotest-webtest-wckswv","type":"microsoft.insights/webtests","location":"westus2","tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja":"Resource"},"kind":null,"etag":"\"0000dc0f-0000-0600-0000-621eb29d0000\"","properties":{"SyntheticMonitorId":"asotest-webtest-wckswv","Name":"mywebtest","Description":null,"Enabled":true,"Frequency":300,"Timeout":30,"Kind":"standard","RetryEnabled":null,"Locations":[{"Id":"us-ca-sjc-azr"}],"Configuration":null,"Request":{"RequestUrl":"https://github.com/Azure/azure-service-operator","Headers":null,"HttpVerb":"GET","RequestBody":null,"ParseDependentRequests":null,"FollowRedirects":null},"ValidationRules":{"ExpectedHttpStatusCode":200,"IgnoreHttpStatusCode":null,"ContentValidation":null,"SSLCheck":true,"SSLCertRemainingLifetimeCheck":7},"provisioningState":"Succeeded"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv\",\r\n
+      \ \"name\": \"asotest-webtest-wckswv\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\":
+      \"Resource\"\r\n  },\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"0300bbcf-0000-0600-0000-62f6e1420000\\\"\",\r\n
+      \ \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-wckswv\",\r\n
+      \   \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\":
+      true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n
+      \   \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\":
+      \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\":
+      {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n
+      \     \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\":
+      null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\":
+      null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\":
+      200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\":
+      null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\":
+      7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -253,7 +320,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -278,7 +345,22 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/webtests/asotest-webtest-wckswv?api-version=2018-05-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv","name":"asotest-webtest-wckswv","type":"microsoft.insights/webtests","location":"westus2","tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja":"Resource"},"kind":null,"etag":"\"0000dc0f-0000-0600-0000-621eb29d0000\"","properties":{"SyntheticMonitorId":"asotest-webtest-wckswv","Name":"mywebtest","Description":null,"Enabled":true,"Frequency":300,"Timeout":30,"Kind":"standard","RetryEnabled":null,"Locations":[{"Id":"us-ca-sjc-azr"}],"Configuration":null,"Request":{"RequestUrl":"https://github.com/Azure/azure-service-operator","Headers":null,"HttpVerb":"GET","RequestBody":null,"ParseDependentRequests":null,"FollowRedirects":null},"ValidationRules":{"ExpectedHttpStatusCode":200,"IgnoreHttpStatusCode":null,"ContentValidation":null,"SSLCheck":true,"SSLCertRemainingLifetimeCheck":7},"provisioningState":"Succeeded"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv\",\r\n
+      \ \"name\": \"asotest-webtest-wckswv\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\":
+      \"Resource\"\r\n  },\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"0300bbcf-0000-0600-0000-62f6e1420000\\\"\",\r\n
+      \ \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-wckswv\",\r\n
+      \   \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\":
+      true,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n
+      \   \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\":
+      \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\":
+      {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n
+      \     \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\":
+      null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\":
+      null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\":
+      200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\":
+      null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\":
+      7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -291,7 +373,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -320,7 +402,22 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/webtests/asotest-webtest-wckswv?api-version=2018-05-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv","name":"asotest-webtest-wckswv","type":"microsoft.insights/webtests","location":"westus2","tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja":"Resource"},"kind":null,"etag":"\"0000f40f-0000-0600-0000-621eb29f0000\"","properties":{"SyntheticMonitorId":"asotest-webtest-wckswv","Name":"mywebtest","Description":null,"Enabled":false,"Frequency":300,"Timeout":30,"Kind":"standard","RetryEnabled":null,"Locations":[{"Id":"us-ca-sjc-azr"}],"Configuration":null,"Request":{"RequestUrl":"https://github.com/Azure/azure-service-operator","Headers":null,"HttpVerb":"GET","RequestBody":null,"ParseDependentRequests":null,"FollowRedirects":null},"ValidationRules":{"ExpectedHttpStatusCode":200,"IgnoreHttpStatusCode":null,"ContentValidation":null,"SSLCheck":true,"SSLCertRemainingLifetimeCheck":7},"provisioningState":"Succeeded"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv\",\r\n
+      \ \"name\": \"asotest-webtest-wckswv\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\":
+      \"Resource\"\r\n  },\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"0300decf-0000-0600-0000-62f6e1460000\\\"\",\r\n
+      \ \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-wckswv\",\r\n
+      \   \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\":
+      false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n
+      \   \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\":
+      \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\":
+      {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n
+      \     \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\":
+      null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\":
+      null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\":
+      200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\":
+      null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\":
+      7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -333,7 +430,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -358,7 +455,22 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/webtests/asotest-webtest-wckswv?api-version=2018-05-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv","name":"asotest-webtest-wckswv","type":"microsoft.insights/webtests","location":"westus2","tags":{"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja":"Resource"},"kind":null,"etag":"\"0000f40f-0000-0600-0000-621eb29f0000\"","properties":{"SyntheticMonitorId":"asotest-webtest-wckswv","Name":"mywebtest","Description":null,"Enabled":false,"Frequency":300,"Timeout":30,"Kind":"standard","RetryEnabled":null,"Locations":[{"Id":"us-ca-sjc-azr"}],"Configuration":null,"Request":{"RequestUrl":"https://github.com/Azure/azure-service-operator","Headers":null,"HttpVerb":"GET","RequestBody":null,"ParseDependentRequests":null,"FollowRedirects":null},"ValidationRules":{"ExpectedHttpStatusCode":200,"IgnoreHttpStatusCode":null,"ContentValidation":null,"SSLCheck":true,"SSLCertRemainingLifetimeCheck":7},"provisioningState":"Succeeded"}}'
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/webtests/asotest-webtest-wckswv\",\r\n
+      \ \"name\": \"asotest-webtest-wckswv\",\r\n  \"type\": \"microsoft.insights/webtests\",\r\n
+      \ \"location\": \"westus2\",\r\n  \"tags\": {\r\n    \"hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/microsoft.insights/components/asotest-component-gnjpja\":
+      \"Resource\"\r\n  },\r\n  \"kind\": null,\r\n  \"etag\": \"\\\"0300decf-0000-0600-0000-62f6e1460000\\\"\",\r\n
+      \ \"properties\": {\r\n    \"SyntheticMonitorId\": \"asotest-webtest-wckswv\",\r\n
+      \   \"Name\": \"mywebtest\",\r\n    \"Description\": null,\r\n    \"Enabled\":
+      false,\r\n    \"Frequency\": 300,\r\n    \"Timeout\": 30,\r\n    \"Kind\": \"standard\",\r\n
+      \   \"RetryEnabled\": null,\r\n    \"Locations\": [\r\n      {\r\n        \"Id\":
+      \"us-ca-sjc-azr\"\r\n      }\r\n    ],\r\n    \"Configuration\": null,\r\n    \"Request\":
+      {\r\n      \"RequestUrl\": \"https://github.com/Azure/azure-service-operator\",\r\n
+      \     \"Headers\": null,\r\n      \"HttpVerb\": \"GET\",\r\n      \"RequestBody\":
+      null,\r\n      \"ParseDependentRequests\": null,\r\n      \"FollowRedirects\":
+      null\r\n    },\r\n    \"ValidationRules\": {\r\n      \"ExpectedHttpStatusCode\":
+      200,\r\n      \"IgnoreHttpStatusCode\": null,\r\n      \"ContentValidation\":
+      null,\r\n      \"SSLCheck\": true,\r\n      \"SSLCertRemainingLifetimeCheck\":
+      7\r\n    },\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}"
     headers:
       Access-Control-Expose-Headers:
       - Request-Context
@@ -371,7 +483,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -409,7 +521,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -420,40 +532,6 @@ interactions:
       - ASP.NET
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/webtests/asotest-webtest-wckswv?api-version=2018-05-01-preview
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Insights/webtests/asotest-webtest-wckswv''
-      under resource group ''asotest-rg-ekyqyo'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "239"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
     duration: ""
 - request:
     body: ""
@@ -513,7 +591,7 @@ interactions:
       Pragma:
       - no-cache
       Request-Context:
-      - appId=cid-v1:920e14b1-13f3-461a-a4bb-b4fe6f1a4525
+      - appId=cid-v1:7f83c1fe-8c94-4d55-9337-4ddc696f61ed
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -524,40 +602,6 @@ interactions:
       - ASP.NET
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo/providers/Microsoft.Insights/components/asotest-component-gnjpja?api-version=2020-02-02
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Insights/components/asotest-component-gnjpja''
-      under resource group ''asotest-rg-ekyqyo'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "243"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
     duration: ""
 - request:
     body: ""
@@ -629,22 +673,137 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ekyqyo?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ekyqyo''
-      could not be found."}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFS1lRWU8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -653,8 +812,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""

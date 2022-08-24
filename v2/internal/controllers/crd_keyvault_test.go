@@ -8,11 +8,14 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
 )
+
+// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-keyvault-ngmgjs
 
 func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
