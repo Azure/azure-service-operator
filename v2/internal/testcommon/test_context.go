@@ -315,7 +315,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 				}
 			}
 			// Hide the base request URL in the AzureOperation and Location headers
-			if key == "Azure-Asyncoperation" || key == "Location" {
+			if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
 				for i := range values {
 					values[i] = hideBaseRequestURL(values[i])
 				}
