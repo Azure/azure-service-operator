@@ -112,7 +112,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 	ctx context.Context,
 	resourceID string,
 	apiVersion string,
-	resource interface{}) (*PollerResponse, error) {
+	resource interface{}) (*PollerResponse[GenericResource], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
@@ -120,9 +120,10 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 	if err != nil {
 		return nil, err
 	}
-	result := PollerResponse{
-		RawResponse: resp,
-		ID:          CreatePollerID,
+	result := PollerResponse[GenericResource]{
+		RawResponse:  resp,
+		ID:           CreatePollerID,
+		ErrorHandler: client.handleError,
 	}
 
 	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
@@ -159,7 +160,7 @@ func (client *GenericClient) createOrUpdateByID(
 	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
-		return nil, client.createOrUpdateByIDHandleError(resp)
+		return nil, client.handleError(resp)
 	}
 
 	return resp, nil
@@ -188,8 +189,8 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 	return req, runtime.MarshalAsJSON(req, resource)
 }
 
-// createOrUpdateByIDHandleError handles the CreateOrUpdateByID error response.
-func (client *GenericClient) createOrUpdateByIDHandleError(resp *http.Response) error {
+// handleError handles the CreateOrUpdateByID error response.
+func (client *GenericClient) handleError(resp *http.Response) error {
 	errType := NewCloudError(runtime.NewResponseError(resp))
 	if err := runtime.UnmarshalAsJSON(resp, errType); err != nil {
 		return runtime.NewResponseError(resp)
@@ -244,7 +245,7 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse, error) {
+func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse[GenericDeleteResponse], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
@@ -253,29 +254,17 @@ func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID str
 		return nil, err
 	}
 
-	result := PollerResponse{
-		RawResponse: resp,
-		ID:          DeletePollerID,
+	result := PollerResponse[GenericDeleteResponse]{
+		RawResponse:  resp,
+		ID:           DeletePollerID,
+		ErrorHandler: client.handleError,
 	}
-	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
+	pt, err := azcoreruntime.NewPoller[GenericDeleteResponse](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
 	result.Poller = pt
 	return &result, nil
-}
-
-// TODO: Delete this in favor of the async-aware one above
-// DeleteByID - Deletes a resource by ID.
-// If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) DeleteByID(ctx context.Context, resourceID string, apiVersion string) (time.Duration, error) {
-	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
-	retryAfter := GetRetryAfter(resp)
-	if err != nil {
-		return retryAfter, err
-	}
-
-	return retryAfter, nil
 }
 
 // DeleteByID - Deletes a resource by ID.
@@ -351,4 +340,12 @@ func IsNotFoundError(err error) bool {
 	}
 
 	return false
+}
+
+func (client *GenericClient) ResumeDeletePoller(id string) *PollerResponse[GenericDeleteResponse] {
+	return &PollerResponse[GenericDeleteResponse]{ID: id, ErrorHandler: client.handleError}
+}
+
+func (client *GenericClient) ResumeCreatePoller(id string) *PollerResponse[GenericResource] {
+	return &PollerResponse[GenericResource]{ID: id, ErrorHandler: client.handleError}
 }

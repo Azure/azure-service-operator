@@ -20,3 +20,7 @@ type GenericResource struct {
 	// READ-ONLY; Resource type
 	Type *string `json:"type,omitempty"`
 }
+
+type GenericDeleteResponse struct {
+	// Empty, for extension later
+}

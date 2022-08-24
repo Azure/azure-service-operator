@@ -53,10 +53,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
 func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {

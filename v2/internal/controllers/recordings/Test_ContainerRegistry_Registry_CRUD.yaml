@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl?api-version=2021-09-01
     method: PUT
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{},"systemData":{"createdBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","createdByType":"Application","createdAt":"2022-02-10T14:42:00.605928+00:00","lastModifiedBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","lastModifiedByType":"Application","lastModifiedAt":"2022-02-10T14:42:00.605928+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-02-10T14:42:02.7728261+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2022-08-12T22:13:02.0566603+00:00","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2022-08-12T22:13:02.0566603+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-08-12T22:13:03.5200197+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
     headers:
       Api-Supported-Versions:
       - "2021-09-01"
@@ -114,7 +114,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl?api-version=2021-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{},"systemData":{"createdBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","createdByType":"Application","createdAt":"2022-02-10T14:42:00.605928+00:00","lastModifiedBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","lastModifiedByType":"Application","lastModifiedAt":"2022-02-10T14:42:00.605928+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-02-10T14:42:02.7728261+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2022-08-12T22:13:02.0566603+00:00","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2022-08-12T22:13:02.0566603+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-08-12T22:13:03.5200197+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
     headers:
       Api-Supported-Versions:
       - "2021-09-01"
@@ -152,7 +152,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl?api-version=2021-09-01
     method: PUT
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{"scratchcard":"lanyard"},"systemData":{"createdBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","createdByType":"Application","createdAt":"2022-02-10T14:42:00.605928+00:00","lastModifiedBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","lastModifiedByType":"Application","lastModifiedAt":"2022-02-10T14:42:10.5384408+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-02-10T14:42:11.2144972+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{"scratchcard":"lanyard"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2022-08-12T22:13:02.0566603+00:00","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2022-08-12T22:13:06.9057579+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-08-12T22:13:07.0677752+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
     headers:
       Api-Supported-Versions:
       - "2021-09-01"
@@ -186,7 +186,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl?api-version=2021-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{"scratchcard":"lanyard"},"systemData":{"createdBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","createdByType":"Application","createdAt":"2022-02-10T14:42:00.605928+00:00","lastModifiedBy":"5493e9cf-bd5f-4ed9-9073-59549356f7c6","lastModifiedByType":"Application","lastModifiedAt":"2022-02-10T14:42:10.5384408+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-02-10T14:42:11.2144972+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"type":"Microsoft.ContainerRegistry/registries","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl","name":"asotestregistryyyjckl","location":"westus2","tags":{"scratchcard":"lanyard"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2022-08-12T22:13:02.0566603+00:00","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2022-08-12T22:13:06.9057579+00:00"},"properties":{"loginServer":"asotestregistryyyjckl.azurecr.io","creationDate":"2001-02-03T04:05:06Z","provisioningState":"Succeeded","adminUserEnabled":false,"policies":{"quarantinePolicy":{"status":"disabled"},"trustPolicy":{"type":"Notary","status":"disabled"},"retentionPolicy":{"days":7,"lastUpdatedTime":"2022-08-12T22:13:07.0677752+00:00","status":"disabled"},"exportPolicy":{"status":"enabled"}},"encryption":{"status":"disabled"},"dataEndpointEnabled":false,"dataEndpointHostNames":[],"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","networkRuleBypassOptions":"AzureServices","zoneRedundancy":"Disabled"}}'
     headers:
       Api-Supported-Versions:
       - "2021-09-01"
@@ -240,40 +240,6 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm/providers/Microsoft.ContainerRegistry/registries/asotestregistryyyjckl?api-version=2021-09-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ContainerRegistry/registries/asotestregistryyyjckl''
-      under resource group ''asotest-rg-ulmxnm'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "249"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
     duration: ""
 - request:
     body: ""
@@ -311,22 +277,17 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ulmxnm?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRVTE1YTk0tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ulmxnm''
-      could not be found."}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -335,8 +296,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""

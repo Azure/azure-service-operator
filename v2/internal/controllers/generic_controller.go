@@ -491,10 +491,7 @@ func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Conte
 	if !ok {
 		// An unknown error, we wrap it as a ready condition error so that the user will always see something, even if
 		// the error is generic
-		// TODO: This breaks the existing Delete handling in the ARM controller so for now don't do it
-		// TODO: Will follow up with a separate PR to do it
-		//readyErr = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
-		return conditions.ConditionSeverityNone, err
+		readyErr = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
 	}
 
 	log.Error(readyErr, "Encountered error impacting Ready condition")
