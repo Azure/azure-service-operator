@@ -132,6 +132,9 @@ import (
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
+	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
+	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -482,6 +485,24 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(subscription_v20211001s.Alias),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(web_v20220301s.Serverfarm),
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(web_v20220301s.Site),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.siteConfig.azureStorageAccounts.accessKey",
+				Func: indexWebSiteAccessKey,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.siteConfig.azureStorageAccounts.accessKey"}, &web_v20220301s.SiteList{}),
+			},
+		},
 	})
 	return result
 }
@@ -857,6 +878,8 @@ func getKnownTypes() []client.Object {
 		new(storage_v20210401s.StorageAccountsQueueServicesQueue))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
+	result = append(result, new(web_v20220301.Serverfarm), new(web_v20220301.Site))
+	result = append(result, new(web_v20220301s.Serverfarm), new(web_v20220301s.Site))
 	return result
 }
 
@@ -968,6 +991,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
+	_ = web_v20220301.AddToScheme(scheme)
+	_ = web_v20220301s.AddToScheme(scheme)
 	return scheme
 }
 
@@ -1055,6 +1080,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
+	result = append(result, &web_customizations.ServerfarmExtension{})
+	result = append(result, &web_customizations.SiteExtension{})
 	return result
 }
 
@@ -1243,4 +1270,23 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return []string{obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Name}
+}
+
+// indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
+func indexWebSiteAccessKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*web_v20220301s.Site)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.SiteConfig == nil {
+		return nil
+	}
+	for _, value := range obj.Spec.SiteConfig.AzureStorageAccounts {
+		if value.AccessKey == nil {
+			continue
+		}
+		result = append(result, value.AccessKey.Name)
+	}
+	return result
 }

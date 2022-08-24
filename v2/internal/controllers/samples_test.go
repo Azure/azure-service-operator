@@ -37,6 +37,7 @@ var randomNameExclusions = []string{
 	"containerservice",
 	"documentdb",
 	"network",
+	"web",
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {

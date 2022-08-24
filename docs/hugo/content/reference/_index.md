@@ -285,3 +285,10 @@ grouped by the originating ARM service.
 |----------|-------------|----------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | Alias    | 2021-10-01  | v1beta20211001 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/subscription/v1beta/v1beta20211001_alias.yaml) |
 
+## Web
+
+| Resource   | ARM Version | CRD Version    | Supported From | Sample                                                                                                                        |
+|------------|-------------|----------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Serverfarm | 2022-03-01  | v1beta20220301 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/web/v1beta/v1beta20220301_serverfarm.yaml) |
+| Site       | 2022-03-01  | v1beta20220301 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/web/v1beta/v1beta20220301_site.yaml)       |
+

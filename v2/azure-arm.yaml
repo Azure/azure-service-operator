@@ -71,9 +71,6 @@ typeFilters:
     group: aadiam
     version: v*20170401
     because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
-  - action: prune
-    group: web
-    because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
   - action: include
     group: network
     version: v*2018*
@@ -1334,3 +1331,33 @@ objectModelConfiguration:
       Alias:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+  web:
+    2022-03-01:
+      ServerFarm:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+      HostingEnvironmentProfile:
+        Id:
+          $armReference: true
+      KubeEnvironmentProfile:
+        Id:
+          $armReference: true
+      Site:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
+      CloningInfo:
+        TrafficManagerProfileId:
+          $armReference: true
+        SourceWebAppId:
+          $armReference: true
+      Sites_Spec_Properties:
+        ServerFarmId:
+          $armReference: true
+        VirtualNetworkSubnetId:
+          $armReference: true
+      ApiManagementConfig:
+        Id:
+          $armReference: true
+      IpSecurityRestriction:
+        VnetSubnetResourceId:
+          $armReference: true
