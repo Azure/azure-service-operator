@@ -68,7 +68,7 @@ func Test_VirtualNetworkGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateway to VirtualNetworkGateway via AssignPropertiesToVirtualNetworkGateway & AssignPropertiesFromVirtualNetworkGateway returns original",
+		"Round trip from VirtualNetworkGateway to VirtualNetworkGateway via AssignProperties_To_VirtualNetworkGateway & AssignProperties_From_VirtualNetworkGateway returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateway, VirtualNetworkGatewayGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -80,14 +80,14 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGat
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateway
-	err := copied.AssignPropertiesToVirtualNetworkGateway(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateway(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateway
-	err = actual.AssignPropertiesFromVirtualNetworkGateway(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateway(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -162,8 +162,8 @@ func VirtualNetworkGatewayGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGateway is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworkGateway(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualNetworkGatewaysSpecGenerator()
-	gens["Status"] = VirtualNetworkGatewaySTATUSGenerator()
+	gens["Spec"] = VirtualNetworkGateways_SpecGenerator()
+	gens["Status"] = VirtualNetworkGateway_STATUSGenerator()
 }
 
 func Test_VirtualNetworkGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -172,26 +172,26 @@ func Test_VirtualNetworkGateway_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateway_STATUS to VirtualNetworkGateway_STATUS via AssignPropertiesToVirtualNetworkGatewaySTATUS & AssignPropertiesFromVirtualNetworkGatewaySTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaySTATUS, VirtualNetworkGatewaySTATUSGenerator()))
+		"Round trip from VirtualNetworkGateway_STATUS to VirtualNetworkGateway_STATUS via AssignProperties_To_VirtualNetworkGateway_STATUS & AssignProperties_From_VirtualNetworkGateway_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS, VirtualNetworkGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaySTATUS tests if a specific instance of VirtualNetworkGateway_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaySTATUS(subject VirtualNetworkGateway_STATUS) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS tests if a specific instance of VirtualNetworkGateway_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS(subject VirtualNetworkGateway_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateway_STATUS
-	err := copied.AssignPropertiesToVirtualNetworkGatewaySTATUS(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateway_STATUS
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaySTATUS(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -216,12 +216,12 @@ func Test_VirtualNetworkGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateway_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySTATUS, VirtualNetworkGatewaySTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateway_STATUS, VirtualNetworkGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaySTATUS runs a test to see if a specific instance of VirtualNetworkGateway_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaySTATUS(subject VirtualNetworkGateway_STATUS) string {
+// RunJSONSerializationTestForVirtualNetworkGateway_STATUS runs a test to see if a specific instance of VirtualNetworkGateway_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateway_STATUS(subject VirtualNetworkGateway_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -248,39 +248,39 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySTATUS(subject VirtualNetwo
 }
 
 // Generator of VirtualNetworkGateway_STATUS instances for property testing - lazily instantiated by
-// VirtualNetworkGatewaySTATUSGenerator()
-var virtualNetworkGatewaySTATUSGenerator gopter.Gen
+// VirtualNetworkGateway_STATUSGenerator()
+var virtualNetworkGateway_STATUSGenerator gopter.Gen
 
-// VirtualNetworkGatewaySTATUSGenerator returns a generator of VirtualNetworkGateway_STATUS instances for property testing.
-// We first initialize virtualNetworkGatewaySTATUSGenerator with a simplified generator based on the
+// VirtualNetworkGateway_STATUSGenerator returns a generator of VirtualNetworkGateway_STATUS instances for property testing.
+// We first initialize virtualNetworkGateway_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaySTATUSGenerator() gopter.Gen {
-	if virtualNetworkGatewaySTATUSGenerator != nil {
-		return virtualNetworkGatewaySTATUSGenerator
+func VirtualNetworkGateway_STATUSGenerator() gopter.Gen {
+	if virtualNetworkGateway_STATUSGenerator != nil {
+		return virtualNetworkGateway_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySTATUS(generators)
-	virtualNetworkGatewaySTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS(generators)
+	virtualNetworkGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySTATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaySTATUS(generators)
-	virtualNetworkGatewaySTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGateway_STATUS(generators)
+	virtualNetworkGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateway_STATUS{}), generators)
 
-	return virtualNetworkGatewaySTATUSGenerator
+	return virtualNetworkGateway_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["ActiveActive"] = gen.PtrOf(gen.Bool())
 	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_ExpressRoute, VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_LocalGateway, VirtualNetworkGatewayPropertiesFormatSTATUSGatewayType_Vpn))
+	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_ExpressRoute, VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_LocalGateway, VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_Vpn))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["InboundDnsForwardingEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -294,19 +294,19 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySTATUS(gens map[str
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_Generation1, VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_Generation2, VirtualNetworkGatewayPropertiesFormatSTATUSVpnGatewayGeneration_None))
-	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormatSTATUSVpnType_PolicyBased, VirtualNetworkGatewayPropertiesFormatSTATUSVpnType_RouteBased))
+	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation1, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation2, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_None))
+	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_PolicyBased, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_RouteBased))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaySTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaySTATUS(gens map[string]gopter.Gen) {
-	gens["BgpSettings"] = gen.PtrOf(BgpSettingsSTATUSGenerator())
-	gens["CustomRoutes"] = gen.PtrOf(AddressSpaceSTATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSTATUSGenerator())
-	gens["GatewayDefaultSite"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfigurationSTATUSGenerator())
-	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySkuSTATUSGenerator())
-	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfigurationSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkGateway_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_STATUS(gens map[string]gopter.Gen) {
+	gens["BgpSettings"] = gen.PtrOf(BgpSettings_STATUSGenerator())
+	gens["CustomRoutes"] = gen.PtrOf(AddressSpace_STATUSGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["GatewayDefaultSite"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfiguration_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySku_STATUSGenerator())
+	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfiguration_STATUSGenerator())
 }
 
 func Test_VirtualNetworkGateways_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -315,26 +315,26 @@ func Test_VirtualNetworkGateways_Spec_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateways_Spec to VirtualNetworkGateways_Spec via AssignPropertiesToVirtualNetworkGatewaysSpec & AssignPropertiesFromVirtualNetworkGatewaysSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec, VirtualNetworkGatewaysSpecGenerator()))
+		"Round trip from VirtualNetworkGateways_Spec to VirtualNetworkGateways_Spec via AssignProperties_To_VirtualNetworkGateways_Spec & AssignProperties_From_VirtualNetworkGateways_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateways_Spec, VirtualNetworkGateways_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec tests if a specific instance of VirtualNetworkGateways_Spec can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec(subject VirtualNetworkGateways_Spec) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateways_Spec tests if a specific instance of VirtualNetworkGateways_Spec can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateways_Spec(subject VirtualNetworkGateways_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateways_Spec
-	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpec(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateways_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateways_Spec
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaysSpec(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateways_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -359,12 +359,12 @@ func Test_VirtualNetworkGateways_Spec_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpec, VirtualNetworkGatewaysSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_Spec, VirtualNetworkGateways_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpec runs a test to see if a specific instance of VirtualNetworkGateways_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpec(subject VirtualNetworkGateways_Spec) string {
+// RunJSONSerializationTestForVirtualNetworkGateways_Spec runs a test to see if a specific instance of VirtualNetworkGateways_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateways_Spec(subject VirtualNetworkGateways_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -391,58 +391,58 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpec(subject VirtualNetwor
 }
 
 // Generator of VirtualNetworkGateways_Spec instances for property testing - lazily instantiated by
-// VirtualNetworkGatewaysSpecGenerator()
-var virtualNetworkGatewaysSpecGenerator gopter.Gen
+// VirtualNetworkGateways_SpecGenerator()
+var virtualNetworkGateways_SpecGenerator gopter.Gen
 
-// VirtualNetworkGatewaysSpecGenerator returns a generator of VirtualNetworkGateways_Spec instances for property testing.
-// We first initialize virtualNetworkGatewaysSpecGenerator with a simplified generator based on the
+// VirtualNetworkGateways_SpecGenerator returns a generator of VirtualNetworkGateways_Spec instances for property testing.
+// We first initialize virtualNetworkGateways_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaysSpecGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecGenerator != nil {
-		return virtualNetworkGatewaysSpecGenerator
+func VirtualNetworkGateways_SpecGenerator() gopter.Gen {
+	if virtualNetworkGateways_SpecGenerator != nil {
+		return virtualNetworkGateways_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec(generators)
-	virtualNetworkGatewaysSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec(generators)
+	virtualNetworkGateways_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpec(generators)
-	virtualNetworkGatewaysSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec(generators)
+	virtualNetworkGateways_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec{}), generators)
 
-	return virtualNetworkGatewaysSpecGenerator
+	return virtualNetworkGateways_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec(gens map[string]gopter.Gen) {
 	gens["ActiveActive"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaysSpecPropertiesGatewayType_ExpressRoute,
-		VirtualNetworkGatewaysSpecPropertiesGatewayType_HyperNet,
-		VirtualNetworkGatewaysSpecPropertiesGatewayType_LocalGateway,
-		VirtualNetworkGatewaysSpecPropertiesGatewayType_Vpn))
+		VirtualNetworkGateways_Spec_Properties_GatewayType_ExpressRoute,
+		VirtualNetworkGateways_Spec_Properties_GatewayType_HyperNet,
+		VirtualNetworkGateways_Spec_Properties_GatewayType_LocalGateway,
+		VirtualNetworkGateways_Spec_Properties_GatewayType_Vpn))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation1, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_Generation2, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration_None))
-	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnType_PolicyBased, VirtualNetworkGatewaysSpecPropertiesVpnType_RouteBased))
+	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_Generation1, VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_Generation2, VirtualNetworkGateways_Spec_Properties_VpnGatewayGeneration_None))
+	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGateways_Spec_Properties_VpnType_PolicyBased, VirtualNetworkGateways_Spec_Properties_VpnType_RouteBased))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec(gens map[string]gopter.Gen) {
 	gens["BgpSettings"] = gen.PtrOf(BgpSettingsGenerator())
 	gens["CustomRoutes"] = gen.PtrOf(AddressSpaceGenerator())
 	gens["GatewayDefaultSite"] = gen.PtrOf(SubResourceGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator())
 	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySkuGenerator())
 	gens["VirtualNetworkExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["VpnClientConfiguration"] = gen.PtrOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator())
+	gens["VpnClientConfiguration"] = gen.PtrOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator())
 }
 
 func Test_BgpSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -451,7 +451,7 @@ func Test_BgpSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BgpSettings to BgpSettings via AssignPropertiesToBgpSettings & AssignPropertiesFromBgpSettings returns original",
+		"Round trip from BgpSettings to BgpSettings via AssignProperties_To_BgpSettings & AssignProperties_From_BgpSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForBgpSettings, BgpSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -463,14 +463,14 @@ func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.BgpSettings
-	err := copied.AssignPropertiesToBgpSettings(&other)
+	err := copied.AssignProperties_To_BgpSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BgpSettings
-	err = actual.AssignPropertiesFromBgpSettings(&other)
+	err = actual.AssignProperties_From_BgpSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -569,26 +569,26 @@ func Test_BgpSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BgpSettings_STATUS to BgpSettings_STATUS via AssignPropertiesToBgpSettingsSTATUS & AssignPropertiesFromBgpSettingsSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBgpSettingsSTATUS, BgpSettingsSTATUSGenerator()))
+		"Round trip from BgpSettings_STATUS to BgpSettings_STATUS via AssignProperties_To_BgpSettings_STATUS & AssignProperties_From_BgpSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBgpSettings_STATUS, BgpSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBgpSettingsSTATUS tests if a specific instance of BgpSettings_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForBgpSettingsSTATUS(subject BgpSettings_STATUS) string {
+// RunPropertyAssignmentTestForBgpSettings_STATUS tests if a specific instance of BgpSettings_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForBgpSettings_STATUS(subject BgpSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.BgpSettings_STATUS
-	err := copied.AssignPropertiesToBgpSettingsSTATUS(&other)
+	err := copied.AssignProperties_To_BgpSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BgpSettings_STATUS
-	err = actual.AssignPropertiesFromBgpSettingsSTATUS(&other)
+	err = actual.AssignProperties_From_BgpSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -613,12 +613,12 @@ func Test_BgpSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BgpSettings_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBgpSettingsSTATUS, BgpSettingsSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForBgpSettings_STATUS, BgpSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBgpSettingsSTATUS runs a test to see if a specific instance of BgpSettings_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBgpSettingsSTATUS(subject BgpSettings_STATUS) string {
+// RunJSONSerializationTestForBgpSettings_STATUS runs a test to see if a specific instance of BgpSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBgpSettings_STATUS(subject BgpSettings_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -644,41 +644,41 @@ func RunJSONSerializationTestForBgpSettingsSTATUS(subject BgpSettings_STATUS) st
 	return ""
 }
 
-// Generator of BgpSettings_STATUS instances for property testing - lazily instantiated by BgpSettingsSTATUSGenerator()
-var bgpSettingsSTATUSGenerator gopter.Gen
+// Generator of BgpSettings_STATUS instances for property testing - lazily instantiated by BgpSettings_STATUSGenerator()
+var bgpSettings_STATUSGenerator gopter.Gen
 
-// BgpSettingsSTATUSGenerator returns a generator of BgpSettings_STATUS instances for property testing.
-// We first initialize bgpSettingsSTATUSGenerator with a simplified generator based on the
+// BgpSettings_STATUSGenerator returns a generator of BgpSettings_STATUS instances for property testing.
+// We first initialize bgpSettings_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BgpSettingsSTATUSGenerator() gopter.Gen {
-	if bgpSettingsSTATUSGenerator != nil {
-		return bgpSettingsSTATUSGenerator
+func BgpSettings_STATUSGenerator() gopter.Gen {
+	if bgpSettings_STATUSGenerator != nil {
+		return bgpSettings_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBgpSettingsSTATUS(generators)
-	bgpSettingsSTATUSGenerator = gen.Struct(reflect.TypeOf(BgpSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBgpSettings_STATUS(generators)
+	bgpSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(BgpSettings_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBgpSettingsSTATUS(generators)
-	AddRelatedPropertyGeneratorsForBgpSettingsSTATUS(generators)
-	bgpSettingsSTATUSGenerator = gen.Struct(reflect.TypeOf(BgpSettings_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBgpSettings_STATUS(generators)
+	AddRelatedPropertyGeneratorsForBgpSettings_STATUS(generators)
+	bgpSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(BgpSettings_STATUS{}), generators)
 
-	return bgpSettingsSTATUSGenerator
+	return bgpSettings_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBgpSettingsSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBgpSettingsSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBgpSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBgpSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["Asn"] = gen.PtrOf(gen.UInt32())
 	gens["BgpPeeringAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PeerWeight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForBgpSettingsSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBgpSettingsSTATUS(gens map[string]gopter.Gen) {
-	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddressSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForBgpSettings_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBgpSettings_STATUS(gens map[string]gopter.Gen) {
+	gens["BgpPeeringAddresses"] = gen.SliceOf(IPConfigurationBgpPeeringAddress_STATUSGenerator())
 }
 
 func Test_VirtualNetworkGatewayIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -687,26 +687,26 @@ func Test_VirtualNetworkGatewayIPConfiguration_STATUS_WhenPropertiesConverted_Ro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGatewayIPConfiguration_STATUS to VirtualNetworkGatewayIPConfiguration_STATUS via AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS & AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationSTATUS, VirtualNetworkGatewayIPConfigurationSTATUSGenerator()))
+		"Round trip from VirtualNetworkGatewayIPConfiguration_STATUS to VirtualNetworkGatewayIPConfiguration_STATUS via AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS & AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS, VirtualNetworkGatewayIPConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationSTATUS tests if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationSTATUS(subject VirtualNetworkGatewayIPConfiguration_STATUS) string {
+// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS tests if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS(subject VirtualNetworkGatewayIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGatewayIPConfiguration_STATUS
-	err := copied.AssignPropertiesToVirtualNetworkGatewayIPConfigurationSTATUS(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGatewayIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGatewayIPConfiguration_STATUS
-	err = actual.AssignPropertiesFromVirtualNetworkGatewayIPConfigurationSTATUS(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGatewayIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -731,12 +731,12 @@ func Test_VirtualNetworkGatewayIPConfiguration_STATUS_WhenSerializedToJson_Deser
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGatewayIPConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationSTATUS, VirtualNetworkGatewayIPConfigurationSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_STATUS, VirtualNetworkGatewayIPConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationSTATUS runs a test to see if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationSTATUS(subject VirtualNetworkGatewayIPConfiguration_STATUS) string {
+// RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_STATUS runs a test to see if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewayIPConfiguration_STATUS(subject VirtualNetworkGatewayIPConfiguration_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -763,33 +763,33 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationSTATUS(subje
 }
 
 // Generator of VirtualNetworkGatewayIPConfiguration_STATUS instances for property testing - lazily instantiated by
-// VirtualNetworkGatewayIPConfigurationSTATUSGenerator()
-var virtualNetworkGatewayIPConfigurationSTATUSGenerator gopter.Gen
+// VirtualNetworkGatewayIPConfiguration_STATUSGenerator()
+var virtualNetworkGatewayIPConfiguration_STATUSGenerator gopter.Gen
 
-// VirtualNetworkGatewayIPConfigurationSTATUSGenerator returns a generator of VirtualNetworkGatewayIPConfiguration_STATUS instances for property testing.
-// We first initialize virtualNetworkGatewayIPConfigurationSTATUSGenerator with a simplified generator based on the
+// VirtualNetworkGatewayIPConfiguration_STATUSGenerator returns a generator of VirtualNetworkGatewayIPConfiguration_STATUS instances for property testing.
+// We first initialize virtualNetworkGatewayIPConfiguration_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewayIPConfigurationSTATUSGenerator() gopter.Gen {
-	if virtualNetworkGatewayIPConfigurationSTATUSGenerator != nil {
-		return virtualNetworkGatewayIPConfigurationSTATUSGenerator
+func VirtualNetworkGatewayIPConfiguration_STATUSGenerator() gopter.Gen {
+	if virtualNetworkGatewayIPConfiguration_STATUSGenerator != nil {
+		return virtualNetworkGatewayIPConfiguration_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS(generators)
-	virtualNetworkGatewayIPConfigurationSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(generators)
+	virtualNetworkGatewayIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS(generators)
-	virtualNetworkGatewayIPConfigurationSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(generators)
+	virtualNetworkGatewayIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayIPConfiguration_STATUS{}), generators)
 
-	return virtualNetworkGatewayIPConfigurationSTATUSGenerator
+	return virtualNetworkGatewayIPConfiguration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -802,10 +802,10 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTAT
 		ProvisioningState_STATUS_Updating))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationSTATUS(gens map[string]gopter.Gen) {
-	gens["PublicIPAddress"] = gen.PtrOf(SubResourceSTATUSGenerator())
-	gens["Subnet"] = gen.PtrOf(SubResourceSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["PublicIPAddress"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -814,26 +814,26 @@ func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenProperties
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateways_Spec_Properties_IpConfigurations to VirtualNetworkGateways_Spec_Properties_IpConfigurations via AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations & AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations, VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()))
+		"Round trip from VirtualNetworkGateways_Spec_Properties_IpConfigurations to VirtualNetworkGateways_Spec_Properties_IpConfigurations via AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations & AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations, VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations tests if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations tests if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations
-	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_IpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateways_Spec_Properties_IpConfigurations
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_IpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -858,12 +858,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenSerialized
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_IpConfigurations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations, VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations, VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
+// RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_IpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -890,39 +890,39 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurat
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing - lazily
-// instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()
-var virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator gopter.Gen
+// instantiated by VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator()
+var virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator gopter.Gen
 
-// VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing.
-// We first initialize virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator with a simplified generator based on the
+// VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing.
+// We first initialize virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator
+func VirtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator() gopter.Gen {
+	if virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator != nil {
+		return virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(generators)
-	virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations(generators)
+	virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurations{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(generators)
-	virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations(generators)
+	virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_IpConfigurations{}), generators)
 
-	return virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator
+	return virtualNetworkGateways_Spec_Properties_IpConfigurationsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Dynamic, VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod_Static))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic, VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
 	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
 	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
@@ -933,26 +933,26 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_WhenProp
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration via AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration & AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()))
+		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration via AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration & AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration, VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -977,12 +977,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_WhenSeri
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration, VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
+// RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1009,49 +1009,49 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing - lazily
-// instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()
-var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator gopter.Gen
+// instantiated by VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator()
+var virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator gopter.Gen
 
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing.
-// We first initialize virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator with a simplified generator based on the
+// VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing.
+// We first initialize virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator
+func VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator() gopter.Gen {
+	if virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator != nil {
+		return virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(generators)
+	virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(generators)
+	virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration{}), generators)
 
-	return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator
+	return virtualNetworkGateways_Spec_Properties_VpnClientConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(gens map[string]gopter.Gen) {
 	gens["AadAudience"] = gen.PtrOf(gen.AlphaString())
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_AAD, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Certificate, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes_Radius))
-	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_IkeV2, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_OpenVPN, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols_SSTP))
+	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_AAD, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_Certificate, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnAuthenticationTypes_Radius))
+	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_IkeV2, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_OpenVPN, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientProtocols_SSTP))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration(gens map[string]gopter.Gen) {
 	gens["RadiusServers"] = gen.SliceOf(RadiusServerGenerator())
 	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpaceGenerator())
 	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicyGenerator())
-	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator())
-	gens["VpnClientRootCertificates"] = gen.SliceOf(VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator())
+	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator())
+	gens["VpnClientRootCertificates"] = gen.SliceOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator())
 }
 
 func Test_VirtualNetworkGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1060,7 +1060,7 @@ func Test_VirtualNetworkGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGatewaySku to VirtualNetworkGatewaySku via AssignPropertiesToVirtualNetworkGatewaySku & AssignPropertiesFromVirtualNetworkGatewaySku returns original",
+		"Round trip from VirtualNetworkGatewaySku to VirtualNetworkGatewaySku via AssignProperties_To_VirtualNetworkGatewaySku & AssignProperties_From_VirtualNetworkGatewaySku returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaySku, VirtualNetworkGatewaySkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1072,14 +1072,14 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetwork
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGatewaySku
-	err := copied.AssignPropertiesToVirtualNetworkGatewaySku(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGatewaySku(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGatewaySku
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaySku(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGatewaySku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1155,41 +1155,41 @@ func VirtualNetworkGatewaySkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuName_Basic,
-		VirtualNetworkGatewaySkuName_ErGw1AZ,
-		VirtualNetworkGatewaySkuName_ErGw2AZ,
-		VirtualNetworkGatewaySkuName_ErGw3AZ,
-		VirtualNetworkGatewaySkuName_HighPerformance,
-		VirtualNetworkGatewaySkuName_Standard,
-		VirtualNetworkGatewaySkuName_UltraPerformance,
-		VirtualNetworkGatewaySkuName_VpnGw1,
-		VirtualNetworkGatewaySkuName_VpnGw1AZ,
-		VirtualNetworkGatewaySkuName_VpnGw2,
-		VirtualNetworkGatewaySkuName_VpnGw2AZ,
-		VirtualNetworkGatewaySkuName_VpnGw3,
-		VirtualNetworkGatewaySkuName_VpnGw3AZ,
-		VirtualNetworkGatewaySkuName_VpnGw4,
-		VirtualNetworkGatewaySkuName_VpnGw4AZ,
-		VirtualNetworkGatewaySkuName_VpnGw5,
-		VirtualNetworkGatewaySkuName_VpnGw5AZ))
+		VirtualNetworkGatewaySku_Name_Basic,
+		VirtualNetworkGatewaySku_Name_ErGw1AZ,
+		VirtualNetworkGatewaySku_Name_ErGw2AZ,
+		VirtualNetworkGatewaySku_Name_ErGw3AZ,
+		VirtualNetworkGatewaySku_Name_HighPerformance,
+		VirtualNetworkGatewaySku_Name_Standard,
+		VirtualNetworkGatewaySku_Name_UltraPerformance,
+		VirtualNetworkGatewaySku_Name_VpnGw1,
+		VirtualNetworkGatewaySku_Name_VpnGw1AZ,
+		VirtualNetworkGatewaySku_Name_VpnGw2,
+		VirtualNetworkGatewaySku_Name_VpnGw2AZ,
+		VirtualNetworkGatewaySku_Name_VpnGw3,
+		VirtualNetworkGatewaySku_Name_VpnGw3AZ,
+		VirtualNetworkGatewaySku_Name_VpnGw4,
+		VirtualNetworkGatewaySku_Name_VpnGw4AZ,
+		VirtualNetworkGatewaySku_Name_VpnGw5,
+		VirtualNetworkGatewaySku_Name_VpnGw5AZ))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuTier_Basic,
-		VirtualNetworkGatewaySkuTier_ErGw1AZ,
-		VirtualNetworkGatewaySkuTier_ErGw2AZ,
-		VirtualNetworkGatewaySkuTier_ErGw3AZ,
-		VirtualNetworkGatewaySkuTier_HighPerformance,
-		VirtualNetworkGatewaySkuTier_Standard,
-		VirtualNetworkGatewaySkuTier_UltraPerformance,
-		VirtualNetworkGatewaySkuTier_VpnGw1,
-		VirtualNetworkGatewaySkuTier_VpnGw1AZ,
-		VirtualNetworkGatewaySkuTier_VpnGw2,
-		VirtualNetworkGatewaySkuTier_VpnGw2AZ,
-		VirtualNetworkGatewaySkuTier_VpnGw3,
-		VirtualNetworkGatewaySkuTier_VpnGw3AZ,
-		VirtualNetworkGatewaySkuTier_VpnGw4,
-		VirtualNetworkGatewaySkuTier_VpnGw4AZ,
-		VirtualNetworkGatewaySkuTier_VpnGw5,
-		VirtualNetworkGatewaySkuTier_VpnGw5AZ))
+		VirtualNetworkGatewaySku_Tier_Basic,
+		VirtualNetworkGatewaySku_Tier_ErGw1AZ,
+		VirtualNetworkGatewaySku_Tier_ErGw2AZ,
+		VirtualNetworkGatewaySku_Tier_ErGw3AZ,
+		VirtualNetworkGatewaySku_Tier_HighPerformance,
+		VirtualNetworkGatewaySku_Tier_Standard,
+		VirtualNetworkGatewaySku_Tier_UltraPerformance,
+		VirtualNetworkGatewaySku_Tier_VpnGw1,
+		VirtualNetworkGatewaySku_Tier_VpnGw1AZ,
+		VirtualNetworkGatewaySku_Tier_VpnGw2,
+		VirtualNetworkGatewaySku_Tier_VpnGw2AZ,
+		VirtualNetworkGatewaySku_Tier_VpnGw3,
+		VirtualNetworkGatewaySku_Tier_VpnGw3AZ,
+		VirtualNetworkGatewaySku_Tier_VpnGw4,
+		VirtualNetworkGatewaySku_Tier_VpnGw4AZ,
+		VirtualNetworkGatewaySku_Tier_VpnGw5,
+		VirtualNetworkGatewaySku_Tier_VpnGw5AZ))
 }
 
 func Test_VirtualNetworkGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1198,26 +1198,26 @@ func Test_VirtualNetworkGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGatewaySku_STATUS to VirtualNetworkGatewaySku_STATUS via AssignPropertiesToVirtualNetworkGatewaySkuSTATUS & AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaySkuSTATUS, VirtualNetworkGatewaySkuSTATUSGenerator()))
+		"Round trip from VirtualNetworkGatewaySku_STATUS to VirtualNetworkGatewaySku_STATUS via AssignProperties_To_VirtualNetworkGatewaySku_STATUS & AssignProperties_From_VirtualNetworkGatewaySku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS, VirtualNetworkGatewaySku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaySkuSTATUS tests if a specific instance of VirtualNetworkGatewaySku_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaySkuSTATUS(subject VirtualNetworkGatewaySku_STATUS) string {
+// RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS tests if a specific instance of VirtualNetworkGatewaySku_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS(subject VirtualNetworkGatewaySku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGatewaySku_STATUS
-	err := copied.AssignPropertiesToVirtualNetworkGatewaySkuSTATUS(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGatewaySku_STATUS
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaySkuSTATUS(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1242,12 +1242,12 @@ func Test_VirtualNetworkGatewaySku_STATUS_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGatewaySku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySkuSTATUS, VirtualNetworkGatewaySkuSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaySku_STATUS, VirtualNetworkGatewaySku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaySkuSTATUS runs a test to see if a specific instance of VirtualNetworkGatewaySku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaySkuSTATUS(subject VirtualNetworkGatewaySku_STATUS) string {
+// RunJSONSerializationTestForVirtualNetworkGatewaySku_STATUS runs a test to see if a specific instance of VirtualNetworkGatewaySku_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewaySku_STATUS(subject VirtualNetworkGatewaySku_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1274,61 +1274,61 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySkuSTATUS(subject VirtualNe
 }
 
 // Generator of VirtualNetworkGatewaySku_STATUS instances for property testing - lazily instantiated by
-// VirtualNetworkGatewaySkuSTATUSGenerator()
-var virtualNetworkGatewaySkuSTATUSGenerator gopter.Gen
+// VirtualNetworkGatewaySku_STATUSGenerator()
+var virtualNetworkGatewaySku_STATUSGenerator gopter.Gen
 
-// VirtualNetworkGatewaySkuSTATUSGenerator returns a generator of VirtualNetworkGatewaySku_STATUS instances for property testing.
-func VirtualNetworkGatewaySkuSTATUSGenerator() gopter.Gen {
-	if virtualNetworkGatewaySkuSTATUSGenerator != nil {
-		return virtualNetworkGatewaySkuSTATUSGenerator
+// VirtualNetworkGatewaySku_STATUSGenerator returns a generator of VirtualNetworkGatewaySku_STATUS instances for property testing.
+func VirtualNetworkGatewaySku_STATUSGenerator() gopter.Gen {
+	if virtualNetworkGatewaySku_STATUSGenerator != nil {
+		return virtualNetworkGatewaySku_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuSTATUS(generators)
-	virtualNetworkGatewaySkuSTATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySku_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUS(generators)
+	virtualNetworkGatewaySku_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewaySku_STATUS{}), generators)
 
-	return virtualNetworkGatewaySkuSTATUSGenerator
+	return virtualNetworkGatewaySku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuSTATUSName_Basic,
-		VirtualNetworkGatewaySkuSTATUSName_ErGw1AZ,
-		VirtualNetworkGatewaySkuSTATUSName_ErGw2AZ,
-		VirtualNetworkGatewaySkuSTATUSName_ErGw3AZ,
-		VirtualNetworkGatewaySkuSTATUSName_HighPerformance,
-		VirtualNetworkGatewaySkuSTATUSName_Standard,
-		VirtualNetworkGatewaySkuSTATUSName_UltraPerformance,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw1,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw1AZ,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw2,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw2AZ,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw3,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw3AZ,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw4,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw4AZ,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw5,
-		VirtualNetworkGatewaySkuSTATUSName_VpnGw5AZ))
+		VirtualNetworkGatewaySku_STATUS_Name_Basic,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_HighPerformance,
+		VirtualNetworkGatewaySku_STATUS_Name_Standard,
+		VirtualNetworkGatewaySku_STATUS_Name_UltraPerformance,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw1,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw2,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw3,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw4,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw4AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw5,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw5AZ))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkGatewaySkuSTATUSTier_Basic,
-		VirtualNetworkGatewaySkuSTATUSTier_ErGw1AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_ErGw2AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_ErGw3AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_HighPerformance,
-		VirtualNetworkGatewaySkuSTATUSTier_Standard,
-		VirtualNetworkGatewaySkuSTATUSTier_UltraPerformance,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw1,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw1AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw2,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw2AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw3,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw3AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw4,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw4AZ,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw5,
-		VirtualNetworkGatewaySkuSTATUSTier_VpnGw5AZ))
+		VirtualNetworkGatewaySku_STATUS_Tier_Basic,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_HighPerformance,
+		VirtualNetworkGatewaySku_STATUS_Tier_Standard,
+		VirtualNetworkGatewaySku_STATUS_Tier_UltraPerformance,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5AZ))
 }
 
 func Test_VpnClientConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1337,26 +1337,26 @@ func Test_VpnClientConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VpnClientConfiguration_STATUS to VpnClientConfiguration_STATUS via AssignPropertiesToVpnClientConfigurationSTATUS & AssignPropertiesFromVpnClientConfigurationSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVpnClientConfigurationSTATUS, VpnClientConfigurationSTATUSGenerator()))
+		"Round trip from VpnClientConfiguration_STATUS to VpnClientConfiguration_STATUS via AssignProperties_To_VpnClientConfiguration_STATUS & AssignProperties_From_VpnClientConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVpnClientConfiguration_STATUS, VpnClientConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientConfigurationSTATUS tests if a specific instance of VpnClientConfiguration_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVpnClientConfigurationSTATUS(subject VpnClientConfiguration_STATUS) string {
+// RunPropertyAssignmentTestForVpnClientConfiguration_STATUS tests if a specific instance of VpnClientConfiguration_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVpnClientConfiguration_STATUS(subject VpnClientConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VpnClientConfiguration_STATUS
-	err := copied.AssignPropertiesToVpnClientConfigurationSTATUS(&other)
+	err := copied.AssignProperties_To_VpnClientConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VpnClientConfiguration_STATUS
-	err = actual.AssignPropertiesFromVpnClientConfigurationSTATUS(&other)
+	err = actual.AssignProperties_From_VpnClientConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1381,12 +1381,12 @@ func Test_VpnClientConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientConfigurationSTATUS, VpnClientConfigurationSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVpnClientConfiguration_STATUS, VpnClientConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientConfigurationSTATUS runs a test to see if a specific instance of VpnClientConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientConfigurationSTATUS(subject VpnClientConfiguration_STATUS) string {
+// RunJSONSerializationTestForVpnClientConfiguration_STATUS runs a test to see if a specific instance of VpnClientConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientConfiguration_STATUS(subject VpnClientConfiguration_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1413,49 +1413,49 @@ func RunJSONSerializationTestForVpnClientConfigurationSTATUS(subject VpnClientCo
 }
 
 // Generator of VpnClientConfiguration_STATUS instances for property testing - lazily instantiated by
-// VpnClientConfigurationSTATUSGenerator()
-var vpnClientConfigurationSTATUSGenerator gopter.Gen
+// VpnClientConfiguration_STATUSGenerator()
+var vpnClientConfiguration_STATUSGenerator gopter.Gen
 
-// VpnClientConfigurationSTATUSGenerator returns a generator of VpnClientConfiguration_STATUS instances for property testing.
-// We first initialize vpnClientConfigurationSTATUSGenerator with a simplified generator based on the
+// VpnClientConfiguration_STATUSGenerator returns a generator of VpnClientConfiguration_STATUS instances for property testing.
+// We first initialize vpnClientConfiguration_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VpnClientConfigurationSTATUSGenerator() gopter.Gen {
-	if vpnClientConfigurationSTATUSGenerator != nil {
-		return vpnClientConfigurationSTATUSGenerator
+func VpnClientConfiguration_STATUSGenerator() gopter.Gen {
+	if vpnClientConfiguration_STATUSGenerator != nil {
+		return vpnClientConfiguration_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientConfigurationSTATUS(generators)
-	vpnClientConfigurationSTATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS(generators)
+	vpnClientConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientConfigurationSTATUS(generators)
-	AddRelatedPropertyGeneratorsForVpnClientConfigurationSTATUS(generators)
-	vpnClientConfigurationSTATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVpnClientConfiguration_STATUS(generators)
+	vpnClientConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientConfiguration_STATUS{}), generators)
 
-	return vpnClientConfigurationSTATUSGenerator
+	return vpnClientConfiguration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientConfigurationSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientConfigurationSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["AadAudience"] = gen.PtrOf(gen.AlphaString())
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
-	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfigurationSTATUSVpnAuthenticationTypes_AAD, VpnClientConfigurationSTATUSVpnAuthenticationTypes_Certificate, VpnClientConfigurationSTATUSVpnAuthenticationTypes_Radius))
-	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfigurationSTATUSVpnClientProtocols_IkeV2, VpnClientConfigurationSTATUSVpnClientProtocols_OpenVPN, VpnClientConfigurationSTATUSVpnClientProtocols_SSTP))
+	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_STATUS_VpnAuthenticationTypes_AAD, VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Certificate, VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Radius))
+	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_STATUS_VpnClientProtocols_IkeV2, VpnClientConfiguration_STATUS_VpnClientProtocols_OpenVPN, VpnClientConfiguration_STATUS_VpnClientProtocols_SSTP))
 }
 
-// AddRelatedPropertyGeneratorsForVpnClientConfigurationSTATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVpnClientConfigurationSTATUS(gens map[string]gopter.Gen) {
-	gens["RadiusServers"] = gen.SliceOf(RadiusServerSTATUSGenerator())
-	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpaceSTATUSGenerator())
-	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicySTATUSGenerator())
-	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VpnClientRevokedCertificateSTATUSGenerator())
-	gens["VpnClientRootCertificates"] = gen.SliceOf(VpnClientRootCertificateSTATUSGenerator())
+// AddRelatedPropertyGeneratorsForVpnClientConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVpnClientConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["RadiusServers"] = gen.SliceOf(RadiusServer_STATUSGenerator())
+	gens["VpnClientAddressPool"] = gen.PtrOf(AddressSpace_STATUSGenerator())
+	gens["VpnClientIpsecPolicies"] = gen.SliceOf(IpsecPolicy_STATUSGenerator())
+	gens["VpnClientRevokedCertificates"] = gen.SliceOf(VpnClientRevokedCertificate_STATUSGenerator())
+	gens["VpnClientRootCertificates"] = gen.SliceOf(VpnClientRootCertificate_STATUSGenerator())
 }
 
 func Test_IPConfigurationBgpPeeringAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1464,7 +1464,7 @@ func Test_IPConfigurationBgpPeeringAddress_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from IPConfigurationBgpPeeringAddress to IPConfigurationBgpPeeringAddress via AssignPropertiesToIPConfigurationBgpPeeringAddress & AssignPropertiesFromIPConfigurationBgpPeeringAddress returns original",
+		"Round trip from IPConfigurationBgpPeeringAddress to IPConfigurationBgpPeeringAddress via AssignProperties_To_IPConfigurationBgpPeeringAddress & AssignProperties_From_IPConfigurationBgpPeeringAddress returns original",
 		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress, IPConfigurationBgpPeeringAddressGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1476,14 +1476,14 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConf
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.IPConfigurationBgpPeeringAddress
-	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddress(&other)
+	err := copied.AssignProperties_To_IPConfigurationBgpPeeringAddress(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual IPConfigurationBgpPeeringAddress
-	err = actual.AssignPropertiesFromIPConfigurationBgpPeeringAddress(&other)
+	err = actual.AssignProperties_From_IPConfigurationBgpPeeringAddress(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1568,26 +1568,26 @@ func Test_IPConfigurationBgpPeeringAddress_STATUS_WhenPropertiesConverted_RoundT
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from IPConfigurationBgpPeeringAddress_STATUS to IPConfigurationBgpPeeringAddress_STATUS via AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS & AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressSTATUS, IPConfigurationBgpPeeringAddressSTATUSGenerator()))
+		"Round trip from IPConfigurationBgpPeeringAddress_STATUS to IPConfigurationBgpPeeringAddress_STATUS via AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS & AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS, IPConfigurationBgpPeeringAddress_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressSTATUS tests if a specific instance of IPConfigurationBgpPeeringAddress_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressSTATUS(subject IPConfigurationBgpPeeringAddress_STATUS) string {
+// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS tests if a specific instance of IPConfigurationBgpPeeringAddress_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS(subject IPConfigurationBgpPeeringAddress_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.IPConfigurationBgpPeeringAddress_STATUS
-	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddressSTATUS(&other)
+	err := copied.AssignProperties_To_IPConfigurationBgpPeeringAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual IPConfigurationBgpPeeringAddress_STATUS
-	err = actual.AssignPropertiesFromIPConfigurationBgpPeeringAddressSTATUS(&other)
+	err = actual.AssignProperties_From_IPConfigurationBgpPeeringAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1612,12 +1612,12 @@ func Test_IPConfigurationBgpPeeringAddress_STATUS_WhenSerializedToJson_Deseriali
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationBgpPeeringAddress_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPConfigurationBgpPeeringAddressSTATUS, IPConfigurationBgpPeeringAddressSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_STATUS, IPConfigurationBgpPeeringAddress_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIPConfigurationBgpPeeringAddressSTATUS runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressSTATUS(subject IPConfigurationBgpPeeringAddress_STATUS) string {
+// RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_STATUS runs a test to see if a specific instance of IPConfigurationBgpPeeringAddress_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress_STATUS(subject IPConfigurationBgpPeeringAddress_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1644,24 +1644,24 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressSTATUS(subject I
 }
 
 // Generator of IPConfigurationBgpPeeringAddress_STATUS instances for property testing - lazily instantiated by
-// IPConfigurationBgpPeeringAddressSTATUSGenerator()
-var ipConfigurationBgpPeeringAddressSTATUSGenerator gopter.Gen
+// IPConfigurationBgpPeeringAddress_STATUSGenerator()
+var ipConfigurationBgpPeeringAddress_STATUSGenerator gopter.Gen
 
-// IPConfigurationBgpPeeringAddressSTATUSGenerator returns a generator of IPConfigurationBgpPeeringAddress_STATUS instances for property testing.
-func IPConfigurationBgpPeeringAddressSTATUSGenerator() gopter.Gen {
-	if ipConfigurationBgpPeeringAddressSTATUSGenerator != nil {
-		return ipConfigurationBgpPeeringAddressSTATUSGenerator
+// IPConfigurationBgpPeeringAddress_STATUSGenerator returns a generator of IPConfigurationBgpPeeringAddress_STATUS instances for property testing.
+func IPConfigurationBgpPeeringAddress_STATUSGenerator() gopter.Gen {
+	if ipConfigurationBgpPeeringAddress_STATUSGenerator != nil {
+		return ipConfigurationBgpPeeringAddress_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressSTATUS(generators)
-	ipConfigurationBgpPeeringAddressSTATUSGenerator = gen.Struct(reflect.TypeOf(IPConfigurationBgpPeeringAddress_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_STATUS(generators)
+	ipConfigurationBgpPeeringAddress_STATUSGenerator = gen.Struct(reflect.TypeOf(IPConfigurationBgpPeeringAddress_STATUS{}), generators)
 
-	return ipConfigurationBgpPeeringAddressSTATUSGenerator
+	return ipConfigurationBgpPeeringAddress_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_STATUS(gens map[string]gopter.Gen) {
 	gens["CustomBgpIpAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["DefaultBgpIpAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["IpconfigurationId"] = gen.PtrOf(gen.AlphaString())
@@ -1674,7 +1674,7 @@ func Test_IpsecPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from IpsecPolicy to IpsecPolicy via AssignPropertiesToIpsecPolicy & AssignPropertiesFromIpsecPolicy returns original",
+		"Round trip from IpsecPolicy to IpsecPolicy via AssignProperties_To_IpsecPolicy & AssignProperties_From_IpsecPolicy returns original",
 		prop.ForAll(RunPropertyAssignmentTestForIpsecPolicy, IpsecPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1686,14 +1686,14 @@ func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.IpsecPolicy
-	err := copied.AssignPropertiesToIpsecPolicy(&other)
+	err := copied.AssignProperties_To_IpsecPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual IpsecPolicy
-	err = actual.AssignPropertiesFromIpsecPolicy(&other)
+	err = actual.AssignProperties_From_IpsecPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1768,56 +1768,56 @@ func IpsecPolicyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIpsecPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) {
 	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyDhGroup_DHGroup1,
-		IpsecPolicyDhGroup_DHGroup14,
-		IpsecPolicyDhGroup_DHGroup2,
-		IpsecPolicyDhGroup_DHGroup2048,
-		IpsecPolicyDhGroup_DHGroup24,
-		IpsecPolicyDhGroup_ECP256,
-		IpsecPolicyDhGroup_ECP384,
-		IpsecPolicyDhGroup_None))
+		IpsecPolicy_DhGroup_DHGroup1,
+		IpsecPolicy_DhGroup_DHGroup14,
+		IpsecPolicy_DhGroup_DHGroup2,
+		IpsecPolicy_DhGroup_DHGroup2048,
+		IpsecPolicy_DhGroup_DHGroup24,
+		IpsecPolicy_DhGroup_ECP256,
+		IpsecPolicy_DhGroup_ECP384,
+		IpsecPolicy_DhGroup_None))
 	gens["IkeEncryption"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIkeEncryption_AES128,
-		IpsecPolicyIkeEncryption_AES192,
-		IpsecPolicyIkeEncryption_AES256,
-		IpsecPolicyIkeEncryption_DES,
-		IpsecPolicyIkeEncryption_DES3,
-		IpsecPolicyIkeEncryption_GCMAES128,
-		IpsecPolicyIkeEncryption_GCMAES256))
+		IpsecPolicy_IkeEncryption_AES128,
+		IpsecPolicy_IkeEncryption_AES192,
+		IpsecPolicy_IkeEncryption_AES256,
+		IpsecPolicy_IkeEncryption_DES,
+		IpsecPolicy_IkeEncryption_DES3,
+		IpsecPolicy_IkeEncryption_GCMAES128,
+		IpsecPolicy_IkeEncryption_GCMAES256))
 	gens["IkeIntegrity"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIkeIntegrity_GCMAES128,
-		IpsecPolicyIkeIntegrity_GCMAES256,
-		IpsecPolicyIkeIntegrity_MD5,
-		IpsecPolicyIkeIntegrity_SHA1,
-		IpsecPolicyIkeIntegrity_SHA256,
-		IpsecPolicyIkeIntegrity_SHA384))
+		IpsecPolicy_IkeIntegrity_GCMAES128,
+		IpsecPolicy_IkeIntegrity_GCMAES256,
+		IpsecPolicy_IkeIntegrity_MD5,
+		IpsecPolicy_IkeIntegrity_SHA1,
+		IpsecPolicy_IkeIntegrity_SHA256,
+		IpsecPolicy_IkeIntegrity_SHA384))
 	gens["IpsecEncryption"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIpsecEncryption_AES128,
-		IpsecPolicyIpsecEncryption_AES192,
-		IpsecPolicyIpsecEncryption_AES256,
-		IpsecPolicyIpsecEncryption_DES,
-		IpsecPolicyIpsecEncryption_DES3,
-		IpsecPolicyIpsecEncryption_GCMAES128,
-		IpsecPolicyIpsecEncryption_GCMAES192,
-		IpsecPolicyIpsecEncryption_GCMAES256,
-		IpsecPolicyIpsecEncryption_None))
+		IpsecPolicy_IpsecEncryption_AES128,
+		IpsecPolicy_IpsecEncryption_AES192,
+		IpsecPolicy_IpsecEncryption_AES256,
+		IpsecPolicy_IpsecEncryption_DES,
+		IpsecPolicy_IpsecEncryption_DES3,
+		IpsecPolicy_IpsecEncryption_GCMAES128,
+		IpsecPolicy_IpsecEncryption_GCMAES192,
+		IpsecPolicy_IpsecEncryption_GCMAES256,
+		IpsecPolicy_IpsecEncryption_None))
 	gens["IpsecIntegrity"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyIpsecIntegrity_GCMAES128,
-		IpsecPolicyIpsecIntegrity_GCMAES192,
-		IpsecPolicyIpsecIntegrity_GCMAES256,
-		IpsecPolicyIpsecIntegrity_MD5,
-		IpsecPolicyIpsecIntegrity_SHA1,
-		IpsecPolicyIpsecIntegrity_SHA256))
+		IpsecPolicy_IpsecIntegrity_GCMAES128,
+		IpsecPolicy_IpsecIntegrity_GCMAES192,
+		IpsecPolicy_IpsecIntegrity_GCMAES256,
+		IpsecPolicy_IpsecIntegrity_MD5,
+		IpsecPolicy_IpsecIntegrity_SHA1,
+		IpsecPolicy_IpsecIntegrity_SHA256))
 	gens["PfsGroup"] = gen.PtrOf(gen.OneConstOf(
-		IpsecPolicyPfsGroup_ECP256,
-		IpsecPolicyPfsGroup_ECP384,
-		IpsecPolicyPfsGroup_None,
-		IpsecPolicyPfsGroup_PFS1,
-		IpsecPolicyPfsGroup_PFS14,
-		IpsecPolicyPfsGroup_PFS2,
-		IpsecPolicyPfsGroup_PFS2048,
-		IpsecPolicyPfsGroup_PFS24,
-		IpsecPolicyPfsGroup_PFSMM))
+		IpsecPolicy_PfsGroup_ECP256,
+		IpsecPolicy_PfsGroup_ECP384,
+		IpsecPolicy_PfsGroup_None,
+		IpsecPolicy_PfsGroup_PFS1,
+		IpsecPolicy_PfsGroup_PFS14,
+		IpsecPolicy_PfsGroup_PFS2,
+		IpsecPolicy_PfsGroup_PFS2048,
+		IpsecPolicy_PfsGroup_PFS24,
+		IpsecPolicy_PfsGroup_PFSMM))
 	gens["SaDataSizeKilobytes"] = gen.PtrOf(gen.Int())
 	gens["SaLifeTimeSeconds"] = gen.PtrOf(gen.Int())
 }
@@ -1828,26 +1828,26 @@ func Test_IpsecPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from IpsecPolicy_STATUS to IpsecPolicy_STATUS via AssignPropertiesToIpsecPolicySTATUS & AssignPropertiesFromIpsecPolicySTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIpsecPolicySTATUS, IpsecPolicySTATUSGenerator()))
+		"Round trip from IpsecPolicy_STATUS to IpsecPolicy_STATUS via AssignProperties_To_IpsecPolicy_STATUS & AssignProperties_From_IpsecPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIpsecPolicy_STATUS, IpsecPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpsecPolicySTATUS tests if a specific instance of IpsecPolicy_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForIpsecPolicySTATUS(subject IpsecPolicy_STATUS) string {
+// RunPropertyAssignmentTestForIpsecPolicy_STATUS tests if a specific instance of IpsecPolicy_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForIpsecPolicy_STATUS(subject IpsecPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.IpsecPolicy_STATUS
-	err := copied.AssignPropertiesToIpsecPolicySTATUS(&other)
+	err := copied.AssignProperties_To_IpsecPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual IpsecPolicy_STATUS
-	err = actual.AssignPropertiesFromIpsecPolicySTATUS(&other)
+	err = actual.AssignProperties_From_IpsecPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1872,12 +1872,12 @@ func Test_IpsecPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpsecPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIpsecPolicySTATUS, IpsecPolicySTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForIpsecPolicy_STATUS, IpsecPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIpsecPolicySTATUS runs a test to see if a specific instance of IpsecPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIpsecPolicySTATUS(subject IpsecPolicy_STATUS) string {
+// RunJSONSerializationTestForIpsecPolicy_STATUS runs a test to see if a specific instance of IpsecPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIpsecPolicy_STATUS(subject IpsecPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1903,24 +1903,24 @@ func RunJSONSerializationTestForIpsecPolicySTATUS(subject IpsecPolicy_STATUS) st
 	return ""
 }
 
-// Generator of IpsecPolicy_STATUS instances for property testing - lazily instantiated by IpsecPolicySTATUSGenerator()
-var ipsecPolicySTATUSGenerator gopter.Gen
+// Generator of IpsecPolicy_STATUS instances for property testing - lazily instantiated by IpsecPolicy_STATUSGenerator()
+var ipsecPolicy_STATUSGenerator gopter.Gen
 
-// IpsecPolicySTATUSGenerator returns a generator of IpsecPolicy_STATUS instances for property testing.
-func IpsecPolicySTATUSGenerator() gopter.Gen {
-	if ipsecPolicySTATUSGenerator != nil {
-		return ipsecPolicySTATUSGenerator
+// IpsecPolicy_STATUSGenerator returns a generator of IpsecPolicy_STATUS instances for property testing.
+func IpsecPolicy_STATUSGenerator() gopter.Gen {
+	if ipsecPolicy_STATUSGenerator != nil {
+		return ipsecPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIpsecPolicySTATUS(generators)
-	ipsecPolicySTATUSGenerator = gen.Struct(reflect.TypeOf(IpsecPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForIpsecPolicy_STATUS(generators)
+	ipsecPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(IpsecPolicy_STATUS{}), generators)
 
-	return ipsecPolicySTATUSGenerator
+	return ipsecPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIpsecPolicySTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIpsecPolicySTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForIpsecPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIpsecPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["DhGroup"] = gen.PtrOf(gen.OneConstOf(
 		DhGroup_STATUS_DHGroup1,
 		DhGroup_STATUS_DHGroup14,
@@ -1982,7 +1982,7 @@ func Test_RadiusServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RadiusServer to RadiusServer via AssignPropertiesToRadiusServer & AssignPropertiesFromRadiusServer returns original",
+		"Round trip from RadiusServer to RadiusServer via AssignProperties_To_RadiusServer & AssignProperties_From_RadiusServer returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRadiusServer, RadiusServerGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1994,14 +1994,14 @@ func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.RadiusServer
-	err := copied.AssignPropertiesToRadiusServer(&other)
+	err := copied.AssignProperties_To_RadiusServer(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RadiusServer
-	err = actual.AssignPropertiesFromRadiusServer(&other)
+	err = actual.AssignProperties_From_RadiusServer(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2086,26 +2086,26 @@ func Test_RadiusServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RadiusServer_STATUS to RadiusServer_STATUS via AssignPropertiesToRadiusServerSTATUS & AssignPropertiesFromRadiusServerSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRadiusServerSTATUS, RadiusServerSTATUSGenerator()))
+		"Round trip from RadiusServer_STATUS to RadiusServer_STATUS via AssignProperties_To_RadiusServer_STATUS & AssignProperties_From_RadiusServer_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRadiusServer_STATUS, RadiusServer_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRadiusServerSTATUS tests if a specific instance of RadiusServer_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForRadiusServerSTATUS(subject RadiusServer_STATUS) string {
+// RunPropertyAssignmentTestForRadiusServer_STATUS tests if a specific instance of RadiusServer_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForRadiusServer_STATUS(subject RadiusServer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.RadiusServer_STATUS
-	err := copied.AssignPropertiesToRadiusServerSTATUS(&other)
+	err := copied.AssignProperties_To_RadiusServer_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RadiusServer_STATUS
-	err = actual.AssignPropertiesFromRadiusServerSTATUS(&other)
+	err = actual.AssignProperties_From_RadiusServer_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2130,12 +2130,12 @@ func Test_RadiusServer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RadiusServer_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRadiusServerSTATUS, RadiusServerSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRadiusServer_STATUS, RadiusServer_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRadiusServerSTATUS runs a test to see if a specific instance of RadiusServer_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRadiusServerSTATUS(subject RadiusServer_STATUS) string {
+// RunJSONSerializationTestForRadiusServer_STATUS runs a test to see if a specific instance of RadiusServer_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRadiusServer_STATUS(subject RadiusServer_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2161,24 +2161,25 @@ func RunJSONSerializationTestForRadiusServerSTATUS(subject RadiusServer_STATUS) 
 	return ""
 }
 
-// Generator of RadiusServer_STATUS instances for property testing - lazily instantiated by RadiusServerSTATUSGenerator()
-var radiusServerSTATUSGenerator gopter.Gen
+// Generator of RadiusServer_STATUS instances for property testing - lazily instantiated by
+// RadiusServer_STATUSGenerator()
+var radiusServer_STATUSGenerator gopter.Gen
 
-// RadiusServerSTATUSGenerator returns a generator of RadiusServer_STATUS instances for property testing.
-func RadiusServerSTATUSGenerator() gopter.Gen {
-	if radiusServerSTATUSGenerator != nil {
-		return radiusServerSTATUSGenerator
+// RadiusServer_STATUSGenerator returns a generator of RadiusServer_STATUS instances for property testing.
+func RadiusServer_STATUSGenerator() gopter.Gen {
+	if radiusServer_STATUSGenerator != nil {
+		return radiusServer_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRadiusServerSTATUS(generators)
-	radiusServerSTATUSGenerator = gen.Struct(reflect.TypeOf(RadiusServer_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRadiusServer_STATUS(generators)
+	radiusServer_STATUSGenerator = gen.Struct(reflect.TypeOf(RadiusServer_STATUS{}), generators)
 
-	return radiusServerSTATUSGenerator
+	return radiusServer_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRadiusServerSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRadiusServerSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRadiusServer_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRadiusServer_STATUS(gens map[string]gopter.Gen) {
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
@@ -2190,26 +2191,26 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates via AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates & AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()))
+		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates via AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates & AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2234,12 +2235,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
+// RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2267,24 +2268,24 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for
 // property testing - lazily instantiated by
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()
-var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator gopter.Gen
+// VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator()
+var virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator gopter.Gen
 
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for property testing.
-func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator
+// VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for property testing.
+func VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator() gopter.Gen {
+	if virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator != nil {
+		return virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(generators)
+	virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates{}), generators)
 
-	return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator
+	return virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2295,26 +2296,26 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates via AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates & AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()))
+		"Round trip from VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates to VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates via AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates & AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
+// RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&other)
+	err := copied.AssignProperties_To_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-	err = actual.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&other)
+	err = actual.AssignProperties_From_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2339,12 +2340,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates, VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
+// RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates runs a test to see if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2372,24 +2373,24 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for
 // property testing - lazily instantiated by
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()
-var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator gopter.Gen
+// VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator()
+var virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator gopter.Gen
 
-// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for property testing.
-func VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator() gopter.Gen {
-	if virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator != nil {
-		return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator
+// VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for property testing.
+func VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator() gopter.Gen {
+	if virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator != nil {
+		return virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(generators)
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(generators)
+	virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates{}), generators)
 
-	return virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator
+	return virtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2400,26 +2401,26 @@ func Test_VpnClientRevokedCertificate_STATUS_WhenPropertiesConverted_RoundTripsW
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VpnClientRevokedCertificate_STATUS to VpnClientRevokedCertificate_STATUS via AssignPropertiesToVpnClientRevokedCertificateSTATUS & AssignPropertiesFromVpnClientRevokedCertificateSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVpnClientRevokedCertificateSTATUS, VpnClientRevokedCertificateSTATUSGenerator()))
+		"Round trip from VpnClientRevokedCertificate_STATUS to VpnClientRevokedCertificate_STATUS via AssignProperties_To_VpnClientRevokedCertificate_STATUS & AssignProperties_From_VpnClientRevokedCertificate_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS, VpnClientRevokedCertificate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRevokedCertificateSTATUS tests if a specific instance of VpnClientRevokedCertificate_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVpnClientRevokedCertificateSTATUS(subject VpnClientRevokedCertificate_STATUS) string {
+// RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS tests if a specific instance of VpnClientRevokedCertificate_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS(subject VpnClientRevokedCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VpnClientRevokedCertificate_STATUS
-	err := copied.AssignPropertiesToVpnClientRevokedCertificateSTATUS(&other)
+	err := copied.AssignProperties_To_VpnClientRevokedCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VpnClientRevokedCertificate_STATUS
-	err = actual.AssignPropertiesFromVpnClientRevokedCertificateSTATUS(&other)
+	err = actual.AssignProperties_From_VpnClientRevokedCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2444,12 +2445,12 @@ func Test_VpnClientRevokedCertificate_STATUS_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientRevokedCertificate_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientRevokedCertificateSTATUS, VpnClientRevokedCertificateSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVpnClientRevokedCertificate_STATUS, VpnClientRevokedCertificate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientRevokedCertificateSTATUS runs a test to see if a specific instance of VpnClientRevokedCertificate_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientRevokedCertificateSTATUS(subject VpnClientRevokedCertificate_STATUS) string {
+// RunJSONSerializationTestForVpnClientRevokedCertificate_STATUS runs a test to see if a specific instance of VpnClientRevokedCertificate_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientRevokedCertificate_STATUS(subject VpnClientRevokedCertificate_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2476,24 +2477,24 @@ func RunJSONSerializationTestForVpnClientRevokedCertificateSTATUS(subject VpnCli
 }
 
 // Generator of VpnClientRevokedCertificate_STATUS instances for property testing - lazily instantiated by
-// VpnClientRevokedCertificateSTATUSGenerator()
-var vpnClientRevokedCertificateSTATUSGenerator gopter.Gen
+// VpnClientRevokedCertificate_STATUSGenerator()
+var vpnClientRevokedCertificate_STATUSGenerator gopter.Gen
 
-// VpnClientRevokedCertificateSTATUSGenerator returns a generator of VpnClientRevokedCertificate_STATUS instances for property testing.
-func VpnClientRevokedCertificateSTATUSGenerator() gopter.Gen {
-	if vpnClientRevokedCertificateSTATUSGenerator != nil {
-		return vpnClientRevokedCertificateSTATUSGenerator
+// VpnClientRevokedCertificate_STATUSGenerator returns a generator of VpnClientRevokedCertificate_STATUS instances for property testing.
+func VpnClientRevokedCertificate_STATUSGenerator() gopter.Gen {
+	if vpnClientRevokedCertificate_STATUSGenerator != nil {
+		return vpnClientRevokedCertificate_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateSTATUS(generators)
-	vpnClientRevokedCertificateSTATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientRevokedCertificate_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_STATUS(generators)
+	vpnClientRevokedCertificate_STATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientRevokedCertificate_STATUS{}), generators)
 
-	return vpnClientRevokedCertificateSTATUSGenerator
+	return vpnClientRevokedCertificate_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificate_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -2511,26 +2512,26 @@ func Test_VpnClientRootCertificate_STATUS_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VpnClientRootCertificate_STATUS to VpnClientRootCertificate_STATUS via AssignPropertiesToVpnClientRootCertificateSTATUS & AssignPropertiesFromVpnClientRootCertificateSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVpnClientRootCertificateSTATUS, VpnClientRootCertificateSTATUSGenerator()))
+		"Round trip from VpnClientRootCertificate_STATUS to VpnClientRootCertificate_STATUS via AssignProperties_To_VpnClientRootCertificate_STATUS & AssignProperties_From_VpnClientRootCertificate_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS, VpnClientRootCertificate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRootCertificateSTATUS tests if a specific instance of VpnClientRootCertificate_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
-func RunPropertyAssignmentTestForVpnClientRootCertificateSTATUS(subject VpnClientRootCertificate_STATUS) string {
+// RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS tests if a specific instance of VpnClientRootCertificate_STATUS can be assigned to v1alpha1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS(subject VpnClientRootCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other alpha20201101s.VpnClientRootCertificate_STATUS
-	err := copied.AssignPropertiesToVpnClientRootCertificateSTATUS(&other)
+	err := copied.AssignProperties_To_VpnClientRootCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VpnClientRootCertificate_STATUS
-	err = actual.AssignPropertiesFromVpnClientRootCertificateSTATUS(&other)
+	err = actual.AssignProperties_From_VpnClientRootCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2555,12 +2556,12 @@ func Test_VpnClientRootCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientRootCertificate_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVpnClientRootCertificateSTATUS, VpnClientRootCertificateSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForVpnClientRootCertificate_STATUS, VpnClientRootCertificate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVpnClientRootCertificateSTATUS runs a test to see if a specific instance of VpnClientRootCertificate_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVpnClientRootCertificateSTATUS(subject VpnClientRootCertificate_STATUS) string {
+// RunJSONSerializationTestForVpnClientRootCertificate_STATUS runs a test to see if a specific instance of VpnClientRootCertificate_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVpnClientRootCertificate_STATUS(subject VpnClientRootCertificate_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2587,24 +2588,24 @@ func RunJSONSerializationTestForVpnClientRootCertificateSTATUS(subject VpnClient
 }
 
 // Generator of VpnClientRootCertificate_STATUS instances for property testing - lazily instantiated by
-// VpnClientRootCertificateSTATUSGenerator()
-var vpnClientRootCertificateSTATUSGenerator gopter.Gen
+// VpnClientRootCertificate_STATUSGenerator()
+var vpnClientRootCertificate_STATUSGenerator gopter.Gen
 
-// VpnClientRootCertificateSTATUSGenerator returns a generator of VpnClientRootCertificate_STATUS instances for property testing.
-func VpnClientRootCertificateSTATUSGenerator() gopter.Gen {
-	if vpnClientRootCertificateSTATUSGenerator != nil {
-		return vpnClientRootCertificateSTATUSGenerator
+// VpnClientRootCertificate_STATUSGenerator returns a generator of VpnClientRootCertificate_STATUS instances for property testing.
+func VpnClientRootCertificate_STATUSGenerator() gopter.Gen {
+	if vpnClientRootCertificate_STATUSGenerator != nil {
+		return vpnClientRootCertificate_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVpnClientRootCertificateSTATUS(generators)
-	vpnClientRootCertificateSTATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientRootCertificate_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVpnClientRootCertificate_STATUS(generators)
+	vpnClientRootCertificate_STATUSGenerator = gen.Struct(reflect.TypeOf(VpnClientRootCertificate_STATUS{}), generators)
 
-	return vpnClientRootCertificateSTATUSGenerator
+	return vpnClientRootCertificate_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVpnClientRootCertificateSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVpnClientRootCertificateSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVpnClientRootCertificate_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVpnClientRootCertificate_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())

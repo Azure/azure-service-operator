@@ -62,7 +62,7 @@ type Properties struct {
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
-	Discrim *BarDiscrim `json:"discrim,omitempty"`
+	Discrim *Bar_Discrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Size *int `json:"size,omitempty"`
@@ -71,7 +71,7 @@ type Bar struct {
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
-	Discrim *BazDiscrim `json:"discrim,omitempty"`
+	Discrim *Baz_Discrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled,omitempty"`
@@ -80,24 +80,24 @@ type Baz struct {
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
-	Discrim *FooDiscrim `json:"discrim,omitempty"`
-	Name    *string     `json:"name,omitempty"`
+	Discrim *Foo_Discrim `json:"discrim,omitempty"`
+	Name    *string      `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"bar"}
-type BarDiscrim string
+type Bar_Discrim string
 
-const BarDiscrim_Bar = BarDiscrim("bar")
+const Bar_Discrim_Bar = Bar_Discrim("bar")
 
 // +kubebuilder:validation:Enum={"baz"}
-type BazDiscrim string
+type Baz_Discrim string
 
-const BazDiscrim_Baz = BazDiscrim("baz")
+const Baz_Discrim_Baz = Baz_Discrim("baz")
 
 // +kubebuilder:validation:Enum={"foo"}
-type FooDiscrim string
+type Foo_Discrim string
 
-const FooDiscrim_Foo = FooDiscrim("foo")
+const Foo_Discrim_Foo = Foo_Discrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

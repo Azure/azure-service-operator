@@ -25,9 +25,9 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 	// Custom namer because storage accounts have strict names
 
 	// Create a storage account with an invalid key expiration period
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
-	kind := storage.StorageAccountsSpecKind_BlobStorage
-	sku := storage.SkuName_StandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccounts_Spec_Kind_BlobStorage
+	sku := storage.Sku_Name_Standard_LRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{
@@ -46,7 +46,7 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 }
 
 func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *compute.VirtualMachineScaleSet {
-	upgradePolicyMode := compute.UpgradePolicyMode_Automatic
+	upgradePolicyMode := compute.UpgradePolicy_Mode_Automatic
 	adminUsername := "adminUser"
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
@@ -94,7 +94,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 
 // There are two ways that a long-running operation can fail. It can be rejected when initially
 // submitted to the Azure API, or it can be accepted and then report a failure during
-// long running operation polling. This ensures that the second case is handled correctly.
+// long-running operation polling. This ensures that the second case is handled correctly.
 func Test_OperationAccepted_LongRunningOperationFails(t *testing.T) {
 	t.Parallel()
 

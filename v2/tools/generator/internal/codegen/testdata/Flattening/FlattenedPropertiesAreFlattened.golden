@@ -11,68 +11,68 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	InnerFlat    *Inner `json:"inner_flat,omitempty"`
-	InnerNotFlat *Inner `json:"inner_not_flat,omitempty"`
+	Inner_Flat     *Inner `json:"inner_flat,omitempty"`
+	Inner_Not_Flat *Inner `json:"inner_not_flat,omitempty"`
 }
 
-// AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
+// AssignProperties_From_Test populates our Test from the provided source Test
+func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
-	// InnerFlat
-	if source.InnerFlat != nil {
-		var innerFlat Inner
-		err := innerFlat.AssignPropertiesFromInner(source.InnerFlat)
+	// Inner_Flat
+	if source.Inner_Flat != nil {
+		var inner_Flat Inner
+		err := inner_Flat.AssignProperties_From_Inner(source.Inner_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field InnerFlat")
+			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Flat")
 		}
-		test.InnerFlat = &innerFlat
+		test.Inner_Flat = &inner_Flat
 	} else {
-		test.InnerFlat = nil
+		test.Inner_Flat = nil
 	}
 
-	// InnerNotFlat
-	if source.InnerNotFlat != nil {
-		var innerNotFlat Inner
-		err := innerNotFlat.AssignPropertiesFromInner(source.InnerNotFlat)
+	// Inner_Not_Flat
+	if source.Inner_Not_Flat != nil {
+		var inner_Not_Flat Inner
+		err := inner_Not_Flat.AssignProperties_From_Inner(source.Inner_Not_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field InnerNotFlat")
+			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Not_Flat")
 		}
-		test.InnerNotFlat = &innerNotFlat
+		test.Inner_Not_Flat = &inner_Not_Flat
 	} else {
-		test.InnerNotFlat = nil
+		test.Inner_Not_Flat = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
+// AssignProperties_To_Test populates the provided destination Test from our Test
+func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// InnerFlat
-	if test.InnerFlat != nil {
-		var innerFlat v20200101s.Inner
-		err := test.InnerFlat.AssignPropertiesToInner(&innerFlat)
+	// Inner_Flat
+	if test.Inner_Flat != nil {
+		var inner_Flat v20200101s.Inner
+		err := test.Inner_Flat.AssignProperties_To_Inner(&inner_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field InnerFlat")
+			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Flat")
 		}
-		destination.InnerFlat = &innerFlat
+		destination.Inner_Flat = &inner_Flat
 	} else {
-		destination.InnerFlat = nil
+		destination.Inner_Flat = nil
 	}
 
-	// InnerNotFlat
-	if test.InnerNotFlat != nil {
-		var innerNotFlat v20200101s.Inner
-		err := test.InnerNotFlat.AssignPropertiesToInner(&innerNotFlat)
+	// Inner_Not_Flat
+	if test.Inner_Not_Flat != nil {
+		var inner_Not_Flat v20200101s.Inner
+		err := test.Inner_Not_Flat.AssignProperties_To_Inner(&inner_Not_Flat)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field InnerNotFlat")
+			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Not_Flat")
 		}
-		destination.InnerNotFlat = &innerNotFlat
+		destination.Inner_Not_Flat = &inner_Not_Flat
 	} else {
-		destination.InnerNotFlat = nil
+		destination.Inner_Not_Flat = nil
 	}
 
 	// Update the property bag
@@ -92,8 +92,8 @@ type Inner struct {
 	Name  *string `json:"name,omitempty"`
 }
 
-// AssignPropertiesFromInner populates our Inner from the provided source Inner
-func (inner *Inner) AssignPropertiesFromInner(source *v20200101s.Inner) error {
+// AssignProperties_From_Inner populates our Inner from the provided source Inner
+func (inner *Inner) AssignProperties_From_Inner(source *v20200101s.Inner) error {
 
 	// Color
 	inner.Color = genruntime.ClonePointerToString(source.Color)
@@ -105,8 +105,8 @@ func (inner *Inner) AssignPropertiesFromInner(source *v20200101s.Inner) error {
 	return nil
 }
 
-// AssignPropertiesToInner populates the provided destination Inner from our Inner
-func (inner *Inner) AssignPropertiesToInner(destination *v20200101s.Inner) error {
+// AssignProperties_To_Inner populates the provided destination Inner from our Inner
+func (inner *Inner) AssignProperties_To_Inner(destination *v20200101s.Inner) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

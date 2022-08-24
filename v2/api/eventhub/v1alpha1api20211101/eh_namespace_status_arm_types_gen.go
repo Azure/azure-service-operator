@@ -39,32 +39,32 @@ type EHNamespace_STATUS_PropertiesARM struct {
 type Identity_STATUSARM struct {
 	PrincipalId            *string                                   `json:"principalId,omitempty"`
 	TenantId               *string                                   `json:"tenantId,omitempty"`
-	Type                   *IdentitySTATUSType                       `json:"type,omitempty"`
+	Type                   *Identity_STATUS_Type                     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20211101.Sku_STATUS instead
 type Sku_STATUSARM struct {
-	Capacity *int           `json:"capacity,omitempty"`
-	Name     *SkuSTATUSName `json:"name,omitempty"`
-	Tier     *SkuSTATUSTier `json:"tier,omitempty"`
+	Capacity *int             `json:"capacity,omitempty"`
+	Name     *Sku_STATUS_Name `json:"name,omitempty"`
+	Tier     *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of Encryption_STATUS. Use v1beta20211101.Encryption_STATUS instead
 type Encryption_STATUSARM struct {
-	KeySource                       *EncryptionSTATUSKeySource     `json:"keySource,omitempty"`
+	KeySource                       *Encryption_STATUS_KeySource   `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-// Deprecated version of IdentitySTATUSType. Use v1beta20211101.IdentitySTATUSType instead
-type IdentitySTATUSType string
+// Deprecated version of Identity_STATUS_Type. Use v1beta20211101.Identity_STATUS_Type instead
+type Identity_STATUS_Type string
 
 const (
-	IdentitySTATUSType_None                       = IdentitySTATUSType("None")
-	IdentitySTATUSType_SystemAssigned             = IdentitySTATUSType("SystemAssigned")
-	IdentitySTATUSType_SystemAssignedUserAssigned = IdentitySTATUSType("SystemAssigned, UserAssigned")
-	IdentitySTATUSType_UserAssigned               = IdentitySTATUSType("UserAssigned")
+	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
+	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
+	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
+	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20211101.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
@@ -73,22 +73,22 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
-// Deprecated version of SkuSTATUSName. Use v1beta20211101.SkuSTATUSName instead
-type SkuSTATUSName string
+// Deprecated version of Sku_STATUS_Name. Use v1beta20211101.Sku_STATUS_Name instead
+type Sku_STATUS_Name string
 
 const (
-	SkuSTATUSName_Basic    = SkuSTATUSName("Basic")
-	SkuSTATUSName_Premium  = SkuSTATUSName("Premium")
-	SkuSTATUSName_Standard = SkuSTATUSName("Standard")
+	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
 )
 
-// Deprecated version of SkuSTATUSTier. Use v1beta20211101.SkuSTATUSTier instead
-type SkuSTATUSTier string
+// Deprecated version of Sku_STATUS_Tier. Use v1beta20211101.Sku_STATUS_Tier instead
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Basic    = SkuSTATUSTier("Basic")
-	SkuSTATUSTier_Premium  = SkuSTATUSTier("Premium")
-	SkuSTATUSTier_Standard = SkuSTATUSTier("Standard")
+	Sku_STATUS_Tier_Basic    = Sku_STATUS_Tier("Basic")
+	Sku_STATUS_Tier_Premium  = Sku_STATUS_Tier("Premium")
+	Sku_STATUS_Tier_Standard = Sku_STATUS_Tier("Standard")
 )
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20211101.UserAssignedIdentity_STATUS instead
@@ -97,10 +97,10 @@ type UserAssignedIdentity_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-// Deprecated version of EncryptionSTATUSKeySource. Use v1beta20211101.EncryptionSTATUSKeySource instead
-type EncryptionSTATUSKeySource string
+// Deprecated version of Encryption_STATUS_KeySource. Use v1beta20211101.Encryption_STATUS_KeySource instead
+type Encryption_STATUS_KeySource string
 
-const EncryptionSTATUSKeySource_MicrosoftKeyVault = EncryptionSTATUSKeySource("Microsoft.KeyVault")
+const Encryption_STATUS_KeySource_MicrosoftKeyVault = Encryption_STATUS_KeySource("Microsoft.KeyVault")
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20211101.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUSARM struct {

@@ -28,8 +28,8 @@ import (
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTablesRoutes_Spec `json:"spec,omitempty"`
-	Status            Route_STATUS           `json:"status,omitempty"`
+	Spec              RouteTables_Routes_Spec `json:"spec,omitempty"`
+	Status            Route_STATUS            `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -53,7 +53,7 @@ func (route *RouteTablesRoute) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected network/v1beta20201101storage/RouteTablesRoute but received %T instead", hub)
 	}
 
-	return route.AssignPropertiesFromRouteTablesRoute(source)
+	return route.AssignProperties_From_RouteTablesRoute(source)
 }
 
 // ConvertTo populates the provided hub RouteTablesRoute from our RouteTablesRoute
@@ -63,7 +63,7 @@ func (route *RouteTablesRoute) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected network/v1beta20201101storage/RouteTablesRoute but received %T instead", hub)
 	}
 
-	return route.AssignPropertiesToRouteTablesRoute(destination)
+	return route.AssignProperties_To_RouteTablesRoute(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetablesroute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (route *RouteTablesRoute) validateWriteOnceProperties(old runtime.Object) e
 	return genruntime.ValidateWriteOnceProperties(oldObj, route)
 }
 
-// AssignPropertiesFromRouteTablesRoute populates our RouteTablesRoute from the provided source RouteTablesRoute
-func (route *RouteTablesRoute) AssignPropertiesFromRouteTablesRoute(source *v20201101s.RouteTablesRoute) error {
+// AssignProperties_From_RouteTablesRoute populates our RouteTablesRoute from the provided source RouteTablesRoute
+func (route *RouteTablesRoute) AssignProperties_From_RouteTablesRoute(source *v20201101s.RouteTablesRoute) error {
 
 	// ObjectMeta
 	route.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec RouteTablesRoutes_Spec
-	err := spec.AssignPropertiesFromRouteTablesRoutesSpec(&source.Spec)
+	var spec RouteTables_Routes_Spec
+	err := spec.AssignProperties_From_RouteTables_Routes_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteTablesRoutesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Routes_Spec() to populate field Spec")
 	}
 	route.Spec = spec
 
 	// Status
 	var status Route_STATUS
-	err = status.AssignPropertiesFromRouteSTATUS(&source.Status)
+	err = status.AssignProperties_From_Route_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
 	}
 	route.Status = status
 
@@ -274,25 +274,25 @@ func (route *RouteTablesRoute) AssignPropertiesFromRouteTablesRoute(source *v202
 	return nil
 }
 
-// AssignPropertiesToRouteTablesRoute populates the provided destination RouteTablesRoute from our RouteTablesRoute
-func (route *RouteTablesRoute) AssignPropertiesToRouteTablesRoute(destination *v20201101s.RouteTablesRoute) error {
+// AssignProperties_To_RouteTablesRoute populates the provided destination RouteTablesRoute from our RouteTablesRoute
+func (route *RouteTablesRoute) AssignProperties_To_RouteTablesRoute(destination *v20201101s.RouteTablesRoute) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *route.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201101s.RouteTablesRoutes_Spec
-	err := route.Spec.AssignPropertiesToRouteTablesRoutesSpec(&spec)
+	var spec v20201101s.RouteTables_Routes_Spec
+	err := route.Spec.AssignProperties_To_RouteTables_Routes_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteTablesRoutesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Routes_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20201101s.Route_STATUS
-	err = route.Status.AssignPropertiesToRouteSTATUS(&status)
+	err = route.Status.AssignProperties_To_Route_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -357,7 +357,7 @@ func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src, ok := source.(*v20201101s.Route_STATUS)
 	if ok {
 		// Populate our instance from source
-		return route.AssignPropertiesFromRouteSTATUS(src)
+		return route.AssignProperties_From_Route_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -368,7 +368,7 @@ func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	}
 
 	// Update our instance from src
-	err = route.AssignPropertiesFromRouteSTATUS(src)
+	err = route.AssignProperties_From_Route_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -381,12 +381,12 @@ func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst, ok := destination.(*v20201101s.Route_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return route.AssignPropertiesToRouteSTATUS(dst)
+		return route.AssignProperties_To_Route_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201101s.Route_STATUS{}
-	err := route.AssignPropertiesToRouteSTATUS(dst)
+	err := route.AssignProperties_To_Route_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -489,8 +489,8 @@ func (route *Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromRouteSTATUS populates our Route_STATUS from the provided source Route_STATUS
-func (route *Route_STATUS) AssignPropertiesFromRouteSTATUS(source *v20201101s.Route_STATUS) error {
+// AssignProperties_From_Route_STATUS populates our Route_STATUS from the provided source Route_STATUS
+func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *v20201101s.Route_STATUS) error {
 
 	// AddressPrefix
 	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -541,8 +541,8 @@ func (route *Route_STATUS) AssignPropertiesFromRouteSTATUS(source *v20201101s.Ro
 	return nil
 }
 
-// AssignPropertiesToRouteSTATUS populates the provided destination Route_STATUS from our Route_STATUS
-func (route *Route_STATUS) AssignPropertiesToRouteSTATUS(destination *v20201101s.Route_STATUS) error {
+// AssignProperties_To_Route_STATUS populates the provided destination Route_STATUS from our Route_STATUS
+func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *v20201101s.Route_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -602,7 +602,7 @@ func (route *Route_STATUS) AssignPropertiesToRouteSTATUS(destination *v20201101s
 	return nil
 }
 
-type RouteTablesRoutes_Spec struct {
+type RouteTables_Routes_Spec struct {
 	// +kubebuilder:validation:Required
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -620,7 +620,7 @@ type RouteTablesRoutes_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RoutePropertiesFormatNextHopType `json:"nextHopType,omitempty"`
+	NextHopType *RoutePropertiesFormat_NextHopType `json:"nextHopType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -629,14 +629,14 @@ type RouteTablesRoutes_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"RouteTable"`
 }
 
-var _ genruntime.ARMTransformer = &RouteTablesRoutes_Spec{}
+var _ genruntime.ARMTransformer = &RouteTables_Routes_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (routes *RouteTablesRoutes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (routes *RouteTables_Routes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if routes == nil {
 		return nil, nil
 	}
-	result := &RouteTablesRoutes_SpecARM{}
+	result := &RouteTables_Routes_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -668,15 +668,15 @@ func (routes *RouteTablesRoutes_Spec) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (routes *RouteTablesRoutes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTablesRoutes_SpecARM{}
+func (routes *RouteTables_Routes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTables_Routes_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (routes *RouteTablesRoutes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTablesRoutes_SpecARM)
+func (routes *RouteTables_Routes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTables_Routes_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTablesRoutes_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Routes_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AddressPrefix’:
@@ -727,25 +727,25 @@ func (routes *RouteTablesRoutes_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &RouteTablesRoutes_Spec{}
+var _ genruntime.ConvertibleSpec = &RouteTables_Routes_Spec{}
 
-// ConvertSpecFrom populates our RouteTablesRoutes_Spec from the provided source
-func (routes *RouteTablesRoutes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201101s.RouteTablesRoutes_Spec)
+// ConvertSpecFrom populates our RouteTables_Routes_Spec from the provided source
+func (routes *RouteTables_Routes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201101s.RouteTables_Routes_Spec)
 	if ok {
 		// Populate our instance from source
-		return routes.AssignPropertiesFromRouteTablesRoutesSpec(src)
+		return routes.AssignProperties_From_RouteTables_Routes_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.RouteTablesRoutes_Spec{}
+	src = &v20201101s.RouteTables_Routes_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = routes.AssignPropertiesFromRouteTablesRoutesSpec(src)
+	err = routes.AssignProperties_From_RouteTables_Routes_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -753,17 +753,17 @@ func (routes *RouteTablesRoutes_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our RouteTablesRoutes_Spec
-func (routes *RouteTablesRoutes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201101s.RouteTablesRoutes_Spec)
+// ConvertSpecTo populates the provided destination from our RouteTables_Routes_Spec
+func (routes *RouteTables_Routes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201101s.RouteTables_Routes_Spec)
 	if ok {
 		// Populate destination from our instance
-		return routes.AssignPropertiesToRouteTablesRoutesSpec(dst)
+		return routes.AssignProperties_To_RouteTables_Routes_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.RouteTablesRoutes_Spec{}
-	err := routes.AssignPropertiesToRouteTablesRoutesSpec(dst)
+	dst = &v20201101s.RouteTables_Routes_Spec{}
+	err := routes.AssignProperties_To_RouteTables_Routes_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -777,8 +777,8 @@ func (routes *RouteTablesRoutes_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignPropertiesFromRouteTablesRoutesSpec populates our RouteTablesRoutes_Spec from the provided source RouteTablesRoutes_Spec
-func (routes *RouteTablesRoutes_Spec) AssignPropertiesFromRouteTablesRoutesSpec(source *v20201101s.RouteTablesRoutes_Spec) error {
+// AssignProperties_From_RouteTables_Routes_Spec populates our RouteTables_Routes_Spec from the provided source RouteTables_Routes_Spec
+func (routes *RouteTables_Routes_Spec) AssignProperties_From_RouteTables_Routes_Spec(source *v20201101s.RouteTables_Routes_Spec) error {
 
 	// AddressPrefix
 	routes.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -799,7 +799,7 @@ func (routes *RouteTablesRoutes_Spec) AssignPropertiesFromRouteTablesRoutesSpec(
 
 	// NextHopType
 	if source.NextHopType != nil {
-		nextHopType := RoutePropertiesFormatNextHopType(*source.NextHopType)
+		nextHopType := RoutePropertiesFormat_NextHopType(*source.NextHopType)
 		routes.NextHopType = &nextHopType
 	} else {
 		routes.NextHopType = nil
@@ -817,8 +817,8 @@ func (routes *RouteTablesRoutes_Spec) AssignPropertiesFromRouteTablesRoutesSpec(
 	return nil
 }
 
-// AssignPropertiesToRouteTablesRoutesSpec populates the provided destination RouteTablesRoutes_Spec from our RouteTablesRoutes_Spec
-func (routes *RouteTablesRoutes_Spec) AssignPropertiesToRouteTablesRoutesSpec(destination *v20201101s.RouteTablesRoutes_Spec) error {
+// AssignProperties_To_RouteTables_Routes_Spec populates the provided destination RouteTables_Routes_Spec from our RouteTables_Routes_Spec
+func (routes *RouteTables_Routes_Spec) AssignProperties_To_RouteTables_Routes_Spec(destination *v20201101s.RouteTables_Routes_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -870,12 +870,12 @@ func (routes *RouteTablesRoutes_Spec) AssignPropertiesToRouteTablesRoutesSpec(de
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (routes *RouteTablesRoutes_Spec) OriginalVersion() string {
+func (routes *RouteTables_Routes_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (routes *RouteTablesRoutes_Spec) SetAzureName(azureName string) { routes.AzureName = azureName }
+func (routes *RouteTables_Routes_Spec) SetAzureName(azureName string) { routes.AzureName = azureName }
 
 type RouteNextHopType_STATUS string
 
@@ -888,14 +888,14 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
-type RoutePropertiesFormatNextHopType string
+type RoutePropertiesFormat_NextHopType string
 
 const (
-	RoutePropertiesFormatNextHopType_Internet              = RoutePropertiesFormatNextHopType("Internet")
-	RoutePropertiesFormatNextHopType_None                  = RoutePropertiesFormatNextHopType("None")
-	RoutePropertiesFormatNextHopType_VirtualAppliance      = RoutePropertiesFormatNextHopType("VirtualAppliance")
-	RoutePropertiesFormatNextHopType_VirtualNetworkGateway = RoutePropertiesFormatNextHopType("VirtualNetworkGateway")
-	RoutePropertiesFormatNextHopType_VnetLocal             = RoutePropertiesFormatNextHopType("VnetLocal")
+	RoutePropertiesFormat_NextHopType_Internet              = RoutePropertiesFormat_NextHopType("Internet")
+	RoutePropertiesFormat_NextHopType_None                  = RoutePropertiesFormat_NextHopType("None")
+	RoutePropertiesFormat_NextHopType_VirtualAppliance      = RoutePropertiesFormat_NextHopType("VirtualAppliance")
+	RoutePropertiesFormat_NextHopType_VirtualNetworkGateway = RoutePropertiesFormat_NextHopType("VirtualNetworkGateway")
+	RoutePropertiesFormat_NextHopType_VnetLocal             = RoutePropertiesFormat_NextHopType("VnetLocal")
 )
 
 func init() {

@@ -41,7 +41,7 @@ type Eventhub_STATUS_PropertiesARM struct {
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
 	// Status: Enumerates the possible values for the status of the Event Hub.
-	Status *EventhubSTATUSPropertiesStatus `json:"status,omitempty"`
+	Status *Eventhub_STATUS_Properties_Status `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
@@ -56,7 +56,7 @@ type CaptureDescription_STATUSARM struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-	Encoding *CaptureDescriptionSTATUSEncoding `json:"encoding,omitempty"`
+	Encoding *CaptureDescription_STATUS_Encoding `json:"encoding,omitempty"`
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -70,25 +70,25 @@ type CaptureDescription_STATUSARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
-type EventhubSTATUSPropertiesStatus string
+type Eventhub_STATUS_Properties_Status string
 
 const (
-	EventhubSTATUSPropertiesStatus_Active          = EventhubSTATUSPropertiesStatus("Active")
-	EventhubSTATUSPropertiesStatus_Creating        = EventhubSTATUSPropertiesStatus("Creating")
-	EventhubSTATUSPropertiesStatus_Deleting        = EventhubSTATUSPropertiesStatus("Deleting")
-	EventhubSTATUSPropertiesStatus_Disabled        = EventhubSTATUSPropertiesStatus("Disabled")
-	EventhubSTATUSPropertiesStatus_ReceiveDisabled = EventhubSTATUSPropertiesStatus("ReceiveDisabled")
-	EventhubSTATUSPropertiesStatus_Renaming        = EventhubSTATUSPropertiesStatus("Renaming")
-	EventhubSTATUSPropertiesStatus_Restoring       = EventhubSTATUSPropertiesStatus("Restoring")
-	EventhubSTATUSPropertiesStatus_SendDisabled    = EventhubSTATUSPropertiesStatus("SendDisabled")
-	EventhubSTATUSPropertiesStatus_Unknown         = EventhubSTATUSPropertiesStatus("Unknown")
+	Eventhub_STATUS_Properties_Status_Active          = Eventhub_STATUS_Properties_Status("Active")
+	Eventhub_STATUS_Properties_Status_Creating        = Eventhub_STATUS_Properties_Status("Creating")
+	Eventhub_STATUS_Properties_Status_Deleting        = Eventhub_STATUS_Properties_Status("Deleting")
+	Eventhub_STATUS_Properties_Status_Disabled        = Eventhub_STATUS_Properties_Status("Disabled")
+	Eventhub_STATUS_Properties_Status_ReceiveDisabled = Eventhub_STATUS_Properties_Status("ReceiveDisabled")
+	Eventhub_STATUS_Properties_Status_Renaming        = Eventhub_STATUS_Properties_Status("Renaming")
+	Eventhub_STATUS_Properties_Status_Restoring       = Eventhub_STATUS_Properties_Status("Restoring")
+	Eventhub_STATUS_Properties_Status_SendDisabled    = Eventhub_STATUS_Properties_Status("SendDisabled")
+	Eventhub_STATUS_Properties_Status_Unknown         = Eventhub_STATUS_Properties_Status("Unknown")
 )
 
-type CaptureDescriptionSTATUSEncoding string
+type CaptureDescription_STATUS_Encoding string
 
 const (
-	CaptureDescriptionSTATUSEncoding_Avro        = CaptureDescriptionSTATUSEncoding("Avro")
-	CaptureDescriptionSTATUSEncoding_AvroDeflate = CaptureDescriptionSTATUSEncoding("AvroDeflate")
+	CaptureDescription_STATUS_Encoding_Avro        = CaptureDescription_STATUS_Encoding("Avro")
+	CaptureDescription_STATUS_Encoding_AvroDeflate = CaptureDescription_STATUS_Encoding("AvroDeflate")
 )
 
 type Destination_STATUSARM struct {

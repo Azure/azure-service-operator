@@ -15,46 +15,46 @@ type Eventhub_STATUSARM struct {
 
 // Deprecated version of Eventhub_STATUS_Properties. Use v1beta20211101.Eventhub_STATUS_Properties instead
 type Eventhub_STATUS_PropertiesARM struct {
-	CaptureDescription     *CaptureDescription_STATUSARM   `json:"captureDescription,omitempty"`
-	CreatedAt              *string                         `json:"createdAt,omitempty"`
-	MessageRetentionInDays *int                            `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                            `json:"partitionCount,omitempty"`
-	PartitionIds           []string                        `json:"partitionIds,omitempty"`
-	Status                 *EventhubSTATUSPropertiesStatus `json:"status,omitempty"`
-	UpdatedAt              *string                         `json:"updatedAt,omitempty"`
+	CaptureDescription     *CaptureDescription_STATUSARM      `json:"captureDescription,omitempty"`
+	CreatedAt              *string                            `json:"createdAt,omitempty"`
+	MessageRetentionInDays *int                               `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                               `json:"partitionCount,omitempty"`
+	PartitionIds           []string                           `json:"partitionIds,omitempty"`
+	Status                 *Eventhub_STATUS_Properties_Status `json:"status,omitempty"`
+	UpdatedAt              *string                            `json:"updatedAt,omitempty"`
 }
 
 // Deprecated version of CaptureDescription_STATUS. Use v1beta20211101.CaptureDescription_STATUS instead
 type CaptureDescription_STATUSARM struct {
-	Destination       *Destination_STATUSARM            `json:"destination,omitempty"`
-	Enabled           *bool                             `json:"enabled,omitempty"`
-	Encoding          *CaptureDescriptionSTATUSEncoding `json:"encoding,omitempty"`
-	IntervalInSeconds *int                              `json:"intervalInSeconds,omitempty"`
-	SizeLimitInBytes  *int                              `json:"sizeLimitInBytes,omitempty"`
-	SkipEmptyArchives *bool                             `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination_STATUSARM              `json:"destination,omitempty"`
+	Enabled           *bool                               `json:"enabled,omitempty"`
+	Encoding          *CaptureDescription_STATUS_Encoding `json:"encoding,omitempty"`
+	IntervalInSeconds *int                                `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                                `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                               `json:"skipEmptyArchives,omitempty"`
 }
 
-// Deprecated version of EventhubSTATUSPropertiesStatus. Use v1beta20211101.EventhubSTATUSPropertiesStatus instead
-type EventhubSTATUSPropertiesStatus string
+// Deprecated version of Eventhub_STATUS_Properties_Status. Use v1beta20211101.Eventhub_STATUS_Properties_Status instead
+type Eventhub_STATUS_Properties_Status string
 
 const (
-	EventhubSTATUSPropertiesStatus_Active          = EventhubSTATUSPropertiesStatus("Active")
-	EventhubSTATUSPropertiesStatus_Creating        = EventhubSTATUSPropertiesStatus("Creating")
-	EventhubSTATUSPropertiesStatus_Deleting        = EventhubSTATUSPropertiesStatus("Deleting")
-	EventhubSTATUSPropertiesStatus_Disabled        = EventhubSTATUSPropertiesStatus("Disabled")
-	EventhubSTATUSPropertiesStatus_ReceiveDisabled = EventhubSTATUSPropertiesStatus("ReceiveDisabled")
-	EventhubSTATUSPropertiesStatus_Renaming        = EventhubSTATUSPropertiesStatus("Renaming")
-	EventhubSTATUSPropertiesStatus_Restoring       = EventhubSTATUSPropertiesStatus("Restoring")
-	EventhubSTATUSPropertiesStatus_SendDisabled    = EventhubSTATUSPropertiesStatus("SendDisabled")
-	EventhubSTATUSPropertiesStatus_Unknown         = EventhubSTATUSPropertiesStatus("Unknown")
+	Eventhub_STATUS_Properties_Status_Active          = Eventhub_STATUS_Properties_Status("Active")
+	Eventhub_STATUS_Properties_Status_Creating        = Eventhub_STATUS_Properties_Status("Creating")
+	Eventhub_STATUS_Properties_Status_Deleting        = Eventhub_STATUS_Properties_Status("Deleting")
+	Eventhub_STATUS_Properties_Status_Disabled        = Eventhub_STATUS_Properties_Status("Disabled")
+	Eventhub_STATUS_Properties_Status_ReceiveDisabled = Eventhub_STATUS_Properties_Status("ReceiveDisabled")
+	Eventhub_STATUS_Properties_Status_Renaming        = Eventhub_STATUS_Properties_Status("Renaming")
+	Eventhub_STATUS_Properties_Status_Restoring       = Eventhub_STATUS_Properties_Status("Restoring")
+	Eventhub_STATUS_Properties_Status_SendDisabled    = Eventhub_STATUS_Properties_Status("SendDisabled")
+	Eventhub_STATUS_Properties_Status_Unknown         = Eventhub_STATUS_Properties_Status("Unknown")
 )
 
-// Deprecated version of CaptureDescriptionSTATUSEncoding. Use v1beta20211101.CaptureDescriptionSTATUSEncoding instead
-type CaptureDescriptionSTATUSEncoding string
+// Deprecated version of CaptureDescription_STATUS_Encoding. Use v1beta20211101.CaptureDescription_STATUS_Encoding instead
+type CaptureDescription_STATUS_Encoding string
 
 const (
-	CaptureDescriptionSTATUSEncoding_Avro        = CaptureDescriptionSTATUSEncoding("Avro")
-	CaptureDescriptionSTATUSEncoding_AvroDeflate = CaptureDescriptionSTATUSEncoding("AvroDeflate")
+	CaptureDescription_STATUS_Encoding_Avro        = CaptureDescription_STATUS_Encoding("Avro")
+	CaptureDescription_STATUS_Encoding_AvroDeflate = CaptureDescription_STATUS_Encoding("AvroDeflate")
 )
 
 // Deprecated version of Destination_STATUS. Use v1beta20211101.Destination_STATUS instead

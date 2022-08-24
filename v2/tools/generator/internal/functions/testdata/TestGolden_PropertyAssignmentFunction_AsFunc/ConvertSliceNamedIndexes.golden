@@ -12,8 +12,8 @@ type Person struct {
 	Indexes []Release `json:"indexes,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// Indexes
 	if source.Indexes != nil {
@@ -22,9 +22,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal Release
-			err := indexLocal.AssignPropertiesFromRelease(&indexItem)
+			err := indexLocal.AssignProperties_From_Release(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_From_Release() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -37,8 +37,8 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// Indexes
 	if person.Indexes != nil {
@@ -47,9 +47,9 @@ func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error 
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
 			var indexLocal vnext.Release
-			err := indexItem.AssignPropertiesToRelease(&indexLocal)
+			err := indexItem.AssignProperties_To_Release(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignProperties_To_Release() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}

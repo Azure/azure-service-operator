@@ -26,8 +26,8 @@ import (
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                                `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsGetResults_STATUS                                   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -129,8 +129,8 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec struct {
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -144,10 +144,10 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec from the provided source
+func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -155,8 +155,8 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	return source.ConvertSpecTo(settings)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
+func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

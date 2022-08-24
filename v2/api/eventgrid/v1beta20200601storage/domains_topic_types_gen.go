@@ -26,8 +26,8 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DomainsTopics_Spec `json:"spec,omitempty"`
-	Status            DomainTopic_STATUS `json:"status,omitempty"`
+	Spec              Domains_Topics_Spec `json:"spec,omitempty"`
+	Status            DomainTopic_STATUS  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -129,8 +129,8 @@ type DomainsTopicList struct {
 	Items           []DomainsTopic `json:"items"`
 }
 
-// Storage version of v1beta20200601.DomainsTopics_Spec
-type DomainsTopics_Spec struct {
+// Storage version of v1beta20200601.Domains_Topics_Spec
+type Domains_Topics_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -146,10 +146,10 @@ type DomainsTopics_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DomainsTopics_Spec{}
+var _ genruntime.ConvertibleSpec = &Domains_Topics_Spec{}
 
-// ConvertSpecFrom populates our DomainsTopics_Spec from the provided source
-func (topics *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Domains_Topics_Spec from the provided source
+func (topics *Domains_Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -157,8 +157,8 @@ func (topics *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	return source.ConvertSpecTo(topics)
 }
 
-// ConvertSpecTo populates the provided destination from our DomainsTopics_Spec
-func (topics *DomainsTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Domains_Topics_Spec
+func (topics *Domains_Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

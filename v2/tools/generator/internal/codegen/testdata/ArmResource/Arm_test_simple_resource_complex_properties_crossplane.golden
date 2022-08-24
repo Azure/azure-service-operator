@@ -39,7 +39,7 @@ type FakeResource_Spec struct {
 }
 
 type FakeResourceParameters struct {
-	Color *FakeResourceSpecColor `json:"color,omitempty"`
+	Color *FakeResource_Spec_Color `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Foo *Foo `json:"foo,omitempty"`
@@ -53,12 +53,12 @@ type FakeResourceParameters struct {
 }
 
 // +kubebuilder:validation:Enum={"blue","green","red"}
-type FakeResourceSpecColor string
+type FakeResource_Spec_Color string
 
 const (
-	FakeResourceSpecColor_Blue  = FakeResourceSpecColor("blue")
-	FakeResourceSpecColor_Green = FakeResourceSpecColor("green")
-	FakeResourceSpecColor_Red   = FakeResourceSpecColor("red")
+	FakeResource_Spec_Color_Blue  = FakeResource_Spec_Color("blue")
+	FakeResource_Spec_Color_Green = FakeResource_Spec_Color("green")
+	FakeResource_Spec_Color_Red   = FakeResource_Spec_Color("red")
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo

@@ -22,8 +22,8 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"name", Exported, "Name"},
 		{"Name", Exported, "Name"},
 		{"$schema", Exported, "Schema"},
-		{"my_important_name", Exported, "MyImportantName"},
-		{"MediaServices_liveEvents_liveOutputs_childResource", Exported, "MediaServicesLiveEventsLiveOutputsChildResource"},
+		{"my_important_name", Exported, "My_Important_Name"},
+		{"MediaServices_liveEvents_liveOutputs_childResource", Exported, "MediaServices_LiveEvents_LiveOutputs_ChildResource"},
 		{"XMLDocument", Exported, "XMLDocument"},
 		{"this id has spaces", Exported, "ThisIdHasSpaces"},
 		{"this, id, has, spaces", Exported, "ThisIdHasSpaces"},
@@ -31,8 +31,8 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"name", NotExported, "name"},
 		{"Name", NotExported, "name"},
 		{"$schema", NotExported, "schema"},
-		{"my_important_name", NotExported, "myImportantName"},
-		{"MediaServices_liveEvents_liveOutputs_childResource", NotExported, "mediaServicesLiveEventsLiveOutputsChildResource"},
+		{"my_important_name", NotExported, "my_Important_Name"},
+		{"MediaServices_liveEvents_liveOutputs_childResource", NotExported, "mediaServices_LiveEvents_LiveOutputs_ChildResource"},
 		{"XMLDocument", NotExported, "xmlDocument"},
 		{"this id has spaces", NotExported, "thisIdHasSpaces"},
 		{"this, id, has, spaces", NotExported, "thisIdHasSpaces"},
@@ -79,6 +79,9 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 		// Correctly splits strings that already have spaces
 		{identifier: "AlreadyHas spaces", expected: []string{"Already", "Has", "spaces"}},
 		{identifier: "Already   Has  spaces    ", expected: []string{"Already", "Has", "spaces"}},
+		// Correctly splits strings that have underscores
+		{identifier: "AlreadyHas_underscore", expected: []string{"Already", "Has", "underscore"}},
+		{identifier: "Already_Has_underscores_", expected: []string{"Already", "Has", "underscores"}},
 	}
 
 	for _, c := range cases {
@@ -172,8 +175,8 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		// Forbidden receiver suffixes
 		{"Address" + StatusSuffix, "address"},
 		{"Address" + SpecSuffix, "address"},
-		{"Address" + StatusSuffix + "ARM", "address"},
-		{"Address" + SpecSuffix + "ARM", "address"},
+		{"Address" + StatusSuffix + ArmSuffix, "address"},
+		{"Address" + SpecSuffix + ArmSuffix, "address"},
 		// Real world examples
 		{"EncryptionSettingsCollection", "collection"},
 		{"RedisLinkedServer", "server"},
@@ -186,7 +189,7 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		{"DatabaseAccountsMongodbDatabasesCollections" + SpecSuffix, "collections"},
 		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings" + SpecSuffix, "settings"},
 		// Very short receiver names need more detail
-		{"SignalR" + SpecSuffix + "ARM", "signalR"},
+		{"SignalR" + SpecSuffix + ArmSuffix, "signalR"},
 		{"PublicIPAddressSku" + StatusSuffix, "addressSku"},
 		{"SBSku" + StatusSuffix, "sbSku"},
 		{"ManagedClusterSKU", "clusterSKU"},

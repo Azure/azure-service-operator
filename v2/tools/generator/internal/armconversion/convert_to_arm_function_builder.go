@@ -472,7 +472,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 	}
 
 	var results []dst.Stmt
-	propertyLocalVarName := params.Locals.CreateLocal(params.NameHint, "ARM")
+	propertyLocalVarName := params.Locals.CreateLocal(params.NameHint, astmodel.ArmSuffix)
 
 	// Call ToARM on the property
 	results = append(results, callToARMFunction(params.GetSource(), dst.NewIdent(propertyLocalVarName), builder.methodName)...)

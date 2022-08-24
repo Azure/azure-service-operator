@@ -42,7 +42,7 @@ type RedisProperties_STATUSARM struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisPropertiesSTATUSMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_STATUS_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// Port: Redis non-SSL port.
 	Port *int `json:"port,omitempty"`
@@ -51,12 +51,12 @@ type RedisProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *RedisProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -130,8 +130,8 @@ type Sku_STATUSARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuSTATUSFamily `json:"family,omitempty"`
+	Family *Sku_STATUS_Family `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *SkuSTATUSName `json:"name,omitempty"`
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
 }

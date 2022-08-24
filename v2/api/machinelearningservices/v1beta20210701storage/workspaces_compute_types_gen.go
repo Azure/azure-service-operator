@@ -27,8 +27,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WorkspacesComputes_Spec `json:"spec,omitempty"`
-	Status            ComputeResource_STATUS  `json:"status,omitempty"`
+	Spec              Workspaces_Computes_Spec `json:"spec,omitempty"`
+	Status            ComputeResource_STATUS   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -165,8 +165,8 @@ func (resource *ComputeResource_STATUS) ConvertStatusTo(destination genruntime.C
 	return destination.ConvertStatusFrom(resource)
 }
 
-// Storage version of v1beta20210701.WorkspacesComputes_Spec
-type WorkspacesComputes_Spec struct {
+// Storage version of v1beta20210701.Workspaces_Computes_Spec
+type Workspaces_Computes_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string    `json:"azureName,omitempty"`
@@ -186,10 +186,10 @@ type WorkspacesComputes_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &WorkspacesComputes_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_Computes_Spec{}
 
-// ConvertSpecFrom populates our WorkspacesComputes_Spec from the provided source
-func (computes *WorkspacesComputes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Workspaces_Computes_Spec from the provided source
+func (computes *Workspaces_Computes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == computes {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -197,8 +197,8 @@ func (computes *WorkspacesComputes_Spec) ConvertSpecFrom(source genruntime.Conve
 	return source.ConvertSpecTo(computes)
 }
 
-// ConvertSpecTo populates the provided destination from our WorkspacesComputes_Spec
-func (computes *WorkspacesComputes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Workspaces_Computes_Spec
+func (computes *Workspaces_Computes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == computes {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

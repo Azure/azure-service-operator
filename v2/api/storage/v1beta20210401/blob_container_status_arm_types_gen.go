@@ -56,13 +56,13 @@ type ContainerProperties_STATUSARM struct {
 
 	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
 	// leased.
-	LeaseDuration *ContainerPropertiesSTATUSLeaseDuration `json:"leaseDuration,omitempty"`
+	LeaseDuration *ContainerProperties_STATUS_LeaseDuration `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the container.
-	LeaseState *ContainerPropertiesSTATUSLeaseState `json:"leaseState,omitempty"`
+	LeaseState *ContainerProperties_STATUS_LeaseState `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerPropertiesSTATUSLeaseStatus `json:"leaseStatus,omitempty"`
+	LeaseStatus *ContainerProperties_STATUS_LeaseStatus `json:"leaseStatus,omitempty"`
 
 	// LegalHold: The LegalHold property of the container.
 	LegalHold *LegalHoldProperties_STATUSARM `json:"legalHold,omitempty"`
@@ -71,7 +71,7 @@ type ContainerProperties_STATUSARM struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerPropertiesSTATUSPublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerProperties_STATUS_PublicAccess `json:"publicAccess,omitempty"`
 
 	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
@@ -80,36 +80,36 @@ type ContainerProperties_STATUSARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-type ContainerPropertiesSTATUSLeaseDuration string
+type ContainerProperties_STATUS_LeaseDuration string
 
 const (
-	ContainerPropertiesSTATUSLeaseDuration_Fixed    = ContainerPropertiesSTATUSLeaseDuration("Fixed")
-	ContainerPropertiesSTATUSLeaseDuration_Infinite = ContainerPropertiesSTATUSLeaseDuration("Infinite")
+	ContainerProperties_STATUS_LeaseDuration_Fixed    = ContainerProperties_STATUS_LeaseDuration("Fixed")
+	ContainerProperties_STATUS_LeaseDuration_Infinite = ContainerProperties_STATUS_LeaseDuration("Infinite")
 )
 
-type ContainerPropertiesSTATUSLeaseState string
+type ContainerProperties_STATUS_LeaseState string
 
 const (
-	ContainerPropertiesSTATUSLeaseState_Available = ContainerPropertiesSTATUSLeaseState("Available")
-	ContainerPropertiesSTATUSLeaseState_Breaking  = ContainerPropertiesSTATUSLeaseState("Breaking")
-	ContainerPropertiesSTATUSLeaseState_Broken    = ContainerPropertiesSTATUSLeaseState("Broken")
-	ContainerPropertiesSTATUSLeaseState_Expired   = ContainerPropertiesSTATUSLeaseState("Expired")
-	ContainerPropertiesSTATUSLeaseState_Leased    = ContainerPropertiesSTATUSLeaseState("Leased")
+	ContainerProperties_STATUS_LeaseState_Available = ContainerProperties_STATUS_LeaseState("Available")
+	ContainerProperties_STATUS_LeaseState_Breaking  = ContainerProperties_STATUS_LeaseState("Breaking")
+	ContainerProperties_STATUS_LeaseState_Broken    = ContainerProperties_STATUS_LeaseState("Broken")
+	ContainerProperties_STATUS_LeaseState_Expired   = ContainerProperties_STATUS_LeaseState("Expired")
+	ContainerProperties_STATUS_LeaseState_Leased    = ContainerProperties_STATUS_LeaseState("Leased")
 )
 
-type ContainerPropertiesSTATUSLeaseStatus string
+type ContainerProperties_STATUS_LeaseStatus string
 
 const (
-	ContainerPropertiesSTATUSLeaseStatus_Locked   = ContainerPropertiesSTATUSLeaseStatus("Locked")
-	ContainerPropertiesSTATUSLeaseStatus_Unlocked = ContainerPropertiesSTATUSLeaseStatus("Unlocked")
+	ContainerProperties_STATUS_LeaseStatus_Locked   = ContainerProperties_STATUS_LeaseStatus("Locked")
+	ContainerProperties_STATUS_LeaseStatus_Unlocked = ContainerProperties_STATUS_LeaseStatus("Unlocked")
 )
 
-type ContainerPropertiesSTATUSPublicAccess string
+type ContainerProperties_STATUS_PublicAccess string
 
 const (
-	ContainerPropertiesSTATUSPublicAccess_Blob      = ContainerPropertiesSTATUSPublicAccess("Blob")
-	ContainerPropertiesSTATUSPublicAccess_Container = ContainerPropertiesSTATUSPublicAccess("Container")
-	ContainerPropertiesSTATUSPublicAccess_None      = ContainerPropertiesSTATUSPublicAccess("None")
+	ContainerProperties_STATUS_PublicAccess_Blob      = ContainerProperties_STATUS_PublicAccess("Blob")
+	ContainerProperties_STATUS_PublicAccess_Container = ContainerProperties_STATUS_PublicAccess("Container")
+	ContainerProperties_STATUS_PublicAccess_None      = ContainerProperties_STATUS_PublicAccess("None")
 )
 
 type ImmutabilityPolicyProperties_STATUSARM struct {
@@ -128,7 +128,7 @@ type ImmutableStorageWithVersioning_STATUSARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
-	MigrationState *ImmutableStorageWithVersioningSTATUSMigrationState `json:"migrationState,omitempty"`
+	MigrationState *ImmutableStorageWithVersioning_STATUS_MigrationState `json:"migrationState,omitempty"`
 
 	// TimeStamp: Returns the date and time the object level immutability was enabled.
 	TimeStamp *string `json:"timeStamp,omitempty"`
@@ -156,14 +156,14 @@ type ImmutabilityPolicyProperty_STATUSARM struct {
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
 	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
-	State *ImmutabilityPolicyPropertySTATUSState `json:"state,omitempty"`
+	State *ImmutabilityPolicyProperty_STATUS_State `json:"state,omitempty"`
 }
 
-type ImmutableStorageWithVersioningSTATUSMigrationState string
+type ImmutableStorageWithVersioning_STATUS_MigrationState string
 
 const (
-	ImmutableStorageWithVersioningSTATUSMigrationState_Completed  = ImmutableStorageWithVersioningSTATUSMigrationState("Completed")
-	ImmutableStorageWithVersioningSTATUSMigrationState_InProgress = ImmutableStorageWithVersioningSTATUSMigrationState("InProgress")
+	ImmutableStorageWithVersioning_STATUS_MigrationState_Completed  = ImmutableStorageWithVersioning_STATUS_MigrationState("Completed")
+	ImmutableStorageWithVersioning_STATUS_MigrationState_InProgress = ImmutableStorageWithVersioning_STATUS_MigrationState("InProgress")
 )
 
 type TagProperty_STATUSARM struct {
@@ -198,16 +198,16 @@ type UpdateHistoryProperty_STATUSARM struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 
 	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
-	Update *UpdateHistoryPropertySTATUSUpdate `json:"update,omitempty"`
+	Update *UpdateHistoryProperty_STATUS_Update `json:"update,omitempty"`
 
 	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
 }
 
-type UpdateHistoryPropertySTATUSUpdate string
+type UpdateHistoryProperty_STATUS_Update string
 
 const (
-	UpdateHistoryPropertySTATUSUpdate_Extend = UpdateHistoryPropertySTATUSUpdate("extend")
-	UpdateHistoryPropertySTATUSUpdate_Lock   = UpdateHistoryPropertySTATUSUpdate("lock")
-	UpdateHistoryPropertySTATUSUpdate_Put    = UpdateHistoryPropertySTATUSUpdate("put")
+	UpdateHistoryProperty_STATUS_Update_Extend = UpdateHistoryProperty_STATUS_Update("extend")
+	UpdateHistoryProperty_STATUS_Update_Lock   = UpdateHistoryProperty_STATUS_Update("lock")
+	UpdateHistoryProperty_STATUS_Update_Put    = UpdateHistoryProperty_STATUS_Update("put")
 )

@@ -35,7 +35,7 @@ type SubscriptionAliasResponseProperties_STATUSARM struct {
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource.
-	ProvisioningState *SubscriptionAliasResponsePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *SubscriptionAliasResponseProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// ResellerId: Reseller Id
 	ResellerId *string `json:"resellerId,omitempty"`
@@ -59,7 +59,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -68,7 +68,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 type AcceptOwnershipState_STATUS string
@@ -79,30 +79,30 @@ const (
 	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
 )
 
-type SubscriptionAliasResponsePropertiesSTATUSProvisioningState string
+type SubscriptionAliasResponseProperties_STATUS_ProvisioningState string
 
 const (
-	SubscriptionAliasResponsePropertiesSTATUSProvisioningState_Accepted  = SubscriptionAliasResponsePropertiesSTATUSProvisioningState("Accepted")
-	SubscriptionAliasResponsePropertiesSTATUSProvisioningState_Failed    = SubscriptionAliasResponsePropertiesSTATUSProvisioningState("Failed")
-	SubscriptionAliasResponsePropertiesSTATUSProvisioningState_Succeeded = SubscriptionAliasResponsePropertiesSTATUSProvisioningState("Succeeded")
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Accepted  = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Accepted")
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Failed    = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Failed")
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Succeeded = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Succeeded")
 )
 
-type SystemDataSTATUSCreatedByType string
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-type SystemDataSTATUSLastModifiedByType string
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )
 
 type Workload_STATUS string

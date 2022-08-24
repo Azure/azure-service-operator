@@ -26,7 +26,7 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisPatchSchedules_Spec  `json:"spec,omitempty"`
+	Spec              Redis_PatchSchedules_Spec `json:"spec,omitempty"`
 	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
 }
 
@@ -129,6 +129,41 @@ type RedisPatchScheduleList struct {
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
+// Storage version of v1beta20201201.Redis_PatchSchedules_Spec
+type Redis_PatchSchedules_Spec struct {
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
+	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
+	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
+	Tags            map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Redis_PatchSchedules_Spec{}
+
+// ConvertSpecFrom populates our Redis_PatchSchedules_Spec from the provided source
+func (schedules *Redis_PatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == schedules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(schedules)
+}
+
+// ConvertSpecTo populates the provided destination from our Redis_PatchSchedules_Spec
+func (schedules *Redis_PatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == schedules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(schedules)
+}
+
 // Storage version of v1beta20201201.RedisPatchSchedule_STATUS
 type RedisPatchSchedule_STATUS struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
@@ -158,41 +193,6 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntim
 	}
 
 	return destination.ConvertStatusFrom(schedule)
-}
-
-// Storage version of v1beta20201201.RedisPatchSchedules_Spec
-type RedisPatchSchedules_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cache.azure.com/Redis resource
-	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
-	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
-	Tags            map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &RedisPatchSchedules_Spec{}
-
-// ConvertSpecFrom populates our RedisPatchSchedules_Spec from the provided source
-func (schedules *RedisPatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == schedules {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(schedules)
-}
-
-// ConvertSpecTo populates the provided destination from our RedisPatchSchedules_Spec
-func (schedules *RedisPatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == schedules {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(schedules)
 }
 
 // Storage version of v1beta20201201.ScheduleEntry

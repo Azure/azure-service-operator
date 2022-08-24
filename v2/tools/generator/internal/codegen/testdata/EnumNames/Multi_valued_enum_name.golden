@@ -51,7 +51,7 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected test/v1beta20200101storage/AResource but received %T instead", hub)
 	}
 
-	return resource.AssignPropertiesFromAResource(source)
+	return resource.AssignProperties_From_AResource(source)
 }
 
 // ConvertTo populates the provided hub AResource from our AResource
@@ -61,7 +61,7 @@ func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected test/v1beta20200101storage/AResource but received %T instead", hub)
 	}
 
-	return resource.AssignPropertiesToAResource(destination)
+	return resource.AssignProperties_To_AResource(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1
@@ -89,7 +89,7 @@ func (resource *AResource) defaultImpl() { resource.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &AResource{}
 
-// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResourceSpecName)
+// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name)
 func (resource *AResource) AzureName() string {
 	return string(resource.Spec.AzureName)
 }
@@ -217,17 +217,17 @@ func (resource *AResource) validateWriteOnceProperties(old runtime.Object) error
 	return genruntime.ValidateWriteOnceProperties(oldObj, resource)
 }
 
-// AssignPropertiesFromAResource populates our AResource from the provided source AResource
-func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.AResource) error {
+// AssignProperties_From_AResource populates our AResource from the provided source AResource
+func (resource *AResource) AssignProperties_From_AResource(source *v20200101s.AResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec AResource_Spec
-	err := spec.AssignPropertiesFromAResourceSpec(&source.Spec)
+	err := spec.AssignProperties_From_AResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_AResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -235,17 +235,17 @@ func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.ARes
 	return nil
 }
 
-// AssignPropertiesToAResource populates the provided destination AResource from our AResource
-func (resource *AResource) AssignPropertiesToAResource(destination *v20200101s.AResource) error {
+// AssignProperties_To_AResource populates the provided destination AResource from our AResource
+func (resource *AResource) AssignProperties_To_AResource(destination *v20200101s.AResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20200101s.AResource_Spec
-	err := resource.Spec.AssignPropertiesToAResourceSpec(&spec)
+	err := resource.Spec.AssignProperties_To_AResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -299,7 +299,7 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type AResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName AResourceSpecName `json:"azureName,omitempty"`
+	AzureName AResource_Spec_Name `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -353,7 +353,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromAResourceSpec(src)
+		return resource.AssignProperties_From_AResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -364,7 +364,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromAResourceSpec(src)
+	err = resource.AssignProperties_From_AResource_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -377,12 +377,12 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToAResourceSpec(dst)
+		return resource.AssignProperties_To_AResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.AResource_Spec{}
-	err := resource.AssignPropertiesToAResourceSpec(dst)
+	err := resource.AssignProperties_To_AResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -396,11 +396,11 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	return nil
 }
 
-// AssignPropertiesFromAResourceSpec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v20200101s.AResource_Spec) error {
+// AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
+func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
 
 	// AzureName
-	azureName := AResourceSpecName(source.AzureName)
+	azureName := AResource_Spec_Name(source.AzureName)
 	resource.AzureName = azureName
 
 	// Owner
@@ -415,13 +415,13 @@ func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v20200
 	return nil
 }
 
-// AssignPropertiesToAResourceSpec populates the provided destination AResource_Spec from our AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesToAResourceSpec(destination *v20200101s.AResource_Spec) error {
+// AssignProperties_To_AResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
+func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *v20200101s.AResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	azureName := AResourceSpecName(resource.AzureName)
+	azureName := AResource_Spec_Name(resource.AzureName)
 	destination.AzureName = azureName
 
 	// OriginalVersion
@@ -451,18 +451,18 @@ func (resource *AResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResourceSpecName value
+// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name value
 func (resource *AResource_Spec) SetAzureName(azureName string) {
-	resource.AzureName = AResourceSpecName(azureName)
+	resource.AzureName = AResource_Spec_Name(azureName)
 }
 
 // +kubebuilder:validation:Enum={"one","three","two"}
-type AResourceSpecName string
+type AResource_Spec_Name string
 
 const (
-	AResourceSpecName_One   = AResourceSpecName("one")
-	AResourceSpecName_Three = AResourceSpecName("three")
-	AResourceSpecName_Two   = AResourceSpecName("two")
+	AResource_Spec_Name_One   = AResource_Spec_Name("one")
+	AResource_Spec_Name_Three = AResource_Spec_Name("three")
+	AResource_Spec_Name_Two   = AResource_Spec_Name("two")
 )
 
 func init() {

@@ -13,47 +13,47 @@ type Database_STATUSARM struct {
 
 // Deprecated version of DatabaseProperties_STATUS. Use v1beta20210301.DatabaseProperties_STATUS instead
 type DatabaseProperties_STATUSARM struct {
-	ClientProtocol    *DatabasePropertiesSTATUSClientProtocol   `json:"clientProtocol,omitempty"`
-	ClusteringPolicy  *DatabasePropertiesSTATUSClusteringPolicy `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy    *DatabasePropertiesSTATUSEvictionPolicy   `json:"evictionPolicy,omitempty"`
-	Modules           []Module_STATUSARM                        `json:"modules,omitempty"`
-	Persistence       *Persistence_STATUSARM                    `json:"persistence,omitempty"`
-	Port              *int                                      `json:"port,omitempty"`
-	ProvisioningState *ProvisioningState_STATUS                 `json:"provisioningState,omitempty"`
-	ResourceState     *ResourceState_STATUS                     `json:"resourceState,omitempty"`
+	ClientProtocol    *DatabaseProperties_STATUS_ClientProtocol   `json:"clientProtocol,omitempty"`
+	ClusteringPolicy  *DatabaseProperties_STATUS_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	EvictionPolicy    *DatabaseProperties_STATUS_EvictionPolicy   `json:"evictionPolicy,omitempty"`
+	Modules           []Module_STATUSARM                          `json:"modules,omitempty"`
+	Persistence       *Persistence_STATUSARM                      `json:"persistence,omitempty"`
+	Port              *int                                        `json:"port,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS                   `json:"provisioningState,omitempty"`
+	ResourceState     *ResourceState_STATUS                       `json:"resourceState,omitempty"`
 }
 
-// Deprecated version of DatabasePropertiesSTATUSClientProtocol. Use v1beta20210301.DatabasePropertiesSTATUSClientProtocol
-// instead
-type DatabasePropertiesSTATUSClientProtocol string
+// Deprecated version of DatabaseProperties_STATUS_ClientProtocol. Use
+// v1beta20210301.DatabaseProperties_STATUS_ClientProtocol instead
+type DatabaseProperties_STATUS_ClientProtocol string
 
 const (
-	DatabasePropertiesSTATUSClientProtocol_Encrypted = DatabasePropertiesSTATUSClientProtocol("Encrypted")
-	DatabasePropertiesSTATUSClientProtocol_Plaintext = DatabasePropertiesSTATUSClientProtocol("Plaintext")
+	DatabaseProperties_STATUS_ClientProtocol_Encrypted = DatabaseProperties_STATUS_ClientProtocol("Encrypted")
+	DatabaseProperties_STATUS_ClientProtocol_Plaintext = DatabaseProperties_STATUS_ClientProtocol("Plaintext")
 )
 
-// Deprecated version of DatabasePropertiesSTATUSClusteringPolicy. Use
-// v1beta20210301.DatabasePropertiesSTATUSClusteringPolicy instead
-type DatabasePropertiesSTATUSClusteringPolicy string
+// Deprecated version of DatabaseProperties_STATUS_ClusteringPolicy. Use
+// v1beta20210301.DatabaseProperties_STATUS_ClusteringPolicy instead
+type DatabaseProperties_STATUS_ClusteringPolicy string
 
 const (
-	DatabasePropertiesSTATUSClusteringPolicy_EnterpriseCluster = DatabasePropertiesSTATUSClusteringPolicy("EnterpriseCluster")
-	DatabasePropertiesSTATUSClusteringPolicy_OSSCluster        = DatabasePropertiesSTATUSClusteringPolicy("OSSCluster")
+	DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_STATUS_ClusteringPolicy("EnterpriseCluster")
+	DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster        = DatabaseProperties_STATUS_ClusteringPolicy("OSSCluster")
 )
 
-// Deprecated version of DatabasePropertiesSTATUSEvictionPolicy. Use v1beta20210301.DatabasePropertiesSTATUSEvictionPolicy
-// instead
-type DatabasePropertiesSTATUSEvictionPolicy string
+// Deprecated version of DatabaseProperties_STATUS_EvictionPolicy. Use
+// v1beta20210301.DatabaseProperties_STATUS_EvictionPolicy instead
+type DatabaseProperties_STATUS_EvictionPolicy string
 
 const (
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysLFU     = DatabasePropertiesSTATUSEvictionPolicy("AllKeysLFU")
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysLRU     = DatabasePropertiesSTATUSEvictionPolicy("AllKeysLRU")
-	DatabasePropertiesSTATUSEvictionPolicy_AllKeysRandom  = DatabasePropertiesSTATUSEvictionPolicy("AllKeysRandom")
-	DatabasePropertiesSTATUSEvictionPolicy_NoEviction     = DatabasePropertiesSTATUSEvictionPolicy("NoEviction")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileLFU    = DatabasePropertiesSTATUSEvictionPolicy("VolatileLFU")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileLRU    = DatabasePropertiesSTATUSEvictionPolicy("VolatileLRU")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileRandom = DatabasePropertiesSTATUSEvictionPolicy("VolatileRandom")
-	DatabasePropertiesSTATUSEvictionPolicy_VolatileTTL    = DatabasePropertiesSTATUSEvictionPolicy("VolatileTTL")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom  = DatabaseProperties_STATUS_EvictionPolicy("AllKeysRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_NoEviction     = DatabaseProperties_STATUS_EvictionPolicy("NoEviction")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom = DatabaseProperties_STATUS_EvictionPolicy("VolatileRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL    = DatabaseProperties_STATUS_EvictionPolicy("VolatileTTL")
 )
 
 // Deprecated version of Module_STATUS. Use v1beta20210301.Module_STATUS instead
@@ -65,25 +65,25 @@ type Module_STATUSARM struct {
 
 // Deprecated version of Persistence_STATUS. Use v1beta20210301.Persistence_STATUS instead
 type Persistence_STATUSARM struct {
-	AofEnabled   *bool                          `json:"aofEnabled,omitempty"`
-	AofFrequency *PersistenceSTATUSAofFrequency `json:"aofFrequency,omitempty"`
-	RdbEnabled   *bool                          `json:"rdbEnabled,omitempty"`
-	RdbFrequency *PersistenceSTATUSRdbFrequency `json:"rdbFrequency,omitempty"`
+	AofEnabled   *bool                            `json:"aofEnabled,omitempty"`
+	AofFrequency *Persistence_STATUS_AofFrequency `json:"aofFrequency,omitempty"`
+	RdbEnabled   *bool                            `json:"rdbEnabled,omitempty"`
+	RdbFrequency *Persistence_STATUS_RdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
-// Deprecated version of PersistenceSTATUSAofFrequency. Use v1beta20210301.PersistenceSTATUSAofFrequency instead
-type PersistenceSTATUSAofFrequency string
+// Deprecated version of Persistence_STATUS_AofFrequency. Use v1beta20210301.Persistence_STATUS_AofFrequency instead
+type Persistence_STATUS_AofFrequency string
 
 const (
-	PersistenceSTATUSAofFrequency_1S     = PersistenceSTATUSAofFrequency("1s")
-	PersistenceSTATUSAofFrequency_Always = PersistenceSTATUSAofFrequency("always")
+	Persistence_STATUS_AofFrequency_1S     = Persistence_STATUS_AofFrequency("1s")
+	Persistence_STATUS_AofFrequency_Always = Persistence_STATUS_AofFrequency("always")
 )
 
-// Deprecated version of PersistenceSTATUSRdbFrequency. Use v1beta20210301.PersistenceSTATUSRdbFrequency instead
-type PersistenceSTATUSRdbFrequency string
+// Deprecated version of Persistence_STATUS_RdbFrequency. Use v1beta20210301.Persistence_STATUS_RdbFrequency instead
+type Persistence_STATUS_RdbFrequency string
 
 const (
-	PersistenceSTATUSRdbFrequency_12H = PersistenceSTATUSRdbFrequency("12h")
-	PersistenceSTATUSRdbFrequency_1H  = PersistenceSTATUSRdbFrequency("1h")
-	PersistenceSTATUSRdbFrequency_6H  = PersistenceSTATUSRdbFrequency("6h")
+	Persistence_STATUS_RdbFrequency_12H = Persistence_STATUS_RdbFrequency("12h")
+	Persistence_STATUS_RdbFrequency_1H  = Persistence_STATUS_RdbFrequency("1h")
+	Persistence_STATUS_RdbFrequency_6H  = Persistence_STATUS_RdbFrequency("6h")
 )

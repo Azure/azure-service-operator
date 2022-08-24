@@ -31,9 +31,9 @@ type WorkspaceConnectionProps_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
-	ValueFormat *WorkspaceConnectionPropsSTATUSValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_STATUS_ValueFormat `json:"valueFormat,omitempty"`
 }
 
-type WorkspaceConnectionPropsSTATUSValueFormat string
+type WorkspaceConnectionProps_STATUS_ValueFormat string
 
-const WorkspaceConnectionPropsSTATUSValueFormat_JSON = WorkspaceConnectionPropsSTATUSValueFormat("JSON")
+const WorkspaceConnectionProps_STATUS_ValueFormat_JSON = WorkspaceConnectionProps_STATUS_ValueFormat("JSON")

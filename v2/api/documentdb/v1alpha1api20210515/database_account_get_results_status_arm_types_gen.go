@@ -7,7 +7,7 @@ package v1alpha1api20210515
 type DatabaseAccountGetResults_STATUSARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Identity   *ManagedServiceIdentity_STATUSARM       `json:"identity,omitempty"`
-	Kind       *DatabaseAccountGetResultsSTATUSKind    `json:"kind,omitempty"`
+	Kind       *DatabaseAccountGetResults_STATUS_Kind  `json:"kind,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
 	Name       *string                                 `json:"name,omitempty"`
 	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
@@ -48,20 +48,21 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 	WriteLocations                     []Location_STATUSARM                                      `json:"writeLocations,omitempty"`
 }
 
-// Deprecated version of DatabaseAccountGetResultsSTATUSKind. Use v1beta20210515.DatabaseAccountGetResultsSTATUSKind instead
-type DatabaseAccountGetResultsSTATUSKind string
+// Deprecated version of DatabaseAccountGetResults_STATUS_Kind. Use v1beta20210515.DatabaseAccountGetResults_STATUS_Kind
+// instead
+type DatabaseAccountGetResults_STATUS_Kind string
 
 const (
-	DatabaseAccountGetResultsSTATUSKind_GlobalDocumentDB = DatabaseAccountGetResultsSTATUSKind("GlobalDocumentDB")
-	DatabaseAccountGetResultsSTATUSKind_MongoDB          = DatabaseAccountGetResultsSTATUSKind("MongoDB")
-	DatabaseAccountGetResultsSTATUSKind_Parse            = DatabaseAccountGetResultsSTATUSKind("Parse")
+	DatabaseAccountGetResults_STATUS_Kind_GlobalDocumentDB = DatabaseAccountGetResults_STATUS_Kind("GlobalDocumentDB")
+	DatabaseAccountGetResults_STATUS_Kind_MongoDB          = DatabaseAccountGetResults_STATUS_Kind("MongoDB")
+	DatabaseAccountGetResults_STATUS_Kind_Parse            = DatabaseAccountGetResults_STATUS_Kind("Parse")
 )
 
 // Deprecated version of ManagedServiceIdentity_STATUS. Use v1beta20210515.ManagedServiceIdentity_STATUS instead
 type ManagedServiceIdentity_STATUSARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
-	Type                   *ManagedServiceIdentitySTATUSType                                  `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_STATUS_Type                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -72,7 +73,7 @@ type AnalyticalStorageConfiguration_STATUSARM struct {
 
 // Deprecated version of ApiProperties_STATUS. Use v1beta20210515.ApiProperties_STATUS instead
 type ApiProperties_STATUSARM struct {
-	ServerVersion *ApiPropertiesSTATUSServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *ApiProperties_STATUS_ServerVersion `json:"serverVersion,omitempty"`
 }
 
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
@@ -87,9 +88,9 @@ type Capability_STATUSARM struct {
 
 // Deprecated version of ConsistencyPolicy_STATUS. Use v1beta20210515.ConsistencyPolicy_STATUS instead
 type ConsistencyPolicy_STATUSARM struct {
-	DefaultConsistencyLevel *ConsistencyPolicySTATUSDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
-	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
-	MaxStalenessPrefix      *int                                            `json:"maxStalenessPrefix,omitempty"`
+	DefaultConsistencyLevel *ConsistencyPolicy_STATUS_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
+	MaxIntervalInSeconds    *int                                              `json:"maxIntervalInSeconds,omitempty"`
+	MaxStalenessPrefix      *int                                              `json:"maxStalenessPrefix,omitempty"`
 }
 
 // Deprecated version of CorsPolicy_STATUS. Use v1beta20210515.CorsPolicy_STATUS instead
@@ -123,21 +124,21 @@ type Location_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
+// Deprecated version of ManagedServiceIdentity_STATUS_Type. Use v1beta20210515.ManagedServiceIdentity_STATUS_Type instead
+type ManagedServiceIdentity_STATUS_Type string
+
+const (
+	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
+	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
+	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
+)
+
 // Deprecated version of ManagedServiceIdentity_STATUS_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_STATUS_UserAssignedIdentities instead
 type ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
-
-// Deprecated version of ManagedServiceIdentitySTATUSType. Use v1beta20210515.ManagedServiceIdentitySTATUSType instead
-type ManagedServiceIdentitySTATUSType string
-
-const (
-	ManagedServiceIdentitySTATUSType_None                       = ManagedServiceIdentitySTATUSType("None")
-	ManagedServiceIdentitySTATUSType_SystemAssigned             = ManagedServiceIdentitySTATUSType("SystemAssigned")
-	ManagedServiceIdentitySTATUSType_SystemAssignedUserAssigned = ManagedServiceIdentitySTATUSType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentitySTATUSType_UserAssigned               = ManagedServiceIdentitySTATUSType("UserAssigned")
-)
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {

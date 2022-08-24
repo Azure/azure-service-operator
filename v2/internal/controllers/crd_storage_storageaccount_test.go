@@ -32,7 +32,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccountSTATUSKind_StorageV2
+	expectedKind := storage.StorageAccount_STATUS_Kind_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
@@ -73,7 +73,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccountsBlobServices_Spec{
+		Spec: storage.StorageAccounts_BlobServices_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -93,7 +93,7 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
-		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
+		Spec: storage.StorageAccounts_BlobServices_Containers_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
@@ -105,7 +105,7 @@ func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContex
 func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccountsQueueServices_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -126,7 +126,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Queues_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
@@ -147,7 +147,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccountSTATUSKind_StorageV2
+	expectedKind := storage.StorageAccount_STATUS_Kind_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// There should be no secrets at this point
@@ -224,11 +224,11 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 }
 
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
-	ruleType := storage.ManagementPolicyRuleType_Lifecycle
+	ruleType := storage.ManagementPolicyRule_Type_Lifecycle
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
-		Spec: storage.StorageAccountsManagementPolicies_Spec{
+		Spec: storage.StorageAccounts_ManagementPolicies_Spec{
 			Owner: testcommon.AsOwner(blobService),
 			Policy: &storage.ManagementPolicySchema{
 				Rules: []storage.ManagementPolicyRule{
@@ -261,9 +261,9 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTier_Hot
-	kind := storage.StorageAccountsSpecKind_StorageV2
-	sku := storage.SkuName_StandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccounts_Spec_Kind_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccounts_Spec{

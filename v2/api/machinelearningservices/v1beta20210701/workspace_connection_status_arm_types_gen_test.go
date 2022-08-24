@@ -25,12 +25,12 @@ func Test_WorkspaceConnection_STATUSARM_WhenSerializedToJson_DeserializesAsEqual
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnection_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionSTATUSARM, WorkspaceConnectionSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForWorkspaceConnection_STATUSARM, WorkspaceConnection_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceConnectionSTATUSARM runs a test to see if a specific instance of WorkspaceConnection_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceConnectionSTATUSARM(subject WorkspaceConnection_STATUSARM) string {
+// RunJSONSerializationTestForWorkspaceConnection_STATUSARM runs a test to see if a specific instance of WorkspaceConnection_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceConnection_STATUSARM(subject WorkspaceConnection_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,41 +57,41 @@ func RunJSONSerializationTestForWorkspaceConnectionSTATUSARM(subject WorkspaceCo
 }
 
 // Generator of WorkspaceConnection_STATUSARM instances for property testing - lazily instantiated by
-// WorkspaceConnectionSTATUSARMGenerator()
-var workspaceConnectionSTATUSARMGenerator gopter.Gen
+// WorkspaceConnection_STATUSARMGenerator()
+var workspaceConnection_STATUSARMGenerator gopter.Gen
 
-// WorkspaceConnectionSTATUSARMGenerator returns a generator of WorkspaceConnection_STATUSARM instances for property testing.
-// We first initialize workspaceConnectionSTATUSARMGenerator with a simplified generator based on the
+// WorkspaceConnection_STATUSARMGenerator returns a generator of WorkspaceConnection_STATUSARM instances for property testing.
+// We first initialize workspaceConnection_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WorkspaceConnectionSTATUSARMGenerator() gopter.Gen {
-	if workspaceConnectionSTATUSARMGenerator != nil {
-		return workspaceConnectionSTATUSARMGenerator
+func WorkspaceConnection_STATUSARMGenerator() gopter.Gen {
+	if workspaceConnection_STATUSARMGenerator != nil {
+		return workspaceConnection_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUSARM(generators)
-	workspaceConnectionSTATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUSARM(generators)
+	workspaceConnection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForWorkspaceConnectionSTATUSARM(generators)
-	workspaceConnectionSTATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForWorkspaceConnection_STATUSARM(generators)
+	workspaceConnection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUSARM{}), generators)
 
-	return workspaceConnectionSTATUSARMGenerator
+	return workspaceConnection_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWorkspaceConnectionSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaceConnectionSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(WorkspaceConnectionPropsSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForWorkspaceConnection_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspaceConnection_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(WorkspaceConnectionProps_STATUSARMGenerator())
 }
 
 func Test_WorkspaceConnectionProps_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_WorkspaceConnectionProps_STATUSARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnectionProps_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionPropsSTATUSARM, WorkspaceConnectionPropsSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionProps_STATUSARM, WorkspaceConnectionProps_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceConnectionPropsSTATUSARM runs a test to see if a specific instance of WorkspaceConnectionProps_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceConnectionPropsSTATUSARM(subject WorkspaceConnectionProps_STATUSARM) string {
+// RunJSONSerializationTestForWorkspaceConnectionProps_STATUSARM runs a test to see if a specific instance of WorkspaceConnectionProps_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceConnectionProps_STATUSARM(subject WorkspaceConnectionProps_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,27 +134,27 @@ func RunJSONSerializationTestForWorkspaceConnectionPropsSTATUSARM(subject Worksp
 }
 
 // Generator of WorkspaceConnectionProps_STATUSARM instances for property testing - lazily instantiated by
-// WorkspaceConnectionPropsSTATUSARMGenerator()
-var workspaceConnectionPropsSTATUSARMGenerator gopter.Gen
+// WorkspaceConnectionProps_STATUSARMGenerator()
+var workspaceConnectionProps_STATUSARMGenerator gopter.Gen
 
-// WorkspaceConnectionPropsSTATUSARMGenerator returns a generator of WorkspaceConnectionProps_STATUSARM instances for property testing.
-func WorkspaceConnectionPropsSTATUSARMGenerator() gopter.Gen {
-	if workspaceConnectionPropsSTATUSARMGenerator != nil {
-		return workspaceConnectionPropsSTATUSARMGenerator
+// WorkspaceConnectionProps_STATUSARMGenerator returns a generator of WorkspaceConnectionProps_STATUSARM instances for property testing.
+func WorkspaceConnectionProps_STATUSARMGenerator() gopter.Gen {
+	if workspaceConnectionProps_STATUSARMGenerator != nil {
+		return workspaceConnectionProps_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionPropsSTATUSARM(generators)
-	workspaceConnectionPropsSTATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionProps_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUSARM(generators)
+	workspaceConnectionProps_STATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionProps_STATUSARM{}), generators)
 
-	return workspaceConnectionPropsSTATUSARMGenerator
+	return workspaceConnectionProps_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionPropsSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionPropsSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceConnectionProps_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsSTATUSValueFormat_JSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_STATUS_ValueFormat_JSON))
 }

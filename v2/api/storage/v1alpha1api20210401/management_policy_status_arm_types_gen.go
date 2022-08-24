@@ -27,7 +27,7 @@ type ManagementPolicyRule_STATUSARM struct {
 	Definition *ManagementPolicyDefinition_STATUSARM `json:"definition,omitempty"`
 	Enabled    *bool                                 `json:"enabled,omitempty"`
 	Name       *string                               `json:"name,omitempty"`
-	Type       *ManagementPolicyRuleSTATUSType       `json:"type,omitempty"`
+	Type       *ManagementPolicyRule_STATUS_Type     `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagementPolicyDefinition_STATUS. Use v1beta20210401.ManagementPolicyDefinition_STATUS instead
@@ -36,10 +36,10 @@ type ManagementPolicyDefinition_STATUSARM struct {
 	Filters *ManagementPolicyFilter_STATUSARM `json:"filters,omitempty"`
 }
 
-// Deprecated version of ManagementPolicyRuleSTATUSType. Use v1beta20210401.ManagementPolicyRuleSTATUSType instead
-type ManagementPolicyRuleSTATUSType string
+// Deprecated version of ManagementPolicyRule_STATUS_Type. Use v1beta20210401.ManagementPolicyRule_STATUS_Type instead
+type ManagementPolicyRule_STATUS_Type string
 
-const ManagementPolicyRuleSTATUSType_Lifecycle = ManagementPolicyRuleSTATUSType("Lifecycle")
+const ManagementPolicyRule_STATUS_Type_Lifecycle = ManagementPolicyRule_STATUS_Type("Lifecycle")
 
 // Deprecated version of ManagementPolicyAction_STATUS. Use v1beta20210401.ManagementPolicyAction_STATUS instead
 type ManagementPolicyAction_STATUSARM struct {

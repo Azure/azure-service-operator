@@ -28,8 +28,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesQueues_Spec `json:"spec,omitempty"`
-	Status            SBQueue_STATUS        `json:"status,omitempty"`
+	Spec              Namespaces_Queues_Spec `json:"spec,omitempty"`
+	Status            SBQueue_STATUS         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -53,7 +53,7 @@ func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesQueue but received %T instead", hub)
 	}
 
-	return queue.AssignPropertiesFromNamespacesQueue(source)
+	return queue.AssignProperties_From_NamespacesQueue(source)
 }
 
 // ConvertTo populates the provided hub NamespacesQueue from our NamespacesQueue
@@ -63,7 +63,7 @@ func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesQueue but received %T instead", hub)
 	}
 
-	return queue.AssignPropertiesToNamespacesQueue(destination)
+	return queue.AssignProperties_To_NamespacesQueue(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (queue *NamespacesQueue) validateWriteOnceProperties(old runtime.Object) er
 	return genruntime.ValidateWriteOnceProperties(oldObj, queue)
 }
 
-// AssignPropertiesFromNamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue
-func (queue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(source *v20210101ps.NamespacesQueue) error {
+// AssignProperties_From_NamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue
+func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v20210101ps.NamespacesQueue) error {
 
 	// ObjectMeta
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec NamespacesQueues_Spec
-	err := spec.AssignPropertiesFromNamespacesQueuesSpec(&source.Spec)
+	var spec Namespaces_Queues_Spec
+	err := spec.AssignProperties_From_Namespaces_Queues_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesQueuesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Queues_Spec() to populate field Spec")
 	}
 	queue.Spec = spec
 
 	// Status
 	var status SBQueue_STATUS
-	err = status.AssignPropertiesFromSBQueueSTATUS(&source.Status)
+	err = status.AssignProperties_From_SBQueue_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBQueueSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_SBQueue_STATUS() to populate field Status")
 	}
 	queue.Status = status
 
@@ -274,25 +274,25 @@ func (queue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(source *v20210
 	return nil
 }
 
-// AssignPropertiesToNamespacesQueue populates the provided destination NamespacesQueue from our NamespacesQueue
-func (queue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destination *v20210101ps.NamespacesQueue) error {
+// AssignProperties_To_NamespacesQueue populates the provided destination NamespacesQueue from our NamespacesQueue
+func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v20210101ps.NamespacesQueue) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210101ps.NamespacesQueues_Spec
-	err := queue.Spec.AssignPropertiesToNamespacesQueuesSpec(&spec)
+	var spec v20210101ps.Namespaces_Queues_Spec
+	err := queue.Spec.AssignProperties_To_Namespaces_Queues_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesQueuesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Queues_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20210101ps.SBQueue_STATUS
-	err = queue.Status.AssignPropertiesToSBQueueSTATUS(&status)
+	err = queue.Status.AssignProperties_To_SBQueue_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBQueueSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_SBQueue_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,7 +317,7 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
-type NamespacesQueues_Spec struct {
+type Namespaces_Queues_Spec struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
@@ -387,14 +387,14 @@ type NamespacesQueues_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &NamespacesQueues_Spec{}
+var _ genruntime.ARMTransformer = &Namespaces_Queues_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (queues *Namespaces_Queues_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if queues == nil {
 		return nil, nil
 	}
-	result := &NamespacesQueues_SpecARM{}
+	result := &Namespaces_Queues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {
@@ -490,15 +490,15 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (queues *NamespacesQueues_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesQueues_SpecARM{}
+func (queues *Namespaces_Queues_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Queues_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesQueues_SpecARM)
+func (queues *Namespaces_Queues_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Queues_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueues_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Queues_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AutoDeleteOnIdle’:
@@ -653,25 +653,25 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Queues_Spec{}
 
-// ConvertSpecFrom populates our NamespacesQueues_Spec from the provided source
-func (queues *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210101ps.NamespacesQueues_Spec)
+// ConvertSpecFrom populates our Namespaces_Queues_Spec from the provided source
+func (queues *Namespaces_Queues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210101ps.Namespaces_Queues_Spec)
 	if ok {
 		// Populate our instance from source
-		return queues.AssignPropertiesFromNamespacesQueuesSpec(src)
+		return queues.AssignProperties_From_Namespaces_Queues_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.NamespacesQueues_Spec{}
+	src = &v20210101ps.Namespaces_Queues_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = queues.AssignPropertiesFromNamespacesQueuesSpec(src)
+	err = queues.AssignProperties_From_Namespaces_Queues_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -679,17 +679,17 @@ func (queues *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesQueues_Spec
-func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210101ps.NamespacesQueues_Spec)
+// ConvertSpecTo populates the provided destination from our Namespaces_Queues_Spec
+func (queues *Namespaces_Queues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210101ps.Namespaces_Queues_Spec)
 	if ok {
 		// Populate destination from our instance
-		return queues.AssignPropertiesToNamespacesQueuesSpec(dst)
+		return queues.AssignProperties_To_Namespaces_Queues_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.NamespacesQueues_Spec{}
-	err := queues.AssignPropertiesToNamespacesQueuesSpec(dst)
+	dst = &v20210101ps.Namespaces_Queues_Spec{}
+	err := queues.AssignProperties_To_Namespaces_Queues_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -703,8 +703,8 @@ func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignPropertiesFromNamespacesQueuesSpec populates our NamespacesQueues_Spec from the provided source NamespacesQueues_Spec
-func (queues *NamespacesQueues_Spec) AssignPropertiesFromNamespacesQueuesSpec(source *v20210101ps.NamespacesQueues_Spec) error {
+// AssignProperties_From_Namespaces_Queues_Spec populates our Namespaces_Queues_Spec from the provided source Namespaces_Queues_Spec
+func (queues *Namespaces_Queues_Spec) AssignProperties_From_Namespaces_Queues_Spec(source *v20210101ps.Namespaces_Queues_Spec) error {
 
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
@@ -819,8 +819,8 @@ func (queues *NamespacesQueues_Spec) AssignPropertiesFromNamespacesQueuesSpec(so
 	return nil
 }
 
-// AssignPropertiesToNamespacesQueuesSpec populates the provided destination NamespacesQueues_Spec from our NamespacesQueues_Spec
-func (queues *NamespacesQueues_Spec) AssignPropertiesToNamespacesQueuesSpec(destination *v20210101ps.NamespacesQueues_Spec) error {
+// AssignProperties_To_Namespaces_Queues_Spec populates the provided destination Namespaces_Queues_Spec from our Namespaces_Queues_Spec
+func (queues *Namespaces_Queues_Spec) AssignProperties_To_Namespaces_Queues_Spec(destination *v20210101ps.Namespaces_Queues_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -948,12 +948,12 @@ func (queues *NamespacesQueues_Spec) AssignPropertiesToNamespacesQueuesSpec(dest
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (queues *NamespacesQueues_Spec) OriginalVersion() string {
+func (queues *Namespaces_Queues_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (queues *NamespacesQueues_Spec) SetAzureName(azureName string) { queues.AzureName = azureName }
+func (queues *Namespaces_Queues_Spec) SetAzureName(azureName string) { queues.AzureName = azureName }
 
 type SBQueue_STATUS struct {
 	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
@@ -1051,7 +1051,7 @@ func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src, ok := source.(*v20210101ps.SBQueue_STATUS)
 	if ok {
 		// Populate our instance from source
-		return queue.AssignPropertiesFromSBQueueSTATUS(src)
+		return queue.AssignProperties_From_SBQueue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -1062,7 +1062,7 @@ func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	}
 
 	// Update our instance from src
-	err = queue.AssignPropertiesFromSBQueueSTATUS(src)
+	err = queue.AssignProperties_From_SBQueue_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1075,12 +1075,12 @@ func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst, ok := destination.(*v20210101ps.SBQueue_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return queue.AssignPropertiesToSBQueueSTATUS(dst)
+		return queue.AssignProperties_To_SBQueue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210101ps.SBQueue_STATUS{}
-	err := queue.AssignPropertiesToSBQueueSTATUS(dst)
+	err := queue.AssignProperties_To_SBQueue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1337,8 +1337,8 @@ func (queue *SBQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSBQueueSTATUS populates our SBQueue_STATUS from the provided source SBQueue_STATUS
-func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueueSTATUS(source *v20210101ps.SBQueue_STATUS) error {
+// AssignProperties_From_SBQueue_STATUS populates our SBQueue_STATUS from the provided source SBQueue_STATUS
+func (queue *SBQueue_STATUS) AssignProperties_From_SBQueue_STATUS(source *v20210101ps.SBQueue_STATUS) error {
 
 	// AccessedAt
 	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1352,9 +1352,9 @@ func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueueSTATUS(source *v20210101
 	// CountDetails
 	if source.CountDetails != nil {
 		var countDetail MessageCountDetails_STATUS
-		err := countDetail.AssignPropertiesFromMessageCountDetailsSTATUS(source.CountDetails)
+		err := countDetail.AssignProperties_From_MessageCountDetails_STATUS(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsSTATUS() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		queue.CountDetails = &countDetail
 	} else {
@@ -1456,9 +1456,9 @@ func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueueSTATUS(source *v20210101
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		queue.SystemData = &systemDatum
 	} else {
@@ -1475,8 +1475,8 @@ func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueueSTATUS(source *v20210101
 	return nil
 }
 
-// AssignPropertiesToSBQueueSTATUS populates the provided destination SBQueue_STATUS from our SBQueue_STATUS
-func (queue *SBQueue_STATUS) AssignPropertiesToSBQueueSTATUS(destination *v20210101ps.SBQueue_STATUS) error {
+// AssignProperties_To_SBQueue_STATUS populates the provided destination SBQueue_STATUS from our SBQueue_STATUS
+func (queue *SBQueue_STATUS) AssignProperties_To_SBQueue_STATUS(destination *v20210101ps.SBQueue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1492,9 +1492,9 @@ func (queue *SBQueue_STATUS) AssignPropertiesToSBQueueSTATUS(destination *v20210
 	// CountDetails
 	if queue.CountDetails != nil {
 		var countDetail v20210101ps.MessageCountDetails_STATUS
-		err := queue.CountDetails.AssignPropertiesToMessageCountDetailsSTATUS(&countDetail)
+		err := queue.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsSTATUS() to populate field CountDetails")
+			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -1596,9 +1596,9 @@ func (queue *SBQueue_STATUS) AssignPropertiesToSBQueueSTATUS(destination *v20210
 	// SystemData
 	if queue.SystemData != nil {
 		var systemDatum v20210101ps.SystemData_STATUS
-		err := queue.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := queue.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1701,8 +1701,8 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromMessageCountDetailsSTATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignPropertiesFromMessageCountDetailsSTATUS(source *v20210101ps.MessageCountDetails_STATUS) error {
+// AssignProperties_From_MessageCountDetails_STATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
+func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDetails_STATUS(source *v20210101ps.MessageCountDetails_STATUS) error {
 
 	// ActiveMessageCount
 	details.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
@@ -1723,8 +1723,8 @@ func (details *MessageCountDetails_STATUS) AssignPropertiesFromMessageCountDetai
 	return nil
 }
 
-// AssignPropertiesToMessageCountDetailsSTATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignPropertiesToMessageCountDetailsSTATUS(destination *v20210101ps.MessageCountDetails_STATUS) error {
+// AssignProperties_To_MessageCountDetails_STATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
+func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetails_STATUS(destination *v20210101ps.MessageCountDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

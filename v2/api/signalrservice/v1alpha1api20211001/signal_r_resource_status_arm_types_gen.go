@@ -66,12 +66,12 @@ type SignalRProperties_STATUSARM struct {
 
 // Deprecated version of SystemData_STATUS. Use v1beta20211001.SystemData_STATUS instead
 type SystemData_STATUSARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of ManagedIdentityType_STATUS. Use v1beta20211001.ManagedIdentityType_STATUS instead
@@ -139,24 +139,25 @@ type SignalRTlsSettings_STATUSARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
-// Deprecated version of SystemDataSTATUSCreatedByType. Use v1beta20211001.SystemDataSTATUSCreatedByType instead
-type SystemDataSTATUSCreatedByType string
+// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20211001.SystemData_STATUS_CreatedByType instead
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-// Deprecated version of SystemDataSTATUSLastModifiedByType. Use v1beta20211001.SystemDataSTATUSLastModifiedByType instead
-type SystemDataSTATUSLastModifiedByType string
+// Deprecated version of SystemData_STATUS_LastModifiedByType. Use v1beta20211001.SystemData_STATUS_LastModifiedByType
+// instead
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )
 
 // Deprecated version of UserAssignedIdentityProperty_STATUS. Use v1beta20211001.UserAssignedIdentityProperty_STATUS instead
