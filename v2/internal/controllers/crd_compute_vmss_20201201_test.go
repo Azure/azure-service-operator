@@ -256,8 +256,5 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(compute2020.APIVersion_Value))
 }
