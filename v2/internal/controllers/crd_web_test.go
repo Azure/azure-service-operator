@@ -27,6 +27,10 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(serverfarm)
 
 	armId := *serverfarm.Status.Id
+	old := serverfarm.DeepCopy()
+	serverfarm.Spec.PerSiteScaling = to.BoolPtr(true)
+	tc.PatchResourceAndWait(old, serverfarm)
+	tc.Expect(serverfarm.Status.PerSiteScaling).To(gomega.Equal(to.BoolPtr(true)))
 
 	tc.DeleteResourcesAndWait(serverfarm)
 
@@ -63,6 +67,10 @@ func Test_Web_Site_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(site)
 
 	armId := *site.Status.Id
+	old := site.DeepCopy()
+	site.Spec.Enabled = to.BoolPtr(false)
+	tc.PatchResourceAndWait(old, site)
+	tc.Expect(site.Status.Enabled).To(gomega.Equal(to.BoolPtr(false)))
 
 	tc.DeleteResourceAndWait(site)
 
@@ -81,10 +89,8 @@ func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGrou
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v1beta20220301.SkuDescription{
-				Name: to.StringPtr("F1"),
-				Tier: to.StringPtr("Free"),
+				Name: to.StringPtr("P1v2"),
 			},
-			ZoneRedundant: to.BoolPtr(false),
 		},
 	}
 	return serverfarm
