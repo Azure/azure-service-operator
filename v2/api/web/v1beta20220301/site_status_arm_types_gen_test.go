@@ -439,6 +439,81 @@ func AddIndependentPropertyGeneratorsForHostNameSslState_STATUSARM(gens map[stri
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SiteConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SiteConfig_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSiteConfig_STATUSARM, SiteConfig_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSiteConfig_STATUSARM runs a test to see if a specific instance of SiteConfig_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSiteConfig_STATUSARM(subject SiteConfig_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SiteConfig_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SiteConfig_STATUSARM instances for property testing - lazily instantiated by
+// SiteConfig_STATUSARMGenerator()
+var siteConfig_STATUSARMGenerator gopter.Gen
+
+// SiteConfig_STATUSARMGenerator returns a generator of SiteConfig_STATUSARM instances for property testing.
+func SiteConfig_STATUSARMGenerator() gopter.Gen {
+	if siteConfig_STATUSARMGenerator != nil {
+		return siteConfig_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSiteConfig_STATUSARM(generators)
+	siteConfig_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SiteConfig_STATUSARM{}), generators)
+
+	return siteConfig_STATUSARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSiteConfig_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSiteConfig_STATUSARM(gens map[string]gopter.Gen) {
+	gens["ApiDefinition"] = gen.PtrOf(ApiDefinitionInfo_STATUSARMGenerator())
+	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfig_STATUSARMGenerator())
+	gens["AppSettings"] = gen.SliceOf(NameValuePair_STATUSARMGenerator())
+	gens["AutoHealRules"] = gen.PtrOf(AutoHealRules_STATUSARMGenerator())
+	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), AzureStorageInfoValue_STATUSARMGenerator())
+	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfo_STATUSARMGenerator())
+	gens["Cors"] = gen.PtrOf(CorsSettings_STATUSARMGenerator())
+	gens["Experiments"] = gen.PtrOf(Experiments_STATUSARMGenerator())
+	gens["HandlerMappings"] = gen.SliceOf(HandlerMapping_STATUSARMGenerator())
+	gens["IpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestriction_STATUSARMGenerator())
+	gens["Limits"] = gen.PtrOf(SiteLimits_STATUSARMGenerator())
+	gens["MachineKey"] = gen.PtrOf(SiteMachineKey_STATUSARMGenerator())
+	gens["Push"] = gen.PtrOf(PushSettings_STATUSARMGenerator())
+	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestriction_STATUSARMGenerator())
+	gens["VirtualApplications"] = gen.SliceOf(VirtualApplication_STATUSARMGenerator())
+}
+
 func Test_SlotSwapStatus_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

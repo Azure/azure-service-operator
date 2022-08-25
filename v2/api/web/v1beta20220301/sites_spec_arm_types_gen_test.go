@@ -402,6 +402,80 @@ func AddIndependentPropertyGeneratorsForHostNameSslStateARM(gens map[string]gopt
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Sites_Spec_Properties_SiteConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Sites_Spec_Properties_SiteConfigARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSites_Spec_Properties_SiteConfigARM, Sites_Spec_Properties_SiteConfigARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSites_Spec_Properties_SiteConfigARM runs a test to see if a specific instance of Sites_Spec_Properties_SiteConfigARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSites_Spec_Properties_SiteConfigARM(subject Sites_Spec_Properties_SiteConfigARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Sites_Spec_Properties_SiteConfigARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Sites_Spec_Properties_SiteConfigARM instances for property testing - lazily instantiated by
+// Sites_Spec_Properties_SiteConfigARMGenerator()
+var sites_Spec_Properties_SiteConfigARMGenerator gopter.Gen
+
+// Sites_Spec_Properties_SiteConfigARMGenerator returns a generator of Sites_Spec_Properties_SiteConfigARM instances for property testing.
+func Sites_Spec_Properties_SiteConfigARMGenerator() gopter.Gen {
+	if sites_Spec_Properties_SiteConfigARMGenerator != nil {
+		return sites_Spec_Properties_SiteConfigARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfigARM(generators)
+	sites_Spec_Properties_SiteConfigARMGenerator = gen.Struct(reflect.TypeOf(Sites_Spec_Properties_SiteConfigARM{}), generators)
+
+	return sites_Spec_Properties_SiteConfigARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfigARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSites_Spec_Properties_SiteConfigARM(gens map[string]gopter.Gen) {
+	gens["ApiDefinition"] = gen.PtrOf(ApiDefinitionInfoARMGenerator())
+	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfigARMGenerator())
+	gens["AppSettings"] = gen.SliceOf(NameValuePairARMGenerator())
+	gens["AutoHealRules"] = gen.PtrOf(AutoHealRulesARMGenerator())
+	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARMGenerator())
+	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfoARMGenerator())
+	gens["Cors"] = gen.PtrOf(CorsSettingsARMGenerator())
+	gens["Experiments"] = gen.PtrOf(ExperimentsARMGenerator())
+	gens["HandlerMappings"] = gen.SliceOf(HandlerMappingARMGenerator())
+	gens["IpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionARMGenerator())
+	gens["Limits"] = gen.PtrOf(SiteLimitsARMGenerator())
+	gens["Push"] = gen.PtrOf(Sites_Spec_Properties_SiteConfig_PushARMGenerator())
+	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionARMGenerator())
+	gens["VirtualApplications"] = gen.SliceOf(VirtualApplicationARMGenerator())
+}
+
 func Test_ApiDefinitionInfoARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
