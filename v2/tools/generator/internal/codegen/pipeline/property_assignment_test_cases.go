@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -64,6 +65,16 @@ func makePropertyAssignmentTestCaseFactory(idFactory astmodel.IdentifierFactory)
 }
 
 func (s *propertyAssignmentTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
+	// Skip creating a test case for any object with more than 50 properties
+	// Gopter can't test these due to a Go Runtime limitation
+	// See https://github.com/golang/go/issues/54669 for more information
+	if pc, ok := astmodel.AsPropertyContainer(def.Type()); ok {
+		if props := pc.Properties(); props.Len() > 50 {
+			klog.V(3).Infof("Skipping resource conversion test case for %s as it has %d properties", def.Name(), props.Len())
+			return false
+		}
+	}
+
 	container, ok := astmodel.AsFunctionContainer(def.Type())
 	if !ok {
 		return false
