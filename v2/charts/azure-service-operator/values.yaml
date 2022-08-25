@@ -82,5 +82,3 @@ multiTenant:
 #  NOTE: If we set 'isCluster' to false, tenant mode will be enabled and have to make sure we have above 'installCRDs' also set to false
 #  while tenant installation.
   isCluster: false
-#  tenantName is only valid when isCluster above is set to false. It is used to set name for tenant.
-  tenantName: "tenant1"
