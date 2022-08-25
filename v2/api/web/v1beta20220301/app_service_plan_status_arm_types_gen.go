@@ -72,7 +72,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
 	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *AppServicePlanSTATUSPropertiesProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *AppServicePlan_STATUS_Properties_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -84,7 +84,7 @@ type AppServicePlan_STATUS_PropertiesARM struct {
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
 
 	// Status: App Service plan status.
-	Status *AppServicePlanSTATUSPropertiesStatus `json:"status,omitempty"`
+	Status *AppServicePlan_STATUS_Properties_Status `json:"status,omitempty"`
 
 	// Subscription: App Service plan subscription.
 	Subscription *string `json:"subscription,omitempty"`
@@ -137,22 +137,22 @@ type SkuDescription_STATUSARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-type AppServicePlanSTATUSPropertiesProvisioningState string
+type AppServicePlan_STATUS_Properties_ProvisioningState string
 
 const (
-	AppServicePlanSTATUSPropertiesProvisioningState_Canceled   = AppServicePlanSTATUSPropertiesProvisioningState("Canceled")
-	AppServicePlanSTATUSPropertiesProvisioningState_Deleting   = AppServicePlanSTATUSPropertiesProvisioningState("Deleting")
-	AppServicePlanSTATUSPropertiesProvisioningState_Failed     = AppServicePlanSTATUSPropertiesProvisioningState("Failed")
-	AppServicePlanSTATUSPropertiesProvisioningState_InProgress = AppServicePlanSTATUSPropertiesProvisioningState("InProgress")
-	AppServicePlanSTATUSPropertiesProvisioningState_Succeeded  = AppServicePlanSTATUSPropertiesProvisioningState("Succeeded")
+	AppServicePlan_STATUS_Properties_ProvisioningState_Canceled   = AppServicePlan_STATUS_Properties_ProvisioningState("Canceled")
+	AppServicePlan_STATUS_Properties_ProvisioningState_Deleting   = AppServicePlan_STATUS_Properties_ProvisioningState("Deleting")
+	AppServicePlan_STATUS_Properties_ProvisioningState_Failed     = AppServicePlan_STATUS_Properties_ProvisioningState("Failed")
+	AppServicePlan_STATUS_Properties_ProvisioningState_InProgress = AppServicePlan_STATUS_Properties_ProvisioningState("InProgress")
+	AppServicePlan_STATUS_Properties_ProvisioningState_Succeeded  = AppServicePlan_STATUS_Properties_ProvisioningState("Succeeded")
 )
 
-type AppServicePlanSTATUSPropertiesStatus string
+type AppServicePlan_STATUS_Properties_Status string
 
 const (
-	AppServicePlanSTATUSPropertiesStatus_Creating = AppServicePlanSTATUSPropertiesStatus("Creating")
-	AppServicePlanSTATUSPropertiesStatus_Pending  = AppServicePlanSTATUSPropertiesStatus("Pending")
-	AppServicePlanSTATUSPropertiesStatus_Ready    = AppServicePlanSTATUSPropertiesStatus("Ready")
+	AppServicePlan_STATUS_Properties_Status_Creating = AppServicePlan_STATUS_Properties_Status("Creating")
+	AppServicePlan_STATUS_Properties_Status_Pending  = AppServicePlan_STATUS_Properties_Status("Pending")
+	AppServicePlan_STATUS_Properties_Status_Ready    = AppServicePlan_STATUS_Properties_Status("Ready")
 )
 
 type Capability_STATUSARM struct {

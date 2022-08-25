@@ -25,12 +25,12 @@ func Test_Serverfarms_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Serverfarms_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerfarmsSpecARM, ServerfarmsSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForServerfarms_SpecARM, Serverfarms_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServerfarmsSpecARM runs a test to see if a specific instance of Serverfarms_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerfarmsSpecARM(subject Serverfarms_SpecARM) string {
+// RunJSONSerializationTestForServerfarms_SpecARM runs a test to see if a specific instance of Serverfarms_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerfarms_SpecARM(subject Serverfarms_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,41 +56,42 @@ func RunJSONSerializationTestForServerfarmsSpecARM(subject Serverfarms_SpecARM) 
 	return ""
 }
 
-// Generator of Serverfarms_SpecARM instances for property testing - lazily instantiated by ServerfarmsSpecARMGenerator()
-var serverfarmsSpecARMGenerator gopter.Gen
+// Generator of Serverfarms_SpecARM instances for property testing - lazily instantiated by
+// Serverfarms_SpecARMGenerator()
+var serverfarms_SpecARMGenerator gopter.Gen
 
-// ServerfarmsSpecARMGenerator returns a generator of Serverfarms_SpecARM instances for property testing.
-// We first initialize serverfarmsSpecARMGenerator with a simplified generator based on the
+// Serverfarms_SpecARMGenerator returns a generator of Serverfarms_SpecARM instances for property testing.
+// We first initialize serverfarms_SpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ServerfarmsSpecARMGenerator() gopter.Gen {
-	if serverfarmsSpecARMGenerator != nil {
-		return serverfarmsSpecARMGenerator
+func Serverfarms_SpecARMGenerator() gopter.Gen {
+	if serverfarms_SpecARMGenerator != nil {
+		return serverfarms_SpecARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarmsSpecARM(generators)
-	serverfarmsSpecARMGenerator = gen.Struct(reflect.TypeOf(Serverfarms_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForServerfarms_SpecARM(generators)
+	serverfarms_SpecARMGenerator = gen.Struct(reflect.TypeOf(Serverfarms_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarmsSpecARM(generators)
-	AddRelatedPropertyGeneratorsForServerfarmsSpecARM(generators)
-	serverfarmsSpecARMGenerator = gen.Struct(reflect.TypeOf(Serverfarms_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForServerfarms_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForServerfarms_SpecARM(generators)
+	serverfarms_SpecARMGenerator = gen.Struct(reflect.TypeOf(Serverfarms_SpecARM{}), generators)
 
-	return serverfarmsSpecARMGenerator
+	return serverfarms_SpecARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerfarmsSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerfarmsSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServerfarms_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerfarms_SpecARM(gens map[string]gopter.Gen) {
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServerfarmsSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerfarmsSpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServerfarms_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerfarms_SpecARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationARMGenerator())
 	gens["Properties"] = gen.PtrOf(AppServicePlanPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuDescriptionARMGenerator())

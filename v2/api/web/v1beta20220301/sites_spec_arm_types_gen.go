@@ -51,7 +51,7 @@ func (sites *Sites_SpecARM) GetType() string {
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ManagedServiceIdentity
 type ManagedServiceIdentityARM struct {
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentityType `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -75,7 +75,7 @@ type Sites_Spec_PropertiesARM struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *SitesSpecPropertiesClientCertMode `json:"clientCertMode,omitempty"`
+	ClientCertMode *Sites_Spec_Properties_ClientCertMode `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: Information needed for cloning operation.
 	CloningInfo *CloningInfoARM `json:"cloningInfo,omitempty"`
@@ -122,7 +122,7 @@ type Sites_Spec_PropertiesARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode.
-	RedundancyMode *SitesSpecPropertiesRedundancyMode `json:"redundancyMode,omitempty"`
+	RedundancyMode *Sites_Spec_Properties_RedundancyMode `json:"redundancyMode,omitempty"`
 
 	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -189,13 +189,13 @@ type CloningInfoARM struct {
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostNameSslState
 type HostNameSslStateARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslStateHostType `json:"hostType,omitempty"`
+	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslStateSslState `json:"sslState,omitempty"`
+	SslState *HostNameSslState_SslState `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -208,13 +208,13 @@ type HostNameSslStateARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType string
+type ManagedServiceIdentity_Type string
 
 const (
-	ManagedServiceIdentityType_None                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityType_SystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityType_SystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
+	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
+	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
 type Sites_Spec_Properties_SiteConfigARM struct {
@@ -270,7 +270,7 @@ type Sites_Spec_Properties_SiteConfigARM struct {
 	Experiments *ExperimentsARM `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service.
-	FtpsState *SitesSpecPropertiesSiteConfigFtpsState `json:"ftpsState,omitempty"`
+	FtpsState *Sites_Spec_Properties_SiteConfig_FtpsState `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -316,7 +316,7 @@ type Sites_Spec_Properties_SiteConfigARM struct {
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SitesSpecPropertiesSiteConfigLoadBalancing `json:"loadBalancing,omitempty"`
+	LoadBalancing *Sites_Spec_Properties_SiteConfig_LoadBalancing `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -325,13 +325,13 @@ type Sites_Spec_Properties_SiteConfigARM struct {
 	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SitesSpecPropertiesSiteConfigManagedPipelineMode `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *Sites_Spec_Properties_SiteConfig_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests.
-	MinTlsVersion *SitesSpecPropertiesSiteConfigMinTlsVersion `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *Sites_Spec_Properties_SiteConfig_MinTlsVersion `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -387,10 +387,10 @@ type Sites_Spec_Properties_SiteConfigARM struct {
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site.
-	ScmMinTlsVersion *SitesSpecPropertiesSiteConfigScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *Sites_Spec_Properties_SiteConfig_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SitesSpecPropertiesSiteConfigScmType `json:"scmType,omitempty"`
+	ScmType *Sites_Spec_Properties_SiteConfig_ScmType `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -457,7 +457,7 @@ type ConnStringInfoARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfoType `json:"type,omitempty"`
+	Type *ConnStringInfo_Type `json:"type,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CorsSettings
@@ -534,8 +534,8 @@ type IpSecurityRestrictionARM struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag                  *IpSecurityRestrictionTag `json:"tag,omitempty"`
-	VnetSubnetResourceId *string                   `json:"vnetSubnetResourceId,omitempty"`
+	Tag                  *IpSecurityRestriction_Tag `json:"tag,omitempty"`
+	VnetSubnetResourceId *string                    `json:"vnetSubnetResourceId,omitempty"`
 
 	// VnetTrafficTag: (internal) Vnet traffic tag
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
@@ -576,7 +576,7 @@ type Sites_Spec_Properties_SiteConfig_AzureStorageAccountsARM struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// Type: Type of storage.
-	Type *SitesSpecPropertiesSiteConfigAzureStorageAccountsType `json:"type,omitempty"`
+	Type *Sites_Spec_Properties_SiteConfig_AzureStorageAccounts_Type `json:"type,omitempty"`
 }
 
 type Sites_Spec_Properties_SiteConfig_PushARM struct {
@@ -605,7 +605,7 @@ type VirtualApplicationARM struct {
 // Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealActions
 type AutoHealActionsARM struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActionsActionType `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be executed
 	// when an auto heal rule is triggered.

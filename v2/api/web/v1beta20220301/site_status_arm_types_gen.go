@@ -37,7 +37,7 @@ type ManagedServiceIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentitySTATUSType `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_STATUS_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -47,7 +47,7 @@ type ManagedServiceIdentity_STATUSARM struct {
 
 type Site_STATUS_PropertiesARM struct {
 	// AvailabilityState: Management information availability state for the app.
-	AvailabilityState *SiteSTATUSPropertiesAvailabilityState `json:"availabilityState,omitempty"`
+	AvailabilityState *Site_STATUS_Properties_AvailabilityState `json:"availabilityState,omitempty"`
 
 	// ClientAffinityEnabled: <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity
 	// cookies, which route client requests in the same session to the same instance. Default is <code>true</code>.
@@ -64,7 +64,7 @@ type Site_STATUS_PropertiesARM struct {
 	// - ClientCertEnabled: false means ClientCert is ignored.
 	// - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
-	ClientCertMode *SiteSTATUSPropertiesClientCertMode `json:"clientCertMode,omitempty"`
+	ClientCertMode *Site_STATUS_Properties_ClientCertMode `json:"clientCertMode,omitempty"`
 
 	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo_STATUSARM `json:"cloningInfo,omitempty"`
@@ -142,7 +142,7 @@ type Site_STATUS_PropertiesARM struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedundancyMode: Site redundancy mode
-	RedundancyMode *SiteSTATUSPropertiesRedundancyMode `json:"redundancyMode,omitempty"`
+	RedundancyMode *Site_STATUS_Properties_RedundancyMode `json:"redundancyMode,omitempty"`
 
 	// RepositorySiteName: Name of the repository site.
 	RepositorySiteName *string `json:"repositorySiteName,omitempty"`
@@ -183,7 +183,7 @@ type Site_STATUS_PropertiesARM struct {
 	TrafficManagerHostNames []string `json:"trafficManagerHostNames,omitempty"`
 
 	// UsageState: State indicating whether the app has exceeded its quota usage. Read-only.
-	UsageState *SiteSTATUSPropertiesUsageState `json:"usageState,omitempty"`
+	UsageState *Site_STATUS_Properties_UsageState `json:"usageState,omitempty"`
 
 	// VirtualNetworkSubnetId: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
 	// Integration.
@@ -249,13 +249,13 @@ type CloningInfo_STATUSARM struct {
 
 type HostNameSslState_STATUSARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
-	HostType *HostNameSslStateSTATUSHostType `json:"hostType,omitempty"`
+	HostType *HostNameSslState_STATUS_HostType `json:"hostType,omitempty"`
 
 	// Name: Hostname.
 	Name *string `json:"name,omitempty"`
 
 	// SslState: SSL type.
-	SslState *HostNameSslStateSTATUSSslState `json:"sslState,omitempty"`
+	SslState *HostNameSslState_STATUS_SslState `json:"sslState,omitempty"`
 
 	// Thumbprint: SSL certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -267,13 +267,13 @@ type HostNameSslState_STATUSARM struct {
 	VirtualIP *string `json:"virtualIP,omitempty"`
 }
 
-type ManagedServiceIdentitySTATUSType string
+type ManagedServiceIdentity_STATUS_Type string
 
 const (
-	ManagedServiceIdentitySTATUSType_None                       = ManagedServiceIdentitySTATUSType("None")
-	ManagedServiceIdentitySTATUSType_SystemAssigned             = ManagedServiceIdentitySTATUSType("SystemAssigned")
-	ManagedServiceIdentitySTATUSType_SystemAssignedUserAssigned = ManagedServiceIdentitySTATUSType("SystemAssigned, UserAssigned")
-	ManagedServiceIdentitySTATUSType_UserAssigned               = ManagedServiceIdentitySTATUSType("UserAssigned")
+	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
+	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
+	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
 )
 
 type SiteConfig_STATUSARM struct {
@@ -329,7 +329,7 @@ type SiteConfig_STATUSARM struct {
 	Experiments *Experiments_STATUSARM `json:"experiments,omitempty"`
 
 	// FtpsState: State of FTP / FTPS service
-	FtpsState *SiteConfigSTATUSFtpsState `json:"ftpsState,omitempty"`
+	FtpsState *SiteConfig_STATUS_FtpsState `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -375,7 +375,7 @@ type SiteConfig_STATUSARM struct {
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *SiteConfigSTATUSLoadBalancing `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_STATUS_LoadBalancing `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -387,13 +387,13 @@ type SiteConfig_STATUSARM struct {
 	MachineKey *SiteMachineKey_STATUSARM `json:"machineKey,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *SiteConfigSTATUSManagedPipelineMode `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_STATUS_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
 	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
-	MinTlsVersion *SiteConfigSTATUSMinTlsVersion `json:"minTlsVersion,omitempty"`
+	MinTlsVersion *SiteConfig_STATUS_MinTlsVersion `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -449,10 +449,10 @@ type SiteConfig_STATUSARM struct {
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
 	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
-	ScmMinTlsVersion *SiteConfigSTATUSScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
+	ScmMinTlsVersion *SiteConfig_STATUS_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *SiteConfigSTATUSScmType `json:"scmType,omitempty"`
+	ScmType *SiteConfig_STATUS_ScmType `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -538,10 +538,10 @@ type AzureStorageInfoValue_STATUSARM struct {
 	ShareName *string `json:"shareName,omitempty"`
 
 	// State: State of the storage account.
-	State *AzureStorageInfoValueSTATUSState `json:"state,omitempty"`
+	State *AzureStorageInfoValue_STATUS_State `json:"state,omitempty"`
 
 	// Type: Type of storage.
-	Type *AzureStorageInfoValueSTATUSType `json:"type,omitempty"`
+	Type *AzureStorageInfoValue_STATUS_Type `json:"type,omitempty"`
 }
 
 type ConnStringInfo_STATUSARM struct {
@@ -552,7 +552,7 @@ type ConnStringInfo_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: Type of database.
-	Type *ConnStringInfoSTATUSType `json:"type,omitempty"`
+	Type *ConnStringInfo_STATUS_Type `json:"type,omitempty"`
 }
 
 type CorsSettings_STATUSARM struct {
@@ -625,7 +625,7 @@ type IpSecurityRestriction_STATUSARM struct {
 	SubnetTrafficTag *int `json:"subnetTrafficTag,omitempty"`
 
 	// Tag: Defines what this IP filter will be used for. This is to support IP filtering on proxies.
-	Tag *IpSecurityRestrictionSTATUSTag `json:"tag,omitempty"`
+	Tag *IpSecurityRestriction_STATUS_Tag `json:"tag,omitempty"`
 
 	// VnetSubnetResourceId: Virtual network resource id
 	VnetSubnetResourceId *string `json:"vnetSubnetResourceId,omitempty"`
@@ -700,7 +700,7 @@ type VirtualApplication_STATUSARM struct {
 
 type AutoHealActions_STATUSARM struct {
 	// ActionType: Predefined action to be taken.
-	ActionType *AutoHealActionsSTATUSActionType `json:"actionType,omitempty"`
+	ActionType *AutoHealActions_STATUS_ActionType `json:"actionType,omitempty"`
 
 	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction_STATUSARM `json:"customAction,omitempty"`

@@ -53,7 +53,7 @@ func (serverfarm *Serverfarm) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected web/v1beta20220301storage/Serverfarm but received %T instead", hub)
 	}
 
-	return serverfarm.AssignPropertiesFromServerfarm(source)
+	return serverfarm.AssignProperties_From_Serverfarm(source)
 }
 
 // ConvertTo populates the provided hub Serverfarm from our Serverfarm
@@ -63,7 +63,7 @@ func (serverfarm *Serverfarm) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected web/v1beta20220301storage/Serverfarm but received %T instead", hub)
 	}
 
-	return serverfarm.AssignPropertiesToServerfarm(destination)
+	return serverfarm.AssignProperties_To_Serverfarm(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-web-azure-com-v1beta20220301-serverfarm,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=serverfarms,verbs=create;update,versions=v1beta20220301,name=default.v1beta20220301.serverfarms.web.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (serverfarm *Serverfarm) validateWriteOnceProperties(old runtime.Object) er
 	return genruntime.ValidateWriteOnceProperties(oldObj, serverfarm)
 }
 
-// AssignPropertiesFromServerfarm populates our Serverfarm from the provided source Serverfarm
-func (serverfarm *Serverfarm) AssignPropertiesFromServerfarm(source *v20220301s.Serverfarm) error {
+// AssignProperties_From_Serverfarm populates our Serverfarm from the provided source Serverfarm
+func (serverfarm *Serverfarm) AssignProperties_From_Serverfarm(source *v20220301s.Serverfarm) error {
 
 	// ObjectMeta
 	serverfarm.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Serverfarms_Spec
-	err := spec.AssignPropertiesFromServerfarmsSpec(&source.Spec)
+	err := spec.AssignProperties_From_Serverfarms_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromServerfarmsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Serverfarms_Spec() to populate field Spec")
 	}
 	serverfarm.Spec = spec
 
 	// Status
 	var status AppServicePlan_STATUS
-	err = status.AssignPropertiesFromAppServicePlanSTATUS(&source.Status)
+	err = status.AssignProperties_From_AppServicePlan_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAppServicePlanSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_AppServicePlan_STATUS() to populate field Status")
 	}
 	serverfarm.Status = status
 
@@ -274,25 +274,25 @@ func (serverfarm *Serverfarm) AssignPropertiesFromServerfarm(source *v20220301s.
 	return nil
 }
 
-// AssignPropertiesToServerfarm populates the provided destination Serverfarm from our Serverfarm
-func (serverfarm *Serverfarm) AssignPropertiesToServerfarm(destination *v20220301s.Serverfarm) error {
+// AssignProperties_To_Serverfarm populates the provided destination Serverfarm from our Serverfarm
+func (serverfarm *Serverfarm) AssignProperties_To_Serverfarm(destination *v20220301s.Serverfarm) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *serverfarm.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20220301s.Serverfarms_Spec
-	err := serverfarm.Spec.AssignPropertiesToServerfarmsSpec(&spec)
+	err := serverfarm.Spec.AssignProperties_To_Serverfarms_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToServerfarmsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Serverfarms_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20220301s.AppServicePlan_STATUS
-	err = serverfarm.Status.AssignPropertiesToAppServicePlanSTATUS(&status)
+	err = serverfarm.Status.AssignProperties_To_AppServicePlan_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAppServicePlanSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_AppServicePlan_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -381,7 +381,7 @@ type AppServicePlan_STATUS struct {
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
 	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *AppServicePlanSTATUSPropertiesProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *AppServicePlan_STATUS_Properties_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
 	Reserved *bool `json:"reserved,omitempty"`
@@ -394,7 +394,7 @@ type AppServicePlan_STATUS struct {
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
 
 	// Status: App Service plan status.
-	Status *AppServicePlanSTATUSPropertiesStatus `json:"status,omitempty"`
+	Status *AppServicePlan_STATUS_Properties_Status `json:"status,omitempty"`
 
 	// Subscription: App Service plan subscription.
 	Subscription *string `json:"subscription,omitempty"`
@@ -426,7 +426,7 @@ func (plan *AppServicePlan_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	src, ok := source.(*v20220301s.AppServicePlan_STATUS)
 	if ok {
 		// Populate our instance from source
-		return plan.AssignPropertiesFromAppServicePlanSTATUS(src)
+		return plan.AssignProperties_From_AppServicePlan_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -437,7 +437,7 @@ func (plan *AppServicePlan_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	}
 
 	// Update our instance from src
-	err = plan.AssignPropertiesFromAppServicePlanSTATUS(src)
+	err = plan.AssignProperties_From_AppServicePlan_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -450,12 +450,12 @@ func (plan *AppServicePlan_STATUS) ConvertStatusTo(destination genruntime.Conver
 	dst, ok := destination.(*v20220301s.AppServicePlan_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return plan.AssignPropertiesToAppServicePlanSTATUS(dst)
+		return plan.AssignProperties_To_AppServicePlan_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20220301s.AppServicePlan_STATUS{}
-	err := plan.AssignPropertiesToAppServicePlanSTATUS(dst)
+	err := plan.AssignProperties_To_AppServicePlan_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -766,8 +766,8 @@ func (plan *AppServicePlan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromAppServicePlanSTATUS populates our AppServicePlan_STATUS from the provided source AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(source *v20220301s.AppServicePlan_STATUS) error {
+// AssignProperties_From_AppServicePlan_STATUS populates our AppServicePlan_STATUS from the provided source AppServicePlan_STATUS
+func (plan *AppServicePlan_STATUS) AssignProperties_From_AppServicePlan_STATUS(source *v20220301s.AppServicePlan_STATUS) error {
 
 	// Conditions
 	plan.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -783,9 +783,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		plan.ExtendedLocation = &extendedLocation
 	} else {
@@ -801,9 +801,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile HostingEnvironmentProfile_STATUS
-		err := hostingEnvironmentProfile.AssignPropertiesFromHostingEnvironmentProfileSTATUS(source.HostingEnvironmentProfile)
+		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHostingEnvironmentProfileSTATUS() to populate field HostingEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		plan.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -843,9 +843,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 	// KubeEnvironmentProfile
 	if source.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile KubeEnvironmentProfile_STATUS
-		err := kubeEnvironmentProfile.AssignPropertiesFromKubeEnvironmentProfileSTATUS(source.KubeEnvironmentProfile)
+		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKubeEnvironmentProfileSTATUS() to populate field KubeEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
 		plan.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -880,7 +880,7 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := AppServicePlanSTATUSPropertiesProvisioningState(*source.ProvisioningState)
+		provisioningState := AppServicePlan_STATUS_Properties_ProvisioningState(*source.ProvisioningState)
 		plan.ProvisioningState = &provisioningState
 	} else {
 		plan.ProvisioningState = nil
@@ -900,9 +900,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 	// Sku
 	if source.Sku != nil {
 		var sku SkuDescription_STATUS
-		err := sku.AssignPropertiesFromSkuDescriptionSTATUS(source.Sku)
+		err := sku.AssignProperties_From_SkuDescription_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuDescriptionSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
 		}
 		plan.Sku = &sku
 	} else {
@@ -914,7 +914,7 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 
 	// Status
 	if source.Status != nil {
-		status := AppServicePlanSTATUSPropertiesStatus(*source.Status)
+		status := AppServicePlan_STATUS_Properties_Status(*source.Status)
 		plan.Status = &status
 	} else {
 		plan.Status = nil
@@ -950,8 +950,8 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesFromAppServicePlanSTATUS(sour
 	return nil
 }
 
-// AssignPropertiesToAppServicePlanSTATUS populates the provided destination AppServicePlan_STATUS from our AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) AssignPropertiesToAppServicePlanSTATUS(destination *v20220301s.AppServicePlan_STATUS) error {
+// AssignProperties_To_AppServicePlan_STATUS populates the provided destination AppServicePlan_STATUS from our AppServicePlan_STATUS
+func (plan *AppServicePlan_STATUS) AssignProperties_To_AppServicePlan_STATUS(destination *v20220301s.AppServicePlan_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -969,9 +969,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesToAppServicePlanSTATUS(destin
 	// ExtendedLocation
 	if plan.ExtendedLocation != nil {
 		var extendedLocation v20220301s.ExtendedLocation_STATUS
-		err := plan.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
+		err := plan.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -987,9 +987,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesToAppServicePlanSTATUS(destin
 	// HostingEnvironmentProfile
 	if plan.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile_STATUS
-		err := plan.HostingEnvironmentProfile.AssignPropertiesToHostingEnvironmentProfileSTATUS(&hostingEnvironmentProfile)
+		err := plan.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHostingEnvironmentProfileSTATUS() to populate field HostingEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1029,9 +1029,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesToAppServicePlanSTATUS(destin
 	// KubeEnvironmentProfile
 	if plan.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile v20220301s.KubeEnvironmentProfile_STATUS
-		err := plan.KubeEnvironmentProfile.AssignPropertiesToKubeEnvironmentProfileSTATUS(&kubeEnvironmentProfile)
+		err := plan.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKubeEnvironmentProfileSTATUS() to populate field KubeEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
 		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1086,9 +1086,9 @@ func (plan *AppServicePlan_STATUS) AssignPropertiesToAppServicePlanSTATUS(destin
 	// Sku
 	if plan.Sku != nil {
 		var sku v20220301s.SkuDescription_STATUS
-		err := plan.Sku.AssignPropertiesToSkuDescriptionSTATUS(&sku)
+		err := plan.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuDescriptionSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1577,7 +1577,7 @@ func (serverfarms *Serverfarms_Spec) ConvertSpecFrom(source genruntime.Convertib
 	src, ok := source.(*v20220301s.Serverfarms_Spec)
 	if ok {
 		// Populate our instance from source
-		return serverfarms.AssignPropertiesFromServerfarmsSpec(src)
+		return serverfarms.AssignProperties_From_Serverfarms_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1588,7 +1588,7 @@ func (serverfarms *Serverfarms_Spec) ConvertSpecFrom(source genruntime.Convertib
 	}
 
 	// Update our instance from src
-	err = serverfarms.AssignPropertiesFromServerfarmsSpec(src)
+	err = serverfarms.AssignProperties_From_Serverfarms_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1601,12 +1601,12 @@ func (serverfarms *Serverfarms_Spec) ConvertSpecTo(destination genruntime.Conver
 	dst, ok := destination.(*v20220301s.Serverfarms_Spec)
 	if ok {
 		// Populate destination from our instance
-		return serverfarms.AssignPropertiesToServerfarmsSpec(dst)
+		return serverfarms.AssignProperties_To_Serverfarms_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20220301s.Serverfarms_Spec{}
-	err := serverfarms.AssignPropertiesToServerfarmsSpec(dst)
+	err := serverfarms.AssignProperties_To_Serverfarms_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1620,8 +1620,8 @@ func (serverfarms *Serverfarms_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignPropertiesFromServerfarmsSpec populates our Serverfarms_Spec from the provided source Serverfarms_Spec
-func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source *v20220301s.Serverfarms_Spec) error {
+// AssignProperties_From_Serverfarms_Spec populates our Serverfarms_Spec from the provided source Serverfarms_Spec
+func (serverfarms *Serverfarms_Spec) AssignProperties_From_Serverfarms_Spec(source *v20220301s.Serverfarms_Spec) error {
 
 	// AzureName
 	serverfarms.AzureName = source.AzureName
@@ -1637,9 +1637,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		serverfarms.ExtendedLocation = &extendedLocation
 	} else {
@@ -1657,9 +1657,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source 
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile HostingEnvironmentProfile
-		err := hostingEnvironmentProfile.AssignPropertiesFromHostingEnvironmentProfile(source.HostingEnvironmentProfile)
+		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile(source.HostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		serverfarms.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1696,9 +1696,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source 
 	// KubeEnvironmentProfile
 	if source.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile KubeEnvironmentProfile
-		err := kubeEnvironmentProfile.AssignPropertiesFromKubeEnvironmentProfile(source.KubeEnvironmentProfile)
+		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile(source.KubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
 		serverfarms.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1738,9 +1738,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source 
 	// Sku
 	if source.Sku != nil {
 		var sku SkuDescription
-		err := sku.AssignPropertiesFromSkuDescription(source.Sku)
+		err := sku.AssignProperties_From_SkuDescription(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuDescription() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription() to populate field Sku")
 		}
 		serverfarms.Sku = &sku
 	} else {
@@ -1779,8 +1779,8 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesFromServerfarmsSpec(source 
 	return nil
 }
 
-// AssignPropertiesToServerfarmsSpec populates the provided destination Serverfarms_Spec from our Serverfarms_Spec
-func (serverfarms *Serverfarms_Spec) AssignPropertiesToServerfarmsSpec(destination *v20220301s.Serverfarms_Spec) error {
+// AssignProperties_To_Serverfarms_Spec populates the provided destination Serverfarms_Spec from our Serverfarms_Spec
+func (serverfarms *Serverfarms_Spec) AssignProperties_To_Serverfarms_Spec(destination *v20220301s.Serverfarms_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1798,9 +1798,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesToServerfarmsSpec(destinati
 	// ExtendedLocation
 	if serverfarms.ExtendedLocation != nil {
 		var extendedLocation v20220301s.ExtendedLocation
-		err := serverfarms.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := serverfarms.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1818,9 +1818,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesToServerfarmsSpec(destinati
 	// HostingEnvironmentProfile
 	if serverfarms.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile
-		err := serverfarms.HostingEnvironmentProfile.AssignPropertiesToHostingEnvironmentProfile(&hostingEnvironmentProfile)
+		err := serverfarms.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
 		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
@@ -1857,9 +1857,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesToServerfarmsSpec(destinati
 	// KubeEnvironmentProfile
 	if serverfarms.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile v20220301s.KubeEnvironmentProfile
-		err := serverfarms.KubeEnvironmentProfile.AssignPropertiesToKubeEnvironmentProfile(&kubeEnvironmentProfile)
+		err := serverfarms.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile(&kubeEnvironmentProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
 		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
@@ -1902,9 +1902,9 @@ func (serverfarms *Serverfarms_Spec) AssignPropertiesToServerfarmsSpec(destinati
 	// Sku
 	if serverfarms.Sku != nil {
 		var sku v20220301s.SkuDescription
-		err := serverfarms.Sku.AssignPropertiesToSkuDescription(&sku)
+		err := serverfarms.Sku.AssignProperties_To_SkuDescription(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuDescription() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2005,8 +2005,8 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v20220301s.ExtendedLocation) error {
+// AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20220301s.ExtendedLocation) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -2015,8 +2015,8 @@ func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v
 	return nil
 }
 
-// AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v20220301s.ExtendedLocation) error {
+// AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20220301s.ExtendedLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2072,8 +2072,8 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *v20220301s.ExtendedLocation_STATUS) error {
+// AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20220301s.ExtendedLocation_STATUS) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -2085,8 +2085,8 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTA
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *v20220301s.ExtendedLocation_STATUS) error {
+// AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20220301s.ExtendedLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2152,8 +2152,8 @@ func (profile *HostingEnvironmentProfile) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromHostingEnvironmentProfile populates our HostingEnvironmentProfile from the provided source HostingEnvironmentProfile
-func (profile *HostingEnvironmentProfile) AssignPropertiesFromHostingEnvironmentProfile(source *v20220301s.HostingEnvironmentProfile) error {
+// AssignProperties_From_HostingEnvironmentProfile populates our HostingEnvironmentProfile from the provided source HostingEnvironmentProfile
+func (profile *HostingEnvironmentProfile) AssignProperties_From_HostingEnvironmentProfile(source *v20220301s.HostingEnvironmentProfile) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -2167,8 +2167,8 @@ func (profile *HostingEnvironmentProfile) AssignPropertiesFromHostingEnvironment
 	return nil
 }
 
-// AssignPropertiesToHostingEnvironmentProfile populates the provided destination HostingEnvironmentProfile from our HostingEnvironmentProfile
-func (profile *HostingEnvironmentProfile) AssignPropertiesToHostingEnvironmentProfile(destination *v20220301s.HostingEnvironmentProfile) error {
+// AssignProperties_To_HostingEnvironmentProfile populates the provided destination HostingEnvironmentProfile from our HostingEnvironmentProfile
+func (profile *HostingEnvironmentProfile) AssignProperties_To_HostingEnvironmentProfile(destination *v20220301s.HostingEnvironmentProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2238,8 +2238,8 @@ func (profile *HostingEnvironmentProfile_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromHostingEnvironmentProfileSTATUS populates our HostingEnvironmentProfile_STATUS from the provided source HostingEnvironmentProfile_STATUS
-func (profile *HostingEnvironmentProfile_STATUS) AssignPropertiesFromHostingEnvironmentProfileSTATUS(source *v20220301s.HostingEnvironmentProfile_STATUS) error {
+// AssignProperties_From_HostingEnvironmentProfile_STATUS populates our HostingEnvironmentProfile_STATUS from the provided source HostingEnvironmentProfile_STATUS
+func (profile *HostingEnvironmentProfile_STATUS) AssignProperties_From_HostingEnvironmentProfile_STATUS(source *v20220301s.HostingEnvironmentProfile_STATUS) error {
 
 	// Id
 	profile.Id = genruntime.ClonePointerToString(source.Id)
@@ -2254,8 +2254,8 @@ func (profile *HostingEnvironmentProfile_STATUS) AssignPropertiesFromHostingEnvi
 	return nil
 }
 
-// AssignPropertiesToHostingEnvironmentProfileSTATUS populates the provided destination HostingEnvironmentProfile_STATUS from our HostingEnvironmentProfile_STATUS
-func (profile *HostingEnvironmentProfile_STATUS) AssignPropertiesToHostingEnvironmentProfileSTATUS(destination *v20220301s.HostingEnvironmentProfile_STATUS) error {
+// AssignProperties_To_HostingEnvironmentProfile_STATUS populates the provided destination HostingEnvironmentProfile_STATUS from our HostingEnvironmentProfile_STATUS
+func (profile *HostingEnvironmentProfile_STATUS) AssignProperties_To_HostingEnvironmentProfile_STATUS(destination *v20220301s.HostingEnvironmentProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2324,8 +2324,8 @@ func (profile *KubeEnvironmentProfile) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromKubeEnvironmentProfile populates our KubeEnvironmentProfile from the provided source KubeEnvironmentProfile
-func (profile *KubeEnvironmentProfile) AssignPropertiesFromKubeEnvironmentProfile(source *v20220301s.KubeEnvironmentProfile) error {
+// AssignProperties_From_KubeEnvironmentProfile populates our KubeEnvironmentProfile from the provided source KubeEnvironmentProfile
+func (profile *KubeEnvironmentProfile) AssignProperties_From_KubeEnvironmentProfile(source *v20220301s.KubeEnvironmentProfile) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -2339,8 +2339,8 @@ func (profile *KubeEnvironmentProfile) AssignPropertiesFromKubeEnvironmentProfil
 	return nil
 }
 
-// AssignPropertiesToKubeEnvironmentProfile populates the provided destination KubeEnvironmentProfile from our KubeEnvironmentProfile
-func (profile *KubeEnvironmentProfile) AssignPropertiesToKubeEnvironmentProfile(destination *v20220301s.KubeEnvironmentProfile) error {
+// AssignProperties_To_KubeEnvironmentProfile populates the provided destination KubeEnvironmentProfile from our KubeEnvironmentProfile
+func (profile *KubeEnvironmentProfile) AssignProperties_To_KubeEnvironmentProfile(destination *v20220301s.KubeEnvironmentProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2410,8 +2410,8 @@ func (profile *KubeEnvironmentProfile_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromKubeEnvironmentProfileSTATUS populates our KubeEnvironmentProfile_STATUS from the provided source KubeEnvironmentProfile_STATUS
-func (profile *KubeEnvironmentProfile_STATUS) AssignPropertiesFromKubeEnvironmentProfileSTATUS(source *v20220301s.KubeEnvironmentProfile_STATUS) error {
+// AssignProperties_From_KubeEnvironmentProfile_STATUS populates our KubeEnvironmentProfile_STATUS from the provided source KubeEnvironmentProfile_STATUS
+func (profile *KubeEnvironmentProfile_STATUS) AssignProperties_From_KubeEnvironmentProfile_STATUS(source *v20220301s.KubeEnvironmentProfile_STATUS) error {
 
 	// Id
 	profile.Id = genruntime.ClonePointerToString(source.Id)
@@ -2426,8 +2426,8 @@ func (profile *KubeEnvironmentProfile_STATUS) AssignPropertiesFromKubeEnvironmen
 	return nil
 }
 
-// AssignPropertiesToKubeEnvironmentProfileSTATUS populates the provided destination KubeEnvironmentProfile_STATUS from our KubeEnvironmentProfile_STATUS
-func (profile *KubeEnvironmentProfile_STATUS) AssignPropertiesToKubeEnvironmentProfileSTATUS(destination *v20220301s.KubeEnvironmentProfile_STATUS) error {
+// AssignProperties_To_KubeEnvironmentProfile_STATUS populates the provided destination KubeEnvironmentProfile_STATUS from our KubeEnvironmentProfile_STATUS
+func (profile *KubeEnvironmentProfile_STATUS) AssignProperties_To_KubeEnvironmentProfile_STATUS(destination *v20220301s.KubeEnvironmentProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2615,8 +2615,8 @@ func (description *SkuDescription) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromSkuDescription populates our SkuDescription from the provided source SkuDescription
-func (description *SkuDescription) AssignPropertiesFromSkuDescription(source *v20220301s.SkuDescription) error {
+// AssignProperties_From_SkuDescription populates our SkuDescription from the provided source SkuDescription
+func (description *SkuDescription) AssignProperties_From_SkuDescription(source *v20220301s.SkuDescription) error {
 
 	// Capabilities
 	if source.Capabilities != nil {
@@ -2625,9 +2625,9 @@ func (description *SkuDescription) AssignPropertiesFromSkuDescription(source *v2
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability Capability
-			err := capability.AssignPropertiesFromCapability(&capabilityItem)
+			err := capability.AssignProperties_From_Capability(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCapability() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignProperties_From_Capability() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -2654,9 +2654,9 @@ func (description *SkuDescription) AssignPropertiesFromSkuDescription(source *v2
 	// SkuCapacity
 	if source.SkuCapacity != nil {
 		var skuCapacity SkuCapacity
-		err := skuCapacity.AssignPropertiesFromSkuCapacity(source.SkuCapacity)
+		err := skuCapacity.AssignProperties_From_SkuCapacity(source.SkuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuCapacity() to populate field SkuCapacity")
+			return errors.Wrap(err, "calling AssignProperties_From_SkuCapacity() to populate field SkuCapacity")
 		}
 		description.SkuCapacity = &skuCapacity
 	} else {
@@ -2670,8 +2670,8 @@ func (description *SkuDescription) AssignPropertiesFromSkuDescription(source *v2
 	return nil
 }
 
-// AssignPropertiesToSkuDescription populates the provided destination SkuDescription from our SkuDescription
-func (description *SkuDescription) AssignPropertiesToSkuDescription(destination *v20220301s.SkuDescription) error {
+// AssignProperties_To_SkuDescription populates the provided destination SkuDescription from our SkuDescription
+func (description *SkuDescription) AssignProperties_To_SkuDescription(destination *v20220301s.SkuDescription) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2682,9 +2682,9 @@ func (description *SkuDescription) AssignPropertiesToSkuDescription(destination 
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability v20220301s.Capability
-			err := capabilityItem.AssignPropertiesToCapability(&capability)
+			err := capabilityItem.AssignProperties_To_Capability(&capability)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCapability() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignProperties_To_Capability() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -2711,9 +2711,9 @@ func (description *SkuDescription) AssignPropertiesToSkuDescription(destination 
 	// SkuCapacity
 	if description.SkuCapacity != nil {
 		var skuCapacity v20220301s.SkuCapacity
-		err := description.SkuCapacity.AssignPropertiesToSkuCapacity(&skuCapacity)
+		err := description.SkuCapacity.AssignProperties_To_SkuCapacity(&skuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuCapacity() to populate field SkuCapacity")
+			return errors.Wrap(err, "calling AssignProperties_To_SkuCapacity() to populate field SkuCapacity")
 		}
 		destination.SkuCapacity = &skuCapacity
 	} else {
@@ -2834,8 +2834,8 @@ func (description *SkuDescription_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromSkuDescriptionSTATUS populates our SkuDescription_STATUS from the provided source SkuDescription_STATUS
-func (description *SkuDescription_STATUS) AssignPropertiesFromSkuDescriptionSTATUS(source *v20220301s.SkuDescription_STATUS) error {
+// AssignProperties_From_SkuDescription_STATUS populates our SkuDescription_STATUS from the provided source SkuDescription_STATUS
+func (description *SkuDescription_STATUS) AssignProperties_From_SkuDescription_STATUS(source *v20220301s.SkuDescription_STATUS) error {
 
 	// Capabilities
 	if source.Capabilities != nil {
@@ -2844,9 +2844,9 @@ func (description *SkuDescription_STATUS) AssignPropertiesFromSkuDescriptionSTAT
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability Capability_STATUS
-			err := capability.AssignPropertiesFromCapabilitySTATUS(&capabilityItem)
+			err := capability.AssignProperties_From_Capability_STATUS(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCapabilitySTATUS() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignProperties_From_Capability_STATUS() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -2873,9 +2873,9 @@ func (description *SkuDescription_STATUS) AssignPropertiesFromSkuDescriptionSTAT
 	// SkuCapacity
 	if source.SkuCapacity != nil {
 		var skuCapacity SkuCapacity_STATUS
-		err := skuCapacity.AssignPropertiesFromSkuCapacitySTATUS(source.SkuCapacity)
+		err := skuCapacity.AssignProperties_From_SkuCapacity_STATUS(source.SkuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuCapacitySTATUS() to populate field SkuCapacity")
+			return errors.Wrap(err, "calling AssignProperties_From_SkuCapacity_STATUS() to populate field SkuCapacity")
 		}
 		description.SkuCapacity = &skuCapacity
 	} else {
@@ -2889,8 +2889,8 @@ func (description *SkuDescription_STATUS) AssignPropertiesFromSkuDescriptionSTAT
 	return nil
 }
 
-// AssignPropertiesToSkuDescriptionSTATUS populates the provided destination SkuDescription_STATUS from our SkuDescription_STATUS
-func (description *SkuDescription_STATUS) AssignPropertiesToSkuDescriptionSTATUS(destination *v20220301s.SkuDescription_STATUS) error {
+// AssignProperties_To_SkuDescription_STATUS populates the provided destination SkuDescription_STATUS from our SkuDescription_STATUS
+func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STATUS(destination *v20220301s.SkuDescription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2901,9 +2901,9 @@ func (description *SkuDescription_STATUS) AssignPropertiesToSkuDescriptionSTATUS
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability v20220301s.Capability_STATUS
-			err := capabilityItem.AssignPropertiesToCapabilitySTATUS(&capability)
+			err := capabilityItem.AssignProperties_To_Capability_STATUS(&capability)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCapabilitySTATUS() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignProperties_To_Capability_STATUS() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -2930,9 +2930,9 @@ func (description *SkuDescription_STATUS) AssignPropertiesToSkuDescriptionSTATUS
 	// SkuCapacity
 	if description.SkuCapacity != nil {
 		var skuCapacity v20220301s.SkuCapacity_STATUS
-		err := description.SkuCapacity.AssignPropertiesToSkuCapacitySTATUS(&skuCapacity)
+		err := description.SkuCapacity.AssignProperties_To_SkuCapacity_STATUS(&skuCapacity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuCapacitySTATUS() to populate field SkuCapacity")
+			return errors.Wrap(err, "calling AssignProperties_To_SkuCapacity_STATUS() to populate field SkuCapacity")
 		}
 		destination.SkuCapacity = &skuCapacity
 	} else {
@@ -3028,8 +3028,8 @@ func (capability *Capability) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromCapability populates our Capability from the provided source Capability
-func (capability *Capability) AssignPropertiesFromCapability(source *v20220301s.Capability) error {
+// AssignProperties_From_Capability populates our Capability from the provided source Capability
+func (capability *Capability) AssignProperties_From_Capability(source *v20220301s.Capability) error {
 
 	// Name
 	capability.Name = genruntime.ClonePointerToString(source.Name)
@@ -3044,8 +3044,8 @@ func (capability *Capability) AssignPropertiesFromCapability(source *v20220301s.
 	return nil
 }
 
-// AssignPropertiesToCapability populates the provided destination Capability from our Capability
-func (capability *Capability) AssignPropertiesToCapability(destination *v20220301s.Capability) error {
+// AssignProperties_To_Capability populates the provided destination Capability from our Capability
+func (capability *Capability) AssignProperties_To_Capability(destination *v20220301s.Capability) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3116,8 +3116,8 @@ func (capability *Capability_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromCapabilitySTATUS populates our Capability_STATUS from the provided source Capability_STATUS
-func (capability *Capability_STATUS) AssignPropertiesFromCapabilitySTATUS(source *v20220301s.Capability_STATUS) error {
+// AssignProperties_From_Capability_STATUS populates our Capability_STATUS from the provided source Capability_STATUS
+func (capability *Capability_STATUS) AssignProperties_From_Capability_STATUS(source *v20220301s.Capability_STATUS) error {
 
 	// Name
 	capability.Name = genruntime.ClonePointerToString(source.Name)
@@ -3132,8 +3132,8 @@ func (capability *Capability_STATUS) AssignPropertiesFromCapabilitySTATUS(source
 	return nil
 }
 
-// AssignPropertiesToCapabilitySTATUS populates the provided destination Capability_STATUS from our Capability_STATUS
-func (capability *Capability_STATUS) AssignPropertiesToCapabilitySTATUS(destination *v20220301s.Capability_STATUS) error {
+// AssignProperties_To_Capability_STATUS populates the provided destination Capability_STATUS from our Capability_STATUS
+func (capability *Capability_STATUS) AssignProperties_To_Capability_STATUS(destination *v20220301s.Capability_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3262,8 +3262,8 @@ func (capacity *SkuCapacity) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSkuCapacity populates our SkuCapacity from the provided source SkuCapacity
-func (capacity *SkuCapacity) AssignPropertiesFromSkuCapacity(source *v20220301s.SkuCapacity) error {
+// AssignProperties_From_SkuCapacity populates our SkuCapacity from the provided source SkuCapacity
+func (capacity *SkuCapacity) AssignProperties_From_SkuCapacity(source *v20220301s.SkuCapacity) error {
 
 	// Default
 	capacity.Default = genruntime.ClonePointerToInt(source.Default)
@@ -3284,8 +3284,8 @@ func (capacity *SkuCapacity) AssignPropertiesFromSkuCapacity(source *v20220301s.
 	return nil
 }
 
-// AssignPropertiesToSkuCapacity populates the provided destination SkuCapacity from our SkuCapacity
-func (capacity *SkuCapacity) AssignPropertiesToSkuCapacity(destination *v20220301s.SkuCapacity) error {
+// AssignProperties_To_SkuCapacity populates the provided destination SkuCapacity from our SkuCapacity
+func (capacity *SkuCapacity) AssignProperties_To_SkuCapacity(destination *v20220301s.SkuCapacity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3380,8 +3380,8 @@ func (capacity *SkuCapacity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromSkuCapacitySTATUS populates our SkuCapacity_STATUS from the provided source SkuCapacity_STATUS
-func (capacity *SkuCapacity_STATUS) AssignPropertiesFromSkuCapacitySTATUS(source *v20220301s.SkuCapacity_STATUS) error {
+// AssignProperties_From_SkuCapacity_STATUS populates our SkuCapacity_STATUS from the provided source SkuCapacity_STATUS
+func (capacity *SkuCapacity_STATUS) AssignProperties_From_SkuCapacity_STATUS(source *v20220301s.SkuCapacity_STATUS) error {
 
 	// Default
 	capacity.Default = genruntime.ClonePointerToInt(source.Default)
@@ -3402,8 +3402,8 @@ func (capacity *SkuCapacity_STATUS) AssignPropertiesFromSkuCapacitySTATUS(source
 	return nil
 }
 
-// AssignPropertiesToSkuCapacitySTATUS populates the provided destination SkuCapacity_STATUS from our SkuCapacity_STATUS
-func (capacity *SkuCapacity_STATUS) AssignPropertiesToSkuCapacitySTATUS(destination *v20220301s.SkuCapacity_STATUS) error {
+// AssignProperties_To_SkuCapacity_STATUS populates the provided destination SkuCapacity_STATUS from our SkuCapacity_STATUS
+func (capacity *SkuCapacity_STATUS) AssignProperties_To_SkuCapacity_STATUS(destination *v20220301s.SkuCapacity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
