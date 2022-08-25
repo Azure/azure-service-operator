@@ -21,7 +21,7 @@ func (in *AnalyticalStorageConfiguration) DeepCopyInto(out *AnalyticalStorageCon
 	*out = *in
 	if in.SchemaType != nil {
 		in, out := &in.SchemaType, &out.SchemaType
-		*out = new(AnalyticalStorageConfigurationSchemaType)
+		*out = new(AnalyticalStorageConfiguration_SchemaType)
 		**out = **in
 	}
 }
@@ -41,7 +41,7 @@ func (in *AnalyticalStorageConfigurationARM) DeepCopyInto(out *AnalyticalStorage
 	*out = *in
 	if in.SchemaType != nil {
 		in, out := &in.SchemaType, &out.SchemaType
-		*out = new(AnalyticalStorageConfigurationSchemaType)
+		*out = new(AnalyticalStorageConfiguration_SchemaType)
 		**out = **in
 	}
 }
@@ -101,7 +101,7 @@ func (in *ApiProperties) DeepCopyInto(out *ApiProperties) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesServerVersion)
+		*out = new(ApiProperties_ServerVersion)
 		**out = **in
 	}
 }
@@ -121,7 +121,7 @@ func (in *ApiPropertiesARM) DeepCopyInto(out *ApiPropertiesARM) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesServerVersion)
+		*out = new(ApiProperties_ServerVersion)
 		**out = **in
 	}
 }
@@ -141,7 +141,7 @@ func (in *ApiProperties_STATUS) DeepCopyInto(out *ApiProperties_STATUS) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesSTATUSServerVersion)
+		*out = new(ApiProperties_STATUS_ServerVersion)
 		**out = **in
 	}
 }
@@ -161,7 +161,7 @@ func (in *ApiProperties_STATUSARM) DeepCopyInto(out *ApiProperties_STATUSARM) {
 	*out = *in
 	if in.ServerVersion != nil {
 		in, out := &in.ServerVersion, &out.ServerVersion
-		*out = new(ApiPropertiesSTATUSServerVersion)
+		*out = new(ApiProperties_STATUS_ServerVersion)
 		**out = **in
 	}
 }
@@ -621,7 +621,7 @@ func (in *CompositePath) DeepCopyInto(out *CompositePath) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathOrder)
+		*out = new(CompositePath_Order)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -646,7 +646,7 @@ func (in *CompositePathARM) DeepCopyInto(out *CompositePathARM) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathOrder)
+		*out = new(CompositePath_Order)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -671,7 +671,7 @@ func (in *CompositePath_STATUS) DeepCopyInto(out *CompositePath_STATUS) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathSTATUSOrder)
+		*out = new(CompositePath_STATUS_Order)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -696,7 +696,7 @@ func (in *CompositePath_STATUSARM) DeepCopyInto(out *CompositePath_STATUSARM) {
 	*out = *in
 	if in.Order != nil {
 		in, out := &in.Order, &out.Order
-		*out = new(CompositePathSTATUSOrder)
+		*out = new(CompositePath_STATUS_Order)
 		**out = **in
 	}
 	if in.Path != nil {
@@ -731,7 +731,7 @@ func (in *ConflictResolutionPolicy) DeepCopyInto(out *ConflictResolutionPolicy) 
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicyMode)
+		*out = new(ConflictResolutionPolicy_Mode)
 		**out = **in
 	}
 }
@@ -761,7 +761,7 @@ func (in *ConflictResolutionPolicyARM) DeepCopyInto(out *ConflictResolutionPolic
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicyMode)
+		*out = new(ConflictResolutionPolicy_Mode)
 		**out = **in
 	}
 }
@@ -791,7 +791,7 @@ func (in *ConflictResolutionPolicy_STATUS) DeepCopyInto(out *ConflictResolutionP
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicySTATUSMode)
+		*out = new(ConflictResolutionPolicy_STATUS_Mode)
 		**out = **in
 	}
 }
@@ -821,7 +821,7 @@ func (in *ConflictResolutionPolicy_STATUSARM) DeepCopyInto(out *ConflictResoluti
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(ConflictResolutionPolicySTATUSMode)
+		*out = new(ConflictResolutionPolicy_STATUS_Mode)
 		**out = **in
 	}
 }
@@ -841,7 +841,7 @@ func (in *ConsistencyPolicy) DeepCopyInto(out *ConsistencyPolicy) {
 	*out = *in
 	if in.DefaultConsistencyLevel != nil {
 		in, out := &in.DefaultConsistencyLevel, &out.DefaultConsistencyLevel
-		*out = new(ConsistencyPolicyDefaultConsistencyLevel)
+		*out = new(ConsistencyPolicy_DefaultConsistencyLevel)
 		**out = **in
 	}
 	if in.MaxIntervalInSeconds != nil {
@@ -871,7 +871,7 @@ func (in *ConsistencyPolicyARM) DeepCopyInto(out *ConsistencyPolicyARM) {
 	*out = *in
 	if in.DefaultConsistencyLevel != nil {
 		in, out := &in.DefaultConsistencyLevel, &out.DefaultConsistencyLevel
-		*out = new(ConsistencyPolicyDefaultConsistencyLevel)
+		*out = new(ConsistencyPolicy_DefaultConsistencyLevel)
 		**out = **in
 	}
 	if in.MaxIntervalInSeconds != nil {
@@ -901,7 +901,7 @@ func (in *ConsistencyPolicy_STATUS) DeepCopyInto(out *ConsistencyPolicy_STATUS) 
 	*out = *in
 	if in.DefaultConsistencyLevel != nil {
 		in, out := &in.DefaultConsistencyLevel, &out.DefaultConsistencyLevel
-		*out = new(ConsistencyPolicySTATUSDefaultConsistencyLevel)
+		*out = new(ConsistencyPolicy_STATUS_DefaultConsistencyLevel)
 		**out = **in
 	}
 	if in.MaxIntervalInSeconds != nil {
@@ -931,7 +931,7 @@ func (in *ConsistencyPolicy_STATUSARM) DeepCopyInto(out *ConsistencyPolicy_STATU
 	*out = *in
 	if in.DefaultConsistencyLevel != nil {
 		in, out := &in.DefaultConsistencyLevel, &out.DefaultConsistencyLevel
-		*out = new(ConsistencyPolicySTATUSDefaultConsistencyLevel)
+		*out = new(ConsistencyPolicy_STATUS_DefaultConsistencyLevel)
 		**out = **in
 	}
 	if in.MaxIntervalInSeconds != nil {
@@ -961,7 +961,7 @@ func (in *ContainerPartitionKey) DeepCopyInto(out *ContainerPartitionKey) {
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeyKind)
+		*out = new(ContainerPartitionKey_Kind)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -991,7 +991,7 @@ func (in *ContainerPartitionKeyARM) DeepCopyInto(out *ContainerPartitionKeyARM) 
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeyKind)
+		*out = new(ContainerPartitionKey_Kind)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -1021,7 +1021,7 @@ func (in *ContainerPartitionKey_STATUS) DeepCopyInto(out *ContainerPartitionKey_
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeySTATUSKind)
+		*out = new(ContainerPartitionKey_STATUS_Kind)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -1056,7 +1056,7 @@ func (in *ContainerPartitionKey_STATUSARM) DeepCopyInto(out *ContainerPartitionK
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ContainerPartitionKeySTATUSKind)
+		*out = new(ContainerPartitionKey_STATUS_Kind)
 		**out = **in
 	}
 	if in.Paths != nil {
@@ -1091,7 +1091,7 @@ func (in *ContinuousModeBackupPolicy) DeepCopyInto(out *ContinuousModeBackupPoli
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ContinuousModeBackupPolicyType)
+		*out = new(ContinuousModeBackupPolicy_Type)
 		**out = **in
 	}
 }
@@ -1385,7 +1385,7 @@ func (in *DatabaseAccountCreateUpdatePropertiesARM) DeepCopyInto(out *DatabaseAc
 	}
 	if in.ConnectorOffer != nil {
 		in, out := &in.ConnectorOffer, &out.ConnectorOffer
-		*out = new(DatabaseAccountCreateUpdatePropertiesConnectorOffer)
+		*out = new(DatabaseAccountCreateUpdateProperties_ConnectorOffer)
 		**out = **in
 	}
 	if in.ConsistencyPolicy != nil {
@@ -1402,7 +1402,7 @@ func (in *DatabaseAccountCreateUpdatePropertiesARM) DeepCopyInto(out *DatabaseAc
 	}
 	if in.DatabaseAccountOfferType != nil {
 		in, out := &in.DatabaseAccountOfferType, &out.DatabaseAccountOfferType
-		*out = new(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType)
+		*out = new(DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType)
 		**out = **in
 	}
 	if in.DefaultIdentity != nil {
@@ -1466,7 +1466,7 @@ func (in *DatabaseAccountCreateUpdatePropertiesARM) DeepCopyInto(out *DatabaseAc
 	}
 	if in.NetworkAclBypass != nil {
 		in, out := &in.NetworkAclBypass, &out.NetworkAclBypass
-		*out = new(DatabaseAccountCreateUpdatePropertiesNetworkAclBypass)
+		*out = new(DatabaseAccountCreateUpdateProperties_NetworkAclBypass)
 		**out = **in
 	}
 	if in.NetworkAclBypassResourceIds != nil {
@@ -1476,7 +1476,7 @@ func (in *DatabaseAccountCreateUpdatePropertiesARM) DeepCopyInto(out *DatabaseAc
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess)
+		*out = new(DatabaseAccountCreateUpdateProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.VirtualNetworkRules != nil {
@@ -1806,7 +1806,7 @@ func (in *DatabaseAccountGetResults_STATUS) DeepCopyInto(out *DatabaseAccountGet
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountGetResultsSTATUSKind)
+		*out = new(DatabaseAccountGetResults_STATUS_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1913,7 +1913,7 @@ func (in *DatabaseAccountGetResults_STATUSARM) DeepCopyInto(out *DatabaseAccount
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountGetResultsSTATUSKind)
+		*out = new(DatabaseAccountGetResults_STATUS_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2048,76 +2048,7 @@ func (in *DatabaseAccountOperatorSpec) DeepCopy() *DatabaseAccountOperatorSpec {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(ThroughputSettingsResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec.
-func (in *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) DeepCopy() *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ThroughputSettingsUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM.
-func (in *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) DeepCopy() *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesCollections_Spec) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesCollections_Spec) {
+func (in *DatabaseAccounts_MongodbDatabases_Collections_Spec) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_Collections_Spec) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2148,18 +2079,18 @@ func (in *DatabaseAccountsMongodbDatabasesCollections_Spec) DeepCopyInto(out *Da
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesCollections_Spec.
-func (in *DatabaseAccountsMongodbDatabasesCollections_Spec) DeepCopy() *DatabaseAccountsMongodbDatabasesCollections_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_Collections_Spec.
+func (in *DatabaseAccounts_MongodbDatabases_Collections_Spec) DeepCopy() *DatabaseAccounts_MongodbDatabases_Collections_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabasesCollections_Spec)
+	out := new(DatabaseAccounts_MongodbDatabases_Collections_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesCollections_SpecARM) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesCollections_SpecARM) {
+func (in *DatabaseAccounts_MongodbDatabases_Collections_SpecARM) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_Collections_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2180,18 +2111,18 @@ func (in *DatabaseAccountsMongodbDatabasesCollections_SpecARM) DeepCopyInto(out 
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesCollections_SpecARM.
-func (in *DatabaseAccountsMongodbDatabasesCollections_SpecARM) DeepCopy() *DatabaseAccountsMongodbDatabasesCollections_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_Collections_SpecARM.
+func (in *DatabaseAccounts_MongodbDatabases_Collections_SpecARM) DeepCopy() *DatabaseAccounts_MongodbDatabases_Collections_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabasesCollections_SpecARM)
+	out := new(DatabaseAccounts_MongodbDatabases_Collections_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) {
+func (in *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2217,18 +2148,18 @@ func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) DeepCopyInto(
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesThroughputSettings_Spec.
-func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) DeepCopy() *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec.
+func (in *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) DeepCopy() *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabasesThroughputSettings_Spec)
+	out := new(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) {
+func (in *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2249,18 +2180,18 @@ func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) DeepCopyIn
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM.
-func (in *DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) DeepCopy() *DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM.
+func (in *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM) DeepCopy() *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM)
+	out := new(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabases_Spec) DeepCopyInto(out *DatabaseAccountsMongodbDatabases_Spec) {
+func (in *DatabaseAccounts_MongodbDatabases_Spec) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_Spec) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2291,18 +2222,18 @@ func (in *DatabaseAccountsMongodbDatabases_Spec) DeepCopyInto(out *DatabaseAccou
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabases_Spec.
-func (in *DatabaseAccountsMongodbDatabases_Spec) DeepCopy() *DatabaseAccountsMongodbDatabases_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_Spec.
+func (in *DatabaseAccounts_MongodbDatabases_Spec) DeepCopy() *DatabaseAccounts_MongodbDatabases_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabases_Spec)
+	out := new(DatabaseAccounts_MongodbDatabases_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsMongodbDatabases_SpecARM) DeepCopyInto(out *DatabaseAccountsMongodbDatabases_SpecARM) {
+func (in *DatabaseAccounts_MongodbDatabases_SpecARM) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2323,92 +2254,18 @@ func (in *DatabaseAccountsMongodbDatabases_SpecARM) DeepCopyInto(out *DatabaseAc
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsMongodbDatabases_SpecARM.
-func (in *DatabaseAccountsMongodbDatabases_SpecARM) DeepCopy() *DatabaseAccountsMongodbDatabases_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_SpecARM.
+func (in *DatabaseAccounts_MongodbDatabases_SpecARM) DeepCopy() *DatabaseAccounts_MongodbDatabases_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsMongodbDatabases_SpecARM)
+	out := new(DatabaseAccounts_MongodbDatabases_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Options != nil {
-		in, out := &in.Options, &out.Options
-		*out = new(CreateUpdateOptions)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(SqlStoredProcedureResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec.
-func (in *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(SqlStoredProcedureCreateUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) {
+func (in *DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2434,18 +2291,18 @@ func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) DeepCop
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec.
-func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec.
+func (in *DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec) DeepCopy() *DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
+	out := new(DatabaseAccounts_MongodbDatabases_ThroughputSettings_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) {
+func (in *DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -2466,377 +2323,12 @@ func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) Deep
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM.
+func (in *DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM) DeepCopy() *DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Options != nil {
-		in, out := &in.Options, &out.Options
-		*out = new(CreateUpdateOptions)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(SqlTriggerResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersTriggers_Spec.
-func (in *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesContainersTriggers_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersTriggers_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(SqlTriggerCreateUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Options != nil {
-		in, out := &in.Options, &out.Options
-		*out = new(CreateUpdateOptions)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(SqlUserDefinedFunctionResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec.
-func (in *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(SqlUserDefinedFunctionCreateUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainers_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainers_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Options != nil {
-		in, out := &in.Options, &out.Options
-		*out = new(CreateUpdateOptions)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(SqlContainerResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainers_Spec.
-func (in *DatabaseAccountsSqlDatabasesContainers_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesContainers_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainers_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesContainers_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesContainers_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(SqlContainerCreateUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesContainers_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesContainers_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesContainers_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesContainers_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(ThroughputSettingsResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesThroughputSettings_Spec.
-func (in *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) DeepCopy() *DatabaseAccountsSqlDatabasesThroughputSettings_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesThroughputSettings_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ThroughputSettingsUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM.
-func (in *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabases_Spec) DeepCopyInto(out *DatabaseAccountsSqlDatabases_Spec) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Options != nil {
-		in, out := &in.Options, &out.Options
-		*out = new(CreateUpdateOptions)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Resource != nil {
-		in, out := &in.Resource, &out.Resource
-		*out = new(SqlDatabaseResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabases_Spec.
-func (in *DatabaseAccountsSqlDatabases_Spec) DeepCopy() *DatabaseAccountsSqlDatabases_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabases_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DatabaseAccountsSqlDatabases_SpecARM) DeepCopyInto(out *DatabaseAccountsSqlDatabases_SpecARM) {
-	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(SqlDatabaseCreateUpdatePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccountsSqlDatabases_SpecARM.
-func (in *DatabaseAccountsSqlDatabases_SpecARM) DeepCopy() *DatabaseAccountsSqlDatabases_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DatabaseAccountsSqlDatabases_SpecARM)
+	out := new(DatabaseAccounts_MongodbDatabases_ThroughputSettings_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -2868,7 +2360,7 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 	}
 	if in.ConnectorOffer != nil {
 		in, out := &in.ConnectorOffer, &out.ConnectorOffer
-		*out = new(DatabaseAccountCreateUpdatePropertiesConnectorOffer)
+		*out = new(DatabaseAccountCreateUpdateProperties_ConnectorOffer)
 		**out = **in
 	}
 	if in.ConsistencyPolicy != nil {
@@ -2885,7 +2377,7 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 	}
 	if in.DatabaseAccountOfferType != nil {
 		in, out := &in.DatabaseAccountOfferType, &out.DatabaseAccountOfferType
-		*out = new(DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType)
+		*out = new(DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType)
 		**out = **in
 	}
 	if in.DefaultIdentity != nil {
@@ -2947,7 +2439,7 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountsSpecKind)
+		*out = new(DatabaseAccounts_Spec_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -2964,7 +2456,7 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 	}
 	if in.NetworkAclBypass != nil {
 		in, out := &in.NetworkAclBypass, &out.NetworkAclBypass
-		*out = new(DatabaseAccountCreateUpdatePropertiesNetworkAclBypass)
+		*out = new(DatabaseAccountCreateUpdateProperties_NetworkAclBypass)
 		**out = **in
 	}
 	if in.NetworkAclBypassResourceIds != nil {
@@ -2984,7 +2476,7 @@ func (in *DatabaseAccounts_Spec) DeepCopyInto(out *DatabaseAccounts_Spec) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess)
+		*out = new(DatabaseAccountCreateUpdateProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -3023,7 +2515,7 @@ func (in *DatabaseAccounts_SpecARM) DeepCopyInto(out *DatabaseAccounts_SpecARM) 
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DatabaseAccountsSpecKind)
+		*out = new(DatabaseAccounts_Spec_Kind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -3051,6 +2543,514 @@ func (in *DatabaseAccounts_SpecARM) DeepCopy() *DatabaseAccounts_SpecARM {
 		return nil
 	}
 	out := new(DatabaseAccounts_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Options != nil {
+		in, out := &in.Options, &out.Options
+		*out = new(CreateUpdateOptions)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(SqlContainerResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SqlContainerCreateUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_Containers_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Options != nil {
+		in, out := &in.Options, &out.Options
+		*out = new(CreateUpdateOptions)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(SqlStoredProcedureResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SqlStoredProcedureCreateUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_StoredProcedures_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(ThroughputSettingsResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ThroughputSettingsUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Options != nil {
+		in, out := &in.Options, &out.Options
+		*out = new(CreateUpdateOptions)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(SqlTriggerResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SqlTriggerCreateUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_Triggers_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Options != nil {
+		in, out := &in.Options, &out.Options
+		*out = new(CreateUpdateOptions)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(SqlUserDefinedFunctionResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SqlUserDefinedFunctionCreateUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunctions_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Options != nil {
+		in, out := &in.Options, &out.Options
+		*out = new(CreateUpdateOptions)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(SqlDatabaseResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_Spec.
+func (in *DatabaseAccounts_SqlDatabases_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(SqlDatabaseCreateUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Resource != nil {
+		in, out := &in.Resource, &out.Resource
+		*out = new(ThroughputSettingsResource)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec.
+func (in *DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec) DeepCopy() *DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_ThroughputSettings_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM) DeepCopyInto(out *DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM) {
+	*out = *in
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ThroughputSettingsUpdatePropertiesARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM.
+func (in *DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM) DeepCopy() *DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DatabaseAccounts_SqlDatabases_ThroughputSettings_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3308,12 +3308,12 @@ func (in *Indexes) DeepCopyInto(out *Indexes) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesDataType)
+		*out = new(Indexes_DataType)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesKind)
+		*out = new(Indexes_Kind)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -3338,12 +3338,12 @@ func (in *IndexesARM) DeepCopyInto(out *IndexesARM) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesDataType)
+		*out = new(Indexes_DataType)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesKind)
+		*out = new(Indexes_Kind)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -3368,12 +3368,12 @@ func (in *Indexes_STATUS) DeepCopyInto(out *Indexes_STATUS) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesSTATUSDataType)
+		*out = new(Indexes_STATUS_DataType)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesSTATUSKind)
+		*out = new(Indexes_STATUS_Kind)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -3398,12 +3398,12 @@ func (in *Indexes_STATUSARM) DeepCopyInto(out *Indexes_STATUSARM) {
 	*out = *in
 	if in.DataType != nil {
 		in, out := &in.DataType, &out.DataType
-		*out = new(IndexesSTATUSDataType)
+		*out = new(Indexes_STATUS_DataType)
 		**out = **in
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(IndexesSTATUSKind)
+		*out = new(Indexes_STATUS_Kind)
 		**out = **in
 	}
 	if in.Precision != nil {
@@ -3460,7 +3460,7 @@ func (in *IndexingPolicy) DeepCopyInto(out *IndexingPolicy) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicyIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3519,7 +3519,7 @@ func (in *IndexingPolicyARM) DeepCopyInto(out *IndexingPolicyARM) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicyIndexingMode)
+		*out = new(IndexingPolicy_IndexingMode)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3578,7 +3578,7 @@ func (in *IndexingPolicy_STATUS) DeepCopyInto(out *IndexingPolicy_STATUS) {
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicySTATUSIndexingMode)
+		*out = new(IndexingPolicy_STATUS_IndexingMode)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3637,7 +3637,7 @@ func (in *IndexingPolicy_STATUSARM) DeepCopyInto(out *IndexingPolicy_STATUSARM) 
 	}
 	if in.IndexingMode != nil {
 		in, out := &in.IndexingMode, &out.IndexingMode
-		*out = new(IndexingPolicySTATUSIndexingMode)
+		*out = new(IndexingPolicy_STATUS_IndexingMode)
 		**out = **in
 	}
 	if in.SpatialIndexes != nil {
@@ -3894,7 +3894,7 @@ func (in *ManagedServiceIdentity) DeepCopyInto(out *ManagedServiceIdentity) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentityType)
+		*out = new(ManagedServiceIdentity_Type)
 		**out = **in
 	}
 }
@@ -3914,7 +3914,7 @@ func (in *ManagedServiceIdentityARM) DeepCopyInto(out *ManagedServiceIdentityARM
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentityType)
+		*out = new(ManagedServiceIdentity_Type)
 		**out = **in
 	}
 }
@@ -3944,7 +3944,7 @@ func (in *ManagedServiceIdentity_STATUS) DeepCopyInto(out *ManagedServiceIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentitySTATUSType)
+		*out = new(ManagedServiceIdentity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -3981,7 +3981,7 @@ func (in *ManagedServiceIdentity_STATUSARM) DeepCopyInto(out *ManagedServiceIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentitySTATUSType)
+		*out = new(ManagedServiceIdentity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -5237,7 +5237,7 @@ func (in *PeriodicModeBackupPolicy) DeepCopyInto(out *PeriodicModeBackupPolicy) 
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(PeriodicModeBackupPolicyType)
+		*out = new(PeriodicModeBackupPolicy_Type)
 		**out = **in
 	}
 }
@@ -5372,7 +5372,7 @@ func (in *SpatialSpec) DeepCopyInto(out *SpatialSpec) {
 	}
 	if in.Types != nil {
 		in, out := &in.Types, &out.Types
-		*out = make([]SpatialSpecTypes, len(*in))
+		*out = make([]SpatialSpec_Types, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -5397,7 +5397,7 @@ func (in *SpatialSpecARM) DeepCopyInto(out *SpatialSpecARM) {
 	}
 	if in.Types != nil {
 		in, out := &in.Types, &out.Types
-		*out = make([]SpatialSpecTypes, len(*in))
+		*out = make([]SpatialSpec_Types, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -6893,12 +6893,12 @@ func (in *SqlTriggerGetProperties_STATUS_Resource) DeepCopyInto(out *SqlTriggerG
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerGetPropertiesSTATUSResourceTriggerOperation)
+		*out = new(SqlTriggerGetProperties_STATUS_Resource_TriggerOperation)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerGetPropertiesSTATUSResourceTriggerType)
+		*out = new(SqlTriggerGetProperties_STATUS_Resource_TriggerType)
 		**out = **in
 	}
 	if in.Ts != nil {
@@ -6943,12 +6943,12 @@ func (in *SqlTriggerGetProperties_STATUS_ResourceARM) DeepCopyInto(out *SqlTrigg
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerGetPropertiesSTATUSResourceTriggerOperation)
+		*out = new(SqlTriggerGetProperties_STATUS_Resource_TriggerOperation)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerGetPropertiesSTATUSResourceTriggerType)
+		*out = new(SqlTriggerGetProperties_STATUS_Resource_TriggerType)
 		**out = **in
 	}
 	if in.Ts != nil {
@@ -7084,12 +7084,12 @@ func (in *SqlTriggerResource) DeepCopyInto(out *SqlTriggerResource) {
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceTriggerType)
+		*out = new(SqlTriggerResource_TriggerType)
 		**out = **in
 	}
 }
@@ -7119,12 +7119,12 @@ func (in *SqlTriggerResourceARM) DeepCopyInto(out *SqlTriggerResourceARM) {
 	}
 	if in.TriggerOperation != nil {
 		in, out := &in.TriggerOperation, &out.TriggerOperation
-		*out = new(SqlTriggerResourceTriggerOperation)
+		*out = new(SqlTriggerResource_TriggerOperation)
 		**out = **in
 	}
 	if in.TriggerType != nil {
 		in, out := &in.TriggerType, &out.TriggerType
-		*out = new(SqlTriggerResourceTriggerType)
+		*out = new(SqlTriggerResource_TriggerType)
 		**out = **in
 	}
 }

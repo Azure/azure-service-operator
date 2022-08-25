@@ -12,15 +12,15 @@ type Person struct {
 	Role *Release `json:"role,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// Role
 	if source.Role != nil {
 		var role Release
-		err := role.AssignPropertiesFromRelease(source.Role)
+		err := role.AssignProperties_From_Release(source.Role)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Role")
+			return errors.Wrap(err, "calling AssignProperties_From_Release() to populate field Role")
 		}
 		person.Role = &role
 	} else {
@@ -31,15 +31,15 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// Role
 	if person.Role != nil {
 		var role vnext.Release
-		err := person.Role.AssignPropertiesToRelease(&role)
+		err := person.Role.AssignProperties_To_Release(&role)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Role")
+			return errors.Wrap(err, "calling AssignProperties_To_Release() to populate field Role")
 		}
 		destination.Role = &role
 	} else {

@@ -20,7 +20,7 @@ type Registry_STATUSARM struct {
 type IdentityProperties_STATUSARM struct {
 	PrincipalId            *string                                     `json:"principalId,omitempty"`
 	TenantId               *string                                     `json:"tenantId,omitempty"`
-	Type                   *IdentityPropertiesSTATUSType               `json:"type,omitempty"`
+	Type                   *IdentityProperties_STATUS_Type             `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUSARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -32,52 +32,52 @@ type RegistryProperties_STATUSARM struct {
 	DataEndpointHostNames      []string                                                  `json:"dataEndpointHostNames,omitempty"`
 	Encryption                 *EncryptionProperty_STATUSARM                             `json:"encryption,omitempty"`
 	LoginServer                *string                                                   `json:"loginServer,omitempty"`
-	NetworkRuleBypassOptions   *RegistryPropertiesSTATUSNetworkRuleBypassOptions         `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleBypassOptions   *RegistryProperties_STATUS_NetworkRuleBypassOptions       `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet             *NetworkRuleSet_STATUSARM                                 `json:"networkRuleSet,omitempty"`
 	Policies                   *Policies_STATUSARM                                       `json:"policies,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryPropertiesSTATUSProvisioningState                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryPropertiesSTATUSPublicNetworkAccess              `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *RegistryProperties_STATUS_ProvisioningState              `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryProperties_STATUS_PublicNetworkAccess            `json:"publicNetworkAccess,omitempty"`
 	Status                     *Status_STATUSARM                                         `json:"status,omitempty"`
-	ZoneRedundancy             *RegistryPropertiesSTATUSZoneRedundancy                   `json:"zoneRedundancy,omitempty"`
+	ZoneRedundancy             *RegistryProperties_STATUS_ZoneRedundancy                 `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210901.Sku_STATUS instead
 type Sku_STATUSARM struct {
-	Name *SkuSTATUSName `json:"name,omitempty"`
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_STATUS. Use v1beta20210901.SystemData_STATUS instead
 type SystemData_STATUSARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataSTATUSCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_STATUS_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of EncryptionProperty_STATUS. Use v1beta20210901.EncryptionProperty_STATUS instead
 type EncryptionProperty_STATUSARM struct {
-	KeyVaultProperties *KeyVaultProperties_STATUSARM   `json:"keyVaultProperties,omitempty"`
-	Status             *EncryptionPropertySTATUSStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUSARM     `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_STATUS_Status `json:"status,omitempty"`
 }
 
-// Deprecated version of IdentityPropertiesSTATUSType. Use v1beta20210901.IdentityPropertiesSTATUSType instead
-type IdentityPropertiesSTATUSType string
+// Deprecated version of IdentityProperties_STATUS_Type. Use v1beta20210901.IdentityProperties_STATUS_Type instead
+type IdentityProperties_STATUS_Type string
 
 const (
-	IdentityPropertiesSTATUSType_None                       = IdentityPropertiesSTATUSType("None")
-	IdentityPropertiesSTATUSType_SystemAssigned             = IdentityPropertiesSTATUSType("SystemAssigned")
-	IdentityPropertiesSTATUSType_SystemAssignedUserAssigned = IdentityPropertiesSTATUSType("SystemAssigned, UserAssigned")
-	IdentityPropertiesSTATUSType_UserAssigned               = IdentityPropertiesSTATUSType("UserAssigned")
+	IdentityProperties_STATUS_Type_None                       = IdentityProperties_STATUS_Type("None")
+	IdentityProperties_STATUS_Type_SystemAssigned             = IdentityProperties_STATUS_Type("SystemAssigned")
+	IdentityProperties_STATUS_Type_SystemAssignedUserAssigned = IdentityProperties_STATUS_Type("SystemAssigned, UserAssigned")
+	IdentityProperties_STATUS_Type_UserAssigned               = IdentityProperties_STATUS_Type("UserAssigned")
 )
 
 // Deprecated version of NetworkRuleSet_STATUS. Use v1beta20210901.NetworkRuleSet_STATUS instead
 type NetworkRuleSet_STATUSARM struct {
-	DefaultAction *NetworkRuleSetSTATUSDefaultAction `json:"defaultAction,omitempty"`
-	IpRules       []IPRule_STATUSARM                 `json:"ipRules,omitempty"`
+	DefaultAction *NetworkRuleSet_STATUS_DefaultAction `json:"defaultAction,omitempty"`
+	IpRules       []IPRule_STATUSARM                   `json:"ipRules,omitempty"`
 }
 
 // Deprecated version of Policies_STATUS. Use v1beta20210901.Policies_STATUS instead
@@ -94,24 +94,24 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
-// Deprecated version of SkuSTATUSName. Use v1beta20210901.SkuSTATUSName instead
-type SkuSTATUSName string
+// Deprecated version of Sku_STATUS_Name. Use v1beta20210901.Sku_STATUS_Name instead
+type Sku_STATUS_Name string
 
 const (
-	SkuSTATUSName_Basic    = SkuSTATUSName("Basic")
-	SkuSTATUSName_Classic  = SkuSTATUSName("Classic")
-	SkuSTATUSName_Premium  = SkuSTATUSName("Premium")
-	SkuSTATUSName_Standard = SkuSTATUSName("Standard")
+	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
+	Sku_STATUS_Name_Classic  = Sku_STATUS_Name("Classic")
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
 )
 
-// Deprecated version of SkuSTATUSTier. Use v1beta20210901.SkuSTATUSTier instead
-type SkuSTATUSTier string
+// Deprecated version of Sku_STATUS_Tier. Use v1beta20210901.Sku_STATUS_Tier instead
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Basic    = SkuSTATUSTier("Basic")
-	SkuSTATUSTier_Classic  = SkuSTATUSTier("Classic")
-	SkuSTATUSTier_Premium  = SkuSTATUSTier("Premium")
-	SkuSTATUSTier_Standard = SkuSTATUSTier("Standard")
+	Sku_STATUS_Tier_Basic    = Sku_STATUS_Tier("Basic")
+	Sku_STATUS_Tier_Classic  = Sku_STATUS_Tier("Classic")
+	Sku_STATUS_Tier_Premium  = Sku_STATUS_Tier("Premium")
+	Sku_STATUS_Tier_Standard = Sku_STATUS_Tier("Standard")
 )
 
 // Deprecated version of Status_STATUS. Use v1beta20210901.Status_STATUS instead
@@ -121,24 +121,25 @@ type Status_STATUSARM struct {
 	Timestamp     *string `json:"timestamp,omitempty"`
 }
 
-// Deprecated version of SystemDataSTATUSCreatedByType. Use v1beta20210901.SystemDataSTATUSCreatedByType instead
-type SystemDataSTATUSCreatedByType string
+// Deprecated version of SystemData_STATUS_CreatedByType. Use v1beta20210901.SystemData_STATUS_CreatedByType instead
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-// Deprecated version of SystemDataSTATUSLastModifiedByType. Use v1beta20210901.SystemDataSTATUSLastModifiedByType instead
-type SystemDataSTATUSLastModifiedByType string
+// Deprecated version of SystemData_STATUS_LastModifiedByType. Use v1beta20210901.SystemData_STATUS_LastModifiedByType
+// instead
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )
 
 // Deprecated version of UserIdentityProperties_STATUS. Use v1beta20210901.UserIdentityProperties_STATUS instead
@@ -149,13 +150,13 @@ type UserIdentityProperties_STATUSARM struct {
 
 // Deprecated version of ExportPolicy_STATUS. Use v1beta20210901.ExportPolicy_STATUS instead
 type ExportPolicy_STATUSARM struct {
-	Status *ExportPolicySTATUSStatus `json:"status,omitempty"`
+	Status *ExportPolicy_STATUS_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of IPRule_STATUS. Use v1beta20210901.IPRule_STATUS instead
 type IPRule_STATUSARM struct {
-	Action *IPRuleSTATUSAction `json:"action,omitempty"`
-	Value  *string             `json:"value,omitempty"`
+	Action *IPRule_STATUS_Action `json:"action,omitempty"`
+	Value  *string               `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20210901.KeyVaultProperties_STATUS instead
@@ -169,18 +170,18 @@ type KeyVaultProperties_STATUSARM struct {
 
 // Deprecated version of QuarantinePolicy_STATUS. Use v1beta20210901.QuarantinePolicy_STATUS instead
 type QuarantinePolicy_STATUSARM struct {
-	Status *QuarantinePolicySTATUSStatus `json:"status,omitempty"`
+	Status *QuarantinePolicy_STATUS_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of RetentionPolicy_STATUS. Use v1beta20210901.RetentionPolicy_STATUS instead
 type RetentionPolicy_STATUSARM struct {
-	Days            *int                         `json:"days,omitempty"`
-	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
-	Status          *RetentionPolicySTATUSStatus `json:"status,omitempty"`
+	Days            *int                           `json:"days,omitempty"`
+	LastUpdatedTime *string                        `json:"lastUpdatedTime,omitempty"`
+	Status          *RetentionPolicy_STATUS_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of TrustPolicy_STATUS. Use v1beta20210901.TrustPolicy_STATUS instead
 type TrustPolicy_STATUSARM struct {
-	Status *TrustPolicySTATUSStatus `json:"status,omitempty"`
-	Type   *TrustPolicySTATUSType   `json:"type,omitempty"`
+	Status *TrustPolicy_STATUS_Status `json:"status,omitempty"`
+	Type   *TrustPolicy_STATUS_Type   `json:"type,omitempty"`
 }

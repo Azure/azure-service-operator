@@ -53,7 +53,7 @@ func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected subscription/v1beta20211001storage/Alias but received %T instead", hub)
 	}
 
-	return alias.AssignPropertiesFromAlias(source)
+	return alias.AssignProperties_From_Alias(source)
 }
 
 // ConvertTo populates the provided hub Alias from our Alias
@@ -63,7 +63,7 @@ func (alias *Alias) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected subscription/v1beta20211001storage/Alias but received %T instead", hub)
 	}
 
-	return alias.AssignPropertiesToAlias(destination)
+	return alias.AssignProperties_To_Alias(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-subscription-azure-com-v1beta20211001-alias,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=subscription.azure.com,resources=aliases,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.aliases.subscription.azure.com,admissionReviewVersions=v1
@@ -243,25 +243,25 @@ func (alias *Alias) validateWriteOnceProperties(old runtime.Object) error {
 	return genruntime.ValidateWriteOnceProperties(oldObj, alias)
 }
 
-// AssignPropertiesFromAlias populates our Alias from the provided source Alias
-func (alias *Alias) AssignPropertiesFromAlias(source *v20211001s.Alias) error {
+// AssignProperties_From_Alias populates our Alias from the provided source Alias
+func (alias *Alias) AssignProperties_From_Alias(source *v20211001s.Alias) error {
 
 	// ObjectMeta
 	alias.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Aliases_Spec
-	err := spec.AssignPropertiesFromAliasesSpec(&source.Spec)
+	err := spec.AssignProperties_From_Aliases_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAliasesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Aliases_Spec() to populate field Spec")
 	}
 	alias.Spec = spec
 
 	// Status
 	var status SubscriptionAliasResponse_STATUS
-	err = status.AssignPropertiesFromSubscriptionAliasResponseSTATUS(&source.Status)
+	err = status.AssignProperties_From_SubscriptionAliasResponse_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSubscriptionAliasResponseSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponse_STATUS() to populate field Status")
 	}
 	alias.Status = status
 
@@ -269,25 +269,25 @@ func (alias *Alias) AssignPropertiesFromAlias(source *v20211001s.Alias) error {
 	return nil
 }
 
-// AssignPropertiesToAlias populates the provided destination Alias from our Alias
-func (alias *Alias) AssignPropertiesToAlias(destination *v20211001s.Alias) error {
+// AssignProperties_To_Alias populates the provided destination Alias from our Alias
+func (alias *Alias) AssignProperties_To_Alias(destination *v20211001s.Alias) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *alias.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20211001s.Aliases_Spec
-	err := alias.Spec.AssignPropertiesToAliasesSpec(&spec)
+	err := alias.Spec.AssignProperties_To_Aliases_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAliasesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Aliases_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20211001s.SubscriptionAliasResponse_STATUS
-	err = alias.Status.AssignPropertiesToSubscriptionAliasResponseSTATUS(&status)
+	err = alias.Status.AssignProperties_To_SubscriptionAliasResponse_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSubscriptionAliasResponseSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponse_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -383,7 +383,7 @@ func (aliases *Aliases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src, ok := source.(*v20211001s.Aliases_Spec)
 	if ok {
 		// Populate our instance from source
-		return aliases.AssignPropertiesFromAliasesSpec(src)
+		return aliases.AssignProperties_From_Aliases_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -394,7 +394,7 @@ func (aliases *Aliases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	}
 
 	// Update our instance from src
-	err = aliases.AssignPropertiesFromAliasesSpec(src)
+	err = aliases.AssignProperties_From_Aliases_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -407,12 +407,12 @@ func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst, ok := destination.(*v20211001s.Aliases_Spec)
 	if ok {
 		// Populate destination from our instance
-		return aliases.AssignPropertiesToAliasesSpec(dst)
+		return aliases.AssignProperties_To_Aliases_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20211001s.Aliases_Spec{}
-	err := aliases.AssignPropertiesToAliasesSpec(dst)
+	err := aliases.AssignProperties_To_Aliases_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -426,8 +426,8 @@ func (aliases *Aliases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-// AssignPropertiesFromAliasesSpec populates our Aliases_Spec from the provided source Aliases_Spec
-func (aliases *Aliases_Spec) AssignPropertiesFromAliasesSpec(source *v20211001s.Aliases_Spec) error {
+// AssignProperties_From_Aliases_Spec populates our Aliases_Spec from the provided source Aliases_Spec
+func (aliases *Aliases_Spec) AssignProperties_From_Aliases_Spec(source *v20211001s.Aliases_Spec) error {
 
 	// AzureName
 	aliases.AzureName = source.AzureName
@@ -435,9 +435,9 @@ func (aliases *Aliases_Spec) AssignPropertiesFromAliasesSpec(source *v20211001s.
 	// Properties
 	if source.Properties != nil {
 		var property PutAliasRequestProperties
-		err := property.AssignPropertiesFromPutAliasRequestProperties(source.Properties)
+		err := property.AssignProperties_From_PutAliasRequestProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPutAliasRequestProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
 		}
 		aliases.Properties = &property
 	} else {
@@ -448,8 +448,8 @@ func (aliases *Aliases_Spec) AssignPropertiesFromAliasesSpec(source *v20211001s.
 	return nil
 }
 
-// AssignPropertiesToAliasesSpec populates the provided destination Aliases_Spec from our Aliases_Spec
-func (aliases *Aliases_Spec) AssignPropertiesToAliasesSpec(destination *v20211001s.Aliases_Spec) error {
+// AssignProperties_To_Aliases_Spec populates the provided destination Aliases_Spec from our Aliases_Spec
+func (aliases *Aliases_Spec) AssignProperties_To_Aliases_Spec(destination *v20211001s.Aliases_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -462,9 +462,9 @@ func (aliases *Aliases_Spec) AssignPropertiesToAliasesSpec(destination *v2021100
 	// Properties
 	if aliases.Properties != nil {
 		var property v20211001s.PutAliasRequestProperties
-		err := aliases.Properties.AssignPropertiesToPutAliasRequestProperties(&property)
+		err := aliases.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPutAliasRequestProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -520,7 +520,7 @@ func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genru
 	src, ok := source.(*v20211001s.SubscriptionAliasResponse_STATUS)
 	if ok {
 		// Populate our instance from source
-		return response.AssignPropertiesFromSubscriptionAliasResponseSTATUS(src)
+		return response.AssignProperties_From_SubscriptionAliasResponse_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -531,7 +531,7 @@ func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genru
 	}
 
 	// Update our instance from src
-	err = response.AssignPropertiesFromSubscriptionAliasResponseSTATUS(src)
+	err = response.AssignProperties_From_SubscriptionAliasResponse_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -544,12 +544,12 @@ func (response *SubscriptionAliasResponse_STATUS) ConvertStatusTo(destination ge
 	dst, ok := destination.(*v20211001s.SubscriptionAliasResponse_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return response.AssignPropertiesToSubscriptionAliasResponseSTATUS(dst)
+		return response.AssignProperties_To_SubscriptionAliasResponse_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20211001s.SubscriptionAliasResponse_STATUS{}
-	err := response.AssignPropertiesToSubscriptionAliasResponseSTATUS(dst)
+	err := response.AssignProperties_To_SubscriptionAliasResponse_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -623,8 +623,8 @@ func (response *SubscriptionAliasResponse_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromSubscriptionAliasResponseSTATUS populates our SubscriptionAliasResponse_STATUS from the provided source SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesFromSubscriptionAliasResponseSTATUS(source *v20211001s.SubscriptionAliasResponse_STATUS) error {
+// AssignProperties_From_SubscriptionAliasResponse_STATUS populates our SubscriptionAliasResponse_STATUS from the provided source SubscriptionAliasResponse_STATUS
+func (response *SubscriptionAliasResponse_STATUS) AssignProperties_From_SubscriptionAliasResponse_STATUS(source *v20211001s.SubscriptionAliasResponse_STATUS) error {
 
 	// Conditions
 	response.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -638,9 +638,9 @@ func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesFromSubscripti
 	// Properties
 	if source.Properties != nil {
 		var property SubscriptionAliasResponseProperties_STATUS
-		err := property.AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS(source.Properties)
+		err := property.AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		response.Properties = &property
 	} else {
@@ -650,9 +650,9 @@ func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesFromSubscripti
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		response.SystemData = &systemDatum
 	} else {
@@ -666,8 +666,8 @@ func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesFromSubscripti
 	return nil
 }
 
-// AssignPropertiesToSubscriptionAliasResponseSTATUS populates the provided destination SubscriptionAliasResponse_STATUS from our SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesToSubscriptionAliasResponseSTATUS(destination *v20211001s.SubscriptionAliasResponse_STATUS) error {
+// AssignProperties_To_SubscriptionAliasResponse_STATUS populates the provided destination SubscriptionAliasResponse_STATUS from our SubscriptionAliasResponse_STATUS
+func (response *SubscriptionAliasResponse_STATUS) AssignProperties_To_SubscriptionAliasResponse_STATUS(destination *v20211001s.SubscriptionAliasResponse_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -683,9 +683,9 @@ func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesToSubscription
 	// Properties
 	if response.Properties != nil {
 		var property v20211001s.SubscriptionAliasResponseProperties_STATUS
-		err := response.Properties.AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS(&property)
+		err := response.Properties.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -695,9 +695,9 @@ func (response *SubscriptionAliasResponse_STATUS) AssignPropertiesToSubscription
 	// SystemData
 	if response.SystemData != nil {
 		var systemDatum v20211001s.SystemData_STATUS
-		err := response.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := response.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -737,8 +737,8 @@ type PutAliasRequestProperties struct {
 	ResellerId *string `json:"resellerId,omitempty"`
 
 	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string                            `json:"subscriptionId,omitempty"`
-	Workload       *PutAliasRequestPropertiesWorkload `json:"workload,omitempty"`
+	SubscriptionId *string                             `json:"subscriptionId,omitempty"`
+	Workload       *PutAliasRequestProperties_Workload `json:"workload,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PutAliasRequestProperties{}
@@ -849,15 +849,15 @@ func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromPutAliasRequestProperties populates our PutAliasRequestProperties from the provided source PutAliasRequestProperties
-func (properties *PutAliasRequestProperties) AssignPropertiesFromPutAliasRequestProperties(source *v20211001s.PutAliasRequestProperties) error {
+// AssignProperties_From_PutAliasRequestProperties populates our PutAliasRequestProperties from the provided source PutAliasRequestProperties
+func (properties *PutAliasRequestProperties) AssignProperties_From_PutAliasRequestProperties(source *v20211001s.PutAliasRequestProperties) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
 		var additionalProperty PutAliasRequestAdditionalProperties
-		err := additionalProperty.AssignPropertiesFromPutAliasRequestAdditionalProperties(source.AdditionalProperties)
+		err := additionalProperty.AssignProperties_From_PutAliasRequestAdditionalProperties(source.AdditionalProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		properties.AdditionalProperties = &additionalProperty
 	} else {
@@ -878,7 +878,7 @@ func (properties *PutAliasRequestProperties) AssignPropertiesFromPutAliasRequest
 
 	// Workload
 	if source.Workload != nil {
-		workload := PutAliasRequestPropertiesWorkload(*source.Workload)
+		workload := PutAliasRequestProperties_Workload(*source.Workload)
 		properties.Workload = &workload
 	} else {
 		properties.Workload = nil
@@ -888,17 +888,17 @@ func (properties *PutAliasRequestProperties) AssignPropertiesFromPutAliasRequest
 	return nil
 }
 
-// AssignPropertiesToPutAliasRequestProperties populates the provided destination PutAliasRequestProperties from our PutAliasRequestProperties
-func (properties *PutAliasRequestProperties) AssignPropertiesToPutAliasRequestProperties(destination *v20211001s.PutAliasRequestProperties) error {
+// AssignProperties_To_PutAliasRequestProperties populates the provided destination PutAliasRequestProperties from our PutAliasRequestProperties
+func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequestProperties(destination *v20211001s.PutAliasRequestProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalProperties
 	if properties.AdditionalProperties != nil {
 		var additionalProperty v20211001s.PutAliasRequestAdditionalProperties
-		err := properties.AdditionalProperties.AssignPropertiesToPutAliasRequestAdditionalProperties(&additionalProperty)
+		err := properties.AdditionalProperties.AssignProperties_To_PutAliasRequestAdditionalProperties(&additionalProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
 		}
 		destination.AdditionalProperties = &additionalProperty
 	} else {
@@ -953,7 +953,7 @@ type SubscriptionAliasResponseProperties_STATUS struct {
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource.
-	ProvisioningState *SubscriptionAliasResponsePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *SubscriptionAliasResponseProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// ResellerId: Reseller Id
 	ResellerId *string `json:"resellerId,omitempty"`
@@ -1061,8 +1061,8 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 	return nil
 }
 
-// AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS populates our SubscriptionAliasResponseProperties_STATUS from the provided source SubscriptionAliasResponseProperties_STATUS
-func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFromSubscriptionAliasResponsePropertiesSTATUS(source *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
+// AssignProperties_From_SubscriptionAliasResponseProperties_STATUS populates our SubscriptionAliasResponseProperties_STATUS from the provided source SubscriptionAliasResponseProperties_STATUS
+func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
 
 	// AcceptOwnershipState
 	if source.AcceptOwnershipState != nil {
@@ -1089,7 +1089,7 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFr
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := SubscriptionAliasResponsePropertiesSTATUSProvisioningState(*source.ProvisioningState)
+		provisioningState := SubscriptionAliasResponseProperties_STATUS_ProvisioningState(*source.ProvisioningState)
 		properties.ProvisioningState = &provisioningState
 	} else {
 		properties.ProvisioningState = nil
@@ -1119,8 +1119,8 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesFr
 	return nil
 }
 
-// AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS populates the provided destination SubscriptionAliasResponseProperties_STATUS from our SubscriptionAliasResponseProperties_STATUS
-func (properties *SubscriptionAliasResponseProperties_STATUS) AssignPropertiesToSubscriptionAliasResponsePropertiesSTATUS(destination *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
+// AssignProperties_To_SubscriptionAliasResponseProperties_STATUS populates the provided destination SubscriptionAliasResponseProperties_STATUS from our SubscriptionAliasResponseProperties_STATUS
+func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(destination *v20211001s.SubscriptionAliasResponseProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1194,7 +1194,7 @@ type SystemData_STATUS struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -1203,7 +1203,7 @@ type SystemData_STATUS struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_STATUS{}
@@ -1260,8 +1260,8 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20211001s.SystemData_STATUS) error {
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20211001s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1271,7 +1271,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemDataSTATUSCreatedByType(*source.CreatedByType)
+		createdByType := SystemData_STATUS_CreatedByType(*source.CreatedByType)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -1285,7 +1285,7 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataSTATUSLastModifiedByType(*source.LastModifiedByType)
+		lastModifiedByType := SystemData_STATUS_LastModifiedByType(*source.LastModifiedByType)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -1295,8 +1295,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 	return nil
 }
 
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20211001s.SystemData_STATUS) error {
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20211001s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1433,8 +1433,8 @@ func (properties *PutAliasRequestAdditionalProperties) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromPutAliasRequestAdditionalProperties populates our PutAliasRequestAdditionalProperties from the provided source PutAliasRequestAdditionalProperties
-func (properties *PutAliasRequestAdditionalProperties) AssignPropertiesFromPutAliasRequestAdditionalProperties(source *v20211001s.PutAliasRequestAdditionalProperties) error {
+// AssignProperties_From_PutAliasRequestAdditionalProperties populates our PutAliasRequestAdditionalProperties from the provided source PutAliasRequestAdditionalProperties
+func (properties *PutAliasRequestAdditionalProperties) AssignProperties_From_PutAliasRequestAdditionalProperties(source *v20211001s.PutAliasRequestAdditionalProperties) error {
 
 	// ManagementGroupId
 	properties.ManagementGroupId = genruntime.ClonePointerToString(source.ManagementGroupId)
@@ -1452,8 +1452,8 @@ func (properties *PutAliasRequestAdditionalProperties) AssignPropertiesFromPutAl
 	return nil
 }
 
-// AssignPropertiesToPutAliasRequestAdditionalProperties populates the provided destination PutAliasRequestAdditionalProperties from our PutAliasRequestAdditionalProperties
-func (properties *PutAliasRequestAdditionalProperties) AssignPropertiesToPutAliasRequestAdditionalProperties(destination *v20211001s.PutAliasRequestAdditionalProperties) error {
+// AssignProperties_To_PutAliasRequestAdditionalProperties populates the provided destination PutAliasRequestAdditionalProperties from our PutAliasRequestAdditionalProperties
+func (properties *PutAliasRequestAdditionalProperties) AssignProperties_To_PutAliasRequestAdditionalProperties(destination *v20211001s.PutAliasRequestAdditionalProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

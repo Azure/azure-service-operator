@@ -20,8 +20,8 @@ type Person struct {
 	KnownAs string `json:"knownAs,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *v20211231.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *v20211231.Person) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -58,8 +58,8 @@ func (person *Person) AssignPropertiesFromPerson(source *v20211231.Person) error
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *v20211231.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *v20211231.Person) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

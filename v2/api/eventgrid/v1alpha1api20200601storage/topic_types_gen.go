@@ -50,7 +50,7 @@ func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected eventgrid/v1beta20200601storage/Topic but received %T instead", hub)
 	}
 
-	return topic.AssignPropertiesFromTopic(source)
+	return topic.AssignProperties_From_Topic(source)
 }
 
 // ConvertTo populates the provided hub Topic from our Topic
@@ -60,7 +60,7 @@ func (topic *Topic) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected eventgrid/v1beta20200601storage/Topic but received %T instead", hub)
 	}
 
-	return topic.AssignPropertiesToTopic(destination)
+	return topic.AssignProperties_To_Topic(destination)
 }
 
 var _ genruntime.KubernetesResource = &Topic{}
@@ -129,25 +129,25 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// AssignPropertiesFromTopic populates our Topic from the provided source Topic
-func (topic *Topic) AssignPropertiesFromTopic(source *v20200601s.Topic) error {
+// AssignProperties_From_Topic populates our Topic from the provided source Topic
+func (topic *Topic) AssignProperties_From_Topic(source *v20200601s.Topic) error {
 
 	// ObjectMeta
 	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Topics_Spec
-	err := spec.AssignPropertiesFromTopicsSpec(&source.Spec)
+	err := spec.AssignProperties_From_Topics_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromTopicsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Topics_Spec() to populate field Spec")
 	}
 	topic.Spec = spec
 
 	// Status
 	var status Topic_STATUS
-	err = status.AssignPropertiesFromTopicSTATUS(&source.Status)
+	err = status.AssignProperties_From_Topic_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromTopicSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Topic_STATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -155,25 +155,25 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v20200601s.Topic) error {
 	return nil
 }
 
-// AssignPropertiesToTopic populates the provided destination Topic from our Topic
-func (topic *Topic) AssignPropertiesToTopic(destination *v20200601s.Topic) error {
+// AssignProperties_To_Topic populates the provided destination Topic from our Topic
+func (topic *Topic) AssignProperties_To_Topic(destination *v20200601s.Topic) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20200601s.Topics_Spec
-	err := topic.Spec.AssignPropertiesToTopicsSpec(&spec)
+	err := topic.Spec.AssignProperties_To_Topics_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToTopicsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Topics_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20200601s.Topic_STATUS
-	err = topic.Status.AssignPropertiesToTopicSTATUS(&status)
+	err = topic.Status.AssignProperties_To_Topic_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToTopicSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Topic_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -227,7 +227,7 @@ func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	src, ok := source.(*v20200601s.Topic_STATUS)
 	if ok {
 		// Populate our instance from source
-		return topic.AssignPropertiesFromTopicSTATUS(src)
+		return topic.AssignProperties_From_Topic_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -238,7 +238,7 @@ func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	}
 
 	// Update our instance from src
-	err = topic.AssignPropertiesFromTopicSTATUS(src)
+	err = topic.AssignProperties_From_Topic_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -251,12 +251,12 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	dst, ok := destination.(*v20200601s.Topic_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return topic.AssignPropertiesToTopicSTATUS(dst)
+		return topic.AssignProperties_To_Topic_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200601s.Topic_STATUS{}
-	err := topic.AssignPropertiesToTopicSTATUS(dst)
+	err := topic.AssignProperties_To_Topic_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -270,8 +270,8 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return nil
 }
 
-// AssignPropertiesFromTopicSTATUS populates our Topic_STATUS from the provided source Topic_STATUS
-func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.Topic_STATUS) error {
+// AssignProperties_From_Topic_STATUS populates our Topic_STATUS from the provided source Topic_STATUS
+func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *v20200601s.Topic_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -291,9 +291,9 @@ func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.To
 			// Shadow the loop variable to avoid aliasing
 			inboundIpRuleItem := inboundIpRuleItem
 			var inboundIpRule InboundIpRule_STATUS
-			err := inboundIpRule.AssignPropertiesFromInboundIpRuleSTATUS(&inboundIpRuleItem)
+			err := inboundIpRule.AssignProperties_From_InboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRuleSTATUS() to populate field InboundIpRules")
+				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -308,9 +308,9 @@ func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.To
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
 		var inputSchemaMapping InputSchemaMapping_STATUS
-		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMappingSTATUS(source.InputSchemaMapping)
+		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMappingSTATUS() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		topic.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -333,9 +333,9 @@ func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.To
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(&privateEndpointConnectionItem)
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -353,9 +353,9 @@ func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.To
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		topic.SystemData = &systemDatum
 	} else {
@@ -379,8 +379,8 @@ func (topic *Topic_STATUS) AssignPropertiesFromTopicSTATUS(source *v20200601s.To
 	return nil
 }
 
-// AssignPropertiesToTopicSTATUS populates the provided destination Topic_STATUS from our Topic_STATUS
-func (topic *Topic_STATUS) AssignPropertiesToTopicSTATUS(destination *v20200601s.Topic_STATUS) error {
+// AssignProperties_To_Topic_STATUS populates the provided destination Topic_STATUS from our Topic_STATUS
+func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v20200601s.Topic_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(topic.PropertyBag)
 
@@ -400,9 +400,9 @@ func (topic *Topic_STATUS) AssignPropertiesToTopicSTATUS(destination *v20200601s
 			// Shadow the loop variable to avoid aliasing
 			inboundIpRuleItem := inboundIpRuleItem
 			var inboundIpRule v20200601s.InboundIpRule_STATUS
-			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleSTATUS(&inboundIpRule)
+			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule_STATUS(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRuleSTATUS() to populate field InboundIpRules")
+				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -417,9 +417,9 @@ func (topic *Topic_STATUS) AssignPropertiesToTopicSTATUS(destination *v20200601s
 	// InputSchemaMapping
 	if topic.InputSchemaMapping != nil {
 		var inputSchemaMapping v20200601s.InputSchemaMapping_STATUS
-		err := topic.InputSchemaMapping.AssignPropertiesToInputSchemaMappingSTATUS(&inputSchemaMapping)
+		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping_STATUS(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMappingSTATUS() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -442,9 +442,9 @@ func (topic *Topic_STATUS) AssignPropertiesToTopicSTATUS(destination *v20200601s
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
 			var privateEndpointConnection v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(&privateEndpointConnection)
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -462,9 +462,9 @@ func (topic *Topic_STATUS) AssignPropertiesToTopicSTATUS(destination *v20200601s
 	// SystemData
 	if topic.SystemData != nil {
 		var systemDatum v20200601s.SystemData_STATUS
-		err := topic.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := topic.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -512,7 +512,7 @@ func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	src, ok := source.(*v20200601s.Topics_Spec)
 	if ok {
 		// Populate our instance from source
-		return topics.AssignPropertiesFromTopicsSpec(src)
+		return topics.AssignProperties_From_Topics_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -523,7 +523,7 @@ func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	}
 
 	// Update our instance from src
-	err = topics.AssignPropertiesFromTopicsSpec(src)
+	err = topics.AssignProperties_From_Topics_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -536,12 +536,12 @@ func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	dst, ok := destination.(*v20200601s.Topics_Spec)
 	if ok {
 		// Populate destination from our instance
-		return topics.AssignPropertiesToTopicsSpec(dst)
+		return topics.AssignProperties_To_Topics_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200601s.Topics_Spec{}
-	err := topics.AssignPropertiesToTopicsSpec(dst)
+	err := topics.AssignProperties_To_Topics_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -555,8 +555,8 @@ func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return nil
 }
 
-// AssignPropertiesFromTopicsSpec populates our Topics_Spec from the provided source Topics_Spec
-func (topics *Topics_Spec) AssignPropertiesFromTopicsSpec(source *v20200601s.Topics_Spec) error {
+// AssignProperties_From_Topics_Spec populates our Topics_Spec from the provided source Topics_Spec
+func (topics *Topics_Spec) AssignProperties_From_Topics_Spec(source *v20200601s.Topics_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -591,8 +591,8 @@ func (topics *Topics_Spec) AssignPropertiesFromTopicsSpec(source *v20200601s.Top
 	return nil
 }
 
-// AssignPropertiesToTopicsSpec populates the provided destination Topics_Spec from our Topics_Spec
-func (topics *Topics_Spec) AssignPropertiesToTopicsSpec(destination *v20200601s.Topics_Spec) error {
+// AssignProperties_To_Topics_Spec populates the provided destination Topics_Spec from our Topics_Spec
+func (topics *Topics_Spec) AssignProperties_To_Topics_Spec(destination *v20200601s.Topics_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(topics.PropertyBag)
 
@@ -634,8 +634,8 @@ type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded populates our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -653,8 +653,8 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionSTATUSTopicSubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 

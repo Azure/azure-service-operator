@@ -47,25 +47,25 @@ type SubResource_STATUSARM struct {
 
 // Deprecated version of ImageDataDisk_STATUS. Use v1beta20210701.ImageDataDisk_STATUS instead
 type ImageDataDisk_STATUSARM struct {
-	BlobUri            *string                     `json:"blobUri,omitempty"`
-	Caching            *ImageDataDiskSTATUSCaching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_STATUSARM      `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
-	Lun                *int                        `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_STATUSARM      `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource_STATUSARM      `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_STATUS  `json:"storageAccountType,omitempty"`
+	BlobUri            *string                       `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_STATUS_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUSARM        `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                          `json:"diskSizeGB,omitempty"`
+	Lun                *int                          `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_STATUSARM        `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_STATUSARM        `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS    `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of ImageOSDisk_STATUS. Use v1beta20210701.ImageOSDisk_STATUS instead
 type ImageOSDisk_STATUSARM struct {
-	BlobUri            *string                    `json:"blobUri,omitempty"`
-	Caching            *ImageOSDiskSTATUSCaching  `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_STATUSARM     `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                       `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_STATUSARM     `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDiskSTATUSOsState  `json:"osState,omitempty"`
-	OsType             *ImageOSDiskSTATUSOsType   `json:"osType,omitempty"`
-	Snapshot           *SubResource_STATUSARM     `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	BlobUri            *string                     `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_STATUS_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUSARM      `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_STATUSARM      `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_STATUS_OsState `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_STATUS_OsType  `json:"osType,omitempty"`
+	Snapshot           *SubResource_STATUSARM      `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS  `json:"storageAccountType,omitempty"`
 }

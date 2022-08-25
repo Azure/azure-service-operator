@@ -25,12 +25,12 @@ func Test_ManagementPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicy_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicySTATUSARM, ManagementPolicySTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicy_STATUSARM, ManagementPolicy_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicySTATUSARM runs a test to see if a specific instance of ManagementPolicy_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicySTATUSARM(subject ManagementPolicy_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicy_STATUSARM runs a test to see if a specific instance of ManagementPolicy_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicy_STATUSARM(subject ManagementPolicy_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -57,41 +57,41 @@ func RunJSONSerializationTestForManagementPolicySTATUSARM(subject ManagementPoli
 }
 
 // Generator of ManagementPolicy_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicySTATUSARMGenerator()
-var managementPolicySTATUSARMGenerator gopter.Gen
+// ManagementPolicy_STATUSARMGenerator()
+var managementPolicy_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicySTATUSARMGenerator returns a generator of ManagementPolicy_STATUSARM instances for property testing.
-// We first initialize managementPolicySTATUSARMGenerator with a simplified generator based on the
+// ManagementPolicy_STATUSARMGenerator returns a generator of ManagementPolicy_STATUSARM instances for property testing.
+// We first initialize managementPolicy_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagementPolicySTATUSARMGenerator() gopter.Gen {
-	if managementPolicySTATUSARMGenerator != nil {
-		return managementPolicySTATUSARMGenerator
+func ManagementPolicy_STATUSARMGenerator() gopter.Gen {
+	if managementPolicy_STATUSARMGenerator != nil {
+		return managementPolicy_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicySTATUSARM(generators)
-	managementPolicySTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicy_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicy_STATUSARM(generators)
+	managementPolicy_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicy_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicySTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagementPolicySTATUSARM(generators)
-	managementPolicySTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicy_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicy_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagementPolicy_STATUSARM(generators)
+	managementPolicy_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicy_STATUSARM{}), generators)
 
-	return managementPolicySTATUSARMGenerator
+	return managementPolicy_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagementPolicySTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicySTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagementPolicy_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagementPolicy_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicySTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicySTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ManagementPolicyPropertiesSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicy_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicy_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ManagementPolicyProperties_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,12 +102,12 @@ func Test_ManagementPolicyProperties_STATUSARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyPropertiesSTATUSARM, ManagementPolicyPropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyProperties_STATUSARM, ManagementPolicyProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyPropertiesSTATUSARM runs a test to see if a specific instance of ManagementPolicyProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyPropertiesSTATUSARM(subject ManagementPolicyProperties_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyProperties_STATUSARM runs a test to see if a specific instance of ManagementPolicyProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyProperties_STATUSARM(subject ManagementPolicyProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -134,39 +134,39 @@ func RunJSONSerializationTestForManagementPolicyPropertiesSTATUSARM(subject Mana
 }
 
 // Generator of ManagementPolicyProperties_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyPropertiesSTATUSARMGenerator()
-var managementPolicyPropertiesSTATUSARMGenerator gopter.Gen
+// ManagementPolicyProperties_STATUSARMGenerator()
+var managementPolicyProperties_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyPropertiesSTATUSARMGenerator returns a generator of ManagementPolicyProperties_STATUSARM instances for property testing.
-// We first initialize managementPolicyPropertiesSTATUSARMGenerator with a simplified generator based on the
+// ManagementPolicyProperties_STATUSARMGenerator returns a generator of ManagementPolicyProperties_STATUSARM instances for property testing.
+// We first initialize managementPolicyProperties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagementPolicyPropertiesSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyPropertiesSTATUSARMGenerator != nil {
-		return managementPolicyPropertiesSTATUSARMGenerator
+func ManagementPolicyProperties_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyProperties_STATUSARMGenerator != nil {
+		return managementPolicyProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM(generators)
-	managementPolicyPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyProperties_STATUSARM(generators)
+	managementPolicyProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyProperties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM(generators)
-	managementPolicyPropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyProperties_STATUSARM(generators)
+	managementPolicyProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyProperties_STATUSARM{}), generators)
 
-	return managementPolicyPropertiesSTATUSARMGenerator
+	return managementPolicyProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagementPolicyProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagementPolicyProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyPropertiesSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Policy"] = gen.PtrOf(ManagementPolicySchemaSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Policy"] = gen.PtrOf(ManagementPolicySchema_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicySchema_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -177,12 +177,12 @@ func Test_ManagementPolicySchema_STATUSARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicySchema_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicySchemaSTATUSARM, ManagementPolicySchemaSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicySchema_STATUSARM, ManagementPolicySchema_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicySchemaSTATUSARM runs a test to see if a specific instance of ManagementPolicySchema_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicySchemaSTATUSARM(subject ManagementPolicySchema_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicySchema_STATUSARM runs a test to see if a specific instance of ManagementPolicySchema_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicySchema_STATUSARM(subject ManagementPolicySchema_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -209,25 +209,25 @@ func RunJSONSerializationTestForManagementPolicySchemaSTATUSARM(subject Manageme
 }
 
 // Generator of ManagementPolicySchema_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicySchemaSTATUSARMGenerator()
-var managementPolicySchemaSTATUSARMGenerator gopter.Gen
+// ManagementPolicySchema_STATUSARMGenerator()
+var managementPolicySchema_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicySchemaSTATUSARMGenerator returns a generator of ManagementPolicySchema_STATUSARM instances for property testing.
-func ManagementPolicySchemaSTATUSARMGenerator() gopter.Gen {
-	if managementPolicySchemaSTATUSARMGenerator != nil {
-		return managementPolicySchemaSTATUSARMGenerator
+// ManagementPolicySchema_STATUSARMGenerator returns a generator of ManagementPolicySchema_STATUSARM instances for property testing.
+func ManagementPolicySchema_STATUSARMGenerator() gopter.Gen {
+	if managementPolicySchema_STATUSARMGenerator != nil {
+		return managementPolicySchema_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagementPolicySchemaSTATUSARM(generators)
-	managementPolicySchemaSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicySchema_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagementPolicySchema_STATUSARM(generators)
+	managementPolicySchema_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicySchema_STATUSARM{}), generators)
 
-	return managementPolicySchemaSTATUSARMGenerator
+	return managementPolicySchema_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicySchemaSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicySchemaSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(ManagementPolicyRuleSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicySchema_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicySchema_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Rules"] = gen.SliceOf(ManagementPolicyRule_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,12 +238,12 @@ func Test_ManagementPolicyRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqua
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyRule_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyRuleSTATUSARM, ManagementPolicyRuleSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyRule_STATUSARM, ManagementPolicyRule_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyRuleSTATUSARM runs a test to see if a specific instance of ManagementPolicyRule_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyRuleSTATUSARM(subject ManagementPolicyRule_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyRule_STATUSARM runs a test to see if a specific instance of ManagementPolicyRule_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyRule_STATUSARM(subject ManagementPolicyRule_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -270,41 +270,41 @@ func RunJSONSerializationTestForManagementPolicyRuleSTATUSARM(subject Management
 }
 
 // Generator of ManagementPolicyRule_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyRuleSTATUSARMGenerator()
-var managementPolicyRuleSTATUSARMGenerator gopter.Gen
+// ManagementPolicyRule_STATUSARMGenerator()
+var managementPolicyRule_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyRuleSTATUSARMGenerator returns a generator of ManagementPolicyRule_STATUSARM instances for property testing.
-// We first initialize managementPolicyRuleSTATUSARMGenerator with a simplified generator based on the
+// ManagementPolicyRule_STATUSARMGenerator returns a generator of ManagementPolicyRule_STATUSARM instances for property testing.
+// We first initialize managementPolicyRule_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagementPolicyRuleSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyRuleSTATUSARMGenerator != nil {
-		return managementPolicyRuleSTATUSARMGenerator
+func ManagementPolicyRule_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyRule_STATUSARMGenerator != nil {
+		return managementPolicyRule_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyRuleSTATUSARM(generators)
-	managementPolicyRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUSARM(generators)
+	managementPolicyRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyRule_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyRuleSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagementPolicyRuleSTATUSARM(generators)
-	managementPolicyRuleSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyRule_STATUSARM(generators)
+	managementPolicyRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyRule_STATUSARM{}), generators)
 
-	return managementPolicyRuleSTATUSARMGenerator
+	return managementPolicyRule_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagementPolicyRuleSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicyRuleSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRuleSTATUSType_Lifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRule_STATUS_Type_Lifecycle))
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyRuleSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyRuleSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Definition"] = gen.PtrOf(ManagementPolicyDefinitionSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyRule_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyRule_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Definition"] = gen.PtrOf(ManagementPolicyDefinition_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyDefinition_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -315,12 +315,12 @@ func Test_ManagementPolicyDefinition_STATUSARM_WhenSerializedToJson_Deserializes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyDefinition_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyDefinitionSTATUSARM, ManagementPolicyDefinitionSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyDefinition_STATUSARM, ManagementPolicyDefinition_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyDefinitionSTATUSARM runs a test to see if a specific instance of ManagementPolicyDefinition_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyDefinitionSTATUSARM(subject ManagementPolicyDefinition_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyDefinition_STATUSARM runs a test to see if a specific instance of ManagementPolicyDefinition_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyDefinition_STATUSARM(subject ManagementPolicyDefinition_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -347,26 +347,26 @@ func RunJSONSerializationTestForManagementPolicyDefinitionSTATUSARM(subject Mana
 }
 
 // Generator of ManagementPolicyDefinition_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyDefinitionSTATUSARMGenerator()
-var managementPolicyDefinitionSTATUSARMGenerator gopter.Gen
+// ManagementPolicyDefinition_STATUSARMGenerator()
+var managementPolicyDefinition_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyDefinitionSTATUSARMGenerator returns a generator of ManagementPolicyDefinition_STATUSARM instances for property testing.
-func ManagementPolicyDefinitionSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyDefinitionSTATUSARMGenerator != nil {
-		return managementPolicyDefinitionSTATUSARMGenerator
+// ManagementPolicyDefinition_STATUSARMGenerator returns a generator of ManagementPolicyDefinition_STATUSARM instances for property testing.
+func ManagementPolicyDefinition_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyDefinition_STATUSARMGenerator != nil {
+		return managementPolicyDefinition_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagementPolicyDefinitionSTATUSARM(generators)
-	managementPolicyDefinitionSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyDefinition_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyDefinition_STATUSARM(generators)
+	managementPolicyDefinition_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyDefinition_STATUSARM{}), generators)
 
-	return managementPolicyDefinitionSTATUSARMGenerator
+	return managementPolicyDefinition_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyDefinitionSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyDefinitionSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.PtrOf(ManagementPolicyActionSTATUSARMGenerator())
-	gens["Filters"] = gen.PtrOf(ManagementPolicyFilterSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyDefinition_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyDefinition_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Actions"] = gen.PtrOf(ManagementPolicyAction_STATUSARMGenerator())
+	gens["Filters"] = gen.PtrOf(ManagementPolicyFilter_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyAction_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -377,12 +377,12 @@ func Test_ManagementPolicyAction_STATUSARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyAction_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyActionSTATUSARM, ManagementPolicyActionSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyAction_STATUSARM, ManagementPolicyAction_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyActionSTATUSARM runs a test to see if a specific instance of ManagementPolicyAction_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyActionSTATUSARM(subject ManagementPolicyAction_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyAction_STATUSARM runs a test to see if a specific instance of ManagementPolicyAction_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyAction_STATUSARM(subject ManagementPolicyAction_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -409,27 +409,27 @@ func RunJSONSerializationTestForManagementPolicyActionSTATUSARM(subject Manageme
 }
 
 // Generator of ManagementPolicyAction_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyActionSTATUSARMGenerator()
-var managementPolicyActionSTATUSARMGenerator gopter.Gen
+// ManagementPolicyAction_STATUSARMGenerator()
+var managementPolicyAction_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyActionSTATUSARMGenerator returns a generator of ManagementPolicyAction_STATUSARM instances for property testing.
-func ManagementPolicyActionSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyActionSTATUSARMGenerator != nil {
-		return managementPolicyActionSTATUSARMGenerator
+// ManagementPolicyAction_STATUSARMGenerator returns a generator of ManagementPolicyAction_STATUSARM instances for property testing.
+func ManagementPolicyAction_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyAction_STATUSARMGenerator != nil {
+		return managementPolicyAction_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagementPolicyActionSTATUSARM(generators)
-	managementPolicyActionSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyAction_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyAction_STATUSARM(generators)
+	managementPolicyAction_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyAction_STATUSARM{}), generators)
 
-	return managementPolicyActionSTATUSARMGenerator
+	return managementPolicyAction_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyActionSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyActionSTATUSARM(gens map[string]gopter.Gen) {
-	gens["BaseBlob"] = gen.PtrOf(ManagementPolicyBaseBlobSTATUSARMGenerator())
-	gens["Snapshot"] = gen.PtrOf(ManagementPolicySnapShotSTATUSARMGenerator())
-	gens["Version"] = gen.PtrOf(ManagementPolicyVersionSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyAction_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyAction_STATUSARM(gens map[string]gopter.Gen) {
+	gens["BaseBlob"] = gen.PtrOf(ManagementPolicyBaseBlob_STATUSARMGenerator())
+	gens["Snapshot"] = gen.PtrOf(ManagementPolicySnapShot_STATUSARMGenerator())
+	gens["Version"] = gen.PtrOf(ManagementPolicyVersion_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyFilter_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -440,12 +440,12 @@ func Test_ManagementPolicyFilter_STATUSARM_WhenSerializedToJson_DeserializesAsEq
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyFilter_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyFilterSTATUSARM, ManagementPolicyFilterSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyFilter_STATUSARM, ManagementPolicyFilter_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyFilterSTATUSARM runs a test to see if a specific instance of ManagementPolicyFilter_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyFilterSTATUSARM(subject ManagementPolicyFilter_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyFilter_STATUSARM runs a test to see if a specific instance of ManagementPolicyFilter_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyFilter_STATUSARM(subject ManagementPolicyFilter_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -472,40 +472,40 @@ func RunJSONSerializationTestForManagementPolicyFilterSTATUSARM(subject Manageme
 }
 
 // Generator of ManagementPolicyFilter_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyFilterSTATUSARMGenerator()
-var managementPolicyFilterSTATUSARMGenerator gopter.Gen
+// ManagementPolicyFilter_STATUSARMGenerator()
+var managementPolicyFilter_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyFilterSTATUSARMGenerator returns a generator of ManagementPolicyFilter_STATUSARM instances for property testing.
-// We first initialize managementPolicyFilterSTATUSARMGenerator with a simplified generator based on the
+// ManagementPolicyFilter_STATUSARMGenerator returns a generator of ManagementPolicyFilter_STATUSARM instances for property testing.
+// We first initialize managementPolicyFilter_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagementPolicyFilterSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyFilterSTATUSARMGenerator != nil {
-		return managementPolicyFilterSTATUSARMGenerator
+func ManagementPolicyFilter_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyFilter_STATUSARMGenerator != nil {
+		return managementPolicyFilter_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyFilterSTATUSARM(generators)
-	managementPolicyFilterSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyFilter_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyFilter_STATUSARM(generators)
+	managementPolicyFilter_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyFilter_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyFilterSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagementPolicyFilterSTATUSARM(generators)
-	managementPolicyFilterSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyFilter_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyFilter_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyFilter_STATUSARM(generators)
+	managementPolicyFilter_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyFilter_STATUSARM{}), generators)
 
-	return managementPolicyFilterSTATUSARMGenerator
+	return managementPolicyFilter_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagementPolicyFilterSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicyFilterSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagementPolicyFilter_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagementPolicyFilter_STATUSARM(gens map[string]gopter.Gen) {
 	gens["BlobTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["PrefixMatch"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyFilterSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyFilterSTATUSARM(gens map[string]gopter.Gen) {
-	gens["BlobIndexMatch"] = gen.SliceOf(TagFilterSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyFilter_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyFilter_STATUSARM(gens map[string]gopter.Gen) {
+	gens["BlobIndexMatch"] = gen.SliceOf(TagFilter_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyBaseBlob_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -516,12 +516,12 @@ func Test_ManagementPolicyBaseBlob_STATUSARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyBaseBlob_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyBaseBlobSTATUSARM, ManagementPolicyBaseBlobSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyBaseBlob_STATUSARM, ManagementPolicyBaseBlob_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyBaseBlobSTATUSARM runs a test to see if a specific instance of ManagementPolicyBaseBlob_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyBaseBlobSTATUSARM(subject ManagementPolicyBaseBlob_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyBaseBlob_STATUSARM runs a test to see if a specific instance of ManagementPolicyBaseBlob_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyBaseBlob_STATUSARM(subject ManagementPolicyBaseBlob_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -548,41 +548,41 @@ func RunJSONSerializationTestForManagementPolicyBaseBlobSTATUSARM(subject Manage
 }
 
 // Generator of ManagementPolicyBaseBlob_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyBaseBlobSTATUSARMGenerator()
-var managementPolicyBaseBlobSTATUSARMGenerator gopter.Gen
+// ManagementPolicyBaseBlob_STATUSARMGenerator()
+var managementPolicyBaseBlob_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyBaseBlobSTATUSARMGenerator returns a generator of ManagementPolicyBaseBlob_STATUSARM instances for property testing.
-// We first initialize managementPolicyBaseBlobSTATUSARMGenerator with a simplified generator based on the
+// ManagementPolicyBaseBlob_STATUSARMGenerator returns a generator of ManagementPolicyBaseBlob_STATUSARM instances for property testing.
+// We first initialize managementPolicyBaseBlob_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagementPolicyBaseBlobSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyBaseBlobSTATUSARMGenerator != nil {
-		return managementPolicyBaseBlobSTATUSARMGenerator
+func ManagementPolicyBaseBlob_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyBaseBlob_STATUSARMGenerator != nil {
+		return managementPolicyBaseBlob_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM(generators)
-	managementPolicyBaseBlobSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyBaseBlob_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM(generators)
+	managementPolicyBaseBlob_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyBaseBlob_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM(generators)
-	managementPolicyBaseBlobSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyBaseBlob_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM(generators)
+	managementPolicyBaseBlob_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyBaseBlob_STATUSARM{}), generators)
 
-	return managementPolicyBaseBlobSTATUSARMGenerator
+	return managementPolicyBaseBlob_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EnableAutoTierToHotFromCool"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyBaseBlobSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Delete"] = gen.PtrOf(DateAfterModificationSTATUSARMGenerator())
-	gens["TierToArchive"] = gen.PtrOf(DateAfterModificationSTATUSARMGenerator())
-	gens["TierToCool"] = gen.PtrOf(DateAfterModificationSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyBaseBlob_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Delete"] = gen.PtrOf(DateAfterModification_STATUSARMGenerator())
+	gens["TierToArchive"] = gen.PtrOf(DateAfterModification_STATUSARMGenerator())
+	gens["TierToCool"] = gen.PtrOf(DateAfterModification_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicySnapShot_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -593,12 +593,12 @@ func Test_ManagementPolicySnapShot_STATUSARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicySnapShot_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicySnapShotSTATUSARM, ManagementPolicySnapShotSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicySnapShot_STATUSARM, ManagementPolicySnapShot_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicySnapShotSTATUSARM runs a test to see if a specific instance of ManagementPolicySnapShot_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicySnapShotSTATUSARM(subject ManagementPolicySnapShot_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicySnapShot_STATUSARM runs a test to see if a specific instance of ManagementPolicySnapShot_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicySnapShot_STATUSARM(subject ManagementPolicySnapShot_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -625,27 +625,27 @@ func RunJSONSerializationTestForManagementPolicySnapShotSTATUSARM(subject Manage
 }
 
 // Generator of ManagementPolicySnapShot_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicySnapShotSTATUSARMGenerator()
-var managementPolicySnapShotSTATUSARMGenerator gopter.Gen
+// ManagementPolicySnapShot_STATUSARMGenerator()
+var managementPolicySnapShot_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicySnapShotSTATUSARMGenerator returns a generator of ManagementPolicySnapShot_STATUSARM instances for property testing.
-func ManagementPolicySnapShotSTATUSARMGenerator() gopter.Gen {
-	if managementPolicySnapShotSTATUSARMGenerator != nil {
-		return managementPolicySnapShotSTATUSARMGenerator
+// ManagementPolicySnapShot_STATUSARMGenerator returns a generator of ManagementPolicySnapShot_STATUSARM instances for property testing.
+func ManagementPolicySnapShot_STATUSARMGenerator() gopter.Gen {
+	if managementPolicySnapShot_STATUSARMGenerator != nil {
+		return managementPolicySnapShot_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagementPolicySnapShotSTATUSARM(generators)
-	managementPolicySnapShotSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicySnapShot_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagementPolicySnapShot_STATUSARM(generators)
+	managementPolicySnapShot_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicySnapShot_STATUSARM{}), generators)
 
-	return managementPolicySnapShotSTATUSARMGenerator
+	return managementPolicySnapShot_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicySnapShotSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicySnapShotSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Delete"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
-	gens["TierToArchive"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
-	gens["TierToCool"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicySnapShot_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicySnapShot_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Delete"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
+	gens["TierToArchive"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
+	gens["TierToCool"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
 }
 
 func Test_ManagementPolicyVersion_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -656,12 +656,12 @@ func Test_ManagementPolicyVersion_STATUSARM_WhenSerializedToJson_DeserializesAsE
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagementPolicyVersion_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagementPolicyVersionSTATUSARM, ManagementPolicyVersionSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagementPolicyVersion_STATUSARM, ManagementPolicyVersion_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagementPolicyVersionSTATUSARM runs a test to see if a specific instance of ManagementPolicyVersion_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagementPolicyVersionSTATUSARM(subject ManagementPolicyVersion_STATUSARM) string {
+// RunJSONSerializationTestForManagementPolicyVersion_STATUSARM runs a test to see if a specific instance of ManagementPolicyVersion_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagementPolicyVersion_STATUSARM(subject ManagementPolicyVersion_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -688,27 +688,27 @@ func RunJSONSerializationTestForManagementPolicyVersionSTATUSARM(subject Managem
 }
 
 // Generator of ManagementPolicyVersion_STATUSARM instances for property testing - lazily instantiated by
-// ManagementPolicyVersionSTATUSARMGenerator()
-var managementPolicyVersionSTATUSARMGenerator gopter.Gen
+// ManagementPolicyVersion_STATUSARMGenerator()
+var managementPolicyVersion_STATUSARMGenerator gopter.Gen
 
-// ManagementPolicyVersionSTATUSARMGenerator returns a generator of ManagementPolicyVersion_STATUSARM instances for property testing.
-func ManagementPolicyVersionSTATUSARMGenerator() gopter.Gen {
-	if managementPolicyVersionSTATUSARMGenerator != nil {
-		return managementPolicyVersionSTATUSARMGenerator
+// ManagementPolicyVersion_STATUSARMGenerator returns a generator of ManagementPolicyVersion_STATUSARM instances for property testing.
+func ManagementPolicyVersion_STATUSARMGenerator() gopter.Gen {
+	if managementPolicyVersion_STATUSARMGenerator != nil {
+		return managementPolicyVersion_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagementPolicyVersionSTATUSARM(generators)
-	managementPolicyVersionSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyVersion_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagementPolicyVersion_STATUSARM(generators)
+	managementPolicyVersion_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyVersion_STATUSARM{}), generators)
 
-	return managementPolicyVersionSTATUSARMGenerator
+	return managementPolicyVersion_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagementPolicyVersionSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagementPolicyVersionSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Delete"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
-	gens["TierToArchive"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
-	gens["TierToCool"] = gen.PtrOf(DateAfterCreationSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagementPolicyVersion_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagementPolicyVersion_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Delete"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
+	gens["TierToArchive"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
+	gens["TierToCool"] = gen.PtrOf(DateAfterCreation_STATUSARMGenerator())
 }
 
 func Test_TagFilter_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -719,12 +719,12 @@ func Test_TagFilter_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TagFilter_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTagFilterSTATUSARM, TagFilterSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForTagFilter_STATUSARM, TagFilter_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTagFilterSTATUSARM runs a test to see if a specific instance of TagFilter_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForTagFilterSTATUSARM(subject TagFilter_STATUSARM) string {
+// RunJSONSerializationTestForTagFilter_STATUSARM runs a test to see if a specific instance of TagFilter_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForTagFilter_STATUSARM(subject TagFilter_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -750,24 +750,25 @@ func RunJSONSerializationTestForTagFilterSTATUSARM(subject TagFilter_STATUSARM) 
 	return ""
 }
 
-// Generator of TagFilter_STATUSARM instances for property testing - lazily instantiated by TagFilterSTATUSARMGenerator()
-var tagFilterSTATUSARMGenerator gopter.Gen
+// Generator of TagFilter_STATUSARM instances for property testing - lazily instantiated by
+// TagFilter_STATUSARMGenerator()
+var tagFilter_STATUSARMGenerator gopter.Gen
 
-// TagFilterSTATUSARMGenerator returns a generator of TagFilter_STATUSARM instances for property testing.
-func TagFilterSTATUSARMGenerator() gopter.Gen {
-	if tagFilterSTATUSARMGenerator != nil {
-		return tagFilterSTATUSARMGenerator
+// TagFilter_STATUSARMGenerator returns a generator of TagFilter_STATUSARM instances for property testing.
+func TagFilter_STATUSARMGenerator() gopter.Gen {
+	if tagFilter_STATUSARMGenerator != nil {
+		return tagFilter_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTagFilterSTATUSARM(generators)
-	tagFilterSTATUSARMGenerator = gen.Struct(reflect.TypeOf(TagFilter_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForTagFilter_STATUSARM(generators)
+	tagFilter_STATUSARMGenerator = gen.Struct(reflect.TypeOf(TagFilter_STATUSARM{}), generators)
 
-	return tagFilterSTATUSARMGenerator
+	return tagFilter_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTagFilterSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTagFilterSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTagFilter_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTagFilter_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Op"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
@@ -781,12 +782,12 @@ func Test_DateAfterCreation_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DateAfterCreation_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDateAfterCreationSTATUSARM, DateAfterCreationSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDateAfterCreation_STATUSARM, DateAfterCreation_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDateAfterCreationSTATUSARM runs a test to see if a specific instance of DateAfterCreation_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDateAfterCreationSTATUSARM(subject DateAfterCreation_STATUSARM) string {
+// RunJSONSerializationTestForDateAfterCreation_STATUSARM runs a test to see if a specific instance of DateAfterCreation_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDateAfterCreation_STATUSARM(subject DateAfterCreation_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -813,24 +814,24 @@ func RunJSONSerializationTestForDateAfterCreationSTATUSARM(subject DateAfterCrea
 }
 
 // Generator of DateAfterCreation_STATUSARM instances for property testing - lazily instantiated by
-// DateAfterCreationSTATUSARMGenerator()
-var dateAfterCreationSTATUSARMGenerator gopter.Gen
+// DateAfterCreation_STATUSARMGenerator()
+var dateAfterCreation_STATUSARMGenerator gopter.Gen
 
-// DateAfterCreationSTATUSARMGenerator returns a generator of DateAfterCreation_STATUSARM instances for property testing.
-func DateAfterCreationSTATUSARMGenerator() gopter.Gen {
-	if dateAfterCreationSTATUSARMGenerator != nil {
-		return dateAfterCreationSTATUSARMGenerator
+// DateAfterCreation_STATUSARMGenerator returns a generator of DateAfterCreation_STATUSARM instances for property testing.
+func DateAfterCreation_STATUSARMGenerator() gopter.Gen {
+	if dateAfterCreation_STATUSARMGenerator != nil {
+		return dateAfterCreation_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDateAfterCreationSTATUSARM(generators)
-	dateAfterCreationSTATUSARMGenerator = gen.Struct(reflect.TypeOf(DateAfterCreation_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDateAfterCreation_STATUSARM(generators)
+	dateAfterCreation_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DateAfterCreation_STATUSARM{}), generators)
 
-	return dateAfterCreationSTATUSARMGenerator
+	return dateAfterCreation_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDateAfterCreationSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDateAfterCreationSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDateAfterCreation_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDateAfterCreation_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DaysAfterCreationGreaterThan"] = gen.PtrOf(gen.Float64())
 }
 
@@ -842,12 +843,12 @@ func Test_DateAfterModification_STATUSARM_WhenSerializedToJson_DeserializesAsEqu
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DateAfterModification_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDateAfterModificationSTATUSARM, DateAfterModificationSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForDateAfterModification_STATUSARM, DateAfterModification_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDateAfterModificationSTATUSARM runs a test to see if a specific instance of DateAfterModification_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDateAfterModificationSTATUSARM(subject DateAfterModification_STATUSARM) string {
+// RunJSONSerializationTestForDateAfterModification_STATUSARM runs a test to see if a specific instance of DateAfterModification_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDateAfterModification_STATUSARM(subject DateAfterModification_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -874,24 +875,24 @@ func RunJSONSerializationTestForDateAfterModificationSTATUSARM(subject DateAfter
 }
 
 // Generator of DateAfterModification_STATUSARM instances for property testing - lazily instantiated by
-// DateAfterModificationSTATUSARMGenerator()
-var dateAfterModificationSTATUSARMGenerator gopter.Gen
+// DateAfterModification_STATUSARMGenerator()
+var dateAfterModification_STATUSARMGenerator gopter.Gen
 
-// DateAfterModificationSTATUSARMGenerator returns a generator of DateAfterModification_STATUSARM instances for property testing.
-func DateAfterModificationSTATUSARMGenerator() gopter.Gen {
-	if dateAfterModificationSTATUSARMGenerator != nil {
-		return dateAfterModificationSTATUSARMGenerator
+// DateAfterModification_STATUSARMGenerator returns a generator of DateAfterModification_STATUSARM instances for property testing.
+func DateAfterModification_STATUSARMGenerator() gopter.Gen {
+	if dateAfterModification_STATUSARMGenerator != nil {
+		return dateAfterModification_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDateAfterModificationSTATUSARM(generators)
-	dateAfterModificationSTATUSARMGenerator = gen.Struct(reflect.TypeOf(DateAfterModification_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDateAfterModification_STATUSARM(generators)
+	dateAfterModification_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DateAfterModification_STATUSARM{}), generators)
 
-	return dateAfterModificationSTATUSARMGenerator
+	return dateAfterModification_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDateAfterModificationSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDateAfterModificationSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDateAfterModification_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDateAfterModification_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DaysAfterLastAccessTimeGreaterThan"] = gen.PtrOf(gen.Float64())
 	gens["DaysAfterModificationGreaterThan"] = gen.PtrOf(gen.Float64())
 }

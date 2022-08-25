@@ -67,7 +67,7 @@ func Test_WorkspacesConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WorkspacesConnection to WorkspacesConnection via AssignPropertiesToWorkspacesConnection & AssignPropertiesFromWorkspacesConnection returns original",
+		"Round trip from WorkspacesConnection to WorkspacesConnection via AssignProperties_To_WorkspacesConnection & AssignProperties_From_WorkspacesConnection returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWorkspacesConnection, WorkspacesConnectionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForWorkspacesConnection(subject WorkspacesConnecti
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.WorkspacesConnection
-	err := copied.AssignPropertiesToWorkspacesConnection(&other)
+	err := copied.AssignProperties_To_WorkspacesConnection(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WorkspacesConnection
-	err = actual.AssignPropertiesFromWorkspacesConnection(&other)
+	err = actual.AssignProperties_From_WorkspacesConnection(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -161,8 +161,8 @@ func WorkspacesConnectionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWorkspacesConnection is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesConnection(gens map[string]gopter.Gen) {
-	gens["Spec"] = WorkspacesConnectionsSpecGenerator()
-	gens["Status"] = WorkspaceConnectionSTATUSGenerator()
+	gens["Spec"] = Workspaces_Connections_SpecGenerator()
+	gens["Status"] = WorkspaceConnection_STATUSGenerator()
 }
 
 func Test_WorkspaceConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -171,26 +171,26 @@ func Test_WorkspaceConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WorkspaceConnection_STATUS to WorkspaceConnection_STATUS via AssignPropertiesToWorkspaceConnectionSTATUS & AssignPropertiesFromWorkspaceConnectionSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaceConnectionSTATUS, WorkspaceConnectionSTATUSGenerator()))
+		"Round trip from WorkspaceConnection_STATUS to WorkspaceConnection_STATUS via AssignProperties_To_WorkspaceConnection_STATUS & AssignProperties_From_WorkspaceConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaceConnection_STATUS, WorkspaceConnection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceConnectionSTATUS tests if a specific instance of WorkspaceConnection_STATUS can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaceConnectionSTATUS(subject WorkspaceConnection_STATUS) string {
+// RunPropertyAssignmentTestForWorkspaceConnection_STATUS tests if a specific instance of WorkspaceConnection_STATUS can be assigned to v1beta20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaceConnection_STATUS(subject WorkspaceConnection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.WorkspaceConnection_STATUS
-	err := copied.AssignPropertiesToWorkspaceConnectionSTATUS(&other)
+	err := copied.AssignProperties_To_WorkspaceConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WorkspaceConnection_STATUS
-	err = actual.AssignPropertiesFromWorkspaceConnectionSTATUS(&other)
+	err = actual.AssignProperties_From_WorkspaceConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -215,12 +215,12 @@ func Test_WorkspaceConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaceConnectionSTATUS, WorkspaceConnectionSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForWorkspaceConnection_STATUS, WorkspaceConnection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaceConnectionSTATUS runs a test to see if a specific instance of WorkspaceConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaceConnectionSTATUS(subject WorkspaceConnection_STATUS) string {
+// RunJSONSerializationTestForWorkspaceConnection_STATUS runs a test to see if a specific instance of WorkspaceConnection_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaceConnection_STATUS(subject WorkspaceConnection_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -247,24 +247,24 @@ func RunJSONSerializationTestForWorkspaceConnectionSTATUS(subject WorkspaceConne
 }
 
 // Generator of WorkspaceConnection_STATUS instances for property testing - lazily instantiated by
-// WorkspaceConnectionSTATUSGenerator()
-var workspaceConnectionSTATUSGenerator gopter.Gen
+// WorkspaceConnection_STATUSGenerator()
+var workspaceConnection_STATUSGenerator gopter.Gen
 
-// WorkspaceConnectionSTATUSGenerator returns a generator of WorkspaceConnection_STATUS instances for property testing.
-func WorkspaceConnectionSTATUSGenerator() gopter.Gen {
-	if workspaceConnectionSTATUSGenerator != nil {
-		return workspaceConnectionSTATUSGenerator
+// WorkspaceConnection_STATUSGenerator returns a generator of WorkspaceConnection_STATUS instances for property testing.
+func WorkspaceConnection_STATUSGenerator() gopter.Gen {
+	if workspaceConnection_STATUSGenerator != nil {
+		return workspaceConnection_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUS(generators)
-	workspaceConnectionSTATUSGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUS(generators)
+	workspaceConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnection_STATUS{}), generators)
 
-	return workspaceConnectionSTATUSGenerator
+	return workspaceConnection_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaceConnection_STATUS(gens map[string]gopter.Gen) {
 	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -272,35 +272,35 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionSTATUS(gens map[strin
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsSTATUSValueFormat_JSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_STATUS_ValueFormat_JSON))
 }
 
-func Test_WorkspacesConnections_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Workspaces_Connections_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WorkspacesConnections_Spec to WorkspacesConnections_Spec via AssignPropertiesToWorkspacesConnectionsSpec & AssignPropertiesFromWorkspacesConnectionsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspacesConnectionsSpec, WorkspacesConnectionsSpecGenerator()))
+		"Round trip from Workspaces_Connections_Spec to Workspaces_Connections_Spec via AssignProperties_To_Workspaces_Connections_Spec & AssignProperties_From_Workspaces_Connections_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Connections_Spec, Workspaces_Connections_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspacesConnectionsSpec tests if a specific instance of WorkspacesConnections_Spec can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspacesConnectionsSpec(subject WorkspacesConnections_Spec) string {
+// RunPropertyAssignmentTestForWorkspaces_Connections_Spec tests if a specific instance of Workspaces_Connections_Spec can be assigned to v1beta20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaces_Connections_Spec(subject Workspaces_Connections_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.WorkspacesConnections_Spec
-	err := copied.AssignPropertiesToWorkspacesConnectionsSpec(&other)
+	var other v20210701s.Workspaces_Connections_Spec
+	err := copied.AssignProperties_To_Workspaces_Connections_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WorkspacesConnections_Spec
-	err = actual.AssignPropertiesFromWorkspacesConnectionsSpec(&other)
+	var actual Workspaces_Connections_Spec
+	err = actual.AssignProperties_From_Workspaces_Connections_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -317,20 +317,20 @@ func RunPropertyAssignmentTestForWorkspacesConnectionsSpec(subject WorkspacesCon
 	return ""
 }
 
-func Test_WorkspacesConnections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Workspaces_Connections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WorkspacesConnections_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesConnectionsSpec, WorkspacesConnectionsSpecGenerator()))
+		"Round trip of Workspaces_Connections_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaces_Connections_Spec, Workspaces_Connections_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspacesConnectionsSpec runs a test to see if a specific instance of WorkspacesConnections_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesConnectionsSpec(subject WorkspacesConnections_Spec) string {
+// RunJSONSerializationTestForWorkspaces_Connections_Spec runs a test to see if a specific instance of Workspaces_Connections_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaces_Connections_Spec(subject Workspaces_Connections_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -338,7 +338,7 @@ func RunJSONSerializationTestForWorkspacesConnectionsSpec(subject WorkspacesConn
 	}
 
 	// Deserialize back into memory
-	var actual WorkspacesConnections_Spec
+	var actual Workspaces_Connections_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -356,25 +356,25 @@ func RunJSONSerializationTestForWorkspacesConnectionsSpec(subject WorkspacesConn
 	return ""
 }
 
-// Generator of WorkspacesConnections_Spec instances for property testing - lazily instantiated by
-// WorkspacesConnectionsSpecGenerator()
-var workspacesConnectionsSpecGenerator gopter.Gen
+// Generator of Workspaces_Connections_Spec instances for property testing - lazily instantiated by
+// Workspaces_Connections_SpecGenerator()
+var workspaces_Connections_SpecGenerator gopter.Gen
 
-// WorkspacesConnectionsSpecGenerator returns a generator of WorkspacesConnections_Spec instances for property testing.
-func WorkspacesConnectionsSpecGenerator() gopter.Gen {
-	if workspacesConnectionsSpecGenerator != nil {
-		return workspacesConnectionsSpecGenerator
+// Workspaces_Connections_SpecGenerator returns a generator of Workspaces_Connections_Spec instances for property testing.
+func Workspaces_Connections_SpecGenerator() gopter.Gen {
+	if workspaces_Connections_SpecGenerator != nil {
+		return workspaces_Connections_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesConnectionsSpec(generators)
-	workspacesConnectionsSpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesConnections_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec(generators)
+	workspaces_Connections_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Connections_Spec{}), generators)
 
-	return workspacesConnectionsSpecGenerator
+	return workspaces_Connections_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspacesConnectionsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspacesConnectionsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaces_Connections_Spec(gens map[string]gopter.Gen) {
 	gens["AuthType"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Category"] = gen.PtrOf(gen.AlphaString())
@@ -382,5 +382,5 @@ func AddIndependentPropertyGeneratorsForWorkspacesConnectionsSpec(gens map[strin
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionPropsValueFormat_JSON))
+	gens["ValueFormat"] = gen.PtrOf(gen.OneConstOf(WorkspaceConnectionProps_ValueFormat_JSON))
 }

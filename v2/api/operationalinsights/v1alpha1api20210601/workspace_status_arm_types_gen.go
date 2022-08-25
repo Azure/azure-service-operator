@@ -16,18 +16,18 @@ type Workspace_STATUSARM struct {
 
 // Deprecated version of WorkspaceProperties_STATUS. Use v1beta20210601.WorkspaceProperties_STATUS instead
 type WorkspaceProperties_STATUSARM struct {
-	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
-	CustomerId                      *string                                     `json:"customerId,omitempty"`
-	Features                        *WorkspaceFeatures_STATUSARM                `json:"features,omitempty"`
-	ForceCmkForQuery                *bool                                       `json:"forceCmkForQuery,omitempty"`
-	ModifiedDate                    *string                                     `json:"modifiedDate,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM       `json:"privateLinkScopedResources,omitempty"`
-	ProvisioningState               *WorkspacePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS             `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS             `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                                        `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_STATUSARM                     `json:"sku,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_STATUSARM                 `json:"workspaceCapping,omitempty"`
+	CreatedDate                     *string                                       `json:"createdDate,omitempty"`
+	CustomerId                      *string                                       `json:"customerId,omitempty"`
+	Features                        *WorkspaceFeatures_STATUSARM                  `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                                         `json:"forceCmkForQuery,omitempty"`
+	ModifiedDate                    *string                                       `json:"modifiedDate,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM         `json:"privateLinkScopedResources,omitempty"`
+	ProvisioningState               *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                          `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku_STATUSARM                       `json:"sku,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_STATUSARM                   `json:"workspaceCapping,omitempty"`
 }
 
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20210601.PrivateLinkScopedResource_STATUS instead
@@ -38,9 +38,9 @@ type PrivateLinkScopedResource_STATUSARM struct {
 
 // Deprecated version of WorkspaceCapping_STATUS. Use v1beta20210601.WorkspaceCapping_STATUS instead
 type WorkspaceCapping_STATUSARM struct {
-	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCappingSTATUSDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-	QuotaNextResetTime  *string                                    `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb        *float64                                     `json:"dailyQuotaGb,omitempty"`
+	DataIngestionStatus *WorkspaceCapping_STATUS_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+	QuotaNextResetTime  *string                                      `json:"quotaNextResetTime,omitempty"`
 }
 
 // Deprecated version of WorkspaceFeatures_STATUS. Use v1beta20210601.WorkspaceFeatures_STATUS instead
@@ -54,7 +54,7 @@ type WorkspaceFeatures_STATUSARM struct {
 
 // Deprecated version of WorkspaceSku_STATUS. Use v1beta20210601.WorkspaceSku_STATUS instead
 type WorkspaceSku_STATUSARM struct {
-	CapacityReservationLevel *WorkspaceSkuSTATUSCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSkuSTATUSName                     `json:"name,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_STATUS_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+	LastSkuUpdate            *string                                       `json:"lastSkuUpdate,omitempty"`
+	Name                     *WorkspaceSku_STATUS_Name                     `json:"name,omitempty"`
 }

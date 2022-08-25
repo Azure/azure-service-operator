@@ -20,8 +20,8 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	tls12 := cache.ClusterPropertiesMinimumTlsVersion_12
-	sku := cache.SkuName_EnterpriseE10
+	tls12 := cache.ClusterProperties_MinimumTlsVersion_12
+	sku := cache.Sku_Name_Enterprise_E10
 	redis := cache.RedisEnterprise{
 		ObjectMeta: tc.MakeObjectMeta("redisent"),
 		Spec: cache.RedisEnterprise_Spec{
@@ -80,16 +80,16 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 }
 
 func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
-	encrypted := cache.DatabasePropertiesClientProtocol_Encrypted
-	enterpriseCluster := cache.DatabasePropertiesClusteringPolicy_EnterpriseCluster
-	allKeysLRU := cache.DatabasePropertiesEvictionPolicy_AllKeysLRU
-	always := cache.PersistenceAofFrequency_Always
+	encrypted := cache.DatabaseProperties_ClientProtocol_Encrypted
+	enterpriseCluster := cache.DatabaseProperties_ClusteringPolicy_EnterpriseCluster
+	allKeysLRU := cache.DatabaseProperties_EvictionPolicy_AllKeysLRU
+	always := cache.Persistence_AofFrequency_Always
 
 	database := cache.RedisEnterpriseDatabase{
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterpriseDatabases_Spec{
+		Spec: cache.RedisEnterprise_Databases_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,
@@ -113,11 +113,11 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	tc.Expect(database.Status.Id).ToNot(BeNil())
 
 	old := database.DeepCopy()
-	oneSecond := cache.PersistenceAofFrequency_1S
+	oneSecond := cache.Persistence_AofFrequency_1S
 	database.Spec.Persistence.AofFrequency = &oneSecond
 	tc.PatchResourceAndWait(old, &database)
 
-	oneSecondStatus := cache.PersistenceSTATUSAofFrequency_1S
+	oneSecondStatus := cache.Persistence_STATUS_AofFrequency_1S
 	expectedPersistenceStatus := &cache.Persistence_STATUS{
 		AofEnabled:   to.BoolPtr(true),
 		AofFrequency: &oneSecondStatus,

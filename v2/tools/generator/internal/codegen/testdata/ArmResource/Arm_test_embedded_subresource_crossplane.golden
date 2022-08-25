@@ -94,13 +94,13 @@ type AProperties struct {
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BProperties struct {
-	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
+	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Qux"}
-type BPropertiesEnumField string
+type BProperties_EnumField string
 
-const BPropertiesEnumField_Qux = BPropertiesEnumField("Qux")
+const BProperties_EnumField_Qux = BProperties_EnumField("Qux")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
 type BResource struct {

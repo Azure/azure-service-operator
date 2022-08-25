@@ -349,7 +349,7 @@ func (in *ContainerGroupIdentity) DeepCopyInto(out *ContainerGroupIdentity) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ContainerGroupIdentityType)
+		*out = new(ContainerGroupIdentity_Type)
 		**out = **in
 	}
 }
@@ -369,7 +369,7 @@ func (in *ContainerGroupIdentityARM) DeepCopyInto(out *ContainerGroupIdentityARM
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ContainerGroupIdentityType)
+		*out = new(ContainerGroupIdentity_Type)
 		**out = **in
 	}
 }
@@ -399,7 +399,7 @@ func (in *ContainerGroupIdentity_STATUS) DeepCopyInto(out *ContainerGroupIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ContainerGroupIdentitySTATUSType)
+		*out = new(ContainerGroupIdentity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -436,7 +436,7 @@ func (in *ContainerGroupIdentity_STATUSARM) DeepCopyInto(out *ContainerGroupIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ContainerGroupIdentitySTATUSType)
+		*out = new(ContainerGroupIdentity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -718,7 +718,7 @@ func (in *ContainerGroup_STATUS) DeepCopyInto(out *ContainerGroup_STATUS) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ContainerGroupSTATUSPropertiesOsType)
+		*out = new(ContainerGroup_STATUS_Properties_OsType)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -728,7 +728,7 @@ func (in *ContainerGroup_STATUS) DeepCopyInto(out *ContainerGroup_STATUS) {
 	}
 	if in.RestartPolicy != nil {
 		in, out := &in.RestartPolicy, &out.RestartPolicy
-		*out = new(ContainerGroupSTATUSPropertiesRestartPolicy)
+		*out = new(ContainerGroup_STATUS_Properties_RestartPolicy)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -887,7 +887,7 @@ func (in *ContainerGroup_STATUS_PropertiesARM) DeepCopyInto(out *ContainerGroup_
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ContainerGroupSTATUSPropertiesOsType)
+		*out = new(ContainerGroup_STATUS_Properties_OsType)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -897,7 +897,7 @@ func (in *ContainerGroup_STATUS_PropertiesARM) DeepCopyInto(out *ContainerGroup_
 	}
 	if in.RestartPolicy != nil {
 		in, out := &in.RestartPolicy, &out.RestartPolicy
-		*out = new(ContainerGroupSTATUSPropertiesRestartPolicy)
+		*out = new(ContainerGroup_STATUS_Properties_RestartPolicy)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1041,7 +1041,7 @@ func (in *ContainerGroups_Spec) DeepCopyInto(out *ContainerGroups_Spec) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ContainerGroupsSpecPropertiesOsType)
+		*out = new(ContainerGroups_Spec_Properties_OsType)
 		**out = **in
 	}
 	if in.Owner != nil {
@@ -1051,12 +1051,12 @@ func (in *ContainerGroups_Spec) DeepCopyInto(out *ContainerGroups_Spec) {
 	}
 	if in.RestartPolicy != nil {
 		in, out := &in.RestartPolicy, &out.RestartPolicy
-		*out = new(ContainerGroupsSpecPropertiesRestartPolicy)
+		*out = new(ContainerGroups_Spec_Properties_RestartPolicy)
 		**out = **in
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(ContainerGroupsSpecPropertiesSku)
+		*out = new(ContainerGroups_Spec_Properties_Sku)
 		**out = **in
 	}
 	if in.SubnetIds != nil {
@@ -1185,17 +1185,17 @@ func (in *ContainerGroups_Spec_PropertiesARM) DeepCopyInto(out *ContainerGroups_
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ContainerGroupsSpecPropertiesOsType)
+		*out = new(ContainerGroups_Spec_Properties_OsType)
 		**out = **in
 	}
 	if in.RestartPolicy != nil {
 		in, out := &in.RestartPolicy, &out.RestartPolicy
-		*out = new(ContainerGroupsSpecPropertiesRestartPolicy)
+		*out = new(ContainerGroups_Spec_Properties_RestartPolicy)
 		**out = **in
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(ContainerGroupsSpecPropertiesSku)
+		*out = new(ContainerGroups_Spec_Properties_Sku)
 		**out = **in
 	}
 	if in.SubnetIds != nil {
@@ -1486,7 +1486,7 @@ func (in *ContainerHttpGet) DeepCopyInto(out *ContainerHttpGet) {
 	}
 	if in.Scheme != nil {
 		in, out := &in.Scheme, &out.Scheme
-		*out = new(ContainerHttpGetScheme)
+		*out = new(ContainerHttpGet_Scheme)
 		**out = **in
 	}
 }
@@ -1523,7 +1523,7 @@ func (in *ContainerHttpGetARM) DeepCopyInto(out *ContainerHttpGetARM) {
 	}
 	if in.Scheme != nil {
 		in, out := &in.Scheme, &out.Scheme
-		*out = new(ContainerHttpGetScheme)
+		*out = new(ContainerHttpGet_Scheme)
 		**out = **in
 	}
 }
@@ -1560,7 +1560,7 @@ func (in *ContainerHttpGet_STATUS) DeepCopyInto(out *ContainerHttpGet_STATUS) {
 	}
 	if in.Scheme != nil {
 		in, out := &in.Scheme, &out.Scheme
-		*out = new(ContainerHttpGetSTATUSScheme)
+		*out = new(ContainerHttpGet_STATUS_Scheme)
 		**out = **in
 	}
 }
@@ -1597,7 +1597,7 @@ func (in *ContainerHttpGet_STATUSARM) DeepCopyInto(out *ContainerHttpGet_STATUSA
 	}
 	if in.Scheme != nil {
 		in, out := &in.Scheme, &out.Scheme
-		*out = new(ContainerHttpGetSTATUSScheme)
+		*out = new(ContainerHttpGet_STATUS_Scheme)
 		**out = **in
 	}
 }
@@ -1622,7 +1622,7 @@ func (in *ContainerPort) DeepCopyInto(out *ContainerPort) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ContainerPortProtocol)
+		*out = new(ContainerPort_Protocol)
 		**out = **in
 	}
 }
@@ -1647,7 +1647,7 @@ func (in *ContainerPortARM) DeepCopyInto(out *ContainerPortARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ContainerPortProtocol)
+		*out = new(ContainerPort_Protocol)
 		**out = **in
 	}
 }
@@ -1672,7 +1672,7 @@ func (in *ContainerPort_STATUS) DeepCopyInto(out *ContainerPort_STATUS) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ContainerPortSTATUSProtocol)
+		*out = new(ContainerPort_STATUS_Protocol)
 		**out = **in
 	}
 }
@@ -1697,7 +1697,7 @@ func (in *ContainerPort_STATUSARM) DeepCopyInto(out *ContainerPort_STATUSARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ContainerPortSTATUSProtocol)
+		*out = new(ContainerPort_STATUS_Protocol)
 		**out = **in
 	}
 }
@@ -2869,7 +2869,7 @@ func (in *GpuResource) DeepCopyInto(out *GpuResource) {
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(GpuResourceSku)
+		*out = new(GpuResource_Sku)
 		**out = **in
 	}
 }
@@ -2894,7 +2894,7 @@ func (in *GpuResourceARM) DeepCopyInto(out *GpuResourceARM) {
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(GpuResourceSku)
+		*out = new(GpuResource_Sku)
 		**out = **in
 	}
 }
@@ -2919,7 +2919,7 @@ func (in *GpuResource_STATUS) DeepCopyInto(out *GpuResource_STATUS) {
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(GpuResourceSTATUSSku)
+		*out = new(GpuResource_STATUS_Sku)
 		**out = **in
 	}
 }
@@ -2944,7 +2944,7 @@ func (in *GpuResource_STATUSARM) DeepCopyInto(out *GpuResource_STATUSARM) {
 	}
 	if in.Sku != nil {
 		in, out := &in.Sku, &out.Sku
-		*out = new(GpuResourceSTATUSSku)
+		*out = new(GpuResource_STATUS_Sku)
 		**out = **in
 	}
 }
@@ -3370,7 +3370,7 @@ func (in *IpAddress) DeepCopyInto(out *IpAddress) {
 	}
 	if in.DnsNameLabelReusePolicy != nil {
 		in, out := &in.DnsNameLabelReusePolicy, &out.DnsNameLabelReusePolicy
-		*out = new(IpAddressDnsNameLabelReusePolicy)
+		*out = new(IpAddress_DnsNameLabelReusePolicy)
 		**out = **in
 	}
 	if in.Ip != nil {
@@ -3387,7 +3387,7 @@ func (in *IpAddress) DeepCopyInto(out *IpAddress) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IpAddressType)
+		*out = new(IpAddress_Type)
 		**out = **in
 	}
 }
@@ -3412,7 +3412,7 @@ func (in *IpAddressARM) DeepCopyInto(out *IpAddressARM) {
 	}
 	if in.DnsNameLabelReusePolicy != nil {
 		in, out := &in.DnsNameLabelReusePolicy, &out.DnsNameLabelReusePolicy
-		*out = new(IpAddressDnsNameLabelReusePolicy)
+		*out = new(IpAddress_DnsNameLabelReusePolicy)
 		**out = **in
 	}
 	if in.Ip != nil {
@@ -3429,7 +3429,7 @@ func (in *IpAddressARM) DeepCopyInto(out *IpAddressARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IpAddressType)
+		*out = new(IpAddress_Type)
 		**out = **in
 	}
 }
@@ -3454,7 +3454,7 @@ func (in *IpAddress_STATUS) DeepCopyInto(out *IpAddress_STATUS) {
 	}
 	if in.DnsNameLabelReusePolicy != nil {
 		in, out := &in.DnsNameLabelReusePolicy, &out.DnsNameLabelReusePolicy
-		*out = new(IpAddressSTATUSDnsNameLabelReusePolicy)
+		*out = new(IpAddress_STATUS_DnsNameLabelReusePolicy)
 		**out = **in
 	}
 	if in.Fqdn != nil {
@@ -3476,7 +3476,7 @@ func (in *IpAddress_STATUS) DeepCopyInto(out *IpAddress_STATUS) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IpAddressSTATUSType)
+		*out = new(IpAddress_STATUS_Type)
 		**out = **in
 	}
 }
@@ -3501,7 +3501,7 @@ func (in *IpAddress_STATUSARM) DeepCopyInto(out *IpAddress_STATUSARM) {
 	}
 	if in.DnsNameLabelReusePolicy != nil {
 		in, out := &in.DnsNameLabelReusePolicy, &out.DnsNameLabelReusePolicy
-		*out = new(IpAddressSTATUSDnsNameLabelReusePolicy)
+		*out = new(IpAddress_STATUS_DnsNameLabelReusePolicy)
 		**out = **in
 	}
 	if in.Fqdn != nil {
@@ -3523,7 +3523,7 @@ func (in *IpAddress_STATUSARM) DeepCopyInto(out *IpAddress_STATUSARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IpAddressSTATUSType)
+		*out = new(IpAddress_STATUS_Type)
 		**out = **in
 	}
 }
@@ -3543,7 +3543,7 @@ func (in *LogAnalytics) DeepCopyInto(out *LogAnalytics) {
 	*out = *in
 	if in.LogType != nil {
 		in, out := &in.LogType, &out.LogType
-		*out = new(LogAnalyticsLogType)
+		*out = new(LogAnalytics_LogType)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -3585,7 +3585,7 @@ func (in *LogAnalyticsARM) DeepCopyInto(out *LogAnalyticsARM) {
 	*out = *in
 	if in.LogType != nil {
 		in, out := &in.LogType, &out.LogType
-		*out = new(LogAnalyticsLogType)
+		*out = new(LogAnalytics_LogType)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -3627,7 +3627,7 @@ func (in *LogAnalytics_STATUS) DeepCopyInto(out *LogAnalytics_STATUS) {
 	*out = *in
 	if in.LogType != nil {
 		in, out := &in.LogType, &out.LogType
-		*out = new(LogAnalyticsSTATUSLogType)
+		*out = new(LogAnalytics_STATUS_LogType)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -3669,7 +3669,7 @@ func (in *LogAnalytics_STATUSARM) DeepCopyInto(out *LogAnalytics_STATUSARM) {
 	*out = *in
 	if in.LogType != nil {
 		in, out := &in.LogType, &out.LogType
-		*out = new(LogAnalyticsSTATUSLogType)
+		*out = new(LogAnalytics_STATUS_LogType)
 		**out = **in
 	}
 	if in.Metadata != nil {
@@ -3716,7 +3716,7 @@ func (in *Port) DeepCopyInto(out *Port) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(PortProtocol)
+		*out = new(Port_Protocol)
 		**out = **in
 	}
 }
@@ -3741,7 +3741,7 @@ func (in *PortARM) DeepCopyInto(out *PortARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(PortProtocol)
+		*out = new(Port_Protocol)
 		**out = **in
 	}
 }
@@ -3766,7 +3766,7 @@ func (in *Port_STATUS) DeepCopyInto(out *Port_STATUS) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(PortSTATUSProtocol)
+		*out = new(Port_STATUS_Protocol)
 		**out = **in
 	}
 }
@@ -3791,7 +3791,7 @@ func (in *Port_STATUSARM) DeepCopyInto(out *Port_STATUSARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(PortSTATUSProtocol)
+		*out = new(Port_STATUS_Protocol)
 		**out = **in
 	}
 }

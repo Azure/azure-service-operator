@@ -43,7 +43,7 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *IdentitySTATUSType `json:"type,omitempty"`
+	Type *Identity_STATUS_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Metadata of user assigned identity.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -61,7 +61,7 @@ type ServerProperties_STATUSARM struct {
 	Backup *Backup_STATUSARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesSTATUSCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
 
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption_STATUSARM `json:"dataEncryption,omitempty"`
@@ -91,7 +91,7 @@ type ServerProperties_STATUSARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: The state of a server.
-	State *ServerPropertiesSTATUSState `json:"state,omitempty"`
+	State *ServerProperties_STATUS_State `json:"state,omitempty"`
 
 	// Storage: Storage related properties of a server.
 	Storage *Storage_STATUSARM `json:"storage,omitempty"`
@@ -105,7 +105,7 @@ type Sku_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 type Backup_STATUSARM struct {
@@ -134,23 +134,23 @@ type DataEncryption_STATUSARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-	Type *DataEncryptionSTATUSType `json:"type,omitempty"`
+	Type *DataEncryption_STATUS_Type `json:"type,omitempty"`
 }
 
 type HighAvailability_STATUSARM struct {
 	// Mode: High availability mode for a server.
-	Mode *HighAvailabilitySTATUSMode `json:"mode,omitempty"`
+	Mode *HighAvailability_STATUS_Mode `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: The state of server high availability.
-	State *HighAvailabilitySTATUSState `json:"state,omitempty"`
+	State *HighAvailability_STATUS_State `json:"state,omitempty"`
 }
 
-type IdentitySTATUSType string
+type Identity_STATUS_Type string
 
-const IdentitySTATUSType_UserAssigned = IdentitySTATUSType("UserAssigned")
+const Identity_STATUS_Type_UserAssigned = Identity_STATUS_Type("UserAssigned")
 
 type MaintenanceWindow_STATUSARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -178,12 +178,12 @@ type Network_STATUSARM struct {
 	PublicNetworkAccess *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-type SkuSTATUSTier string
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Burstable       = SkuSTATUSTier("Burstable")
-	SkuSTATUSTier_GeneralPurpose  = SkuSTATUSTier("GeneralPurpose")
-	SkuSTATUSTier_MemoryOptimized = SkuSTATUSTier("MemoryOptimized")
+	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
+	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
+	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
 )
 
 type Storage_STATUSARM struct {

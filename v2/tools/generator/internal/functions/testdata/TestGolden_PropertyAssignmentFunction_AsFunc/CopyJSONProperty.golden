@@ -12,8 +12,8 @@ type Person struct {
 	JSONBlob v1.JSON `json:"jsonBlob,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// JSONBlob
 	person.JSONBlob = *source.JSONBlob.DeepCopy()
@@ -22,8 +22,8 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// JSONBlob
 	destination.JSONBlob = *person.JSONBlob.DeepCopy()

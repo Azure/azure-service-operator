@@ -8,8 +8,9 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -49,9 +50,8 @@ func newPublicIp(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 	// Public IP Address
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
 	// TODO: depluralization of this resource doesn't work because of the collision.
-	sku := network.PublicIPAddressSkuName_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethod_Static
-
+	sku := network.PublicIPAddressSku_Name_Standard
+	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddresses_Spec{

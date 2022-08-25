@@ -81,7 +81,7 @@ type EndpointProperties_STATUSARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EndpointProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
@@ -89,7 +89,7 @@ type EndpointProperties_STATUSARM struct {
 	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesSTATUSResourceState `json:"resourceState,omitempty"`
+	ResourceState *EndpointProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey_STATUSARM `json:"urlSigningKeys,omitempty"`
@@ -144,35 +144,35 @@ type EndpointProperties_STATUS_DeliveryPolicyARM struct {
 	Rules []DeliveryRule_STATUSARM `json:"rules,omitempty"`
 }
 
+type EndpointProperties_STATUS_ProvisioningState string
+
+const (
+	EndpointProperties_STATUS_ProvisioningState_Creating  = EndpointProperties_STATUS_ProvisioningState("Creating")
+	EndpointProperties_STATUS_ProvisioningState_Deleting  = EndpointProperties_STATUS_ProvisioningState("Deleting")
+	EndpointProperties_STATUS_ProvisioningState_Failed    = EndpointProperties_STATUS_ProvisioningState("Failed")
+	EndpointProperties_STATUS_ProvisioningState_Succeeded = EndpointProperties_STATUS_ProvisioningState("Succeeded")
+	EndpointProperties_STATUS_ProvisioningState_Updating  = EndpointProperties_STATUS_ProvisioningState("Updating")
+)
+
+type EndpointProperties_STATUS_ResourceState string
+
+const (
+	EndpointProperties_STATUS_ResourceState_Creating = EndpointProperties_STATUS_ResourceState("Creating")
+	EndpointProperties_STATUS_ResourceState_Deleting = EndpointProperties_STATUS_ResourceState("Deleting")
+	EndpointProperties_STATUS_ResourceState_Running  = EndpointProperties_STATUS_ResourceState("Running")
+	EndpointProperties_STATUS_ResourceState_Starting = EndpointProperties_STATUS_ResourceState("Starting")
+	EndpointProperties_STATUS_ResourceState_Stopped  = EndpointProperties_STATUS_ResourceState("Stopped")
+	EndpointProperties_STATUS_ResourceState_Stopping = EndpointProperties_STATUS_ResourceState("Stopping")
+)
+
 type EndpointProperties_STATUS_WebApplicationFirewallPolicyLinkARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type EndpointPropertiesSTATUSProvisioningState string
-
-const (
-	EndpointPropertiesSTATUSProvisioningState_Creating  = EndpointPropertiesSTATUSProvisioningState("Creating")
-	EndpointPropertiesSTATUSProvisioningState_Deleting  = EndpointPropertiesSTATUSProvisioningState("Deleting")
-	EndpointPropertiesSTATUSProvisioningState_Failed    = EndpointPropertiesSTATUSProvisioningState("Failed")
-	EndpointPropertiesSTATUSProvisioningState_Succeeded = EndpointPropertiesSTATUSProvisioningState("Succeeded")
-	EndpointPropertiesSTATUSProvisioningState_Updating  = EndpointPropertiesSTATUSProvisioningState("Updating")
-)
-
-type EndpointPropertiesSTATUSResourceState string
-
-const (
-	EndpointPropertiesSTATUSResourceState_Creating = EndpointPropertiesSTATUSResourceState("Creating")
-	EndpointPropertiesSTATUSResourceState_Deleting = EndpointPropertiesSTATUSResourceState("Deleting")
-	EndpointPropertiesSTATUSResourceState_Running  = EndpointPropertiesSTATUSResourceState("Running")
-	EndpointPropertiesSTATUSResourceState_Starting = EndpointPropertiesSTATUSResourceState("Starting")
-	EndpointPropertiesSTATUSResourceState_Stopped  = EndpointPropertiesSTATUSResourceState("Stopped")
-	EndpointPropertiesSTATUSResourceState_Stopping = EndpointPropertiesSTATUSResourceState("Stopping")
-)
-
 type GeoFilter_STATUSARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterSTATUSAction `json:"action,omitempty"`
+	Action *GeoFilter_STATUS_Action `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -300,11 +300,11 @@ type DeliveryRule_STATUSARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
-type GeoFilterSTATUSAction string
+type GeoFilter_STATUS_Action string
 
 const (
-	GeoFilterSTATUSAction_Allow = GeoFilterSTATUSAction("Allow")
-	GeoFilterSTATUSAction_Block = GeoFilterSTATUSAction("Block")
+	GeoFilter_STATUS_Action_Allow = GeoFilter_STATUS_Action("Allow")
+	GeoFilter_STATUS_Action_Block = GeoFilter_STATUS_Action("Block")
 )
 
 type KeyVaultSigningKeyParameters_STATUSARM struct {
@@ -318,8 +318,8 @@ type KeyVaultSigningKeyParameters_STATUSARM struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersSTATUSTypeName `json:"typeName,omitempty"`
+	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
+	TypeName       *KeyVaultSigningKeyParameters_STATUS_TypeName `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
@@ -327,12 +327,12 @@ type KeyVaultSigningKeyParameters_STATUSARM struct {
 
 type DeliveryRuleAction_STATUSARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionSTATUSName `json:"name,omitempty"`
+	Name *DeliveryRuleAction_STATUS_Name `json:"name,omitempty"`
 }
 
 type DeliveryRuleCondition_STATUSARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionSTATUSName `json:"name,omitempty"`
+	Name *DeliveryRuleCondition_STATUS_Name `json:"name,omitempty"`
 }
 
 type HealthProbeParameters_STATUSARM struct {
@@ -343,15 +343,15 @@ type HealthProbeParameters_STATUSARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersSTATUSProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_STATUS_ProbeProtocol `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersSTATUSProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_STATUS_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
-type KeyVaultSigningKeyParametersSTATUSTypeName string
+type KeyVaultSigningKeyParameters_STATUS_TypeName string
 
-const KeyVaultSigningKeyParametersSTATUSTypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersSTATUSTypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_STATUS_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_STATUS_TypeName("KeyVaultSigningKeyParameters")
 
 type ResponseBasedOriginErrorDetectionParameters_STATUSARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
@@ -359,48 +359,48 @@ type ResponseBasedOriginErrorDetectionParameters_STATUSARM struct {
 	HttpErrorRanges []HttpErrorRangeParameters_STATUSARM `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersSTATUSResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_STATUS_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-type DeliveryRuleActionSTATUSName string
+type DeliveryRuleAction_STATUS_Name string
 
 const (
-	DeliveryRuleActionSTATUSName_CacheExpiration            = DeliveryRuleActionSTATUSName("CacheExpiration")
-	DeliveryRuleActionSTATUSName_CacheKeyQueryString        = DeliveryRuleActionSTATUSName("CacheKeyQueryString")
-	DeliveryRuleActionSTATUSName_ModifyRequestHeader        = DeliveryRuleActionSTATUSName("ModifyRequestHeader")
-	DeliveryRuleActionSTATUSName_ModifyResponseHeader       = DeliveryRuleActionSTATUSName("ModifyResponseHeader")
-	DeliveryRuleActionSTATUSName_OriginGroupOverride        = DeliveryRuleActionSTATUSName("OriginGroupOverride")
-	DeliveryRuleActionSTATUSName_RouteConfigurationOverride = DeliveryRuleActionSTATUSName("RouteConfigurationOverride")
-	DeliveryRuleActionSTATUSName_UrlRedirect                = DeliveryRuleActionSTATUSName("UrlRedirect")
-	DeliveryRuleActionSTATUSName_UrlRewrite                 = DeliveryRuleActionSTATUSName("UrlRewrite")
-	DeliveryRuleActionSTATUSName_UrlSigning                 = DeliveryRuleActionSTATUSName("UrlSigning")
+	DeliveryRuleAction_STATUS_Name_CacheExpiration            = DeliveryRuleAction_STATUS_Name("CacheExpiration")
+	DeliveryRuleAction_STATUS_Name_CacheKeyQueryString        = DeliveryRuleAction_STATUS_Name("CacheKeyQueryString")
+	DeliveryRuleAction_STATUS_Name_ModifyRequestHeader        = DeliveryRuleAction_STATUS_Name("ModifyRequestHeader")
+	DeliveryRuleAction_STATUS_Name_ModifyResponseHeader       = DeliveryRuleAction_STATUS_Name("ModifyResponseHeader")
+	DeliveryRuleAction_STATUS_Name_OriginGroupOverride        = DeliveryRuleAction_STATUS_Name("OriginGroupOverride")
+	DeliveryRuleAction_STATUS_Name_RouteConfigurationOverride = DeliveryRuleAction_STATUS_Name("RouteConfigurationOverride")
+	DeliveryRuleAction_STATUS_Name_UrlRedirect                = DeliveryRuleAction_STATUS_Name("UrlRedirect")
+	DeliveryRuleAction_STATUS_Name_UrlRewrite                 = DeliveryRuleAction_STATUS_Name("UrlRewrite")
+	DeliveryRuleAction_STATUS_Name_UrlSigning                 = DeliveryRuleAction_STATUS_Name("UrlSigning")
 )
 
-type DeliveryRuleConditionSTATUSName string
+type DeliveryRuleCondition_STATUS_Name string
 
 const (
-	DeliveryRuleConditionSTATUSName_ClientPort       = DeliveryRuleConditionSTATUSName("ClientPort")
-	DeliveryRuleConditionSTATUSName_Cookies          = DeliveryRuleConditionSTATUSName("Cookies")
-	DeliveryRuleConditionSTATUSName_HostName         = DeliveryRuleConditionSTATUSName("HostName")
-	DeliveryRuleConditionSTATUSName_HttpVersion      = DeliveryRuleConditionSTATUSName("HttpVersion")
-	DeliveryRuleConditionSTATUSName_IsDevice         = DeliveryRuleConditionSTATUSName("IsDevice")
-	DeliveryRuleConditionSTATUSName_PostArgs         = DeliveryRuleConditionSTATUSName("PostArgs")
-	DeliveryRuleConditionSTATUSName_QueryString      = DeliveryRuleConditionSTATUSName("QueryString")
-	DeliveryRuleConditionSTATUSName_RemoteAddress    = DeliveryRuleConditionSTATUSName("RemoteAddress")
-	DeliveryRuleConditionSTATUSName_RequestBody      = DeliveryRuleConditionSTATUSName("RequestBody")
-	DeliveryRuleConditionSTATUSName_RequestHeader    = DeliveryRuleConditionSTATUSName("RequestHeader")
-	DeliveryRuleConditionSTATUSName_RequestMethod    = DeliveryRuleConditionSTATUSName("RequestMethod")
-	DeliveryRuleConditionSTATUSName_RequestScheme    = DeliveryRuleConditionSTATUSName("RequestScheme")
-	DeliveryRuleConditionSTATUSName_RequestUri       = DeliveryRuleConditionSTATUSName("RequestUri")
-	DeliveryRuleConditionSTATUSName_ServerPort       = DeliveryRuleConditionSTATUSName("ServerPort")
-	DeliveryRuleConditionSTATUSName_SocketAddr       = DeliveryRuleConditionSTATUSName("SocketAddr")
-	DeliveryRuleConditionSTATUSName_SslProtocol      = DeliveryRuleConditionSTATUSName("SslProtocol")
-	DeliveryRuleConditionSTATUSName_UrlFileExtension = DeliveryRuleConditionSTATUSName("UrlFileExtension")
-	DeliveryRuleConditionSTATUSName_UrlFileName      = DeliveryRuleConditionSTATUSName("UrlFileName")
-	DeliveryRuleConditionSTATUSName_UrlPath          = DeliveryRuleConditionSTATUSName("UrlPath")
+	DeliveryRuleCondition_STATUS_Name_ClientPort       = DeliveryRuleCondition_STATUS_Name("ClientPort")
+	DeliveryRuleCondition_STATUS_Name_Cookies          = DeliveryRuleCondition_STATUS_Name("Cookies")
+	DeliveryRuleCondition_STATUS_Name_HostName         = DeliveryRuleCondition_STATUS_Name("HostName")
+	DeliveryRuleCondition_STATUS_Name_HttpVersion      = DeliveryRuleCondition_STATUS_Name("HttpVersion")
+	DeliveryRuleCondition_STATUS_Name_IsDevice         = DeliveryRuleCondition_STATUS_Name("IsDevice")
+	DeliveryRuleCondition_STATUS_Name_PostArgs         = DeliveryRuleCondition_STATUS_Name("PostArgs")
+	DeliveryRuleCondition_STATUS_Name_QueryString      = DeliveryRuleCondition_STATUS_Name("QueryString")
+	DeliveryRuleCondition_STATUS_Name_RemoteAddress    = DeliveryRuleCondition_STATUS_Name("RemoteAddress")
+	DeliveryRuleCondition_STATUS_Name_RequestBody      = DeliveryRuleCondition_STATUS_Name("RequestBody")
+	DeliveryRuleCondition_STATUS_Name_RequestHeader    = DeliveryRuleCondition_STATUS_Name("RequestHeader")
+	DeliveryRuleCondition_STATUS_Name_RequestMethod    = DeliveryRuleCondition_STATUS_Name("RequestMethod")
+	DeliveryRuleCondition_STATUS_Name_RequestScheme    = DeliveryRuleCondition_STATUS_Name("RequestScheme")
+	DeliveryRuleCondition_STATUS_Name_RequestUri       = DeliveryRuleCondition_STATUS_Name("RequestUri")
+	DeliveryRuleCondition_STATUS_Name_ServerPort       = DeliveryRuleCondition_STATUS_Name("ServerPort")
+	DeliveryRuleCondition_STATUS_Name_SocketAddr       = DeliveryRuleCondition_STATUS_Name("SocketAddr")
+	DeliveryRuleCondition_STATUS_Name_SslProtocol      = DeliveryRuleCondition_STATUS_Name("SslProtocol")
+	DeliveryRuleCondition_STATUS_Name_UrlFileExtension = DeliveryRuleCondition_STATUS_Name("UrlFileExtension")
+	DeliveryRuleCondition_STATUS_Name_UrlFileName      = DeliveryRuleCondition_STATUS_Name("UrlFileName")
+	DeliveryRuleCondition_STATUS_Name_UrlPath          = DeliveryRuleCondition_STATUS_Name("UrlPath")
 )
 
 type HttpErrorRangeParameters_STATUSARM struct {

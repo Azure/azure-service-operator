@@ -87,7 +87,7 @@ type ServerObservation struct {
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *ServerPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// State: The state of the server.
 	State *string `json:"state,omitempty"`
@@ -102,7 +102,7 @@ type ServerObservation struct {
 	Version *string `json:"version,omitempty"`
 
 	// WorkspaceFeature: Whether or not existing server has a workspace created and if it allows connection from workspace
-	WorkspaceFeature *ServerPropertiesSTATUSWorkspaceFeature `json:"workspaceFeature,omitempty"`
+	WorkspaceFeature *ServerProperties_STATUS_WorkspaceFeature `json:"workspaceFeature,omitempty"`
 }
 
 type ServersParameters struct {
@@ -136,10 +136,10 @@ type ServersParameters struct {
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess       *ServerPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	ResourceGroupName         string                               `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef      *v1alpha1.Reference                  `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector *v1alpha1.Selector                   `json:"resourceGroupNameSelector,omitempty"`
+	PublicNetworkAccess       *ServerProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	ResourceGroupName         string                                `json:"resourceGroupName,omitempty"`
+	ResourceGroupNameRef      *v1alpha1.Reference                   `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector *v1alpha1.Selector                    `json:"resourceGroupNameSelector,omitempty"`
 
 	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
@@ -152,7 +152,7 @@ type ServersParameters struct {
 type ResourceIdentity struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
-	Type *ResourceIdentityType `json:"type,omitempty"`
+	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
 type ResourceIdentity_STATUS struct {
@@ -164,7 +164,7 @@ type ResourceIdentity_STATUS struct {
 
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
-	Type *ResourceIdentitySTATUSType `json:"type,omitempty"`
+	Type *ResourceIdentity_STATUS_Type `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The resource ids of the user assigned identities to use
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -173,7 +173,7 @@ type ResourceIdentity_STATUS struct {
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/ServerExternalAdministrator
 type ServerExternalAdministrator struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *ServerExternalAdministratorAdministratorType `json:"administratorType,omitempty"`
+	AdministratorType *ServerExternalAdministrator_AdministratorType `json:"administratorType,omitempty"`
 
 	// AzureADOnlyAuthentication: Azure Active Directory only Authentication enabled.
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
@@ -182,7 +182,7 @@ type ServerExternalAdministrator struct {
 	Login *string `json:"login,omitempty"`
 
 	// PrincipalType: Principal Type of the sever administrator.
-	PrincipalType *ServerExternalAdministratorPrincipalType `json:"principalType,omitempty"`
+	PrincipalType *ServerExternalAdministrator_PrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// Sid: SID (object ID) of the server administrator.
@@ -195,7 +195,7 @@ type ServerExternalAdministrator struct {
 
 type ServerExternalAdministrator_STATUS struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *ServerExternalAdministratorSTATUSAdministratorType `json:"administratorType,omitempty"`
+	AdministratorType *ServerExternalAdministrator_STATUS_AdministratorType `json:"administratorType,omitempty"`
 
 	// AzureADOnlyAuthentication: Azure Active Directory only Authentication enabled.
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
@@ -204,7 +204,7 @@ type ServerExternalAdministrator_STATUS struct {
 	Login *string `json:"login,omitempty"`
 
 	// PrincipalType: Principal Type of the sever administrator.
-	PrincipalType *ServerExternalAdministratorSTATUSPrincipalType `json:"principalType,omitempty"`
+	PrincipalType *ServerExternalAdministrator_STATUS_PrincipalType `json:"principalType,omitempty"`
 
 	// Sid: SID (object ID) of the server administrator.
 	Sid *string `json:"sid,omitempty"`
@@ -222,25 +222,25 @@ type ServerPrivateEndpointConnection_STATUS struct {
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type ServerPropertiesPublicNetworkAccess string
+type ServerProperties_PublicNetworkAccess string
 
 const (
-	ServerPropertiesPublicNetworkAccess_Disabled = ServerPropertiesPublicNetworkAccess("Disabled")
-	ServerPropertiesPublicNetworkAccess_Enabled  = ServerPropertiesPublicNetworkAccess("Enabled")
+	ServerProperties_PublicNetworkAccess_Disabled = ServerProperties_PublicNetworkAccess("Disabled")
+	ServerProperties_PublicNetworkAccess_Enabled  = ServerProperties_PublicNetworkAccess("Enabled")
 )
 
-type ServerPropertiesSTATUSPublicNetworkAccess string
+type ServerProperties_STATUS_PublicNetworkAccess string
 
 const (
-	ServerPropertiesSTATUSPublicNetworkAccess_Disabled = ServerPropertiesSTATUSPublicNetworkAccess("Disabled")
-	ServerPropertiesSTATUSPublicNetworkAccess_Enabled  = ServerPropertiesSTATUSPublicNetworkAccess("Enabled")
+	ServerProperties_STATUS_PublicNetworkAccess_Disabled = ServerProperties_STATUS_PublicNetworkAccess("Disabled")
+	ServerProperties_STATUS_PublicNetworkAccess_Enabled  = ServerProperties_STATUS_PublicNetworkAccess("Enabled")
 )
 
-type ServerPropertiesSTATUSWorkspaceFeature string
+type ServerProperties_STATUS_WorkspaceFeature string
 
 const (
-	ServerPropertiesSTATUSWorkspaceFeature_Connected    = ServerPropertiesSTATUSWorkspaceFeature("Connected")
-	ServerPropertiesSTATUSWorkspaceFeature_Disconnected = ServerPropertiesSTATUSWorkspaceFeature("Disconnected")
+	ServerProperties_STATUS_WorkspaceFeature_Connected    = ServerProperties_STATUS_WorkspaceFeature("Connected")
+	ServerProperties_STATUS_WorkspaceFeature_Disconnected = ServerProperties_STATUS_WorkspaceFeature("Disconnected")
 )
 
 type PrivateEndpointConnectionProperties_STATUS struct {
@@ -251,52 +251,52 @@ type PrivateEndpointConnectionProperties_STATUS struct {
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionStateProperty_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *PrivateEndpointConnectionPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointConnectionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 }
 
-type ResourceIdentitySTATUSType string
+type ResourceIdentity_STATUS_Type string
 
 const (
-	ResourceIdentitySTATUSType_None                       = ResourceIdentitySTATUSType("None")
-	ResourceIdentitySTATUSType_SystemAssigned             = ResourceIdentitySTATUSType("SystemAssigned")
-	ResourceIdentitySTATUSType_SystemAssignedUserAssigned = ResourceIdentitySTATUSType("SystemAssigned,UserAssigned")
-	ResourceIdentitySTATUSType_UserAssigned               = ResourceIdentitySTATUSType("UserAssigned")
+	ResourceIdentity_STATUS_Type_None                       = ResourceIdentity_STATUS_Type("None")
+	ResourceIdentity_STATUS_Type_SystemAssigned             = ResourceIdentity_STATUS_Type("SystemAssigned")
+	ResourceIdentity_STATUS_Type_SystemAssignedUserAssigned = ResourceIdentity_STATUS_Type("SystemAssigned,UserAssigned")
+	ResourceIdentity_STATUS_Type_UserAssigned               = ResourceIdentity_STATUS_Type("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ResourceIdentityType string
+type ResourceIdentity_Type string
 
 const (
-	ResourceIdentityType_None                       = ResourceIdentityType("None")
-	ResourceIdentityType_SystemAssigned             = ResourceIdentityType("SystemAssigned")
-	ResourceIdentityType_SystemAssignedUserAssigned = ResourceIdentityType("SystemAssigned,UserAssigned")
-	ResourceIdentityType_UserAssigned               = ResourceIdentityType("UserAssigned")
+	ResourceIdentity_Type_None                       = ResourceIdentity_Type("None")
+	ResourceIdentity_Type_SystemAssigned             = ResourceIdentity_Type("SystemAssigned")
+	ResourceIdentity_Type_SystemAssignedUserAssigned = ResourceIdentity_Type("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"ActiveDirectory"}
-type ServerExternalAdministratorAdministratorType string
+type ServerExternalAdministrator_AdministratorType string
 
-const ServerExternalAdministratorAdministratorType_ActiveDirectory = ServerExternalAdministratorAdministratorType("ActiveDirectory")
+const ServerExternalAdministrator_AdministratorType_ActiveDirectory = ServerExternalAdministrator_AdministratorType("ActiveDirectory")
 
 // +kubebuilder:validation:Enum={"Application","Group","User"}
-type ServerExternalAdministratorPrincipalType string
+type ServerExternalAdministrator_PrincipalType string
 
 const (
-	ServerExternalAdministratorPrincipalType_Application = ServerExternalAdministratorPrincipalType("Application")
-	ServerExternalAdministratorPrincipalType_Group       = ServerExternalAdministratorPrincipalType("Group")
-	ServerExternalAdministratorPrincipalType_User        = ServerExternalAdministratorPrincipalType("User")
+	ServerExternalAdministrator_PrincipalType_Application = ServerExternalAdministrator_PrincipalType("Application")
+	ServerExternalAdministrator_PrincipalType_Group       = ServerExternalAdministrator_PrincipalType("Group")
+	ServerExternalAdministrator_PrincipalType_User        = ServerExternalAdministrator_PrincipalType("User")
 )
 
-type ServerExternalAdministratorSTATUSAdministratorType string
+type ServerExternalAdministrator_STATUS_AdministratorType string
 
-const ServerExternalAdministratorSTATUSAdministratorType_ActiveDirectory = ServerExternalAdministratorSTATUSAdministratorType("ActiveDirectory")
+const ServerExternalAdministrator_STATUS_AdministratorType_ActiveDirectory = ServerExternalAdministrator_STATUS_AdministratorType("ActiveDirectory")
 
-type ServerExternalAdministratorSTATUSPrincipalType string
+type ServerExternalAdministrator_STATUS_PrincipalType string
 
 const (
-	ServerExternalAdministratorSTATUSPrincipalType_Application = ServerExternalAdministratorSTATUSPrincipalType("Application")
-	ServerExternalAdministratorSTATUSPrincipalType_Group       = ServerExternalAdministratorSTATUSPrincipalType("Group")
-	ServerExternalAdministratorSTATUSPrincipalType_User        = ServerExternalAdministratorSTATUSPrincipalType("User")
+	ServerExternalAdministrator_STATUS_PrincipalType_Application = ServerExternalAdministrator_STATUS_PrincipalType("Application")
+	ServerExternalAdministrator_STATUS_PrincipalType_Group       = ServerExternalAdministrator_STATUS_PrincipalType("Group")
+	ServerExternalAdministrator_STATUS_PrincipalType_User        = ServerExternalAdministrator_STATUS_PrincipalType("User")
 )
 
 type UserIdentity_STATUS struct {
@@ -307,14 +307,14 @@ type UserIdentity_STATUS struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-type PrivateEndpointConnectionPropertiesSTATUSProvisioningState string
+type PrivateEndpointConnectionProperties_STATUS_ProvisioningState string
 
 const (
-	PrivateEndpointConnectionPropertiesSTATUSProvisioningState_Approving = PrivateEndpointConnectionPropertiesSTATUSProvisioningState("Approving")
-	PrivateEndpointConnectionPropertiesSTATUSProvisioningState_Dropping  = PrivateEndpointConnectionPropertiesSTATUSProvisioningState("Dropping")
-	PrivateEndpointConnectionPropertiesSTATUSProvisioningState_Failed    = PrivateEndpointConnectionPropertiesSTATUSProvisioningState("Failed")
-	PrivateEndpointConnectionPropertiesSTATUSProvisioningState_Ready     = PrivateEndpointConnectionPropertiesSTATUSProvisioningState("Ready")
-	PrivateEndpointConnectionPropertiesSTATUSProvisioningState_Rejecting = PrivateEndpointConnectionPropertiesSTATUSProvisioningState("Rejecting")
+	PrivateEndpointConnectionProperties_STATUS_ProvisioningState_Approving = PrivateEndpointConnectionProperties_STATUS_ProvisioningState("Approving")
+	PrivateEndpointConnectionProperties_STATUS_ProvisioningState_Dropping  = PrivateEndpointConnectionProperties_STATUS_ProvisioningState("Dropping")
+	PrivateEndpointConnectionProperties_STATUS_ProvisioningState_Failed    = PrivateEndpointConnectionProperties_STATUS_ProvisioningState("Failed")
+	PrivateEndpointConnectionProperties_STATUS_ProvisioningState_Ready     = PrivateEndpointConnectionProperties_STATUS_ProvisioningState("Ready")
+	PrivateEndpointConnectionProperties_STATUS_ProvisioningState_Rejecting = PrivateEndpointConnectionProperties_STATUS_ProvisioningState("Rejecting")
 )
 
 type PrivateEndpointProperty_STATUS struct {
@@ -324,26 +324,26 @@ type PrivateEndpointProperty_STATUS struct {
 
 type PrivateLinkServiceConnectionStateProperty_STATUS struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *PrivateLinkServiceConnectionStatePropertySTATUSActionsRequired `json:"actionsRequired,omitempty"`
+	ActionsRequired *PrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *PrivateLinkServiceConnectionStatePropertySTATUSStatus `json:"status,omitempty"`
+	Status *PrivateLinkServiceConnectionStateProperty_STATUS_Status `json:"status,omitempty"`
 }
 
-type PrivateLinkServiceConnectionStatePropertySTATUSActionsRequired string
+type PrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired string
 
-const PrivateLinkServiceConnectionStatePropertySTATUSActionsRequired_None = PrivateLinkServiceConnectionStatePropertySTATUSActionsRequired("None")
+const PrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired_None = PrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired("None")
 
-type PrivateLinkServiceConnectionStatePropertySTATUSStatus string
+type PrivateLinkServiceConnectionStateProperty_STATUS_Status string
 
 const (
-	PrivateLinkServiceConnectionStatePropertySTATUSStatus_Approved     = PrivateLinkServiceConnectionStatePropertySTATUSStatus("Approved")
-	PrivateLinkServiceConnectionStatePropertySTATUSStatus_Disconnected = PrivateLinkServiceConnectionStatePropertySTATUSStatus("Disconnected")
-	PrivateLinkServiceConnectionStatePropertySTATUSStatus_Pending      = PrivateLinkServiceConnectionStatePropertySTATUSStatus("Pending")
-	PrivateLinkServiceConnectionStatePropertySTATUSStatus_Rejected     = PrivateLinkServiceConnectionStatePropertySTATUSStatus("Rejected")
+	PrivateLinkServiceConnectionStateProperty_STATUS_Status_Approved     = PrivateLinkServiceConnectionStateProperty_STATUS_Status("Approved")
+	PrivateLinkServiceConnectionStateProperty_STATUS_Status_Disconnected = PrivateLinkServiceConnectionStateProperty_STATUS_Status("Disconnected")
+	PrivateLinkServiceConnectionStateProperty_STATUS_Status_Pending      = PrivateLinkServiceConnectionStateProperty_STATUS_Status("Pending")
+	PrivateLinkServiceConnectionStateProperty_STATUS_Status_Rejected     = PrivateLinkServiceConnectionStateProperty_STATUS_Status("Rejected")
 )
 
 func init() {

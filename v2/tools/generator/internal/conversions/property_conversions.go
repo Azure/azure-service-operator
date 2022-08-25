@@ -186,7 +186,7 @@ func CreateTypeConversion(
 func NameOfPropertyAssignmentFunction(
 	parameterType astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
 	nameOfOtherType := idFactory.CreateIdentifier(parameterType.Name(), astmodel.Exported)
-	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
+	return "AssignProperties_" + direction.SelectString("From_", "To_") + nameOfOtherType
 }
 
 // writeToBagItem will generate a conversion where the destination is in our property bag

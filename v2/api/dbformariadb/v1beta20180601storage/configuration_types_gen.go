@@ -26,8 +26,8 @@ import (
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServersConfigurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS       `json:"status,omitempty"`
+	Spec              Servers_Configurations_Spec `json:"spec,omitempty"`
+	Status            Configuration_STATUS        `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -170,8 +170,8 @@ func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntim
 	return destination.ConvertStatusFrom(configuration)
 }
 
-// Storage version of v1beta20180601.ServersConfigurations_Spec
-type ServersConfigurations_Spec struct {
+// Storage version of v1beta20180601.Servers_Configurations_Spec
+type Servers_Configurations_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -189,10 +189,10 @@ type ServersConfigurations_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ServersConfigurations_Spec{}
+var _ genruntime.ConvertibleSpec = &Servers_Configurations_Spec{}
 
-// ConvertSpecFrom populates our ServersConfigurations_Spec from the provided source
-func (configurations *ServersConfigurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Servers_Configurations_Spec from the provided source
+func (configurations *Servers_Configurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == configurations {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -200,8 +200,8 @@ func (configurations *ServersConfigurations_Spec) ConvertSpecFrom(source genrunt
 	return source.ConvertSpecTo(configurations)
 }
 
-// ConvertSpecTo populates the provided destination from our ServersConfigurations_Spec
-func (configurations *ServersConfigurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Servers_Configurations_Spec
+func (configurations *Servers_Configurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == configurations {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

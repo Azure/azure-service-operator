@@ -22,7 +22,7 @@ type DomainTopic_STATUSARM struct {
 
 type DomainTopicProperties_STATUSARM struct {
 	// ProvisioningState: Provisioning state of the domain topic.
-	ProvisioningState *DomainTopicPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *DomainTopicProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 }
 
 type SystemData_STATUSARM struct {
@@ -33,7 +33,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataSTATUSCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -42,34 +42,34 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataSTATUSLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-type DomainTopicPropertiesSTATUSProvisioningState string
+type DomainTopicProperties_STATUS_ProvisioningState string
 
 const (
-	DomainTopicPropertiesSTATUSProvisioningState_Canceled  = DomainTopicPropertiesSTATUSProvisioningState("Canceled")
-	DomainTopicPropertiesSTATUSProvisioningState_Creating  = DomainTopicPropertiesSTATUSProvisioningState("Creating")
-	DomainTopicPropertiesSTATUSProvisioningState_Deleting  = DomainTopicPropertiesSTATUSProvisioningState("Deleting")
-	DomainTopicPropertiesSTATUSProvisioningState_Failed    = DomainTopicPropertiesSTATUSProvisioningState("Failed")
-	DomainTopicPropertiesSTATUSProvisioningState_Succeeded = DomainTopicPropertiesSTATUSProvisioningState("Succeeded")
-	DomainTopicPropertiesSTATUSProvisioningState_Updating  = DomainTopicPropertiesSTATUSProvisioningState("Updating")
+	DomainTopicProperties_STATUS_ProvisioningState_Canceled  = DomainTopicProperties_STATUS_ProvisioningState("Canceled")
+	DomainTopicProperties_STATUS_ProvisioningState_Creating  = DomainTopicProperties_STATUS_ProvisioningState("Creating")
+	DomainTopicProperties_STATUS_ProvisioningState_Deleting  = DomainTopicProperties_STATUS_ProvisioningState("Deleting")
+	DomainTopicProperties_STATUS_ProvisioningState_Failed    = DomainTopicProperties_STATUS_ProvisioningState("Failed")
+	DomainTopicProperties_STATUS_ProvisioningState_Succeeded = DomainTopicProperties_STATUS_ProvisioningState("Succeeded")
+	DomainTopicProperties_STATUS_ProvisioningState_Updating  = DomainTopicProperties_STATUS_ProvisioningState("Updating")
 )
 
-type SystemDataSTATUSCreatedByType string
+type SystemData_STATUS_CreatedByType string
 
 const (
-	SystemDataSTATUSCreatedByType_Application     = SystemDataSTATUSCreatedByType("Application")
-	SystemDataSTATUSCreatedByType_Key             = SystemDataSTATUSCreatedByType("Key")
-	SystemDataSTATUSCreatedByType_ManagedIdentity = SystemDataSTATUSCreatedByType("ManagedIdentity")
-	SystemDataSTATUSCreatedByType_User            = SystemDataSTATUSCreatedByType("User")
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
 )
 
-type SystemDataSTATUSLastModifiedByType string
+type SystemData_STATUS_LastModifiedByType string
 
 const (
-	SystemDataSTATUSLastModifiedByType_Application     = SystemDataSTATUSLastModifiedByType("Application")
-	SystemDataSTATUSLastModifiedByType_Key             = SystemDataSTATUSLastModifiedByType("Key")
-	SystemDataSTATUSLastModifiedByType_ManagedIdentity = SystemDataSTATUSLastModifiedByType("ManagedIdentity")
-	SystemDataSTATUSLastModifiedByType_User            = SystemDataSTATUSLastModifiedByType("User")
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
 )

@@ -8,10 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -40,7 +41,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
-	disabled := mysql.BackupGeoRedundantBackup_Disabled
+	disabled := mysql.Backup_GeoRedundantBackup_Disabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
 		BackupRetentionDays: to.IntPtr(5),
 		GeoRedundantBackup:  &disabled,
@@ -77,8 +78,8 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
 	location := "westcentralus"
-	version := mysql.ServerPropertiesVersion_8021
-	tier := mysql.SkuTier_GeneralPurpose
+	version := mysql.ServerProperties_Version_8021
+	tier := mysql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
@@ -102,6 +103,7 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			},
 		},
 	}
+
 	return flexibleServer, fqdnSecret
 }
 
@@ -110,7 +112,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
-		Spec: mysql.FlexibleServersDatabases_Spec{
+		Spec: mysql.FlexibleServers_Databases_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.StringPtr("utf8mb4"),
 		},
@@ -124,7 +126,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: mysql.FlexibleServersFirewallRules_Spec{
+		Spec: mysql.FlexibleServers_FirewallRules_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("1.2.3.4"),
 			EndIpAddress:   to.StringPtr("1.2.3.4"),

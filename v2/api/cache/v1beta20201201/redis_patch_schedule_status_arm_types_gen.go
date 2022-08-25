@@ -28,7 +28,7 @@ type ScheduleEntries_STATUSARM struct {
 
 type ScheduleEntry_STATUSARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntrySTATUSDayOfWeek `json:"dayOfWeek,omitempty"`
+	DayOfWeek *ScheduleEntry_STATUS_DayOfWeek `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`

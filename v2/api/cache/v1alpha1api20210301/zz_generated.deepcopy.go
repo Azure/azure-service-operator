@@ -21,7 +21,7 @@ func (in *ClusterPropertiesARM) DeepCopyInto(out *ClusterPropertiesARM) {
 	*out = *in
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion)
 		**out = **in
 	}
 }
@@ -46,7 +46,7 @@ func (in *ClusterProperties_STATUSARM) DeepCopyInto(out *ClusterProperties_STATU
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesSTATUSMinimumTlsVersion)
+		*out = new(ClusterProperties_STATUS_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -110,7 +110,7 @@ func (in *Cluster_STATUS) DeepCopyInto(out *Cluster_STATUS) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesSTATUSMinimumTlsVersion)
+		*out = new(ClusterProperties_STATUS_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -236,17 +236,17 @@ func (in *DatabasePropertiesARM) DeepCopyInto(out *DatabasePropertiesARM) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -283,17 +283,17 @@ func (in *DatabaseProperties_STATUSARM) DeepCopyInto(out *DatabaseProperties_STA
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesSTATUSClientProtocol)
+		*out = new(DatabaseProperties_STATUS_ClientProtocol)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesSTATUSClusteringPolicy)
+		*out = new(DatabaseProperties_STATUS_ClusteringPolicy)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesSTATUSEvictionPolicy)
+		*out = new(DatabaseProperties_STATUS_EvictionPolicy)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -340,12 +340,12 @@ func (in *Database_STATUS) DeepCopyInto(out *Database_STATUS) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesSTATUSClientProtocol)
+		*out = new(DatabaseProperties_STATUS_ClientProtocol)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesSTATUSClusteringPolicy)
+		*out = new(DatabaseProperties_STATUS_ClusteringPolicy)
 		**out = **in
 	}
 	if in.Conditions != nil {
@@ -357,7 +357,7 @@ func (in *Database_STATUS) DeepCopyInto(out *Database_STATUS) {
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesSTATUSEvictionPolicy)
+		*out = new(DatabaseProperties_STATUS_EvictionPolicy)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -569,7 +569,7 @@ func (in *Persistence) DeepCopyInto(out *Persistence) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceAofFrequency)
+		*out = new(Persistence_AofFrequency)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -579,7 +579,7 @@ func (in *Persistence) DeepCopyInto(out *Persistence) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceRdbFrequency)
+		*out = new(Persistence_RdbFrequency)
 		**out = **in
 	}
 }
@@ -604,7 +604,7 @@ func (in *PersistenceARM) DeepCopyInto(out *PersistenceARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceAofFrequency)
+		*out = new(Persistence_AofFrequency)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -614,7 +614,7 @@ func (in *PersistenceARM) DeepCopyInto(out *PersistenceARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceRdbFrequency)
+		*out = new(Persistence_RdbFrequency)
 		**out = **in
 	}
 }
@@ -639,7 +639,7 @@ func (in *Persistence_STATUS) DeepCopyInto(out *Persistence_STATUS) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceSTATUSAofFrequency)
+		*out = new(Persistence_STATUS_AofFrequency)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -649,7 +649,7 @@ func (in *Persistence_STATUS) DeepCopyInto(out *Persistence_STATUS) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceSTATUSRdbFrequency)
+		*out = new(Persistence_STATUS_RdbFrequency)
 		**out = **in
 	}
 }
@@ -674,7 +674,7 @@ func (in *Persistence_STATUSARM) DeepCopyInto(out *Persistence_STATUSARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceSTATUSAofFrequency)
+		*out = new(Persistence_STATUS_AofFrequency)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -684,7 +684,7 @@ func (in *Persistence_STATUSARM) DeepCopyInto(out *Persistence_STATUSARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceSTATUSRdbFrequency)
+		*out = new(Persistence_STATUS_RdbFrequency)
 		**out = **in
 	}
 }
@@ -826,21 +826,53 @@ func (in *RedisEnterpriseDatabaseList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *RedisEnterpriseDatabases_Spec) DeepCopyInto(out *RedisEnterpriseDatabases_Spec) {
+func (in *RedisEnterpriseList) DeepCopyInto(out *RedisEnterpriseList) {
+	*out = *in
+	out.TypeMeta = in.TypeMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]RedisEnterprise, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterpriseList.
+func (in *RedisEnterpriseList) DeepCopy() *RedisEnterpriseList {
+	if in == nil {
+		return nil
+	}
+	out := new(RedisEnterpriseList)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyObject is an autogenerated deepcopy function, copying the receiver, creating a new runtime.Object.
+func (in *RedisEnterpriseList) DeepCopyObject() runtime.Object {
+	if c := in.DeepCopy(); c != nil {
+		return c
+	}
+	return nil
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RedisEnterprise_Databases_Spec) DeepCopyInto(out *RedisEnterprise_Databases_Spec) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesClientProtocol)
+		*out = new(DatabaseProperties_ClientProtocol)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesClusteringPolicy)
+		*out = new(DatabaseProperties_ClusteringPolicy)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesEvictionPolicy)
+		*out = new(DatabaseProperties_EvictionPolicy)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -879,18 +911,18 @@ func (in *RedisEnterpriseDatabases_Spec) DeepCopyInto(out *RedisEnterpriseDataba
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterpriseDatabases_Spec.
-func (in *RedisEnterpriseDatabases_Spec) DeepCopy() *RedisEnterpriseDatabases_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterprise_Databases_Spec.
+func (in *RedisEnterprise_Databases_Spec) DeepCopy() *RedisEnterprise_Databases_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(RedisEnterpriseDatabases_Spec)
+	out := new(RedisEnterprise_Databases_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *RedisEnterpriseDatabases_SpecARM) DeepCopyInto(out *RedisEnterpriseDatabases_SpecARM) {
+func (in *RedisEnterprise_Databases_SpecARM) DeepCopyInto(out *RedisEnterprise_Databases_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -911,46 +943,14 @@ func (in *RedisEnterpriseDatabases_SpecARM) DeepCopyInto(out *RedisEnterpriseDat
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterpriseDatabases_SpecARM.
-func (in *RedisEnterpriseDatabases_SpecARM) DeepCopy() *RedisEnterpriseDatabases_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterprise_Databases_SpecARM.
+func (in *RedisEnterprise_Databases_SpecARM) DeepCopy() *RedisEnterprise_Databases_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(RedisEnterpriseDatabases_SpecARM)
+	out := new(RedisEnterprise_Databases_SpecARM)
 	in.DeepCopyInto(out)
 	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *RedisEnterpriseList) DeepCopyInto(out *RedisEnterpriseList) {
-	*out = *in
-	out.TypeMeta = in.TypeMeta
-	in.ListMeta.DeepCopyInto(&out.ListMeta)
-	if in.Items != nil {
-		in, out := &in.Items, &out.Items
-		*out = make([]RedisEnterprise, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RedisEnterpriseList.
-func (in *RedisEnterpriseList) DeepCopy() *RedisEnterpriseList {
-	if in == nil {
-		return nil
-	}
-	out := new(RedisEnterpriseList)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyObject is an autogenerated deepcopy function, copying the receiver, creating a new runtime.Object.
-func (in *RedisEnterpriseList) DeepCopyObject() runtime.Object {
-	if c := in.DeepCopy(); c != nil {
-		return c
-	}
-	return nil
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
@@ -963,7 +963,7 @@ func (in *RedisEnterprise_Spec) DeepCopyInto(out *RedisEnterprise_Spec) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesMinimumTlsVersion)
+		*out = new(ClusterProperties_MinimumTlsVersion)
 		**out = **in
 	}
 	if in.Owner != nil {
@@ -1052,7 +1052,7 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -1077,7 +1077,7 @@ func (in *SkuARM) DeepCopyInto(out *SkuARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -1102,7 +1102,7 @@ func (in *Sku_STATUS) DeepCopyInto(out *Sku_STATUS) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 }
@@ -1127,7 +1127,7 @@ func (in *Sku_STATUSARM) DeepCopyInto(out *Sku_STATUSARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 }

@@ -51,7 +51,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected insights/v1beta20200202storage/Component but received %T instead", hub)
 	}
 
-	return component.AssignPropertiesFromComponent(source)
+	return component.AssignProperties_From_Component(source)
 }
 
 // ConvertTo populates the provided hub Component from our Component
@@ -61,7 +61,7 @@ func (component *Component) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected insights/v1beta20200202storage/Component but received %T instead", hub)
 	}
 
-	return component.AssignPropertiesToComponent(destination)
+	return component.AssignProperties_To_Component(destination)
 }
 
 var _ genruntime.KubernetesResource = &Component{}
@@ -130,25 +130,25 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// AssignPropertiesFromComponent populates our Component from the provided source Component
-func (component *Component) AssignPropertiesFromComponent(source *v20200202s.Component) error {
+// AssignProperties_From_Component populates our Component from the provided source Component
+func (component *Component) AssignProperties_From_Component(source *v20200202s.Component) error {
 
 	// ObjectMeta
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Components_Spec
-	err := spec.AssignPropertiesFromComponentsSpec(&source.Spec)
+	err := spec.AssignProperties_From_Components_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromComponentsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Components_Spec() to populate field Spec")
 	}
 	component.Spec = spec
 
 	// Status
 	var status ApplicationInsightsComponent_STATUS
-	err = status.AssignPropertiesFromApplicationInsightsComponentSTATUS(&source.Status)
+	err = status.AssignProperties_From_ApplicationInsightsComponent_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponentSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ApplicationInsightsComponent_STATUS() to populate field Status")
 	}
 	component.Status = status
 
@@ -156,25 +156,25 @@ func (component *Component) AssignPropertiesFromComponent(source *v20200202s.Com
 	return nil
 }
 
-// AssignPropertiesToComponent populates the provided destination Component from our Component
-func (component *Component) AssignPropertiesToComponent(destination *v20200202s.Component) error {
+// AssignProperties_To_Component populates the provided destination Component from our Component
+func (component *Component) AssignProperties_To_Component(destination *v20200202s.Component) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20200202s.Components_Spec
-	err := component.Spec.AssignPropertiesToComponentsSpec(&spec)
+	err := component.Spec.AssignProperties_To_Components_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToComponentsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Components_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20200202s.ApplicationInsightsComponent_STATUS
-	err = component.Status.AssignPropertiesToApplicationInsightsComponentSTATUS(&status)
+	err = component.Status.AssignProperties_To_ApplicationInsightsComponent_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ApplicationInsightsComponent_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -212,14 +212,14 @@ const APIVersion_Value = APIVersion("2020-02-02")
 type ApplicationInsightsComponent_STATUS struct {
 	AppId                           *string                            `json:"AppId,omitempty"`
 	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
-	ApplicationType                 *string                            `json:"Application_Type,omitempty"`
+	Application_Type                *string                            `json:"Application_Type,omitempty"`
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	ConnectionString                *string                            `json:"ConnectionString,omitempty"`
 	CreationDate                    *string                            `json:"CreationDate,omitempty"`
 	DisableIpMasking                *bool                              `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool                              `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string                            `json:"etag,omitempty"`
-	FlowType                        *string                            `json:"Flow_Type,omitempty"`
+	Flow_Type                       *string                            `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool                              `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string                            `json:"HockeyAppId,omitempty"`
 	HockeyAppToken                  *string                            `json:"HockeyAppToken,omitempty"`
@@ -237,7 +237,7 @@ type ApplicationInsightsComponent_STATUS struct {
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *string                            `json:"Request_Source,omitempty"`
+	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
 	Tags                            *v1.JSON                           `json:"tags,omitempty"`
@@ -253,7 +253,7 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source g
 	src, ok := source.(*v20200202s.ApplicationInsightsComponent_STATUS)
 	if ok {
 		// Populate our instance from source
-		return component.AssignPropertiesFromApplicationInsightsComponentSTATUS(src)
+		return component.AssignProperties_From_ApplicationInsightsComponent_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -264,7 +264,7 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source g
 	}
 
 	// Update our instance from src
-	err = component.AssignPropertiesFromApplicationInsightsComponentSTATUS(src)
+	err = component.AssignProperties_From_ApplicationInsightsComponent_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -277,12 +277,12 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destinatio
 	dst, ok := destination.(*v20200202s.ApplicationInsightsComponent_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return component.AssignPropertiesToApplicationInsightsComponentSTATUS(dst)
+		return component.AssignProperties_To_ApplicationInsightsComponent_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200202s.ApplicationInsightsComponent_STATUS{}
-	err := component.AssignPropertiesToApplicationInsightsComponentSTATUS(dst)
+	err := component.AssignProperties_To_ApplicationInsightsComponent_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -296,8 +296,8 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destinatio
 	return nil
 }
 
-// AssignPropertiesFromApplicationInsightsComponentSTATUS populates our ApplicationInsightsComponent_STATUS from the provided source ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplicationInsightsComponentSTATUS(source *v20200202s.ApplicationInsightsComponent_STATUS) error {
+// AssignProperties_From_ApplicationInsightsComponent_STATUS populates our ApplicationInsightsComponent_STATUS from the provided source ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) AssignProperties_From_ApplicationInsightsComponent_STATUS(source *v20200202s.ApplicationInsightsComponent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -307,8 +307,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 	// ApplicationId
 	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
 
-	// ApplicationType
-	component.ApplicationType = genruntime.ClonePointerToString(source.ApplicationType)
+	// Application_Type
+	component.Application_Type = genruntime.ClonePointerToString(source.Application_Type)
 
 	// Conditions
 	component.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -338,8 +338,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 	// Etag
 	component.Etag = genruntime.ClonePointerToString(source.Etag)
 
-	// FlowType
-	component.FlowType = genruntime.ClonePointerToString(source.FlowType)
+	// Flow_Type
+	component.Flow_Type = genruntime.ClonePointerToString(source.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if source.ForceCustomerStorageForProfiler != nil {
@@ -391,9 +391,9 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceSTATUS(&privateLinkScopedResourceItem)
+			err := privateLinkScopedResource.AssignProperties_From_PrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceSTATUS() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -414,8 +414,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 	// PublicNetworkAccessForQuery
 	component.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
-	// RequestSource
-	component.RequestSource = genruntime.ClonePointerToString(source.RequestSource)
+	// Request_Source
+	component.Request_Source = genruntime.ClonePointerToString(source.Request_Source)
 
 	// RetentionInDays
 	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
@@ -456,8 +456,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 	return nil
 }
 
-// AssignPropertiesToApplicationInsightsComponentSTATUS populates the provided destination ApplicationInsightsComponent_STATUS from our ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicationInsightsComponentSTATUS(destination *v20200202s.ApplicationInsightsComponent_STATUS) error {
+// AssignProperties_To_ApplicationInsightsComponent_STATUS populates the provided destination ApplicationInsightsComponent_STATUS from our ApplicationInsightsComponent_STATUS
+func (component *ApplicationInsightsComponent_STATUS) AssignProperties_To_ApplicationInsightsComponent_STATUS(destination *v20200202s.ApplicationInsightsComponent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(component.PropertyBag)
 
@@ -467,8 +467,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicat
 	// ApplicationId
 	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
 
-	// ApplicationType
-	destination.ApplicationType = genruntime.ClonePointerToString(component.ApplicationType)
+	// Application_Type
+	destination.Application_Type = genruntime.ClonePointerToString(component.Application_Type)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(component.Conditions)
@@ -498,8 +498,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicat
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(component.Etag)
 
-	// FlowType
-	destination.FlowType = genruntime.ClonePointerToString(component.FlowType)
+	// Flow_Type
+	destination.Flow_Type = genruntime.ClonePointerToString(component.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -551,9 +551,9 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicat
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
 			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_STATUS
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceSTATUS(&privateLinkScopedResource)
+			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceSTATUS() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -574,8 +574,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicat
 	// PublicNetworkAccessForQuery
 	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(component.PublicNetworkAccessForQuery)
 
-	// RequestSource
-	destination.RequestSource = genruntime.ClonePointerToString(component.RequestSource)
+	// Request_Source
+	destination.Request_Source = genruntime.ClonePointerToString(component.Request_Source)
 
 	// RetentionInDays
 	destination.RetentionInDays = genruntime.ClonePointerToInt(component.RetentionInDays)
@@ -618,7 +618,7 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicat
 
 // Storage version of v1alpha1api20200202.Components_Spec
 type Components_Spec struct {
-	ApplicationType *string `json:"Application_Type,omitempty"`
+	Application_Type *string `json:"Application_Type,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -626,7 +626,7 @@ type Components_Spec struct {
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string `json:"etag,omitempty"`
-	FlowType                        *string `json:"Flow_Type,omitempty"`
+	Flow_Type                       *string `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
 	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
@@ -643,7 +643,7 @@ type Components_Spec struct {
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	RequestSource                   *string                            `json:"Request_Source,omitempty"`
+	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
 	Tags                            map[string]string                  `json:"tags,omitempty"`
@@ -657,7 +657,7 @@ func (components *Components_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src, ok := source.(*v20200202s.Components_Spec)
 	if ok {
 		// Populate our instance from source
-		return components.AssignPropertiesFromComponentsSpec(src)
+		return components.AssignProperties_From_Components_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -668,7 +668,7 @@ func (components *Components_Spec) ConvertSpecFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = components.AssignPropertiesFromComponentsSpec(src)
+	err = components.AssignProperties_From_Components_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -681,12 +681,12 @@ func (components *Components_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst, ok := destination.(*v20200202s.Components_Spec)
 	if ok {
 		// Populate destination from our instance
-		return components.AssignPropertiesToComponentsSpec(dst)
+		return components.AssignProperties_To_Components_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200202s.Components_Spec{}
-	err := components.AssignPropertiesToComponentsSpec(dst)
+	err := components.AssignProperties_To_Components_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -700,13 +700,13 @@ func (components *Components_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromComponentsSpec populates our Components_Spec from the provided source Components_Spec
-func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v20200202s.Components_Spec) error {
+// AssignProperties_From_Components_Spec populates our Components_Spec from the provided source Components_Spec
+func (components *Components_Spec) AssignProperties_From_Components_Spec(source *v20200202s.Components_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ApplicationType
-	components.ApplicationType = genruntime.ClonePointerToString(source.ApplicationType)
+	// Application_Type
+	components.Application_Type = genruntime.ClonePointerToString(source.Application_Type)
 
 	// AzureName
 	components.AzureName = source.AzureName
@@ -730,8 +730,8 @@ func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v2
 	// Etag
 	components.Etag = genruntime.ClonePointerToString(source.Etag)
 
-	// FlowType
-	components.FlowType = genruntime.ClonePointerToString(source.FlowType)
+	// Flow_Type
+	components.Flow_Type = genruntime.ClonePointerToString(source.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if source.ForceCustomerStorageForProfiler != nil {
@@ -778,8 +778,8 @@ func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v2
 	// PublicNetworkAccessForQuery
 	components.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
-	// RequestSource
-	components.RequestSource = genruntime.ClonePointerToString(source.RequestSource)
+	// Request_Source
+	components.Request_Source = genruntime.ClonePointerToString(source.Request_Source)
 
 	// RetentionInDays
 	components.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
@@ -814,13 +814,13 @@ func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v2
 	return nil
 }
 
-// AssignPropertiesToComponentsSpec populates the provided destination Components_Spec from our Components_Spec
-func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination *v20200202s.Components_Spec) error {
+// AssignProperties_To_Components_Spec populates the provided destination Components_Spec from our Components_Spec
+func (components *Components_Spec) AssignProperties_To_Components_Spec(destination *v20200202s.Components_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(components.PropertyBag)
 
-	// ApplicationType
-	destination.ApplicationType = genruntime.ClonePointerToString(components.ApplicationType)
+	// Application_Type
+	destination.Application_Type = genruntime.ClonePointerToString(components.Application_Type)
 
 	// AzureName
 	destination.AzureName = components.AzureName
@@ -844,8 +844,8 @@ func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination 
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(components.Etag)
 
-	// FlowType
-	destination.FlowType = genruntime.ClonePointerToString(components.FlowType)
+	// Flow_Type
+	destination.Flow_Type = genruntime.ClonePointerToString(components.Flow_Type)
 
 	// ForceCustomerStorageForProfiler
 	if components.ForceCustomerStorageForProfiler != nil {
@@ -892,8 +892,8 @@ func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination 
 	// PublicNetworkAccessForQuery
 	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(components.PublicNetworkAccessForQuery)
 
-	// RequestSource
-	destination.RequestSource = genruntime.ClonePointerToString(components.RequestSource)
+	// Request_Source
+	destination.Request_Source = genruntime.ClonePointerToString(components.Request_Source)
 
 	// RetentionInDays
 	destination.RetentionInDays = genruntime.ClonePointerToInt(components.RetentionInDays)
@@ -936,8 +936,8 @@ type PrivateLinkScopedResource_STATUS struct {
 	ScopeId     *string                `json:"ScopeId,omitempty"`
 }
 
-// AssignPropertiesFromPrivateLinkScopedResourceSTATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesFromPrivateLinkScopedResourceSTATUS(source *v20200202s.PrivateLinkScopedResource_STATUS) error {
+// AssignProperties_From_PrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v20200202s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -958,8 +958,8 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesFromPrivateLin
 	return nil
 }
 
-// AssignPropertiesToPrivateLinkScopedResourceSTATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkScopedResourceSTATUS(destination *v20200202s.PrivateLinkScopedResource_STATUS) error {
+// AssignProperties_To_PrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v20200202s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

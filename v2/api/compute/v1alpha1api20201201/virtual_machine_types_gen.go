@@ -57,7 +57,7 @@ func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = machine.AssignPropertiesFromVirtualMachine(&source)
+	err = machine.AssignProperties_From_VirtualMachine(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to machine")
 	}
@@ -69,7 +69,7 @@ func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
 func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20201201s.VirtualMachine
-	err := machine.AssignPropertiesToVirtualMachine(&destination)
+	err := machine.AssignProperties_To_VirtualMachine(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from machine")
 	}
@@ -263,25 +263,25 @@ func (machine *VirtualMachine) validateWriteOnceProperties(old runtime.Object) e
 	return genruntime.ValidateWriteOnceProperties(oldObj, machine)
 }
 
-// AssignPropertiesFromVirtualMachine populates our VirtualMachine from the provided source VirtualMachine
-func (machine *VirtualMachine) AssignPropertiesFromVirtualMachine(source *alpha20201201s.VirtualMachine) error {
+// AssignProperties_From_VirtualMachine populates our VirtualMachine from the provided source VirtualMachine
+func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *alpha20201201s.VirtualMachine) error {
 
 	// ObjectMeta
 	machine.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec VirtualMachines_Spec
-	err := spec.AssignPropertiesFromVirtualMachinesSpec(&source.Spec)
+	err := spec.AssignProperties_From_VirtualMachines_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec() to populate field Spec")
 	}
 	machine.Spec = spec
 
 	// Status
 	var status VirtualMachine_STATUS
-	err = status.AssignPropertiesFromVirtualMachineSTATUS(&source.Status)
+	err = status.AssignProperties_From_VirtualMachine_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_STATUS() to populate field Status")
 	}
 	machine.Status = status
 
@@ -289,25 +289,25 @@ func (machine *VirtualMachine) AssignPropertiesFromVirtualMachine(source *alpha2
 	return nil
 }
 
-// AssignPropertiesToVirtualMachine populates the provided destination VirtualMachine from our VirtualMachine
-func (machine *VirtualMachine) AssignPropertiesToVirtualMachine(destination *alpha20201201s.VirtualMachine) error {
+// AssignProperties_To_VirtualMachine populates the provided destination VirtualMachine from our VirtualMachine
+func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *alpha20201201s.VirtualMachine) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *machine.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec alpha20201201s.VirtualMachines_Spec
-	err := machine.Spec.AssignPropertiesToVirtualMachinesSpec(&spec)
+	err := machine.Spec.AssignProperties_To_VirtualMachines_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status alpha20201201s.VirtualMachine_STATUS
-	err = machine.Status.AssignPropertiesToVirtualMachineSTATUS(&status)
+	err = machine.Status.AssignProperties_To_VirtualMachine_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -383,7 +383,7 @@ func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.Conver
 	src, ok := source.(*alpha20201201s.VirtualMachine_STATUS)
 	if ok {
 		// Populate our instance from source
-		return machine.AssignPropertiesFromVirtualMachineSTATUS(src)
+		return machine.AssignProperties_From_VirtualMachine_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -394,7 +394,7 @@ func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.Conver
 	}
 
 	// Update our instance from src
-	err = machine.AssignPropertiesFromVirtualMachineSTATUS(src)
+	err = machine.AssignProperties_From_VirtualMachine_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -407,12 +407,12 @@ func (machine *VirtualMachine_STATUS) ConvertStatusTo(destination genruntime.Con
 	dst, ok := destination.(*alpha20201201s.VirtualMachine_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return machine.AssignPropertiesToVirtualMachineSTATUS(dst)
+		return machine.AssignProperties_To_VirtualMachine_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20201201s.VirtualMachine_STATUS{}
-	err := machine.AssignPropertiesToVirtualMachineSTATUS(dst)
+	err := machine.AssignProperties_To_VirtualMachine_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -785,15 +785,15 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineSTATUS populates our VirtualMachine_STATUS from the provided source VirtualMachine_STATUS
-func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(source *alpha20201201s.VirtualMachine_STATUS) error {
+// AssignProperties_From_VirtualMachine_STATUS populates our VirtualMachine_STATUS from the provided source VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATUS(source *alpha20201201s.VirtualMachine_STATUS) error {
 
 	// AdditionalCapabilities
 	if source.AdditionalCapabilities != nil {
 		var additionalCapability AdditionalCapabilities_STATUS
-		err := additionalCapability.AssignPropertiesFromAdditionalCapabilitiesSTATUS(source.AdditionalCapabilities)
+		err := additionalCapability.AssignProperties_From_AdditionalCapabilities_STATUS(source.AdditionalCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilitiesSTATUS() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
 		}
 		machine.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -803,9 +803,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// AvailabilitySet
 	if source.AvailabilitySet != nil {
 		var availabilitySet SubResource_STATUS
-		err := availabilitySet.AssignPropertiesFromSubResourceSTATUS(source.AvailabilitySet)
+		err := availabilitySet.AssignProperties_From_SubResource_STATUS(source.AvailabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field AvailabilitySet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field AvailabilitySet")
 		}
 		machine.AvailabilitySet = &availabilitySet
 	} else {
@@ -815,9 +815,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// BillingProfile
 	if source.BillingProfile != nil {
 		var billingProfile BillingProfile_STATUS
-		err := billingProfile.AssignPropertiesFromBillingProfileSTATUS(source.BillingProfile)
+		err := billingProfile.AssignProperties_From_BillingProfile_STATUS(source.BillingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfileSTATUS() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile_STATUS() to populate field BillingProfile")
 		}
 		machine.BillingProfile = &billingProfile
 	} else {
@@ -830,9 +830,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// DiagnosticsProfile
 	if source.DiagnosticsProfile != nil {
 		var diagnosticsProfile DiagnosticsProfile_STATUS
-		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfileSTATUS(source.DiagnosticsProfile)
+		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile_STATUS(source.DiagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfileSTATUS() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
 		}
 		machine.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -850,9 +850,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignPropertiesFromExtendedLocationSTATUS(source.ExtendedLocation)
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		machine.ExtendedLocation = &extendedLocation
 	} else {
@@ -865,9 +865,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// HardwareProfile
 	if source.HardwareProfile != nil {
 		var hardwareProfile HardwareProfile_STATUS
-		err := hardwareProfile.AssignPropertiesFromHardwareProfileSTATUS(source.HardwareProfile)
+		err := hardwareProfile.AssignProperties_From_HardwareProfile_STATUS(source.HardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHardwareProfileSTATUS() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile_STATUS() to populate field HardwareProfile")
 		}
 		machine.HardwareProfile = &hardwareProfile
 	} else {
@@ -877,9 +877,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// Host
 	if source.Host != nil {
 		var host SubResource_STATUS
-		err := host.AssignPropertiesFromSubResourceSTATUS(source.Host)
+		err := host.AssignProperties_From_SubResource_STATUS(source.Host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field Host")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Host")
 		}
 		machine.Host = &host
 	} else {
@@ -889,9 +889,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// HostGroup
 	if source.HostGroup != nil {
 		var hostGroup SubResource_STATUS
-		err := hostGroup.AssignPropertiesFromSubResourceSTATUS(source.HostGroup)
+		err := hostGroup.AssignProperties_From_SubResource_STATUS(source.HostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field HostGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field HostGroup")
 		}
 		machine.HostGroup = &hostGroup
 	} else {
@@ -904,9 +904,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineIdentity_STATUS
-		err := identity.AssignPropertiesFromVirtualMachineIdentitySTATUS(source.Identity)
+		err := identity.AssignProperties_From_VirtualMachineIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity_STATUS() to populate field Identity")
 		}
 		machine.Identity = &identity
 	} else {
@@ -916,9 +916,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// InstanceView
 	if source.InstanceView != nil {
 		var instanceView VirtualMachineInstanceView_STATUS
-		err := instanceView.AssignPropertiesFromVirtualMachineInstanceViewSTATUS(source.InstanceView)
+		err := instanceView.AssignProperties_From_VirtualMachineInstanceView_STATUS(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceViewSTATUS() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineInstanceView_STATUS() to populate field InstanceView")
 		}
 		machine.InstanceView = &instanceView
 	} else {
@@ -937,9 +937,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// NetworkProfile
 	if source.NetworkProfile != nil {
 		var networkProfile NetworkProfile_STATUS
-		err := networkProfile.AssignPropertiesFromNetworkProfileSTATUS(source.NetworkProfile)
+		err := networkProfile.AssignProperties_From_NetworkProfile_STATUS(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkProfileSTATUS() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		machine.NetworkProfile = &networkProfile
 	} else {
@@ -949,9 +949,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// OsProfile
 	if source.OsProfile != nil {
 		var osProfile OSProfile_STATUS
-		err := osProfile.AssignPropertiesFromOSProfileSTATUS(source.OsProfile)
+		err := osProfile.AssignProperties_From_OSProfile_STATUS(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOSProfileSTATUS() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_OSProfile_STATUS() to populate field OsProfile")
 		}
 		machine.OsProfile = &osProfile
 	} else {
@@ -961,9 +961,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// Plan
 	if source.Plan != nil {
 		var plan Plan_STATUS
-		err := plan.AssignPropertiesFromPlanSTATUS(source.Plan)
+		err := plan.AssignProperties_From_Plan_STATUS(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPlanSTATUS() to populate field Plan")
+			return errors.Wrap(err, "calling AssignProperties_From_Plan_STATUS() to populate field Plan")
 		}
 		machine.Plan = &plan
 	} else {
@@ -987,9 +987,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup SubResource_STATUS
-		err := proximityPlacementGroup.AssignPropertiesFromSubResourceSTATUS(source.ProximityPlacementGroup)
+		err := proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ProximityPlacementGroup")
 		}
 		machine.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
@@ -1003,9 +1003,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 			// Shadow the loop variable to avoid aliasing
 			resourceItem := resourceItem
 			var resource VirtualMachineExtension_STATUS
-			err := resource.AssignPropertiesFromVirtualMachineExtensionSTATUS(&resourceItem)
+			err := resource.AssignProperties_From_VirtualMachineExtension_STATUS(&resourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionSTATUS() to populate field Resources")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineExtension_STATUS() to populate field Resources")
 			}
 			resourceList[resourceIndex] = resource
 		}
@@ -1017,9 +1017,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		var securityProfile SecurityProfile_STATUS
-		err := securityProfile.AssignPropertiesFromSecurityProfileSTATUS(source.SecurityProfile)
+		err := securityProfile.AssignProperties_From_SecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfileSTATUS() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		machine.SecurityProfile = &securityProfile
 	} else {
@@ -1029,9 +1029,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// StorageProfile
 	if source.StorageProfile != nil {
 		var storageProfile StorageProfile_STATUS
-		err := storageProfile.AssignPropertiesFromStorageProfileSTATUS(source.StorageProfile)
+		err := storageProfile.AssignProperties_From_StorageProfile_STATUS(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfileSTATUS() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile_STATUS() to populate field StorageProfile")
 		}
 		machine.StorageProfile = &storageProfile
 	} else {
@@ -1047,9 +1047,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet SubResource_STATUS
-		err := virtualMachineScaleSet.AssignPropertiesFromSubResourceSTATUS(source.VirtualMachineScaleSet)
+		err := virtualMachineScaleSet.AssignProperties_From_SubResource_STATUS(source.VirtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachineScaleSet")
 		}
 		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -1066,17 +1066,17 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachineSTATUS(s
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineSTATUS populates the provided destination VirtualMachine_STATUS from our VirtualMachine_STATUS
-func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(destination *alpha20201201s.VirtualMachine_STATUS) error {
+// AssignProperties_To_VirtualMachine_STATUS populates the provided destination VirtualMachine_STATUS from our VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(destination *alpha20201201s.VirtualMachine_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalCapabilities
 	if machine.AdditionalCapabilities != nil {
 		var additionalCapability alpha20201201s.AdditionalCapabilities_STATUS
-		err := machine.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilitiesSTATUS(&additionalCapability)
+		err := machine.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities_STATUS(&additionalCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilitiesSTATUS() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
 		}
 		destination.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -1086,9 +1086,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// AvailabilitySet
 	if machine.AvailabilitySet != nil {
 		var availabilitySet alpha20201201s.SubResource_STATUS
-		err := machine.AvailabilitySet.AssignPropertiesToSubResourceSTATUS(&availabilitySet)
+		err := machine.AvailabilitySet.AssignProperties_To_SubResource_STATUS(&availabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field AvailabilitySet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field AvailabilitySet")
 		}
 		destination.AvailabilitySet = &availabilitySet
 	} else {
@@ -1098,9 +1098,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// BillingProfile
 	if machine.BillingProfile != nil {
 		var billingProfile alpha20201201s.BillingProfile_STATUS
-		err := machine.BillingProfile.AssignPropertiesToBillingProfileSTATUS(&billingProfile)
+		err := machine.BillingProfile.AssignProperties_To_BillingProfile_STATUS(&billingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBillingProfileSTATUS() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile_STATUS() to populate field BillingProfile")
 		}
 		destination.BillingProfile = &billingProfile
 	} else {
@@ -1113,9 +1113,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// DiagnosticsProfile
 	if machine.DiagnosticsProfile != nil {
 		var diagnosticsProfile alpha20201201s.DiagnosticsProfile_STATUS
-		err := machine.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfileSTATUS(&diagnosticsProfile)
+		err := machine.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile_STATUS(&diagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfileSTATUS() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
 		}
 		destination.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -1133,9 +1133,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// ExtendedLocation
 	if machine.ExtendedLocation != nil {
 		var extendedLocation alpha20201201s.ExtendedLocation_STATUS
-		err := machine.ExtendedLocation.AssignPropertiesToExtendedLocationSTATUS(&extendedLocation)
+		err := machine.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationSTATUS() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1148,9 +1148,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// HardwareProfile
 	if machine.HardwareProfile != nil {
 		var hardwareProfile alpha20201201s.HardwareProfile_STATUS
-		err := machine.HardwareProfile.AssignPropertiesToHardwareProfileSTATUS(&hardwareProfile)
+		err := machine.HardwareProfile.AssignProperties_To_HardwareProfile_STATUS(&hardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHardwareProfileSTATUS() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile_STATUS() to populate field HardwareProfile")
 		}
 		destination.HardwareProfile = &hardwareProfile
 	} else {
@@ -1160,9 +1160,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// Host
 	if machine.Host != nil {
 		var host alpha20201201s.SubResource_STATUS
-		err := machine.Host.AssignPropertiesToSubResourceSTATUS(&host)
+		err := machine.Host.AssignProperties_To_SubResource_STATUS(&host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field Host")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Host")
 		}
 		destination.Host = &host
 	} else {
@@ -1172,9 +1172,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// HostGroup
 	if machine.HostGroup != nil {
 		var hostGroup alpha20201201s.SubResource_STATUS
-		err := machine.HostGroup.AssignPropertiesToSubResourceSTATUS(&hostGroup)
+		err := machine.HostGroup.AssignProperties_To_SubResource_STATUS(&hostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field HostGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field HostGroup")
 		}
 		destination.HostGroup = &hostGroup
 	} else {
@@ -1187,9 +1187,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// Identity
 	if machine.Identity != nil {
 		var identity alpha20201201s.VirtualMachineIdentity_STATUS
-		err := machine.Identity.AssignPropertiesToVirtualMachineIdentitySTATUS(&identity)
+		err := machine.Identity.AssignProperties_To_VirtualMachineIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentitySTATUS() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1199,9 +1199,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// InstanceView
 	if machine.InstanceView != nil {
 		var instanceView alpha20201201s.VirtualMachineInstanceView_STATUS
-		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceViewSTATUS(&instanceView)
+		err := machine.InstanceView.AssignProperties_To_VirtualMachineInstanceView_STATUS(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceViewSTATUS() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineInstanceView_STATUS() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -1220,9 +1220,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// NetworkProfile
 	if machine.NetworkProfile != nil {
 		var networkProfile alpha20201201s.NetworkProfile_STATUS
-		err := machine.NetworkProfile.AssignPropertiesToNetworkProfileSTATUS(&networkProfile)
+		err := machine.NetworkProfile.AssignProperties_To_NetworkProfile_STATUS(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkProfileSTATUS() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -1232,9 +1232,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// OsProfile
 	if machine.OsProfile != nil {
 		var osProfile alpha20201201s.OSProfile_STATUS
-		err := machine.OsProfile.AssignPropertiesToOSProfileSTATUS(&osProfile)
+		err := machine.OsProfile.AssignProperties_To_OSProfile_STATUS(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOSProfileSTATUS() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_OSProfile_STATUS() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -1244,9 +1244,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// Plan
 	if machine.Plan != nil {
 		var plan alpha20201201s.Plan_STATUS
-		err := machine.Plan.AssignPropertiesToPlanSTATUS(&plan)
+		err := machine.Plan.AssignProperties_To_Plan_STATUS(&plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPlanSTATUS() to populate field Plan")
+			return errors.Wrap(err, "calling AssignProperties_To_Plan_STATUS() to populate field Plan")
 		}
 		destination.Plan = &plan
 	} else {
@@ -1270,9 +1270,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// ProximityPlacementGroup
 	if machine.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup alpha20201201s.SubResource_STATUS
-		err := machine.ProximityPlacementGroup.AssignPropertiesToSubResourceSTATUS(&proximityPlacementGroup)
+		err := machine.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ProximityPlacementGroup")
 		}
 		destination.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
@@ -1286,9 +1286,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 			// Shadow the loop variable to avoid aliasing
 			resourceItem := resourceItem
 			var resource alpha20201201s.VirtualMachineExtension_STATUS
-			err := resourceItem.AssignPropertiesToVirtualMachineExtensionSTATUS(&resource)
+			err := resourceItem.AssignProperties_To_VirtualMachineExtension_STATUS(&resource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionSTATUS() to populate field Resources")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineExtension_STATUS() to populate field Resources")
 			}
 			resourceList[resourceIndex] = resource
 		}
@@ -1300,9 +1300,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// SecurityProfile
 	if machine.SecurityProfile != nil {
 		var securityProfile alpha20201201s.SecurityProfile_STATUS
-		err := machine.SecurityProfile.AssignPropertiesToSecurityProfileSTATUS(&securityProfile)
+		err := machine.SecurityProfile.AssignProperties_To_SecurityProfile_STATUS(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfileSTATUS() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -1312,9 +1312,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// StorageProfile
 	if machine.StorageProfile != nil {
 		var storageProfile alpha20201201s.StorageProfile_STATUS
-		err := machine.StorageProfile.AssignPropertiesToStorageProfileSTATUS(&storageProfile)
+		err := machine.StorageProfile.AssignProperties_To_StorageProfile_STATUS(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageProfileSTATUS() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile_STATUS() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -1330,9 +1330,9 @@ func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachineSTATUS(des
 	// VirtualMachineScaleSet
 	if machine.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet alpha20201201s.SubResource_STATUS
-		err := machine.VirtualMachineScaleSet.AssignPropertiesToSubResourceSTATUS(&virtualMachineScaleSet)
+		err := machine.VirtualMachineScaleSet.AssignProperties_To_SubResource_STATUS(&virtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachineScaleSet")
 		}
 		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -1365,7 +1365,7 @@ type VirtualMachines_Spec struct {
 	AzureName            string                                          `json:"azureName,omitempty"`
 	BillingProfile       *BillingProfile                                 `json:"billingProfile,omitempty"`
 	DiagnosticsProfile   *DiagnosticsProfile                             `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *VirtualMachinesSpecPropertiesEvictionPolicy    `json:"evictionPolicy,omitempty"`
+	EvictionPolicy       *VirtualMachines_Spec_Properties_EvictionPolicy `json:"evictionPolicy,omitempty"`
 	ExtendedLocation     *ExtendedLocation                               `json:"extendedLocation,omitempty"`
 	ExtensionsTimeBudget *string                                         `json:"extensionsTimeBudget,omitempty"`
 	HardwareProfile      *HardwareProfile                                `json:"hardwareProfile,omitempty"`
@@ -1381,16 +1381,16 @@ type VirtualMachines_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                   *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Plan                    *Plan                                  `json:"plan,omitempty"`
-	PlatformFaultDomain     *int                                   `json:"platformFaultDomain,omitempty"`
-	Priority                *VirtualMachinesSpecPropertiesPriority `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource                           `json:"proximityPlacementGroup,omitempty"`
-	SecurityProfile         *SecurityProfile                       `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile                        `json:"storageProfile,omitempty"`
-	Tags                    map[string]string                      `json:"tags,omitempty"`
-	VirtualMachineScaleSet  *SubResource                           `json:"virtualMachineScaleSet,omitempty"`
-	Zones                   []string                               `json:"zones,omitempty"`
+	Owner                   *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                    *Plan                                     `json:"plan,omitempty"`
+	PlatformFaultDomain     *int                                      `json:"platformFaultDomain,omitempty"`
+	Priority                *VirtualMachines_Spec_Properties_Priority `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource                              `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile                          `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile                           `json:"storageProfile,omitempty"`
+	Tags                    map[string]string                         `json:"tags,omitempty"`
+	VirtualMachineScaleSet  *SubResource                              `json:"virtualMachineScaleSet,omitempty"`
+	Zones                   []string                                  `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachines_Spec{}
@@ -1912,7 +1912,7 @@ func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.Converti
 	src, ok := source.(*alpha20201201s.VirtualMachines_Spec)
 	if ok {
 		// Populate our instance from source
-		return machines.AssignPropertiesFromVirtualMachinesSpec(src)
+		return machines.AssignProperties_From_VirtualMachines_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1923,7 +1923,7 @@ func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.Converti
 	}
 
 	// Update our instance from src
-	err = machines.AssignPropertiesFromVirtualMachinesSpec(src)
+	err = machines.AssignProperties_From_VirtualMachines_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1936,12 +1936,12 @@ func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.Conve
 	dst, ok := destination.(*alpha20201201s.VirtualMachines_Spec)
 	if ok {
 		// Populate destination from our instance
-		return machines.AssignPropertiesToVirtualMachinesSpec(dst)
+		return machines.AssignProperties_To_VirtualMachines_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20201201s.VirtualMachines_Spec{}
-	err := machines.AssignPropertiesToVirtualMachinesSpec(dst)
+	err := machines.AssignProperties_To_VirtualMachines_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1955,15 +1955,15 @@ func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinesSpec populates our VirtualMachines_Spec from the provided source VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(source *alpha20201201s.VirtualMachines_Spec) error {
+// AssignProperties_From_VirtualMachines_Spec populates our VirtualMachines_Spec from the provided source VirtualMachines_Spec
+func (machines *VirtualMachines_Spec) AssignProperties_From_VirtualMachines_Spec(source *alpha20201201s.VirtualMachines_Spec) error {
 
 	// AdditionalCapabilities
 	if source.AdditionalCapabilities != nil {
 		var additionalCapability AdditionalCapabilities
-		err := additionalCapability.AssignPropertiesFromAdditionalCapabilities(source.AdditionalCapabilities)
+		err := additionalCapability.AssignProperties_From_AdditionalCapabilities(source.AdditionalCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilities() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignProperties_From_AdditionalCapabilities() to populate field AdditionalCapabilities")
 		}
 		machines.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -1973,9 +1973,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// AvailabilitySet
 	if source.AvailabilitySet != nil {
 		var availabilitySet SubResource
-		err := availabilitySet.AssignPropertiesFromSubResource(source.AvailabilitySet)
+		err := availabilitySet.AssignProperties_From_SubResource(source.AvailabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field AvailabilitySet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field AvailabilitySet")
 		}
 		machines.AvailabilitySet = &availabilitySet
 	} else {
@@ -1988,9 +1988,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// BillingProfile
 	if source.BillingProfile != nil {
 		var billingProfile BillingProfile
-		err := billingProfile.AssignPropertiesFromBillingProfile(source.BillingProfile)
+		err := billingProfile.AssignProperties_From_BillingProfile(source.BillingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfile() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_BillingProfile() to populate field BillingProfile")
 		}
 		machines.BillingProfile = &billingProfile
 	} else {
@@ -2000,9 +2000,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// DiagnosticsProfile
 	if source.DiagnosticsProfile != nil {
 		var diagnosticsProfile DiagnosticsProfile
-		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfile(source.DiagnosticsProfile)
+		err := diagnosticsProfile.AssignProperties_From_DiagnosticsProfile(source.DiagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfile() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_DiagnosticsProfile() to populate field DiagnosticsProfile")
 		}
 		machines.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -2011,7 +2011,7 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := VirtualMachinesSpecPropertiesEvictionPolicy(*source.EvictionPolicy)
+		evictionPolicy := VirtualMachines_Spec_Properties_EvictionPolicy(*source.EvictionPolicy)
 		machines.EvictionPolicy = &evictionPolicy
 	} else {
 		machines.EvictionPolicy = nil
@@ -2020,9 +2020,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		machines.ExtendedLocation = &extendedLocation
 	} else {
@@ -2035,9 +2035,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// HardwareProfile
 	if source.HardwareProfile != nil {
 		var hardwareProfile HardwareProfile
-		err := hardwareProfile.AssignPropertiesFromHardwareProfile(source.HardwareProfile)
+		err := hardwareProfile.AssignProperties_From_HardwareProfile(source.HardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHardwareProfile() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_HardwareProfile() to populate field HardwareProfile")
 		}
 		machines.HardwareProfile = &hardwareProfile
 	} else {
@@ -2047,9 +2047,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// Host
 	if source.Host != nil {
 		var host SubResource
-		err := host.AssignPropertiesFromSubResource(source.Host)
+		err := host.AssignProperties_From_SubResource(source.Host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Host")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Host")
 		}
 		machines.Host = &host
 	} else {
@@ -2059,9 +2059,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// HostGroup
 	if source.HostGroup != nil {
 		var hostGroup SubResource
-		err := hostGroup.AssignPropertiesFromSubResource(source.HostGroup)
+		err := hostGroup.AssignProperties_From_SubResource(source.HostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field HostGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field HostGroup")
 		}
 		machines.HostGroup = &hostGroup
 	} else {
@@ -2071,9 +2071,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineIdentity
-		err := identity.AssignPropertiesFromVirtualMachineIdentity(source.Identity)
+		err := identity.AssignProperties_From_VirtualMachineIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineIdentity() to populate field Identity")
 		}
 		machines.Identity = &identity
 	} else {
@@ -2089,9 +2089,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// NetworkProfile
 	if source.NetworkProfile != nil {
 		var networkProfile VirtualMachines_Spec_Properties_NetworkProfile
-		err := networkProfile.AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile(source.NetworkProfile)
+		err := networkProfile.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
 		}
 		machines.NetworkProfile = &networkProfile
 	} else {
@@ -2101,9 +2101,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// OsProfile
 	if source.OsProfile != nil {
 		var osProfile VirtualMachines_Spec_Properties_OsProfile
-		err := osProfile.AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile(source.OsProfile)
+		err := osProfile.AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
 		}
 		machines.OsProfile = &osProfile
 	} else {
@@ -2121,9 +2121,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// Plan
 	if source.Plan != nil {
 		var plan Plan
-		err := plan.AssignPropertiesFromPlan(source.Plan)
+		err := plan.AssignProperties_From_Plan(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPlan() to populate field Plan")
+			return errors.Wrap(err, "calling AssignProperties_From_Plan() to populate field Plan")
 		}
 		machines.Plan = &plan
 	} else {
@@ -2135,7 +2135,7 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 
 	// Priority
 	if source.Priority != nil {
-		priority := VirtualMachinesSpecPropertiesPriority(*source.Priority)
+		priority := VirtualMachines_Spec_Properties_Priority(*source.Priority)
 		machines.Priority = &priority
 	} else {
 		machines.Priority = nil
@@ -2144,9 +2144,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.AssignPropertiesFromSubResource(source.ProximityPlacementGroup)
+		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
 		}
 		machines.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
@@ -2156,9 +2156,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		var securityProfile SecurityProfile
-		err := securityProfile.AssignPropertiesFromSecurityProfile(source.SecurityProfile)
+		err := securityProfile.AssignProperties_From_SecurityProfile(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfile() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_SecurityProfile() to populate field SecurityProfile")
 		}
 		machines.SecurityProfile = &securityProfile
 	} else {
@@ -2168,9 +2168,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// StorageProfile
 	if source.StorageProfile != nil {
 		var storageProfile StorageProfile
-		err := storageProfile.AssignPropertiesFromStorageProfile(source.StorageProfile)
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfile() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
 		}
 		machines.StorageProfile = &storageProfile
 	} else {
@@ -2183,9 +2183,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet SubResource
-		err := virtualMachineScaleSet.AssignPropertiesFromSubResource(source.VirtualMachineScaleSet)
+		err := virtualMachineScaleSet.AssignProperties_From_SubResource(source.VirtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualMachineScaleSet")
 		}
 		machines.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -2199,17 +2199,17 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpec populates the provided destination VirtualMachines_Spec from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(destination *alpha20201201s.VirtualMachines_Spec) error {
+// AssignProperties_To_VirtualMachines_Spec populates the provided destination VirtualMachines_Spec from our VirtualMachines_Spec
+func (machines *VirtualMachines_Spec) AssignProperties_To_VirtualMachines_Spec(destination *alpha20201201s.VirtualMachines_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalCapabilities
 	if machines.AdditionalCapabilities != nil {
 		var additionalCapability alpha20201201s.AdditionalCapabilities
-		err := machines.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilities(&additionalCapability)
+		err := machines.AdditionalCapabilities.AssignProperties_To_AdditionalCapabilities(&additionalCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilities() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignProperties_To_AdditionalCapabilities() to populate field AdditionalCapabilities")
 		}
 		destination.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -2219,9 +2219,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// AvailabilitySet
 	if machines.AvailabilitySet != nil {
 		var availabilitySet alpha20201201s.SubResource
-		err := machines.AvailabilitySet.AssignPropertiesToSubResource(&availabilitySet)
+		err := machines.AvailabilitySet.AssignProperties_To_SubResource(&availabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field AvailabilitySet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field AvailabilitySet")
 		}
 		destination.AvailabilitySet = &availabilitySet
 	} else {
@@ -2234,9 +2234,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// BillingProfile
 	if machines.BillingProfile != nil {
 		var billingProfile alpha20201201s.BillingProfile
-		err := machines.BillingProfile.AssignPropertiesToBillingProfile(&billingProfile)
+		err := machines.BillingProfile.AssignProperties_To_BillingProfile(&billingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBillingProfile() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_BillingProfile() to populate field BillingProfile")
 		}
 		destination.BillingProfile = &billingProfile
 	} else {
@@ -2246,9 +2246,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// DiagnosticsProfile
 	if machines.DiagnosticsProfile != nil {
 		var diagnosticsProfile alpha20201201s.DiagnosticsProfile
-		err := machines.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfile(&diagnosticsProfile)
+		err := machines.DiagnosticsProfile.AssignProperties_To_DiagnosticsProfile(&diagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfile() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_DiagnosticsProfile() to populate field DiagnosticsProfile")
 		}
 		destination.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -2266,9 +2266,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// ExtendedLocation
 	if machines.ExtendedLocation != nil {
 		var extendedLocation alpha20201201s.ExtendedLocation
-		err := machines.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := machines.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2281,9 +2281,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// HardwareProfile
 	if machines.HardwareProfile != nil {
 		var hardwareProfile alpha20201201s.HardwareProfile
-		err := machines.HardwareProfile.AssignPropertiesToHardwareProfile(&hardwareProfile)
+		err := machines.HardwareProfile.AssignProperties_To_HardwareProfile(&hardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHardwareProfile() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_HardwareProfile() to populate field HardwareProfile")
 		}
 		destination.HardwareProfile = &hardwareProfile
 	} else {
@@ -2293,9 +2293,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// Host
 	if machines.Host != nil {
 		var host alpha20201201s.SubResource
-		err := machines.Host.AssignPropertiesToSubResource(&host)
+		err := machines.Host.AssignProperties_To_SubResource(&host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Host")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Host")
 		}
 		destination.Host = &host
 	} else {
@@ -2305,9 +2305,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// HostGroup
 	if machines.HostGroup != nil {
 		var hostGroup alpha20201201s.SubResource
-		err := machines.HostGroup.AssignPropertiesToSubResource(&hostGroup)
+		err := machines.HostGroup.AssignProperties_To_SubResource(&hostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field HostGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field HostGroup")
 		}
 		destination.HostGroup = &hostGroup
 	} else {
@@ -2317,9 +2317,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// Identity
 	if machines.Identity != nil {
 		var identity alpha20201201s.VirtualMachineIdentity
-		err := machines.Identity.AssignPropertiesToVirtualMachineIdentity(&identity)
+		err := machines.Identity.AssignProperties_To_VirtualMachineIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2335,9 +2335,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// NetworkProfile
 	if machines.NetworkProfile != nil {
 		var networkProfile alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile
-		err := machines.NetworkProfile.AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile(&networkProfile)
+		err := machines.NetworkProfile.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -2350,9 +2350,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// OsProfile
 	if machines.OsProfile != nil {
 		var osProfile alpha20201201s.VirtualMachines_Spec_Properties_OsProfile
-		err := machines.OsProfile.AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile(&osProfile)
+		err := machines.OsProfile.AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -2370,9 +2370,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// Plan
 	if machines.Plan != nil {
 		var plan alpha20201201s.Plan
-		err := machines.Plan.AssignPropertiesToPlan(&plan)
+		err := machines.Plan.AssignProperties_To_Plan(&plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPlan() to populate field Plan")
+			return errors.Wrap(err, "calling AssignProperties_To_Plan() to populate field Plan")
 		}
 		destination.Plan = &plan
 	} else {
@@ -2393,9 +2393,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// ProximityPlacementGroup
 	if machines.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup alpha20201201s.SubResource
-		err := machines.ProximityPlacementGroup.AssignPropertiesToSubResource(&proximityPlacementGroup)
+		err := machines.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
 		}
 		destination.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
@@ -2405,9 +2405,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// SecurityProfile
 	if machines.SecurityProfile != nil {
 		var securityProfile alpha20201201s.SecurityProfile
-		err := machines.SecurityProfile.AssignPropertiesToSecurityProfile(&securityProfile)
+		err := machines.SecurityProfile.AssignProperties_To_SecurityProfile(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfile() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_SecurityProfile() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -2417,9 +2417,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// StorageProfile
 	if machines.StorageProfile != nil {
 		var storageProfile alpha20201201s.StorageProfile
-		err := machines.StorageProfile.AssignPropertiesToStorageProfile(&storageProfile)
+		err := machines.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageProfile() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -2432,9 +2432,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	// VirtualMachineScaleSet
 	if machines.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet alpha20201201s.SubResource
-		err := machines.VirtualMachineScaleSet.AssignPropertiesToSubResource(&virtualMachineScaleSet)
+		err := machines.VirtualMachineScaleSet.AssignProperties_To_SubResource(&virtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualMachineScaleSet")
 		}
 		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -2507,8 +2507,8 @@ func (capabilities *AdditionalCapabilities) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromAdditionalCapabilities populates our AdditionalCapabilities from the provided source AdditionalCapabilities
-func (capabilities *AdditionalCapabilities) AssignPropertiesFromAdditionalCapabilities(source *alpha20201201s.AdditionalCapabilities) error {
+// AssignProperties_From_AdditionalCapabilities populates our AdditionalCapabilities from the provided source AdditionalCapabilities
+func (capabilities *AdditionalCapabilities) AssignProperties_From_AdditionalCapabilities(source *alpha20201201s.AdditionalCapabilities) error {
 
 	// UltraSSDEnabled
 	if source.UltraSSDEnabled != nil {
@@ -2522,8 +2522,8 @@ func (capabilities *AdditionalCapabilities) AssignPropertiesFromAdditionalCapabi
 	return nil
 }
 
-// AssignPropertiesToAdditionalCapabilities populates the provided destination AdditionalCapabilities from our AdditionalCapabilities
-func (capabilities *AdditionalCapabilities) AssignPropertiesToAdditionalCapabilities(destination *alpha20201201s.AdditionalCapabilities) error {
+// AssignProperties_To_AdditionalCapabilities populates the provided destination AdditionalCapabilities from our AdditionalCapabilities
+func (capabilities *AdditionalCapabilities) AssignProperties_To_AdditionalCapabilities(destination *alpha20201201s.AdditionalCapabilities) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2575,8 +2575,8 @@ func (capabilities *AdditionalCapabilities_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromAdditionalCapabilitiesSTATUS populates our AdditionalCapabilities_STATUS from the provided source AdditionalCapabilities_STATUS
-func (capabilities *AdditionalCapabilities_STATUS) AssignPropertiesFromAdditionalCapabilitiesSTATUS(source *alpha20201201s.AdditionalCapabilities_STATUS) error {
+// AssignProperties_From_AdditionalCapabilities_STATUS populates our AdditionalCapabilities_STATUS from the provided source AdditionalCapabilities_STATUS
+func (capabilities *AdditionalCapabilities_STATUS) AssignProperties_From_AdditionalCapabilities_STATUS(source *alpha20201201s.AdditionalCapabilities_STATUS) error {
 
 	// UltraSSDEnabled
 	if source.UltraSSDEnabled != nil {
@@ -2590,8 +2590,8 @@ func (capabilities *AdditionalCapabilities_STATUS) AssignPropertiesFromAdditiona
 	return nil
 }
 
-// AssignPropertiesToAdditionalCapabilitiesSTATUS populates the provided destination AdditionalCapabilities_STATUS from our AdditionalCapabilities_STATUS
-func (capabilities *AdditionalCapabilities_STATUS) AssignPropertiesToAdditionalCapabilitiesSTATUS(destination *alpha20201201s.AdditionalCapabilities_STATUS) error {
+// AssignProperties_To_AdditionalCapabilities_STATUS populates the provided destination AdditionalCapabilities_STATUS from our AdditionalCapabilities_STATUS
+func (capabilities *AdditionalCapabilities_STATUS) AssignProperties_To_AdditionalCapabilities_STATUS(destination *alpha20201201s.AdditionalCapabilities_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2658,8 +2658,8 @@ func (profile *BillingProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromBillingProfile populates our BillingProfile from the provided source BillingProfile
-func (profile *BillingProfile) AssignPropertiesFromBillingProfile(source *alpha20201201s.BillingProfile) error {
+// AssignProperties_From_BillingProfile populates our BillingProfile from the provided source BillingProfile
+func (profile *BillingProfile) AssignProperties_From_BillingProfile(source *alpha20201201s.BillingProfile) error {
 
 	// MaxPrice
 	if source.MaxPrice != nil {
@@ -2673,8 +2673,8 @@ func (profile *BillingProfile) AssignPropertiesFromBillingProfile(source *alpha2
 	return nil
 }
 
-// AssignPropertiesToBillingProfile populates the provided destination BillingProfile from our BillingProfile
-func (profile *BillingProfile) AssignPropertiesToBillingProfile(destination *alpha20201201s.BillingProfile) error {
+// AssignProperties_To_BillingProfile populates the provided destination BillingProfile from our BillingProfile
+func (profile *BillingProfile) AssignProperties_To_BillingProfile(destination *alpha20201201s.BillingProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2726,8 +2726,8 @@ func (profile *BillingProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromBillingProfileSTATUS populates our BillingProfile_STATUS from the provided source BillingProfile_STATUS
-func (profile *BillingProfile_STATUS) AssignPropertiesFromBillingProfileSTATUS(source *alpha20201201s.BillingProfile_STATUS) error {
+// AssignProperties_From_BillingProfile_STATUS populates our BillingProfile_STATUS from the provided source BillingProfile_STATUS
+func (profile *BillingProfile_STATUS) AssignProperties_From_BillingProfile_STATUS(source *alpha20201201s.BillingProfile_STATUS) error {
 
 	// MaxPrice
 	if source.MaxPrice != nil {
@@ -2741,8 +2741,8 @@ func (profile *BillingProfile_STATUS) AssignPropertiesFromBillingProfileSTATUS(s
 	return nil
 }
 
-// AssignPropertiesToBillingProfileSTATUS populates the provided destination BillingProfile_STATUS from our BillingProfile_STATUS
-func (profile *BillingProfile_STATUS) AssignPropertiesToBillingProfileSTATUS(destination *alpha20201201s.BillingProfile_STATUS) error {
+// AssignProperties_To_BillingProfile_STATUS populates the provided destination BillingProfile_STATUS from our BillingProfile_STATUS
+func (profile *BillingProfile_STATUS) AssignProperties_To_BillingProfile_STATUS(destination *alpha20201201s.BillingProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2818,15 +2818,15 @@ func (profile *DiagnosticsProfile) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-// AssignPropertiesFromDiagnosticsProfile populates our DiagnosticsProfile from the provided source DiagnosticsProfile
-func (profile *DiagnosticsProfile) AssignPropertiesFromDiagnosticsProfile(source *alpha20201201s.DiagnosticsProfile) error {
+// AssignProperties_From_DiagnosticsProfile populates our DiagnosticsProfile from the provided source DiagnosticsProfile
+func (profile *DiagnosticsProfile) AssignProperties_From_DiagnosticsProfile(source *alpha20201201s.DiagnosticsProfile) error {
 
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
 		var bootDiagnostic BootDiagnostics
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnostics(source.BootDiagnostics)
+		err := bootDiagnostic.AssignProperties_From_BootDiagnostics(source.BootDiagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnostics() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_BootDiagnostics() to populate field BootDiagnostics")
 		}
 		profile.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -2837,17 +2837,17 @@ func (profile *DiagnosticsProfile) AssignPropertiesFromDiagnosticsProfile(source
 	return nil
 }
 
-// AssignPropertiesToDiagnosticsProfile populates the provided destination DiagnosticsProfile from our DiagnosticsProfile
-func (profile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfile(destination *alpha20201201s.DiagnosticsProfile) error {
+// AssignProperties_To_DiagnosticsProfile populates the provided destination DiagnosticsProfile from our DiagnosticsProfile
+func (profile *DiagnosticsProfile) AssignProperties_To_DiagnosticsProfile(destination *alpha20201201s.DiagnosticsProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BootDiagnostics
 	if profile.BootDiagnostics != nil {
 		var bootDiagnostic alpha20201201s.BootDiagnostics
-		err := profile.BootDiagnostics.AssignPropertiesToBootDiagnostics(&bootDiagnostic)
+		err := profile.BootDiagnostics.AssignProperties_To_BootDiagnostics(&bootDiagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnostics() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_BootDiagnostics() to populate field BootDiagnostics")
 		}
 		destination.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -2899,15 +2899,15 @@ func (profile *DiagnosticsProfile_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromDiagnosticsProfileSTATUS populates our DiagnosticsProfile_STATUS from the provided source DiagnosticsProfile_STATUS
-func (profile *DiagnosticsProfile_STATUS) AssignPropertiesFromDiagnosticsProfileSTATUS(source *alpha20201201s.DiagnosticsProfile_STATUS) error {
+// AssignProperties_From_DiagnosticsProfile_STATUS populates our DiagnosticsProfile_STATUS from the provided source DiagnosticsProfile_STATUS
+func (profile *DiagnosticsProfile_STATUS) AssignProperties_From_DiagnosticsProfile_STATUS(source *alpha20201201s.DiagnosticsProfile_STATUS) error {
 
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
 		var bootDiagnostic BootDiagnostics_STATUS
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsSTATUS(source.BootDiagnostics)
+		err := bootDiagnostic.AssignProperties_From_BootDiagnostics_STATUS(source.BootDiagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsSTATUS() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_BootDiagnostics_STATUS() to populate field BootDiagnostics")
 		}
 		profile.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -2918,17 +2918,17 @@ func (profile *DiagnosticsProfile_STATUS) AssignPropertiesFromDiagnosticsProfile
 	return nil
 }
 
-// AssignPropertiesToDiagnosticsProfileSTATUS populates the provided destination DiagnosticsProfile_STATUS from our DiagnosticsProfile_STATUS
-func (profile *DiagnosticsProfile_STATUS) AssignPropertiesToDiagnosticsProfileSTATUS(destination *alpha20201201s.DiagnosticsProfile_STATUS) error {
+// AssignProperties_To_DiagnosticsProfile_STATUS populates the provided destination DiagnosticsProfile_STATUS from our DiagnosticsProfile_STATUS
+func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile_STATUS(destination *alpha20201201s.DiagnosticsProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BootDiagnostics
 	if profile.BootDiagnostics != nil {
 		var bootDiagnostic alpha20201201s.BootDiagnostics_STATUS
-		err := profile.BootDiagnostics.AssignPropertiesToBootDiagnosticsSTATUS(&bootDiagnostic)
+		err := profile.BootDiagnostics.AssignProperties_To_BootDiagnostics_STATUS(&bootDiagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsSTATUS() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_BootDiagnostics_STATUS() to populate field BootDiagnostics")
 		}
 		destination.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -2956,8 +2956,8 @@ const (
 
 // Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
 type ExtendedLocation struct {
-	Name *string               `json:"name,omitempty"`
-	Type *ExtendedLocationType `json:"type,omitempty"`
+	Name *string                `json:"name,omitempty"`
+	Type *ExtendedLocation_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3011,15 +3011,15 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *alpha20201201s.ExtendedLocation) error {
+// AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *alpha20201201s.ExtendedLocation) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
+		typeVar := ExtendedLocation_Type(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -3029,8 +3029,8 @@ func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *a
 	return nil
 }
 
-// AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *alpha20201201s.ExtendedLocation) error {
+// AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *alpha20201201s.ExtendedLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3092,8 +3092,8 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocationSTATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTATUS(source *alpha20201201s.ExtendedLocation_STATUS) error {
+// AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *alpha20201201s.ExtendedLocation_STATUS) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3110,8 +3110,8 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocationSTA
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationSTATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATUS(destination *alpha20201201s.ExtendedLocation_STATUS) error {
+// AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *alpha20201201s.ExtendedLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3139,7 +3139,7 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocationSTATU
 
 // Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
 type HardwareProfile struct {
-	VmSize *HardwareProfileVmSize `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_VmSize `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HardwareProfile{}
@@ -3181,12 +3181,12 @@ func (profile *HardwareProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromHardwareProfile populates our HardwareProfile from the provided source HardwareProfile
-func (profile *HardwareProfile) AssignPropertiesFromHardwareProfile(source *alpha20201201s.HardwareProfile) error {
+// AssignProperties_From_HardwareProfile populates our HardwareProfile from the provided source HardwareProfile
+func (profile *HardwareProfile) AssignProperties_From_HardwareProfile(source *alpha20201201s.HardwareProfile) error {
 
 	// VmSize
 	if source.VmSize != nil {
-		vmSize := HardwareProfileVmSize(*source.VmSize)
+		vmSize := HardwareProfile_VmSize(*source.VmSize)
 		profile.VmSize = &vmSize
 	} else {
 		profile.VmSize = nil
@@ -3196,8 +3196,8 @@ func (profile *HardwareProfile) AssignPropertiesFromHardwareProfile(source *alph
 	return nil
 }
 
-// AssignPropertiesToHardwareProfile populates the provided destination HardwareProfile from our HardwareProfile
-func (profile *HardwareProfile) AssignPropertiesToHardwareProfile(destination *alpha20201201s.HardwareProfile) error {
+// AssignProperties_To_HardwareProfile populates the provided destination HardwareProfile from our HardwareProfile
+func (profile *HardwareProfile) AssignProperties_To_HardwareProfile(destination *alpha20201201s.HardwareProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3222,7 +3222,7 @@ func (profile *HardwareProfile) AssignPropertiesToHardwareProfile(destination *a
 
 // Deprecated version of HardwareProfile_STATUS. Use v1beta20201201.HardwareProfile_STATUS instead
 type HardwareProfile_STATUS struct {
-	VmSize *HardwareProfileSTATUSVmSize `json:"vmSize,omitempty"`
+	VmSize *HardwareProfile_STATUS_VmSize `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HardwareProfile_STATUS{}
@@ -3249,12 +3249,12 @@ func (profile *HardwareProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromHardwareProfileSTATUS populates our HardwareProfile_STATUS from the provided source HardwareProfile_STATUS
-func (profile *HardwareProfile_STATUS) AssignPropertiesFromHardwareProfileSTATUS(source *alpha20201201s.HardwareProfile_STATUS) error {
+// AssignProperties_From_HardwareProfile_STATUS populates our HardwareProfile_STATUS from the provided source HardwareProfile_STATUS
+func (profile *HardwareProfile_STATUS) AssignProperties_From_HardwareProfile_STATUS(source *alpha20201201s.HardwareProfile_STATUS) error {
 
 	// VmSize
 	if source.VmSize != nil {
-		vmSize := HardwareProfileSTATUSVmSize(*source.VmSize)
+		vmSize := HardwareProfile_STATUS_VmSize(*source.VmSize)
 		profile.VmSize = &vmSize
 	} else {
 		profile.VmSize = nil
@@ -3264,8 +3264,8 @@ func (profile *HardwareProfile_STATUS) AssignPropertiesFromHardwareProfileSTATUS
 	return nil
 }
 
-// AssignPropertiesToHardwareProfileSTATUS populates the provided destination HardwareProfile_STATUS from our HardwareProfile_STATUS
-func (profile *HardwareProfile_STATUS) AssignPropertiesToHardwareProfileSTATUS(destination *alpha20201201s.HardwareProfile_STATUS) error {
+// AssignProperties_To_HardwareProfile_STATUS populates the provided destination HardwareProfile_STATUS from our HardwareProfile_STATUS
+func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATUS(destination *alpha20201201s.HardwareProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3321,8 +3321,8 @@ func (profile *NetworkProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromNetworkProfileSTATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignPropertiesFromNetworkProfileSTATUS(source *alpha20201201s.NetworkProfile_STATUS) error {
+// AssignProperties_From_NetworkProfile_STATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
+func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *alpha20201201s.NetworkProfile_STATUS) error {
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
@@ -3331,9 +3331,9 @@ func (profile *NetworkProfile_STATUS) AssignPropertiesFromNetworkProfileSTATUS(s
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface NetworkInterfaceReference_STATUS
-			err := networkInterface.AssignPropertiesFromNetworkInterfaceReferenceSTATUS(&networkInterfaceItem)
+			err := networkInterface.AssignProperties_From_NetworkInterfaceReference_STATUS(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceReferenceSTATUS() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceReference_STATUS() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -3346,8 +3346,8 @@ func (profile *NetworkProfile_STATUS) AssignPropertiesFromNetworkProfileSTATUS(s
 	return nil
 }
 
-// AssignPropertiesToNetworkProfileSTATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignPropertiesToNetworkProfileSTATUS(destination *alpha20201201s.NetworkProfile_STATUS) error {
+// AssignProperties_To_NetworkProfile_STATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
+func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *alpha20201201s.NetworkProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3358,9 +3358,9 @@ func (profile *NetworkProfile_STATUS) AssignPropertiesToNetworkProfileSTATUS(des
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface alpha20201201s.NetworkInterfaceReference_STATUS
-			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceReferenceSTATUS(&networkInterface)
+			err := networkInterfaceItem.AssignProperties_To_NetworkInterfaceReference_STATUS(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceReferenceSTATUS() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceReference_STATUS() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -3472,8 +3472,8 @@ func (profile *OSProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromOSProfileSTATUS populates our OSProfile_STATUS from the provided source OSProfile_STATUS
-func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfileSTATUS(source *alpha20201201s.OSProfile_STATUS) error {
+// AssignProperties_From_OSProfile_STATUS populates our OSProfile_STATUS from the provided source OSProfile_STATUS
+func (profile *OSProfile_STATUS) AssignProperties_From_OSProfile_STATUS(source *alpha20201201s.OSProfile_STATUS) error {
 
 	// AdminUsername
 	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
@@ -3495,9 +3495,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfileSTATUS(source *alp
 	// LinuxConfiguration
 	if source.LinuxConfiguration != nil {
 		var linuxConfiguration LinuxConfiguration_STATUS
-		err := linuxConfiguration.AssignPropertiesFromLinuxConfigurationSTATUS(source.LinuxConfiguration)
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration_STATUS(source.LinuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfigurationSTATUS() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration_STATUS() to populate field LinuxConfiguration")
 		}
 		profile.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -3519,9 +3519,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfileSTATUS(source *alp
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
 			var secret VaultSecretGroup_STATUS
-			err := secret.AssignPropertiesFromVaultSecretGroupSTATUS(&secretItem)
+			err := secret.AssignProperties_From_VaultSecretGroup_STATUS(&secretItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroupSTATUS() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup_STATUS() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -3533,9 +3533,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfileSTATUS(source *alp
 	// WindowsConfiguration
 	if source.WindowsConfiguration != nil {
 		var windowsConfiguration WindowsConfiguration_STATUS
-		err := windowsConfiguration.AssignPropertiesFromWindowsConfigurationSTATUS(source.WindowsConfiguration)
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration_STATUS(source.WindowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfigurationSTATUS() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration_STATUS() to populate field WindowsConfiguration")
 		}
 		profile.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -3546,8 +3546,8 @@ func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfileSTATUS(source *alp
 	return nil
 }
 
-// AssignPropertiesToOSProfileSTATUS populates the provided destination OSProfile_STATUS from our OSProfile_STATUS
-func (profile *OSProfile_STATUS) AssignPropertiesToOSProfileSTATUS(destination *alpha20201201s.OSProfile_STATUS) error {
+// AssignProperties_To_OSProfile_STATUS populates the provided destination OSProfile_STATUS from our OSProfile_STATUS
+func (profile *OSProfile_STATUS) AssignProperties_To_OSProfile_STATUS(destination *alpha20201201s.OSProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3571,9 +3571,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesToOSProfileSTATUS(destination *
 	// LinuxConfiguration
 	if profile.LinuxConfiguration != nil {
 		var linuxConfiguration alpha20201201s.LinuxConfiguration_STATUS
-		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfigurationSTATUS(&linuxConfiguration)
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration_STATUS(&linuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfigurationSTATUS() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration_STATUS() to populate field LinuxConfiguration")
 		}
 		destination.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -3595,9 +3595,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesToOSProfileSTATUS(destination *
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
 			var secret alpha20201201s.VaultSecretGroup_STATUS
-			err := secretItem.AssignPropertiesToVaultSecretGroupSTATUS(&secret)
+			err := secretItem.AssignProperties_To_VaultSecretGroup_STATUS(&secret)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroupSTATUS() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup_STATUS() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -3609,9 +3609,9 @@ func (profile *OSProfile_STATUS) AssignPropertiesToOSProfileSTATUS(destination *
 	// WindowsConfiguration
 	if profile.WindowsConfiguration != nil {
 		var windowsConfiguration alpha20201201s.WindowsConfiguration_STATUS
-		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfigurationSTATUS(&windowsConfiguration)
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration_STATUS(&windowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfigurationSTATUS() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration_STATUS() to populate field WindowsConfiguration")
 		}
 		destination.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -3712,8 +3712,8 @@ func (plan *Plan) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armI
 	return nil
 }
 
-// AssignPropertiesFromPlan populates our Plan from the provided source Plan
-func (plan *Plan) AssignPropertiesFromPlan(source *alpha20201201s.Plan) error {
+// AssignProperties_From_Plan populates our Plan from the provided source Plan
+func (plan *Plan) AssignProperties_From_Plan(source *alpha20201201s.Plan) error {
 
 	// Name
 	plan.Name = genruntime.ClonePointerToString(source.Name)
@@ -3731,8 +3731,8 @@ func (plan *Plan) AssignPropertiesFromPlan(source *alpha20201201s.Plan) error {
 	return nil
 }
 
-// AssignPropertiesToPlan populates the provided destination Plan from our Plan
-func (plan *Plan) AssignPropertiesToPlan(destination *alpha20201201s.Plan) error {
+// AssignProperties_To_Plan populates the provided destination Plan from our Plan
+func (plan *Plan) AssignProperties_To_Plan(destination *alpha20201201s.Plan) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3809,8 +3809,8 @@ func (plan *Plan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignPropertiesFromPlanSTATUS populates our Plan_STATUS from the provided source Plan_STATUS
-func (plan *Plan_STATUS) AssignPropertiesFromPlanSTATUS(source *alpha20201201s.Plan_STATUS) error {
+// AssignProperties_From_Plan_STATUS populates our Plan_STATUS from the provided source Plan_STATUS
+func (plan *Plan_STATUS) AssignProperties_From_Plan_STATUS(source *alpha20201201s.Plan_STATUS) error {
 
 	// Name
 	plan.Name = genruntime.ClonePointerToString(source.Name)
@@ -3828,8 +3828,8 @@ func (plan *Plan_STATUS) AssignPropertiesFromPlanSTATUS(source *alpha20201201s.P
 	return nil
 }
 
-// AssignPropertiesToPlanSTATUS populates the provided destination Plan_STATUS from our Plan_STATUS
-func (plan *Plan_STATUS) AssignPropertiesToPlanSTATUS(destination *alpha20201201s.Plan_STATUS) error {
+// AssignProperties_To_Plan_STATUS populates the provided destination Plan_STATUS from our Plan_STATUS
+func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *alpha20201201s.Plan_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3867,9 +3867,9 @@ const (
 
 // Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
 type SecurityProfile struct {
-	EncryptionAtHost *bool                        `json:"encryptionAtHost,omitempty"`
-	SecurityType     *SecurityProfileSecurityType `json:"securityType,omitempty"`
-	UefiSettings     *UefiSettings                `json:"uefiSettings,omitempty"`
+	EncryptionAtHost *bool                         `json:"encryptionAtHost,omitempty"`
+	SecurityType     *SecurityProfile_SecurityType `json:"securityType,omitempty"`
+	UefiSettings     *UefiSettings                 `json:"uefiSettings,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SecurityProfile{}
@@ -3944,8 +3944,8 @@ func (profile *SecurityProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromSecurityProfile populates our SecurityProfile from the provided source SecurityProfile
-func (profile *SecurityProfile) AssignPropertiesFromSecurityProfile(source *alpha20201201s.SecurityProfile) error {
+// AssignProperties_From_SecurityProfile populates our SecurityProfile from the provided source SecurityProfile
+func (profile *SecurityProfile) AssignProperties_From_SecurityProfile(source *alpha20201201s.SecurityProfile) error {
 
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
@@ -3957,7 +3957,7 @@ func (profile *SecurityProfile) AssignPropertiesFromSecurityProfile(source *alph
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfileSecurityType(*source.SecurityType)
+		securityType := SecurityProfile_SecurityType(*source.SecurityType)
 		profile.SecurityType = &securityType
 	} else {
 		profile.SecurityType = nil
@@ -3966,9 +3966,9 @@ func (profile *SecurityProfile) AssignPropertiesFromSecurityProfile(source *alph
 	// UefiSettings
 	if source.UefiSettings != nil {
 		var uefiSetting UefiSettings
-		err := uefiSetting.AssignPropertiesFromUefiSettings(source.UefiSettings)
+		err := uefiSetting.AssignProperties_From_UefiSettings(source.UefiSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUefiSettings() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_UefiSettings() to populate field UefiSettings")
 		}
 		profile.UefiSettings = &uefiSetting
 	} else {
@@ -3979,8 +3979,8 @@ func (profile *SecurityProfile) AssignPropertiesFromSecurityProfile(source *alph
 	return nil
 }
 
-// AssignPropertiesToSecurityProfile populates the provided destination SecurityProfile from our SecurityProfile
-func (profile *SecurityProfile) AssignPropertiesToSecurityProfile(destination *alpha20201201s.SecurityProfile) error {
+// AssignProperties_To_SecurityProfile populates the provided destination SecurityProfile from our SecurityProfile
+func (profile *SecurityProfile) AssignProperties_To_SecurityProfile(destination *alpha20201201s.SecurityProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4003,9 +4003,9 @@ func (profile *SecurityProfile) AssignPropertiesToSecurityProfile(destination *a
 	// UefiSettings
 	if profile.UefiSettings != nil {
 		var uefiSetting alpha20201201s.UefiSettings
-		err := profile.UefiSettings.AssignPropertiesToUefiSettings(&uefiSetting)
+		err := profile.UefiSettings.AssignProperties_To_UefiSettings(&uefiSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUefiSettings() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_UefiSettings() to populate field UefiSettings")
 		}
 		destination.UefiSettings = &uefiSetting
 	} else {
@@ -4025,9 +4025,9 @@ func (profile *SecurityProfile) AssignPropertiesToSecurityProfile(destination *a
 
 // Deprecated version of SecurityProfile_STATUS. Use v1beta20201201.SecurityProfile_STATUS instead
 type SecurityProfile_STATUS struct {
-	EncryptionAtHost *bool                              `json:"encryptionAtHost,omitempty"`
-	SecurityType     *SecurityProfileSTATUSSecurityType `json:"securityType,omitempty"`
-	UefiSettings     *UefiSettings_STATUS               `json:"uefiSettings,omitempty"`
+	EncryptionAtHost *bool                                `json:"encryptionAtHost,omitempty"`
+	SecurityType     *SecurityProfile_STATUS_SecurityType `json:"securityType,omitempty"`
+	UefiSettings     *UefiSettings_STATUS                 `json:"uefiSettings,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SecurityProfile_STATUS{}
@@ -4071,8 +4071,8 @@ func (profile *SecurityProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromSecurityProfileSTATUS populates our SecurityProfile_STATUS from the provided source SecurityProfile_STATUS
-func (profile *SecurityProfile_STATUS) AssignPropertiesFromSecurityProfileSTATUS(source *alpha20201201s.SecurityProfile_STATUS) error {
+// AssignProperties_From_SecurityProfile_STATUS populates our SecurityProfile_STATUS from the provided source SecurityProfile_STATUS
+func (profile *SecurityProfile_STATUS) AssignProperties_From_SecurityProfile_STATUS(source *alpha20201201s.SecurityProfile_STATUS) error {
 
 	// EncryptionAtHost
 	if source.EncryptionAtHost != nil {
@@ -4084,7 +4084,7 @@ func (profile *SecurityProfile_STATUS) AssignPropertiesFromSecurityProfileSTATUS
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfileSTATUSSecurityType(*source.SecurityType)
+		securityType := SecurityProfile_STATUS_SecurityType(*source.SecurityType)
 		profile.SecurityType = &securityType
 	} else {
 		profile.SecurityType = nil
@@ -4093,9 +4093,9 @@ func (profile *SecurityProfile_STATUS) AssignPropertiesFromSecurityProfileSTATUS
 	// UefiSettings
 	if source.UefiSettings != nil {
 		var uefiSetting UefiSettings_STATUS
-		err := uefiSetting.AssignPropertiesFromUefiSettingsSTATUS(source.UefiSettings)
+		err := uefiSetting.AssignProperties_From_UefiSettings_STATUS(source.UefiSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUefiSettingsSTATUS() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_UefiSettings_STATUS() to populate field UefiSettings")
 		}
 		profile.UefiSettings = &uefiSetting
 	} else {
@@ -4106,8 +4106,8 @@ func (profile *SecurityProfile_STATUS) AssignPropertiesFromSecurityProfileSTATUS
 	return nil
 }
 
-// AssignPropertiesToSecurityProfileSTATUS populates the provided destination SecurityProfile_STATUS from our SecurityProfile_STATUS
-func (profile *SecurityProfile_STATUS) AssignPropertiesToSecurityProfileSTATUS(destination *alpha20201201s.SecurityProfile_STATUS) error {
+// AssignProperties_To_SecurityProfile_STATUS populates the provided destination SecurityProfile_STATUS from our SecurityProfile_STATUS
+func (profile *SecurityProfile_STATUS) AssignProperties_To_SecurityProfile_STATUS(destination *alpha20201201s.SecurityProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4130,9 +4130,9 @@ func (profile *SecurityProfile_STATUS) AssignPropertiesToSecurityProfileSTATUS(d
 	// UefiSettings
 	if profile.UefiSettings != nil {
 		var uefiSetting alpha20201201s.UefiSettings_STATUS
-		err := profile.UefiSettings.AssignPropertiesToUefiSettingsSTATUS(&uefiSetting)
+		err := profile.UefiSettings.AssignProperties_To_UefiSettings_STATUS(&uefiSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUefiSettingsSTATUS() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_UefiSettings_STATUS() to populate field UefiSettings")
 		}
 		destination.UefiSettings = &uefiSetting
 	} else {
@@ -4245,8 +4245,8 @@ func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromStorageProfile populates our StorageProfile from the provided source StorageProfile
-func (profile *StorageProfile) AssignPropertiesFromStorageProfile(source *alpha20201201s.StorageProfile) error {
+// AssignProperties_From_StorageProfile populates our StorageProfile from the provided source StorageProfile
+func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *alpha20201201s.StorageProfile) error {
 
 	// DataDisks
 	if source.DataDisks != nil {
@@ -4255,9 +4255,9 @@ func (profile *StorageProfile) AssignPropertiesFromStorageProfile(source *alpha2
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
 			var dataDisk DataDisk
-			err := dataDisk.AssignPropertiesFromDataDisk(&dataDiskItem)
+			err := dataDisk.AssignProperties_From_DataDisk(&dataDiskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDataDisk() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignProperties_From_DataDisk() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -4269,9 +4269,9 @@ func (profile *StorageProfile) AssignPropertiesFromStorageProfile(source *alpha2
 	// ImageReference
 	if source.ImageReference != nil {
 		var imageReference ImageReference
-		err := imageReference.AssignPropertiesFromImageReference(source.ImageReference)
+		err := imageReference.AssignProperties_From_ImageReference(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImageReference() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignProperties_From_ImageReference() to populate field ImageReference")
 		}
 		profile.ImageReference = &imageReference
 	} else {
@@ -4281,9 +4281,9 @@ func (profile *StorageProfile) AssignPropertiesFromStorageProfile(source *alpha2
 	// OsDisk
 	if source.OsDisk != nil {
 		var osDisk OSDisk
-		err := osDisk.AssignPropertiesFromOSDisk(source.OsDisk)
+		err := osDisk.AssignProperties_From_OSDisk(source.OsDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOSDisk() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_OSDisk() to populate field OsDisk")
 		}
 		profile.OsDisk = &osDisk
 	} else {
@@ -4294,8 +4294,8 @@ func (profile *StorageProfile) AssignPropertiesFromStorageProfile(source *alpha2
 	return nil
 }
 
-// AssignPropertiesToStorageProfile populates the provided destination StorageProfile from our StorageProfile
-func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *alpha20201201s.StorageProfile) error {
+// AssignProperties_To_StorageProfile populates the provided destination StorageProfile from our StorageProfile
+func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *alpha20201201s.StorageProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4306,9 +4306,9 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *alp
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
 			var dataDisk alpha20201201s.DataDisk
-			err := dataDiskItem.AssignPropertiesToDataDisk(&dataDisk)
+			err := dataDiskItem.AssignProperties_To_DataDisk(&dataDisk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDataDisk() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignProperties_To_DataDisk() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -4320,9 +4320,9 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *alp
 	// ImageReference
 	if profile.ImageReference != nil {
 		var imageReference alpha20201201s.ImageReference
-		err := profile.ImageReference.AssignPropertiesToImageReference(&imageReference)
+		err := profile.ImageReference.AssignProperties_To_ImageReference(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImageReference() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignProperties_To_ImageReference() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -4332,9 +4332,9 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *alp
 	// OsDisk
 	if profile.OsDisk != nil {
 		var osDisk alpha20201201s.OSDisk
-		err := profile.OsDisk.AssignPropertiesToOSDisk(&osDisk)
+		err := profile.OsDisk.AssignProperties_To_OSDisk(&osDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOSDisk() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_OSDisk() to populate field OsDisk")
 		}
 		destination.OsDisk = &osDisk
 	} else {
@@ -4409,8 +4409,8 @@ func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromStorageProfileSTATUS populates our StorageProfile_STATUS from the provided source StorageProfile_STATUS
-func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(source *alpha20201201s.StorageProfile_STATUS) error {
+// AssignProperties_From_StorageProfile_STATUS populates our StorageProfile_STATUS from the provided source StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignProperties_From_StorageProfile_STATUS(source *alpha20201201s.StorageProfile_STATUS) error {
 
 	// DataDisks
 	if source.DataDisks != nil {
@@ -4419,9 +4419,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(s
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
 			var dataDisk DataDisk_STATUS
-			err := dataDisk.AssignPropertiesFromDataDiskSTATUS(&dataDiskItem)
+			err := dataDisk.AssignProperties_From_DataDisk_STATUS(&dataDiskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDataDiskSTATUS() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignProperties_From_DataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -4433,9 +4433,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(s
 	// ImageReference
 	if source.ImageReference != nil {
 		var imageReference ImageReference_STATUS
-		err := imageReference.AssignPropertiesFromImageReferenceSTATUS(source.ImageReference)
+		err := imageReference.AssignProperties_From_ImageReference_STATUS(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImageReferenceSTATUS() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignProperties_From_ImageReference_STATUS() to populate field ImageReference")
 		}
 		profile.ImageReference = &imageReference
 	} else {
@@ -4445,9 +4445,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(s
 	// OsDisk
 	if source.OsDisk != nil {
 		var osDisk OSDisk_STATUS
-		err := osDisk.AssignPropertiesFromOSDiskSTATUS(source.OsDisk)
+		err := osDisk.AssignProperties_From_OSDisk_STATUS(source.OsDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOSDiskSTATUS() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_OSDisk_STATUS() to populate field OsDisk")
 		}
 		profile.OsDisk = &osDisk
 	} else {
@@ -4458,8 +4458,8 @@ func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfileSTATUS(s
 	return nil
 }
 
-// AssignPropertiesToStorageProfileSTATUS populates the provided destination StorageProfile_STATUS from our StorageProfile_STATUS
-func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfileSTATUS(destination *alpha20201201s.StorageProfile_STATUS) error {
+// AssignProperties_To_StorageProfile_STATUS populates the provided destination StorageProfile_STATUS from our StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(destination *alpha20201201s.StorageProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4470,9 +4470,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfileSTATUS(des
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
 			var dataDisk alpha20201201s.DataDisk_STATUS
-			err := dataDiskItem.AssignPropertiesToDataDiskSTATUS(&dataDisk)
+			err := dataDiskItem.AssignProperties_To_DataDisk_STATUS(&dataDisk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDataDiskSTATUS() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignProperties_To_DataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -4484,9 +4484,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfileSTATUS(des
 	// ImageReference
 	if profile.ImageReference != nil {
 		var imageReference alpha20201201s.ImageReference_STATUS
-		err := profile.ImageReference.AssignPropertiesToImageReferenceSTATUS(&imageReference)
+		err := profile.ImageReference.AssignProperties_To_ImageReference_STATUS(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImageReferenceSTATUS() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignProperties_To_ImageReference_STATUS() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -4496,9 +4496,9 @@ func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfileSTATUS(des
 	// OsDisk
 	if profile.OsDisk != nil {
 		var osDisk alpha20201201s.OSDisk_STATUS
-		err := profile.OsDisk.AssignPropertiesToOSDiskSTATUS(&osDisk)
+		err := profile.OsDisk.AssignProperties_To_OSDisk_STATUS(&osDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOSDiskSTATUS() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_OSDisk_STATUS() to populate field OsDisk")
 		}
 		destination.OsDisk = &osDisk
 	} else {
@@ -4560,8 +4560,8 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignPropertiesFromSubResource(source *alpha20201201s.SubResource) error {
+// AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
+func (resource *SubResource) AssignProperties_From_SubResource(source *alpha20201201s.SubResource) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -4575,8 +4575,8 @@ func (resource *SubResource) AssignPropertiesFromSubResource(source *alpha202012
 	return nil
 }
 
-// AssignPropertiesToSubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignPropertiesToSubResource(destination *alpha20201201s.SubResource) error {
+// AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
+func (resource *SubResource) AssignProperties_To_SubResource(destination *alpha20201201s.SubResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4628,8 +4628,8 @@ func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromSubResourceSTATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
-func (resource *SubResource_STATUS) AssignPropertiesFromSubResourceSTATUS(source *alpha20201201s.SubResource_STATUS) error {
+// AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *alpha20201201s.SubResource_STATUS) error {
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -4638,8 +4638,8 @@ func (resource *SubResource_STATUS) AssignPropertiesFromSubResourceSTATUS(source
 	return nil
 }
 
-// AssignPropertiesToSubResourceSTATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
-func (resource *SubResource_STATUS) AssignPropertiesToSubResourceSTATUS(destination *alpha20201201s.SubResource_STATUS) error {
+// AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *alpha20201201s.SubResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4825,8 +4825,8 @@ func (extension *VirtualMachineExtension_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineExtensionSTATUS populates our VirtualMachineExtension_STATUS from the provided source VirtualMachineExtension_STATUS
-func (extension *VirtualMachineExtension_STATUS) AssignPropertiesFromVirtualMachineExtensionSTATUS(source *alpha20201201s.VirtualMachineExtension_STATUS) error {
+// AssignProperties_From_VirtualMachineExtension_STATUS populates our VirtualMachineExtension_STATUS from the provided source VirtualMachineExtension_STATUS
+func (extension *VirtualMachineExtension_STATUS) AssignProperties_From_VirtualMachineExtension_STATUS(source *alpha20201201s.VirtualMachineExtension_STATUS) error {
 
 	// AutoUpgradeMinorVersion
 	if source.AutoUpgradeMinorVersion != nil {
@@ -4853,9 +4853,9 @@ func (extension *VirtualMachineExtension_STATUS) AssignPropertiesFromVirtualMach
 	// InstanceView
 	if source.InstanceView != nil {
 		var instanceView VirtualMachineExtensionInstanceView_STATUS
-		err := instanceView.AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS(source.InstanceView)
+		err := instanceView.AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS() to populate field InstanceView")
 		}
 		extension.InstanceView = &instanceView
 	} else {
@@ -4916,8 +4916,8 @@ func (extension *VirtualMachineExtension_STATUS) AssignPropertiesFromVirtualMach
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineExtensionSTATUS populates the provided destination VirtualMachineExtension_STATUS from our VirtualMachineExtension_STATUS
-func (extension *VirtualMachineExtension_STATUS) AssignPropertiesToVirtualMachineExtensionSTATUS(destination *alpha20201201s.VirtualMachineExtension_STATUS) error {
+// AssignProperties_To_VirtualMachineExtension_STATUS populates the provided destination VirtualMachineExtension_STATUS from our VirtualMachineExtension_STATUS
+func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMachineExtension_STATUS(destination *alpha20201201s.VirtualMachineExtension_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4946,9 +4946,9 @@ func (extension *VirtualMachineExtension_STATUS) AssignPropertiesToVirtualMachin
 	// InstanceView
 	if extension.InstanceView != nil {
 		var instanceView alpha20201201s.VirtualMachineExtensionInstanceView_STATUS
-		err := extension.InstanceView.AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS(&instanceView)
+		err := extension.InstanceView.AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -5018,7 +5018,7 @@ func (extension *VirtualMachineExtension_STATUS) AssignPropertiesToVirtualMachin
 
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
-	Type *VirtualMachineIdentityType `json:"type,omitempty"`
+	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineIdentity{}
@@ -5060,12 +5060,12 @@ func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineIdentity populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity
-func (identity *VirtualMachineIdentity) AssignPropertiesFromVirtualMachineIdentity(source *alpha20201201s.VirtualMachineIdentity) error {
+// AssignProperties_From_VirtualMachineIdentity populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity
+func (identity *VirtualMachineIdentity) AssignProperties_From_VirtualMachineIdentity(source *alpha20201201s.VirtualMachineIdentity) error {
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentityType(*source.Type)
+		typeVar := VirtualMachineIdentity_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -5075,8 +5075,8 @@ func (identity *VirtualMachineIdentity) AssignPropertiesFromVirtualMachineIdenti
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineIdentity populates the provided destination VirtualMachineIdentity from our VirtualMachineIdentity
-func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity(destination *alpha20201201s.VirtualMachineIdentity) error {
+// AssignProperties_To_VirtualMachineIdentity populates the provided destination VirtualMachineIdentity from our VirtualMachineIdentity
+func (identity *VirtualMachineIdentity) AssignProperties_To_VirtualMachineIdentity(destination *alpha20201201s.VirtualMachineIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5101,9 +5101,9 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 
 // Deprecated version of VirtualMachineIdentity_STATUS. Use v1beta20201201.VirtualMachineIdentity_STATUS instead
 type VirtualMachineIdentity_STATUS struct {
-	PrincipalId *string                           `json:"principalId,omitempty"`
-	TenantId    *string                           `json:"tenantId,omitempty"`
-	Type        *VirtualMachineIdentitySTATUSType `json:"type,omitempty"`
+	PrincipalId *string                             `json:"principalId,omitempty"`
+	TenantId    *string                             `json:"tenantId,omitempty"`
+	Type        *VirtualMachineIdentity_STATUS_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineIdentity_STATUS{}
@@ -5142,8 +5142,8 @@ func (identity *VirtualMachineIdentity_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineIdentitySTATUS populates our VirtualMachineIdentity_STATUS from the provided source VirtualMachineIdentity_STATUS
-func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesFromVirtualMachineIdentitySTATUS(source *alpha20201201s.VirtualMachineIdentity_STATUS) error {
+// AssignProperties_From_VirtualMachineIdentity_STATUS populates our VirtualMachineIdentity_STATUS from the provided source VirtualMachineIdentity_STATUS
+func (identity *VirtualMachineIdentity_STATUS) AssignProperties_From_VirtualMachineIdentity_STATUS(source *alpha20201201s.VirtualMachineIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -5153,7 +5153,7 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesFromVirtualMachin
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentitySTATUSType(*source.Type)
+		typeVar := VirtualMachineIdentity_STATUS_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -5163,8 +5163,8 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesFromVirtualMachin
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineIdentitySTATUS populates the provided destination VirtualMachineIdentity_STATUS from our VirtualMachineIdentity_STATUS
-func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineIdentitySTATUS(destination *alpha20201201s.VirtualMachineIdentity_STATUS) error {
+// AssignProperties_To_VirtualMachineIdentity_STATUS populates the provided destination VirtualMachineIdentity_STATUS from our VirtualMachineIdentity_STATUS
+func (identity *VirtualMachineIdentity_STATUS) AssignProperties_To_VirtualMachineIdentity_STATUS(destination *alpha20201201s.VirtualMachineIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5195,22 +5195,22 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineI
 
 // Deprecated version of VirtualMachineInstanceView_STATUS. Use v1beta20201201.VirtualMachineInstanceView_STATUS instead
 type VirtualMachineInstanceView_STATUS struct {
-	AssignedHost              *string                                           `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS               `json:"bootDiagnostics,omitempty"`
-	ComputerName              *string                                           `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView_STATUS                         `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView_STATUS      `json:"extensions,omitempty"`
-	HyperVGeneration          *VirtualMachineInstanceViewSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS                 `json:"maintenanceRedeployStatus,omitempty"`
-	OsName                    *string                                           `json:"osName,omitempty"`
-	OsVersion                 *string                                           `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus_STATUS                 `json:"patchStatus,omitempty"`
-	PlatformFaultDomain       *int                                              `json:"platformFaultDomain,omitempty"`
-	PlatformUpdateDomain      *int                                              `json:"platformUpdateDomain,omitempty"`
-	RdpThumbPrint             *string                                           `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus_STATUS                       `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView_STATUS           `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus_STATUS                `json:"vmHealth,omitempty"`
+	AssignedHost              *string                                             `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS                 `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                                             `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView_STATUS                           `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView_STATUS        `json:"extensions,omitempty"`
+	HyperVGeneration          *VirtualMachineInstanceView_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS                   `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                                             `json:"osName,omitempty"`
+	OsVersion                 *string                                             `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus_STATUS                   `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                                `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                                `json:"platformUpdateDomain,omitempty"`
+	RdpThumbPrint             *string                                             `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView_STATUS             `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus_STATUS                  `json:"vmHealth,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineInstanceView_STATUS{}
@@ -5364,8 +5364,8 @@ func (view *VirtualMachineInstanceView_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineInstanceViewSTATUS populates our VirtualMachineInstanceView_STATUS from the provided source VirtualMachineInstanceView_STATUS
-func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachineInstanceViewSTATUS(source *alpha20201201s.VirtualMachineInstanceView_STATUS) error {
+// AssignProperties_From_VirtualMachineInstanceView_STATUS populates our VirtualMachineInstanceView_STATUS from the provided source VirtualMachineInstanceView_STATUS
+func (view *VirtualMachineInstanceView_STATUS) AssignProperties_From_VirtualMachineInstanceView_STATUS(source *alpha20201201s.VirtualMachineInstanceView_STATUS) error {
 
 	// AssignedHost
 	view.AssignedHost = genruntime.ClonePointerToString(source.AssignedHost)
@@ -5373,9 +5373,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
 		var bootDiagnostic BootDiagnosticsInstanceView_STATUS
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceViewSTATUS(source.BootDiagnostics)
+		err := bootDiagnostic.AssignProperties_From_BootDiagnosticsInstanceView_STATUS(source.BootDiagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceViewSTATUS() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_BootDiagnosticsInstanceView_STATUS() to populate field BootDiagnostics")
 		}
 		view.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -5392,9 +5392,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 			// Shadow the loop variable to avoid aliasing
 			diskItem := diskItem
 			var disk DiskInstanceView_STATUS
-			err := disk.AssignPropertiesFromDiskInstanceViewSTATUS(&diskItem)
+			err := disk.AssignProperties_From_DiskInstanceView_STATUS(&diskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceViewSTATUS() to populate field Disks")
+				return errors.Wrap(err, "calling AssignProperties_From_DiskInstanceView_STATUS() to populate field Disks")
 			}
 			diskList[diskIndex] = disk
 		}
@@ -5410,9 +5410,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
 			var extension VirtualMachineExtensionInstanceView_STATUS
-			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS(&extensionItem)
+			err := extension.AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS(&extensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -5423,7 +5423,7 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := VirtualMachineInstanceViewSTATUSHyperVGeneration(*source.HyperVGeneration)
+		hyperVGeneration := VirtualMachineInstanceView_STATUS_HyperVGeneration(*source.HyperVGeneration)
 		view.HyperVGeneration = &hyperVGeneration
 	} else {
 		view.HyperVGeneration = nil
@@ -5432,9 +5432,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	// MaintenanceRedeployStatus
 	if source.MaintenanceRedeployStatus != nil {
 		var maintenanceRedeployStatus MaintenanceRedeployStatus_STATUS
-		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatusSTATUS(source.MaintenanceRedeployStatus)
+		err := maintenanceRedeployStatus.AssignProperties_From_MaintenanceRedeployStatus_STATUS(source.MaintenanceRedeployStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatusSTATUS() to populate field MaintenanceRedeployStatus")
+			return errors.Wrap(err, "calling AssignProperties_From_MaintenanceRedeployStatus_STATUS() to populate field MaintenanceRedeployStatus")
 		}
 		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
 	} else {
@@ -5450,9 +5450,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	// PatchStatus
 	if source.PatchStatus != nil {
 		var patchStatus VirtualMachinePatchStatus_STATUS
-		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatusSTATUS(source.PatchStatus)
+		err := patchStatus.AssignProperties_From_VirtualMachinePatchStatus_STATUS(source.PatchStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatusSTATUS() to populate field PatchStatus")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachinePatchStatus_STATUS() to populate field PatchStatus")
 		}
 		view.PatchStatus = &patchStatus
 	} else {
@@ -5475,9 +5475,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status InstanceViewStatus_STATUS
-			err := status.AssignPropertiesFromInstanceViewStatusSTATUS(&statusItem)
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -5489,9 +5489,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	// VmAgent
 	if source.VmAgent != nil {
 		var vmAgent VirtualMachineAgentInstanceView_STATUS
-		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceViewSTATUS(source.VmAgent)
+		err := vmAgent.AssignProperties_From_VirtualMachineAgentInstanceView_STATUS(source.VmAgent)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceViewSTATUS() to populate field VmAgent")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineAgentInstanceView_STATUS() to populate field VmAgent")
 		}
 		view.VmAgent = &vmAgent
 	} else {
@@ -5501,9 +5501,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	// VmHealth
 	if source.VmHealth != nil {
 		var vmHealth VirtualMachineHealthStatus_STATUS
-		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatusSTATUS(source.VmHealth)
+		err := vmHealth.AssignProperties_From_VirtualMachineHealthStatus_STATUS(source.VmHealth)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatusSTATUS() to populate field VmHealth")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineHealthStatus_STATUS() to populate field VmHealth")
 		}
 		view.VmHealth = &vmHealth
 	} else {
@@ -5514,8 +5514,8 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachin
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineInstanceViewSTATUS populates the provided destination VirtualMachineInstanceView_STATUS from our VirtualMachineInstanceView_STATUS
-func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineInstanceViewSTATUS(destination *alpha20201201s.VirtualMachineInstanceView_STATUS) error {
+// AssignProperties_To_VirtualMachineInstanceView_STATUS populates the provided destination VirtualMachineInstanceView_STATUS from our VirtualMachineInstanceView_STATUS
+func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachineInstanceView_STATUS(destination *alpha20201201s.VirtualMachineInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5525,9 +5525,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// BootDiagnostics
 	if view.BootDiagnostics != nil {
 		var bootDiagnostic alpha20201201s.BootDiagnosticsInstanceView_STATUS
-		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceViewSTATUS(&bootDiagnostic)
+		err := view.BootDiagnostics.AssignProperties_To_BootDiagnosticsInstanceView_STATUS(&bootDiagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceViewSTATUS() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_BootDiagnosticsInstanceView_STATUS() to populate field BootDiagnostics")
 		}
 		destination.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -5544,9 +5544,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 			// Shadow the loop variable to avoid aliasing
 			diskItem := diskItem
 			var disk alpha20201201s.DiskInstanceView_STATUS
-			err := diskItem.AssignPropertiesToDiskInstanceViewSTATUS(&disk)
+			err := diskItem.AssignProperties_To_DiskInstanceView_STATUS(&disk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceViewSTATUS() to populate field Disks")
+				return errors.Wrap(err, "calling AssignProperties_To_DiskInstanceView_STATUS() to populate field Disks")
 			}
 			diskList[diskIndex] = disk
 		}
@@ -5562,9 +5562,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
 			var extension alpha20201201s.VirtualMachineExtensionInstanceView_STATUS
-			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS(&extension)
+			err := extensionItem.AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS(&extension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -5584,9 +5584,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// MaintenanceRedeployStatus
 	if view.MaintenanceRedeployStatus != nil {
 		var maintenanceRedeployStatus alpha20201201s.MaintenanceRedeployStatus_STATUS
-		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatusSTATUS(&maintenanceRedeployStatus)
+		err := view.MaintenanceRedeployStatus.AssignProperties_To_MaintenanceRedeployStatus_STATUS(&maintenanceRedeployStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatusSTATUS() to populate field MaintenanceRedeployStatus")
+			return errors.Wrap(err, "calling AssignProperties_To_MaintenanceRedeployStatus_STATUS() to populate field MaintenanceRedeployStatus")
 		}
 		destination.MaintenanceRedeployStatus = &maintenanceRedeployStatus
 	} else {
@@ -5602,9 +5602,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// PatchStatus
 	if view.PatchStatus != nil {
 		var patchStatus alpha20201201s.VirtualMachinePatchStatus_STATUS
-		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatusSTATUS(&patchStatus)
+		err := view.PatchStatus.AssignProperties_To_VirtualMachinePatchStatus_STATUS(&patchStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatusSTATUS() to populate field PatchStatus")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinePatchStatus_STATUS() to populate field PatchStatus")
 		}
 		destination.PatchStatus = &patchStatus
 	} else {
@@ -5627,9 +5627,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status alpha20201201s.InstanceViewStatus_STATUS
-			err := statusItem.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -5641,9 +5641,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// VmAgent
 	if view.VmAgent != nil {
 		var vmAgent alpha20201201s.VirtualMachineAgentInstanceView_STATUS
-		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceViewSTATUS(&vmAgent)
+		err := view.VmAgent.AssignProperties_To_VirtualMachineAgentInstanceView_STATUS(&vmAgent)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceViewSTATUS() to populate field VmAgent")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineAgentInstanceView_STATUS() to populate field VmAgent")
 		}
 		destination.VmAgent = &vmAgent
 	} else {
@@ -5653,9 +5653,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// VmHealth
 	if view.VmHealth != nil {
 		var vmHealth alpha20201201s.VirtualMachineHealthStatus_STATUS
-		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatusSTATUS(&vmHealth)
+		err := view.VmHealth.AssignProperties_To_VirtualMachineHealthStatus_STATUS(&vmHealth)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatusSTATUS() to populate field VmHealth")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineHealthStatus_STATUS() to populate field VmHealth")
 		}
 		destination.VmHealth = &vmHealth
 	} else {
@@ -5672,6 +5672,16 @@ func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineI
 	// No error
 	return nil
 }
+
+// Deprecated version of VirtualMachines_Spec_Properties_EvictionPolicy. Use
+// v1beta20201201.VirtualMachines_Spec_Properties_EvictionPolicy instead
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type VirtualMachines_Spec_Properties_EvictionPolicy string
+
+const (
+	VirtualMachines_Spec_Properties_EvictionPolicy_Deallocate = VirtualMachines_Spec_Properties_EvictionPolicy("Deallocate")
+	VirtualMachines_Spec_Properties_EvictionPolicy_Delete     = VirtualMachines_Spec_Properties_EvictionPolicy("Delete")
+)
 
 // Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
 type VirtualMachines_Spec_Properties_NetworkProfile struct {
@@ -5724,8 +5734,8 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) PopulateFromARM(o
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile populates our VirtualMachines_Spec_Properties_NetworkProfile from the provided source VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile(source *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
+// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile populates our VirtualMachines_Spec_Properties_NetworkProfile from the provided source VirtualMachines_Spec_Properties_NetworkProfile
+func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(source *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
@@ -5734,9 +5744,9 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesF
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterface.AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(&networkInterfaceItem)
+			err := networkInterface.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -5749,8 +5759,8 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesF
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile from our VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile(destination *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
+// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile from our VirtualMachines_Spec_Properties_NetworkProfile
+func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(destination *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5761,9 +5771,9 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesT
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
 			var networkInterface alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterfaceItem.AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(&networkInterface)
+			err := networkInterfaceItem.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -5956,8 +5966,8 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) PopulateFromARM(owner 
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile populates our VirtualMachines_Spec_Properties_OsProfile from the provided source VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile(source *alpha20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
+// AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile populates our VirtualMachines_Spec_Properties_OsProfile from the provided source VirtualMachines_Spec_Properties_OsProfile
+func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(source *alpha20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
 
 	// AdminPassword
 	if source.AdminPassword != nil {
@@ -5987,9 +5997,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVi
 	// LinuxConfiguration
 	if source.LinuxConfiguration != nil {
 		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
 		}
 		profile.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -6011,9 +6021,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVi
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
 			var secret VaultSecretGroup
-			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -6025,9 +6035,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVi
 	// WindowsConfiguration
 	if source.WindowsConfiguration != nil {
 		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
 		}
 		profile.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -6038,8 +6048,8 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVi
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile populates the provided destination VirtualMachines_Spec_Properties_OsProfile from our VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile(destination *alpha20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
+// AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile populates the provided destination VirtualMachines_Spec_Properties_OsProfile from our VirtualMachines_Spec_Properties_OsProfile
+func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(destination *alpha20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6071,9 +6081,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirt
 	// LinuxConfiguration
 	if profile.LinuxConfiguration != nil {
 		var linuxConfiguration alpha20201201s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
 		}
 		destination.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -6095,9 +6105,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirt
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
 			var secret alpha20201201s.VaultSecretGroup
-			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -6109,9 +6119,9 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirt
 	// WindowsConfiguration
 	if profile.WindowsConfiguration != nil {
 		var windowsConfiguration alpha20201201s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
 		}
 		destination.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -6129,25 +6139,15 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirt
 	return nil
 }
 
-// Deprecated version of VirtualMachinesSpecPropertiesEvictionPolicy. Use
-// v1beta20201201.VirtualMachinesSpecPropertiesEvictionPolicy instead
-// +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type VirtualMachinesSpecPropertiesEvictionPolicy string
-
-const (
-	VirtualMachinesSpecPropertiesEvictionPolicy_Deallocate = VirtualMachinesSpecPropertiesEvictionPolicy("Deallocate")
-	VirtualMachinesSpecPropertiesEvictionPolicy_Delete     = VirtualMachinesSpecPropertiesEvictionPolicy("Delete")
-)
-
-// Deprecated version of VirtualMachinesSpecPropertiesPriority. Use v1beta20201201.VirtualMachinesSpecPropertiesPriority
-// instead
+// Deprecated version of VirtualMachines_Spec_Properties_Priority. Use
+// v1beta20201201.VirtualMachines_Spec_Properties_Priority instead
 // +kubebuilder:validation:Enum={"Low","Regular","Spot"}
-type VirtualMachinesSpecPropertiesPriority string
+type VirtualMachines_Spec_Properties_Priority string
 
 const (
-	VirtualMachinesSpecPropertiesPriority_Low     = VirtualMachinesSpecPropertiesPriority("Low")
-	VirtualMachinesSpecPropertiesPriority_Regular = VirtualMachinesSpecPropertiesPriority("Regular")
-	VirtualMachinesSpecPropertiesPriority_Spot    = VirtualMachinesSpecPropertiesPriority("Spot")
+	VirtualMachines_Spec_Properties_Priority_Low     = VirtualMachines_Spec_Properties_Priority("Low")
+	VirtualMachines_Spec_Properties_Priority_Regular = VirtualMachines_Spec_Properties_Priority("Regular")
+	VirtualMachines_Spec_Properties_Priority_Spot    = VirtualMachines_Spec_Properties_Priority("Spot")
 )
 
 // Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead
@@ -6207,8 +6207,8 @@ func (diagnostics *BootDiagnostics) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromBootDiagnostics populates our BootDiagnostics from the provided source BootDiagnostics
-func (diagnostics *BootDiagnostics) AssignPropertiesFromBootDiagnostics(source *alpha20201201s.BootDiagnostics) error {
+// AssignProperties_From_BootDiagnostics populates our BootDiagnostics from the provided source BootDiagnostics
+func (diagnostics *BootDiagnostics) AssignProperties_From_BootDiagnostics(source *alpha20201201s.BootDiagnostics) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -6225,8 +6225,8 @@ func (diagnostics *BootDiagnostics) AssignPropertiesFromBootDiagnostics(source *
 	return nil
 }
 
-// AssignPropertiesToBootDiagnostics populates the provided destination BootDiagnostics from our BootDiagnostics
-func (diagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destination *alpha20201201s.BootDiagnostics) error {
+// AssignProperties_To_BootDiagnostics populates the provided destination BootDiagnostics from our BootDiagnostics
+func (diagnostics *BootDiagnostics) AssignProperties_To_BootDiagnostics(destination *alpha20201201s.BootDiagnostics) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6288,8 +6288,8 @@ func (diagnostics *BootDiagnostics_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromBootDiagnosticsSTATUS populates our BootDiagnostics_STATUS from the provided source BootDiagnostics_STATUS
-func (diagnostics *BootDiagnostics_STATUS) AssignPropertiesFromBootDiagnosticsSTATUS(source *alpha20201201s.BootDiagnostics_STATUS) error {
+// AssignProperties_From_BootDiagnostics_STATUS populates our BootDiagnostics_STATUS from the provided source BootDiagnostics_STATUS
+func (diagnostics *BootDiagnostics_STATUS) AssignProperties_From_BootDiagnostics_STATUS(source *alpha20201201s.BootDiagnostics_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -6306,8 +6306,8 @@ func (diagnostics *BootDiagnostics_STATUS) AssignPropertiesFromBootDiagnosticsST
 	return nil
 }
 
-// AssignPropertiesToBootDiagnosticsSTATUS populates the provided destination BootDiagnostics_STATUS from our BootDiagnostics_STATUS
-func (diagnostics *BootDiagnostics_STATUS) AssignPropertiesToBootDiagnosticsSTATUS(destination *alpha20201201s.BootDiagnostics_STATUS) error {
+// AssignProperties_To_BootDiagnostics_STATUS populates the provided destination BootDiagnostics_STATUS from our BootDiagnostics_STATUS
+func (diagnostics *BootDiagnostics_STATUS) AssignProperties_To_BootDiagnostics_STATUS(destination *alpha20201201s.BootDiagnostics_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6381,8 +6381,8 @@ func (view *BootDiagnosticsInstanceView_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromBootDiagnosticsInstanceViewSTATUS populates our BootDiagnosticsInstanceView_STATUS from the provided source BootDiagnosticsInstanceView_STATUS
-func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesFromBootDiagnosticsInstanceViewSTATUS(source *alpha20201201s.BootDiagnosticsInstanceView_STATUS) error {
+// AssignProperties_From_BootDiagnosticsInstanceView_STATUS populates our BootDiagnosticsInstanceView_STATUS from the provided source BootDiagnosticsInstanceView_STATUS
+func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_From_BootDiagnosticsInstanceView_STATUS(source *alpha20201201s.BootDiagnosticsInstanceView_STATUS) error {
 
 	// ConsoleScreenshotBlobUri
 	view.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(source.ConsoleScreenshotBlobUri)
@@ -6393,9 +6393,9 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesFromBootDiagnost
 	// Status
 	if source.Status != nil {
 		var status InstanceViewStatus_STATUS
-		err := status.AssignPropertiesFromInstanceViewStatusSTATUS(source.Status)
+		err := status.AssignProperties_From_InstanceViewStatus_STATUS(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		view.Status = &status
 	} else {
@@ -6406,8 +6406,8 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesFromBootDiagnost
 	return nil
 }
 
-// AssignPropertiesToBootDiagnosticsInstanceViewSTATUS populates the provided destination BootDiagnosticsInstanceView_STATUS from our BootDiagnosticsInstanceView_STATUS
-func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesToBootDiagnosticsInstanceViewSTATUS(destination *alpha20201201s.BootDiagnosticsInstanceView_STATUS) error {
+// AssignProperties_To_BootDiagnosticsInstanceView_STATUS populates the provided destination BootDiagnosticsInstanceView_STATUS from our BootDiagnosticsInstanceView_STATUS
+func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnosticsInstanceView_STATUS(destination *alpha20201201s.BootDiagnosticsInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6420,9 +6420,9 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesToBootDiagnostic
 	// Status
 	if view.Status != nil {
 		var status alpha20201201s.InstanceViewStatus_STATUS
-		err := view.Status.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+		err := view.Status.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		destination.Status = &status
 	} else {
@@ -6442,13 +6442,13 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesToBootDiagnostic
 
 // Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
 type DataDisk struct {
-	Caching *DataDiskCaching `json:"caching,omitempty"`
+	Caching *DataDisk_Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateOption *DataDiskCreateOption `json:"createOption,omitempty"`
-	DetachOption *DataDiskDetachOption `json:"detachOption,omitempty"`
-	DiskSizeGB   *int                  `json:"diskSizeGB,omitempty"`
-	Image        *VirtualHardDisk      `json:"image,omitempty"`
+	CreateOption *DataDisk_CreateOption `json:"createOption,omitempty"`
+	DetachOption *DataDisk_DetachOption `json:"detachOption,omitempty"`
+	DiskSizeGB   *int                   `json:"diskSizeGB,omitempty"`
+	Image        *VirtualHardDisk       `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -6645,12 +6645,12 @@ func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	return nil
 }
 
-// AssignPropertiesFromDataDisk populates our DataDisk from the provided source DataDisk
-func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDisk) error {
+// AssignProperties_From_DataDisk populates our DataDisk from the provided source DataDisk
+func (disk *DataDisk) AssignProperties_From_DataDisk(source *alpha20201201s.DataDisk) error {
 
 	// Caching
 	if source.Caching != nil {
-		caching := DataDiskCaching(*source.Caching)
+		caching := DataDisk_Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -6658,7 +6658,7 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := DataDiskCreateOption(*source.CreateOption)
+		createOption := DataDisk_CreateOption(*source.CreateOption)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -6666,7 +6666,7 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 
 	// DetachOption
 	if source.DetachOption != nil {
-		detachOption := DataDiskDetachOption(*source.DetachOption)
+		detachOption := DataDisk_DetachOption(*source.DetachOption)
 		disk.DetachOption = &detachOption
 	} else {
 		disk.DetachOption = nil
@@ -6678,9 +6678,9 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 	// Image
 	if source.Image != nil {
 		var image VirtualHardDisk
-		err := image.AssignPropertiesFromVirtualHardDisk(source.Image)
+		err := image.AssignProperties_From_VirtualHardDisk(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -6693,9 +6693,9 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 	// ManagedDisk
 	if source.ManagedDisk != nil {
 		var managedDisk ManagedDiskParameters
-		err := managedDisk.AssignPropertiesFromManagedDiskParameters(source.ManagedDisk)
+		err := managedDisk.AssignProperties_From_ManagedDiskParameters(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParameters() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedDiskParameters() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -6716,9 +6716,9 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 	// Vhd
 	if source.Vhd != nil {
 		var vhd VirtualHardDisk
-		err := vhd.AssignPropertiesFromVirtualHardDisk(source.Vhd)
+		err := vhd.AssignProperties_From_VirtualHardDisk(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -6737,8 +6737,8 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 	return nil
 }
 
-// AssignPropertiesToDataDisk populates the provided destination DataDisk from our DataDisk
-func (disk *DataDisk) AssignPropertiesToDataDisk(destination *alpha20201201s.DataDisk) error {
+// AssignProperties_To_DataDisk populates the provided destination DataDisk from our DataDisk
+func (disk *DataDisk) AssignProperties_To_DataDisk(destination *alpha20201201s.DataDisk) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6772,9 +6772,9 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *alpha20201201s.Dat
 	// Image
 	if disk.Image != nil {
 		var image alpha20201201s.VirtualHardDisk
-		err := disk.Image.AssignPropertiesToVirtualHardDisk(&image)
+		err := disk.Image.AssignProperties_To_VirtualHardDisk(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -6787,9 +6787,9 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *alpha20201201s.Dat
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
 		var managedDisk alpha20201201s.ManagedDiskParameters
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParameters(&managedDisk)
+		err := disk.ManagedDisk.AssignProperties_To_ManagedDiskParameters(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParameters() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedDiskParameters() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -6810,9 +6810,9 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *alpha20201201s.Dat
 	// Vhd
 	if disk.Vhd != nil {
 		var vhd alpha20201201s.VirtualHardDisk
-		err := disk.Vhd.AssignPropertiesToVirtualHardDisk(&vhd)
+		err := disk.Vhd.AssignProperties_To_VirtualHardDisk(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -6966,8 +6966,8 @@ func (disk *DataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromDataDiskSTATUS populates our DataDisk_STATUS from the provided source DataDisk_STATUS
-func (disk *DataDisk_STATUS) AssignPropertiesFromDataDiskSTATUS(source *alpha20201201s.DataDisk_STATUS) error {
+// AssignProperties_From_DataDisk_STATUS populates our DataDisk_STATUS from the provided source DataDisk_STATUS
+func (disk *DataDisk_STATUS) AssignProperties_From_DataDisk_STATUS(source *alpha20201201s.DataDisk_STATUS) error {
 
 	// Caching
 	if source.Caching != nil {
@@ -7005,9 +7005,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesFromDataDiskSTATUS(source *alpha202
 	// Image
 	if source.Image != nil {
 		var image VirtualHardDisk_STATUS
-		err := image.AssignPropertiesFromVirtualHardDiskSTATUS(source.Image)
+		err := image.AssignProperties_From_VirtualHardDisk_STATUS(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskSTATUS() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk_STATUS() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -7020,9 +7020,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesFromDataDiskSTATUS(source *alpha202
 	// ManagedDisk
 	if source.ManagedDisk != nil {
 		var managedDisk ManagedDiskParameters_STATUS
-		err := managedDisk.AssignPropertiesFromManagedDiskParametersSTATUS(source.ManagedDisk)
+		err := managedDisk.AssignProperties_From_ManagedDiskParameters_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParametersSTATUS() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -7043,9 +7043,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesFromDataDiskSTATUS(source *alpha202
 	// Vhd
 	if source.Vhd != nil {
 		var vhd VirtualHardDisk_STATUS
-		err := vhd.AssignPropertiesFromVirtualHardDiskSTATUS(source.Vhd)
+		err := vhd.AssignProperties_From_VirtualHardDisk_STATUS(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskSTATUS() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -7064,8 +7064,8 @@ func (disk *DataDisk_STATUS) AssignPropertiesFromDataDiskSTATUS(source *alpha202
 	return nil
 }
 
-// AssignPropertiesToDataDiskSTATUS populates the provided destination DataDisk_STATUS from our DataDisk_STATUS
-func (disk *DataDisk_STATUS) AssignPropertiesToDataDiskSTATUS(destination *alpha20201201s.DataDisk_STATUS) error {
+// AssignProperties_To_DataDisk_STATUS populates the provided destination DataDisk_STATUS from our DataDisk_STATUS
+func (disk *DataDisk_STATUS) AssignProperties_To_DataDisk_STATUS(destination *alpha20201201s.DataDisk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7105,9 +7105,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesToDataDiskSTATUS(destination *alpha
 	// Image
 	if disk.Image != nil {
 		var image alpha20201201s.VirtualHardDisk_STATUS
-		err := disk.Image.AssignPropertiesToVirtualHardDiskSTATUS(&image)
+		err := disk.Image.AssignProperties_To_VirtualHardDisk_STATUS(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskSTATUS() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk_STATUS() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -7120,9 +7120,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesToDataDiskSTATUS(destination *alpha
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
 		var managedDisk alpha20201201s.ManagedDiskParameters_STATUS
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParametersSTATUS(&managedDisk)
+		err := disk.ManagedDisk.AssignProperties_To_ManagedDiskParameters_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParametersSTATUS() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -7143,9 +7143,9 @@ func (disk *DataDisk_STATUS) AssignPropertiesToDataDiskSTATUS(destination *alpha
 	// Vhd
 	if disk.Vhd != nil {
 		var vhd alpha20201201s.VirtualHardDisk_STATUS
-		err := disk.Vhd.AssignPropertiesToVirtualHardDiskSTATUS(&vhd)
+		err := disk.Vhd.AssignProperties_To_VirtualHardDisk_STATUS(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskSTATUS() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -7222,8 +7222,8 @@ func (view *DiskInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromDiskInstanceViewSTATUS populates our DiskInstanceView_STATUS from the provided source DiskInstanceView_STATUS
-func (view *DiskInstanceView_STATUS) AssignPropertiesFromDiskInstanceViewSTATUS(source *alpha20201201s.DiskInstanceView_STATUS) error {
+// AssignProperties_From_DiskInstanceView_STATUS populates our DiskInstanceView_STATUS from the provided source DiskInstanceView_STATUS
+func (view *DiskInstanceView_STATUS) AssignProperties_From_DiskInstanceView_STATUS(source *alpha20201201s.DiskInstanceView_STATUS) error {
 
 	// EncryptionSettings
 	if source.EncryptionSettings != nil {
@@ -7232,9 +7232,9 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesFromDiskInstanceViewSTATUS(
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting DiskEncryptionSettings_STATUS
-			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettingsSTATUS(&encryptionSettingItem)
+			err := encryptionSetting.AssignProperties_From_DiskEncryptionSettings_STATUS(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettingsSTATUS() to populate field EncryptionSettings")
+				return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -7253,9 +7253,9 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesFromDiskInstanceViewSTATUS(
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status InstanceViewStatus_STATUS
-			err := status.AssignPropertiesFromInstanceViewStatusSTATUS(&statusItem)
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -7268,8 +7268,8 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesFromDiskInstanceViewSTATUS(
 	return nil
 }
 
-// AssignPropertiesToDiskInstanceViewSTATUS populates the provided destination DiskInstanceView_STATUS from our DiskInstanceView_STATUS
-func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceViewSTATUS(destination *alpha20201201s.DiskInstanceView_STATUS) error {
+// AssignProperties_To_DiskInstanceView_STATUS populates the provided destination DiskInstanceView_STATUS from our DiskInstanceView_STATUS
+func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS(destination *alpha20201201s.DiskInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7280,9 +7280,9 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceViewSTATUS(de
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
 			var encryptionSetting alpha20201201s.DiskEncryptionSettings_STATUS
-			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettingsSTATUS(&encryptionSetting)
+			err := encryptionSettingItem.AssignProperties_To_DiskEncryptionSettings_STATUS(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettingsSTATUS() to populate field EncryptionSettings")
+				return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -7301,9 +7301,9 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceViewSTATUS(de
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status alpha20201201s.InstanceViewStatus_STATUS
-			err := statusItem.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -7323,349 +7323,349 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceViewSTATUS(de
 	return nil
 }
 
-// Deprecated version of HardwareProfileSTATUSVmSize. Use v1beta20201201.HardwareProfileSTATUSVmSize instead
-type HardwareProfileSTATUSVmSize string
+// Deprecated version of HardwareProfile_STATUS_VmSize. Use v1beta20201201.HardwareProfile_STATUS_VmSize instead
+type HardwareProfile_STATUS_VmSize string
 
 const (
-	HardwareProfileSTATUSVmSize_BasicA0          = HardwareProfileSTATUSVmSize("Basic_A0")
-	HardwareProfileSTATUSVmSize_BasicA1          = HardwareProfileSTATUSVmSize("Basic_A1")
-	HardwareProfileSTATUSVmSize_BasicA2          = HardwareProfileSTATUSVmSize("Basic_A2")
-	HardwareProfileSTATUSVmSize_BasicA3          = HardwareProfileSTATUSVmSize("Basic_A3")
-	HardwareProfileSTATUSVmSize_BasicA4          = HardwareProfileSTATUSVmSize("Basic_A4")
-	HardwareProfileSTATUSVmSize_StandardA0       = HardwareProfileSTATUSVmSize("Standard_A0")
-	HardwareProfileSTATUSVmSize_StandardA1       = HardwareProfileSTATUSVmSize("Standard_A1")
-	HardwareProfileSTATUSVmSize_StandardA10      = HardwareProfileSTATUSVmSize("Standard_A10")
-	HardwareProfileSTATUSVmSize_StandardA11      = HardwareProfileSTATUSVmSize("Standard_A11")
-	HardwareProfileSTATUSVmSize_StandardA1V2     = HardwareProfileSTATUSVmSize("Standard_A1_v2")
-	HardwareProfileSTATUSVmSize_StandardA2       = HardwareProfileSTATUSVmSize("Standard_A2")
-	HardwareProfileSTATUSVmSize_StandardA2MV2    = HardwareProfileSTATUSVmSize("Standard_A2m_v2")
-	HardwareProfileSTATUSVmSize_StandardA2V2     = HardwareProfileSTATUSVmSize("Standard_A2_v2")
-	HardwareProfileSTATUSVmSize_StandardA3       = HardwareProfileSTATUSVmSize("Standard_A3")
-	HardwareProfileSTATUSVmSize_StandardA4       = HardwareProfileSTATUSVmSize("Standard_A4")
-	HardwareProfileSTATUSVmSize_StandardA4MV2    = HardwareProfileSTATUSVmSize("Standard_A4m_v2")
-	HardwareProfileSTATUSVmSize_StandardA4V2     = HardwareProfileSTATUSVmSize("Standard_A4_v2")
-	HardwareProfileSTATUSVmSize_StandardA5       = HardwareProfileSTATUSVmSize("Standard_A5")
-	HardwareProfileSTATUSVmSize_StandardA6       = HardwareProfileSTATUSVmSize("Standard_A6")
-	HardwareProfileSTATUSVmSize_StandardA7       = HardwareProfileSTATUSVmSize("Standard_A7")
-	HardwareProfileSTATUSVmSize_StandardA8       = HardwareProfileSTATUSVmSize("Standard_A8")
-	HardwareProfileSTATUSVmSize_StandardA8MV2    = HardwareProfileSTATUSVmSize("Standard_A8m_v2")
-	HardwareProfileSTATUSVmSize_StandardA8V2     = HardwareProfileSTATUSVmSize("Standard_A8_v2")
-	HardwareProfileSTATUSVmSize_StandardA9       = HardwareProfileSTATUSVmSize("Standard_A9")
-	HardwareProfileSTATUSVmSize_StandardB1Ms     = HardwareProfileSTATUSVmSize("Standard_B1ms")
-	HardwareProfileSTATUSVmSize_StandardB1S      = HardwareProfileSTATUSVmSize("Standard_B1s")
-	HardwareProfileSTATUSVmSize_StandardB2Ms     = HardwareProfileSTATUSVmSize("Standard_B2ms")
-	HardwareProfileSTATUSVmSize_StandardB2S      = HardwareProfileSTATUSVmSize("Standard_B2s")
-	HardwareProfileSTATUSVmSize_StandardB4Ms     = HardwareProfileSTATUSVmSize("Standard_B4ms")
-	HardwareProfileSTATUSVmSize_StandardB8Ms     = HardwareProfileSTATUSVmSize("Standard_B8ms")
-	HardwareProfileSTATUSVmSize_StandardD1       = HardwareProfileSTATUSVmSize("Standard_D1")
-	HardwareProfileSTATUSVmSize_StandardD11      = HardwareProfileSTATUSVmSize("Standard_D11")
-	HardwareProfileSTATUSVmSize_StandardD11V2    = HardwareProfileSTATUSVmSize("Standard_D11_v2")
-	HardwareProfileSTATUSVmSize_StandardD12      = HardwareProfileSTATUSVmSize("Standard_D12")
-	HardwareProfileSTATUSVmSize_StandardD12V2    = HardwareProfileSTATUSVmSize("Standard_D12_v2")
-	HardwareProfileSTATUSVmSize_StandardD13      = HardwareProfileSTATUSVmSize("Standard_D13")
-	HardwareProfileSTATUSVmSize_StandardD13V2    = HardwareProfileSTATUSVmSize("Standard_D13_v2")
-	HardwareProfileSTATUSVmSize_StandardD14      = HardwareProfileSTATUSVmSize("Standard_D14")
-	HardwareProfileSTATUSVmSize_StandardD14V2    = HardwareProfileSTATUSVmSize("Standard_D14_v2")
-	HardwareProfileSTATUSVmSize_StandardD15V2    = HardwareProfileSTATUSVmSize("Standard_D15_v2")
-	HardwareProfileSTATUSVmSize_StandardD16SV3   = HardwareProfileSTATUSVmSize("Standard_D16s_v3")
-	HardwareProfileSTATUSVmSize_StandardD16V3    = HardwareProfileSTATUSVmSize("Standard_D16_v3")
-	HardwareProfileSTATUSVmSize_StandardD1V2     = HardwareProfileSTATUSVmSize("Standard_D1_v2")
-	HardwareProfileSTATUSVmSize_StandardD2       = HardwareProfileSTATUSVmSize("Standard_D2")
-	HardwareProfileSTATUSVmSize_StandardD2SV3    = HardwareProfileSTATUSVmSize("Standard_D2s_v3")
-	HardwareProfileSTATUSVmSize_StandardD2V2     = HardwareProfileSTATUSVmSize("Standard_D2_v2")
-	HardwareProfileSTATUSVmSize_StandardD2V3     = HardwareProfileSTATUSVmSize("Standard_D2_v3")
-	HardwareProfileSTATUSVmSize_StandardD3       = HardwareProfileSTATUSVmSize("Standard_D3")
-	HardwareProfileSTATUSVmSize_StandardD32SV3   = HardwareProfileSTATUSVmSize("Standard_D32s_v3")
-	HardwareProfileSTATUSVmSize_StandardD32V3    = HardwareProfileSTATUSVmSize("Standard_D32_v3")
-	HardwareProfileSTATUSVmSize_StandardD3V2     = HardwareProfileSTATUSVmSize("Standard_D3_v2")
-	HardwareProfileSTATUSVmSize_StandardD4       = HardwareProfileSTATUSVmSize("Standard_D4")
-	HardwareProfileSTATUSVmSize_StandardD4SV3    = HardwareProfileSTATUSVmSize("Standard_D4s_v3")
-	HardwareProfileSTATUSVmSize_StandardD4V2     = HardwareProfileSTATUSVmSize("Standard_D4_v2")
-	HardwareProfileSTATUSVmSize_StandardD4V3     = HardwareProfileSTATUSVmSize("Standard_D4_v3")
-	HardwareProfileSTATUSVmSize_StandardD5V2     = HardwareProfileSTATUSVmSize("Standard_D5_v2")
-	HardwareProfileSTATUSVmSize_StandardD64SV3   = HardwareProfileSTATUSVmSize("Standard_D64s_v3")
-	HardwareProfileSTATUSVmSize_StandardD64V3    = HardwareProfileSTATUSVmSize("Standard_D64_v3")
-	HardwareProfileSTATUSVmSize_StandardD8SV3    = HardwareProfileSTATUSVmSize("Standard_D8s_v3")
-	HardwareProfileSTATUSVmSize_StandardD8V3     = HardwareProfileSTATUSVmSize("Standard_D8_v3")
-	HardwareProfileSTATUSVmSize_StandardDS1      = HardwareProfileSTATUSVmSize("Standard_DS1")
-	HardwareProfileSTATUSVmSize_StandardDS11     = HardwareProfileSTATUSVmSize("Standard_DS11")
-	HardwareProfileSTATUSVmSize_StandardDS11V2   = HardwareProfileSTATUSVmSize("Standard_DS11_v2")
-	HardwareProfileSTATUSVmSize_StandardDS12     = HardwareProfileSTATUSVmSize("Standard_DS12")
-	HardwareProfileSTATUSVmSize_StandardDS12V2   = HardwareProfileSTATUSVmSize("Standard_DS12_v2")
-	HardwareProfileSTATUSVmSize_StandardDS13     = HardwareProfileSTATUSVmSize("Standard_DS13")
-	HardwareProfileSTATUSVmSize_StandardDS132V2  = HardwareProfileSTATUSVmSize("Standard_DS13-2_v2")
-	HardwareProfileSTATUSVmSize_StandardDS134V2  = HardwareProfileSTATUSVmSize("Standard_DS13-4_v2")
-	HardwareProfileSTATUSVmSize_StandardDS13V2   = HardwareProfileSTATUSVmSize("Standard_DS13_v2")
-	HardwareProfileSTATUSVmSize_StandardDS14     = HardwareProfileSTATUSVmSize("Standard_DS14")
-	HardwareProfileSTATUSVmSize_StandardDS144V2  = HardwareProfileSTATUSVmSize("Standard_DS14-4_v2")
-	HardwareProfileSTATUSVmSize_StandardDS148V2  = HardwareProfileSTATUSVmSize("Standard_DS14-8_v2")
-	HardwareProfileSTATUSVmSize_StandardDS14V2   = HardwareProfileSTATUSVmSize("Standard_DS14_v2")
-	HardwareProfileSTATUSVmSize_StandardDS15V2   = HardwareProfileSTATUSVmSize("Standard_DS15_v2")
-	HardwareProfileSTATUSVmSize_StandardDS1V2    = HardwareProfileSTATUSVmSize("Standard_DS1_v2")
-	HardwareProfileSTATUSVmSize_StandardDS2      = HardwareProfileSTATUSVmSize("Standard_DS2")
-	HardwareProfileSTATUSVmSize_StandardDS2V2    = HardwareProfileSTATUSVmSize("Standard_DS2_v2")
-	HardwareProfileSTATUSVmSize_StandardDS3      = HardwareProfileSTATUSVmSize("Standard_DS3")
-	HardwareProfileSTATUSVmSize_StandardDS3V2    = HardwareProfileSTATUSVmSize("Standard_DS3_v2")
-	HardwareProfileSTATUSVmSize_StandardDS4      = HardwareProfileSTATUSVmSize("Standard_DS4")
-	HardwareProfileSTATUSVmSize_StandardDS4V2    = HardwareProfileSTATUSVmSize("Standard_DS4_v2")
-	HardwareProfileSTATUSVmSize_StandardDS5V2    = HardwareProfileSTATUSVmSize("Standard_DS5_v2")
-	HardwareProfileSTATUSVmSize_StandardE16SV3   = HardwareProfileSTATUSVmSize("Standard_E16s_v3")
-	HardwareProfileSTATUSVmSize_StandardE16V3    = HardwareProfileSTATUSVmSize("Standard_E16_v3")
-	HardwareProfileSTATUSVmSize_StandardE2SV3    = HardwareProfileSTATUSVmSize("Standard_E2s_v3")
-	HardwareProfileSTATUSVmSize_StandardE2V3     = HardwareProfileSTATUSVmSize("Standard_E2_v3")
-	HardwareProfileSTATUSVmSize_StandardE3216V3  = HardwareProfileSTATUSVmSize("Standard_E32-16_v3")
-	HardwareProfileSTATUSVmSize_StandardE328SV3  = HardwareProfileSTATUSVmSize("Standard_E32-8s_v3")
-	HardwareProfileSTATUSVmSize_StandardE32SV3   = HardwareProfileSTATUSVmSize("Standard_E32s_v3")
-	HardwareProfileSTATUSVmSize_StandardE32V3    = HardwareProfileSTATUSVmSize("Standard_E32_v3")
-	HardwareProfileSTATUSVmSize_StandardE4SV3    = HardwareProfileSTATUSVmSize("Standard_E4s_v3")
-	HardwareProfileSTATUSVmSize_StandardE4V3     = HardwareProfileSTATUSVmSize("Standard_E4_v3")
-	HardwareProfileSTATUSVmSize_StandardE6416SV3 = HardwareProfileSTATUSVmSize("Standard_E64-16s_v3")
-	HardwareProfileSTATUSVmSize_StandardE6432SV3 = HardwareProfileSTATUSVmSize("Standard_E64-32s_v3")
-	HardwareProfileSTATUSVmSize_StandardE64SV3   = HardwareProfileSTATUSVmSize("Standard_E64s_v3")
-	HardwareProfileSTATUSVmSize_StandardE64V3    = HardwareProfileSTATUSVmSize("Standard_E64_v3")
-	HardwareProfileSTATUSVmSize_StandardE8SV3    = HardwareProfileSTATUSVmSize("Standard_E8s_v3")
-	HardwareProfileSTATUSVmSize_StandardE8V3     = HardwareProfileSTATUSVmSize("Standard_E8_v3")
-	HardwareProfileSTATUSVmSize_StandardF1       = HardwareProfileSTATUSVmSize("Standard_F1")
-	HardwareProfileSTATUSVmSize_StandardF16      = HardwareProfileSTATUSVmSize("Standard_F16")
-	HardwareProfileSTATUSVmSize_StandardF16S     = HardwareProfileSTATUSVmSize("Standard_F16s")
-	HardwareProfileSTATUSVmSize_StandardF16SV2   = HardwareProfileSTATUSVmSize("Standard_F16s_v2")
-	HardwareProfileSTATUSVmSize_StandardF1S      = HardwareProfileSTATUSVmSize("Standard_F1s")
-	HardwareProfileSTATUSVmSize_StandardF2       = HardwareProfileSTATUSVmSize("Standard_F2")
-	HardwareProfileSTATUSVmSize_StandardF2S      = HardwareProfileSTATUSVmSize("Standard_F2s")
-	HardwareProfileSTATUSVmSize_StandardF2SV2    = HardwareProfileSTATUSVmSize("Standard_F2s_v2")
-	HardwareProfileSTATUSVmSize_StandardF32SV2   = HardwareProfileSTATUSVmSize("Standard_F32s_v2")
-	HardwareProfileSTATUSVmSize_StandardF4       = HardwareProfileSTATUSVmSize("Standard_F4")
-	HardwareProfileSTATUSVmSize_StandardF4S      = HardwareProfileSTATUSVmSize("Standard_F4s")
-	HardwareProfileSTATUSVmSize_StandardF4SV2    = HardwareProfileSTATUSVmSize("Standard_F4s_v2")
-	HardwareProfileSTATUSVmSize_StandardF64SV2   = HardwareProfileSTATUSVmSize("Standard_F64s_v2")
-	HardwareProfileSTATUSVmSize_StandardF72SV2   = HardwareProfileSTATUSVmSize("Standard_F72s_v2")
-	HardwareProfileSTATUSVmSize_StandardF8       = HardwareProfileSTATUSVmSize("Standard_F8")
-	HardwareProfileSTATUSVmSize_StandardF8S      = HardwareProfileSTATUSVmSize("Standard_F8s")
-	HardwareProfileSTATUSVmSize_StandardF8SV2    = HardwareProfileSTATUSVmSize("Standard_F8s_v2")
-	HardwareProfileSTATUSVmSize_StandardG1       = HardwareProfileSTATUSVmSize("Standard_G1")
-	HardwareProfileSTATUSVmSize_StandardG2       = HardwareProfileSTATUSVmSize("Standard_G2")
-	HardwareProfileSTATUSVmSize_StandardG3       = HardwareProfileSTATUSVmSize("Standard_G3")
-	HardwareProfileSTATUSVmSize_StandardG4       = HardwareProfileSTATUSVmSize("Standard_G4")
-	HardwareProfileSTATUSVmSize_StandardG5       = HardwareProfileSTATUSVmSize("Standard_G5")
-	HardwareProfileSTATUSVmSize_StandardGS1      = HardwareProfileSTATUSVmSize("Standard_GS1")
-	HardwareProfileSTATUSVmSize_StandardGS2      = HardwareProfileSTATUSVmSize("Standard_GS2")
-	HardwareProfileSTATUSVmSize_StandardGS3      = HardwareProfileSTATUSVmSize("Standard_GS3")
-	HardwareProfileSTATUSVmSize_StandardGS4      = HardwareProfileSTATUSVmSize("Standard_GS4")
-	HardwareProfileSTATUSVmSize_StandardGS44     = HardwareProfileSTATUSVmSize("Standard_GS4-4")
-	HardwareProfileSTATUSVmSize_StandardGS48     = HardwareProfileSTATUSVmSize("Standard_GS4-8")
-	HardwareProfileSTATUSVmSize_StandardGS5      = HardwareProfileSTATUSVmSize("Standard_GS5")
-	HardwareProfileSTATUSVmSize_StandardGS516    = HardwareProfileSTATUSVmSize("Standard_GS5-16")
-	HardwareProfileSTATUSVmSize_StandardGS58     = HardwareProfileSTATUSVmSize("Standard_GS5-8")
-	HardwareProfileSTATUSVmSize_StandardH16      = HardwareProfileSTATUSVmSize("Standard_H16")
-	HardwareProfileSTATUSVmSize_StandardH16M     = HardwareProfileSTATUSVmSize("Standard_H16m")
-	HardwareProfileSTATUSVmSize_StandardH16Mr    = HardwareProfileSTATUSVmSize("Standard_H16mr")
-	HardwareProfileSTATUSVmSize_StandardH16R     = HardwareProfileSTATUSVmSize("Standard_H16r")
-	HardwareProfileSTATUSVmSize_StandardH8       = HardwareProfileSTATUSVmSize("Standard_H8")
-	HardwareProfileSTATUSVmSize_StandardH8M      = HardwareProfileSTATUSVmSize("Standard_H8m")
-	HardwareProfileSTATUSVmSize_StandardL16S     = HardwareProfileSTATUSVmSize("Standard_L16s")
-	HardwareProfileSTATUSVmSize_StandardL32S     = HardwareProfileSTATUSVmSize("Standard_L32s")
-	HardwareProfileSTATUSVmSize_StandardL4S      = HardwareProfileSTATUSVmSize("Standard_L4s")
-	HardwareProfileSTATUSVmSize_StandardL8S      = HardwareProfileSTATUSVmSize("Standard_L8s")
-	HardwareProfileSTATUSVmSize_StandardM12832Ms = HardwareProfileSTATUSVmSize("Standard_M128-32ms")
-	HardwareProfileSTATUSVmSize_StandardM12864Ms = HardwareProfileSTATUSVmSize("Standard_M128-64ms")
-	HardwareProfileSTATUSVmSize_StandardM128Ms   = HardwareProfileSTATUSVmSize("Standard_M128ms")
-	HardwareProfileSTATUSVmSize_StandardM128S    = HardwareProfileSTATUSVmSize("Standard_M128s")
-	HardwareProfileSTATUSVmSize_StandardM6416Ms  = HardwareProfileSTATUSVmSize("Standard_M64-16ms")
-	HardwareProfileSTATUSVmSize_StandardM6432Ms  = HardwareProfileSTATUSVmSize("Standard_M64-32ms")
-	HardwareProfileSTATUSVmSize_StandardM64Ms    = HardwareProfileSTATUSVmSize("Standard_M64ms")
-	HardwareProfileSTATUSVmSize_StandardM64S     = HardwareProfileSTATUSVmSize("Standard_M64s")
-	HardwareProfileSTATUSVmSize_StandardNC12     = HardwareProfileSTATUSVmSize("Standard_NC12")
-	HardwareProfileSTATUSVmSize_StandardNC12SV2  = HardwareProfileSTATUSVmSize("Standard_NC12s_v2")
-	HardwareProfileSTATUSVmSize_StandardNC12SV3  = HardwareProfileSTATUSVmSize("Standard_NC12s_v3")
-	HardwareProfileSTATUSVmSize_StandardNC24     = HardwareProfileSTATUSVmSize("Standard_NC24")
-	HardwareProfileSTATUSVmSize_StandardNC24R    = HardwareProfileSTATUSVmSize("Standard_NC24r")
-	HardwareProfileSTATUSVmSize_StandardNC24RsV2 = HardwareProfileSTATUSVmSize("Standard_NC24rs_v2")
-	HardwareProfileSTATUSVmSize_StandardNC24RsV3 = HardwareProfileSTATUSVmSize("Standard_NC24rs_v3")
-	HardwareProfileSTATUSVmSize_StandardNC24SV2  = HardwareProfileSTATUSVmSize("Standard_NC24s_v2")
-	HardwareProfileSTATUSVmSize_StandardNC24SV3  = HardwareProfileSTATUSVmSize("Standard_NC24s_v3")
-	HardwareProfileSTATUSVmSize_StandardNC6      = HardwareProfileSTATUSVmSize("Standard_NC6")
-	HardwareProfileSTATUSVmSize_StandardNC6SV2   = HardwareProfileSTATUSVmSize("Standard_NC6s_v2")
-	HardwareProfileSTATUSVmSize_StandardNC6SV3   = HardwareProfileSTATUSVmSize("Standard_NC6s_v3")
-	HardwareProfileSTATUSVmSize_StandardND12S    = HardwareProfileSTATUSVmSize("Standard_ND12s")
-	HardwareProfileSTATUSVmSize_StandardND24Rs   = HardwareProfileSTATUSVmSize("Standard_ND24rs")
-	HardwareProfileSTATUSVmSize_StandardND24S    = HardwareProfileSTATUSVmSize("Standard_ND24s")
-	HardwareProfileSTATUSVmSize_StandardND6S     = HardwareProfileSTATUSVmSize("Standard_ND6s")
-	HardwareProfileSTATUSVmSize_StandardNV12     = HardwareProfileSTATUSVmSize("Standard_NV12")
-	HardwareProfileSTATUSVmSize_StandardNV24     = HardwareProfileSTATUSVmSize("Standard_NV24")
-	HardwareProfileSTATUSVmSize_StandardNV6      = HardwareProfileSTATUSVmSize("Standard_NV6")
+	HardwareProfile_STATUS_VmSize_Basic_A0           = HardwareProfile_STATUS_VmSize("Basic_A0")
+	HardwareProfile_STATUS_VmSize_Basic_A1           = HardwareProfile_STATUS_VmSize("Basic_A1")
+	HardwareProfile_STATUS_VmSize_Basic_A2           = HardwareProfile_STATUS_VmSize("Basic_A2")
+	HardwareProfile_STATUS_VmSize_Basic_A3           = HardwareProfile_STATUS_VmSize("Basic_A3")
+	HardwareProfile_STATUS_VmSize_Basic_A4           = HardwareProfile_STATUS_VmSize("Basic_A4")
+	HardwareProfile_STATUS_VmSize_Standard_A0        = HardwareProfile_STATUS_VmSize("Standard_A0")
+	HardwareProfile_STATUS_VmSize_Standard_A1        = HardwareProfile_STATUS_VmSize("Standard_A1")
+	HardwareProfile_STATUS_VmSize_Standard_A10       = HardwareProfile_STATUS_VmSize("Standard_A10")
+	HardwareProfile_STATUS_VmSize_Standard_A11       = HardwareProfile_STATUS_VmSize("Standard_A11")
+	HardwareProfile_STATUS_VmSize_Standard_A1_V2     = HardwareProfile_STATUS_VmSize("Standard_A1_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A2        = HardwareProfile_STATUS_VmSize("Standard_A2")
+	HardwareProfile_STATUS_VmSize_Standard_A2M_V2    = HardwareProfile_STATUS_VmSize("Standard_A2m_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A2_V2     = HardwareProfile_STATUS_VmSize("Standard_A2_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A3        = HardwareProfile_STATUS_VmSize("Standard_A3")
+	HardwareProfile_STATUS_VmSize_Standard_A4        = HardwareProfile_STATUS_VmSize("Standard_A4")
+	HardwareProfile_STATUS_VmSize_Standard_A4M_V2    = HardwareProfile_STATUS_VmSize("Standard_A4m_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A4_V2     = HardwareProfile_STATUS_VmSize("Standard_A4_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A5        = HardwareProfile_STATUS_VmSize("Standard_A5")
+	HardwareProfile_STATUS_VmSize_Standard_A6        = HardwareProfile_STATUS_VmSize("Standard_A6")
+	HardwareProfile_STATUS_VmSize_Standard_A7        = HardwareProfile_STATUS_VmSize("Standard_A7")
+	HardwareProfile_STATUS_VmSize_Standard_A8        = HardwareProfile_STATUS_VmSize("Standard_A8")
+	HardwareProfile_STATUS_VmSize_Standard_A8M_V2    = HardwareProfile_STATUS_VmSize("Standard_A8m_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A8_V2     = HardwareProfile_STATUS_VmSize("Standard_A8_v2")
+	HardwareProfile_STATUS_VmSize_Standard_A9        = HardwareProfile_STATUS_VmSize("Standard_A9")
+	HardwareProfile_STATUS_VmSize_Standard_B1Ms      = HardwareProfile_STATUS_VmSize("Standard_B1ms")
+	HardwareProfile_STATUS_VmSize_Standard_B1S       = HardwareProfile_STATUS_VmSize("Standard_B1s")
+	HardwareProfile_STATUS_VmSize_Standard_B2Ms      = HardwareProfile_STATUS_VmSize("Standard_B2ms")
+	HardwareProfile_STATUS_VmSize_Standard_B2S       = HardwareProfile_STATUS_VmSize("Standard_B2s")
+	HardwareProfile_STATUS_VmSize_Standard_B4Ms      = HardwareProfile_STATUS_VmSize("Standard_B4ms")
+	HardwareProfile_STATUS_VmSize_Standard_B8Ms      = HardwareProfile_STATUS_VmSize("Standard_B8ms")
+	HardwareProfile_STATUS_VmSize_Standard_D1        = HardwareProfile_STATUS_VmSize("Standard_D1")
+	HardwareProfile_STATUS_VmSize_Standard_D11       = HardwareProfile_STATUS_VmSize("Standard_D11")
+	HardwareProfile_STATUS_VmSize_Standard_D11_V2    = HardwareProfile_STATUS_VmSize("Standard_D11_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D12       = HardwareProfile_STATUS_VmSize("Standard_D12")
+	HardwareProfile_STATUS_VmSize_Standard_D12_V2    = HardwareProfile_STATUS_VmSize("Standard_D12_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D13       = HardwareProfile_STATUS_VmSize("Standard_D13")
+	HardwareProfile_STATUS_VmSize_Standard_D13_V2    = HardwareProfile_STATUS_VmSize("Standard_D13_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D14       = HardwareProfile_STATUS_VmSize("Standard_D14")
+	HardwareProfile_STATUS_VmSize_Standard_D14_V2    = HardwareProfile_STATUS_VmSize("Standard_D14_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D15_V2    = HardwareProfile_STATUS_VmSize("Standard_D15_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D16S_V3   = HardwareProfile_STATUS_VmSize("Standard_D16s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D16_V3    = HardwareProfile_STATUS_VmSize("Standard_D16_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D1_V2     = HardwareProfile_STATUS_VmSize("Standard_D1_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D2        = HardwareProfile_STATUS_VmSize("Standard_D2")
+	HardwareProfile_STATUS_VmSize_Standard_D2S_V3    = HardwareProfile_STATUS_VmSize("Standard_D2s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D2_V2     = HardwareProfile_STATUS_VmSize("Standard_D2_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D2_V3     = HardwareProfile_STATUS_VmSize("Standard_D2_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D3        = HardwareProfile_STATUS_VmSize("Standard_D3")
+	HardwareProfile_STATUS_VmSize_Standard_D32S_V3   = HardwareProfile_STATUS_VmSize("Standard_D32s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D32_V3    = HardwareProfile_STATUS_VmSize("Standard_D32_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D3_V2     = HardwareProfile_STATUS_VmSize("Standard_D3_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D4        = HardwareProfile_STATUS_VmSize("Standard_D4")
+	HardwareProfile_STATUS_VmSize_Standard_D4S_V3    = HardwareProfile_STATUS_VmSize("Standard_D4s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D4_V2     = HardwareProfile_STATUS_VmSize("Standard_D4_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D4_V3     = HardwareProfile_STATUS_VmSize("Standard_D4_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D5_V2     = HardwareProfile_STATUS_VmSize("Standard_D5_v2")
+	HardwareProfile_STATUS_VmSize_Standard_D64S_V3   = HardwareProfile_STATUS_VmSize("Standard_D64s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D64_V3    = HardwareProfile_STATUS_VmSize("Standard_D64_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D8S_V3    = HardwareProfile_STATUS_VmSize("Standard_D8s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_D8_V3     = HardwareProfile_STATUS_VmSize("Standard_D8_v3")
+	HardwareProfile_STATUS_VmSize_Standard_DS1       = HardwareProfile_STATUS_VmSize("Standard_DS1")
+	HardwareProfile_STATUS_VmSize_Standard_DS11      = HardwareProfile_STATUS_VmSize("Standard_DS11")
+	HardwareProfile_STATUS_VmSize_Standard_DS11_V2   = HardwareProfile_STATUS_VmSize("Standard_DS11_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS12      = HardwareProfile_STATUS_VmSize("Standard_DS12")
+	HardwareProfile_STATUS_VmSize_Standard_DS12_V2   = HardwareProfile_STATUS_VmSize("Standard_DS12_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS13      = HardwareProfile_STATUS_VmSize("Standard_DS13")
+	HardwareProfile_STATUS_VmSize_Standard_DS132_V2  = HardwareProfile_STATUS_VmSize("Standard_DS13-2_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS134_V2  = HardwareProfile_STATUS_VmSize("Standard_DS13-4_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS13_V2   = HardwareProfile_STATUS_VmSize("Standard_DS13_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS14      = HardwareProfile_STATUS_VmSize("Standard_DS14")
+	HardwareProfile_STATUS_VmSize_Standard_DS144_V2  = HardwareProfile_STATUS_VmSize("Standard_DS14-4_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS148_V2  = HardwareProfile_STATUS_VmSize("Standard_DS14-8_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS14_V2   = HardwareProfile_STATUS_VmSize("Standard_DS14_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS15_V2   = HardwareProfile_STATUS_VmSize("Standard_DS15_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS1_V2    = HardwareProfile_STATUS_VmSize("Standard_DS1_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS2       = HardwareProfile_STATUS_VmSize("Standard_DS2")
+	HardwareProfile_STATUS_VmSize_Standard_DS2_V2    = HardwareProfile_STATUS_VmSize("Standard_DS2_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS3       = HardwareProfile_STATUS_VmSize("Standard_DS3")
+	HardwareProfile_STATUS_VmSize_Standard_DS3_V2    = HardwareProfile_STATUS_VmSize("Standard_DS3_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS4       = HardwareProfile_STATUS_VmSize("Standard_DS4")
+	HardwareProfile_STATUS_VmSize_Standard_DS4_V2    = HardwareProfile_STATUS_VmSize("Standard_DS4_v2")
+	HardwareProfile_STATUS_VmSize_Standard_DS5_V2    = HardwareProfile_STATUS_VmSize("Standard_DS5_v2")
+	HardwareProfile_STATUS_VmSize_Standard_E16S_V3   = HardwareProfile_STATUS_VmSize("Standard_E16s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E16_V3    = HardwareProfile_STATUS_VmSize("Standard_E16_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E2S_V3    = HardwareProfile_STATUS_VmSize("Standard_E2s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E2_V3     = HardwareProfile_STATUS_VmSize("Standard_E2_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E3216_V3  = HardwareProfile_STATUS_VmSize("Standard_E32-16_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E328S_V3  = HardwareProfile_STATUS_VmSize("Standard_E32-8s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E32S_V3   = HardwareProfile_STATUS_VmSize("Standard_E32s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E32_V3    = HardwareProfile_STATUS_VmSize("Standard_E32_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E4S_V3    = HardwareProfile_STATUS_VmSize("Standard_E4s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E4_V3     = HardwareProfile_STATUS_VmSize("Standard_E4_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E6416S_V3 = HardwareProfile_STATUS_VmSize("Standard_E64-16s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E6432S_V3 = HardwareProfile_STATUS_VmSize("Standard_E64-32s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E64S_V3   = HardwareProfile_STATUS_VmSize("Standard_E64s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E64_V3    = HardwareProfile_STATUS_VmSize("Standard_E64_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E8S_V3    = HardwareProfile_STATUS_VmSize("Standard_E8s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_E8_V3     = HardwareProfile_STATUS_VmSize("Standard_E8_v3")
+	HardwareProfile_STATUS_VmSize_Standard_F1        = HardwareProfile_STATUS_VmSize("Standard_F1")
+	HardwareProfile_STATUS_VmSize_Standard_F16       = HardwareProfile_STATUS_VmSize("Standard_F16")
+	HardwareProfile_STATUS_VmSize_Standard_F16S      = HardwareProfile_STATUS_VmSize("Standard_F16s")
+	HardwareProfile_STATUS_VmSize_Standard_F16S_V2   = HardwareProfile_STATUS_VmSize("Standard_F16s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F1S       = HardwareProfile_STATUS_VmSize("Standard_F1s")
+	HardwareProfile_STATUS_VmSize_Standard_F2        = HardwareProfile_STATUS_VmSize("Standard_F2")
+	HardwareProfile_STATUS_VmSize_Standard_F2S       = HardwareProfile_STATUS_VmSize("Standard_F2s")
+	HardwareProfile_STATUS_VmSize_Standard_F2S_V2    = HardwareProfile_STATUS_VmSize("Standard_F2s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F32S_V2   = HardwareProfile_STATUS_VmSize("Standard_F32s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F4        = HardwareProfile_STATUS_VmSize("Standard_F4")
+	HardwareProfile_STATUS_VmSize_Standard_F4S       = HardwareProfile_STATUS_VmSize("Standard_F4s")
+	HardwareProfile_STATUS_VmSize_Standard_F4S_V2    = HardwareProfile_STATUS_VmSize("Standard_F4s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F64S_V2   = HardwareProfile_STATUS_VmSize("Standard_F64s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F72S_V2   = HardwareProfile_STATUS_VmSize("Standard_F72s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_F8        = HardwareProfile_STATUS_VmSize("Standard_F8")
+	HardwareProfile_STATUS_VmSize_Standard_F8S       = HardwareProfile_STATUS_VmSize("Standard_F8s")
+	HardwareProfile_STATUS_VmSize_Standard_F8S_V2    = HardwareProfile_STATUS_VmSize("Standard_F8s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_G1        = HardwareProfile_STATUS_VmSize("Standard_G1")
+	HardwareProfile_STATUS_VmSize_Standard_G2        = HardwareProfile_STATUS_VmSize("Standard_G2")
+	HardwareProfile_STATUS_VmSize_Standard_G3        = HardwareProfile_STATUS_VmSize("Standard_G3")
+	HardwareProfile_STATUS_VmSize_Standard_G4        = HardwareProfile_STATUS_VmSize("Standard_G4")
+	HardwareProfile_STATUS_VmSize_Standard_G5        = HardwareProfile_STATUS_VmSize("Standard_G5")
+	HardwareProfile_STATUS_VmSize_Standard_GS1       = HardwareProfile_STATUS_VmSize("Standard_GS1")
+	HardwareProfile_STATUS_VmSize_Standard_GS2       = HardwareProfile_STATUS_VmSize("Standard_GS2")
+	HardwareProfile_STATUS_VmSize_Standard_GS3       = HardwareProfile_STATUS_VmSize("Standard_GS3")
+	HardwareProfile_STATUS_VmSize_Standard_GS4       = HardwareProfile_STATUS_VmSize("Standard_GS4")
+	HardwareProfile_STATUS_VmSize_Standard_GS44      = HardwareProfile_STATUS_VmSize("Standard_GS4-4")
+	HardwareProfile_STATUS_VmSize_Standard_GS48      = HardwareProfile_STATUS_VmSize("Standard_GS4-8")
+	HardwareProfile_STATUS_VmSize_Standard_GS5       = HardwareProfile_STATUS_VmSize("Standard_GS5")
+	HardwareProfile_STATUS_VmSize_Standard_GS516     = HardwareProfile_STATUS_VmSize("Standard_GS5-16")
+	HardwareProfile_STATUS_VmSize_Standard_GS58      = HardwareProfile_STATUS_VmSize("Standard_GS5-8")
+	HardwareProfile_STATUS_VmSize_Standard_H16       = HardwareProfile_STATUS_VmSize("Standard_H16")
+	HardwareProfile_STATUS_VmSize_Standard_H16M      = HardwareProfile_STATUS_VmSize("Standard_H16m")
+	HardwareProfile_STATUS_VmSize_Standard_H16Mr     = HardwareProfile_STATUS_VmSize("Standard_H16mr")
+	HardwareProfile_STATUS_VmSize_Standard_H16R      = HardwareProfile_STATUS_VmSize("Standard_H16r")
+	HardwareProfile_STATUS_VmSize_Standard_H8        = HardwareProfile_STATUS_VmSize("Standard_H8")
+	HardwareProfile_STATUS_VmSize_Standard_H8M       = HardwareProfile_STATUS_VmSize("Standard_H8m")
+	HardwareProfile_STATUS_VmSize_Standard_L16S      = HardwareProfile_STATUS_VmSize("Standard_L16s")
+	HardwareProfile_STATUS_VmSize_Standard_L32S      = HardwareProfile_STATUS_VmSize("Standard_L32s")
+	HardwareProfile_STATUS_VmSize_Standard_L4S       = HardwareProfile_STATUS_VmSize("Standard_L4s")
+	HardwareProfile_STATUS_VmSize_Standard_L8S       = HardwareProfile_STATUS_VmSize("Standard_L8s")
+	HardwareProfile_STATUS_VmSize_Standard_M12832Ms  = HardwareProfile_STATUS_VmSize("Standard_M128-32ms")
+	HardwareProfile_STATUS_VmSize_Standard_M12864Ms  = HardwareProfile_STATUS_VmSize("Standard_M128-64ms")
+	HardwareProfile_STATUS_VmSize_Standard_M128Ms    = HardwareProfile_STATUS_VmSize("Standard_M128ms")
+	HardwareProfile_STATUS_VmSize_Standard_M128S     = HardwareProfile_STATUS_VmSize("Standard_M128s")
+	HardwareProfile_STATUS_VmSize_Standard_M6416Ms   = HardwareProfile_STATUS_VmSize("Standard_M64-16ms")
+	HardwareProfile_STATUS_VmSize_Standard_M6432Ms   = HardwareProfile_STATUS_VmSize("Standard_M64-32ms")
+	HardwareProfile_STATUS_VmSize_Standard_M64Ms     = HardwareProfile_STATUS_VmSize("Standard_M64ms")
+	HardwareProfile_STATUS_VmSize_Standard_M64S      = HardwareProfile_STATUS_VmSize("Standard_M64s")
+	HardwareProfile_STATUS_VmSize_Standard_NC12      = HardwareProfile_STATUS_VmSize("Standard_NC12")
+	HardwareProfile_STATUS_VmSize_Standard_NC12S_V2  = HardwareProfile_STATUS_VmSize("Standard_NC12s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_NC12S_V3  = HardwareProfile_STATUS_VmSize("Standard_NC12s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_NC24      = HardwareProfile_STATUS_VmSize("Standard_NC24")
+	HardwareProfile_STATUS_VmSize_Standard_NC24R     = HardwareProfile_STATUS_VmSize("Standard_NC24r")
+	HardwareProfile_STATUS_VmSize_Standard_NC24Rs_V2 = HardwareProfile_STATUS_VmSize("Standard_NC24rs_v2")
+	HardwareProfile_STATUS_VmSize_Standard_NC24Rs_V3 = HardwareProfile_STATUS_VmSize("Standard_NC24rs_v3")
+	HardwareProfile_STATUS_VmSize_Standard_NC24S_V2  = HardwareProfile_STATUS_VmSize("Standard_NC24s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_NC24S_V3  = HardwareProfile_STATUS_VmSize("Standard_NC24s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_NC6       = HardwareProfile_STATUS_VmSize("Standard_NC6")
+	HardwareProfile_STATUS_VmSize_Standard_NC6S_V2   = HardwareProfile_STATUS_VmSize("Standard_NC6s_v2")
+	HardwareProfile_STATUS_VmSize_Standard_NC6S_V3   = HardwareProfile_STATUS_VmSize("Standard_NC6s_v3")
+	HardwareProfile_STATUS_VmSize_Standard_ND12S     = HardwareProfile_STATUS_VmSize("Standard_ND12s")
+	HardwareProfile_STATUS_VmSize_Standard_ND24Rs    = HardwareProfile_STATUS_VmSize("Standard_ND24rs")
+	HardwareProfile_STATUS_VmSize_Standard_ND24S     = HardwareProfile_STATUS_VmSize("Standard_ND24s")
+	HardwareProfile_STATUS_VmSize_Standard_ND6S      = HardwareProfile_STATUS_VmSize("Standard_ND6s")
+	HardwareProfile_STATUS_VmSize_Standard_NV12      = HardwareProfile_STATUS_VmSize("Standard_NV12")
+	HardwareProfile_STATUS_VmSize_Standard_NV24      = HardwareProfile_STATUS_VmSize("Standard_NV24")
+	HardwareProfile_STATUS_VmSize_Standard_NV6       = HardwareProfile_STATUS_VmSize("Standard_NV6")
 )
 
-// Deprecated version of HardwareProfileVmSize. Use v1beta20201201.HardwareProfileVmSize instead
+// Deprecated version of HardwareProfile_VmSize. Use v1beta20201201.HardwareProfile_VmSize instead
 // +kubebuilder:validation:Enum={"Basic_A0","Basic_A1","Basic_A2","Basic_A3","Basic_A4","Standard_A0","Standard_A1","Standard_A10","Standard_A11","Standard_A1_v2","Standard_A2","Standard_A2m_v2","Standard_A2_v2","Standard_A3","Standard_A4","Standard_A4m_v2","Standard_A4_v2","Standard_A5","Standard_A6","Standard_A7","Standard_A8","Standard_A8m_v2","Standard_A8_v2","Standard_A9","Standard_B1ms","Standard_B1s","Standard_B2ms","Standard_B2s","Standard_B4ms","Standard_B8ms","Standard_D1","Standard_D11","Standard_D11_v2","Standard_D12","Standard_D12_v2","Standard_D13","Standard_D13_v2","Standard_D14","Standard_D14_v2","Standard_D15_v2","Standard_D16s_v3","Standard_D16_v3","Standard_D1_v2","Standard_D2","Standard_D2s_v3","Standard_D2_v2","Standard_D2_v3","Standard_D3","Standard_D32s_v3","Standard_D32_v3","Standard_D3_v2","Standard_D4","Standard_D4s_v3","Standard_D4_v2","Standard_D4_v3","Standard_D5_v2","Standard_D64s_v3","Standard_D64_v3","Standard_D8s_v3","Standard_D8_v3","Standard_DS1","Standard_DS11","Standard_DS11_v2","Standard_DS12","Standard_DS12_v2","Standard_DS13","Standard_DS13-2_v2","Standard_DS13-4_v2","Standard_DS13_v2","Standard_DS14","Standard_DS14-4_v2","Standard_DS14-8_v2","Standard_DS14_v2","Standard_DS15_v2","Standard_DS1_v2","Standard_DS2","Standard_DS2_v2","Standard_DS3","Standard_DS3_v2","Standard_DS4","Standard_DS4_v2","Standard_DS5_v2","Standard_E16s_v3","Standard_E16_v3","Standard_E2s_v3","Standard_E2_v3","Standard_E32-16_v3","Standard_E32-8s_v3","Standard_E32s_v3","Standard_E32_v3","Standard_E4s_v3","Standard_E4_v3","Standard_E64-16s_v3","Standard_E64-32s_v3","Standard_E64s_v3","Standard_E64_v3","Standard_E8s_v3","Standard_E8_v3","Standard_F1","Standard_F16","Standard_F16s","Standard_F16s_v2","Standard_F1s","Standard_F2","Standard_F2s","Standard_F2s_v2","Standard_F32s_v2","Standard_F4","Standard_F4s","Standard_F4s_v2","Standard_F64s_v2","Standard_F72s_v2","Standard_F8","Standard_F8s","Standard_F8s_v2","Standard_G1","Standard_G2","Standard_G3","Standard_G4","Standard_G5","Standard_GS1","Standard_GS2","Standard_GS3","Standard_GS4","Standard_GS4-4","Standard_GS4-8","Standard_GS5","Standard_GS5-16","Standard_GS5-8","Standard_H16","Standard_H16m","Standard_H16mr","Standard_H16r","Standard_H8","Standard_H8m","Standard_L16s","Standard_L32s","Standard_L4s","Standard_L8s","Standard_M128-32ms","Standard_M128-64ms","Standard_M128ms","Standard_M128s","Standard_M64-16ms","Standard_M64-32ms","Standard_M64ms","Standard_M64s","Standard_NC12","Standard_NC12s_v2","Standard_NC12s_v3","Standard_NC24","Standard_NC24r","Standard_NC24rs_v2","Standard_NC24rs_v3","Standard_NC24s_v2","Standard_NC24s_v3","Standard_NC6","Standard_NC6s_v2","Standard_NC6s_v3","Standard_ND12s","Standard_ND24rs","Standard_ND24s","Standard_ND6s","Standard_NV12","Standard_NV24","Standard_NV6"}
-type HardwareProfileVmSize string
+type HardwareProfile_VmSize string
 
 const (
-	HardwareProfileVmSize_BasicA0          = HardwareProfileVmSize("Basic_A0")
-	HardwareProfileVmSize_BasicA1          = HardwareProfileVmSize("Basic_A1")
-	HardwareProfileVmSize_BasicA2          = HardwareProfileVmSize("Basic_A2")
-	HardwareProfileVmSize_BasicA3          = HardwareProfileVmSize("Basic_A3")
-	HardwareProfileVmSize_BasicA4          = HardwareProfileVmSize("Basic_A4")
-	HardwareProfileVmSize_StandardA0       = HardwareProfileVmSize("Standard_A0")
-	HardwareProfileVmSize_StandardA1       = HardwareProfileVmSize("Standard_A1")
-	HardwareProfileVmSize_StandardA10      = HardwareProfileVmSize("Standard_A10")
-	HardwareProfileVmSize_StandardA11      = HardwareProfileVmSize("Standard_A11")
-	HardwareProfileVmSize_StandardA1V2     = HardwareProfileVmSize("Standard_A1_v2")
-	HardwareProfileVmSize_StandardA2       = HardwareProfileVmSize("Standard_A2")
-	HardwareProfileVmSize_StandardA2MV2    = HardwareProfileVmSize("Standard_A2m_v2")
-	HardwareProfileVmSize_StandardA2V2     = HardwareProfileVmSize("Standard_A2_v2")
-	HardwareProfileVmSize_StandardA3       = HardwareProfileVmSize("Standard_A3")
-	HardwareProfileVmSize_StandardA4       = HardwareProfileVmSize("Standard_A4")
-	HardwareProfileVmSize_StandardA4MV2    = HardwareProfileVmSize("Standard_A4m_v2")
-	HardwareProfileVmSize_StandardA4V2     = HardwareProfileVmSize("Standard_A4_v2")
-	HardwareProfileVmSize_StandardA5       = HardwareProfileVmSize("Standard_A5")
-	HardwareProfileVmSize_StandardA6       = HardwareProfileVmSize("Standard_A6")
-	HardwareProfileVmSize_StandardA7       = HardwareProfileVmSize("Standard_A7")
-	HardwareProfileVmSize_StandardA8       = HardwareProfileVmSize("Standard_A8")
-	HardwareProfileVmSize_StandardA8MV2    = HardwareProfileVmSize("Standard_A8m_v2")
-	HardwareProfileVmSize_StandardA8V2     = HardwareProfileVmSize("Standard_A8_v2")
-	HardwareProfileVmSize_StandardA9       = HardwareProfileVmSize("Standard_A9")
-	HardwareProfileVmSize_StandardB1Ms     = HardwareProfileVmSize("Standard_B1ms")
-	HardwareProfileVmSize_StandardB1S      = HardwareProfileVmSize("Standard_B1s")
-	HardwareProfileVmSize_StandardB2Ms     = HardwareProfileVmSize("Standard_B2ms")
-	HardwareProfileVmSize_StandardB2S      = HardwareProfileVmSize("Standard_B2s")
-	HardwareProfileVmSize_StandardB4Ms     = HardwareProfileVmSize("Standard_B4ms")
-	HardwareProfileVmSize_StandardB8Ms     = HardwareProfileVmSize("Standard_B8ms")
-	HardwareProfileVmSize_StandardD1       = HardwareProfileVmSize("Standard_D1")
-	HardwareProfileVmSize_StandardD11      = HardwareProfileVmSize("Standard_D11")
-	HardwareProfileVmSize_StandardD11V2    = HardwareProfileVmSize("Standard_D11_v2")
-	HardwareProfileVmSize_StandardD12      = HardwareProfileVmSize("Standard_D12")
-	HardwareProfileVmSize_StandardD12V2    = HardwareProfileVmSize("Standard_D12_v2")
-	HardwareProfileVmSize_StandardD13      = HardwareProfileVmSize("Standard_D13")
-	HardwareProfileVmSize_StandardD13V2    = HardwareProfileVmSize("Standard_D13_v2")
-	HardwareProfileVmSize_StandardD14      = HardwareProfileVmSize("Standard_D14")
-	HardwareProfileVmSize_StandardD14V2    = HardwareProfileVmSize("Standard_D14_v2")
-	HardwareProfileVmSize_StandardD15V2    = HardwareProfileVmSize("Standard_D15_v2")
-	HardwareProfileVmSize_StandardD16SV3   = HardwareProfileVmSize("Standard_D16s_v3")
-	HardwareProfileVmSize_StandardD16V3    = HardwareProfileVmSize("Standard_D16_v3")
-	HardwareProfileVmSize_StandardD1V2     = HardwareProfileVmSize("Standard_D1_v2")
-	HardwareProfileVmSize_StandardD2       = HardwareProfileVmSize("Standard_D2")
-	HardwareProfileVmSize_StandardD2SV3    = HardwareProfileVmSize("Standard_D2s_v3")
-	HardwareProfileVmSize_StandardD2V2     = HardwareProfileVmSize("Standard_D2_v2")
-	HardwareProfileVmSize_StandardD2V3     = HardwareProfileVmSize("Standard_D2_v3")
-	HardwareProfileVmSize_StandardD3       = HardwareProfileVmSize("Standard_D3")
-	HardwareProfileVmSize_StandardD32SV3   = HardwareProfileVmSize("Standard_D32s_v3")
-	HardwareProfileVmSize_StandardD32V3    = HardwareProfileVmSize("Standard_D32_v3")
-	HardwareProfileVmSize_StandardD3V2     = HardwareProfileVmSize("Standard_D3_v2")
-	HardwareProfileVmSize_StandardD4       = HardwareProfileVmSize("Standard_D4")
-	HardwareProfileVmSize_StandardD4SV3    = HardwareProfileVmSize("Standard_D4s_v3")
-	HardwareProfileVmSize_StandardD4V2     = HardwareProfileVmSize("Standard_D4_v2")
-	HardwareProfileVmSize_StandardD4V3     = HardwareProfileVmSize("Standard_D4_v3")
-	HardwareProfileVmSize_StandardD5V2     = HardwareProfileVmSize("Standard_D5_v2")
-	HardwareProfileVmSize_StandardD64SV3   = HardwareProfileVmSize("Standard_D64s_v3")
-	HardwareProfileVmSize_StandardD64V3    = HardwareProfileVmSize("Standard_D64_v3")
-	HardwareProfileVmSize_StandardD8SV3    = HardwareProfileVmSize("Standard_D8s_v3")
-	HardwareProfileVmSize_StandardD8V3     = HardwareProfileVmSize("Standard_D8_v3")
-	HardwareProfileVmSize_StandardDS1      = HardwareProfileVmSize("Standard_DS1")
-	HardwareProfileVmSize_StandardDS11     = HardwareProfileVmSize("Standard_DS11")
-	HardwareProfileVmSize_StandardDS11V2   = HardwareProfileVmSize("Standard_DS11_v2")
-	HardwareProfileVmSize_StandardDS12     = HardwareProfileVmSize("Standard_DS12")
-	HardwareProfileVmSize_StandardDS12V2   = HardwareProfileVmSize("Standard_DS12_v2")
-	HardwareProfileVmSize_StandardDS13     = HardwareProfileVmSize("Standard_DS13")
-	HardwareProfileVmSize_StandardDS132V2  = HardwareProfileVmSize("Standard_DS13-2_v2")
-	HardwareProfileVmSize_StandardDS134V2  = HardwareProfileVmSize("Standard_DS13-4_v2")
-	HardwareProfileVmSize_StandardDS13V2   = HardwareProfileVmSize("Standard_DS13_v2")
-	HardwareProfileVmSize_StandardDS14     = HardwareProfileVmSize("Standard_DS14")
-	HardwareProfileVmSize_StandardDS144V2  = HardwareProfileVmSize("Standard_DS14-4_v2")
-	HardwareProfileVmSize_StandardDS148V2  = HardwareProfileVmSize("Standard_DS14-8_v2")
-	HardwareProfileVmSize_StandardDS14V2   = HardwareProfileVmSize("Standard_DS14_v2")
-	HardwareProfileVmSize_StandardDS15V2   = HardwareProfileVmSize("Standard_DS15_v2")
-	HardwareProfileVmSize_StandardDS1V2    = HardwareProfileVmSize("Standard_DS1_v2")
-	HardwareProfileVmSize_StandardDS2      = HardwareProfileVmSize("Standard_DS2")
-	HardwareProfileVmSize_StandardDS2V2    = HardwareProfileVmSize("Standard_DS2_v2")
-	HardwareProfileVmSize_StandardDS3      = HardwareProfileVmSize("Standard_DS3")
-	HardwareProfileVmSize_StandardDS3V2    = HardwareProfileVmSize("Standard_DS3_v2")
-	HardwareProfileVmSize_StandardDS4      = HardwareProfileVmSize("Standard_DS4")
-	HardwareProfileVmSize_StandardDS4V2    = HardwareProfileVmSize("Standard_DS4_v2")
-	HardwareProfileVmSize_StandardDS5V2    = HardwareProfileVmSize("Standard_DS5_v2")
-	HardwareProfileVmSize_StandardE16SV3   = HardwareProfileVmSize("Standard_E16s_v3")
-	HardwareProfileVmSize_StandardE16V3    = HardwareProfileVmSize("Standard_E16_v3")
-	HardwareProfileVmSize_StandardE2SV3    = HardwareProfileVmSize("Standard_E2s_v3")
-	HardwareProfileVmSize_StandardE2V3     = HardwareProfileVmSize("Standard_E2_v3")
-	HardwareProfileVmSize_StandardE3216V3  = HardwareProfileVmSize("Standard_E32-16_v3")
-	HardwareProfileVmSize_StandardE328SV3  = HardwareProfileVmSize("Standard_E32-8s_v3")
-	HardwareProfileVmSize_StandardE32SV3   = HardwareProfileVmSize("Standard_E32s_v3")
-	HardwareProfileVmSize_StandardE32V3    = HardwareProfileVmSize("Standard_E32_v3")
-	HardwareProfileVmSize_StandardE4SV3    = HardwareProfileVmSize("Standard_E4s_v3")
-	HardwareProfileVmSize_StandardE4V3     = HardwareProfileVmSize("Standard_E4_v3")
-	HardwareProfileVmSize_StandardE6416SV3 = HardwareProfileVmSize("Standard_E64-16s_v3")
-	HardwareProfileVmSize_StandardE6432SV3 = HardwareProfileVmSize("Standard_E64-32s_v3")
-	HardwareProfileVmSize_StandardE64SV3   = HardwareProfileVmSize("Standard_E64s_v3")
-	HardwareProfileVmSize_StandardE64V3    = HardwareProfileVmSize("Standard_E64_v3")
-	HardwareProfileVmSize_StandardE8SV3    = HardwareProfileVmSize("Standard_E8s_v3")
-	HardwareProfileVmSize_StandardE8V3     = HardwareProfileVmSize("Standard_E8_v3")
-	HardwareProfileVmSize_StandardF1       = HardwareProfileVmSize("Standard_F1")
-	HardwareProfileVmSize_StandardF16      = HardwareProfileVmSize("Standard_F16")
-	HardwareProfileVmSize_StandardF16S     = HardwareProfileVmSize("Standard_F16s")
-	HardwareProfileVmSize_StandardF16SV2   = HardwareProfileVmSize("Standard_F16s_v2")
-	HardwareProfileVmSize_StandardF1S      = HardwareProfileVmSize("Standard_F1s")
-	HardwareProfileVmSize_StandardF2       = HardwareProfileVmSize("Standard_F2")
-	HardwareProfileVmSize_StandardF2S      = HardwareProfileVmSize("Standard_F2s")
-	HardwareProfileVmSize_StandardF2SV2    = HardwareProfileVmSize("Standard_F2s_v2")
-	HardwareProfileVmSize_StandardF32SV2   = HardwareProfileVmSize("Standard_F32s_v2")
-	HardwareProfileVmSize_StandardF4       = HardwareProfileVmSize("Standard_F4")
-	HardwareProfileVmSize_StandardF4S      = HardwareProfileVmSize("Standard_F4s")
-	HardwareProfileVmSize_StandardF4SV2    = HardwareProfileVmSize("Standard_F4s_v2")
-	HardwareProfileVmSize_StandardF64SV2   = HardwareProfileVmSize("Standard_F64s_v2")
-	HardwareProfileVmSize_StandardF72SV2   = HardwareProfileVmSize("Standard_F72s_v2")
-	HardwareProfileVmSize_StandardF8       = HardwareProfileVmSize("Standard_F8")
-	HardwareProfileVmSize_StandardF8S      = HardwareProfileVmSize("Standard_F8s")
-	HardwareProfileVmSize_StandardF8SV2    = HardwareProfileVmSize("Standard_F8s_v2")
-	HardwareProfileVmSize_StandardG1       = HardwareProfileVmSize("Standard_G1")
-	HardwareProfileVmSize_StandardG2       = HardwareProfileVmSize("Standard_G2")
-	HardwareProfileVmSize_StandardG3       = HardwareProfileVmSize("Standard_G3")
-	HardwareProfileVmSize_StandardG4       = HardwareProfileVmSize("Standard_G4")
-	HardwareProfileVmSize_StandardG5       = HardwareProfileVmSize("Standard_G5")
-	HardwareProfileVmSize_StandardGS1      = HardwareProfileVmSize("Standard_GS1")
-	HardwareProfileVmSize_StandardGS2      = HardwareProfileVmSize("Standard_GS2")
-	HardwareProfileVmSize_StandardGS3      = HardwareProfileVmSize("Standard_GS3")
-	HardwareProfileVmSize_StandardGS4      = HardwareProfileVmSize("Standard_GS4")
-	HardwareProfileVmSize_StandardGS44     = HardwareProfileVmSize("Standard_GS4-4")
-	HardwareProfileVmSize_StandardGS48     = HardwareProfileVmSize("Standard_GS4-8")
-	HardwareProfileVmSize_StandardGS5      = HardwareProfileVmSize("Standard_GS5")
-	HardwareProfileVmSize_StandardGS516    = HardwareProfileVmSize("Standard_GS5-16")
-	HardwareProfileVmSize_StandardGS58     = HardwareProfileVmSize("Standard_GS5-8")
-	HardwareProfileVmSize_StandardH16      = HardwareProfileVmSize("Standard_H16")
-	HardwareProfileVmSize_StandardH16M     = HardwareProfileVmSize("Standard_H16m")
-	HardwareProfileVmSize_StandardH16Mr    = HardwareProfileVmSize("Standard_H16mr")
-	HardwareProfileVmSize_StandardH16R     = HardwareProfileVmSize("Standard_H16r")
-	HardwareProfileVmSize_StandardH8       = HardwareProfileVmSize("Standard_H8")
-	HardwareProfileVmSize_StandardH8M      = HardwareProfileVmSize("Standard_H8m")
-	HardwareProfileVmSize_StandardL16S     = HardwareProfileVmSize("Standard_L16s")
-	HardwareProfileVmSize_StandardL32S     = HardwareProfileVmSize("Standard_L32s")
-	HardwareProfileVmSize_StandardL4S      = HardwareProfileVmSize("Standard_L4s")
-	HardwareProfileVmSize_StandardL8S      = HardwareProfileVmSize("Standard_L8s")
-	HardwareProfileVmSize_StandardM12832Ms = HardwareProfileVmSize("Standard_M128-32ms")
-	HardwareProfileVmSize_StandardM12864Ms = HardwareProfileVmSize("Standard_M128-64ms")
-	HardwareProfileVmSize_StandardM128Ms   = HardwareProfileVmSize("Standard_M128ms")
-	HardwareProfileVmSize_StandardM128S    = HardwareProfileVmSize("Standard_M128s")
-	HardwareProfileVmSize_StandardM6416Ms  = HardwareProfileVmSize("Standard_M64-16ms")
-	HardwareProfileVmSize_StandardM6432Ms  = HardwareProfileVmSize("Standard_M64-32ms")
-	HardwareProfileVmSize_StandardM64Ms    = HardwareProfileVmSize("Standard_M64ms")
-	HardwareProfileVmSize_StandardM64S     = HardwareProfileVmSize("Standard_M64s")
-	HardwareProfileVmSize_StandardNC12     = HardwareProfileVmSize("Standard_NC12")
-	HardwareProfileVmSize_StandardNC12SV2  = HardwareProfileVmSize("Standard_NC12s_v2")
-	HardwareProfileVmSize_StandardNC12SV3  = HardwareProfileVmSize("Standard_NC12s_v3")
-	HardwareProfileVmSize_StandardNC24     = HardwareProfileVmSize("Standard_NC24")
-	HardwareProfileVmSize_StandardNC24R    = HardwareProfileVmSize("Standard_NC24r")
-	HardwareProfileVmSize_StandardNC24RsV2 = HardwareProfileVmSize("Standard_NC24rs_v2")
-	HardwareProfileVmSize_StandardNC24RsV3 = HardwareProfileVmSize("Standard_NC24rs_v3")
-	HardwareProfileVmSize_StandardNC24SV2  = HardwareProfileVmSize("Standard_NC24s_v2")
-	HardwareProfileVmSize_StandardNC24SV3  = HardwareProfileVmSize("Standard_NC24s_v3")
-	HardwareProfileVmSize_StandardNC6      = HardwareProfileVmSize("Standard_NC6")
-	HardwareProfileVmSize_StandardNC6SV2   = HardwareProfileVmSize("Standard_NC6s_v2")
-	HardwareProfileVmSize_StandardNC6SV3   = HardwareProfileVmSize("Standard_NC6s_v3")
-	HardwareProfileVmSize_StandardND12S    = HardwareProfileVmSize("Standard_ND12s")
-	HardwareProfileVmSize_StandardND24Rs   = HardwareProfileVmSize("Standard_ND24rs")
-	HardwareProfileVmSize_StandardND24S    = HardwareProfileVmSize("Standard_ND24s")
-	HardwareProfileVmSize_StandardND6S     = HardwareProfileVmSize("Standard_ND6s")
-	HardwareProfileVmSize_StandardNV12     = HardwareProfileVmSize("Standard_NV12")
-	HardwareProfileVmSize_StandardNV24     = HardwareProfileVmSize("Standard_NV24")
-	HardwareProfileVmSize_StandardNV6      = HardwareProfileVmSize("Standard_NV6")
+	HardwareProfile_VmSize_Basic_A0           = HardwareProfile_VmSize("Basic_A0")
+	HardwareProfile_VmSize_Basic_A1           = HardwareProfile_VmSize("Basic_A1")
+	HardwareProfile_VmSize_Basic_A2           = HardwareProfile_VmSize("Basic_A2")
+	HardwareProfile_VmSize_Basic_A3           = HardwareProfile_VmSize("Basic_A3")
+	HardwareProfile_VmSize_Basic_A4           = HardwareProfile_VmSize("Basic_A4")
+	HardwareProfile_VmSize_Standard_A0        = HardwareProfile_VmSize("Standard_A0")
+	HardwareProfile_VmSize_Standard_A1        = HardwareProfile_VmSize("Standard_A1")
+	HardwareProfile_VmSize_Standard_A10       = HardwareProfile_VmSize("Standard_A10")
+	HardwareProfile_VmSize_Standard_A11       = HardwareProfile_VmSize("Standard_A11")
+	HardwareProfile_VmSize_Standard_A1_V2     = HardwareProfile_VmSize("Standard_A1_v2")
+	HardwareProfile_VmSize_Standard_A2        = HardwareProfile_VmSize("Standard_A2")
+	HardwareProfile_VmSize_Standard_A2M_V2    = HardwareProfile_VmSize("Standard_A2m_v2")
+	HardwareProfile_VmSize_Standard_A2_V2     = HardwareProfile_VmSize("Standard_A2_v2")
+	HardwareProfile_VmSize_Standard_A3        = HardwareProfile_VmSize("Standard_A3")
+	HardwareProfile_VmSize_Standard_A4        = HardwareProfile_VmSize("Standard_A4")
+	HardwareProfile_VmSize_Standard_A4M_V2    = HardwareProfile_VmSize("Standard_A4m_v2")
+	HardwareProfile_VmSize_Standard_A4_V2     = HardwareProfile_VmSize("Standard_A4_v2")
+	HardwareProfile_VmSize_Standard_A5        = HardwareProfile_VmSize("Standard_A5")
+	HardwareProfile_VmSize_Standard_A6        = HardwareProfile_VmSize("Standard_A6")
+	HardwareProfile_VmSize_Standard_A7        = HardwareProfile_VmSize("Standard_A7")
+	HardwareProfile_VmSize_Standard_A8        = HardwareProfile_VmSize("Standard_A8")
+	HardwareProfile_VmSize_Standard_A8M_V2    = HardwareProfile_VmSize("Standard_A8m_v2")
+	HardwareProfile_VmSize_Standard_A8_V2     = HardwareProfile_VmSize("Standard_A8_v2")
+	HardwareProfile_VmSize_Standard_A9        = HardwareProfile_VmSize("Standard_A9")
+	HardwareProfile_VmSize_Standard_B1Ms      = HardwareProfile_VmSize("Standard_B1ms")
+	HardwareProfile_VmSize_Standard_B1S       = HardwareProfile_VmSize("Standard_B1s")
+	HardwareProfile_VmSize_Standard_B2Ms      = HardwareProfile_VmSize("Standard_B2ms")
+	HardwareProfile_VmSize_Standard_B2S       = HardwareProfile_VmSize("Standard_B2s")
+	HardwareProfile_VmSize_Standard_B4Ms      = HardwareProfile_VmSize("Standard_B4ms")
+	HardwareProfile_VmSize_Standard_B8Ms      = HardwareProfile_VmSize("Standard_B8ms")
+	HardwareProfile_VmSize_Standard_D1        = HardwareProfile_VmSize("Standard_D1")
+	HardwareProfile_VmSize_Standard_D11       = HardwareProfile_VmSize("Standard_D11")
+	HardwareProfile_VmSize_Standard_D11_V2    = HardwareProfile_VmSize("Standard_D11_v2")
+	HardwareProfile_VmSize_Standard_D12       = HardwareProfile_VmSize("Standard_D12")
+	HardwareProfile_VmSize_Standard_D12_V2    = HardwareProfile_VmSize("Standard_D12_v2")
+	HardwareProfile_VmSize_Standard_D13       = HardwareProfile_VmSize("Standard_D13")
+	HardwareProfile_VmSize_Standard_D13_V2    = HardwareProfile_VmSize("Standard_D13_v2")
+	HardwareProfile_VmSize_Standard_D14       = HardwareProfile_VmSize("Standard_D14")
+	HardwareProfile_VmSize_Standard_D14_V2    = HardwareProfile_VmSize("Standard_D14_v2")
+	HardwareProfile_VmSize_Standard_D15_V2    = HardwareProfile_VmSize("Standard_D15_v2")
+	HardwareProfile_VmSize_Standard_D16S_V3   = HardwareProfile_VmSize("Standard_D16s_v3")
+	HardwareProfile_VmSize_Standard_D16_V3    = HardwareProfile_VmSize("Standard_D16_v3")
+	HardwareProfile_VmSize_Standard_D1_V2     = HardwareProfile_VmSize("Standard_D1_v2")
+	HardwareProfile_VmSize_Standard_D2        = HardwareProfile_VmSize("Standard_D2")
+	HardwareProfile_VmSize_Standard_D2S_V3    = HardwareProfile_VmSize("Standard_D2s_v3")
+	HardwareProfile_VmSize_Standard_D2_V2     = HardwareProfile_VmSize("Standard_D2_v2")
+	HardwareProfile_VmSize_Standard_D2_V3     = HardwareProfile_VmSize("Standard_D2_v3")
+	HardwareProfile_VmSize_Standard_D3        = HardwareProfile_VmSize("Standard_D3")
+	HardwareProfile_VmSize_Standard_D32S_V3   = HardwareProfile_VmSize("Standard_D32s_v3")
+	HardwareProfile_VmSize_Standard_D32_V3    = HardwareProfile_VmSize("Standard_D32_v3")
+	HardwareProfile_VmSize_Standard_D3_V2     = HardwareProfile_VmSize("Standard_D3_v2")
+	HardwareProfile_VmSize_Standard_D4        = HardwareProfile_VmSize("Standard_D4")
+	HardwareProfile_VmSize_Standard_D4S_V3    = HardwareProfile_VmSize("Standard_D4s_v3")
+	HardwareProfile_VmSize_Standard_D4_V2     = HardwareProfile_VmSize("Standard_D4_v2")
+	HardwareProfile_VmSize_Standard_D4_V3     = HardwareProfile_VmSize("Standard_D4_v3")
+	HardwareProfile_VmSize_Standard_D5_V2     = HardwareProfile_VmSize("Standard_D5_v2")
+	HardwareProfile_VmSize_Standard_D64S_V3   = HardwareProfile_VmSize("Standard_D64s_v3")
+	HardwareProfile_VmSize_Standard_D64_V3    = HardwareProfile_VmSize("Standard_D64_v3")
+	HardwareProfile_VmSize_Standard_D8S_V3    = HardwareProfile_VmSize("Standard_D8s_v3")
+	HardwareProfile_VmSize_Standard_D8_V3     = HardwareProfile_VmSize("Standard_D8_v3")
+	HardwareProfile_VmSize_Standard_DS1       = HardwareProfile_VmSize("Standard_DS1")
+	HardwareProfile_VmSize_Standard_DS11      = HardwareProfile_VmSize("Standard_DS11")
+	HardwareProfile_VmSize_Standard_DS11_V2   = HardwareProfile_VmSize("Standard_DS11_v2")
+	HardwareProfile_VmSize_Standard_DS12      = HardwareProfile_VmSize("Standard_DS12")
+	HardwareProfile_VmSize_Standard_DS12_V2   = HardwareProfile_VmSize("Standard_DS12_v2")
+	HardwareProfile_VmSize_Standard_DS13      = HardwareProfile_VmSize("Standard_DS13")
+	HardwareProfile_VmSize_Standard_DS132_V2  = HardwareProfile_VmSize("Standard_DS13-2_v2")
+	HardwareProfile_VmSize_Standard_DS134_V2  = HardwareProfile_VmSize("Standard_DS13-4_v2")
+	HardwareProfile_VmSize_Standard_DS13_V2   = HardwareProfile_VmSize("Standard_DS13_v2")
+	HardwareProfile_VmSize_Standard_DS14      = HardwareProfile_VmSize("Standard_DS14")
+	HardwareProfile_VmSize_Standard_DS144_V2  = HardwareProfile_VmSize("Standard_DS14-4_v2")
+	HardwareProfile_VmSize_Standard_DS148_V2  = HardwareProfile_VmSize("Standard_DS14-8_v2")
+	HardwareProfile_VmSize_Standard_DS14_V2   = HardwareProfile_VmSize("Standard_DS14_v2")
+	HardwareProfile_VmSize_Standard_DS15_V2   = HardwareProfile_VmSize("Standard_DS15_v2")
+	HardwareProfile_VmSize_Standard_DS1_V2    = HardwareProfile_VmSize("Standard_DS1_v2")
+	HardwareProfile_VmSize_Standard_DS2       = HardwareProfile_VmSize("Standard_DS2")
+	HardwareProfile_VmSize_Standard_DS2_V2    = HardwareProfile_VmSize("Standard_DS2_v2")
+	HardwareProfile_VmSize_Standard_DS3       = HardwareProfile_VmSize("Standard_DS3")
+	HardwareProfile_VmSize_Standard_DS3_V2    = HardwareProfile_VmSize("Standard_DS3_v2")
+	HardwareProfile_VmSize_Standard_DS4       = HardwareProfile_VmSize("Standard_DS4")
+	HardwareProfile_VmSize_Standard_DS4_V2    = HardwareProfile_VmSize("Standard_DS4_v2")
+	HardwareProfile_VmSize_Standard_DS5_V2    = HardwareProfile_VmSize("Standard_DS5_v2")
+	HardwareProfile_VmSize_Standard_E16S_V3   = HardwareProfile_VmSize("Standard_E16s_v3")
+	HardwareProfile_VmSize_Standard_E16_V3    = HardwareProfile_VmSize("Standard_E16_v3")
+	HardwareProfile_VmSize_Standard_E2S_V3    = HardwareProfile_VmSize("Standard_E2s_v3")
+	HardwareProfile_VmSize_Standard_E2_V3     = HardwareProfile_VmSize("Standard_E2_v3")
+	HardwareProfile_VmSize_Standard_E3216_V3  = HardwareProfile_VmSize("Standard_E32-16_v3")
+	HardwareProfile_VmSize_Standard_E328S_V3  = HardwareProfile_VmSize("Standard_E32-8s_v3")
+	HardwareProfile_VmSize_Standard_E32S_V3   = HardwareProfile_VmSize("Standard_E32s_v3")
+	HardwareProfile_VmSize_Standard_E32_V3    = HardwareProfile_VmSize("Standard_E32_v3")
+	HardwareProfile_VmSize_Standard_E4S_V3    = HardwareProfile_VmSize("Standard_E4s_v3")
+	HardwareProfile_VmSize_Standard_E4_V3     = HardwareProfile_VmSize("Standard_E4_v3")
+	HardwareProfile_VmSize_Standard_E6416S_V3 = HardwareProfile_VmSize("Standard_E64-16s_v3")
+	HardwareProfile_VmSize_Standard_E6432S_V3 = HardwareProfile_VmSize("Standard_E64-32s_v3")
+	HardwareProfile_VmSize_Standard_E64S_V3   = HardwareProfile_VmSize("Standard_E64s_v3")
+	HardwareProfile_VmSize_Standard_E64_V3    = HardwareProfile_VmSize("Standard_E64_v3")
+	HardwareProfile_VmSize_Standard_E8S_V3    = HardwareProfile_VmSize("Standard_E8s_v3")
+	HardwareProfile_VmSize_Standard_E8_V3     = HardwareProfile_VmSize("Standard_E8_v3")
+	HardwareProfile_VmSize_Standard_F1        = HardwareProfile_VmSize("Standard_F1")
+	HardwareProfile_VmSize_Standard_F16       = HardwareProfile_VmSize("Standard_F16")
+	HardwareProfile_VmSize_Standard_F16S      = HardwareProfile_VmSize("Standard_F16s")
+	HardwareProfile_VmSize_Standard_F16S_V2   = HardwareProfile_VmSize("Standard_F16s_v2")
+	HardwareProfile_VmSize_Standard_F1S       = HardwareProfile_VmSize("Standard_F1s")
+	HardwareProfile_VmSize_Standard_F2        = HardwareProfile_VmSize("Standard_F2")
+	HardwareProfile_VmSize_Standard_F2S       = HardwareProfile_VmSize("Standard_F2s")
+	HardwareProfile_VmSize_Standard_F2S_V2    = HardwareProfile_VmSize("Standard_F2s_v2")
+	HardwareProfile_VmSize_Standard_F32S_V2   = HardwareProfile_VmSize("Standard_F32s_v2")
+	HardwareProfile_VmSize_Standard_F4        = HardwareProfile_VmSize("Standard_F4")
+	HardwareProfile_VmSize_Standard_F4S       = HardwareProfile_VmSize("Standard_F4s")
+	HardwareProfile_VmSize_Standard_F4S_V2    = HardwareProfile_VmSize("Standard_F4s_v2")
+	HardwareProfile_VmSize_Standard_F64S_V2   = HardwareProfile_VmSize("Standard_F64s_v2")
+	HardwareProfile_VmSize_Standard_F72S_V2   = HardwareProfile_VmSize("Standard_F72s_v2")
+	HardwareProfile_VmSize_Standard_F8        = HardwareProfile_VmSize("Standard_F8")
+	HardwareProfile_VmSize_Standard_F8S       = HardwareProfile_VmSize("Standard_F8s")
+	HardwareProfile_VmSize_Standard_F8S_V2    = HardwareProfile_VmSize("Standard_F8s_v2")
+	HardwareProfile_VmSize_Standard_G1        = HardwareProfile_VmSize("Standard_G1")
+	HardwareProfile_VmSize_Standard_G2        = HardwareProfile_VmSize("Standard_G2")
+	HardwareProfile_VmSize_Standard_G3        = HardwareProfile_VmSize("Standard_G3")
+	HardwareProfile_VmSize_Standard_G4        = HardwareProfile_VmSize("Standard_G4")
+	HardwareProfile_VmSize_Standard_G5        = HardwareProfile_VmSize("Standard_G5")
+	HardwareProfile_VmSize_Standard_GS1       = HardwareProfile_VmSize("Standard_GS1")
+	HardwareProfile_VmSize_Standard_GS2       = HardwareProfile_VmSize("Standard_GS2")
+	HardwareProfile_VmSize_Standard_GS3       = HardwareProfile_VmSize("Standard_GS3")
+	HardwareProfile_VmSize_Standard_GS4       = HardwareProfile_VmSize("Standard_GS4")
+	HardwareProfile_VmSize_Standard_GS44      = HardwareProfile_VmSize("Standard_GS4-4")
+	HardwareProfile_VmSize_Standard_GS48      = HardwareProfile_VmSize("Standard_GS4-8")
+	HardwareProfile_VmSize_Standard_GS5       = HardwareProfile_VmSize("Standard_GS5")
+	HardwareProfile_VmSize_Standard_GS516     = HardwareProfile_VmSize("Standard_GS5-16")
+	HardwareProfile_VmSize_Standard_GS58      = HardwareProfile_VmSize("Standard_GS5-8")
+	HardwareProfile_VmSize_Standard_H16       = HardwareProfile_VmSize("Standard_H16")
+	HardwareProfile_VmSize_Standard_H16M      = HardwareProfile_VmSize("Standard_H16m")
+	HardwareProfile_VmSize_Standard_H16Mr     = HardwareProfile_VmSize("Standard_H16mr")
+	HardwareProfile_VmSize_Standard_H16R      = HardwareProfile_VmSize("Standard_H16r")
+	HardwareProfile_VmSize_Standard_H8        = HardwareProfile_VmSize("Standard_H8")
+	HardwareProfile_VmSize_Standard_H8M       = HardwareProfile_VmSize("Standard_H8m")
+	HardwareProfile_VmSize_Standard_L16S      = HardwareProfile_VmSize("Standard_L16s")
+	HardwareProfile_VmSize_Standard_L32S      = HardwareProfile_VmSize("Standard_L32s")
+	HardwareProfile_VmSize_Standard_L4S       = HardwareProfile_VmSize("Standard_L4s")
+	HardwareProfile_VmSize_Standard_L8S       = HardwareProfile_VmSize("Standard_L8s")
+	HardwareProfile_VmSize_Standard_M12832Ms  = HardwareProfile_VmSize("Standard_M128-32ms")
+	HardwareProfile_VmSize_Standard_M12864Ms  = HardwareProfile_VmSize("Standard_M128-64ms")
+	HardwareProfile_VmSize_Standard_M128Ms    = HardwareProfile_VmSize("Standard_M128ms")
+	HardwareProfile_VmSize_Standard_M128S     = HardwareProfile_VmSize("Standard_M128s")
+	HardwareProfile_VmSize_Standard_M6416Ms   = HardwareProfile_VmSize("Standard_M64-16ms")
+	HardwareProfile_VmSize_Standard_M6432Ms   = HardwareProfile_VmSize("Standard_M64-32ms")
+	HardwareProfile_VmSize_Standard_M64Ms     = HardwareProfile_VmSize("Standard_M64ms")
+	HardwareProfile_VmSize_Standard_M64S      = HardwareProfile_VmSize("Standard_M64s")
+	HardwareProfile_VmSize_Standard_NC12      = HardwareProfile_VmSize("Standard_NC12")
+	HardwareProfile_VmSize_Standard_NC12S_V2  = HardwareProfile_VmSize("Standard_NC12s_v2")
+	HardwareProfile_VmSize_Standard_NC12S_V3  = HardwareProfile_VmSize("Standard_NC12s_v3")
+	HardwareProfile_VmSize_Standard_NC24      = HardwareProfile_VmSize("Standard_NC24")
+	HardwareProfile_VmSize_Standard_NC24R     = HardwareProfile_VmSize("Standard_NC24r")
+	HardwareProfile_VmSize_Standard_NC24Rs_V2 = HardwareProfile_VmSize("Standard_NC24rs_v2")
+	HardwareProfile_VmSize_Standard_NC24Rs_V3 = HardwareProfile_VmSize("Standard_NC24rs_v3")
+	HardwareProfile_VmSize_Standard_NC24S_V2  = HardwareProfile_VmSize("Standard_NC24s_v2")
+	HardwareProfile_VmSize_Standard_NC24S_V3  = HardwareProfile_VmSize("Standard_NC24s_v3")
+	HardwareProfile_VmSize_Standard_NC6       = HardwareProfile_VmSize("Standard_NC6")
+	HardwareProfile_VmSize_Standard_NC6S_V2   = HardwareProfile_VmSize("Standard_NC6s_v2")
+	HardwareProfile_VmSize_Standard_NC6S_V3   = HardwareProfile_VmSize("Standard_NC6s_v3")
+	HardwareProfile_VmSize_Standard_ND12S     = HardwareProfile_VmSize("Standard_ND12s")
+	HardwareProfile_VmSize_Standard_ND24Rs    = HardwareProfile_VmSize("Standard_ND24rs")
+	HardwareProfile_VmSize_Standard_ND24S     = HardwareProfile_VmSize("Standard_ND24s")
+	HardwareProfile_VmSize_Standard_ND6S      = HardwareProfile_VmSize("Standard_ND6s")
+	HardwareProfile_VmSize_Standard_NV12      = HardwareProfile_VmSize("Standard_NV12")
+	HardwareProfile_VmSize_Standard_NV24      = HardwareProfile_VmSize("Standard_NV24")
+	HardwareProfile_VmSize_Standard_NV6       = HardwareProfile_VmSize("Standard_NV6")
 )
 
 // Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
@@ -7764,8 +7764,8 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
-func (reference *ImageReference) AssignPropertiesFromImageReference(source *alpha20201201s.ImageReference) error {
+// AssignProperties_From_ImageReference populates our ImageReference from the provided source ImageReference
+func (reference *ImageReference) AssignProperties_From_ImageReference(source *alpha20201201s.ImageReference) error {
 
 	// Offer
 	reference.Offer = genruntime.ClonePointerToString(source.Offer)
@@ -7791,8 +7791,8 @@ func (reference *ImageReference) AssignPropertiesFromImageReference(source *alph
 	return nil
 }
 
-// AssignPropertiesToImageReference populates the provided destination ImageReference from our ImageReference
-func (reference *ImageReference) AssignPropertiesToImageReference(destination *alpha20201201s.ImageReference) error {
+// AssignProperties_To_ImageReference populates the provided destination ImageReference from our ImageReference
+func (reference *ImageReference) AssignProperties_To_ImageReference(destination *alpha20201201s.ImageReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7891,8 +7891,8 @@ func (reference *ImageReference_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromImageReferenceSTATUS populates our ImageReference_STATUS from the provided source ImageReference_STATUS
-func (reference *ImageReference_STATUS) AssignPropertiesFromImageReferenceSTATUS(source *alpha20201201s.ImageReference_STATUS) error {
+// AssignProperties_From_ImageReference_STATUS populates our ImageReference_STATUS from the provided source ImageReference_STATUS
+func (reference *ImageReference_STATUS) AssignProperties_From_ImageReference_STATUS(source *alpha20201201s.ImageReference_STATUS) error {
 
 	// ExactVersion
 	reference.ExactVersion = genruntime.ClonePointerToString(source.ExactVersion)
@@ -7916,8 +7916,8 @@ func (reference *ImageReference_STATUS) AssignPropertiesFromImageReferenceSTATUS
 	return nil
 }
 
-// AssignPropertiesToImageReferenceSTATUS populates the provided destination ImageReference_STATUS from our ImageReference_STATUS
-func (reference *ImageReference_STATUS) AssignPropertiesToImageReferenceSTATUS(destination *alpha20201201s.ImageReference_STATUS) error {
+// AssignProperties_To_ImageReference_STATUS populates the provided destination ImageReference_STATUS from our ImageReference_STATUS
+func (reference *ImageReference_STATUS) AssignProperties_To_ImageReference_STATUS(destination *alpha20201201s.ImageReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7952,11 +7952,11 @@ func (reference *ImageReference_STATUS) AssignPropertiesToImageReferenceSTATUS(d
 
 // Deprecated version of InstanceViewStatus_STATUS. Use v1beta20201201.InstanceViewStatus_STATUS instead
 type InstanceViewStatus_STATUS struct {
-	Code          *string                        `json:"code,omitempty"`
-	DisplayStatus *string                        `json:"displayStatus,omitempty"`
-	Level         *InstanceViewStatusSTATUSLevel `json:"level,omitempty"`
-	Message       *string                        `json:"message,omitempty"`
-	Time          *string                        `json:"time,omitempty"`
+	Code          *string                          `json:"code,omitempty"`
+	DisplayStatus *string                          `json:"displayStatus,omitempty"`
+	Level         *InstanceViewStatus_STATUS_Level `json:"level,omitempty"`
+	Message       *string                          `json:"message,omitempty"`
+	Time          *string                          `json:"time,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InstanceViewStatus_STATUS{}
@@ -8007,8 +8007,8 @@ func (status *InstanceViewStatus_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromInstanceViewStatusSTATUS populates our InstanceViewStatus_STATUS from the provided source InstanceViewStatus_STATUS
-func (status *InstanceViewStatus_STATUS) AssignPropertiesFromInstanceViewStatusSTATUS(source *alpha20201201s.InstanceViewStatus_STATUS) error {
+// AssignProperties_From_InstanceViewStatus_STATUS populates our InstanceViewStatus_STATUS from the provided source InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignProperties_From_InstanceViewStatus_STATUS(source *alpha20201201s.InstanceViewStatus_STATUS) error {
 
 	// Code
 	status.Code = genruntime.ClonePointerToString(source.Code)
@@ -8018,7 +8018,7 @@ func (status *InstanceViewStatus_STATUS) AssignPropertiesFromInstanceViewStatusS
 
 	// Level
 	if source.Level != nil {
-		level := InstanceViewStatusSTATUSLevel(*source.Level)
+		level := InstanceViewStatus_STATUS_Level(*source.Level)
 		status.Level = &level
 	} else {
 		status.Level = nil
@@ -8034,8 +8034,8 @@ func (status *InstanceViewStatus_STATUS) AssignPropertiesFromInstanceViewStatusS
 	return nil
 }
 
-// AssignPropertiesToInstanceViewStatusSTATUS populates the provided destination InstanceViewStatus_STATUS from our InstanceViewStatus_STATUS
-func (status *InstanceViewStatus_STATUS) AssignPropertiesToInstanceViewStatusSTATUS(destination *alpha20201201s.InstanceViewStatus_STATUS) error {
+// AssignProperties_To_InstanceViewStatus_STATUS populates the provided destination InstanceViewStatus_STATUS from our InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_STATUS(destination *alpha20201201s.InstanceViewStatus_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8171,8 +8171,8 @@ func (configuration *LinuxConfiguration) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromLinuxConfiguration populates our LinuxConfiguration from the provided source LinuxConfiguration
-func (configuration *LinuxConfiguration) AssignPropertiesFromLinuxConfiguration(source *alpha20201201s.LinuxConfiguration) error {
+// AssignProperties_From_LinuxConfiguration populates our LinuxConfiguration from the provided source LinuxConfiguration
+func (configuration *LinuxConfiguration) AssignProperties_From_LinuxConfiguration(source *alpha20201201s.LinuxConfiguration) error {
 
 	// DisablePasswordAuthentication
 	if source.DisablePasswordAuthentication != nil {
@@ -8185,9 +8185,9 @@ func (configuration *LinuxConfiguration) AssignPropertiesFromLinuxConfiguration(
 	// PatchSettings
 	if source.PatchSettings != nil {
 		var patchSetting LinuxPatchSettings
-		err := patchSetting.AssignPropertiesFromLinuxPatchSettings(source.PatchSettings)
+		err := patchSetting.AssignProperties_From_LinuxPatchSettings(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxPatchSettings() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxPatchSettings() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -8205,9 +8205,9 @@ func (configuration *LinuxConfiguration) AssignPropertiesFromLinuxConfiguration(
 	// Ssh
 	if source.Ssh != nil {
 		var ssh SshConfiguration
-		err := ssh.AssignPropertiesFromSshConfiguration(source.Ssh)
+		err := ssh.AssignProperties_From_SshConfiguration(source.Ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSshConfiguration() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignProperties_From_SshConfiguration() to populate field Ssh")
 		}
 		configuration.Ssh = &ssh
 	} else {
@@ -8218,8 +8218,8 @@ func (configuration *LinuxConfiguration) AssignPropertiesFromLinuxConfiguration(
 	return nil
 }
 
-// AssignPropertiesToLinuxConfiguration populates the provided destination LinuxConfiguration from our LinuxConfiguration
-func (configuration *LinuxConfiguration) AssignPropertiesToLinuxConfiguration(destination *alpha20201201s.LinuxConfiguration) error {
+// AssignProperties_To_LinuxConfiguration populates the provided destination LinuxConfiguration from our LinuxConfiguration
+func (configuration *LinuxConfiguration) AssignProperties_To_LinuxConfiguration(destination *alpha20201201s.LinuxConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8234,9 +8234,9 @@ func (configuration *LinuxConfiguration) AssignPropertiesToLinuxConfiguration(de
 	// PatchSettings
 	if configuration.PatchSettings != nil {
 		var patchSetting alpha20201201s.LinuxPatchSettings
-		err := configuration.PatchSettings.AssignPropertiesToLinuxPatchSettings(&patchSetting)
+		err := configuration.PatchSettings.AssignProperties_To_LinuxPatchSettings(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxPatchSettings() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxPatchSettings() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -8254,9 +8254,9 @@ func (configuration *LinuxConfiguration) AssignPropertiesToLinuxConfiguration(de
 	// Ssh
 	if configuration.Ssh != nil {
 		var ssh alpha20201201s.SshConfiguration
-		err := configuration.Ssh.AssignPropertiesToSshConfiguration(&ssh)
+		err := configuration.Ssh.AssignProperties_To_SshConfiguration(&ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSshConfiguration() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignProperties_To_SshConfiguration() to populate field Ssh")
 		}
 		destination.Ssh = &ssh
 	} else {
@@ -8334,8 +8334,8 @@ func (configuration *LinuxConfiguration_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromLinuxConfigurationSTATUS populates our LinuxConfiguration_STATUS from the provided source LinuxConfiguration_STATUS
-func (configuration *LinuxConfiguration_STATUS) AssignPropertiesFromLinuxConfigurationSTATUS(source *alpha20201201s.LinuxConfiguration_STATUS) error {
+// AssignProperties_From_LinuxConfiguration_STATUS populates our LinuxConfiguration_STATUS from the provided source LinuxConfiguration_STATUS
+func (configuration *LinuxConfiguration_STATUS) AssignProperties_From_LinuxConfiguration_STATUS(source *alpha20201201s.LinuxConfiguration_STATUS) error {
 
 	// DisablePasswordAuthentication
 	if source.DisablePasswordAuthentication != nil {
@@ -8348,9 +8348,9 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesFromLinuxConfigu
 	// PatchSettings
 	if source.PatchSettings != nil {
 		var patchSetting LinuxPatchSettings_STATUS
-		err := patchSetting.AssignPropertiesFromLinuxPatchSettingsSTATUS(source.PatchSettings)
+		err := patchSetting.AssignProperties_From_LinuxPatchSettings_STATUS(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxPatchSettingsSTATUS() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -8368,9 +8368,9 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesFromLinuxConfigu
 	// Ssh
 	if source.Ssh != nil {
 		var ssh SshConfiguration_STATUS
-		err := ssh.AssignPropertiesFromSshConfigurationSTATUS(source.Ssh)
+		err := ssh.AssignProperties_From_SshConfiguration_STATUS(source.Ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSshConfigurationSTATUS() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignProperties_From_SshConfiguration_STATUS() to populate field Ssh")
 		}
 		configuration.Ssh = &ssh
 	} else {
@@ -8381,8 +8381,8 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesFromLinuxConfigu
 	return nil
 }
 
-// AssignPropertiesToLinuxConfigurationSTATUS populates the provided destination LinuxConfiguration_STATUS from our LinuxConfiguration_STATUS
-func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigurationSTATUS(destination *alpha20201201s.LinuxConfiguration_STATUS) error {
+// AssignProperties_To_LinuxConfiguration_STATUS populates the provided destination LinuxConfiguration_STATUS from our LinuxConfiguration_STATUS
+func (configuration *LinuxConfiguration_STATUS) AssignProperties_To_LinuxConfiguration_STATUS(destination *alpha20201201s.LinuxConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8397,9 +8397,9 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigura
 	// PatchSettings
 	if configuration.PatchSettings != nil {
 		var patchSetting alpha20201201s.LinuxPatchSettings_STATUS
-		err := configuration.PatchSettings.AssignPropertiesToLinuxPatchSettingsSTATUS(&patchSetting)
+		err := configuration.PatchSettings.AssignProperties_To_LinuxPatchSettings_STATUS(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxPatchSettingsSTATUS() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -8417,9 +8417,9 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigura
 	// Ssh
 	if configuration.Ssh != nil {
 		var ssh alpha20201201s.SshConfiguration_STATUS
-		err := configuration.Ssh.AssignPropertiesToSshConfigurationSTATUS(&ssh)
+		err := configuration.Ssh.AssignProperties_To_SshConfiguration_STATUS(&ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSshConfigurationSTATUS() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignProperties_To_SshConfiguration_STATUS() to populate field Ssh")
 		}
 		destination.Ssh = &ssh
 	} else {
@@ -8439,13 +8439,13 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigura
 
 // Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1beta20201201.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUS struct {
-	IsCustomerInitiatedMaintenanceAllowed *bool                                                   `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-	LastOperationMessage                  *string                                                 `json:"lastOperationMessage,omitempty"`
-	LastOperationResultCode               *MaintenanceRedeployStatusSTATUSLastOperationResultCode `json:"lastOperationResultCode,omitempty"`
-	MaintenanceWindowEndTime              *string                                                 `json:"maintenanceWindowEndTime,omitempty"`
-	MaintenanceWindowStartTime            *string                                                 `json:"maintenanceWindowStartTime,omitempty"`
-	PreMaintenanceWindowEndTime           *string                                                 `json:"preMaintenanceWindowEndTime,omitempty"`
-	PreMaintenanceWindowStartTime         *string                                                 `json:"preMaintenanceWindowStartTime,omitempty"`
+	IsCustomerInitiatedMaintenanceAllowed *bool                                                     `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
+	LastOperationMessage                  *string                                                   `json:"lastOperationMessage,omitempty"`
+	LastOperationResultCode               *MaintenanceRedeployStatus_STATUS_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
+	MaintenanceWindowEndTime              *string                                                   `json:"maintenanceWindowEndTime,omitempty"`
+	MaintenanceWindowStartTime            *string                                                   `json:"maintenanceWindowStartTime,omitempty"`
+	PreMaintenanceWindowEndTime           *string                                                   `json:"preMaintenanceWindowEndTime,omitempty"`
+	PreMaintenanceWindowStartTime         *string                                                   `json:"preMaintenanceWindowStartTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MaintenanceRedeployStatus_STATUS{}
@@ -8508,8 +8508,8 @@ func (status *MaintenanceRedeployStatus_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromMaintenanceRedeployStatusSTATUS populates our MaintenanceRedeployStatus_STATUS from the provided source MaintenanceRedeployStatus_STATUS
-func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesFromMaintenanceRedeployStatusSTATUS(source *alpha20201201s.MaintenanceRedeployStatus_STATUS) error {
+// AssignProperties_From_MaintenanceRedeployStatus_STATUS populates our MaintenanceRedeployStatus_STATUS from the provided source MaintenanceRedeployStatus_STATUS
+func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_From_MaintenanceRedeployStatus_STATUS(source *alpha20201201s.MaintenanceRedeployStatus_STATUS) error {
 
 	// IsCustomerInitiatedMaintenanceAllowed
 	if source.IsCustomerInitiatedMaintenanceAllowed != nil {
@@ -8524,7 +8524,7 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesFromMaintenanceR
 
 	// LastOperationResultCode
 	if source.LastOperationResultCode != nil {
-		lastOperationResultCode := MaintenanceRedeployStatusSTATUSLastOperationResultCode(*source.LastOperationResultCode)
+		lastOperationResultCode := MaintenanceRedeployStatus_STATUS_LastOperationResultCode(*source.LastOperationResultCode)
 		status.LastOperationResultCode = &lastOperationResultCode
 	} else {
 		status.LastOperationResultCode = nil
@@ -8546,8 +8546,8 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesFromMaintenanceR
 	return nil
 }
 
-// AssignPropertiesToMaintenanceRedeployStatusSTATUS populates the provided destination MaintenanceRedeployStatus_STATUS from our MaintenanceRedeployStatus_STATUS
-func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesToMaintenanceRedeployStatusSTATUS(destination *alpha20201201s.MaintenanceRedeployStatus_STATUS) error {
+// AssignProperties_To_MaintenanceRedeployStatus_STATUS populates the provided destination MaintenanceRedeployStatus_STATUS from our MaintenanceRedeployStatus_STATUS
+func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceRedeployStatus_STATUS(destination *alpha20201201s.MaintenanceRedeployStatus_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8632,8 +8632,8 @@ func (reference *NetworkInterfaceReference_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromNetworkInterfaceReferenceSTATUS populates our NetworkInterfaceReference_STATUS from the provided source NetworkInterfaceReference_STATUS
-func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesFromNetworkInterfaceReferenceSTATUS(source *alpha20201201s.NetworkInterfaceReference_STATUS) error {
+// AssignProperties_From_NetworkInterfaceReference_STATUS populates our NetworkInterfaceReference_STATUS from the provided source NetworkInterfaceReference_STATUS
+func (reference *NetworkInterfaceReference_STATUS) AssignProperties_From_NetworkInterfaceReference_STATUS(source *alpha20201201s.NetworkInterfaceReference_STATUS) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -8650,8 +8650,8 @@ func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesFromNetworkIn
 	return nil
 }
 
-// AssignPropertiesToNetworkInterfaceReferenceSTATUS populates the provided destination NetworkInterfaceReference_STATUS from our NetworkInterfaceReference_STATUS
-func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesToNetworkInterfaceReferenceSTATUS(destination *alpha20201201s.NetworkInterfaceReference_STATUS) error {
+// AssignProperties_To_NetworkInterfaceReference_STATUS populates the provided destination NetworkInterfaceReference_STATUS from our NetworkInterfaceReference_STATUS
+func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkInterfaceReference_STATUS(destination *alpha20201201s.NetworkInterfaceReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8679,17 +8679,17 @@ func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesToNetworkInte
 
 // Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
 type OSDisk struct {
-	Caching *OSDiskCaching `json:"caching,omitempty"`
+	Caching *OSDisk_Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateOption            *OSDiskCreateOption     `json:"createOption,omitempty"`
+	CreateOption            *OSDisk_CreateOption    `json:"createOption,omitempty"`
 	DiffDiskSettings        *DiffDiskSettings       `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                    `json:"diskSizeGB,omitempty"`
 	EncryptionSettings      *DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
 	Image                   *VirtualHardDisk        `json:"image,omitempty"`
 	ManagedDisk             *ManagedDiskParameters  `json:"managedDisk,omitempty"`
 	Name                    *string                 `json:"name,omitempty"`
-	OsType                  *OSDiskOsType           `json:"osType,omitempty"`
+	OsType                  *OSDisk_OsType          `json:"osType,omitempty"`
 	Vhd                     *VirtualHardDisk        `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                   `json:"writeAcceleratorEnabled,omitempty"`
 }
@@ -8898,12 +8898,12 @@ func (disk *OSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	return nil
 }
 
-// AssignPropertiesFromOSDisk populates our OSDisk from the provided source OSDisk
-func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) error {
+// AssignProperties_From_OSDisk populates our OSDisk from the provided source OSDisk
+func (disk *OSDisk) AssignProperties_From_OSDisk(source *alpha20201201s.OSDisk) error {
 
 	// Caching
 	if source.Caching != nil {
-		caching := OSDiskCaching(*source.Caching)
+		caching := OSDisk_Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -8911,7 +8911,7 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := OSDiskCreateOption(*source.CreateOption)
+		createOption := OSDisk_CreateOption(*source.CreateOption)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -8920,9 +8920,9 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	// DiffDiskSettings
 	if source.DiffDiskSettings != nil {
 		var diffDiskSetting DiffDiskSettings
-		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettings(source.DiffDiskSettings)
+		err := diffDiskSetting.AssignProperties_From_DiffDiskSettings(source.DiffDiskSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettings() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_DiffDiskSettings() to populate field DiffDiskSettings")
 		}
 		disk.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -8935,9 +8935,9 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	// EncryptionSettings
 	if source.EncryptionSettings != nil {
 		var encryptionSetting DiskEncryptionSettings
-		err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings(source.EncryptionSettings)
+		err := encryptionSetting.AssignProperties_From_DiskEncryptionSettings(source.EncryptionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSettings() to populate field EncryptionSettings")
 		}
 		disk.EncryptionSettings = &encryptionSetting
 	} else {
@@ -8947,9 +8947,9 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	// Image
 	if source.Image != nil {
 		var image VirtualHardDisk
-		err := image.AssignPropertiesFromVirtualHardDisk(source.Image)
+		err := image.AssignProperties_From_VirtualHardDisk(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -8959,9 +8959,9 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	// ManagedDisk
 	if source.ManagedDisk != nil {
 		var managedDisk ManagedDiskParameters
-		err := managedDisk.AssignPropertiesFromManagedDiskParameters(source.ManagedDisk)
+		err := managedDisk.AssignProperties_From_ManagedDiskParameters(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParameters() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedDiskParameters() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -8973,7 +8973,7 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDiskOsType(*source.OsType)
+		osType := OSDisk_OsType(*source.OsType)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -8982,9 +8982,9 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	// Vhd
 	if source.Vhd != nil {
 		var vhd VirtualHardDisk
-		err := vhd.AssignPropertiesFromVirtualHardDisk(source.Vhd)
+		err := vhd.AssignProperties_From_VirtualHardDisk(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -9003,8 +9003,8 @@ func (disk *OSDisk) AssignPropertiesFromOSDisk(source *alpha20201201s.OSDisk) er
 	return nil
 }
 
-// AssignPropertiesToOSDisk populates the provided destination OSDisk from our OSDisk
-func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk) error {
+// AssignProperties_To_OSDisk populates the provided destination OSDisk from our OSDisk
+func (disk *OSDisk) AssignProperties_To_OSDisk(destination *alpha20201201s.OSDisk) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9027,9 +9027,9 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk)
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
 		var diffDiskSetting alpha20201201s.DiffDiskSettings
-		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettings(&diffDiskSetting)
+		err := disk.DiffDiskSettings.AssignProperties_To_DiffDiskSettings(&diffDiskSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettings() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_DiffDiskSettings() to populate field DiffDiskSettings")
 		}
 		destination.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -9042,9 +9042,9 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk)
 	// EncryptionSettings
 	if disk.EncryptionSettings != nil {
 		var encryptionSetting alpha20201201s.DiskEncryptionSettings
-		err := disk.EncryptionSettings.AssignPropertiesToDiskEncryptionSettings(&encryptionSetting)
+		err := disk.EncryptionSettings.AssignProperties_To_DiskEncryptionSettings(&encryptionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSettings() to populate field EncryptionSettings")
 		}
 		destination.EncryptionSettings = &encryptionSetting
 	} else {
@@ -9054,9 +9054,9 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk)
 	// Image
 	if disk.Image != nil {
 		var image alpha20201201s.VirtualHardDisk
-		err := disk.Image.AssignPropertiesToVirtualHardDisk(&image)
+		err := disk.Image.AssignProperties_To_VirtualHardDisk(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -9066,9 +9066,9 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk)
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
 		var managedDisk alpha20201201s.ManagedDiskParameters
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParameters(&managedDisk)
+		err := disk.ManagedDisk.AssignProperties_To_ManagedDiskParameters(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParameters() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedDiskParameters() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -9089,9 +9089,9 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *alpha20201201s.OSDisk)
 	// Vhd
 	if disk.Vhd != nil {
 		var vhd alpha20201201s.VirtualHardDisk
-		err := disk.Vhd.AssignPropertiesToVirtualHardDisk(&vhd)
+		err := disk.Vhd.AssignProperties_To_VirtualHardDisk(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -9127,7 +9127,7 @@ type OSDisk_STATUS struct {
 	Image                   *VirtualHardDisk_STATUS        `json:"image,omitempty"`
 	ManagedDisk             *ManagedDiskParameters_STATUS  `json:"managedDisk,omitempty"`
 	Name                    *string                        `json:"name,omitempty"`
-	OsType                  *OSDiskSTATUSOsType            `json:"osType,omitempty"`
+	OsType                  *OSDisk_STATUS_OsType          `json:"osType,omitempty"`
 	Vhd                     *VirtualHardDisk_STATUS        `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                          `json:"writeAcceleratorEnabled,omitempty"`
 }
@@ -9241,8 +9241,8 @@ func (disk *OSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromOSDiskSTATUS populates our OSDisk_STATUS from the provided source OSDisk_STATUS
-func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha20201201s.OSDisk_STATUS) error {
+// AssignProperties_From_OSDisk_STATUS populates our OSDisk_STATUS from the provided source OSDisk_STATUS
+func (disk *OSDisk_STATUS) AssignProperties_From_OSDisk_STATUS(source *alpha20201201s.OSDisk_STATUS) error {
 
 	// Caching
 	if source.Caching != nil {
@@ -9263,9 +9263,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	// DiffDiskSettings
 	if source.DiffDiskSettings != nil {
 		var diffDiskSetting DiffDiskSettings_STATUS
-		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettingsSTATUS(source.DiffDiskSettings)
+		err := diffDiskSetting.AssignProperties_From_DiffDiskSettings_STATUS(source.DiffDiskSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettingsSTATUS() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_DiffDiskSettings_STATUS() to populate field DiffDiskSettings")
 		}
 		disk.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -9278,9 +9278,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	// EncryptionSettings
 	if source.EncryptionSettings != nil {
 		var encryptionSetting DiskEncryptionSettings_STATUS
-		err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettingsSTATUS(source.EncryptionSettings)
+		err := encryptionSetting.AssignProperties_From_DiskEncryptionSettings_STATUS(source.EncryptionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettingsSTATUS() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 		}
 		disk.EncryptionSettings = &encryptionSetting
 	} else {
@@ -9290,9 +9290,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	// Image
 	if source.Image != nil {
 		var image VirtualHardDisk_STATUS
-		err := image.AssignPropertiesFromVirtualHardDiskSTATUS(source.Image)
+		err := image.AssignProperties_From_VirtualHardDisk_STATUS(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskSTATUS() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk_STATUS() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -9302,9 +9302,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	// ManagedDisk
 	if source.ManagedDisk != nil {
 		var managedDisk ManagedDiskParameters_STATUS
-		err := managedDisk.AssignPropertiesFromManagedDiskParametersSTATUS(source.ManagedDisk)
+		err := managedDisk.AssignProperties_From_ManagedDiskParameters_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParametersSTATUS() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -9316,7 +9316,7 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDiskSTATUSOsType(*source.OsType)
+		osType := OSDisk_STATUS_OsType(*source.OsType)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -9325,9 +9325,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	// Vhd
 	if source.Vhd != nil {
 		var vhd VirtualHardDisk_STATUS
-		err := vhd.AssignPropertiesFromVirtualHardDiskSTATUS(source.Vhd)
+		err := vhd.AssignProperties_From_VirtualHardDisk_STATUS(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskSTATUS() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -9346,8 +9346,8 @@ func (disk *OSDisk_STATUS) AssignPropertiesFromOSDiskSTATUS(source *alpha2020120
 	return nil
 }
 
-// AssignPropertiesToOSDiskSTATUS populates the provided destination OSDisk_STATUS from our OSDisk_STATUS
-func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha20201201s.OSDisk_STATUS) error {
+// AssignProperties_To_OSDisk_STATUS populates the provided destination OSDisk_STATUS from our OSDisk_STATUS
+func (disk *OSDisk_STATUS) AssignProperties_To_OSDisk_STATUS(destination *alpha20201201s.OSDisk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9370,9 +9370,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
 		var diffDiskSetting alpha20201201s.DiffDiskSettings_STATUS
-		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettingsSTATUS(&diffDiskSetting)
+		err := disk.DiffDiskSettings.AssignProperties_To_DiffDiskSettings_STATUS(&diffDiskSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettingsSTATUS() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_DiffDiskSettings_STATUS() to populate field DiffDiskSettings")
 		}
 		destination.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -9385,9 +9385,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	// EncryptionSettings
 	if disk.EncryptionSettings != nil {
 		var encryptionSetting alpha20201201s.DiskEncryptionSettings_STATUS
-		err := disk.EncryptionSettings.AssignPropertiesToDiskEncryptionSettingsSTATUS(&encryptionSetting)
+		err := disk.EncryptionSettings.AssignProperties_To_DiskEncryptionSettings_STATUS(&encryptionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettingsSTATUS() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 		}
 		destination.EncryptionSettings = &encryptionSetting
 	} else {
@@ -9397,9 +9397,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	// Image
 	if disk.Image != nil {
 		var image alpha20201201s.VirtualHardDisk_STATUS
-		err := disk.Image.AssignPropertiesToVirtualHardDiskSTATUS(&image)
+		err := disk.Image.AssignProperties_To_VirtualHardDisk_STATUS(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskSTATUS() to populate field Image")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk_STATUS() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -9409,9 +9409,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
 		var managedDisk alpha20201201s.ManagedDiskParameters_STATUS
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParametersSTATUS(&managedDisk)
+		err := disk.ManagedDisk.AssignProperties_To_ManagedDiskParameters_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParametersSTATUS() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -9432,9 +9432,9 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	// Vhd
 	if disk.Vhd != nil {
 		var vhd alpha20201201s.VirtualHardDisk_STATUS
-		err := disk.Vhd.AssignPropertiesToVirtualHardDiskSTATUS(&vhd)
+		err := disk.Vhd.AssignProperties_To_VirtualHardDisk_STATUS(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskSTATUS() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -9460,16 +9460,16 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDiskSTATUS(destination *alpha2020
 	return nil
 }
 
-// Deprecated version of SecurityProfileSecurityType. Use v1beta20201201.SecurityProfileSecurityType instead
+// Deprecated version of SecurityProfile_SecurityType. Use v1beta20201201.SecurityProfile_SecurityType instead
 // +kubebuilder:validation:Enum={"TrustedLaunch"}
-type SecurityProfileSecurityType string
+type SecurityProfile_SecurityType string
 
-const SecurityProfileSecurityType_TrustedLaunch = SecurityProfileSecurityType("TrustedLaunch")
+const SecurityProfile_SecurityType_TrustedLaunch = SecurityProfile_SecurityType("TrustedLaunch")
 
-// Deprecated version of SecurityProfileSTATUSSecurityType. Use v1beta20201201.SecurityProfileSTATUSSecurityType instead
-type SecurityProfileSTATUSSecurityType string
+// Deprecated version of SecurityProfile_STATUS_SecurityType. Use v1beta20201201.SecurityProfile_STATUS_SecurityType instead
+type SecurityProfile_STATUS_SecurityType string
 
-const SecurityProfileSTATUSSecurityType_TrustedLaunch = SecurityProfileSTATUSSecurityType("TrustedLaunch")
+const SecurityProfile_STATUS_SecurityType_TrustedLaunch = SecurityProfile_STATUS_SecurityType("TrustedLaunch")
 
 // Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
 type UefiSettings struct {
@@ -9528,8 +9528,8 @@ func (settings *UefiSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromUefiSettings populates our UefiSettings from the provided source UefiSettings
-func (settings *UefiSettings) AssignPropertiesFromUefiSettings(source *alpha20201201s.UefiSettings) error {
+// AssignProperties_From_UefiSettings populates our UefiSettings from the provided source UefiSettings
+func (settings *UefiSettings) AssignProperties_From_UefiSettings(source *alpha20201201s.UefiSettings) error {
 
 	// SecureBootEnabled
 	if source.SecureBootEnabled != nil {
@@ -9551,8 +9551,8 @@ func (settings *UefiSettings) AssignPropertiesFromUefiSettings(source *alpha2020
 	return nil
 }
 
-// AssignPropertiesToUefiSettings populates the provided destination UefiSettings from our UefiSettings
-func (settings *UefiSettings) AssignPropertiesToUefiSettings(destination *alpha20201201s.UefiSettings) error {
+// AssignProperties_To_UefiSettings populates the provided destination UefiSettings from our UefiSettings
+func (settings *UefiSettings) AssignProperties_To_UefiSettings(destination *alpha20201201s.UefiSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9619,8 +9619,8 @@ func (settings *UefiSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromUefiSettingsSTATUS populates our UefiSettings_STATUS from the provided source UefiSettings_STATUS
-func (settings *UefiSettings_STATUS) AssignPropertiesFromUefiSettingsSTATUS(source *alpha20201201s.UefiSettings_STATUS) error {
+// AssignProperties_From_UefiSettings_STATUS populates our UefiSettings_STATUS from the provided source UefiSettings_STATUS
+func (settings *UefiSettings_STATUS) AssignProperties_From_UefiSettings_STATUS(source *alpha20201201s.UefiSettings_STATUS) error {
 
 	// SecureBootEnabled
 	if source.SecureBootEnabled != nil {
@@ -9642,8 +9642,8 @@ func (settings *UefiSettings_STATUS) AssignPropertiesFromUefiSettingsSTATUS(sour
 	return nil
 }
 
-// AssignPropertiesToUefiSettingsSTATUS populates the provided destination UefiSettings_STATUS from our UefiSettings_STATUS
-func (settings *UefiSettings_STATUS) AssignPropertiesToUefiSettingsSTATUS(destination *alpha20201201s.UefiSettings_STATUS) error {
+// AssignProperties_To_UefiSettings_STATUS populates the provided destination UefiSettings_STATUS from our UefiSettings_STATUS
+func (settings *UefiSettings_STATUS) AssignProperties_To_UefiSettings_STATUS(destination *alpha20201201s.UefiSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9747,15 +9747,15 @@ func (group *VaultSecretGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromVaultSecretGroup populates our VaultSecretGroup from the provided source VaultSecretGroup
-func (group *VaultSecretGroup) AssignPropertiesFromVaultSecretGroup(source *alpha20201201s.VaultSecretGroup) error {
+// AssignProperties_From_VaultSecretGroup populates our VaultSecretGroup from the provided source VaultSecretGroup
+func (group *VaultSecretGroup) AssignProperties_From_VaultSecretGroup(source *alpha20201201s.VaultSecretGroup) error {
 
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource
-		err := sourceVault.AssignPropertiesFromSubResource(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SourceVault")
 		}
 		group.SourceVault = &sourceVault
 	} else {
@@ -9769,9 +9769,9 @@ func (group *VaultSecretGroup) AssignPropertiesFromVaultSecretGroup(source *alph
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
 			var vaultCertificate VaultCertificate
-			err := vaultCertificate.AssignPropertiesFromVaultCertificate(&vaultCertificateItem)
+			err := vaultCertificate.AssignProperties_From_VaultCertificate(&vaultCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultCertificate() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VaultCertificate() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -9784,17 +9784,17 @@ func (group *VaultSecretGroup) AssignPropertiesFromVaultSecretGroup(source *alph
 	return nil
 }
 
-// AssignPropertiesToVaultSecretGroup populates the provided destination VaultSecretGroup from our VaultSecretGroup
-func (group *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(destination *alpha20201201s.VaultSecretGroup) error {
+// AssignProperties_To_VaultSecretGroup populates the provided destination VaultSecretGroup from our VaultSecretGroup
+func (group *VaultSecretGroup) AssignProperties_To_VaultSecretGroup(destination *alpha20201201s.VaultSecretGroup) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SourceVault
 	if group.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource
-		err := group.SourceVault.AssignPropertiesToSubResource(&sourceVault)
+		err := group.SourceVault.AssignProperties_To_SubResource(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -9808,9 +9808,9 @@ func (group *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(destination *a
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
 			var vaultCertificate alpha20201201s.VaultCertificate
-			err := vaultCertificateItem.AssignPropertiesToVaultCertificate(&vaultCertificate)
+			err := vaultCertificateItem.AssignProperties_To_VaultCertificate(&vaultCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultCertificate() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VaultCertificate() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -9875,15 +9875,15 @@ func (group *VaultSecretGroup_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromVaultSecretGroupSTATUS populates our VaultSecretGroup_STATUS from the provided source VaultSecretGroup_STATUS
-func (group *VaultSecretGroup_STATUS) AssignPropertiesFromVaultSecretGroupSTATUS(source *alpha20201201s.VaultSecretGroup_STATUS) error {
+// AssignProperties_From_VaultSecretGroup_STATUS populates our VaultSecretGroup_STATUS from the provided source VaultSecretGroup_STATUS
+func (group *VaultSecretGroup_STATUS) AssignProperties_From_VaultSecretGroup_STATUS(source *alpha20201201s.VaultSecretGroup_STATUS) error {
 
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource_STATUS
-		err := sourceVault.AssignPropertiesFromSubResourceSTATUS(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault")
 		}
 		group.SourceVault = &sourceVault
 	} else {
@@ -9897,9 +9897,9 @@ func (group *VaultSecretGroup_STATUS) AssignPropertiesFromVaultSecretGroupSTATUS
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
 			var vaultCertificate VaultCertificate_STATUS
-			err := vaultCertificate.AssignPropertiesFromVaultCertificateSTATUS(&vaultCertificateItem)
+			err := vaultCertificate.AssignProperties_From_VaultCertificate_STATUS(&vaultCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultCertificateSTATUS() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignProperties_From_VaultCertificate_STATUS() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -9912,17 +9912,17 @@ func (group *VaultSecretGroup_STATUS) AssignPropertiesFromVaultSecretGroupSTATUS
 	return nil
 }
 
-// AssignPropertiesToVaultSecretGroupSTATUS populates the provided destination VaultSecretGroup_STATUS from our VaultSecretGroup_STATUS
-func (group *VaultSecretGroup_STATUS) AssignPropertiesToVaultSecretGroupSTATUS(destination *alpha20201201s.VaultSecretGroup_STATUS) error {
+// AssignProperties_To_VaultSecretGroup_STATUS populates the provided destination VaultSecretGroup_STATUS from our VaultSecretGroup_STATUS
+func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATUS(destination *alpha20201201s.VaultSecretGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SourceVault
 	if group.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource_STATUS
-		err := group.SourceVault.AssignPropertiesToSubResourceSTATUS(&sourceVault)
+		err := group.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -9936,9 +9936,9 @@ func (group *VaultSecretGroup_STATUS) AssignPropertiesToVaultSecretGroupSTATUS(d
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
 			var vaultCertificate alpha20201201s.VaultCertificate_STATUS
-			err := vaultCertificateItem.AssignPropertiesToVaultCertificateSTATUS(&vaultCertificate)
+			err := vaultCertificateItem.AssignProperties_To_VaultCertificate_STATUS(&vaultCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultCertificateSTATUS() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignProperties_To_VaultCertificate_STATUS() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -10009,8 +10009,8 @@ func (view *VirtualMachineAgentInstanceView_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineAgentInstanceViewSTATUS populates our VirtualMachineAgentInstanceView_STATUS from the provided source VirtualMachineAgentInstanceView_STATUS
-func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesFromVirtualMachineAgentInstanceViewSTATUS(source *alpha20201201s.VirtualMachineAgentInstanceView_STATUS) error {
+// AssignProperties_From_VirtualMachineAgentInstanceView_STATUS populates our VirtualMachineAgentInstanceView_STATUS from the provided source VirtualMachineAgentInstanceView_STATUS
+func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_From_VirtualMachineAgentInstanceView_STATUS(source *alpha20201201s.VirtualMachineAgentInstanceView_STATUS) error {
 
 	// ExtensionHandlers
 	if source.ExtensionHandlers != nil {
@@ -10019,9 +10019,9 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesFromVirtualM
 			// Shadow the loop variable to avoid aliasing
 			extensionHandlerItem := extensionHandlerItem
 			var extensionHandler VirtualMachineExtensionHandlerInstanceView_STATUS
-			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewSTATUS(&extensionHandlerItem)
+			err := extensionHandler.AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS(&extensionHandlerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewSTATUS() to populate field ExtensionHandlers")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS() to populate field ExtensionHandlers")
 			}
 			extensionHandlerList[extensionHandlerIndex] = extensionHandler
 		}
@@ -10037,9 +10037,9 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesFromVirtualM
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status InstanceViewStatus_STATUS
-			err := status.AssignPropertiesFromInstanceViewStatusSTATUS(&statusItem)
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -10055,8 +10055,8 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesFromVirtualM
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineAgentInstanceViewSTATUS populates the provided destination VirtualMachineAgentInstanceView_STATUS from our VirtualMachineAgentInstanceView_STATUS
-func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMachineAgentInstanceViewSTATUS(destination *alpha20201201s.VirtualMachineAgentInstanceView_STATUS) error {
+// AssignProperties_To_VirtualMachineAgentInstanceView_STATUS populates the provided destination VirtualMachineAgentInstanceView_STATUS from our VirtualMachineAgentInstanceView_STATUS
+func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualMachineAgentInstanceView_STATUS(destination *alpha20201201s.VirtualMachineAgentInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10067,9 +10067,9 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMac
 			// Shadow the loop variable to avoid aliasing
 			extensionHandlerItem := extensionHandlerItem
 			var extensionHandler alpha20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS
-			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewSTATUS(&extensionHandler)
+			err := extensionHandlerItem.AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS(&extensionHandler)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewSTATUS() to populate field ExtensionHandlers")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS() to populate field ExtensionHandlers")
 			}
 			extensionHandlerList[extensionHandlerIndex] = extensionHandler
 		}
@@ -10085,9 +10085,9 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMac
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status alpha20201201s.InstanceViewStatus_STATUS
-			err := statusItem.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -10175,8 +10175,8 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS populates our VirtualMachineExtensionInstanceView_STATUS from the provided source VirtualMachineExtensionInstanceView_STATUS
-func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesFromVirtualMachineExtensionInstanceViewSTATUS(source *alpha20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
+// AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS populates our VirtualMachineExtensionInstanceView_STATUS from the provided source VirtualMachineExtensionInstanceView_STATUS
+func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS(source *alpha20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
 
 	// Name
 	view.Name = genruntime.ClonePointerToString(source.Name)
@@ -10188,9 +10188,9 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesFromVirt
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status InstanceViewStatus_STATUS
-			err := status.AssignPropertiesFromInstanceViewStatusSTATUS(&statusItem)
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -10206,9 +10206,9 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesFromVirt
 			// Shadow the loop variable to avoid aliasing
 			substatusItem := substatusItem
 			var substatus InstanceViewStatus_STATUS
-			err := substatus.AssignPropertiesFromInstanceViewStatusSTATUS(&substatusItem)
+			err := substatus.AssignProperties_From_InstanceViewStatus_STATUS(&substatusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Substatuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Substatuses")
 			}
 			substatusList[substatusIndex] = substatus
 		}
@@ -10227,8 +10227,8 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesFromVirt
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS populates the provided destination VirtualMachineExtensionInstanceView_STATUS from our VirtualMachineExtensionInstanceView_STATUS
-func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtualMachineExtensionInstanceViewSTATUS(destination *alpha20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
+// AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS populates the provided destination VirtualMachineExtensionInstanceView_STATUS from our VirtualMachineExtensionInstanceView_STATUS
+func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS(destination *alpha20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10242,9 +10242,9 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtua
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
 			var status alpha20201201s.InstanceViewStatus_STATUS
-			err := statusItem.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -10260,9 +10260,9 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtua
 			// Shadow the loop variable to avoid aliasing
 			substatusItem := substatusItem
 			var substatus alpha20201201s.InstanceViewStatus_STATUS
-			err := substatusItem.AssignPropertiesToInstanceViewStatusSTATUS(&substatus)
+			err := substatusItem.AssignProperties_To_InstanceViewStatus_STATUS(&substatus)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Substatuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Substatuses")
 			}
 			substatusList[substatusIndex] = substatus
 		}
@@ -10322,15 +10322,15 @@ func (status *VirtualMachineHealthStatus_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineHealthStatusSTATUS populates our VirtualMachineHealthStatus_STATUS from the provided source VirtualMachineHealthStatus_STATUS
-func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesFromVirtualMachineHealthStatusSTATUS(source *alpha20201201s.VirtualMachineHealthStatus_STATUS) error {
+// AssignProperties_From_VirtualMachineHealthStatus_STATUS populates our VirtualMachineHealthStatus_STATUS from the provided source VirtualMachineHealthStatus_STATUS
+func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_From_VirtualMachineHealthStatus_STATUS(source *alpha20201201s.VirtualMachineHealthStatus_STATUS) error {
 
 	// Status
 	if source.Status != nil {
 		var statusLocal InstanceViewStatus_STATUS
-		err := statusLocal.AssignPropertiesFromInstanceViewStatusSTATUS(source.Status)
+		err := statusLocal.AssignProperties_From_InstanceViewStatus_STATUS(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		status.Status = &statusLocal
 	} else {
@@ -10341,17 +10341,17 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesFromVirtualMach
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineHealthStatusSTATUS populates the provided destination VirtualMachineHealthStatus_STATUS from our VirtualMachineHealthStatus_STATUS
-func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachineHealthStatusSTATUS(destination *alpha20201201s.VirtualMachineHealthStatus_STATUS) error {
+// AssignProperties_To_VirtualMachineHealthStatus_STATUS populates the provided destination VirtualMachineHealthStatus_STATUS from our VirtualMachineHealthStatus_STATUS
+func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMachineHealthStatus_STATUS(destination *alpha20201201s.VirtualMachineHealthStatus_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
 	if status.Status != nil {
 		var statusLocal alpha20201201s.InstanceViewStatus_STATUS
-		err := status.Status.AssignPropertiesToInstanceViewStatusSTATUS(&statusLocal)
+		err := status.Status.AssignProperties_To_InstanceViewStatus_STATUS(&statusLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		destination.Status = &statusLocal
 	} else {
@@ -10369,13 +10369,13 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-// Deprecated version of VirtualMachineInstanceViewSTATUSHyperVGeneration. Use
-// v1beta20201201.VirtualMachineInstanceViewSTATUSHyperVGeneration instead
-type VirtualMachineInstanceViewSTATUSHyperVGeneration string
+// Deprecated version of VirtualMachineInstanceView_STATUS_HyperVGeneration. Use
+// v1beta20201201.VirtualMachineInstanceView_STATUS_HyperVGeneration instead
+type VirtualMachineInstanceView_STATUS_HyperVGeneration string
 
 const (
-	VirtualMachineInstanceViewSTATUSHyperVGeneration_V1 = VirtualMachineInstanceViewSTATUSHyperVGeneration("V1")
-	VirtualMachineInstanceViewSTATUSHyperVGeneration_V2 = VirtualMachineInstanceViewSTATUSHyperVGeneration("V2")
+	VirtualMachineInstanceView_STATUS_HyperVGeneration_V1 = VirtualMachineInstanceView_STATUS_HyperVGeneration("V1")
+	VirtualMachineInstanceView_STATUS_HyperVGeneration_V2 = VirtualMachineInstanceView_STATUS_HyperVGeneration("V2")
 )
 
 // Deprecated version of VirtualMachinePatchStatus_STATUS. Use v1beta20201201.VirtualMachinePatchStatus_STATUS instead
@@ -10435,15 +10435,15 @@ func (status *VirtualMachinePatchStatus_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinePatchStatusSTATUS populates our VirtualMachinePatchStatus_STATUS from the provided source VirtualMachinePatchStatus_STATUS
-func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesFromVirtualMachinePatchStatusSTATUS(source *alpha20201201s.VirtualMachinePatchStatus_STATUS) error {
+// AssignProperties_From_VirtualMachinePatchStatus_STATUS populates our VirtualMachinePatchStatus_STATUS from the provided source VirtualMachinePatchStatus_STATUS
+func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_From_VirtualMachinePatchStatus_STATUS(source *alpha20201201s.VirtualMachinePatchStatus_STATUS) error {
 
 	// AvailablePatchSummary
 	if source.AvailablePatchSummary != nil {
 		var availablePatchSummary AvailablePatchSummary_STATUS
-		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummarySTATUS(source.AvailablePatchSummary)
+		err := availablePatchSummary.AssignProperties_From_AvailablePatchSummary_STATUS(source.AvailablePatchSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummarySTATUS() to populate field AvailablePatchSummary")
+			return errors.Wrap(err, "calling AssignProperties_From_AvailablePatchSummary_STATUS() to populate field AvailablePatchSummary")
 		}
 		status.AvailablePatchSummary = &availablePatchSummary
 	} else {
@@ -10457,9 +10457,9 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesFromVirtualMachi
 			// Shadow the loop variable to avoid aliasing
 			configurationStatusItem := configurationStatusItem
 			var configurationStatus InstanceViewStatus_STATUS
-			err := configurationStatus.AssignPropertiesFromInstanceViewStatusSTATUS(&configurationStatusItem)
+			err := configurationStatus.AssignProperties_From_InstanceViewStatus_STATUS(&configurationStatusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field ConfigurationStatuses")
+				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field ConfigurationStatuses")
 			}
 			configurationStatusList[configurationStatusIndex] = configurationStatus
 		}
@@ -10471,9 +10471,9 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesFromVirtualMachi
 	// LastPatchInstallationSummary
 	if source.LastPatchInstallationSummary != nil {
 		var lastPatchInstallationSummary LastPatchInstallationSummary_STATUS
-		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummarySTATUS(source.LastPatchInstallationSummary)
+		err := lastPatchInstallationSummary.AssignProperties_From_LastPatchInstallationSummary_STATUS(source.LastPatchInstallationSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummarySTATUS() to populate field LastPatchInstallationSummary")
+			return errors.Wrap(err, "calling AssignProperties_From_LastPatchInstallationSummary_STATUS() to populate field LastPatchInstallationSummary")
 		}
 		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
 	} else {
@@ -10484,17 +10484,17 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesFromVirtualMachi
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinePatchStatusSTATUS populates the provided destination VirtualMachinePatchStatus_STATUS from our VirtualMachinePatchStatus_STATUS
-func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesToVirtualMachinePatchStatusSTATUS(destination *alpha20201201s.VirtualMachinePatchStatus_STATUS) error {
+// AssignProperties_To_VirtualMachinePatchStatus_STATUS populates the provided destination VirtualMachinePatchStatus_STATUS from our VirtualMachinePatchStatus_STATUS
+func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachinePatchStatus_STATUS(destination *alpha20201201s.VirtualMachinePatchStatus_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailablePatchSummary
 	if status.AvailablePatchSummary != nil {
 		var availablePatchSummary alpha20201201s.AvailablePatchSummary_STATUS
-		err := status.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummarySTATUS(&availablePatchSummary)
+		err := status.AvailablePatchSummary.AssignProperties_To_AvailablePatchSummary_STATUS(&availablePatchSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummarySTATUS() to populate field AvailablePatchSummary")
+			return errors.Wrap(err, "calling AssignProperties_To_AvailablePatchSummary_STATUS() to populate field AvailablePatchSummary")
 		}
 		destination.AvailablePatchSummary = &availablePatchSummary
 	} else {
@@ -10508,9 +10508,9 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesToVirtualMachine
 			// Shadow the loop variable to avoid aliasing
 			configurationStatusItem := configurationStatusItem
 			var configurationStatus alpha20201201s.InstanceViewStatus_STATUS
-			err := configurationStatusItem.AssignPropertiesToInstanceViewStatusSTATUS(&configurationStatus)
+			err := configurationStatusItem.AssignProperties_To_InstanceViewStatus_STATUS(&configurationStatus)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field ConfigurationStatuses")
+				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field ConfigurationStatuses")
 			}
 			configurationStatusList[configurationStatusIndex] = configurationStatus
 		}
@@ -10522,9 +10522,9 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesToVirtualMachine
 	// LastPatchInstallationSummary
 	if status.LastPatchInstallationSummary != nil {
 		var lastPatchInstallationSummary alpha20201201s.LastPatchInstallationSummary_STATUS
-		err := status.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummarySTATUS(&lastPatchInstallationSummary)
+		err := status.LastPatchInstallationSummary.AssignProperties_To_LastPatchInstallationSummary_STATUS(&lastPatchInstallationSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummarySTATUS() to populate field LastPatchInstallationSummary")
+			return errors.Wrap(err, "calling AssignProperties_To_LastPatchInstallationSummary_STATUS() to populate field LastPatchInstallationSummary")
 		}
 		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
 	} else {
@@ -10605,8 +10605,8 @@ func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfac
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(source *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(source *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
 
 	// Primary
 	if source.Primary != nil {
@@ -10628,8 +10628,8 @@ func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfac
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(destination *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(destination *alpha20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10794,8 +10794,8 @@ func (configuration *WindowsConfiguration) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromWindowsConfiguration populates our WindowsConfiguration from the provided source WindowsConfiguration
-func (configuration *WindowsConfiguration) AssignPropertiesFromWindowsConfiguration(source *alpha20201201s.WindowsConfiguration) error {
+// AssignProperties_From_WindowsConfiguration populates our WindowsConfiguration from the provided source WindowsConfiguration
+func (configuration *WindowsConfiguration) AssignProperties_From_WindowsConfiguration(source *alpha20201201s.WindowsConfiguration) error {
 
 	// AdditionalUnattendContent
 	if source.AdditionalUnattendContent != nil {
@@ -10804,9 +10804,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesFromWindowsConfigurat
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
 			var additionalUnattendContent AdditionalUnattendContent
-			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContent(&additionalUnattendContentItem)
+			err := additionalUnattendContent.AssignProperties_From_AdditionalUnattendContent(&additionalUnattendContentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdditionalUnattendContent() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignProperties_From_AdditionalUnattendContent() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -10826,9 +10826,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesFromWindowsConfigurat
 	// PatchSettings
 	if source.PatchSettings != nil {
 		var patchSetting PatchSettings
-		err := patchSetting.AssignPropertiesFromPatchSettings(source.PatchSettings)
+		err := patchSetting.AssignProperties_From_PatchSettings(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPatchSettings() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_PatchSettings() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -10849,9 +10849,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesFromWindowsConfigurat
 	// WinRM
 	if source.WinRM != nil {
 		var winRM WinRMConfiguration
-		err := winRM.AssignPropertiesFromWinRMConfiguration(source.WinRM)
+		err := winRM.AssignProperties_From_WinRMConfiguration(source.WinRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWinRMConfiguration() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignProperties_From_WinRMConfiguration() to populate field WinRM")
 		}
 		configuration.WinRM = &winRM
 	} else {
@@ -10862,8 +10862,8 @@ func (configuration *WindowsConfiguration) AssignPropertiesFromWindowsConfigurat
 	return nil
 }
 
-// AssignPropertiesToWindowsConfiguration populates the provided destination WindowsConfiguration from our WindowsConfiguration
-func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguration(destination *alpha20201201s.WindowsConfiguration) error {
+// AssignProperties_To_WindowsConfiguration populates the provided destination WindowsConfiguration from our WindowsConfiguration
+func (configuration *WindowsConfiguration) AssignProperties_To_WindowsConfiguration(destination *alpha20201201s.WindowsConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10874,9 +10874,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguratio
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
 			var additionalUnattendContent alpha20201201s.AdditionalUnattendContent
-			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContent(&additionalUnattendContent)
+			err := additionalUnattendContentItem.AssignProperties_To_AdditionalUnattendContent(&additionalUnattendContent)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdditionalUnattendContent() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignProperties_To_AdditionalUnattendContent() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -10896,9 +10896,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguratio
 	// PatchSettings
 	if configuration.PatchSettings != nil {
 		var patchSetting alpha20201201s.PatchSettings
-		err := configuration.PatchSettings.AssignPropertiesToPatchSettings(&patchSetting)
+		err := configuration.PatchSettings.AssignProperties_To_PatchSettings(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPatchSettings() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_PatchSettings() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -10919,9 +10919,9 @@ func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguratio
 	// WinRM
 	if configuration.WinRM != nil {
 		var winRM alpha20201201s.WinRMConfiguration
-		err := configuration.WinRM.AssignPropertiesToWinRMConfiguration(&winRM)
+		err := configuration.WinRM.AssignProperties_To_WinRMConfiguration(&winRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWinRMConfiguration() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignProperties_To_WinRMConfiguration() to populate field WinRM")
 		}
 		destination.WinRM = &winRM
 	} else {
@@ -11017,8 +11017,8 @@ func (configuration *WindowsConfiguration_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromWindowsConfigurationSTATUS populates our WindowsConfiguration_STATUS from the provided source WindowsConfiguration_STATUS
-func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsConfigurationSTATUS(source *alpha20201201s.WindowsConfiguration_STATUS) error {
+// AssignProperties_From_WindowsConfiguration_STATUS populates our WindowsConfiguration_STATUS from the provided source WindowsConfiguration_STATUS
+func (configuration *WindowsConfiguration_STATUS) AssignProperties_From_WindowsConfiguration_STATUS(source *alpha20201201s.WindowsConfiguration_STATUS) error {
 
 	// AdditionalUnattendContent
 	if source.AdditionalUnattendContent != nil {
@@ -11027,9 +11027,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsCon
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
 			var additionalUnattendContent AdditionalUnattendContent_STATUS
-			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContentSTATUS(&additionalUnattendContentItem)
+			err := additionalUnattendContent.AssignProperties_From_AdditionalUnattendContent_STATUS(&additionalUnattendContentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdditionalUnattendContentSTATUS() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignProperties_From_AdditionalUnattendContent_STATUS() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -11049,9 +11049,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsCon
 	// PatchSettings
 	if source.PatchSettings != nil {
 		var patchSetting PatchSettings_STATUS
-		err := patchSetting.AssignPropertiesFromPatchSettingsSTATUS(source.PatchSettings)
+		err := patchSetting.AssignProperties_From_PatchSettings_STATUS(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPatchSettingsSTATUS() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_From_PatchSettings_STATUS() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -11072,9 +11072,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsCon
 	// WinRM
 	if source.WinRM != nil {
 		var winRM WinRMConfiguration_STATUS
-		err := winRM.AssignPropertiesFromWinRMConfigurationSTATUS(source.WinRM)
+		err := winRM.AssignProperties_From_WinRMConfiguration_STATUS(source.WinRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWinRMConfigurationSTATUS() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignProperties_From_WinRMConfiguration_STATUS() to populate field WinRM")
 		}
 		configuration.WinRM = &winRM
 	} else {
@@ -11085,8 +11085,8 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsCon
 	return nil
 }
 
-// AssignPropertiesToWindowsConfigurationSTATUS populates the provided destination WindowsConfiguration_STATUS from our WindowsConfiguration_STATUS
-func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfigurationSTATUS(destination *alpha20201201s.WindowsConfiguration_STATUS) error {
+// AssignProperties_To_WindowsConfiguration_STATUS populates the provided destination WindowsConfiguration_STATUS from our WindowsConfiguration_STATUS
+func (configuration *WindowsConfiguration_STATUS) AssignProperties_To_WindowsConfiguration_STATUS(destination *alpha20201201s.WindowsConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11097,9 +11097,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfi
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
 			var additionalUnattendContent alpha20201201s.AdditionalUnattendContent_STATUS
-			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContentSTATUS(&additionalUnattendContent)
+			err := additionalUnattendContentItem.AssignProperties_To_AdditionalUnattendContent_STATUS(&additionalUnattendContent)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdditionalUnattendContentSTATUS() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignProperties_To_AdditionalUnattendContent_STATUS() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -11119,9 +11119,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfi
 	// PatchSettings
 	if configuration.PatchSettings != nil {
 		var patchSetting alpha20201201s.PatchSettings_STATUS
-		err := configuration.PatchSettings.AssignPropertiesToPatchSettingsSTATUS(&patchSetting)
+		err := configuration.PatchSettings.AssignProperties_To_PatchSettings_STATUS(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPatchSettingsSTATUS() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignProperties_To_PatchSettings_STATUS() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -11142,9 +11142,9 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfi
 	// WinRM
 	if configuration.WinRM != nil {
 		var winRM alpha20201201s.WinRMConfiguration_STATUS
-		err := configuration.WinRM.AssignPropertiesToWinRMConfigurationSTATUS(&winRM)
+		err := configuration.WinRM.AssignProperties_To_WinRMConfiguration_STATUS(&winRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWinRMConfigurationSTATUS() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignProperties_To_WinRMConfiguration_STATUS() to populate field WinRM")
 		}
 		destination.WinRM = &winRM
 	} else {
@@ -11164,10 +11164,10 @@ func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfi
 
 // Deprecated version of AdditionalUnattendContent. Use v1beta20201201.AdditionalUnattendContent instead
 type AdditionalUnattendContent struct {
-	ComponentName *AdditionalUnattendContentComponentName `json:"componentName,omitempty"`
-	Content       *string                                 `json:"content,omitempty"`
-	PassName      *AdditionalUnattendContentPassName      `json:"passName,omitempty"`
-	SettingName   *AdditionalUnattendContentSettingName   `json:"settingName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
+	Content       *string                                  `json:"content,omitempty"`
+	PassName      *AdditionalUnattendContent_PassName      `json:"passName,omitempty"`
+	SettingName   *AdditionalUnattendContent_SettingName   `json:"settingName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AdditionalUnattendContent{}
@@ -11245,12 +11245,12 @@ func (content *AdditionalUnattendContent) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromAdditionalUnattendContent populates our AdditionalUnattendContent from the provided source AdditionalUnattendContent
-func (content *AdditionalUnattendContent) AssignPropertiesFromAdditionalUnattendContent(source *alpha20201201s.AdditionalUnattendContent) error {
+// AssignProperties_From_AdditionalUnattendContent populates our AdditionalUnattendContent from the provided source AdditionalUnattendContent
+func (content *AdditionalUnattendContent) AssignProperties_From_AdditionalUnattendContent(source *alpha20201201s.AdditionalUnattendContent) error {
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContentComponentName(*source.ComponentName)
+		componentName := AdditionalUnattendContent_ComponentName(*source.ComponentName)
 		content.ComponentName = &componentName
 	} else {
 		content.ComponentName = nil
@@ -11261,7 +11261,7 @@ func (content *AdditionalUnattendContent) AssignPropertiesFromAdditionalUnattend
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContentPassName(*source.PassName)
+		passName := AdditionalUnattendContent_PassName(*source.PassName)
 		content.PassName = &passName
 	} else {
 		content.PassName = nil
@@ -11269,7 +11269,7 @@ func (content *AdditionalUnattendContent) AssignPropertiesFromAdditionalUnattend
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContentSettingName(*source.SettingName)
+		settingName := AdditionalUnattendContent_SettingName(*source.SettingName)
 		content.SettingName = &settingName
 	} else {
 		content.SettingName = nil
@@ -11279,8 +11279,8 @@ func (content *AdditionalUnattendContent) AssignPropertiesFromAdditionalUnattend
 	return nil
 }
 
-// AssignPropertiesToAdditionalUnattendContent populates the provided destination AdditionalUnattendContent from our AdditionalUnattendContent
-func (content *AdditionalUnattendContent) AssignPropertiesToAdditionalUnattendContent(destination *alpha20201201s.AdditionalUnattendContent) error {
+// AssignProperties_To_AdditionalUnattendContent populates the provided destination AdditionalUnattendContent from our AdditionalUnattendContent
+func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattendContent(destination *alpha20201201s.AdditionalUnattendContent) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11324,10 +11324,10 @@ func (content *AdditionalUnattendContent) AssignPropertiesToAdditionalUnattendCo
 
 // Deprecated version of AdditionalUnattendContent_STATUS. Use v1beta20201201.AdditionalUnattendContent_STATUS instead
 type AdditionalUnattendContent_STATUS struct {
-	ComponentName *AdditionalUnattendContentSTATUSComponentName `json:"componentName,omitempty"`
-	Content       *string                                       `json:"content,omitempty"`
-	PassName      *AdditionalUnattendContentSTATUSPassName      `json:"passName,omitempty"`
-	SettingName   *AdditionalUnattendContentSTATUSSettingName   `json:"settingName,omitempty"`
+	ComponentName *AdditionalUnattendContent_STATUS_ComponentName `json:"componentName,omitempty"`
+	Content       *string                                         `json:"content,omitempty"`
+	PassName      *AdditionalUnattendContent_STATUS_PassName      `json:"passName,omitempty"`
+	SettingName   *AdditionalUnattendContent_STATUS_SettingName   `json:"settingName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdditionalUnattendContent_STATUS{}
@@ -11372,12 +11372,12 @@ func (content *AdditionalUnattendContent_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromAdditionalUnattendContentSTATUS populates our AdditionalUnattendContent_STATUS from the provided source AdditionalUnattendContent_STATUS
-func (content *AdditionalUnattendContent_STATUS) AssignPropertiesFromAdditionalUnattendContentSTATUS(source *alpha20201201s.AdditionalUnattendContent_STATUS) error {
+// AssignProperties_From_AdditionalUnattendContent_STATUS populates our AdditionalUnattendContent_STATUS from the provided source AdditionalUnattendContent_STATUS
+func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_AdditionalUnattendContent_STATUS(source *alpha20201201s.AdditionalUnattendContent_STATUS) error {
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContentSTATUSComponentName(*source.ComponentName)
+		componentName := AdditionalUnattendContent_STATUS_ComponentName(*source.ComponentName)
 		content.ComponentName = &componentName
 	} else {
 		content.ComponentName = nil
@@ -11388,7 +11388,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesFromAdditionalU
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContentSTATUSPassName(*source.PassName)
+		passName := AdditionalUnattendContent_STATUS_PassName(*source.PassName)
 		content.PassName = &passName
 	} else {
 		content.PassName = nil
@@ -11396,7 +11396,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesFromAdditionalU
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContentSTATUSSettingName(*source.SettingName)
+		settingName := AdditionalUnattendContent_STATUS_SettingName(*source.SettingName)
 		content.SettingName = &settingName
 	} else {
 		content.SettingName = nil
@@ -11406,8 +11406,8 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesFromAdditionalU
 	return nil
 }
 
-// AssignPropertiesToAdditionalUnattendContentSTATUS populates the provided destination AdditionalUnattendContent_STATUS from our AdditionalUnattendContent_STATUS
-func (content *AdditionalUnattendContent_STATUS) AssignPropertiesToAdditionalUnattendContentSTATUS(destination *alpha20201201s.AdditionalUnattendContent_STATUS) error {
+// AssignProperties_To_AdditionalUnattendContent_STATUS populates the provided destination AdditionalUnattendContent_STATUS from our AdditionalUnattendContent_STATUS
+func (content *AdditionalUnattendContent_STATUS) AssignProperties_To_AdditionalUnattendContent_STATUS(destination *alpha20201201s.AdditionalUnattendContent_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11451,14 +11451,14 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesToAdditionalUna
 
 // Deprecated version of AvailablePatchSummary_STATUS. Use v1beta20201201.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUS struct {
-	AssessmentActivityId          *string                            `json:"assessmentActivityId,omitempty"`
-	CriticalAndSecurityPatchCount *int                               `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError_STATUS                   `json:"error,omitempty"`
-	LastModifiedTime              *string                            `json:"lastModifiedTime,omitempty"`
-	OtherPatchCount               *int                               `json:"otherPatchCount,omitempty"`
-	RebootPending                 *bool                              `json:"rebootPending,omitempty"`
-	StartTime                     *string                            `json:"startTime,omitempty"`
-	Status                        *AvailablePatchSummarySTATUSStatus `json:"status,omitempty"`
+	AssessmentActivityId          *string                              `json:"assessmentActivityId,omitempty"`
+	CriticalAndSecurityPatchCount *int                                 `json:"criticalAndSecurityPatchCount,omitempty"`
+	Error                         *ApiError_STATUS                     `json:"error,omitempty"`
+	LastModifiedTime              *string                              `json:"lastModifiedTime,omitempty"`
+	OtherPatchCount               *int                                 `json:"otherPatchCount,omitempty"`
+	RebootPending                 *bool                                `json:"rebootPending,omitempty"`
+	StartTime                     *string                              `json:"startTime,omitempty"`
+	Status                        *AvailablePatchSummary_STATUS_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AvailablePatchSummary_STATUS{}
@@ -11532,8 +11532,8 @@ func (summary *AvailablePatchSummary_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromAvailablePatchSummarySTATUS populates our AvailablePatchSummary_STATUS from the provided source AvailablePatchSummary_STATUS
-func (summary *AvailablePatchSummary_STATUS) AssignPropertiesFromAvailablePatchSummarySTATUS(source *alpha20201201s.AvailablePatchSummary_STATUS) error {
+// AssignProperties_From_AvailablePatchSummary_STATUS populates our AvailablePatchSummary_STATUS from the provided source AvailablePatchSummary_STATUS
+func (summary *AvailablePatchSummary_STATUS) AssignProperties_From_AvailablePatchSummary_STATUS(source *alpha20201201s.AvailablePatchSummary_STATUS) error {
 
 	// AssessmentActivityId
 	summary.AssessmentActivityId = genruntime.ClonePointerToString(source.AssessmentActivityId)
@@ -11544,9 +11544,9 @@ func (summary *AvailablePatchSummary_STATUS) AssignPropertiesFromAvailablePatchS
 	// Error
 	if source.Error != nil {
 		var error ApiError_STATUS
-		err := error.AssignPropertiesFromApiErrorSTATUS(source.Error)
+		err := error.AssignProperties_From_ApiError_STATUS(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiErrorSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_From_ApiError_STATUS() to populate field Error")
 		}
 		summary.Error = &error
 	} else {
@@ -11572,7 +11572,7 @@ func (summary *AvailablePatchSummary_STATUS) AssignPropertiesFromAvailablePatchS
 
 	// Status
 	if source.Status != nil {
-		status := AvailablePatchSummarySTATUSStatus(*source.Status)
+		status := AvailablePatchSummary_STATUS_Status(*source.Status)
 		summary.Status = &status
 	} else {
 		summary.Status = nil
@@ -11582,8 +11582,8 @@ func (summary *AvailablePatchSummary_STATUS) AssignPropertiesFromAvailablePatchS
 	return nil
 }
 
-// AssignPropertiesToAvailablePatchSummarySTATUS populates the provided destination AvailablePatchSummary_STATUS from our AvailablePatchSummary_STATUS
-func (summary *AvailablePatchSummary_STATUS) AssignPropertiesToAvailablePatchSummarySTATUS(destination *alpha20201201s.AvailablePatchSummary_STATUS) error {
+// AssignProperties_To_AvailablePatchSummary_STATUS populates the provided destination AvailablePatchSummary_STATUS from our AvailablePatchSummary_STATUS
+func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchSummary_STATUS(destination *alpha20201201s.AvailablePatchSummary_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11596,9 +11596,9 @@ func (summary *AvailablePatchSummary_STATUS) AssignPropertiesToAvailablePatchSum
 	// Error
 	if summary.Error != nil {
 		var error alpha20201201s.ApiError_STATUS
-		err := summary.Error.AssignPropertiesToApiErrorSTATUS(&error)
+		err := summary.Error.AssignProperties_To_ApiError_STATUS(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiErrorSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_To_ApiError_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -11659,31 +11659,31 @@ const (
 	CreateOption_STATUS_FromImage = CreateOption_STATUS("FromImage")
 )
 
-// Deprecated version of DataDiskCaching. Use v1beta20201201.DataDiskCaching instead
+// Deprecated version of DataDisk_Caching. Use v1beta20201201.DataDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type DataDiskCaching string
+type DataDisk_Caching string
 
 const (
-	DataDiskCaching_None      = DataDiskCaching("None")
-	DataDiskCaching_ReadOnly  = DataDiskCaching("ReadOnly")
-	DataDiskCaching_ReadWrite = DataDiskCaching("ReadWrite")
+	DataDisk_Caching_None      = DataDisk_Caching("None")
+	DataDisk_Caching_ReadOnly  = DataDisk_Caching("ReadOnly")
+	DataDisk_Caching_ReadWrite = DataDisk_Caching("ReadWrite")
 )
 
-// Deprecated version of DataDiskCreateOption. Use v1beta20201201.DataDiskCreateOption instead
+// Deprecated version of DataDisk_CreateOption. Use v1beta20201201.DataDisk_CreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
-type DataDiskCreateOption string
+type DataDisk_CreateOption string
 
 const (
-	DataDiskCreateOption_Attach    = DataDiskCreateOption("Attach")
-	DataDiskCreateOption_Empty     = DataDiskCreateOption("Empty")
-	DataDiskCreateOption_FromImage = DataDiskCreateOption("FromImage")
+	DataDisk_CreateOption_Attach    = DataDisk_CreateOption("Attach")
+	DataDisk_CreateOption_Empty     = DataDisk_CreateOption("Empty")
+	DataDisk_CreateOption_FromImage = DataDisk_CreateOption("FromImage")
 )
 
-// Deprecated version of DataDiskDetachOption. Use v1beta20201201.DataDiskDetachOption instead
+// Deprecated version of DataDisk_DetachOption. Use v1beta20201201.DataDisk_DetachOption instead
 // +kubebuilder:validation:Enum={"ForceDetach"}
-type DataDiskDetachOption string
+type DataDisk_DetachOption string
 
-const DataDiskDetachOption_ForceDetach = DataDiskDetachOption("ForceDetach")
+const DataDisk_DetachOption_ForceDetach = DataDisk_DetachOption("ForceDetach")
 
 // Deprecated version of DetachOption_STATUS. Use v1beta20201201.DetachOption_STATUS instead
 type DetachOption_STATUS string
@@ -11692,8 +11692,8 @@ const DetachOption_STATUS_ForceDetach = DetachOption_STATUS("ForceDetach")
 
 // Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettings struct {
-	Option    *DiffDiskSettingsOption    `json:"option,omitempty"`
-	Placement *DiffDiskSettingsPlacement `json:"placement,omitempty"`
+	Option    *DiffDiskSettings_Option    `json:"option,omitempty"`
+	Placement *DiffDiskSettings_Placement `json:"placement,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DiffDiskSettings{}
@@ -11747,12 +11747,12 @@ func (settings *DiffDiskSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromDiffDiskSettings populates our DiffDiskSettings from the provided source DiffDiskSettings
-func (settings *DiffDiskSettings) AssignPropertiesFromDiffDiskSettings(source *alpha20201201s.DiffDiskSettings) error {
+// AssignProperties_From_DiffDiskSettings populates our DiffDiskSettings from the provided source DiffDiskSettings
+func (settings *DiffDiskSettings) AssignProperties_From_DiffDiskSettings(source *alpha20201201s.DiffDiskSettings) error {
 
 	// Option
 	if source.Option != nil {
-		option := DiffDiskSettingsOption(*source.Option)
+		option := DiffDiskSettings_Option(*source.Option)
 		settings.Option = &option
 	} else {
 		settings.Option = nil
@@ -11760,7 +11760,7 @@ func (settings *DiffDiskSettings) AssignPropertiesFromDiffDiskSettings(source *a
 
 	// Placement
 	if source.Placement != nil {
-		placement := DiffDiskSettingsPlacement(*source.Placement)
+		placement := DiffDiskSettings_Placement(*source.Placement)
 		settings.Placement = &placement
 	} else {
 		settings.Placement = nil
@@ -11770,8 +11770,8 @@ func (settings *DiffDiskSettings) AssignPropertiesFromDiffDiskSettings(source *a
 	return nil
 }
 
-// AssignPropertiesToDiffDiskSettings populates the provided destination DiffDiskSettings from our DiffDiskSettings
-func (settings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(destination *alpha20201201s.DiffDiskSettings) error {
+// AssignProperties_To_DiffDiskSettings populates the provided destination DiffDiskSettings from our DiffDiskSettings
+func (settings *DiffDiskSettings) AssignProperties_To_DiffDiskSettings(destination *alpha20201201s.DiffDiskSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11838,8 +11838,8 @@ func (settings *DiffDiskSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromDiffDiskSettingsSTATUS populates our DiffDiskSettings_STATUS from the provided source DiffDiskSettings_STATUS
-func (settings *DiffDiskSettings_STATUS) AssignPropertiesFromDiffDiskSettingsSTATUS(source *alpha20201201s.DiffDiskSettings_STATUS) error {
+// AssignProperties_From_DiffDiskSettings_STATUS populates our DiffDiskSettings_STATUS from the provided source DiffDiskSettings_STATUS
+func (settings *DiffDiskSettings_STATUS) AssignProperties_From_DiffDiskSettings_STATUS(source *alpha20201201s.DiffDiskSettings_STATUS) error {
 
 	// Option
 	if source.Option != nil {
@@ -11861,8 +11861,8 @@ func (settings *DiffDiskSettings_STATUS) AssignPropertiesFromDiffDiskSettingsSTA
 	return nil
 }
 
-// AssignPropertiesToDiffDiskSettingsSTATUS populates the provided destination DiffDiskSettings_STATUS from our DiffDiskSettings_STATUS
-func (settings *DiffDiskSettings_STATUS) AssignPropertiesToDiffDiskSettingsSTATUS(destination *alpha20201201s.DiffDiskSettings_STATUS) error {
+// AssignProperties_To_DiffDiskSettings_STATUS populates the provided destination DiffDiskSettings_STATUS from our DiffDiskSettings_STATUS
+func (settings *DiffDiskSettings_STATUS) AssignProperties_To_DiffDiskSettings_STATUS(destination *alpha20201201s.DiffDiskSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11981,15 +11981,15 @@ func (settings *DiskEncryptionSettings) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDiskEncryptionSettings populates our DiskEncryptionSettings from the provided source DiskEncryptionSettings
-func (settings *DiskEncryptionSettings) AssignPropertiesFromDiskEncryptionSettings(source *alpha20201201s.DiskEncryptionSettings) error {
+// AssignProperties_From_DiskEncryptionSettings populates our DiskEncryptionSettings from the provided source DiskEncryptionSettings
+func (settings *DiskEncryptionSettings) AssignProperties_From_DiskEncryptionSettings(source *alpha20201201s.DiskEncryptionSettings) error {
 
 	// DiskEncryptionKey
 	if source.DiskEncryptionKey != nil {
 		var diskEncryptionKey KeyVaultSecretReference
-		err := diskEncryptionKey.AssignPropertiesFromKeyVaultSecretReference(source.DiskEncryptionKey)
+		err := diskEncryptionKey.AssignProperties_From_KeyVaultSecretReference(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSecretReference() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSecretReference() to populate field DiskEncryptionKey")
 		}
 		settings.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -12007,9 +12007,9 @@ func (settings *DiskEncryptionSettings) AssignPropertiesFromDiskEncryptionSettin
 	// KeyEncryptionKey
 	if source.KeyEncryptionKey != nil {
 		var keyEncryptionKey KeyVaultKeyReference
-		err := keyEncryptionKey.AssignPropertiesFromKeyVaultKeyReference(source.KeyEncryptionKey)
+		err := keyEncryptionKey.AssignProperties_From_KeyVaultKeyReference(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultKeyReference() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultKeyReference() to populate field KeyEncryptionKey")
 		}
 		settings.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -12020,17 +12020,17 @@ func (settings *DiskEncryptionSettings) AssignPropertiesFromDiskEncryptionSettin
 	return nil
 }
 
-// AssignPropertiesToDiskEncryptionSettings populates the provided destination DiskEncryptionSettings from our DiskEncryptionSettings
-func (settings *DiskEncryptionSettings) AssignPropertiesToDiskEncryptionSettings(destination *alpha20201201s.DiskEncryptionSettings) error {
+// AssignProperties_To_DiskEncryptionSettings populates the provided destination DiskEncryptionSettings from our DiskEncryptionSettings
+func (settings *DiskEncryptionSettings) AssignProperties_To_DiskEncryptionSettings(destination *alpha20201201s.DiskEncryptionSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DiskEncryptionKey
 	if settings.DiskEncryptionKey != nil {
 		var diskEncryptionKey alpha20201201s.KeyVaultSecretReference
-		err := settings.DiskEncryptionKey.AssignPropertiesToKeyVaultSecretReference(&diskEncryptionKey)
+		err := settings.DiskEncryptionKey.AssignProperties_To_KeyVaultSecretReference(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSecretReference() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -12048,9 +12048,9 @@ func (settings *DiskEncryptionSettings) AssignPropertiesToDiskEncryptionSettings
 	// KeyEncryptionKey
 	if settings.KeyEncryptionKey != nil {
 		var keyEncryptionKey alpha20201201s.KeyVaultKeyReference
-		err := settings.KeyEncryptionKey.AssignPropertiesToKeyVaultKeyReference(&keyEncryptionKey)
+		err := settings.KeyEncryptionKey.AssignProperties_To_KeyVaultKeyReference(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultKeyReference() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultKeyReference() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -12121,15 +12121,15 @@ func (settings *DiskEncryptionSettings_STATUS) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDiskEncryptionSettingsSTATUS populates our DiskEncryptionSettings_STATUS from the provided source DiskEncryptionSettings_STATUS
-func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesFromDiskEncryptionSettingsSTATUS(source *alpha20201201s.DiskEncryptionSettings_STATUS) error {
+// AssignProperties_From_DiskEncryptionSettings_STATUS populates our DiskEncryptionSettings_STATUS from the provided source DiskEncryptionSettings_STATUS
+func (settings *DiskEncryptionSettings_STATUS) AssignProperties_From_DiskEncryptionSettings_STATUS(source *alpha20201201s.DiskEncryptionSettings_STATUS) error {
 
 	// DiskEncryptionKey
 	if source.DiskEncryptionKey != nil {
 		var diskEncryptionKey KeyVaultSecretReference_STATUS
-		err := diskEncryptionKey.AssignPropertiesFromKeyVaultSecretReferenceSTATUS(source.DiskEncryptionKey)
+		err := diskEncryptionKey.AssignProperties_From_KeyVaultSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSecretReferenceSTATUS() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		settings.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -12147,9 +12147,9 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesFromDiskEncryptio
 	// KeyEncryptionKey
 	if source.KeyEncryptionKey != nil {
 		var keyEncryptionKey KeyVaultKeyReference_STATUS
-		err := keyEncryptionKey.AssignPropertiesFromKeyVaultKeyReferenceSTATUS(source.KeyEncryptionKey)
+		err := keyEncryptionKey.AssignProperties_From_KeyVaultKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultKeyReferenceSTATUS() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		settings.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -12160,17 +12160,17 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesFromDiskEncryptio
 	return nil
 }
 
-// AssignPropertiesToDiskEncryptionSettingsSTATUS populates the provided destination DiskEncryptionSettings_STATUS from our DiskEncryptionSettings_STATUS
-func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionSettingsSTATUS(destination *alpha20201201s.DiskEncryptionSettings_STATUS) error {
+// AssignProperties_To_DiskEncryptionSettings_STATUS populates the provided destination DiskEncryptionSettings_STATUS from our DiskEncryptionSettings_STATUS
+func (settings *DiskEncryptionSettings_STATUS) AssignProperties_To_DiskEncryptionSettings_STATUS(destination *alpha20201201s.DiskEncryptionSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DiskEncryptionKey
 	if settings.DiskEncryptionKey != nil {
 		var diskEncryptionKey alpha20201201s.KeyVaultSecretReference_STATUS
-		err := settings.DiskEncryptionKey.AssignPropertiesToKeyVaultSecretReferenceSTATUS(&diskEncryptionKey)
+		err := settings.DiskEncryptionKey.AssignProperties_To_KeyVaultSecretReference_STATUS(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSecretReferenceSTATUS() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -12188,9 +12188,9 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionS
 	// KeyEncryptionKey
 	if settings.KeyEncryptionKey != nil {
 		var keyEncryptionKey alpha20201201s.KeyVaultKeyReference_STATUS
-		err := settings.KeyEncryptionKey.AssignPropertiesToKeyVaultKeyReferenceSTATUS(&keyEncryptionKey)
+		err := settings.KeyEncryptionKey.AssignProperties_To_KeyVaultKeyReference_STATUS(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultKeyReferenceSTATUS() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -12208,28 +12208,28 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-// Deprecated version of InstanceViewStatusSTATUSLevel. Use v1beta20201201.InstanceViewStatusSTATUSLevel instead
-type InstanceViewStatusSTATUSLevel string
+// Deprecated version of InstanceViewStatus_STATUS_Level. Use v1beta20201201.InstanceViewStatus_STATUS_Level instead
+type InstanceViewStatus_STATUS_Level string
 
 const (
-	InstanceViewStatusSTATUSLevel_Error   = InstanceViewStatusSTATUSLevel("Error")
-	InstanceViewStatusSTATUSLevel_Info    = InstanceViewStatusSTATUSLevel("Info")
-	InstanceViewStatusSTATUSLevel_Warning = InstanceViewStatusSTATUSLevel("Warning")
+	InstanceViewStatus_STATUS_Level_Error   = InstanceViewStatus_STATUS_Level("Error")
+	InstanceViewStatus_STATUS_Level_Info    = InstanceViewStatus_STATUS_Level("Info")
+	InstanceViewStatus_STATUS_Level_Warning = InstanceViewStatus_STATUS_Level("Warning")
 )
 
 // Deprecated version of LastPatchInstallationSummary_STATUS. Use v1beta20201201.LastPatchInstallationSummary_STATUS instead
 type LastPatchInstallationSummary_STATUS struct {
-	Error                     *ApiError_STATUS                          `json:"error,omitempty"`
-	ExcludedPatchCount        *int                                      `json:"excludedPatchCount,omitempty"`
-	FailedPatchCount          *int                                      `json:"failedPatchCount,omitempty"`
-	InstallationActivityId    *string                                   `json:"installationActivityId,omitempty"`
-	InstalledPatchCount       *int                                      `json:"installedPatchCount,omitempty"`
-	LastModifiedTime          *string                                   `json:"lastModifiedTime,omitempty"`
-	MaintenanceWindowExceeded *bool                                     `json:"maintenanceWindowExceeded,omitempty"`
-	NotSelectedPatchCount     *int                                      `json:"notSelectedPatchCount,omitempty"`
-	PendingPatchCount         *int                                      `json:"pendingPatchCount,omitempty"`
-	StartTime                 *string                                   `json:"startTime,omitempty"`
-	Status                    *LastPatchInstallationSummarySTATUSStatus `json:"status,omitempty"`
+	Error                     *ApiError_STATUS                            `json:"error,omitempty"`
+	ExcludedPatchCount        *int                                        `json:"excludedPatchCount,omitempty"`
+	FailedPatchCount          *int                                        `json:"failedPatchCount,omitempty"`
+	InstallationActivityId    *string                                     `json:"installationActivityId,omitempty"`
+	InstalledPatchCount       *int                                        `json:"installedPatchCount,omitempty"`
+	LastModifiedTime          *string                                     `json:"lastModifiedTime,omitempty"`
+	MaintenanceWindowExceeded *bool                                       `json:"maintenanceWindowExceeded,omitempty"`
+	NotSelectedPatchCount     *int                                        `json:"notSelectedPatchCount,omitempty"`
+	PendingPatchCount         *int                                        `json:"pendingPatchCount,omitempty"`
+	StartTime                 *string                                     `json:"startTime,omitempty"`
+	Status                    *LastPatchInstallationSummary_STATUS_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastPatchInstallationSummary_STATUS{}
@@ -12321,15 +12321,15 @@ func (summary *LastPatchInstallationSummary_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignPropertiesFromLastPatchInstallationSummarySTATUS populates our LastPatchInstallationSummary_STATUS from the provided source LastPatchInstallationSummary_STATUS
-func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesFromLastPatchInstallationSummarySTATUS(source *alpha20201201s.LastPatchInstallationSummary_STATUS) error {
+// AssignProperties_From_LastPatchInstallationSummary_STATUS populates our LastPatchInstallationSummary_STATUS from the provided source LastPatchInstallationSummary_STATUS
+func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_From_LastPatchInstallationSummary_STATUS(source *alpha20201201s.LastPatchInstallationSummary_STATUS) error {
 
 	// Error
 	if source.Error != nil {
 		var error ApiError_STATUS
-		err := error.AssignPropertiesFromApiErrorSTATUS(source.Error)
+		err := error.AssignProperties_From_ApiError_STATUS(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiErrorSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_From_ApiError_STATUS() to populate field Error")
 		}
 		summary.Error = &error
 	} else {
@@ -12370,7 +12370,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesFromLastPatc
 
 	// Status
 	if source.Status != nil {
-		status := LastPatchInstallationSummarySTATUSStatus(*source.Status)
+		status := LastPatchInstallationSummary_STATUS_Status(*source.Status)
 		summary.Status = &status
 	} else {
 		summary.Status = nil
@@ -12380,17 +12380,17 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesFromLastPatc
 	return nil
 }
 
-// AssignPropertiesToLastPatchInstallationSummarySTATUS populates the provided destination LastPatchInstallationSummary_STATUS from our LastPatchInstallationSummary_STATUS
-func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesToLastPatchInstallationSummarySTATUS(destination *alpha20201201s.LastPatchInstallationSummary_STATUS) error {
+// AssignProperties_To_LastPatchInstallationSummary_STATUS populates the provided destination LastPatchInstallationSummary_STATUS from our LastPatchInstallationSummary_STATUS
+func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_To_LastPatchInstallationSummary_STATUS(destination *alpha20201201s.LastPatchInstallationSummary_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error
 	if summary.Error != nil {
 		var error alpha20201201s.ApiError_STATUS
-		err := summary.Error.AssignPropertiesToApiErrorSTATUS(&error)
+		err := summary.Error.AssignProperties_To_ApiError_STATUS(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiErrorSTATUS() to populate field Error")
+			return errors.Wrap(err, "calling AssignProperties_To_ApiError_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -12450,7 +12450,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesToLastPatchI
 
 // Deprecated version of LinuxPatchSettings. Use v1beta20201201.LinuxPatchSettings instead
 type LinuxPatchSettings struct {
-	PatchMode *LinuxPatchSettingsPatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LinuxPatchSettings{}
@@ -12492,12 +12492,12 @@ func (settings *LinuxPatchSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromLinuxPatchSettings populates our LinuxPatchSettings from the provided source LinuxPatchSettings
-func (settings *LinuxPatchSettings) AssignPropertiesFromLinuxPatchSettings(source *alpha20201201s.LinuxPatchSettings) error {
+// AssignProperties_From_LinuxPatchSettings populates our LinuxPatchSettings from the provided source LinuxPatchSettings
+func (settings *LinuxPatchSettings) AssignProperties_From_LinuxPatchSettings(source *alpha20201201s.LinuxPatchSettings) error {
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettingsPatchMode(*source.PatchMode)
+		patchMode := LinuxPatchSettings_PatchMode(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -12507,8 +12507,8 @@ func (settings *LinuxPatchSettings) AssignPropertiesFromLinuxPatchSettings(sourc
 	return nil
 }
 
-// AssignPropertiesToLinuxPatchSettings populates the provided destination LinuxPatchSettings from our LinuxPatchSettings
-func (settings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettings(destination *alpha20201201s.LinuxPatchSettings) error {
+// AssignProperties_To_LinuxPatchSettings populates the provided destination LinuxPatchSettings from our LinuxPatchSettings
+func (settings *LinuxPatchSettings) AssignProperties_To_LinuxPatchSettings(destination *alpha20201201s.LinuxPatchSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12533,7 +12533,7 @@ func (settings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettings(destina
 
 // Deprecated version of LinuxPatchSettings_STATUS. Use v1beta20201201.LinuxPatchSettings_STATUS instead
 type LinuxPatchSettings_STATUS struct {
-	PatchMode *LinuxPatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxPatchSettings_STATUS{}
@@ -12560,12 +12560,12 @@ func (settings *LinuxPatchSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromLinuxPatchSettingsSTATUS populates our LinuxPatchSettings_STATUS from the provided source LinuxPatchSettings_STATUS
-func (settings *LinuxPatchSettings_STATUS) AssignPropertiesFromLinuxPatchSettingsSTATUS(source *alpha20201201s.LinuxPatchSettings_STATUS) error {
+// AssignProperties_From_LinuxPatchSettings_STATUS populates our LinuxPatchSettings_STATUS from the provided source LinuxPatchSettings_STATUS
+func (settings *LinuxPatchSettings_STATUS) AssignProperties_From_LinuxPatchSettings_STATUS(source *alpha20201201s.LinuxPatchSettings_STATUS) error {
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettingsSTATUSPatchMode(*source.PatchMode)
+		patchMode := LinuxPatchSettings_STATUS_PatchMode(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -12575,8 +12575,8 @@ func (settings *LinuxPatchSettings_STATUS) AssignPropertiesFromLinuxPatchSetting
 	return nil
 }
 
-// AssignPropertiesToLinuxPatchSettingsSTATUS populates the provided destination LinuxPatchSettings_STATUS from our LinuxPatchSettings_STATUS
-func (settings *LinuxPatchSettings_STATUS) AssignPropertiesToLinuxPatchSettingsSTATUS(destination *alpha20201201s.LinuxPatchSettings_STATUS) error {
+// AssignProperties_To_LinuxPatchSettings_STATUS populates the provided destination LinuxPatchSettings_STATUS from our LinuxPatchSettings_STATUS
+func (settings *LinuxPatchSettings_STATUS) AssignProperties_To_LinuxPatchSettings_STATUS(destination *alpha20201201s.LinuxPatchSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12599,22 +12599,22 @@ func (settings *LinuxPatchSettings_STATUS) AssignPropertiesToLinuxPatchSettingsS
 	return nil
 }
 
-// Deprecated version of MaintenanceRedeployStatusSTATUSLastOperationResultCode. Use
-// v1beta20201201.MaintenanceRedeployStatusSTATUSLastOperationResultCode instead
-type MaintenanceRedeployStatusSTATUSLastOperationResultCode string
+// Deprecated version of MaintenanceRedeployStatus_STATUS_LastOperationResultCode. Use
+// v1beta20201201.MaintenanceRedeployStatus_STATUS_LastOperationResultCode instead
+type MaintenanceRedeployStatus_STATUS_LastOperationResultCode string
 
 const (
-	MaintenanceRedeployStatusSTATUSLastOperationResultCode_MaintenanceAborted   = MaintenanceRedeployStatusSTATUSLastOperationResultCode("MaintenanceAborted")
-	MaintenanceRedeployStatusSTATUSLastOperationResultCode_MaintenanceCompleted = MaintenanceRedeployStatusSTATUSLastOperationResultCode("MaintenanceCompleted")
-	MaintenanceRedeployStatusSTATUSLastOperationResultCode_None                 = MaintenanceRedeployStatusSTATUSLastOperationResultCode("None")
-	MaintenanceRedeployStatusSTATUSLastOperationResultCode_RetryLater           = MaintenanceRedeployStatusSTATUSLastOperationResultCode("RetryLater")
+	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_MaintenanceAborted   = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("MaintenanceAborted")
+	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_MaintenanceCompleted = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("MaintenanceCompleted")
+	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_None                 = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("None")
+	MaintenanceRedeployStatus_STATUS_LastOperationResultCode_RetryLater           = MaintenanceRedeployStatus_STATUS_LastOperationResultCode("RetryLater")
 )
 
 // Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
-	DiskEncryptionSet  *DiskEncryptionSetParameters             `json:"diskEncryptionSet,omitempty"`
-	Reference          *genruntime.ResourceReference            `armReference:"Id" json:"reference,omitempty"`
-	StorageAccountType *ManagedDiskParametersStorageAccountType `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *DiskEncryptionSetParameters              `json:"diskEncryptionSet,omitempty"`
+	Reference          *genruntime.ResourceReference             `armReference:"Id" json:"reference,omitempty"`
+	StorageAccountType *ManagedDiskParameters_StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedDiskParameters{}
@@ -12689,15 +12689,15 @@ func (parameters *ManagedDiskParameters) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromManagedDiskParameters populates our ManagedDiskParameters from the provided source ManagedDiskParameters
-func (parameters *ManagedDiskParameters) AssignPropertiesFromManagedDiskParameters(source *alpha20201201s.ManagedDiskParameters) error {
+// AssignProperties_From_ManagedDiskParameters populates our ManagedDiskParameters from the provided source ManagedDiskParameters
+func (parameters *ManagedDiskParameters) AssignProperties_From_ManagedDiskParameters(source *alpha20201201s.ManagedDiskParameters) error {
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
 		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		err := diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12714,7 +12714,7 @@ func (parameters *ManagedDiskParameters) AssignPropertiesFromManagedDiskParamete
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ManagedDiskParametersStorageAccountType(*source.StorageAccountType)
+		storageAccountType := ManagedDiskParameters_StorageAccountType(*source.StorageAccountType)
 		parameters.StorageAccountType = &storageAccountType
 	} else {
 		parameters.StorageAccountType = nil
@@ -12724,17 +12724,17 @@ func (parameters *ManagedDiskParameters) AssignPropertiesFromManagedDiskParamete
 	return nil
 }
 
-// AssignPropertiesToManagedDiskParameters populates the provided destination ManagedDiskParameters from our ManagedDiskParameters
-func (parameters *ManagedDiskParameters) AssignPropertiesToManagedDiskParameters(destination *alpha20201201s.ManagedDiskParameters) error {
+// AssignProperties_To_ManagedDiskParameters populates the provided destination ManagedDiskParameters from our ManagedDiskParameters
+func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParameters(destination *alpha20201201s.ManagedDiskParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
 		var diskEncryptionSet alpha20201201s.DiskEncryptionSetParameters
-		err := parameters.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		err := parameters.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12816,15 +12816,15 @@ func (parameters *ManagedDiskParameters_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromManagedDiskParametersSTATUS populates our ManagedDiskParameters_STATUS from the provided source ManagedDiskParameters_STATUS
-func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesFromManagedDiskParametersSTATUS(source *alpha20201201s.ManagedDiskParameters_STATUS) error {
+// AssignProperties_From_ManagedDiskParameters_STATUS populates our ManagedDiskParameters_STATUS from the provided source ManagedDiskParameters_STATUS
+func (parameters *ManagedDiskParameters_STATUS) AssignProperties_From_ManagedDiskParameters_STATUS(source *alpha20201201s.ManagedDiskParameters_STATUS) error {
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
 		var diskEncryptionSet SubResource_STATUS
-		err := diskEncryptionSet.AssignPropertiesFromSubResourceSTATUS(source.DiskEncryptionSet)
+		err := diskEncryptionSet.AssignProperties_From_SubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12846,17 +12846,17 @@ func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesFromManagedDiskP
 	return nil
 }
 
-// AssignPropertiesToManagedDiskParametersSTATUS populates the provided destination ManagedDiskParameters_STATUS from our ManagedDiskParameters_STATUS
-func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesToManagedDiskParametersSTATUS(destination *alpha20201201s.ManagedDiskParameters_STATUS) error {
+// AssignProperties_To_ManagedDiskParameters_STATUS populates the provided destination ManagedDiskParameters_STATUS from our ManagedDiskParameters_STATUS
+func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskParameters_STATUS(destination *alpha20201201s.ManagedDiskParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
 		var diskEncryptionSet alpha20201201s.SubResource_STATUS
-		err := parameters.DiskEncryptionSet.AssignPropertiesToSubResourceSTATUS(&diskEncryptionSet)
+		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12885,47 +12885,47 @@ func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesToManagedDiskPar
 	return nil
 }
 
-// Deprecated version of OSDiskCaching. Use v1beta20201201.OSDiskCaching instead
+// Deprecated version of OSDisk_Caching. Use v1beta20201201.OSDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type OSDiskCaching string
+type OSDisk_Caching string
 
 const (
-	OSDiskCaching_None      = OSDiskCaching("None")
-	OSDiskCaching_ReadOnly  = OSDiskCaching("ReadOnly")
-	OSDiskCaching_ReadWrite = OSDiskCaching("ReadWrite")
+	OSDisk_Caching_None      = OSDisk_Caching("None")
+	OSDisk_Caching_ReadOnly  = OSDisk_Caching("ReadOnly")
+	OSDisk_Caching_ReadWrite = OSDisk_Caching("ReadWrite")
 )
 
-// Deprecated version of OSDiskCreateOption. Use v1beta20201201.OSDiskCreateOption instead
+// Deprecated version of OSDisk_CreateOption. Use v1beta20201201.OSDisk_CreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
-type OSDiskCreateOption string
+type OSDisk_CreateOption string
 
 const (
-	OSDiskCreateOption_Attach    = OSDiskCreateOption("Attach")
-	OSDiskCreateOption_Empty     = OSDiskCreateOption("Empty")
-	OSDiskCreateOption_FromImage = OSDiskCreateOption("FromImage")
+	OSDisk_CreateOption_Attach    = OSDisk_CreateOption("Attach")
+	OSDisk_CreateOption_Empty     = OSDisk_CreateOption("Empty")
+	OSDisk_CreateOption_FromImage = OSDisk_CreateOption("FromImage")
 )
 
-// Deprecated version of OSDiskOsType. Use v1beta20201201.OSDiskOsType instead
+// Deprecated version of OSDisk_OsType. Use v1beta20201201.OSDisk_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
-type OSDiskOsType string
+type OSDisk_OsType string
 
 const (
-	OSDiskOsType_Linux   = OSDiskOsType("Linux")
-	OSDiskOsType_Windows = OSDiskOsType("Windows")
+	OSDisk_OsType_Linux   = OSDisk_OsType("Linux")
+	OSDisk_OsType_Windows = OSDisk_OsType("Windows")
 )
 
-// Deprecated version of OSDiskSTATUSOsType. Use v1beta20201201.OSDiskSTATUSOsType instead
-type OSDiskSTATUSOsType string
+// Deprecated version of OSDisk_STATUS_OsType. Use v1beta20201201.OSDisk_STATUS_OsType instead
+type OSDisk_STATUS_OsType string
 
 const (
-	OSDiskSTATUSOsType_Linux   = OSDiskSTATUSOsType("Linux")
-	OSDiskSTATUSOsType_Windows = OSDiskSTATUSOsType("Windows")
+	OSDisk_STATUS_OsType_Linux   = OSDisk_STATUS_OsType("Linux")
+	OSDisk_STATUS_OsType_Windows = OSDisk_STATUS_OsType("Windows")
 )
 
 // Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
 type PatchSettings struct {
-	EnableHotpatching *bool                   `json:"enableHotpatching,omitempty"`
-	PatchMode         *PatchSettingsPatchMode `json:"patchMode,omitempty"`
+	EnableHotpatching *bool                    `json:"enableHotpatching,omitempty"`
+	PatchMode         *PatchSettings_PatchMode `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PatchSettings{}
@@ -12979,8 +12979,8 @@ func (settings *PatchSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromPatchSettings populates our PatchSettings from the provided source PatchSettings
-func (settings *PatchSettings) AssignPropertiesFromPatchSettings(source *alpha20201201s.PatchSettings) error {
+// AssignProperties_From_PatchSettings populates our PatchSettings from the provided source PatchSettings
+func (settings *PatchSettings) AssignProperties_From_PatchSettings(source *alpha20201201s.PatchSettings) error {
 
 	// EnableHotpatching
 	if source.EnableHotpatching != nil {
@@ -12992,7 +12992,7 @@ func (settings *PatchSettings) AssignPropertiesFromPatchSettings(source *alpha20
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettingsPatchMode(*source.PatchMode)
+		patchMode := PatchSettings_PatchMode(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -13002,8 +13002,8 @@ func (settings *PatchSettings) AssignPropertiesFromPatchSettings(source *alpha20
 	return nil
 }
 
-// AssignPropertiesToPatchSettings populates the provided destination PatchSettings from our PatchSettings
-func (settings *PatchSettings) AssignPropertiesToPatchSettings(destination *alpha20201201s.PatchSettings) error {
+// AssignProperties_To_PatchSettings populates the provided destination PatchSettings from our PatchSettings
+func (settings *PatchSettings) AssignProperties_To_PatchSettings(destination *alpha20201201s.PatchSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13036,8 +13036,8 @@ func (settings *PatchSettings) AssignPropertiesToPatchSettings(destination *alph
 
 // Deprecated version of PatchSettings_STATUS. Use v1beta20201201.PatchSettings_STATUS instead
 type PatchSettings_STATUS struct {
-	EnableHotpatching *bool                         `json:"enableHotpatching,omitempty"`
-	PatchMode         *PatchSettingsSTATUSPatchMode `json:"patchMode,omitempty"`
+	EnableHotpatching *bool                           `json:"enableHotpatching,omitempty"`
+	PatchMode         *PatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PatchSettings_STATUS{}
@@ -13070,8 +13070,8 @@ func (settings *PatchSettings_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromPatchSettingsSTATUS populates our PatchSettings_STATUS from the provided source PatchSettings_STATUS
-func (settings *PatchSettings_STATUS) AssignPropertiesFromPatchSettingsSTATUS(source *alpha20201201s.PatchSettings_STATUS) error {
+// AssignProperties_From_PatchSettings_STATUS populates our PatchSettings_STATUS from the provided source PatchSettings_STATUS
+func (settings *PatchSettings_STATUS) AssignProperties_From_PatchSettings_STATUS(source *alpha20201201s.PatchSettings_STATUS) error {
 
 	// EnableHotpatching
 	if source.EnableHotpatching != nil {
@@ -13083,7 +13083,7 @@ func (settings *PatchSettings_STATUS) AssignPropertiesFromPatchSettingsSTATUS(so
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettingsSTATUSPatchMode(*source.PatchMode)
+		patchMode := PatchSettings_STATUS_PatchMode(*source.PatchMode)
 		settings.PatchMode = &patchMode
 	} else {
 		settings.PatchMode = nil
@@ -13093,8 +13093,8 @@ func (settings *PatchSettings_STATUS) AssignPropertiesFromPatchSettingsSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToPatchSettingsSTATUS populates the provided destination PatchSettings_STATUS from our PatchSettings_STATUS
-func (settings *PatchSettings_STATUS) AssignPropertiesToPatchSettingsSTATUS(destination *alpha20201201s.PatchSettings_STATUS) error {
+// AssignProperties_To_PatchSettings_STATUS populates the provided destination PatchSettings_STATUS from our PatchSettings_STATUS
+func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(destination *alpha20201201s.PatchSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13176,8 +13176,8 @@ func (configuration *SshConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromSshConfiguration populates our SshConfiguration from the provided source SshConfiguration
-func (configuration *SshConfiguration) AssignPropertiesFromSshConfiguration(source *alpha20201201s.SshConfiguration) error {
+// AssignProperties_From_SshConfiguration populates our SshConfiguration from the provided source SshConfiguration
+func (configuration *SshConfiguration) AssignProperties_From_SshConfiguration(source *alpha20201201s.SshConfiguration) error {
 
 	// PublicKeys
 	if source.PublicKeys != nil {
@@ -13186,9 +13186,9 @@ func (configuration *SshConfiguration) AssignPropertiesFromSshConfiguration(sour
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
 			var publicKey SshPublicKey
-			err := publicKey.AssignPropertiesFromSshPublicKey(&publicKeyItem)
+			err := publicKey.AssignProperties_From_SshPublicKey(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKey() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -13201,8 +13201,8 @@ func (configuration *SshConfiguration) AssignPropertiesFromSshConfiguration(sour
 	return nil
 }
 
-// AssignPropertiesToSshConfiguration populates the provided destination SshConfiguration from our SshConfiguration
-func (configuration *SshConfiguration) AssignPropertiesToSshConfiguration(destination *alpha20201201s.SshConfiguration) error {
+// AssignProperties_To_SshConfiguration populates the provided destination SshConfiguration from our SshConfiguration
+func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(destination *alpha20201201s.SshConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13213,9 +13213,9 @@ func (configuration *SshConfiguration) AssignPropertiesToSshConfiguration(destin
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
 			var publicKey alpha20201201s.SshPublicKey
-			err := publicKeyItem.AssignPropertiesToSshPublicKey(&publicKey)
+			err := publicKeyItem.AssignProperties_To_SshPublicKey(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKey() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -13268,8 +13268,8 @@ func (configuration *SshConfiguration_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromSshConfigurationSTATUS populates our SshConfiguration_STATUS from the provided source SshConfiguration_STATUS
-func (configuration *SshConfiguration_STATUS) AssignPropertiesFromSshConfigurationSTATUS(source *alpha20201201s.SshConfiguration_STATUS) error {
+// AssignProperties_From_SshConfiguration_STATUS populates our SshConfiguration_STATUS from the provided source SshConfiguration_STATUS
+func (configuration *SshConfiguration_STATUS) AssignProperties_From_SshConfiguration_STATUS(source *alpha20201201s.SshConfiguration_STATUS) error {
 
 	// PublicKeys
 	if source.PublicKeys != nil {
@@ -13278,9 +13278,9 @@ func (configuration *SshConfiguration_STATUS) AssignPropertiesFromSshConfigurati
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
 			var publicKey SshPublicKey_STATUS
-			err := publicKey.AssignPropertiesFromSshPublicKeySTATUS(&publicKeyItem)
+			err := publicKey.AssignProperties_From_SshPublicKey_STATUS(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKeySTATUS() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKey_STATUS() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -13293,8 +13293,8 @@ func (configuration *SshConfiguration_STATUS) AssignPropertiesFromSshConfigurati
 	return nil
 }
 
-// AssignPropertiesToSshConfigurationSTATUS populates the provided destination SshConfiguration_STATUS from our SshConfiguration_STATUS
-func (configuration *SshConfiguration_STATUS) AssignPropertiesToSshConfigurationSTATUS(destination *alpha20201201s.SshConfiguration_STATUS) error {
+// AssignProperties_To_SshConfiguration_STATUS populates the provided destination SshConfiguration_STATUS from our SshConfiguration_STATUS
+func (configuration *SshConfiguration_STATUS) AssignProperties_To_SshConfiguration_STATUS(destination *alpha20201201s.SshConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13305,9 +13305,9 @@ func (configuration *SshConfiguration_STATUS) AssignPropertiesToSshConfiguration
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
 			var publicKey alpha20201201s.SshPublicKey_STATUS
-			err := publicKeyItem.AssignPropertiesToSshPublicKeySTATUS(&publicKey)
+			err := publicKeyItem.AssignProperties_To_SshPublicKey_STATUS(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKeySTATUS() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKey_STATUS() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -13384,8 +13384,8 @@ func (certificate *VaultCertificate) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignPropertiesFromVaultCertificate populates our VaultCertificate from the provided source VaultCertificate
-func (certificate *VaultCertificate) AssignPropertiesFromVaultCertificate(source *alpha20201201s.VaultCertificate) error {
+// AssignProperties_From_VaultCertificate populates our VaultCertificate from the provided source VaultCertificate
+func (certificate *VaultCertificate) AssignProperties_From_VaultCertificate(source *alpha20201201s.VaultCertificate) error {
 
 	// CertificateStore
 	certificate.CertificateStore = genruntime.ClonePointerToString(source.CertificateStore)
@@ -13397,8 +13397,8 @@ func (certificate *VaultCertificate) AssignPropertiesFromVaultCertificate(source
 	return nil
 }
 
-// AssignPropertiesToVaultCertificate populates the provided destination VaultCertificate from our VaultCertificate
-func (certificate *VaultCertificate) AssignPropertiesToVaultCertificate(destination *alpha20201201s.VaultCertificate) error {
+// AssignProperties_To_VaultCertificate populates the provided destination VaultCertificate from our VaultCertificate
+func (certificate *VaultCertificate) AssignProperties_To_VaultCertificate(destination *alpha20201201s.VaultCertificate) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13455,8 +13455,8 @@ func (certificate *VaultCertificate_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromVaultCertificateSTATUS populates our VaultCertificate_STATUS from the provided source VaultCertificate_STATUS
-func (certificate *VaultCertificate_STATUS) AssignPropertiesFromVaultCertificateSTATUS(source *alpha20201201s.VaultCertificate_STATUS) error {
+// AssignProperties_From_VaultCertificate_STATUS populates our VaultCertificate_STATUS from the provided source VaultCertificate_STATUS
+func (certificate *VaultCertificate_STATUS) AssignProperties_From_VaultCertificate_STATUS(source *alpha20201201s.VaultCertificate_STATUS) error {
 
 	// CertificateStore
 	certificate.CertificateStore = genruntime.ClonePointerToString(source.CertificateStore)
@@ -13468,8 +13468,8 @@ func (certificate *VaultCertificate_STATUS) AssignPropertiesFromVaultCertificate
 	return nil
 }
 
-// AssignPropertiesToVaultCertificateSTATUS populates the provided destination VaultCertificate_STATUS from our VaultCertificate_STATUS
-func (certificate *VaultCertificate_STATUS) AssignPropertiesToVaultCertificateSTATUS(destination *alpha20201201s.VaultCertificate_STATUS) error {
+// AssignProperties_To_VaultCertificate_STATUS populates the provided destination VaultCertificate_STATUS from our VaultCertificate_STATUS
+func (certificate *VaultCertificate_STATUS) AssignProperties_To_VaultCertificate_STATUS(destination *alpha20201201s.VaultCertificate_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13534,8 +13534,8 @@ func (disk *VirtualHardDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignPropertiesFromVirtualHardDisk populates our VirtualHardDisk from the provided source VirtualHardDisk
-func (disk *VirtualHardDisk) AssignPropertiesFromVirtualHardDisk(source *alpha20201201s.VirtualHardDisk) error {
+// AssignProperties_From_VirtualHardDisk populates our VirtualHardDisk from the provided source VirtualHardDisk
+func (disk *VirtualHardDisk) AssignProperties_From_VirtualHardDisk(source *alpha20201201s.VirtualHardDisk) error {
 
 	// Uri
 	disk.Uri = genruntime.ClonePointerToString(source.Uri)
@@ -13544,8 +13544,8 @@ func (disk *VirtualHardDisk) AssignPropertiesFromVirtualHardDisk(source *alpha20
 	return nil
 }
 
-// AssignPropertiesToVirtualHardDisk populates the provided destination VirtualHardDisk from our VirtualHardDisk
-func (disk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destination *alpha20201201s.VirtualHardDisk) error {
+// AssignProperties_To_VirtualHardDisk populates the provided destination VirtualHardDisk from our VirtualHardDisk
+func (disk *VirtualHardDisk) AssignProperties_To_VirtualHardDisk(destination *alpha20201201s.VirtualHardDisk) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13592,8 +13592,8 @@ func (disk *VirtualHardDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromVirtualHardDiskSTATUS populates our VirtualHardDisk_STATUS from the provided source VirtualHardDisk_STATUS
-func (disk *VirtualHardDisk_STATUS) AssignPropertiesFromVirtualHardDiskSTATUS(source *alpha20201201s.VirtualHardDisk_STATUS) error {
+// AssignProperties_From_VirtualHardDisk_STATUS populates our VirtualHardDisk_STATUS from the provided source VirtualHardDisk_STATUS
+func (disk *VirtualHardDisk_STATUS) AssignProperties_From_VirtualHardDisk_STATUS(source *alpha20201201s.VirtualHardDisk_STATUS) error {
 
 	// Uri
 	disk.Uri = genruntime.ClonePointerToString(source.Uri)
@@ -13602,8 +13602,8 @@ func (disk *VirtualHardDisk_STATUS) AssignPropertiesFromVirtualHardDiskSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToVirtualHardDiskSTATUS populates the provided destination VirtualHardDisk_STATUS from our VirtualHardDisk_STATUS
-func (disk *VirtualHardDisk_STATUS) AssignPropertiesToVirtualHardDiskSTATUS(destination *alpha20201201s.VirtualHardDisk_STATUS) error {
+// AssignProperties_To_VirtualHardDisk_STATUS populates the provided destination VirtualHardDisk_STATUS from our VirtualHardDisk_STATUS
+func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(destination *alpha20201201s.VirtualHardDisk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13669,15 +13669,15 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) PopulateFromARM(o
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewSTATUS populates our VirtualMachineExtensionHandlerInstanceView_STATUS from the provided source VirtualMachineExtensionHandlerInstanceView_STATUS
-func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewSTATUS(source *alpha20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
+// AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS populates our VirtualMachineExtensionHandlerInstanceView_STATUS from the provided source VirtualMachineExtensionHandlerInstanceView_STATUS
+func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS(source *alpha20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
 
 	// Status
 	if source.Status != nil {
 		var status InstanceViewStatus_STATUS
-		err := status.AssignPropertiesFromInstanceViewStatusSTATUS(source.Status)
+		err := status.AssignProperties_From_InstanceViewStatus_STATUS(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		view.Status = &status
 	} else {
@@ -13694,17 +13694,17 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignPropertiesF
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewSTATUS populates the provided destination VirtualMachineExtensionHandlerInstanceView_STATUS from our VirtualMachineExtensionHandlerInstanceView_STATUS
-func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewSTATUS(destination *alpha20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
+// AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS populates the provided destination VirtualMachineExtensionHandlerInstanceView_STATUS from our VirtualMachineExtensionHandlerInstanceView_STATUS
+func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS(destination *alpha20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
 	if view.Status != nil {
 		var status alpha20201201s.InstanceViewStatus_STATUS
-		err := view.Status.AssignPropertiesToInstanceViewStatusSTATUS(&status)
+		err := view.Status.AssignProperties_To_InstanceViewStatus_STATUS(&status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusSTATUS() to populate field Status")
+			return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Status")
 		}
 		destination.Status = &status
 	} else {
@@ -13779,8 +13779,8 @@ func (configuration *WinRMConfiguration) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromWinRMConfiguration populates our WinRMConfiguration from the provided source WinRMConfiguration
-func (configuration *WinRMConfiguration) AssignPropertiesFromWinRMConfiguration(source *alpha20201201s.WinRMConfiguration) error {
+// AssignProperties_From_WinRMConfiguration populates our WinRMConfiguration from the provided source WinRMConfiguration
+func (configuration *WinRMConfiguration) AssignProperties_From_WinRMConfiguration(source *alpha20201201s.WinRMConfiguration) error {
 
 	// Listeners
 	if source.Listeners != nil {
@@ -13789,9 +13789,9 @@ func (configuration *WinRMConfiguration) AssignPropertiesFromWinRMConfiguration(
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
 			var listener WinRMListener
-			err := listener.AssignPropertiesFromWinRMListener(&listenerItem)
+			err := listener.AssignProperties_From_WinRMListener(&listenerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromWinRMListener() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignProperties_From_WinRMListener() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -13804,8 +13804,8 @@ func (configuration *WinRMConfiguration) AssignPropertiesFromWinRMConfiguration(
 	return nil
 }
 
-// AssignPropertiesToWinRMConfiguration populates the provided destination WinRMConfiguration from our WinRMConfiguration
-func (configuration *WinRMConfiguration) AssignPropertiesToWinRMConfiguration(destination *alpha20201201s.WinRMConfiguration) error {
+// AssignProperties_To_WinRMConfiguration populates the provided destination WinRMConfiguration from our WinRMConfiguration
+func (configuration *WinRMConfiguration) AssignProperties_To_WinRMConfiguration(destination *alpha20201201s.WinRMConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13816,9 +13816,9 @@ func (configuration *WinRMConfiguration) AssignPropertiesToWinRMConfiguration(de
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
 			var listener alpha20201201s.WinRMListener
-			err := listenerItem.AssignPropertiesToWinRMListener(&listener)
+			err := listenerItem.AssignProperties_To_WinRMListener(&listener)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToWinRMListener() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignProperties_To_WinRMListener() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -13871,8 +13871,8 @@ func (configuration *WinRMConfiguration_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromWinRMConfigurationSTATUS populates our WinRMConfiguration_STATUS from the provided source WinRMConfiguration_STATUS
-func (configuration *WinRMConfiguration_STATUS) AssignPropertiesFromWinRMConfigurationSTATUS(source *alpha20201201s.WinRMConfiguration_STATUS) error {
+// AssignProperties_From_WinRMConfiguration_STATUS populates our WinRMConfiguration_STATUS from the provided source WinRMConfiguration_STATUS
+func (configuration *WinRMConfiguration_STATUS) AssignProperties_From_WinRMConfiguration_STATUS(source *alpha20201201s.WinRMConfiguration_STATUS) error {
 
 	// Listeners
 	if source.Listeners != nil {
@@ -13881,9 +13881,9 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesFromWinRMConfigu
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
 			var listener WinRMListener_STATUS
-			err := listener.AssignPropertiesFromWinRMListenerSTATUS(&listenerItem)
+			err := listener.AssignProperties_From_WinRMListener_STATUS(&listenerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromWinRMListenerSTATUS() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignProperties_From_WinRMListener_STATUS() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -13896,8 +13896,8 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesFromWinRMConfigu
 	return nil
 }
 
-// AssignPropertiesToWinRMConfigurationSTATUS populates the provided destination WinRMConfiguration_STATUS from our WinRMConfiguration_STATUS
-func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfigurationSTATUS(destination *alpha20201201s.WinRMConfiguration_STATUS) error {
+// AssignProperties_To_WinRMConfiguration_STATUS populates the provided destination WinRMConfiguration_STATUS from our WinRMConfiguration_STATUS
+func (configuration *WinRMConfiguration_STATUS) AssignProperties_To_WinRMConfiguration_STATUS(destination *alpha20201201s.WinRMConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13908,9 +13908,9 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfigura
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
 			var listener alpha20201201s.WinRMListener_STATUS
-			err := listenerItem.AssignPropertiesToWinRMListenerSTATUS(&listener)
+			err := listenerItem.AssignProperties_To_WinRMListener_STATUS(&listener)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToWinRMListenerSTATUS() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignProperties_To_WinRMListener_STATUS() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -13930,48 +13930,48 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfigura
 	return nil
 }
 
-// Deprecated version of AdditionalUnattendContentComponentName. Use v1beta20201201.AdditionalUnattendContentComponentName
-// instead
+// Deprecated version of AdditionalUnattendContent_ComponentName. Use
+// v1beta20201201.AdditionalUnattendContent_ComponentName instead
 // +kubebuilder:validation:Enum={"Microsoft-Windows-Shell-Setup"}
-type AdditionalUnattendContentComponentName string
+type AdditionalUnattendContent_ComponentName string
 
-const AdditionalUnattendContentComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContentComponentName("Microsoft-Windows-Shell-Setup")
+const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
 
-// Deprecated version of AdditionalUnattendContentPassName. Use v1beta20201201.AdditionalUnattendContentPassName instead
+// Deprecated version of AdditionalUnattendContent_PassName. Use v1beta20201201.AdditionalUnattendContent_PassName instead
 // +kubebuilder:validation:Enum={"OobeSystem"}
-type AdditionalUnattendContentPassName string
+type AdditionalUnattendContent_PassName string
 
-const AdditionalUnattendContentPassName_OobeSystem = AdditionalUnattendContentPassName("OobeSystem")
+const AdditionalUnattendContent_PassName_OobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
 
-// Deprecated version of AdditionalUnattendContentSettingName. Use v1beta20201201.AdditionalUnattendContentSettingName
+// Deprecated version of AdditionalUnattendContent_SettingName. Use v1beta20201201.AdditionalUnattendContent_SettingName
 // instead
 // +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
-type AdditionalUnattendContentSettingName string
+type AdditionalUnattendContent_SettingName string
 
 const (
-	AdditionalUnattendContentSettingName_AutoLogon          = AdditionalUnattendContentSettingName("AutoLogon")
-	AdditionalUnattendContentSettingName_FirstLogonCommands = AdditionalUnattendContentSettingName("FirstLogonCommands")
+	AdditionalUnattendContent_SettingName_AutoLogon          = AdditionalUnattendContent_SettingName("AutoLogon")
+	AdditionalUnattendContent_SettingName_FirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
 )
 
-// Deprecated version of AdditionalUnattendContentSTATUSComponentName. Use
-// v1beta20201201.AdditionalUnattendContentSTATUSComponentName instead
-type AdditionalUnattendContentSTATUSComponentName string
+// Deprecated version of AdditionalUnattendContent_STATUS_ComponentName. Use
+// v1beta20201201.AdditionalUnattendContent_STATUS_ComponentName instead
+type AdditionalUnattendContent_STATUS_ComponentName string
 
-const AdditionalUnattendContentSTATUSComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContentSTATUSComponentName("Microsoft-Windows-Shell-Setup")
+const AdditionalUnattendContent_STATUS_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_STATUS_ComponentName("Microsoft-Windows-Shell-Setup")
 
-// Deprecated version of AdditionalUnattendContentSTATUSPassName. Use
-// v1beta20201201.AdditionalUnattendContentSTATUSPassName instead
-type AdditionalUnattendContentSTATUSPassName string
+// Deprecated version of AdditionalUnattendContent_STATUS_PassName. Use
+// v1beta20201201.AdditionalUnattendContent_STATUS_PassName instead
+type AdditionalUnattendContent_STATUS_PassName string
 
-const AdditionalUnattendContentSTATUSPassName_OobeSystem = AdditionalUnattendContentSTATUSPassName("OobeSystem")
+const AdditionalUnattendContent_STATUS_PassName_OobeSystem = AdditionalUnattendContent_STATUS_PassName("OobeSystem")
 
-// Deprecated version of AdditionalUnattendContentSTATUSSettingName. Use
-// v1beta20201201.AdditionalUnattendContentSTATUSSettingName instead
-type AdditionalUnattendContentSTATUSSettingName string
+// Deprecated version of AdditionalUnattendContent_STATUS_SettingName. Use
+// v1beta20201201.AdditionalUnattendContent_STATUS_SettingName instead
+type AdditionalUnattendContent_STATUS_SettingName string
 
 const (
-	AdditionalUnattendContentSTATUSSettingName_AutoLogon          = AdditionalUnattendContentSTATUSSettingName("AutoLogon")
-	AdditionalUnattendContentSTATUSSettingName_FirstLogonCommands = AdditionalUnattendContentSTATUSSettingName("FirstLogonCommands")
+	AdditionalUnattendContent_STATUS_SettingName_AutoLogon          = AdditionalUnattendContent_STATUS_SettingName("AutoLogon")
+	AdditionalUnattendContent_STATUS_SettingName_FirstLogonCommands = AdditionalUnattendContent_STATUS_SettingName("FirstLogonCommands")
 )
 
 // Deprecated version of ApiError_STATUS. Use v1beta20201201.ApiError_STATUS instead
@@ -14040,8 +14040,8 @@ func (error *ApiError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromApiErrorSTATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
-func (error *ApiError_STATUS) AssignPropertiesFromApiErrorSTATUS(source *alpha20201201s.ApiError_STATUS) error {
+// AssignProperties_From_ApiError_STATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
+func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *alpha20201201s.ApiError_STATUS) error {
 
 	// Code
 	error.Code = genruntime.ClonePointerToString(source.Code)
@@ -14053,9 +14053,9 @@ func (error *ApiError_STATUS) AssignPropertiesFromApiErrorSTATUS(source *alpha20
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
 			var detail ApiErrorBase_STATUS
-			err := detail.AssignPropertiesFromApiErrorBaseSTATUS(&detailItem)
+			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBaseSTATUS() to populate field Details")
+				return errors.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -14067,9 +14067,9 @@ func (error *ApiError_STATUS) AssignPropertiesFromApiErrorSTATUS(source *alpha20
 	// Innererror
 	if source.Innererror != nil {
 		var innererror InnerError_STATUS
-		err := innererror.AssignPropertiesFromInnerErrorSTATUS(source.Innererror)
+		err := innererror.AssignProperties_From_InnerError_STATUS(source.Innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInnerErrorSTATUS() to populate field Innererror")
+			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
 		}
 		error.Innererror = &innererror
 	} else {
@@ -14086,8 +14086,8 @@ func (error *ApiError_STATUS) AssignPropertiesFromApiErrorSTATUS(source *alpha20
 	return nil
 }
 
-// AssignPropertiesToApiErrorSTATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
-func (error *ApiError_STATUS) AssignPropertiesToApiErrorSTATUS(destination *alpha20201201s.ApiError_STATUS) error {
+// AssignProperties_To_ApiError_STATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
+func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *alpha20201201s.ApiError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14101,9 +14101,9 @@ func (error *ApiError_STATUS) AssignPropertiesToApiErrorSTATUS(destination *alph
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
 			var detail alpha20201201s.ApiErrorBase_STATUS
-			err := detailItem.AssignPropertiesToApiErrorBaseSTATUS(&detail)
+			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBaseSTATUS() to populate field Details")
+				return errors.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -14115,9 +14115,9 @@ func (error *ApiError_STATUS) AssignPropertiesToApiErrorSTATUS(destination *alph
 	// Innererror
 	if error.Innererror != nil {
 		var innererror alpha20201201s.InnerError_STATUS
-		err := error.Innererror.AssignPropertiesToInnerErrorSTATUS(&innererror)
+		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInnerErrorSTATUS() to populate field Innererror")
+			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
 		}
 		destination.Innererror = &innererror
 	} else {
@@ -14141,15 +14141,15 @@ func (error *ApiError_STATUS) AssignPropertiesToApiErrorSTATUS(destination *alph
 	return nil
 }
 
-// Deprecated version of AvailablePatchSummarySTATUSStatus. Use v1beta20201201.AvailablePatchSummarySTATUSStatus instead
-type AvailablePatchSummarySTATUSStatus string
+// Deprecated version of AvailablePatchSummary_STATUS_Status. Use v1beta20201201.AvailablePatchSummary_STATUS_Status instead
+type AvailablePatchSummary_STATUS_Status string
 
 const (
-	AvailablePatchSummarySTATUSStatus_CompletedWithWarnings = AvailablePatchSummarySTATUSStatus("CompletedWithWarnings")
-	AvailablePatchSummarySTATUSStatus_Failed                = AvailablePatchSummarySTATUSStatus("Failed")
-	AvailablePatchSummarySTATUSStatus_InProgress            = AvailablePatchSummarySTATUSStatus("InProgress")
-	AvailablePatchSummarySTATUSStatus_Succeeded             = AvailablePatchSummarySTATUSStatus("Succeeded")
-	AvailablePatchSummarySTATUSStatus_Unknown               = AvailablePatchSummarySTATUSStatus("Unknown")
+	AvailablePatchSummary_STATUS_Status_CompletedWithWarnings = AvailablePatchSummary_STATUS_Status("CompletedWithWarnings")
+	AvailablePatchSummary_STATUS_Status_Failed                = AvailablePatchSummary_STATUS_Status("Failed")
+	AvailablePatchSummary_STATUS_Status_InProgress            = AvailablePatchSummary_STATUS_Status("InProgress")
+	AvailablePatchSummary_STATUS_Status_Succeeded             = AvailablePatchSummary_STATUS_Status("Succeeded")
+	AvailablePatchSummary_STATUS_Status_Unknown               = AvailablePatchSummary_STATUS_Status("Unknown")
 )
 
 // Deprecated version of DiffDiskOption_STATUS. Use v1beta20201201.DiffDiskOption_STATUS instead
@@ -14165,19 +14165,19 @@ const (
 	DiffDiskPlacement_STATUS_ResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
 )
 
-// Deprecated version of DiffDiskSettingsOption. Use v1beta20201201.DiffDiskSettingsOption instead
+// Deprecated version of DiffDiskSettings_Option. Use v1beta20201201.DiffDiskSettings_Option instead
 // +kubebuilder:validation:Enum={"Local"}
-type DiffDiskSettingsOption string
+type DiffDiskSettings_Option string
 
-const DiffDiskSettingsOption_Local = DiffDiskSettingsOption("Local")
+const DiffDiskSettings_Option_Local = DiffDiskSettings_Option("Local")
 
-// Deprecated version of DiffDiskSettingsPlacement. Use v1beta20201201.DiffDiskSettingsPlacement instead
+// Deprecated version of DiffDiskSettings_Placement. Use v1beta20201201.DiffDiskSettings_Placement instead
 // +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
-type DiffDiskSettingsPlacement string
+type DiffDiskSettings_Placement string
 
 const (
-	DiffDiskSettingsPlacement_CacheDisk    = DiffDiskSettingsPlacement("CacheDisk")
-	DiffDiskSettingsPlacement_ResourceDisk = DiffDiskSettingsPlacement("ResourceDisk")
+	DiffDiskSettings_Placement_CacheDisk    = DiffDiskSettings_Placement("CacheDisk")
+	DiffDiskSettings_Placement_ResourceDisk = DiffDiskSettings_Placement("ResourceDisk")
 )
 
 // Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
@@ -14224,8 +14224,8 @@ func (parameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *alpha20201201s.DiskEncryptionSetParameters) error {
+// AssignProperties_From_DiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
+func (parameters *DiskEncryptionSetParameters) AssignProperties_From_DiskEncryptionSetParameters(source *alpha20201201s.DiskEncryptionSetParameters) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -14239,8 +14239,8 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptio
 	return nil
 }
 
-// AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *alpha20201201s.DiskEncryptionSetParameters) error {
+// AssignProperties_To_DiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
+func (parameters *DiskEncryptionSetParameters) AssignProperties_To_DiskEncryptionSetParameters(destination *alpha20201201s.DiskEncryptionSetParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14332,8 +14332,8 @@ func (reference *KeyVaultKeyReference) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultKeyReference populates our KeyVaultKeyReference from the provided source KeyVaultKeyReference
-func (reference *KeyVaultKeyReference) AssignPropertiesFromKeyVaultKeyReference(source *alpha20201201s.KeyVaultKeyReference) error {
+// AssignProperties_From_KeyVaultKeyReference populates our KeyVaultKeyReference from the provided source KeyVaultKeyReference
+func (reference *KeyVaultKeyReference) AssignProperties_From_KeyVaultKeyReference(source *alpha20201201s.KeyVaultKeyReference) error {
 
 	// KeyUrl
 	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
@@ -14341,9 +14341,9 @@ func (reference *KeyVaultKeyReference) AssignPropertiesFromKeyVaultKeyReference(
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource
-		err := sourceVault.AssignPropertiesFromSubResource(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -14354,8 +14354,8 @@ func (reference *KeyVaultKeyReference) AssignPropertiesFromKeyVaultKeyReference(
 	return nil
 }
 
-// AssignPropertiesToKeyVaultKeyReference populates the provided destination KeyVaultKeyReference from our KeyVaultKeyReference
-func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(destination *alpha20201201s.KeyVaultKeyReference) error {
+// AssignProperties_To_KeyVaultKeyReference populates the provided destination KeyVaultKeyReference from our KeyVaultKeyReference
+func (reference *KeyVaultKeyReference) AssignProperties_To_KeyVaultKeyReference(destination *alpha20201201s.KeyVaultKeyReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14365,9 +14365,9 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource
-		err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
+		err := reference.SourceVault.AssignProperties_To_SubResource(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -14426,8 +14426,8 @@ func (reference *KeyVaultKeyReference_STATUS) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultKeyReferenceSTATUS populates our KeyVaultKeyReference_STATUS from the provided source KeyVaultKeyReference_STATUS
-func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesFromKeyVaultKeyReferenceSTATUS(source *alpha20201201s.KeyVaultKeyReference_STATUS) error {
+// AssignProperties_From_KeyVaultKeyReference_STATUS populates our KeyVaultKeyReference_STATUS from the provided source KeyVaultKeyReference_STATUS
+func (reference *KeyVaultKeyReference_STATUS) AssignProperties_From_KeyVaultKeyReference_STATUS(source *alpha20201201s.KeyVaultKeyReference_STATUS) error {
 
 	// KeyUrl
 	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
@@ -14435,9 +14435,9 @@ func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesFromKeyVaultKeyRef
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource_STATUS
-		err := sourceVault.AssignPropertiesFromSubResourceSTATUS(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -14448,8 +14448,8 @@ func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesFromKeyVaultKeyRef
 	return nil
 }
 
-// AssignPropertiesToKeyVaultKeyReferenceSTATUS populates the provided destination KeyVaultKeyReference_STATUS from our KeyVaultKeyReference_STATUS
-func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesToKeyVaultKeyReferenceSTATUS(destination *alpha20201201s.KeyVaultKeyReference_STATUS) error {
+// AssignProperties_To_KeyVaultKeyReference_STATUS populates the provided destination KeyVaultKeyReference_STATUS from our KeyVaultKeyReference_STATUS
+func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyReference_STATUS(destination *alpha20201201s.KeyVaultKeyReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14459,9 +14459,9 @@ func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesToKeyVaultKeyRefer
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource_STATUS
-		err := reference.SourceVault.AssignPropertiesToSubResourceSTATUS(&sourceVault)
+		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -14548,8 +14548,8 @@ func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSecretReference populates our KeyVaultSecretReference from the provided source KeyVaultSecretReference
-func (reference *KeyVaultSecretReference) AssignPropertiesFromKeyVaultSecretReference(source *alpha20201201s.KeyVaultSecretReference) error {
+// AssignProperties_From_KeyVaultSecretReference populates our KeyVaultSecretReference from the provided source KeyVaultSecretReference
+func (reference *KeyVaultSecretReference) AssignProperties_From_KeyVaultSecretReference(source *alpha20201201s.KeyVaultSecretReference) error {
 
 	// SecretUrl
 	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
@@ -14557,9 +14557,9 @@ func (reference *KeyVaultSecretReference) AssignPropertiesFromKeyVaultSecretRefe
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource
-		err := sourceVault.AssignPropertiesFromSubResource(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -14570,8 +14570,8 @@ func (reference *KeyVaultSecretReference) AssignPropertiesFromKeyVaultSecretRefe
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSecretReference populates the provided destination KeyVaultSecretReference from our KeyVaultSecretReference
-func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretReference(destination *alpha20201201s.KeyVaultSecretReference) error {
+// AssignProperties_To_KeyVaultSecretReference populates the provided destination KeyVaultSecretReference from our KeyVaultSecretReference
+func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretReference(destination *alpha20201201s.KeyVaultSecretReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14581,9 +14581,9 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource
-		err := reference.SourceVault.AssignPropertiesToSubResource(&sourceVault)
+		err := reference.SourceVault.AssignProperties_To_SubResource(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -14642,8 +14642,8 @@ func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSecretReferenceSTATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesFromKeyVaultSecretReferenceSTATUS(source *alpha20201201s.KeyVaultSecretReference_STATUS) error {
+// AssignProperties_From_KeyVaultSecretReference_STATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultSecretReference_STATUS(source *alpha20201201s.KeyVaultSecretReference_STATUS) error {
 
 	// SecretUrl
 	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
@@ -14651,9 +14651,9 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesFromKeyVaultSec
 	// SourceVault
 	if source.SourceVault != nil {
 		var sourceVault SubResource_STATUS
-		err := sourceVault.AssignPropertiesFromSubResourceSTATUS(source.SourceVault)
+		err := sourceVault.AssignProperties_From_SubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -14664,8 +14664,8 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesFromKeyVaultSec
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSecretReferenceSTATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecretReferenceSTATUS(destination *alpha20201201s.KeyVaultSecretReference_STATUS) error {
+// AssignProperties_To_KeyVaultSecretReference_STATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSecretReference_STATUS(destination *alpha20201201s.KeyVaultSecretReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14675,9 +14675,9 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecre
 	// SourceVault
 	if reference.SourceVault != nil {
 		var sourceVault alpha20201201s.SubResource_STATUS
-		err := reference.SourceVault.AssignPropertiesToSubResourceSTATUS(&sourceVault)
+		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceSTATUS() to populate field SourceVault")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -14695,66 +14695,66 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecre
 	return nil
 }
 
-// Deprecated version of LastPatchInstallationSummarySTATUSStatus. Use
-// v1beta20201201.LastPatchInstallationSummarySTATUSStatus instead
-type LastPatchInstallationSummarySTATUSStatus string
+// Deprecated version of LastPatchInstallationSummary_STATUS_Status. Use
+// v1beta20201201.LastPatchInstallationSummary_STATUS_Status instead
+type LastPatchInstallationSummary_STATUS_Status string
 
 const (
-	LastPatchInstallationSummarySTATUSStatus_CompletedWithWarnings = LastPatchInstallationSummarySTATUSStatus("CompletedWithWarnings")
-	LastPatchInstallationSummarySTATUSStatus_Failed                = LastPatchInstallationSummarySTATUSStatus("Failed")
-	LastPatchInstallationSummarySTATUSStatus_InProgress            = LastPatchInstallationSummarySTATUSStatus("InProgress")
-	LastPatchInstallationSummarySTATUSStatus_Succeeded             = LastPatchInstallationSummarySTATUSStatus("Succeeded")
-	LastPatchInstallationSummarySTATUSStatus_Unknown               = LastPatchInstallationSummarySTATUSStatus("Unknown")
+	LastPatchInstallationSummary_STATUS_Status_CompletedWithWarnings = LastPatchInstallationSummary_STATUS_Status("CompletedWithWarnings")
+	LastPatchInstallationSummary_STATUS_Status_Failed                = LastPatchInstallationSummary_STATUS_Status("Failed")
+	LastPatchInstallationSummary_STATUS_Status_InProgress            = LastPatchInstallationSummary_STATUS_Status("InProgress")
+	LastPatchInstallationSummary_STATUS_Status_Succeeded             = LastPatchInstallationSummary_STATUS_Status("Succeeded")
+	LastPatchInstallationSummary_STATUS_Status_Unknown               = LastPatchInstallationSummary_STATUS_Status("Unknown")
 )
 
-// Deprecated version of LinuxPatchSettingsPatchMode. Use v1beta20201201.LinuxPatchSettingsPatchMode instead
+// Deprecated version of LinuxPatchSettings_PatchMode. Use v1beta20201201.LinuxPatchSettings_PatchMode instead
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
-type LinuxPatchSettingsPatchMode string
+type LinuxPatchSettings_PatchMode string
 
 const (
-	LinuxPatchSettingsPatchMode_AutomaticByPlatform = LinuxPatchSettingsPatchMode("AutomaticByPlatform")
-	LinuxPatchSettingsPatchMode_ImageDefault        = LinuxPatchSettingsPatchMode("ImageDefault")
+	LinuxPatchSettings_PatchMode_AutomaticByPlatform = LinuxPatchSettings_PatchMode("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_ImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
 )
 
-// Deprecated version of LinuxPatchSettingsSTATUSPatchMode. Use v1beta20201201.LinuxPatchSettingsSTATUSPatchMode instead
-type LinuxPatchSettingsSTATUSPatchMode string
+// Deprecated version of LinuxPatchSettings_STATUS_PatchMode. Use v1beta20201201.LinuxPatchSettings_STATUS_PatchMode instead
+type LinuxPatchSettings_STATUS_PatchMode string
 
 const (
-	LinuxPatchSettingsSTATUSPatchMode_AutomaticByPlatform = LinuxPatchSettingsSTATUSPatchMode("AutomaticByPlatform")
-	LinuxPatchSettingsSTATUSPatchMode_ImageDefault        = LinuxPatchSettingsSTATUSPatchMode("ImageDefault")
+	LinuxPatchSettings_STATUS_PatchMode_AutomaticByPlatform = LinuxPatchSettings_STATUS_PatchMode("AutomaticByPlatform")
+	LinuxPatchSettings_STATUS_PatchMode_ImageDefault        = LinuxPatchSettings_STATUS_PatchMode("ImageDefault")
 )
 
-// Deprecated version of ManagedDiskParametersStorageAccountType. Use
-// v1beta20201201.ManagedDiskParametersStorageAccountType instead
-// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
-type ManagedDiskParametersStorageAccountType string
+// Deprecated version of ManagedDiskParameters_StorageAccountType. Use
+// v1beta20201201.ManagedDiskParameters_StorageAccountType instead
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
+type ManagedDiskParameters_StorageAccountType string
 
 const (
-	ManagedDiskParametersStorageAccountType_PremiumLRS     = ManagedDiskParametersStorageAccountType("Premium_LRS")
-	ManagedDiskParametersStorageAccountType_PremiumZRS     = ManagedDiskParametersStorageAccountType("Premium_ZRS")
-	ManagedDiskParametersStorageAccountType_StandardLRS    = ManagedDiskParametersStorageAccountType("Standard_LRS")
-	ManagedDiskParametersStorageAccountType_StandardSSDLRS = ManagedDiskParametersStorageAccountType("StandardSSD_LRS")
-	ManagedDiskParametersStorageAccountType_StandardSSDZRS = ManagedDiskParametersStorageAccountType("StandardSSD_ZRS")
-	ManagedDiskParametersStorageAccountType_UltraSSDLRS    = ManagedDiskParametersStorageAccountType("UltraSSD_LRS")
+	ManagedDiskParameters_StorageAccountType_Premium_LRS     = ManagedDiskParameters_StorageAccountType("Premium_LRS")
+	ManagedDiskParameters_StorageAccountType_Premium_ZRS     = ManagedDiskParameters_StorageAccountType("Premium_ZRS")
+	ManagedDiskParameters_StorageAccountType_StandardSSD_LRS = ManagedDiskParameters_StorageAccountType("StandardSSD_LRS")
+	ManagedDiskParameters_StorageAccountType_StandardSSD_ZRS = ManagedDiskParameters_StorageAccountType("StandardSSD_ZRS")
+	ManagedDiskParameters_StorageAccountType_Standard_LRS    = ManagedDiskParameters_StorageAccountType("Standard_LRS")
+	ManagedDiskParameters_StorageAccountType_UltraSSD_LRS    = ManagedDiskParameters_StorageAccountType("UltraSSD_LRS")
 )
 
-// Deprecated version of PatchSettingsPatchMode. Use v1beta20201201.PatchSettingsPatchMode instead
+// Deprecated version of PatchSettings_PatchMode. Use v1beta20201201.PatchSettings_PatchMode instead
 // +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
-type PatchSettingsPatchMode string
+type PatchSettings_PatchMode string
 
 const (
-	PatchSettingsPatchMode_AutomaticByOS       = PatchSettingsPatchMode("AutomaticByOS")
-	PatchSettingsPatchMode_AutomaticByPlatform = PatchSettingsPatchMode("AutomaticByPlatform")
-	PatchSettingsPatchMode_Manual              = PatchSettingsPatchMode("Manual")
+	PatchSettings_PatchMode_AutomaticByOS       = PatchSettings_PatchMode("AutomaticByOS")
+	PatchSettings_PatchMode_AutomaticByPlatform = PatchSettings_PatchMode("AutomaticByPlatform")
+	PatchSettings_PatchMode_Manual              = PatchSettings_PatchMode("Manual")
 )
 
-// Deprecated version of PatchSettingsSTATUSPatchMode. Use v1beta20201201.PatchSettingsSTATUSPatchMode instead
-type PatchSettingsSTATUSPatchMode string
+// Deprecated version of PatchSettings_STATUS_PatchMode. Use v1beta20201201.PatchSettings_STATUS_PatchMode instead
+type PatchSettings_STATUS_PatchMode string
 
 const (
-	PatchSettingsSTATUSPatchMode_AutomaticByOS       = PatchSettingsSTATUSPatchMode("AutomaticByOS")
-	PatchSettingsSTATUSPatchMode_AutomaticByPlatform = PatchSettingsSTATUSPatchMode("AutomaticByPlatform")
-	PatchSettingsSTATUSPatchMode_Manual              = PatchSettingsSTATUSPatchMode("Manual")
+	PatchSettings_STATUS_PatchMode_AutomaticByOS       = PatchSettings_STATUS_PatchMode("AutomaticByOS")
+	PatchSettings_STATUS_PatchMode_AutomaticByPlatform = PatchSettings_STATUS_PatchMode("AutomaticByPlatform")
+	PatchSettings_STATUS_PatchMode_Manual              = PatchSettings_STATUS_PatchMode("Manual")
 )
 
 // Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
@@ -14814,8 +14814,8 @@ func (publicKey *SshPublicKey) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSshPublicKey populates our SshPublicKey from the provided source SshPublicKey
-func (publicKey *SshPublicKey) AssignPropertiesFromSshPublicKey(source *alpha20201201s.SshPublicKey) error {
+// AssignProperties_From_SshPublicKey populates our SshPublicKey from the provided source SshPublicKey
+func (publicKey *SshPublicKey) AssignProperties_From_SshPublicKey(source *alpha20201201s.SshPublicKey) error {
 
 	// KeyData
 	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
@@ -14827,8 +14827,8 @@ func (publicKey *SshPublicKey) AssignPropertiesFromSshPublicKey(source *alpha202
 	return nil
 }
 
-// AssignPropertiesToSshPublicKey populates the provided destination SshPublicKey from our SshPublicKey
-func (publicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *alpha20201201s.SshPublicKey) error {
+// AssignProperties_To_SshPublicKey populates the provided destination SshPublicKey from our SshPublicKey
+func (publicKey *SshPublicKey) AssignProperties_To_SshPublicKey(destination *alpha20201201s.SshPublicKey) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14885,8 +14885,8 @@ func (publicKey *SshPublicKey_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromSshPublicKeySTATUS populates our SshPublicKey_STATUS from the provided source SshPublicKey_STATUS
-func (publicKey *SshPublicKey_STATUS) AssignPropertiesFromSshPublicKeySTATUS(source *alpha20201201s.SshPublicKey_STATUS) error {
+// AssignProperties_From_SshPublicKey_STATUS populates our SshPublicKey_STATUS from the provided source SshPublicKey_STATUS
+func (publicKey *SshPublicKey_STATUS) AssignProperties_From_SshPublicKey_STATUS(source *alpha20201201s.SshPublicKey_STATUS) error {
 
 	// KeyData
 	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
@@ -14898,8 +14898,8 @@ func (publicKey *SshPublicKey_STATUS) AssignPropertiesFromSshPublicKeySTATUS(sou
 	return nil
 }
 
-// AssignPropertiesToSshPublicKeySTATUS populates the provided destination SshPublicKey_STATUS from our SshPublicKey_STATUS
-func (publicKey *SshPublicKey_STATUS) AssignPropertiesToSshPublicKeySTATUS(destination *alpha20201201s.SshPublicKey_STATUS) error {
+// AssignProperties_To_SshPublicKey_STATUS populates the provided destination SshPublicKey_STATUS from our SshPublicKey_STATUS
+func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(destination *alpha20201201s.SshPublicKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14924,18 +14924,18 @@ func (publicKey *SshPublicKey_STATUS) AssignPropertiesToSshPublicKeySTATUS(desti
 type StorageAccountType_STATUS string
 
 const (
-	StorageAccountType_STATUS_PremiumLRS     = StorageAccountType_STATUS("Premium_LRS")
-	StorageAccountType_STATUS_PremiumZRS     = StorageAccountType_STATUS("Premium_ZRS")
-	StorageAccountType_STATUS_StandardLRS    = StorageAccountType_STATUS("Standard_LRS")
-	StorageAccountType_STATUS_StandardSSDLRS = StorageAccountType_STATUS("StandardSSD_LRS")
-	StorageAccountType_STATUS_StandardSSDZRS = StorageAccountType_STATUS("StandardSSD_ZRS")
-	StorageAccountType_STATUS_UltraSSDLRS    = StorageAccountType_STATUS("UltraSSD_LRS")
+	StorageAccountType_STATUS_Premium_LRS     = StorageAccountType_STATUS("Premium_LRS")
+	StorageAccountType_STATUS_Premium_ZRS     = StorageAccountType_STATUS("Premium_ZRS")
+	StorageAccountType_STATUS_StandardSSD_LRS = StorageAccountType_STATUS("StandardSSD_LRS")
+	StorageAccountType_STATUS_StandardSSD_ZRS = StorageAccountType_STATUS("StandardSSD_ZRS")
+	StorageAccountType_STATUS_Standard_LRS    = StorageAccountType_STATUS("Standard_LRS")
+	StorageAccountType_STATUS_UltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
 
 // Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
 type WinRMListener struct {
-	CertificateUrl *string                `json:"certificateUrl,omitempty"`
-	Protocol       *WinRMListenerProtocol `json:"protocol,omitempty"`
+	CertificateUrl *string                 `json:"certificateUrl,omitempty"`
+	Protocol       *WinRMListener_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WinRMListener{}
@@ -14989,15 +14989,15 @@ func (listener *WinRMListener) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromWinRMListener populates our WinRMListener from the provided source WinRMListener
-func (listener *WinRMListener) AssignPropertiesFromWinRMListener(source *alpha20201201s.WinRMListener) error {
+// AssignProperties_From_WinRMListener populates our WinRMListener from the provided source WinRMListener
+func (listener *WinRMListener) AssignProperties_From_WinRMListener(source *alpha20201201s.WinRMListener) error {
 
 	// CertificateUrl
 	listener.CertificateUrl = genruntime.ClonePointerToString(source.CertificateUrl)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListenerProtocol(*source.Protocol)
+		protocol := WinRMListener_Protocol(*source.Protocol)
 		listener.Protocol = &protocol
 	} else {
 		listener.Protocol = nil
@@ -15007,8 +15007,8 @@ func (listener *WinRMListener) AssignPropertiesFromWinRMListener(source *alpha20
 	return nil
 }
 
-// AssignPropertiesToWinRMListener populates the provided destination WinRMListener from our WinRMListener
-func (listener *WinRMListener) AssignPropertiesToWinRMListener(destination *alpha20201201s.WinRMListener) error {
+// AssignProperties_To_WinRMListener populates the provided destination WinRMListener from our WinRMListener
+func (listener *WinRMListener) AssignProperties_To_WinRMListener(destination *alpha20201201s.WinRMListener) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15036,8 +15036,8 @@ func (listener *WinRMListener) AssignPropertiesToWinRMListener(destination *alph
 
 // Deprecated version of WinRMListener_STATUS. Use v1beta20201201.WinRMListener_STATUS instead
 type WinRMListener_STATUS struct {
-	CertificateUrl *string                      `json:"certificateUrl,omitempty"`
-	Protocol       *WinRMListenerSTATUSProtocol `json:"protocol,omitempty"`
+	CertificateUrl *string                        `json:"certificateUrl,omitempty"`
+	Protocol       *WinRMListener_STATUS_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WinRMListener_STATUS{}
@@ -15070,15 +15070,15 @@ func (listener *WinRMListener_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromWinRMListenerSTATUS populates our WinRMListener_STATUS from the provided source WinRMListener_STATUS
-func (listener *WinRMListener_STATUS) AssignPropertiesFromWinRMListenerSTATUS(source *alpha20201201s.WinRMListener_STATUS) error {
+// AssignProperties_From_WinRMListener_STATUS populates our WinRMListener_STATUS from the provided source WinRMListener_STATUS
+func (listener *WinRMListener_STATUS) AssignProperties_From_WinRMListener_STATUS(source *alpha20201201s.WinRMListener_STATUS) error {
 
 	// CertificateUrl
 	listener.CertificateUrl = genruntime.ClonePointerToString(source.CertificateUrl)
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListenerSTATUSProtocol(*source.Protocol)
+		protocol := WinRMListener_STATUS_Protocol(*source.Protocol)
 		listener.Protocol = &protocol
 	} else {
 		listener.Protocol = nil
@@ -15088,8 +15088,8 @@ func (listener *WinRMListener_STATUS) AssignPropertiesFromWinRMListenerSTATUS(so
 	return nil
 }
 
-// AssignPropertiesToWinRMListenerSTATUS populates the provided destination WinRMListener_STATUS from our WinRMListener_STATUS
-func (listener *WinRMListener_STATUS) AssignPropertiesToWinRMListenerSTATUS(destination *alpha20201201s.WinRMListener_STATUS) error {
+// AssignProperties_To_WinRMListener_STATUS populates the provided destination WinRMListener_STATUS from our WinRMListener_STATUS
+func (listener *WinRMListener_STATUS) AssignProperties_To_WinRMListener_STATUS(destination *alpha20201201s.WinRMListener_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15158,8 +15158,8 @@ func (base *ApiErrorBase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromApiErrorBaseSTATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignPropertiesFromApiErrorBaseSTATUS(source *alpha20201201s.ApiErrorBase_STATUS) error {
+// AssignProperties_From_ApiErrorBase_STATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *alpha20201201s.ApiErrorBase_STATUS) error {
 
 	// Code
 	base.Code = genruntime.ClonePointerToString(source.Code)
@@ -15174,8 +15174,8 @@ func (base *ApiErrorBase_STATUS) AssignPropertiesFromApiErrorBaseSTATUS(source *
 	return nil
 }
 
-// AssignPropertiesToApiErrorBaseSTATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
-func (base *ApiErrorBase_STATUS) AssignPropertiesToApiErrorBaseSTATUS(destination *alpha20201201s.ApiErrorBase_STATUS) error {
+// AssignProperties_To_ApiErrorBase_STATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *alpha20201201s.ApiErrorBase_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15235,8 +15235,8 @@ func (error *InnerError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromInnerErrorSTATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
-func (error *InnerError_STATUS) AssignPropertiesFromInnerErrorSTATUS(source *alpha20201201s.InnerError_STATUS) error {
+// AssignProperties_From_InnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
+func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *alpha20201201s.InnerError_STATUS) error {
 
 	// Errordetail
 	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
@@ -15248,8 +15248,8 @@ func (error *InnerError_STATUS) AssignPropertiesFromInnerErrorSTATUS(source *alp
 	return nil
 }
 
-// AssignPropertiesToInnerErrorSTATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
-func (error *InnerError_STATUS) AssignPropertiesToInnerErrorSTATUS(destination *alpha20201201s.InnerError_STATUS) error {
+// AssignProperties_To_InnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
+func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *alpha20201201s.InnerError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15270,21 +15270,21 @@ func (error *InnerError_STATUS) AssignPropertiesToInnerErrorSTATUS(destination *
 	return nil
 }
 
-// Deprecated version of WinRMListenerProtocol. Use v1beta20201201.WinRMListenerProtocol instead
+// Deprecated version of WinRMListener_Protocol. Use v1beta20201201.WinRMListener_Protocol instead
 // +kubebuilder:validation:Enum={"Http","Https"}
-type WinRMListenerProtocol string
+type WinRMListener_Protocol string
 
 const (
-	WinRMListenerProtocol_Http  = WinRMListenerProtocol("Http")
-	WinRMListenerProtocol_Https = WinRMListenerProtocol("Https")
+	WinRMListener_Protocol_Http  = WinRMListener_Protocol("Http")
+	WinRMListener_Protocol_Https = WinRMListener_Protocol("Https")
 )
 
-// Deprecated version of WinRMListenerSTATUSProtocol. Use v1beta20201201.WinRMListenerSTATUSProtocol instead
-type WinRMListenerSTATUSProtocol string
+// Deprecated version of WinRMListener_STATUS_Protocol. Use v1beta20201201.WinRMListener_STATUS_Protocol instead
+type WinRMListener_STATUS_Protocol string
 
 const (
-	WinRMListenerSTATUSProtocol_Http  = WinRMListenerSTATUSProtocol("Http")
-	WinRMListenerSTATUSProtocol_Https = WinRMListenerSTATUSProtocol("Https")
+	WinRMListener_STATUS_Protocol_Http  = WinRMListener_STATUS_Protocol("Http")
+	WinRMListener_STATUS_Protocol_Https = WinRMListener_STATUS_Protocol("Https")
 )
 
 func init() {

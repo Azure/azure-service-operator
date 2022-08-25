@@ -241,12 +241,12 @@ func (in *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetBypass)
+		*out = new(NetworkRuleSet_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -280,12 +280,12 @@ func (in *NetworkRuleSetARM) DeepCopyInto(out *NetworkRuleSetARM) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetBypass)
+		*out = new(NetworkRuleSet_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetDefaultAction)
+		*out = new(NetworkRuleSet_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -319,12 +319,12 @@ func (in *NetworkRuleSet_STATUS) DeepCopyInto(out *NetworkRuleSet_STATUS) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetSTATUSBypass)
+		*out = new(NetworkRuleSet_STATUS_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -358,12 +358,12 @@ func (in *NetworkRuleSet_STATUSARM) DeepCopyInto(out *NetworkRuleSet_STATUSARM) 
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSetSTATUSBypass)
+		*out = new(NetworkRuleSet_STATUS_Bypass)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetSTATUSDefaultAction)
+		*out = new(NetworkRuleSet_STATUS_DefaultAction)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -397,22 +397,22 @@ func (in *Permissions) DeepCopyInto(out *Permissions) {
 	*out = *in
 	if in.Certificates != nil {
 		in, out := &in.Certificates, &out.Certificates
-		*out = make([]PermissionsCertificates, len(*in))
+		*out = make([]Permissions_Certificates, len(*in))
 		copy(*out, *in)
 	}
 	if in.Keys != nil {
 		in, out := &in.Keys, &out.Keys
-		*out = make([]PermissionsKeys, len(*in))
+		*out = make([]Permissions_Keys, len(*in))
 		copy(*out, *in)
 	}
 	if in.Secrets != nil {
 		in, out := &in.Secrets, &out.Secrets
-		*out = make([]PermissionsSecrets, len(*in))
+		*out = make([]Permissions_Secrets, len(*in))
 		copy(*out, *in)
 	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
-		*out = make([]PermissionsStorage, len(*in))
+		*out = make([]Permissions_Storage, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -432,22 +432,22 @@ func (in *PermissionsARM) DeepCopyInto(out *PermissionsARM) {
 	*out = *in
 	if in.Certificates != nil {
 		in, out := &in.Certificates, &out.Certificates
-		*out = make([]PermissionsCertificates, len(*in))
+		*out = make([]Permissions_Certificates, len(*in))
 		copy(*out, *in)
 	}
 	if in.Keys != nil {
 		in, out := &in.Keys, &out.Keys
-		*out = make([]PermissionsKeys, len(*in))
+		*out = make([]Permissions_Keys, len(*in))
 		copy(*out, *in)
 	}
 	if in.Secrets != nil {
 		in, out := &in.Secrets, &out.Secrets
-		*out = make([]PermissionsSecrets, len(*in))
+		*out = make([]Permissions_Secrets, len(*in))
 		copy(*out, *in)
 	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
-		*out = make([]PermissionsStorage, len(*in))
+		*out = make([]Permissions_Storage, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -467,22 +467,22 @@ func (in *Permissions_STATUS) DeepCopyInto(out *Permissions_STATUS) {
 	*out = *in
 	if in.Certificates != nil {
 		in, out := &in.Certificates, &out.Certificates
-		*out = make([]PermissionsSTATUSCertificates, len(*in))
+		*out = make([]Permissions_STATUS_Certificates, len(*in))
 		copy(*out, *in)
 	}
 	if in.Keys != nil {
 		in, out := &in.Keys, &out.Keys
-		*out = make([]PermissionsSTATUSKeys, len(*in))
+		*out = make([]Permissions_STATUS_Keys, len(*in))
 		copy(*out, *in)
 	}
 	if in.Secrets != nil {
 		in, out := &in.Secrets, &out.Secrets
-		*out = make([]PermissionsSTATUSSecrets, len(*in))
+		*out = make([]Permissions_STATUS_Secrets, len(*in))
 		copy(*out, *in)
 	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
-		*out = make([]PermissionsSTATUSStorage, len(*in))
+		*out = make([]Permissions_STATUS_Storage, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -502,22 +502,22 @@ func (in *Permissions_STATUSARM) DeepCopyInto(out *Permissions_STATUSARM) {
 	*out = *in
 	if in.Certificates != nil {
 		in, out := &in.Certificates, &out.Certificates
-		*out = make([]PermissionsSTATUSCertificates, len(*in))
+		*out = make([]Permissions_STATUS_Certificates, len(*in))
 		copy(*out, *in)
 	}
 	if in.Keys != nil {
 		in, out := &in.Keys, &out.Keys
-		*out = make([]PermissionsSTATUSKeys, len(*in))
+		*out = make([]Permissions_STATUS_Keys, len(*in))
 		copy(*out, *in)
 	}
 	if in.Secrets != nil {
 		in, out := &in.Secrets, &out.Secrets
-		*out = make([]PermissionsSTATUSSecrets, len(*in))
+		*out = make([]Permissions_STATUS_Secrets, len(*in))
 		copy(*out, *in)
 	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
-		*out = make([]PermissionsSTATUSStorage, len(*in))
+		*out = make([]Permissions_STATUS_Storage, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -677,7 +677,7 @@ func (in *PrivateLinkServiceConnectionState_STATUS) DeepCopyInto(out *PrivateLin
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(PrivateLinkServiceConnectionStateSTATUSActionsRequired)
+		*out = new(PrivateLinkServiceConnectionState_STATUS_ActionsRequired)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -707,7 +707,7 @@ func (in *PrivateLinkServiceConnectionState_STATUSARM) DeepCopyInto(out *Private
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(PrivateLinkServiceConnectionStateSTATUSActionsRequired)
+		*out = new(PrivateLinkServiceConnectionState_STATUS_ActionsRequired)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -737,12 +737,12 @@ func (in *Sku) DeepCopyInto(out *Sku) {
 	*out = *in
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuFamily)
+		*out = new(Sku_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -762,12 +762,12 @@ func (in *SkuARM) DeepCopyInto(out *SkuARM) {
 	*out = *in
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuFamily)
+		*out = new(Sku_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuName)
+		*out = new(Sku_Name)
 		**out = **in
 	}
 }
@@ -787,12 +787,12 @@ func (in *Sku_STATUS) DeepCopyInto(out *Sku_STATUS) {
 	*out = *in
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuSTATUSFamily)
+		*out = new(Sku_STATUS_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 }
@@ -812,12 +812,12 @@ func (in *Sku_STATUSARM) DeepCopyInto(out *Sku_STATUSARM) {
 	*out = *in
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuSTATUSFamily)
+		*out = new(Sku_STATUS_Family)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuSTATUSName)
+		*out = new(Sku_STATUS_Name)
 		**out = **in
 	}
 }
@@ -993,7 +993,7 @@ func (in *VaultProperties) DeepCopyInto(out *VaultProperties) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(VaultPropertiesCreateMode)
+		*out = new(VaultProperties_CreateMode)
 		**out = **in
 	}
 	if in.EnablePurgeProtection != nil {
@@ -1033,7 +1033,7 @@ func (in *VaultProperties) DeepCopyInto(out *VaultProperties) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VaultPropertiesProvisioningState)
+		*out = new(VaultProperties_ProvisioningState)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1080,7 +1080,7 @@ func (in *VaultPropertiesARM) DeepCopyInto(out *VaultPropertiesARM) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(VaultPropertiesCreateMode)
+		*out = new(VaultProperties_CreateMode)
 		**out = **in
 	}
 	if in.EnablePurgeProtection != nil {
@@ -1120,7 +1120,7 @@ func (in *VaultPropertiesARM) DeepCopyInto(out *VaultPropertiesARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VaultPropertiesProvisioningState)
+		*out = new(VaultProperties_ProvisioningState)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1167,7 +1167,7 @@ func (in *VaultProperties_STATUS) DeepCopyInto(out *VaultProperties_STATUS) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(VaultPropertiesSTATUSCreateMode)
+		*out = new(VaultProperties_STATUS_CreateMode)
 		**out = **in
 	}
 	if in.EnablePurgeProtection != nil {
@@ -1219,7 +1219,7 @@ func (in *VaultProperties_STATUS) DeepCopyInto(out *VaultProperties_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VaultPropertiesSTATUSProvisioningState)
+		*out = new(VaultProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -1266,7 +1266,7 @@ func (in *VaultProperties_STATUSARM) DeepCopyInto(out *VaultProperties_STATUSARM
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(VaultPropertiesSTATUSCreateMode)
+		*out = new(VaultProperties_STATUS_CreateMode)
 		**out = **in
 	}
 	if in.EnablePurgeProtection != nil {
@@ -1318,7 +1318,7 @@ func (in *VaultProperties_STATUSARM) DeepCopyInto(out *VaultProperties_STATUSARM
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VaultPropertiesSTATUSProvisioningState)
+		*out = new(VaultProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.Sku != nil {

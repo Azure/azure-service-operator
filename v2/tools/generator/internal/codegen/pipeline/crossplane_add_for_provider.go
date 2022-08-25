@@ -62,7 +62,7 @@ func nestSpecIntoForProvider(
 	// In the case where a spec type is reused across multiple resource definitions, we need to make sure
 	// to generate the same names for all of their nested properties, so base the nested type name off the
 	// spec type name
-	nestedTypeName := strings.Split(specName.Name(), "_")[0] + "Parameters"
+	nestedTypeName := strings.TrimSuffix(specName.Name(), astmodel.SpecSuffix) + "Parameters"
 	nestedPropertyName := "ForProvider"
 	return nestType(idFactory, definitions, specName, nestedTypeName, nestedPropertyName)
 }

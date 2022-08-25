@@ -67,7 +67,7 @@ func Test_RoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RoleAssignment to RoleAssignment via AssignPropertiesToRoleAssignment & AssignPropertiesFromRoleAssignment returns original",
+		"Round trip from RoleAssignment to RoleAssignment via AssignProperties_To_RoleAssignment & AssignProperties_From_RoleAssignment returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRoleAssignment, RoleAssignmentGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200801ps.RoleAssignment
-	err := copied.AssignPropertiesToRoleAssignment(&other)
+	err := copied.AssignProperties_To_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RoleAssignment
-	err = actual.AssignPropertiesFromRoleAssignment(&other)
+	err = actual.AssignProperties_From_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,8 +160,8 @@ func RoleAssignmentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRoleAssignment is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
-	gens["Spec"] = RoleAssignmentsSpecGenerator()
-	gens["Status"] = RoleAssignmentSTATUSGenerator()
+	gens["Spec"] = RoleAssignments_SpecGenerator()
+	gens["Status"] = RoleAssignment_STATUSGenerator()
 }
 
 func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -170,26 +170,26 @@ func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RoleAssignment_STATUS to RoleAssignment_STATUS via AssignPropertiesToRoleAssignmentSTATUS & AssignPropertiesFromRoleAssignmentSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentSTATUS, RoleAssignmentSTATUSGenerator()))
+		"Round trip from RoleAssignment_STATUS to RoleAssignment_STATUS via AssignProperties_To_RoleAssignment_STATUS & AssignProperties_From_RoleAssignment_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignment_STATUS, RoleAssignment_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignmentSTATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to v1beta20200801previewstorage and back losslessly
-func RunPropertyAssignmentTestForRoleAssignmentSTATUS(subject RoleAssignment_STATUS) string {
+// RunPropertyAssignmentTestForRoleAssignment_STATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to v1beta20200801previewstorage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200801ps.RoleAssignment_STATUS
-	err := copied.AssignPropertiesToRoleAssignmentSTATUS(&other)
+	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RoleAssignment_STATUS
-	err = actual.AssignPropertiesFromRoleAssignmentSTATUS(&other)
+	err = actual.AssignProperties_From_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -214,12 +214,12 @@ func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentSTATUS, RoleAssignmentSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRoleAssignment_STATUS, RoleAssignment_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentSTATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentSTATUS(subject RoleAssignment_STATUS) string {
+// RunJSONSerializationTestForRoleAssignment_STATUS runs a test to see if a specific instance of RoleAssignment_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -246,24 +246,24 @@ func RunJSONSerializationTestForRoleAssignmentSTATUS(subject RoleAssignment_STAT
 }
 
 // Generator of RoleAssignment_STATUS instances for property testing - lazily instantiated by
-// RoleAssignmentSTATUSGenerator()
-var roleAssignmentSTATUSGenerator gopter.Gen
+// RoleAssignment_STATUSGenerator()
+var roleAssignment_STATUSGenerator gopter.Gen
 
-// RoleAssignmentSTATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
-func RoleAssignmentSTATUSGenerator() gopter.Gen {
-	if roleAssignmentSTATUSGenerator != nil {
-		return roleAssignmentSTATUSGenerator
+// RoleAssignment_STATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
+func RoleAssignment_STATUSGenerator() gopter.Gen {
+	if roleAssignment_STATUSGenerator != nil {
+		return roleAssignment_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(generators)
-	roleAssignmentSTATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(generators)
+	roleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
 
-	return roleAssignmentSTATUSGenerator
+	return roleAssignment_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
@@ -287,26 +287,26 @@ func Test_RoleAssignments_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RoleAssignments_Spec to RoleAssignments_Spec via AssignPropertiesToRoleAssignmentsSpec & AssignPropertiesFromRoleAssignmentsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentsSpec, RoleAssignmentsSpecGenerator()))
+		"Round trip from RoleAssignments_Spec to RoleAssignments_Spec via AssignProperties_To_RoleAssignments_Spec & AssignProperties_From_RoleAssignments_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignments_Spec, RoleAssignments_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignmentsSpec tests if a specific instance of RoleAssignments_Spec can be assigned to v1beta20200801previewstorage and back losslessly
-func RunPropertyAssignmentTestForRoleAssignmentsSpec(subject RoleAssignments_Spec) string {
+// RunPropertyAssignmentTestForRoleAssignments_Spec tests if a specific instance of RoleAssignments_Spec can be assigned to v1beta20200801previewstorage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignments_Spec(subject RoleAssignments_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200801ps.RoleAssignments_Spec
-	err := copied.AssignPropertiesToRoleAssignmentsSpec(&other)
+	err := copied.AssignProperties_To_RoleAssignments_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RoleAssignments_Spec
-	err = actual.AssignPropertiesFromRoleAssignmentsSpec(&other)
+	err = actual.AssignProperties_From_RoleAssignments_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -331,12 +331,12 @@ func Test_RoleAssignments_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignments_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentsSpec, RoleAssignmentsSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRoleAssignments_Spec, RoleAssignments_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentsSpec runs a test to see if a specific instance of RoleAssignments_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentsSpec(subject RoleAssignments_Spec) string {
+// RunJSONSerializationTestForRoleAssignments_Spec runs a test to see if a specific instance of RoleAssignments_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignments_Spec(subject RoleAssignments_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -363,24 +363,24 @@ func RunJSONSerializationTestForRoleAssignmentsSpec(subject RoleAssignments_Spec
 }
 
 // Generator of RoleAssignments_Spec instances for property testing - lazily instantiated by
-// RoleAssignmentsSpecGenerator()
-var roleAssignmentsSpecGenerator gopter.Gen
+// RoleAssignments_SpecGenerator()
+var roleAssignments_SpecGenerator gopter.Gen
 
-// RoleAssignmentsSpecGenerator returns a generator of RoleAssignments_Spec instances for property testing.
-func RoleAssignmentsSpecGenerator() gopter.Gen {
-	if roleAssignmentsSpecGenerator != nil {
-		return roleAssignmentsSpecGenerator
+// RoleAssignments_SpecGenerator returns a generator of RoleAssignments_Spec instances for property testing.
+func RoleAssignments_SpecGenerator() gopter.Gen {
+	if roleAssignments_SpecGenerator != nil {
+		return roleAssignments_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoleAssignmentsSpec(generators)
-	roleAssignmentsSpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignments_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRoleAssignments_Spec(generators)
+	roleAssignments_SpecGenerator = gen.Struct(reflect.TypeOf(RoleAssignments_Spec{}), generators)
 
-	return roleAssignmentsSpecGenerator
+	return roleAssignments_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRoleAssignmentsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoleAssignmentsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoleAssignments_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignments_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
