@@ -177,6 +177,13 @@ if should-install "$TOOL_DEST/task"; then
     curl -sL "https://github.com/go-task/task/releases/download/v3.12.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
+# Install Trivy
+write-verbose "Checking for $TOOL_DEST/trivy"
+if should-install "$TOOL_DEST/trivy"; then
+    write-info "Installing trivy"
+    curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.31.2/trivy_0.31.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+fi
+
 # Install helm
 write-verbose "Checking for $TOOL_DEST/helm"
 if should-install "$TOOL_DEST/helm"; then

@@ -75,24 +75,24 @@ func SqlDatabaseContainerThroughputSettingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerThroughputSetting(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
-	gens["Status"] = ThroughputSettingsGetResultsSTATUSGenerator()
+	gens["Spec"] = DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator()
+	gens["Status"] = ThroughputSettingsGetResults_STATUSGenerator()
 }
 
-func Test_DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec, DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()))
+		"Round trip of DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec, DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(subject DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec runs a test to see if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(subject DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
+	var actual DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,40 +118,40 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	return ""
 }
 
-// Generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing - lazily
-// instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
-var databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec instances for property testing - lazily
+// instantiated by DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator()
+var databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator with a simplified generator based on the
+// DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator returns a generator of DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec instances for property testing.
+// We first initialize databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator
+func DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator() gopter.Gen {
+	if databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator != nil {
+		return databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(generators)
+	databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(generators)
+	databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator
+	return databaseAccounts_SqlDatabases_Containers_ThroughputSettings_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSettings_Spec(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }

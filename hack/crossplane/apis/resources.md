@@ -13,8 +13,8 @@ These are the Crossplane resources committed to our **main** branch, grouped by 
 
 ## Sql
 
-| Resource        | ARM Version        | CRD Version           | Supported From | Sample |
-|-----------------|--------------------|-----------------------|----------------|--------|
-| Server          | 2020-11-01-preview | v1beta20201101preview | -              | -      |
-| ServersDatabase | 2020-11-01-preview | v1beta20201101preview | -              | -      |
+| Resource         | ARM Version        | CRD Version           | Supported From | Sample |
+|------------------|--------------------|-----------------------|----------------|--------|
+| Server           | 2020-11-01-preview | v1beta20201101preview | -              | -      |
+| Servers_Database | 2020-11-01-preview | v1beta20201101preview | -              | -      |
 

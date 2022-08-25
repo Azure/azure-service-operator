@@ -56,7 +56,7 @@ func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = assignment.AssignPropertiesFromRoleAssignment(&source)
+	err = assignment.AssignProperties_From_RoleAssignment(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to assignment")
 	}
@@ -68,7 +68,7 @@ func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20200801ps.RoleAssignment
-	err := assignment.AssignPropertiesToRoleAssignment(&destination)
+	err := assignment.AssignProperties_To_RoleAssignment(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from assignment")
 	}
@@ -261,25 +261,25 @@ func (assignment *RoleAssignment) validateWriteOnceProperties(old runtime.Object
 	return genruntime.ValidateWriteOnceProperties(oldObj, assignment)
 }
 
-// AssignPropertiesFromRoleAssignment populates our RoleAssignment from the provided source RoleAssignment
-func (assignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *alpha20200801ps.RoleAssignment) error {
+// AssignProperties_From_RoleAssignment populates our RoleAssignment from the provided source RoleAssignment
+func (assignment *RoleAssignment) AssignProperties_From_RoleAssignment(source *alpha20200801ps.RoleAssignment) error {
 
 	// ObjectMeta
 	assignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec RoleAssignments_Spec
-	err := spec.AssignPropertiesFromRoleAssignmentsSpec(&source.Spec)
+	err := spec.AssignProperties_From_RoleAssignments_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RoleAssignments_Spec() to populate field Spec")
 	}
 	assignment.Spec = spec
 
 	// Status
 	var status RoleAssignment_STATUS
-	err = status.AssignPropertiesFromRoleAssignmentSTATUS(&source.Status)
+	err = status.AssignProperties_From_RoleAssignment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_RoleAssignment_STATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -287,25 +287,25 @@ func (assignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *alp
 	return nil
 }
 
-// AssignPropertiesToRoleAssignment populates the provided destination RoleAssignment from our RoleAssignment
-func (assignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *alpha20200801ps.RoleAssignment) error {
+// AssignProperties_To_RoleAssignment populates the provided destination RoleAssignment from our RoleAssignment
+func (assignment *RoleAssignment) AssignProperties_To_RoleAssignment(destination *alpha20200801ps.RoleAssignment) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *assignment.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec alpha20200801ps.RoleAssignments_Spec
-	err := assignment.Spec.AssignPropertiesToRoleAssignmentsSpec(&spec)
+	err := assignment.Spec.AssignProperties_To_RoleAssignments_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RoleAssignments_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status alpha20200801ps.RoleAssignment_STATUS
-	err = assignment.Status.AssignPropertiesToRoleAssignmentSTATUS(&status)
+	err = assignment.Status.AssignProperties_To_RoleAssignment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_RoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -342,20 +342,20 @@ type RoleAssignment_STATUS struct {
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                         []conditions.Condition                       `json:"conditions,omitempty"`
-	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
-	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
-	DelegatedManagedIdentityResourceId *string                                      `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string                                      `json:"description,omitempty"`
-	Id                                 *string                                      `json:"id,omitempty"`
-	Name                               *string                                      `json:"name,omitempty"`
-	PrincipalId                        *string                                      `json:"principalId,omitempty"`
-	PrincipalType                      *RoleAssignmentPropertiesSTATUSPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId                   *string                                      `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                                      `json:"scope,omitempty"`
-	Type                               *string                                      `json:"type,omitempty"`
-	UpdatedBy                          *string                                      `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                                      `json:"updatedOn,omitempty"`
+	Conditions                         []conditions.Condition                         `json:"conditions,omitempty"`
+	CreatedBy                          *string                                        `json:"createdBy,omitempty"`
+	CreatedOn                          *string                                        `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string                                        `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                                        `json:"description,omitempty"`
+	Id                                 *string                                        `json:"id,omitempty"`
+	Name                               *string                                        `json:"name,omitempty"`
+	PrincipalId                        *string                                        `json:"principalId,omitempty"`
+	PrincipalType                      *RoleAssignmentProperties_STATUS_PrincipalType `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string                                        `json:"roleDefinitionId,omitempty"`
+	Scope                              *string                                        `json:"scope,omitempty"`
+	Type                               *string                                        `json:"type,omitempty"`
+	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string                                        `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
@@ -365,7 +365,7 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.Con
 	src, ok := source.(*alpha20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
-		return assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
+		return assignment.AssignProperties_From_RoleAssignment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -376,7 +376,7 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.Con
 	}
 
 	// Update our instance from src
-	err = assignment.AssignPropertiesFromRoleAssignmentSTATUS(src)
+	err = assignment.AssignProperties_From_RoleAssignment_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -389,12 +389,12 @@ func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.
 	dst, ok := destination.(*alpha20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
+		return assignment.AssignProperties_To_RoleAssignment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20200801ps.RoleAssignment_STATUS{}
-	err := assignment.AssignPropertiesToRoleAssignmentSTATUS(dst)
+	err := assignment.AssignProperties_To_RoleAssignment_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -554,8 +554,8 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromRoleAssignmentSTATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
-func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignmentSTATUS(source *alpha20200801ps.RoleAssignment_STATUS) error {
+// AssignProperties_From_RoleAssignment_STATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_STATUS(source *alpha20200801ps.RoleAssignment_STATUS) error {
 
 	// Condition
 	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -589,7 +589,7 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignmentSTATU
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentPropertiesSTATUSPrincipalType(*source.PrincipalType)
+		principalType := RoleAssignmentProperties_STATUS_PrincipalType(*source.PrincipalType)
 		assignment.PrincipalType = &principalType
 	} else {
 		assignment.PrincipalType = nil
@@ -614,8 +614,8 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignmentSTATU
 	return nil
 }
 
-// AssignPropertiesToRoleAssignmentSTATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
-func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignmentSTATUS(destination *alpha20200801ps.RoleAssignment_STATUS) error {
+// AssignProperties_To_RoleAssignment_STATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STATUS(destination *alpha20200801ps.RoleAssignment_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -700,8 +700,8 @@ type RoleAssignments_Spec struct {
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
 	// +kubebuilder:validation:Required
-	PrincipalId   *string                                `json:"principalId,omitempty"`
-	PrincipalType *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
+	PrincipalId   *string                                 `json:"principalId,omitempty"`
+	PrincipalType *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
@@ -878,7 +878,7 @@ func (assignments *RoleAssignments_Spec) ConvertSpecFrom(source genruntime.Conve
 	src, ok := source.(*alpha20200801ps.RoleAssignments_Spec)
 	if ok {
 		// Populate our instance from source
-		return assignments.AssignPropertiesFromRoleAssignmentsSpec(src)
+		return assignments.AssignProperties_From_RoleAssignments_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -889,7 +889,7 @@ func (assignments *RoleAssignments_Spec) ConvertSpecFrom(source genruntime.Conve
 	}
 
 	// Update our instance from src
-	err = assignments.AssignPropertiesFromRoleAssignmentsSpec(src)
+	err = assignments.AssignProperties_From_RoleAssignments_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -902,12 +902,12 @@ func (assignments *RoleAssignments_Spec) ConvertSpecTo(destination genruntime.Co
 	dst, ok := destination.(*alpha20200801ps.RoleAssignments_Spec)
 	if ok {
 		// Populate destination from our instance
-		return assignments.AssignPropertiesToRoleAssignmentsSpec(dst)
+		return assignments.AssignProperties_To_RoleAssignments_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20200801ps.RoleAssignments_Spec{}
-	err := assignments.AssignPropertiesToRoleAssignmentsSpec(dst)
+	err := assignments.AssignProperties_To_RoleAssignments_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -921,8 +921,8 @@ func (assignments *RoleAssignments_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromRoleAssignmentsSpec populates our RoleAssignments_Spec from the provided source RoleAssignments_Spec
-func (assignments *RoleAssignments_Spec) AssignPropertiesFromRoleAssignmentsSpec(source *alpha20200801ps.RoleAssignments_Spec) error {
+// AssignProperties_From_RoleAssignments_Spec populates our RoleAssignments_Spec from the provided source RoleAssignments_Spec
+func (assignments *RoleAssignments_Spec) AssignProperties_From_RoleAssignments_Spec(source *alpha20200801ps.RoleAssignments_Spec) error {
 
 	// AzureName
 	assignments.AzureName = source.AzureName
@@ -955,7 +955,7 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesFromRoleAssignmentsSpec
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentPropertiesPrincipalType(*source.PrincipalType)
+		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
 		assignments.PrincipalType = &principalType
 	} else {
 		assignments.PrincipalType = nil
@@ -976,8 +976,8 @@ func (assignments *RoleAssignments_Spec) AssignPropertiesFromRoleAssignmentsSpec
 	return nil
 }
 
-// AssignPropertiesToRoleAssignmentsSpec populates the provided destination RoleAssignments_Spec from our RoleAssignments_Spec
-func (assignments *RoleAssignments_Spec) AssignPropertiesToRoleAssignmentsSpec(destination *alpha20200801ps.RoleAssignments_Spec) error {
+// AssignProperties_To_RoleAssignments_Spec populates the provided destination RoleAssignments_Spec from our RoleAssignments_Spec
+func (assignments *RoleAssignments_Spec) AssignProperties_To_RoleAssignments_Spec(destination *alpha20200801ps.RoleAssignments_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1053,27 +1053,27 @@ func (assignments *RoleAssignments_Spec) SetAzureName(azureName string) {
 	assignments.AzureName = azureName
 }
 
-// Deprecated version of RoleAssignmentPropertiesPrincipalType. Use
-// v1beta20200801preview.RoleAssignmentPropertiesPrincipalType instead
+// Deprecated version of RoleAssignmentProperties_PrincipalType. Use
+// v1beta20200801preview.RoleAssignmentProperties_PrincipalType instead
 // +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
-type RoleAssignmentPropertiesPrincipalType string
+type RoleAssignmentProperties_PrincipalType string
 
 const (
-	RoleAssignmentPropertiesPrincipalType_ForeignGroup     = RoleAssignmentPropertiesPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesPrincipalType_Group            = RoleAssignmentPropertiesPrincipalType("Group")
-	RoleAssignmentPropertiesPrincipalType_ServicePrincipal = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesPrincipalType_User             = RoleAssignmentPropertiesPrincipalType("User")
+	RoleAssignmentProperties_PrincipalType_ForeignGroup     = RoleAssignmentProperties_PrincipalType("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_Group            = RoleAssignmentProperties_PrincipalType("Group")
+	RoleAssignmentProperties_PrincipalType_ServicePrincipal = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
-// Deprecated version of RoleAssignmentPropertiesSTATUSPrincipalType. Use
-// v1beta20200801preview.RoleAssignmentPropertiesSTATUSPrincipalType instead
-type RoleAssignmentPropertiesSTATUSPrincipalType string
+// Deprecated version of RoleAssignmentProperties_STATUS_PrincipalType. Use
+// v1beta20200801preview.RoleAssignmentProperties_STATUS_PrincipalType instead
+type RoleAssignmentProperties_STATUS_PrincipalType string
 
 const (
-	RoleAssignmentPropertiesSTATUSPrincipalType_ForeignGroup     = RoleAssignmentPropertiesSTATUSPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesSTATUSPrincipalType_Group            = RoleAssignmentPropertiesSTATUSPrincipalType("Group")
-	RoleAssignmentPropertiesSTATUSPrincipalType_ServicePrincipal = RoleAssignmentPropertiesSTATUSPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesSTATUSPrincipalType_User             = RoleAssignmentPropertiesSTATUSPrincipalType("User")
+	RoleAssignmentProperties_STATUS_PrincipalType_ForeignGroup     = RoleAssignmentProperties_STATUS_PrincipalType("ForeignGroup")
+	RoleAssignmentProperties_STATUS_PrincipalType_Group            = RoleAssignmentProperties_STATUS_PrincipalType("Group")
+	RoleAssignmentProperties_STATUS_PrincipalType_ServicePrincipal = RoleAssignmentProperties_STATUS_PrincipalType("ServicePrincipal")
+	RoleAssignmentProperties_STATUS_PrincipalType_User             = RoleAssignmentProperties_STATUS_PrincipalType("User")
 )
 
 func init() {

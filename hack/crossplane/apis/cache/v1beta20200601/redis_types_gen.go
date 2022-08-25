@@ -54,7 +54,7 @@ type RedisParameters struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2').
-	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Name: The name of the Redis cache.
@@ -63,7 +63,7 @@ type RedisParameters struct {
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'.
-	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -127,7 +127,7 @@ type RedisResourceObservation struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisPropertiesSTATUSMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_STATUS_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// Name: Resource name.
 	Name *string `json:"name,omitempty"`
@@ -139,12 +139,12 @@ type RedisResourceObservation struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisPropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *RedisProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisPropertiesSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -254,20 +254,20 @@ type RedisCommonPropertiesRedisConfiguration struct {
 }
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreatePropertiesMinimumTlsVersion string
+type RedisCreateProperties_MinimumTlsVersion string
 
 const (
-	RedisCreatePropertiesMinimumTlsVersion_10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion_11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion_12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
+	RedisCreateProperties_MinimumTlsVersion_10 = RedisCreateProperties_MinimumTlsVersion("1.0")
+	RedisCreateProperties_MinimumTlsVersion_11 = RedisCreateProperties_MinimumTlsVersion("1.1")
+	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreatePropertiesPublicNetworkAccess string
+type RedisCreateProperties_PublicNetworkAccess string
 
 const (
-	RedisCreatePropertiesPublicNetworkAccess_Disabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccess_Enabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
+	RedisCreateProperties_PublicNetworkAccess_Disabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
 type RedisInstanceDetails_STATUS struct {
@@ -291,6 +291,38 @@ type RedisLinkedServer_STATUS struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
 }
+
+type RedisProperties_STATUS_MinimumTlsVersion string
+
+const (
+	RedisProperties_STATUS_MinimumTlsVersion_10 = RedisProperties_STATUS_MinimumTlsVersion("1.0")
+	RedisProperties_STATUS_MinimumTlsVersion_11 = RedisProperties_STATUS_MinimumTlsVersion("1.1")
+	RedisProperties_STATUS_MinimumTlsVersion_12 = RedisProperties_STATUS_MinimumTlsVersion("1.2")
+)
+
+type RedisProperties_STATUS_ProvisioningState string
+
+const (
+	RedisProperties_STATUS_ProvisioningState_Creating               = RedisProperties_STATUS_ProvisioningState("Creating")
+	RedisProperties_STATUS_ProvisioningState_Deleting               = RedisProperties_STATUS_ProvisioningState("Deleting")
+	RedisProperties_STATUS_ProvisioningState_Disabled               = RedisProperties_STATUS_ProvisioningState("Disabled")
+	RedisProperties_STATUS_ProvisioningState_Failed                 = RedisProperties_STATUS_ProvisioningState("Failed")
+	RedisProperties_STATUS_ProvisioningState_Linking                = RedisProperties_STATUS_ProvisioningState("Linking")
+	RedisProperties_STATUS_ProvisioningState_Provisioning           = RedisProperties_STATUS_ProvisioningState("Provisioning")
+	RedisProperties_STATUS_ProvisioningState_RecoveringScaleFailure = RedisProperties_STATUS_ProvisioningState("RecoveringScaleFailure")
+	RedisProperties_STATUS_ProvisioningState_Scaling                = RedisProperties_STATUS_ProvisioningState("Scaling")
+	RedisProperties_STATUS_ProvisioningState_Succeeded              = RedisProperties_STATUS_ProvisioningState("Succeeded")
+	RedisProperties_STATUS_ProvisioningState_Unlinking              = RedisProperties_STATUS_ProvisioningState("Unlinking")
+	RedisProperties_STATUS_ProvisioningState_Unprovisioning         = RedisProperties_STATUS_ProvisioningState("Unprovisioning")
+	RedisProperties_STATUS_ProvisioningState_Updating               = RedisProperties_STATUS_ProvisioningState("Updating")
+)
+
+type RedisProperties_STATUS_PublicNetworkAccess string
+
+const (
+	RedisProperties_STATUS_PublicNetworkAccess_Disabled = RedisProperties_STATUS_PublicNetworkAccess("Disabled")
+	RedisProperties_STATUS_PublicNetworkAccess_Enabled  = RedisProperties_STATUS_PublicNetworkAccess("Enabled")
+)
 
 type RedisProperties_STATUS_RedisConfiguration struct {
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
@@ -329,38 +361,6 @@ type RedisProperties_STATUS_RedisConfiguration struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
-type RedisPropertiesSTATUSMinimumTlsVersion string
-
-const (
-	RedisPropertiesSTATUSMinimumTlsVersion_10 = RedisPropertiesSTATUSMinimumTlsVersion("1.0")
-	RedisPropertiesSTATUSMinimumTlsVersion_11 = RedisPropertiesSTATUSMinimumTlsVersion("1.1")
-	RedisPropertiesSTATUSMinimumTlsVersion_12 = RedisPropertiesSTATUSMinimumTlsVersion("1.2")
-)
-
-type RedisPropertiesSTATUSProvisioningState string
-
-const (
-	RedisPropertiesSTATUSProvisioningState_Creating               = RedisPropertiesSTATUSProvisioningState("Creating")
-	RedisPropertiesSTATUSProvisioningState_Deleting               = RedisPropertiesSTATUSProvisioningState("Deleting")
-	RedisPropertiesSTATUSProvisioningState_Disabled               = RedisPropertiesSTATUSProvisioningState("Disabled")
-	RedisPropertiesSTATUSProvisioningState_Failed                 = RedisPropertiesSTATUSProvisioningState("Failed")
-	RedisPropertiesSTATUSProvisioningState_Linking                = RedisPropertiesSTATUSProvisioningState("Linking")
-	RedisPropertiesSTATUSProvisioningState_Provisioning           = RedisPropertiesSTATUSProvisioningState("Provisioning")
-	RedisPropertiesSTATUSProvisioningState_RecoveringScaleFailure = RedisPropertiesSTATUSProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesSTATUSProvisioningState_Scaling                = RedisPropertiesSTATUSProvisioningState("Scaling")
-	RedisPropertiesSTATUSProvisioningState_Succeeded              = RedisPropertiesSTATUSProvisioningState("Succeeded")
-	RedisPropertiesSTATUSProvisioningState_Unlinking              = RedisPropertiesSTATUSProvisioningState("Unlinking")
-	RedisPropertiesSTATUSProvisioningState_Unprovisioning         = RedisPropertiesSTATUSProvisioningState("Unprovisioning")
-	RedisPropertiesSTATUSProvisioningState_Updating               = RedisPropertiesSTATUSProvisioningState("Updating")
-)
-
-type RedisPropertiesSTATUSPublicNetworkAccess string
-
-const (
-	RedisPropertiesSTATUSPublicNetworkAccess_Disabled = RedisPropertiesSTATUSPublicNetworkAccess("Disabled")
-	RedisPropertiesSTATUSPublicNetworkAccess_Enabled  = RedisPropertiesSTATUSPublicNetworkAccess("Enabled")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
@@ -370,11 +370,11 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuFamily `json:"family,omitempty"`
+	Family *Sku_Family `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name *SkuName `json:"name,omitempty"`
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
 type Sku_STATUS struct {
@@ -383,10 +383,10 @@ type Sku_STATUS struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuSTATUSFamily `json:"family,omitempty"`
+	Family *Sku_STATUS_Family `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *SkuSTATUSName `json:"name,omitempty"`
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
 }
 
 type PrivateEndpoint_STATUS struct {
@@ -415,35 +415,35 @@ type PrivateLinkServiceConnectionState_STATUS struct {
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type SkuFamily string
+type Sku_Family string
 
 const (
-	SkuFamily_C = SkuFamily("C")
-	SkuFamily_P = SkuFamily("P")
+	Sku_Family_C = Sku_Family("C")
+	Sku_Family_P = Sku_Family("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuName string
+type Sku_Name string
 
 const (
-	SkuName_Basic    = SkuName("Basic")
-	SkuName_Premium  = SkuName("Premium")
-	SkuName_Standard = SkuName("Standard")
+	Sku_Name_Basic    = Sku_Name("Basic")
+	Sku_Name_Premium  = Sku_Name("Premium")
+	Sku_Name_Standard = Sku_Name("Standard")
 )
 
-type SkuSTATUSFamily string
+type Sku_STATUS_Family string
 
 const (
-	SkuSTATUSFamily_C = SkuSTATUSFamily("C")
-	SkuSTATUSFamily_P = SkuSTATUSFamily("P")
+	Sku_STATUS_Family_C = Sku_STATUS_Family("C")
+	Sku_STATUS_Family_P = Sku_STATUS_Family("P")
 )
 
-type SkuSTATUSName string
+type Sku_STATUS_Name string
 
 const (
-	SkuSTATUSName_Basic    = SkuSTATUSName("Basic")
-	SkuSTATUSName_Premium  = SkuSTATUSName("Premium")
-	SkuSTATUSName_Standard = SkuSTATUSName("Standard")
+	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
 )
 
 type PrivateEndpointServiceConnectionStatus_STATUS string

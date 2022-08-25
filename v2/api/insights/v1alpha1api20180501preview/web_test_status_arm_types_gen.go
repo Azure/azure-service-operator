@@ -21,7 +21,7 @@ type WebTestProperties_STATUSARM struct {
 	Description        *string                                      `json:"Description,omitempty"`
 	Enabled            *bool                                        `json:"Enabled,omitempty"`
 	Frequency          *int                                         `json:"Frequency,omitempty"`
-	Kind               *WebTestPropertiesSTATUSKind                 `json:"Kind,omitempty"`
+	Kind               *WebTestProperties_STATUS_Kind               `json:"Kind,omitempty"`
 	Locations          []WebTestGeolocation_STATUSARM               `json:"Locations,omitempty"`
 	Name               *string                                      `json:"Name,omitempty"`
 	ProvisioningState  *string                                      `json:"provisioningState,omitempty"`
@@ -42,6 +42,16 @@ type WebTestProperties_STATUS_ConfigurationARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
+// Deprecated version of WebTestProperties_STATUS_Kind. Use v1beta20180501preview.WebTestProperties_STATUS_Kind instead
+type WebTestProperties_STATUS_Kind string
+
+const (
+	WebTestProperties_STATUS_Kind_Basic     = WebTestProperties_STATUS_Kind("basic")
+	WebTestProperties_STATUS_Kind_Multistep = WebTestProperties_STATUS_Kind("multistep")
+	WebTestProperties_STATUS_Kind_Ping      = WebTestProperties_STATUS_Kind("ping")
+	WebTestProperties_STATUS_Kind_Standard  = WebTestProperties_STATUS_Kind("standard")
+)
+
 // Deprecated version of WebTestProperties_STATUS_Request. Use v1beta20180501preview.WebTestProperties_STATUS_Request instead
 type WebTestProperties_STATUS_RequestARM struct {
 	FollowRedirects        *bool                   `json:"FollowRedirects,omitempty"`
@@ -60,16 +70,6 @@ type WebTestProperties_STATUS_ValidationRulesARM struct {
 	SSLCertRemainingLifetimeCheck *int                                                           `json:"SSLCertRemainingLifetimeCheck,omitempty"`
 	SSLCheck                      *bool                                                          `json:"SSLCheck,omitempty"`
 }
-
-// Deprecated version of WebTestPropertiesSTATUSKind. Use v1beta20180501preview.WebTestPropertiesSTATUSKind instead
-type WebTestPropertiesSTATUSKind string
-
-const (
-	WebTestPropertiesSTATUSKind_Basic     = WebTestPropertiesSTATUSKind("basic")
-	WebTestPropertiesSTATUSKind_Multistep = WebTestPropertiesSTATUSKind("multistep")
-	WebTestPropertiesSTATUSKind_Ping      = WebTestPropertiesSTATUSKind("ping")
-	WebTestPropertiesSTATUSKind_Standard  = WebTestPropertiesSTATUSKind("standard")
-)
 
 // Deprecated version of HeaderField_STATUS. Use v1beta20180501preview.HeaderField_STATUS instead
 type HeaderField_STATUSARM struct {

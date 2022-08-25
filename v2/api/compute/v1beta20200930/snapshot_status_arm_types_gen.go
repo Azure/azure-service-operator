@@ -54,7 +54,7 @@ type SnapshotProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotPropertiesSTATUSHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *SnapshotProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
@@ -62,7 +62,7 @@ type SnapshotProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *SnapshotPropertiesSTATUSOsType `json:"osType,omitempty"`
+	OsType *SnapshotProperties_STATUS_OsType `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -79,16 +79,16 @@ type SnapshotProperties_STATUSARM struct {
 
 type SnapshotSku_STATUSARM struct {
 	// Name: The sku name.
-	Name *SnapshotSkuSTATUSName `json:"name,omitempty"`
+	Name *SnapshotSku_STATUS_Name `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 
-type SnapshotSkuSTATUSName string
+type SnapshotSku_STATUS_Name string
 
 const (
-	SnapshotSkuSTATUSName_PremiumLRS  = SnapshotSkuSTATUSName("Premium_LRS")
-	SnapshotSkuSTATUSName_StandardLRS = SnapshotSkuSTATUSName("Standard_LRS")
-	SnapshotSkuSTATUSName_StandardZRS = SnapshotSkuSTATUSName("Standard_ZRS")
+	SnapshotSku_STATUS_Name_Premium_LRS  = SnapshotSku_STATUS_Name("Premium_LRS")
+	SnapshotSku_STATUS_Name_Standard_LRS = SnapshotSku_STATUS_Name("Standard_LRS")
+	SnapshotSku_STATUS_Name_Standard_ZRS = SnapshotSku_STATUS_Name("Standard_ZRS")
 )

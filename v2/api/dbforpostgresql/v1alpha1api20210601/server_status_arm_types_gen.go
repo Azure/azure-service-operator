@@ -17,40 +17,40 @@ type Server_STATUSARM struct {
 
 // Deprecated version of ServerProperties_STATUS. Use v1beta20210601.ServerProperties_STATUS instead
 type ServerProperties_STATUSARM struct {
-	AdministratorLogin       *string                           `json:"administratorLogin,omitempty"`
-	AvailabilityZone         *string                           `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_STATUSARM                 `json:"backup,omitempty"`
-	CreateMode               *ServerPropertiesSTATUSCreateMode `json:"createMode,omitempty"`
-	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_STATUSARM       `json:"highAvailability,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_STATUSARM      `json:"maintenanceWindow,omitempty"`
-	MinorVersion             *string                           `json:"minorVersion,omitempty"`
-	Network                  *Network_STATUSARM                `json:"network,omitempty"`
-	PointInTimeUTC           *string                           `json:"pointInTimeUTC,omitempty"`
-	SourceServerResourceId   *string                           `json:"sourceServerResourceId,omitempty"`
-	State                    *ServerPropertiesSTATUSState      `json:"state,omitempty"`
-	Storage                  *Storage_STATUSARM                `json:"storage,omitempty"`
-	Version                  *ServerVersion_STATUS             `json:"version,omitempty"`
+	AdministratorLogin       *string                             `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                             `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_STATUSARM                   `json:"backup,omitempty"`
+	CreateMode               *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                             `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_STATUSARM         `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUSARM        `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                             `json:"minorVersion,omitempty"`
+	Network                  *Network_STATUSARM                  `json:"network,omitempty"`
+	PointInTimeUTC           *string                             `json:"pointInTimeUTC,omitempty"`
+	SourceServerResourceId   *string                             `json:"sourceServerResourceId,omitempty"`
+	State                    *ServerProperties_STATUS_State      `json:"state,omitempty"`
+	Storage                  *Storage_STATUSARM                  `json:"storage,omitempty"`
+	Version                  *ServerVersion_STATUS               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210601.Sku_STATUS instead
 type Sku_STATUSARM struct {
-	Name *string        `json:"name,omitempty"`
-	Tier *SkuSTATUSTier `json:"tier,omitempty"`
+	Name *string          `json:"name,omitempty"`
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
 }
 
 // Deprecated version of Backup_STATUS. Use v1beta20210601.Backup_STATUS instead
 type Backup_STATUSARM struct {
-	BackupRetentionDays *int                            `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string                         `json:"earliestRestoreDate,omitempty"`
-	GeoRedundantBackup  *BackupSTATUSGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                              `json:"backupRetentionDays,omitempty"`
+	EarliestRestoreDate *string                           `json:"earliestRestoreDate,omitempty"`
+	GeoRedundantBackup  *Backup_STATUS_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
 // Deprecated version of HighAvailability_STATUS. Use v1beta20210601.HighAvailability_STATUS instead
 type HighAvailability_STATUSARM struct {
-	Mode                    *HighAvailabilitySTATUSMode  `json:"mode,omitempty"`
-	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailabilitySTATUSState `json:"state,omitempty"`
+	Mode                    *HighAvailability_STATUS_Mode  `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string                        `json:"standbyAvailabilityZone,omitempty"`
+	State                   *HighAvailability_STATUS_State `json:"state,omitempty"`
 }
 
 // Deprecated version of MaintenanceWindow_STATUS. Use v1beta20210601.MaintenanceWindow_STATUS instead
@@ -63,18 +63,18 @@ type MaintenanceWindow_STATUSARM struct {
 
 // Deprecated version of Network_STATUS. Use v1beta20210601.Network_STATUS instead
 type Network_STATUSARM struct {
-	DelegatedSubnetResourceId   *string                           `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneArmResourceId *string                           `json:"privateDnsZoneArmResourceId,omitempty"`
-	PublicNetworkAccess         *NetworkSTATUSPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId   *string                             `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string                             `json:"privateDnsZoneArmResourceId,omitempty"`
+	PublicNetworkAccess         *Network_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-// Deprecated version of SkuSTATUSTier. Use v1beta20210601.SkuSTATUSTier instead
-type SkuSTATUSTier string
+// Deprecated version of Sku_STATUS_Tier. Use v1beta20210601.Sku_STATUS_Tier instead
+type Sku_STATUS_Tier string
 
 const (
-	SkuSTATUSTier_Burstable       = SkuSTATUSTier("Burstable")
-	SkuSTATUSTier_GeneralPurpose  = SkuSTATUSTier("GeneralPurpose")
-	SkuSTATUSTier_MemoryOptimized = SkuSTATUSTier("MemoryOptimized")
+	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
+	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
+	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
 )
 
 // Deprecated version of Storage_STATUS. Use v1beta20210601.Storage_STATUS instead

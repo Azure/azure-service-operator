@@ -23,11 +23,11 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 
 	// The test refers to the quick-start-template from https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.containerinstance/aci-linuxcontainer-public-ip
 	name := tc.NoSpaceNamer.GenerateName("containergroup")
-	protocol := containerinstance.ContainerPortProtocol_TCP
-	osType := containerinstance.ContainerGroupsSpecPropertiesOsType_Linux
-	restartPolicy := containerinstance.ContainerGroupsSpecPropertiesRestartPolicy_Always
-	ipAddressType := containerinstance.IpAddressType_Public
-	portProtocol := containerinstance.PortProtocol_TCP
+	protocol := containerinstance.ContainerPort_Protocol_TCP
+	osType := containerinstance.ContainerGroups_Spec_Properties_OsType_Linux
+	restartPolicy := containerinstance.ContainerGroups_Spec_Properties_RestartPolicy_Always
+	ipAddressType := containerinstance.IpAddress_Type_Public
+	portProtocol := containerinstance.Port_Protocol_TCP
 
 	// Create a ContainerGroup
 	cg := containerinstance.ContainerGroup{

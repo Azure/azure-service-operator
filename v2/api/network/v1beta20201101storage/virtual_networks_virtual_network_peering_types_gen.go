@@ -26,8 +26,8 @@ import (
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworksVirtualNetworkPeerings_Spec `json:"spec,omitempty"`
-	Status            VirtualNetworkPeering_STATUS               `json:"status,omitempty"`
+	Spec              VirtualNetworks_VirtualNetworkPeerings_Spec `json:"spec,omitempty"`
+	Status            VirtualNetworkPeering_STATUS                `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
@@ -170,8 +170,8 @@ func (peering *VirtualNetworkPeering_STATUS) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(peering)
 }
 
-// Storage version of v1beta20201101.VirtualNetworksVirtualNetworkPeerings_Spec
-type VirtualNetworksVirtualNetworkPeerings_Spec struct {
+// Storage version of v1beta20201101.VirtualNetworks_VirtualNetworkPeerings_Spec
+type VirtualNetworks_VirtualNetworkPeerings_Spec struct {
 	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
@@ -196,10 +196,10 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworks_VirtualNetworkPeerings_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeerings_Spec from the provided source
-func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our VirtualNetworks_VirtualNetworkPeerings_Spec from the provided source
+func (peerings *VirtualNetworks_VirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == peerings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -207,8 +207,8 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(sour
 	return source.ConvertSpecTo(peerings)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeerings_Spec
-func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our VirtualNetworks_VirtualNetworkPeerings_Spec
+func (peerings *VirtualNetworks_VirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == peerings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

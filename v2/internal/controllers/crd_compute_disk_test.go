@@ -22,9 +22,9 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a disk.
-	standardSkuName := compute.DiskSkuName_StandardLRS
+	standardSkuName := compute.DiskSku_Name_Standard_LRS
 	sizeInGb := 500
-	createOption := compute.CreationDataCreateOption_Empty
+	createOption := compute.CreationData_CreateOption_Empty
 	disk := &compute.Disk{
 		ObjectMeta: tc.MakeObjectMeta("disk"),
 		Spec: compute.Disks_Spec{
@@ -49,7 +49,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	old := disk.DeepCopy()
-	networkAccessPolicy := compute.DiskPropertiesNetworkAccessPolicy_DenyAll
+	networkAccessPolicy := compute.DiskProperties_NetworkAccessPolicy_DenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
 	tc.PatchResourceAndWait(old, disk)
 	tc.Expect(disk.Status.NetworkAccessPolicy).To(BeEquivalentTo(&networkAccessPolicy))

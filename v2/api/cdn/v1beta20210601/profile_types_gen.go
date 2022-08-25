@@ -53,7 +53,7 @@ func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected cdn/v1beta20210601storage/Profile but received %T instead", hub)
 	}
 
-	return profile.AssignPropertiesFromProfile(source)
+	return profile.AssignProperties_From_Profile(source)
 }
 
 // ConvertTo populates the provided hub Profile from our Profile
@@ -63,7 +63,7 @@ func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected cdn/v1beta20210601storage/Profile but received %T instead", hub)
 	}
 
-	return profile.AssignPropertiesToProfile(destination)
+	return profile.AssignProperties_To_Profile(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
@@ -248,25 +248,25 @@ func (profile *Profile) validateWriteOnceProperties(old runtime.Object) error {
 	return genruntime.ValidateWriteOnceProperties(oldObj, profile)
 }
 
-// AssignPropertiesFromProfile populates our Profile from the provided source Profile
-func (profile *Profile) AssignPropertiesFromProfile(source *v20210601s.Profile) error {
+// AssignProperties_From_Profile populates our Profile from the provided source Profile
+func (profile *Profile) AssignProperties_From_Profile(source *v20210601s.Profile) error {
 
 	// ObjectMeta
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Profiles_Spec
-	err := spec.AssignPropertiesFromProfilesSpec(&source.Spec)
+	err := spec.AssignProperties_From_Profiles_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfilesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Spec() to populate field Spec")
 	}
 	profile.Spec = spec
 
 	// Status
 	var status Profile_STATUS
-	err = status.AssignPropertiesFromProfileSTATUS(&source.Status)
+	err = status.AssignProperties_From_Profile_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfileSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Profile_STATUS() to populate field Status")
 	}
 	profile.Status = status
 
@@ -274,25 +274,25 @@ func (profile *Profile) AssignPropertiesFromProfile(source *v20210601s.Profile) 
 	return nil
 }
 
-// AssignPropertiesToProfile populates the provided destination Profile from our Profile
-func (profile *Profile) AssignPropertiesToProfile(destination *v20210601s.Profile) error {
+// AssignProperties_To_Profile populates the provided destination Profile from our Profile
+func (profile *Profile) AssignProperties_To_Profile(destination *v20210601s.Profile) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20210601s.Profiles_Spec
-	err := profile.Spec.AssignPropertiesToProfilesSpec(&spec)
+	err := profile.Spec.AssignProperties_To_Profiles_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfilesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20210601s.Profile_STATUS
-	err = profile.Status.AssignPropertiesToProfileSTATUS(&status)
+	err = profile.Status.AssignProperties_To_Profile_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfileSTATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Profile_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -346,10 +346,10 @@ type Profile_STATUS struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfilePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *ProfileProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfilePropertiesSTATUSResourceState `json:"resourceState,omitempty"`
+	ResourceState *ProfileProperties_STATUS_ResourceState `json:"resourceState,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
@@ -370,7 +370,7 @@ func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src, ok := source.(*v20210601s.Profile_STATUS)
 	if ok {
 		// Populate our instance from source
-		return profile.AssignPropertiesFromProfileSTATUS(src)
+		return profile.AssignProperties_From_Profile_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -381,7 +381,7 @@ func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	}
 
 	// Update our instance from src
-	err = profile.AssignPropertiesFromProfileSTATUS(src)
+	err = profile.AssignProperties_From_Profile_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -394,12 +394,12 @@ func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst, ok := destination.(*v20210601s.Profile_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return profile.AssignPropertiesToProfileSTATUS(dst)
+		return profile.AssignProperties_To_Profile_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210601s.Profile_STATUS{}
-	err := profile.AssignPropertiesToProfileSTATUS(dst)
+	err := profile.AssignProperties_To_Profile_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -529,8 +529,8 @@ func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromProfileSTATUS populates our Profile_STATUS from the provided source Profile_STATUS
-func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v20210601s.Profile_STATUS) error {
+// AssignProperties_From_Profile_STATUS populates our Profile_STATUS from the provided source Profile_STATUS
+func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v20210601s.Profile_STATUS) error {
 
 	// Conditions
 	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -555,7 +555,7 @@ func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v202106
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProfilePropertiesSTATUSProvisioningState(*source.ProvisioningState)
+		provisioningState := ProfileProperties_STATUS_ProvisioningState(*source.ProvisioningState)
 		profile.ProvisioningState = &provisioningState
 	} else {
 		profile.ProvisioningState = nil
@@ -563,7 +563,7 @@ func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v202106
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ProfilePropertiesSTATUSResourceState(*source.ResourceState)
+		resourceState := ProfileProperties_STATUS_ResourceState(*source.ResourceState)
 		profile.ResourceState = &resourceState
 	} else {
 		profile.ResourceState = nil
@@ -572,9 +572,9 @@ func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v202106
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
-		err := sku.AssignPropertiesFromSkuSTATUS(source.Sku)
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		profile.Sku = &sku
 	} else {
@@ -584,9 +584,9 @@ func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v202106
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemDataSTATUS(source.SystemData)
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
 		profile.SystemData = &systemDatum
 	} else {
@@ -603,8 +603,8 @@ func (profile *Profile_STATUS) AssignPropertiesFromProfileSTATUS(source *v202106
 	return nil
 }
 
-// AssignPropertiesToProfileSTATUS populates the provided destination Profile_STATUS from our Profile_STATUS
-func (profile *Profile_STATUS) AssignPropertiesToProfileSTATUS(destination *v20210601s.Profile_STATUS) error {
+// AssignProperties_To_Profile_STATUS populates the provided destination Profile_STATUS from our Profile_STATUS
+func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v20210601s.Profile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -648,9 +648,9 @@ func (profile *Profile_STATUS) AssignPropertiesToProfileSTATUS(destination *v202
 	// Sku
 	if profile.Sku != nil {
 		var sku v20210601s.Sku_STATUS
-		err := profile.Sku.AssignPropertiesToSkuSTATUS(&sku)
+		err := profile.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuSTATUS() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -660,9 +660,9 @@ func (profile *Profile_STATUS) AssignPropertiesToProfileSTATUS(destination *v202
 	// SystemData
 	if profile.SystemData != nil {
 		var systemDatum v20210601s.SystemData_STATUS
-		err := profile.SystemData.AssignPropertiesToSystemDataSTATUS(&systemDatum)
+		err := profile.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataSTATUS() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -842,7 +842,7 @@ func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	src, ok := source.(*v20210601s.Profiles_Spec)
 	if ok {
 		// Populate our instance from source
-		return profiles.AssignPropertiesFromProfilesSpec(src)
+		return profiles.AssignProperties_From_Profiles_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -853,7 +853,7 @@ func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	}
 
 	// Update our instance from src
-	err = profiles.AssignPropertiesFromProfilesSpec(src)
+	err = profiles.AssignProperties_From_Profiles_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -866,12 +866,12 @@ func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	dst, ok := destination.(*v20210601s.Profiles_Spec)
 	if ok {
 		// Populate destination from our instance
-		return profiles.AssignPropertiesToProfilesSpec(dst)
+		return profiles.AssignProperties_To_Profiles_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20210601s.Profiles_Spec{}
-	err := profiles.AssignPropertiesToProfilesSpec(dst)
+	err := profiles.AssignProperties_To_Profiles_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -885,8 +885,8 @@ func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-// AssignPropertiesFromProfilesSpec populates our Profiles_Spec from the provided source Profiles_Spec
-func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v20210601s.Profiles_Spec) error {
+// AssignProperties_From_Profiles_Spec populates our Profiles_Spec from the provided source Profiles_Spec
+func (profiles *Profiles_Spec) AssignProperties_From_Profiles_Spec(source *v20210601s.Profiles_Spec) error {
 
 	// AzureName
 	profiles.AzureName = source.AzureName
@@ -913,9 +913,9 @@ func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v2021060
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
+		err := sku.AssignProperties_From_Sku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
 		}
 		profiles.Sku = &sku
 	} else {
@@ -929,8 +929,8 @@ func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v2021060
 	return nil
 }
 
-// AssignPropertiesToProfilesSpec populates the provided destination Profiles_Spec from our Profiles_Spec
-func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v20210601s.Profiles_Spec) error {
+// AssignProperties_To_Profiles_Spec populates the provided destination Profiles_Spec from our Profiles_Spec
+func (profiles *Profiles_Spec) AssignProperties_To_Profiles_Spec(destination *v20210601s.Profiles_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -962,9 +962,9 @@ func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v2021
 	// Sku
 	if profiles.Sku != nil {
 		var sku v20210601s.Sku
-		err := profiles.Sku.AssignPropertiesToSku(&sku)
+		err := profiles.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -993,29 +993,29 @@ func (profiles *Profiles_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (profiles *Profiles_Spec) SetAzureName(azureName string) { profiles.AzureName = azureName }
 
-type ProfilePropertiesSTATUSProvisioningState string
+type ProfileProperties_STATUS_ProvisioningState string
 
 const (
-	ProfilePropertiesSTATUSProvisioningState_Creating  = ProfilePropertiesSTATUSProvisioningState("Creating")
-	ProfilePropertiesSTATUSProvisioningState_Deleting  = ProfilePropertiesSTATUSProvisioningState("Deleting")
-	ProfilePropertiesSTATUSProvisioningState_Failed    = ProfilePropertiesSTATUSProvisioningState("Failed")
-	ProfilePropertiesSTATUSProvisioningState_Succeeded = ProfilePropertiesSTATUSProvisioningState("Succeeded")
-	ProfilePropertiesSTATUSProvisioningState_Updating  = ProfilePropertiesSTATUSProvisioningState("Updating")
+	ProfileProperties_STATUS_ProvisioningState_Creating  = ProfileProperties_STATUS_ProvisioningState("Creating")
+	ProfileProperties_STATUS_ProvisioningState_Deleting  = ProfileProperties_STATUS_ProvisioningState("Deleting")
+	ProfileProperties_STATUS_ProvisioningState_Failed    = ProfileProperties_STATUS_ProvisioningState("Failed")
+	ProfileProperties_STATUS_ProvisioningState_Succeeded = ProfileProperties_STATUS_ProvisioningState("Succeeded")
+	ProfileProperties_STATUS_ProvisioningState_Updating  = ProfileProperties_STATUS_ProvisioningState("Updating")
 )
 
-type ProfilePropertiesSTATUSResourceState string
+type ProfileProperties_STATUS_ResourceState string
 
 const (
-	ProfilePropertiesSTATUSResourceState_Active   = ProfilePropertiesSTATUSResourceState("Active")
-	ProfilePropertiesSTATUSResourceState_Creating = ProfilePropertiesSTATUSResourceState("Creating")
-	ProfilePropertiesSTATUSResourceState_Deleting = ProfilePropertiesSTATUSResourceState("Deleting")
-	ProfilePropertiesSTATUSResourceState_Disabled = ProfilePropertiesSTATUSResourceState("Disabled")
+	ProfileProperties_STATUS_ResourceState_Active   = ProfileProperties_STATUS_ResourceState("Active")
+	ProfileProperties_STATUS_ResourceState_Creating = ProfileProperties_STATUS_ResourceState("Creating")
+	ProfileProperties_STATUS_ResourceState_Deleting = ProfileProperties_STATUS_ResourceState("Deleting")
+	ProfileProperties_STATUS_ResourceState_Disabled = ProfileProperties_STATUS_ResourceState("Disabled")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku
 type Sku struct {
 	// Name: Name of the pricing tier.
-	Name *SkuName `json:"name,omitempty"`
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -1057,12 +1057,12 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	return nil
 }
 
-// AssignPropertiesFromSku populates our Sku from the provided source Sku
-func (sku *Sku) AssignPropertiesFromSku(source *v20210601s.Sku) error {
+// AssignProperties_From_Sku populates our Sku from the provided source Sku
+func (sku *Sku) AssignProperties_From_Sku(source *v20210601s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
+		name := Sku_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1072,8 +1072,8 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20210601s.Sku) error {
 	return nil
 }
 
-// AssignPropertiesToSku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignPropertiesToSku(destination *v20210601s.Sku) error {
+// AssignProperties_To_Sku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1098,7 +1098,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210601s.Sku) error {
 
 type Sku_STATUS struct {
 	// Name: Name of the pricing tier.
-	Name *SkuSTATUSName `json:"name,omitempty"`
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -1125,12 +1125,12 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuSTATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210601s.Sku_STATUS) error {
+// AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuSTATUSName(*source.Name)
+		name := Sku_STATUS_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1140,8 +1140,8 @@ func (sku *Sku_STATUS) AssignPropertiesFromSkuSTATUS(source *v20210601s.Sku_STAT
 	return nil
 }
 
-// AssignPropertiesToSkuSTATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignPropertiesToSkuSTATUS(destination *v20210601s.Sku_STATUS) error {
+// AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1238,8 +1238,8 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataSTATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v20210601s.SystemData_STATUS) error {
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210601s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1273,8 +1273,8 @@ func (data *SystemData_STATUS) AssignPropertiesFromSystemDataSTATUS(source *v202
 	return nil
 }
 
-// AssignPropertiesToSystemDataSTATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignPropertiesToSystemDataSTATUS(destination *v20210601s.SystemData_STATUS) error {
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210601s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

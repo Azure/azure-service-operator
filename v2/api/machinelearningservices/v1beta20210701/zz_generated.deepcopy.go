@@ -42,7 +42,7 @@ func (in *AKSProperties) DeepCopyInto(out *AKSProperties) {
 	}
 	if in.ClusterPurpose != nil {
 		in, out := &in.ClusterPurpose, &out.ClusterPurpose
-		*out = new(AKSPropertiesClusterPurpose)
+		*out = new(AKSProperties_ClusterPurpose)
 		**out = **in
 	}
 	if in.LoadBalancerSubnet != nil {
@@ -52,7 +52,7 @@ func (in *AKSProperties) DeepCopyInto(out *AKSProperties) {
 	}
 	if in.LoadBalancerType != nil {
 		in, out := &in.LoadBalancerType, &out.LoadBalancerType
-		*out = new(AKSPropertiesLoadBalancerType)
+		*out = new(AKSProperties_LoadBalancerType)
 		**out = **in
 	}
 	if in.SslConfiguration != nil {
@@ -97,7 +97,7 @@ func (in *AKSPropertiesARM) DeepCopyInto(out *AKSPropertiesARM) {
 	}
 	if in.ClusterPurpose != nil {
 		in, out := &in.ClusterPurpose, &out.ClusterPurpose
-		*out = new(AKSPropertiesClusterPurpose)
+		*out = new(AKSProperties_ClusterPurpose)
 		**out = **in
 	}
 	if in.LoadBalancerSubnet != nil {
@@ -107,7 +107,7 @@ func (in *AKSPropertiesARM) DeepCopyInto(out *AKSPropertiesARM) {
 	}
 	if in.LoadBalancerType != nil {
 		in, out := &in.LoadBalancerType, &out.LoadBalancerType
-		*out = new(AKSPropertiesLoadBalancerType)
+		*out = new(AKSProperties_LoadBalancerType)
 		**out = **in
 	}
 	if in.SslConfiguration != nil {
@@ -212,12 +212,12 @@ func (in *AmlComputeProperties) DeepCopyInto(out *AmlComputeProperties) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(AmlComputePropertiesOsType)
+		*out = new(AmlComputeProperties_OsType)
 		**out = **in
 	}
 	if in.RemoteLoginPortPublicAccess != nil {
 		in, out := &in.RemoteLoginPortPublicAccess, &out.RemoteLoginPortPublicAccess
-		*out = new(AmlComputePropertiesRemoteLoginPortPublicAccess)
+		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess)
 		**out = **in
 	}
 	if in.ScaleSettings != nil {
@@ -242,7 +242,7 @@ func (in *AmlComputeProperties) DeepCopyInto(out *AmlComputeProperties) {
 	}
 	if in.VmPriority != nil {
 		in, out := &in.VmPriority, &out.VmPriority
-		*out = new(AmlComputePropertiesVmPriority)
+		*out = new(AmlComputeProperties_VmPriority)
 		**out = **in
 	}
 	if in.VmSize != nil {
@@ -277,12 +277,12 @@ func (in *AmlComputePropertiesARM) DeepCopyInto(out *AmlComputePropertiesARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(AmlComputePropertiesOsType)
+		*out = new(AmlComputeProperties_OsType)
 		**out = **in
 	}
 	if in.RemoteLoginPortPublicAccess != nil {
 		in, out := &in.RemoteLoginPortPublicAccess, &out.RemoteLoginPortPublicAccess
-		*out = new(AmlComputePropertiesRemoteLoginPortPublicAccess)
+		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess)
 		**out = **in
 	}
 	if in.ScaleSettings != nil {
@@ -307,7 +307,7 @@ func (in *AmlComputePropertiesARM) DeepCopyInto(out *AmlComputePropertiesARM) {
 	}
 	if in.VmPriority != nil {
 		in, out := &in.VmPriority, &out.VmPriority
-		*out = new(AmlComputePropertiesVmPriority)
+		*out = new(AmlComputeProperties_VmPriority)
 		**out = **in
 	}
 	if in.VmSize != nil {
@@ -612,12 +612,12 @@ func (in *ComputeInstanceProperties) DeepCopyInto(out *ComputeInstanceProperties
 	*out = *in
 	if in.ApplicationSharingPolicy != nil {
 		in, out := &in.ApplicationSharingPolicy, &out.ApplicationSharingPolicy
-		*out = new(ComputeInstancePropertiesApplicationSharingPolicy)
+		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy)
 		**out = **in
 	}
 	if in.ComputeInstanceAuthorizationType != nil {
 		in, out := &in.ComputeInstanceAuthorizationType, &out.ComputeInstanceAuthorizationType
-		*out = new(ComputeInstancePropertiesComputeInstanceAuthorizationType)
+		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType)
 		**out = **in
 	}
 	if in.PersonalComputeInstanceSettings != nil {
@@ -662,12 +662,12 @@ func (in *ComputeInstancePropertiesARM) DeepCopyInto(out *ComputeInstancePropert
 	*out = *in
 	if in.ApplicationSharingPolicy != nil {
 		in, out := &in.ApplicationSharingPolicy, &out.ApplicationSharingPolicy
-		*out = new(ComputeInstancePropertiesApplicationSharingPolicy)
+		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy)
 		**out = **in
 	}
 	if in.ComputeInstanceAuthorizationType != nil {
 		in, out := &in.ComputeInstanceAuthorizationType, &out.ComputeInstanceAuthorizationType
-		*out = new(ComputeInstancePropertiesComputeInstanceAuthorizationType)
+		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType)
 		**out = **in
 	}
 	if in.PersonalComputeInstanceSettings != nil {
@@ -717,7 +717,7 @@ func (in *ComputeInstanceSshSettings) DeepCopyInto(out *ComputeInstanceSshSettin
 	}
 	if in.SshPublicAccess != nil {
 		in, out := &in.SshPublicAccess, &out.SshPublicAccess
-		*out = new(ComputeInstanceSshSettingsSshPublicAccess)
+		*out = new(ComputeInstanceSshSettings_SshPublicAccess)
 		**out = **in
 	}
 }
@@ -742,7 +742,7 @@ func (in *ComputeInstanceSshSettingsARM) DeepCopyInto(out *ComputeInstanceSshSet
 	}
 	if in.SshPublicAccess != nil {
 		in, out := &in.SshPublicAccess, &out.SshPublicAccess
-		*out = new(ComputeInstanceSshSettingsSshPublicAccess)
+		*out = new(ComputeInstanceSshSettings_SshPublicAccess)
 		**out = **in
 	}
 }
@@ -898,7 +898,7 @@ func (in *Compute_AKS) DeepCopyInto(out *Compute_AKS) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeAKSComputeType)
+		*out = new(Compute_AKS_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -983,7 +983,7 @@ func (in *Compute_AmlCompute) DeepCopyInto(out *Compute_AmlCompute) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeAmlComputeComputeType)
+		*out = new(Compute_AmlCompute_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1068,7 +1068,7 @@ func (in *Compute_ComputeInstance) DeepCopyInto(out *Compute_ComputeInstance) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeComputeInstanceComputeType)
+		*out = new(Compute_ComputeInstance_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1153,7 +1153,7 @@ func (in *Compute_DataFactory) DeepCopyInto(out *Compute_DataFactory) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeDataFactoryComputeType)
+		*out = new(Compute_DataFactory_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1228,7 +1228,7 @@ func (in *Compute_DataLakeAnalytics) DeepCopyInto(out *Compute_DataLakeAnalytics
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeDataLakeAnalyticsComputeType)
+		*out = new(Compute_DataLakeAnalytics_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1313,7 +1313,7 @@ func (in *Compute_Databricks) DeepCopyInto(out *Compute_Databricks) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeDatabricksComputeType)
+		*out = new(Compute_Databricks_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1398,7 +1398,7 @@ func (in *Compute_HDInsight) DeepCopyInto(out *Compute_HDInsight) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeHDInsightComputeType)
+		*out = new(Compute_HDInsight_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1520,7 +1520,7 @@ func (in *Compute_STATUS) DeepCopyInto(out *Compute_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ComputeSTATUSProvisioningState)
+		*out = new(Compute_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -1587,7 +1587,7 @@ func (in *Compute_STATUSARM) DeepCopyInto(out *Compute_STATUSARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ComputeSTATUSProvisioningState)
+		*out = new(Compute_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -1617,7 +1617,7 @@ func (in *Compute_SynapseSpark) DeepCopyInto(out *Compute_SynapseSpark) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeSynapseSparkComputeType)
+		*out = new(Compute_SynapseSpark_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1702,7 +1702,7 @@ func (in *Compute_VirtualMachine) DeepCopyInto(out *Compute_VirtualMachine) {
 	}
 	if in.ComputeType != nil {
 		in, out := &in.ComputeType, &out.ComputeType
-		*out = new(ComputeVirtualMachineComputeType)
+		*out = new(Compute_VirtualMachine_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1962,7 +1962,7 @@ func (in *EncryptionProperty) DeepCopyInto(out *EncryptionProperty) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertyStatus)
+		*out = new(EncryptionProperty_Status)
 		**out = **in
 	}
 }
@@ -1992,7 +1992,7 @@ func (in *EncryptionPropertyARM) DeepCopyInto(out *EncryptionPropertyARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertyStatus)
+		*out = new(EncryptionProperty_Status)
 		**out = **in
 	}
 }
@@ -2022,7 +2022,7 @@ func (in *EncryptionProperty_STATUS) DeepCopyInto(out *EncryptionProperty_STATUS
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertySTATUSStatus)
+		*out = new(EncryptionProperty_STATUS_Status)
 		**out = **in
 	}
 }
@@ -2052,7 +2052,7 @@ func (in *EncryptionProperty_STATUSARM) DeepCopyInto(out *EncryptionProperty_STA
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionPropertySTATUSStatus)
+		*out = new(EncryptionProperty_STATUS_Status)
 		**out = **in
 	}
 }
@@ -2388,7 +2388,7 @@ func (in *Identity) DeepCopyInto(out *Identity) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityType)
+		*out = new(Identity_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2415,7 +2415,7 @@ func (in *IdentityARM) DeepCopyInto(out *IdentityARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityType)
+		*out = new(Identity_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2532,7 +2532,7 @@ func (in *Identity_STATUS) DeepCopyInto(out *Identity_STATUS) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentitySTATUSType)
+		*out = new(Identity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2569,7 +2569,7 @@ func (in *Identity_STATUSARM) DeepCopyInto(out *Identity_STATUSARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentitySTATUSType)
+		*out = new(Identity_STATUS_Type)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -3291,7 +3291,7 @@ func (in *SharedPrivateLinkResourcePropertyARM) DeepCopyInto(out *SharedPrivateL
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SharedPrivateLinkResourcePropertyStatus)
+		*out = new(SharedPrivateLinkResourceProperty_Status)
 		**out = **in
 	}
 }
@@ -3536,7 +3536,7 @@ func (in *SslConfiguration) DeepCopyInto(out *SslConfiguration) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SslConfigurationStatus)
+		*out = new(SslConfiguration_Status)
 		**out = **in
 	}
 }
@@ -3581,7 +3581,7 @@ func (in *SslConfigurationARM) DeepCopyInto(out *SslConfigurationARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SslConfigurationStatus)
+		*out = new(SslConfiguration_Status)
 		**out = **in
 	}
 }
@@ -3741,7 +3741,7 @@ func (in *SystemData) DeepCopyInto(out *SystemData) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataCreatedByType)
+		*out = new(SystemData_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3756,7 +3756,7 @@ func (in *SystemData) DeepCopyInto(out *SystemData) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -3786,7 +3786,7 @@ func (in *SystemDataARM) DeepCopyInto(out *SystemDataARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataCreatedByType)
+		*out = new(SystemData_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3801,7 +3801,7 @@ func (in *SystemDataARM) DeepCopyInto(out *SystemDataARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataLastModifiedByType)
+		*out = new(SystemData_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -3831,7 +3831,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3846,7 +3846,7 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -3876,7 +3876,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataSTATUSCreatedByType)
+		*out = new(SystemData_STATUS_CreatedByType)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3891,7 +3891,7 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataSTATUSLastModifiedByType)
+		*out = new(SystemData_STATUS_LastModifiedByType)
 		**out = **in
 	}
 }
@@ -4268,7 +4268,7 @@ func (in *WorkspaceConnectionPropsARM) DeepCopyInto(out *WorkspaceConnectionProp
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionPropsValueFormat)
+		*out = new(WorkspaceConnectionProps_ValueFormat)
 		**out = **in
 	}
 }
@@ -4308,7 +4308,7 @@ func (in *WorkspaceConnectionProps_STATUSARM) DeepCopyInto(out *WorkspaceConnect
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionPropsSTATUSValueFormat)
+		*out = new(WorkspaceConnectionProps_STATUS_ValueFormat)
 		**out = **in
 	}
 }
@@ -4370,7 +4370,7 @@ func (in *WorkspaceConnection_STATUS) DeepCopyInto(out *WorkspaceConnection_STAT
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionPropsSTATUSValueFormat)
+		*out = new(WorkspaceConnectionProps_STATUS_ValueFormat)
 		**out = **in
 	}
 }
@@ -4604,12 +4604,12 @@ func (in *WorkspaceProperties_STATUSARM) DeepCopyInto(out *WorkspaceProperties_S
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSTATUSProvisioningState)
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspacePropertiesSTATUSPublicNetworkAccess)
+		*out = new(WorkspaceProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {
@@ -4770,12 +4770,12 @@ func (in *Workspace_STATUS) DeepCopyInto(out *Workspace_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspacePropertiesSTATUSProvisioningState)
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspacePropertiesSTATUSPublicNetworkAccess)
+		*out = new(WorkspaceProperties_STATUS_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {
@@ -4971,105 +4971,6 @@ func (in *WorkspacesComputeList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *WorkspacesComputes_Spec) DeepCopyInto(out *WorkspacesComputes_Spec) {
-	*out = *in
-	if in.Identity != nil {
-		in, out := &in.Identity, &out.Identity
-		*out = new(Identity)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Owner != nil {
-		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(Compute)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Sku != nil {
-		in, out := &in.Sku, &out.Sku
-		*out = new(Sku)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkspacesComputes_Spec.
-func (in *WorkspacesComputes_Spec) DeepCopy() *WorkspacesComputes_Spec {
-	if in == nil {
-		return nil
-	}
-	out := new(WorkspacesComputes_Spec)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *WorkspacesComputes_SpecARM) DeepCopyInto(out *WorkspacesComputes_SpecARM) {
-	*out = *in
-	if in.Identity != nil {
-		in, out := &in.Identity, &out.Identity
-		*out = new(IdentityARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ComputeARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Sku != nil {
-		in, out := &in.Sku, &out.Sku
-		*out = new(SkuARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemDataARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkspacesComputes_SpecARM.
-func (in *WorkspacesComputes_SpecARM) DeepCopy() *WorkspacesComputes_SpecARM {
-	if in == nil {
-		return nil
-	}
-	out := new(WorkspacesComputes_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WorkspacesConnection) DeepCopyInto(out *WorkspacesConnection) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
@@ -5129,7 +5030,106 @@ func (in *WorkspacesConnectionList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *WorkspacesConnections_Spec) DeepCopyInto(out *WorkspacesConnections_Spec) {
+func (in *Workspaces_Computes_Spec) DeepCopyInto(out *Workspaces_Computes_Spec) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(Identity)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Owner != nil {
+		in, out := &in.Owner, &out.Owner
+		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(Compute)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Sku != nil {
+		in, out := &in.Sku, &out.Sku
+		*out = new(Sku)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Workspaces_Computes_Spec.
+func (in *Workspaces_Computes_Spec) DeepCopy() *Workspaces_Computes_Spec {
+	if in == nil {
+		return nil
+	}
+	out := new(Workspaces_Computes_Spec)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Workspaces_Computes_SpecARM) DeepCopyInto(out *Workspaces_Computes_SpecARM) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(IdentityARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ComputeARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Sku != nil {
+		in, out := &in.Sku, &out.Sku
+		*out = new(SkuARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemDataARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Workspaces_Computes_SpecARM.
+func (in *Workspaces_Computes_SpecARM) DeepCopy() *Workspaces_Computes_SpecARM {
+	if in == nil {
+		return nil
+	}
+	out := new(Workspaces_Computes_SpecARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Workspaces_Connections_Spec) DeepCopyInto(out *Workspaces_Connections_Spec) {
 	*out = *in
 	if in.AuthType != nil {
 		in, out := &in.AuthType, &out.AuthType
@@ -5170,23 +5170,23 @@ func (in *WorkspacesConnections_Spec) DeepCopyInto(out *WorkspacesConnections_Sp
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionPropsValueFormat)
+		*out = new(WorkspaceConnectionProps_ValueFormat)
 		**out = **in
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkspacesConnections_Spec.
-func (in *WorkspacesConnections_Spec) DeepCopy() *WorkspacesConnections_Spec {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Workspaces_Connections_Spec.
+func (in *Workspaces_Connections_Spec) DeepCopy() *Workspaces_Connections_Spec {
 	if in == nil {
 		return nil
 	}
-	out := new(WorkspacesConnections_Spec)
+	out := new(Workspaces_Connections_Spec)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *WorkspacesConnections_SpecARM) DeepCopyInto(out *WorkspacesConnections_SpecARM) {
+func (in *Workspaces_Connections_SpecARM) DeepCopyInto(out *Workspaces_Connections_SpecARM) {
 	*out = *in
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -5207,12 +5207,12 @@ func (in *WorkspacesConnections_SpecARM) DeepCopyInto(out *WorkspacesConnections
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkspacesConnections_SpecARM.
-func (in *WorkspacesConnections_SpecARM) DeepCopy() *WorkspacesConnections_SpecARM {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Workspaces_Connections_SpecARM.
+func (in *Workspaces_Connections_SpecARM) DeepCopy() *Workspaces_Connections_SpecARM {
 	if in == nil {
 		return nil
 	}
-	out := new(WorkspacesConnections_SpecARM)
+	out := new(Workspaces_Connections_SpecARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -5297,7 +5297,7 @@ func (in *Workspaces_Spec) DeepCopyInto(out *Workspaces_Spec) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspacesSpecPropertiesPublicNetworkAccess)
+		*out = new(Workspaces_Spec_Properties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {
@@ -5453,7 +5453,7 @@ func (in *Workspaces_Spec_PropertiesARM) DeepCopyInto(out *Workspaces_Spec_Prope
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspacesSpecPropertiesPublicNetworkAccess)
+		*out = new(Workspaces_Spec_Properties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {
@@ -5510,7 +5510,7 @@ func (in *Workspaces_Spec_Properties_SharedPrivateLinkResources) DeepCopyInto(ou
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SharedPrivateLinkResourcePropertyStatus)
+		*out = new(SharedPrivateLinkResourceProperty_Status)
 		**out = **in
 	}
 }

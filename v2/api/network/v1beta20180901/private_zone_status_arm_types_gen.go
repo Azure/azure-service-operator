@@ -39,5 +39,5 @@ type PrivateZoneProperties_STATUSARM struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-	ProvisioningState *PrivateZonePropertiesSTATUSProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateZoneProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
 }

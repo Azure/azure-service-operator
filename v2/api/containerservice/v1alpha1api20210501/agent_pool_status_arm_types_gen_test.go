@@ -25,12 +25,12 @@ func Test_AgentPool_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AgentPool_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolSTATUSARM, AgentPoolSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAgentPool_STATUSARM, AgentPool_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAgentPoolSTATUSARM runs a test to see if a specific instance of AgentPool_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolSTATUSARM(subject AgentPool_STATUSARM) string {
+// RunJSONSerializationTestForAgentPool_STATUSARM runs a test to see if a specific instance of AgentPool_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAgentPool_STATUSARM(subject AgentPool_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,41 +56,42 @@ func RunJSONSerializationTestForAgentPoolSTATUSARM(subject AgentPool_STATUSARM) 
 	return ""
 }
 
-// Generator of AgentPool_STATUSARM instances for property testing - lazily instantiated by AgentPoolSTATUSARMGenerator()
-var agentPoolSTATUSARMGenerator gopter.Gen
+// Generator of AgentPool_STATUSARM instances for property testing - lazily instantiated by
+// AgentPool_STATUSARMGenerator()
+var agentPool_STATUSARMGenerator gopter.Gen
 
-// AgentPoolSTATUSARMGenerator returns a generator of AgentPool_STATUSARM instances for property testing.
-// We first initialize agentPoolSTATUSARMGenerator with a simplified generator based on the
+// AgentPool_STATUSARMGenerator returns a generator of AgentPool_STATUSARM instances for property testing.
+// We first initialize agentPool_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AgentPoolSTATUSARMGenerator() gopter.Gen {
-	if agentPoolSTATUSARMGenerator != nil {
-		return agentPoolSTATUSARMGenerator
+func AgentPool_STATUSARMGenerator() gopter.Gen {
+	if agentPool_STATUSARMGenerator != nil {
+		return agentPool_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolSTATUSARM(generators)
-	agentPoolSTATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPool_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAgentPool_STATUSARM(generators)
+	agentPool_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPool_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForAgentPoolSTATUSARM(generators)
-	agentPoolSTATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPool_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAgentPool_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForAgentPool_STATUSARM(generators)
+	agentPool_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPool_STATUSARM{}), generators)
 
-	return agentPoolSTATUSARMGenerator
+	return agentPool_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAgentPoolSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAgentPool_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAgentPool_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForAgentPoolSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAgentPoolSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfilePropertiesSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForAgentPool_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAgentPool_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfileProperties_STATUSARMGenerator())
 }
 
 func Test_ManagedClusterAgentPoolProfileProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -101,12 +102,12 @@ func Test_ManagedClusterAgentPoolProfileProperties_STATUSARM_WhenSerializedToJso
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAgentPoolProfileProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesSTATUSARM, ManagedClusterAgentPoolProfilePropertiesSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUSARM, ManagedClusterAgentPoolProfileProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesSTATUSARM runs a test to see if a specific instance of ManagedClusterAgentPoolProfileProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesSTATUSARM(subject ManagedClusterAgentPoolProfileProperties_STATUSARM) string {
+// RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUSARM runs a test to see if a specific instance of ManagedClusterAgentPoolProfileProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties_STATUSARM(subject ManagedClusterAgentPoolProfileProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -133,33 +134,33 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesSTATUSAR
 }
 
 // Generator of ManagedClusterAgentPoolProfileProperties_STATUSARM instances for property testing - lazily instantiated
-// by ManagedClusterAgentPoolProfilePropertiesSTATUSARMGenerator()
-var managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator gopter.Gen
+// by ManagedClusterAgentPoolProfileProperties_STATUSARMGenerator()
+var managedClusterAgentPoolProfileProperties_STATUSARMGenerator gopter.Gen
 
-// ManagedClusterAgentPoolProfilePropertiesSTATUSARMGenerator returns a generator of ManagedClusterAgentPoolProfileProperties_STATUSARM instances for property testing.
-// We first initialize managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator with a simplified generator based on the
+// ManagedClusterAgentPoolProfileProperties_STATUSARMGenerator returns a generator of ManagedClusterAgentPoolProfileProperties_STATUSARM instances for property testing.
+// We first initialize managedClusterAgentPoolProfileProperties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClusterAgentPoolProfilePropertiesSTATUSARMGenerator() gopter.Gen {
-	if managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator != nil {
-		return managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator
+func ManagedClusterAgentPoolProfileProperties_STATUSARMGenerator() gopter.Gen {
+	if managedClusterAgentPoolProfileProperties_STATUSARMGenerator != nil {
+		return managedClusterAgentPoolProfileProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM(generators)
-	managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM(generators)
+	managedClusterAgentPoolProfileProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM(generators)
-	managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM(generators)
+	managedClusterAgentPoolProfileProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties_STATUSARM{}), generators)
 
-	return managedClusterAgentPoolProfilePropertiesSTATUSARMGenerator
+	return managedClusterAgentPoolProfileProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
@@ -199,12 +200,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesSTATUSARM(gens map[string]gopter.Gen) {
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigSTATUSARMGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigSTATUSARMGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerStateSTATUSARMGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUSARMGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUSARMGenerator())
+	gens["PowerState"] = gen.PtrOf(PowerState_STATUSARMGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSARMGenerator())
 }
 
 func Test_AgentPoolUpgradeSettings_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -215,12 +216,12 @@ func Test_AgentPoolUpgradeSettings_STATUSARM_WhenSerializedToJson_DeserializesAs
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AgentPoolUpgradeSettings_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolUpgradeSettingsSTATUSARM, AgentPoolUpgradeSettingsSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForAgentPoolUpgradeSettings_STATUSARM, AgentPoolUpgradeSettings_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAgentPoolUpgradeSettingsSTATUSARM runs a test to see if a specific instance of AgentPoolUpgradeSettings_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolUpgradeSettingsSTATUSARM(subject AgentPoolUpgradeSettings_STATUSARM) string {
+// RunJSONSerializationTestForAgentPoolUpgradeSettings_STATUSARM runs a test to see if a specific instance of AgentPoolUpgradeSettings_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAgentPoolUpgradeSettings_STATUSARM(subject AgentPoolUpgradeSettings_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -247,24 +248,24 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettingsSTATUSARM(subject AgentP
 }
 
 // Generator of AgentPoolUpgradeSettings_STATUSARM instances for property testing - lazily instantiated by
-// AgentPoolUpgradeSettingsSTATUSARMGenerator()
-var agentPoolUpgradeSettingsSTATUSARMGenerator gopter.Gen
+// AgentPoolUpgradeSettings_STATUSARMGenerator()
+var agentPoolUpgradeSettings_STATUSARMGenerator gopter.Gen
 
-// AgentPoolUpgradeSettingsSTATUSARMGenerator returns a generator of AgentPoolUpgradeSettings_STATUSARM instances for property testing.
-func AgentPoolUpgradeSettingsSTATUSARMGenerator() gopter.Gen {
-	if agentPoolUpgradeSettingsSTATUSARMGenerator != nil {
-		return agentPoolUpgradeSettingsSTATUSARMGenerator
+// AgentPoolUpgradeSettings_STATUSARMGenerator returns a generator of AgentPoolUpgradeSettings_STATUSARM instances for property testing.
+func AgentPoolUpgradeSettings_STATUSARMGenerator() gopter.Gen {
+	if agentPoolUpgradeSettings_STATUSARMGenerator != nil {
+		return agentPoolUpgradeSettings_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSTATUSARM(generators)
-	agentPoolUpgradeSettingsSTATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPoolUpgradeSettings_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUSARM(generators)
+	agentPoolUpgradeSettings_STATUSARMGenerator = gen.Struct(reflect.TypeOf(AgentPoolUpgradeSettings_STATUSARM{}), generators)
 
-	return agentPoolUpgradeSettingsSTATUSARMGenerator
+	return agentPoolUpgradeSettings_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUSARM(gens map[string]gopter.Gen) {
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -276,12 +277,12 @@ func Test_KubeletConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KubeletConfig_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKubeletConfigSTATUSARM, KubeletConfigSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForKubeletConfig_STATUSARM, KubeletConfig_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKubeletConfigSTATUSARM runs a test to see if a specific instance of KubeletConfig_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForKubeletConfigSTATUSARM(subject KubeletConfig_STATUSARM) string {
+// RunJSONSerializationTestForKubeletConfig_STATUSARM runs a test to see if a specific instance of KubeletConfig_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKubeletConfig_STATUSARM(subject KubeletConfig_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -308,24 +309,24 @@ func RunJSONSerializationTestForKubeletConfigSTATUSARM(subject KubeletConfig_STA
 }
 
 // Generator of KubeletConfig_STATUSARM instances for property testing - lazily instantiated by
-// KubeletConfigSTATUSARMGenerator()
-var kubeletConfigSTATUSARMGenerator gopter.Gen
+// KubeletConfig_STATUSARMGenerator()
+var kubeletConfig_STATUSARMGenerator gopter.Gen
 
-// KubeletConfigSTATUSARMGenerator returns a generator of KubeletConfig_STATUSARM instances for property testing.
-func KubeletConfigSTATUSARMGenerator() gopter.Gen {
-	if kubeletConfigSTATUSARMGenerator != nil {
-		return kubeletConfigSTATUSARMGenerator
+// KubeletConfig_STATUSARMGenerator returns a generator of KubeletConfig_STATUSARM instances for property testing.
+func KubeletConfig_STATUSARMGenerator() gopter.Gen {
+	if kubeletConfig_STATUSARMGenerator != nil {
+		return kubeletConfig_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKubeletConfigSTATUSARM(generators)
-	kubeletConfigSTATUSARMGenerator = gen.Struct(reflect.TypeOf(KubeletConfig_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForKubeletConfig_STATUSARM(generators)
+	kubeletConfig_STATUSARMGenerator = gen.Struct(reflect.TypeOf(KubeletConfig_STATUSARM{}), generators)
 
-	return kubeletConfigSTATUSARMGenerator
+	return kubeletConfig_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKubeletConfigSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKubeletConfigSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKubeletConfig_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKubeletConfig_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AllowedUnsafeSysctls"] = gen.SliceOf(gen.AlphaString())
 	gens["ContainerLogMaxFiles"] = gen.PtrOf(gen.Int())
 	gens["ContainerLogMaxSizeMB"] = gen.PtrOf(gen.Int())
@@ -347,12 +348,12 @@ func Test_LinuxOSConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LinuxOSConfig_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinuxOSConfigSTATUSARM, LinuxOSConfigSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForLinuxOSConfig_STATUSARM, LinuxOSConfig_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLinuxOSConfigSTATUSARM runs a test to see if a specific instance of LinuxOSConfig_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinuxOSConfigSTATUSARM(subject LinuxOSConfig_STATUSARM) string {
+// RunJSONSerializationTestForLinuxOSConfig_STATUSARM runs a test to see if a specific instance of LinuxOSConfig_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLinuxOSConfig_STATUSARM(subject LinuxOSConfig_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -379,41 +380,41 @@ func RunJSONSerializationTestForLinuxOSConfigSTATUSARM(subject LinuxOSConfig_STA
 }
 
 // Generator of LinuxOSConfig_STATUSARM instances for property testing - lazily instantiated by
-// LinuxOSConfigSTATUSARMGenerator()
-var linuxOSConfigSTATUSARMGenerator gopter.Gen
+// LinuxOSConfig_STATUSARMGenerator()
+var linuxOSConfig_STATUSARMGenerator gopter.Gen
 
-// LinuxOSConfigSTATUSARMGenerator returns a generator of LinuxOSConfig_STATUSARM instances for property testing.
-// We first initialize linuxOSConfigSTATUSARMGenerator with a simplified generator based on the
+// LinuxOSConfig_STATUSARMGenerator returns a generator of LinuxOSConfig_STATUSARM instances for property testing.
+// We first initialize linuxOSConfig_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LinuxOSConfigSTATUSARMGenerator() gopter.Gen {
-	if linuxOSConfigSTATUSARMGenerator != nil {
-		return linuxOSConfigSTATUSARMGenerator
+func LinuxOSConfig_STATUSARMGenerator() gopter.Gen {
+	if linuxOSConfig_STATUSARMGenerator != nil {
+		return linuxOSConfig_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfigSTATUSARM(generators)
-	linuxOSConfigSTATUSARMGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForLinuxOSConfig_STATUSARM(generators)
+	linuxOSConfig_STATUSARMGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfigSTATUSARM(generators)
-	AddRelatedPropertyGeneratorsForLinuxOSConfigSTATUSARM(generators)
-	linuxOSConfigSTATUSARMGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForLinuxOSConfig_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUSARM(generators)
+	linuxOSConfig_STATUSARMGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_STATUSARM{}), generators)
 
-	return linuxOSConfigSTATUSARMGenerator
+	return linuxOSConfig_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLinuxOSConfigSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLinuxOSConfigSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLinuxOSConfig_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLinuxOSConfig_STATUSARM(gens map[string]gopter.Gen) {
 	gens["SwapFileSizeMB"] = gen.PtrOf(gen.Int())
 	gens["TransparentHugePageDefrag"] = gen.PtrOf(gen.AlphaString())
 	gens["TransparentHugePageEnabled"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLinuxOSConfigSTATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLinuxOSConfigSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Sysctls"] = gen.PtrOf(SysctlConfigSTATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Sysctls"] = gen.PtrOf(SysctlConfig_STATUSARMGenerator())
 }
 
 func Test_PowerState_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -424,12 +425,12 @@ func Test_PowerState_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PowerState_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPowerStateSTATUSARM, PowerStateSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPowerState_STATUSARM, PowerState_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPowerStateSTATUSARM runs a test to see if a specific instance of PowerState_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPowerStateSTATUSARM(subject PowerState_STATUSARM) string {
+// RunJSONSerializationTestForPowerState_STATUSARM runs a test to see if a specific instance of PowerState_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPowerState_STATUSARM(subject PowerState_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -456,25 +457,25 @@ func RunJSONSerializationTestForPowerStateSTATUSARM(subject PowerState_STATUSARM
 }
 
 // Generator of PowerState_STATUSARM instances for property testing - lazily instantiated by
-// PowerStateSTATUSARMGenerator()
-var powerStateSTATUSARMGenerator gopter.Gen
+// PowerState_STATUSARMGenerator()
+var powerState_STATUSARMGenerator gopter.Gen
 
-// PowerStateSTATUSARMGenerator returns a generator of PowerState_STATUSARM instances for property testing.
-func PowerStateSTATUSARMGenerator() gopter.Gen {
-	if powerStateSTATUSARMGenerator != nil {
-		return powerStateSTATUSARMGenerator
+// PowerState_STATUSARMGenerator returns a generator of PowerState_STATUSARM instances for property testing.
+func PowerState_STATUSARMGenerator() gopter.Gen {
+	if powerState_STATUSARMGenerator != nil {
+		return powerState_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPowerStateSTATUSARM(generators)
-	powerStateSTATUSARMGenerator = gen.Struct(reflect.TypeOf(PowerState_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForPowerState_STATUSARM(generators)
+	powerState_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PowerState_STATUSARM{}), generators)
 
-	return powerStateSTATUSARMGenerator
+	return powerState_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPowerStateSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPowerStateSTATUSARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerStateSTATUSCode_Running, PowerStateSTATUSCode_Stopped))
+// AddIndependentPropertyGeneratorsForPowerState_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPowerState_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_STATUS_Code_Running, PowerState_STATUS_Code_Stopped))
 }
 
 func Test_SysctlConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -485,12 +486,12 @@ func Test_SysctlConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *tes
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SysctlConfig_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSysctlConfigSTATUSARM, SysctlConfigSTATUSARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForSysctlConfig_STATUSARM, SysctlConfig_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSysctlConfigSTATUSARM runs a test to see if a specific instance of SysctlConfig_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSysctlConfigSTATUSARM(subject SysctlConfig_STATUSARM) string {
+// RunJSONSerializationTestForSysctlConfig_STATUSARM runs a test to see if a specific instance of SysctlConfig_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSysctlConfig_STATUSARM(subject SysctlConfig_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -517,24 +518,24 @@ func RunJSONSerializationTestForSysctlConfigSTATUSARM(subject SysctlConfig_STATU
 }
 
 // Generator of SysctlConfig_STATUSARM instances for property testing - lazily instantiated by
-// SysctlConfigSTATUSARMGenerator()
-var sysctlConfigSTATUSARMGenerator gopter.Gen
+// SysctlConfig_STATUSARMGenerator()
+var sysctlConfig_STATUSARMGenerator gopter.Gen
 
-// SysctlConfigSTATUSARMGenerator returns a generator of SysctlConfig_STATUSARM instances for property testing.
-func SysctlConfigSTATUSARMGenerator() gopter.Gen {
-	if sysctlConfigSTATUSARMGenerator != nil {
-		return sysctlConfigSTATUSARMGenerator
+// SysctlConfig_STATUSARMGenerator returns a generator of SysctlConfig_STATUSARM instances for property testing.
+func SysctlConfig_STATUSARMGenerator() gopter.Gen {
+	if sysctlConfig_STATUSARMGenerator != nil {
+		return sysctlConfig_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSysctlConfigSTATUSARM(generators)
-	sysctlConfigSTATUSARMGenerator = gen.Struct(reflect.TypeOf(SysctlConfig_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForSysctlConfig_STATUSARM(generators)
+	sysctlConfig_STATUSARMGenerator = gen.Struct(reflect.TypeOf(SysctlConfig_STATUSARM{}), generators)
 
-	return sysctlConfigSTATUSARMGenerator
+	return sysctlConfig_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSysctlConfigSTATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSysctlConfigSTATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSysctlConfig_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSysctlConfig_STATUSARM(gens map[string]gopter.Gen) {
 	gens["FsAioMaxNr"] = gen.PtrOf(gen.Int())
 	gens["FsFileMax"] = gen.PtrOf(gen.Int())
 	gens["FsInotifyMaxUserWatches"] = gen.PtrOf(gen.Int())

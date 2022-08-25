@@ -68,13 +68,13 @@ type ConflictResolutionPolicy_STATUSARM struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicySTATUSMode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_STATUS_Mode `json:"mode,omitempty"`
 }
 
 type ContainerPartitionKey_STATUSARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
-	Kind *ContainerPartitionKeySTATUSKind `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_STATUS_Kind `json:"kind,omitempty"`
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -100,7 +100,7 @@ type IndexingPolicy_STATUSARM struct {
 	IncludedPaths []IncludedPath_STATUSARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicySTATUSIndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_STATUS_IndexingMode `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_STATUSARM `json:"spatialIndexes,omitempty"`
@@ -114,26 +114,26 @@ type UniqueKeyPolicy_STATUSARM struct {
 
 type CompositePath_STATUSARM struct {
 	// Order: Sort order for composite paths.
-	Order *CompositePathSTATUSOrder `json:"order,omitempty"`
+	Order *CompositePath_STATUS_Order `json:"order,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-type ConflictResolutionPolicySTATUSMode string
+type ConflictResolutionPolicy_STATUS_Mode string
 
 const (
-	ConflictResolutionPolicySTATUSMode_Custom         = ConflictResolutionPolicySTATUSMode("Custom")
-	ConflictResolutionPolicySTATUSMode_LastWriterWins = ConflictResolutionPolicySTATUSMode("LastWriterWins")
+	ConflictResolutionPolicy_STATUS_Mode_Custom         = ConflictResolutionPolicy_STATUS_Mode("Custom")
+	ConflictResolutionPolicy_STATUS_Mode_LastWriterWins = ConflictResolutionPolicy_STATUS_Mode("LastWriterWins")
 )
 
-type ContainerPartitionKeySTATUSKind string
+type ContainerPartitionKey_STATUS_Kind string
 
 const (
-	ContainerPartitionKeySTATUSKind_Hash      = ContainerPartitionKeySTATUSKind("Hash")
-	ContainerPartitionKeySTATUSKind_MultiHash = ContainerPartitionKeySTATUSKind("MultiHash")
-	ContainerPartitionKeySTATUSKind_Range     = ContainerPartitionKeySTATUSKind("Range")
+	ContainerPartitionKey_STATUS_Kind_Hash      = ContainerPartitionKey_STATUS_Kind("Hash")
+	ContainerPartitionKey_STATUS_Kind_MultiHash = ContainerPartitionKey_STATUS_Kind("MultiHash")
+	ContainerPartitionKey_STATUS_Kind_Range     = ContainerPartitionKey_STATUS_Kind("Range")
 )
 
 type ExcludedPath_STATUSARM struct {
@@ -151,12 +151,12 @@ type IncludedPath_STATUSARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-type IndexingPolicySTATUSIndexingMode string
+type IndexingPolicy_STATUS_IndexingMode string
 
 const (
-	IndexingPolicySTATUSIndexingMode_Consistent = IndexingPolicySTATUSIndexingMode("consistent")
-	IndexingPolicySTATUSIndexingMode_Lazy       = IndexingPolicySTATUSIndexingMode("lazy")
-	IndexingPolicySTATUSIndexingMode_None       = IndexingPolicySTATUSIndexingMode("none")
+	IndexingPolicy_STATUS_IndexingMode_Consistent = IndexingPolicy_STATUS_IndexingMode("consistent")
+	IndexingPolicy_STATUS_IndexingMode_Lazy       = IndexingPolicy_STATUS_IndexingMode("lazy")
+	IndexingPolicy_STATUS_IndexingMode_None       = IndexingPolicy_STATUS_IndexingMode("none")
 )
 
 type SpatialSpec_STATUSARM struct {
@@ -173,19 +173,19 @@ type UniqueKey_STATUSARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-type CompositePathSTATUSOrder string
+type CompositePath_STATUS_Order string
 
 const (
-	CompositePathSTATUSOrder_Ascending  = CompositePathSTATUSOrder("ascending")
-	CompositePathSTATUSOrder_Descending = CompositePathSTATUSOrder("descending")
+	CompositePath_STATUS_Order_Ascending  = CompositePath_STATUS_Order("ascending")
+	CompositePath_STATUS_Order_Descending = CompositePath_STATUS_Order("descending")
 )
 
 type Indexes_STATUSARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesSTATUSDataType `json:"dataType,omitempty"`
+	DataType *Indexes_STATUS_DataType `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
-	Kind *IndexesSTATUSKind `json:"kind,omitempty"`
+	Kind *Indexes_STATUS_Kind `json:"kind,omitempty"`
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -200,21 +200,21 @@ const (
 	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
 )
 
-type IndexesSTATUSDataType string
+type Indexes_STATUS_DataType string
 
 const (
-	IndexesSTATUSDataType_LineString   = IndexesSTATUSDataType("LineString")
-	IndexesSTATUSDataType_MultiPolygon = IndexesSTATUSDataType("MultiPolygon")
-	IndexesSTATUSDataType_Number       = IndexesSTATUSDataType("Number")
-	IndexesSTATUSDataType_Point        = IndexesSTATUSDataType("Point")
-	IndexesSTATUSDataType_Polygon      = IndexesSTATUSDataType("Polygon")
-	IndexesSTATUSDataType_String       = IndexesSTATUSDataType("String")
+	Indexes_STATUS_DataType_LineString   = Indexes_STATUS_DataType("LineString")
+	Indexes_STATUS_DataType_MultiPolygon = Indexes_STATUS_DataType("MultiPolygon")
+	Indexes_STATUS_DataType_Number       = Indexes_STATUS_DataType("Number")
+	Indexes_STATUS_DataType_Point        = Indexes_STATUS_DataType("Point")
+	Indexes_STATUS_DataType_Polygon      = Indexes_STATUS_DataType("Polygon")
+	Indexes_STATUS_DataType_String       = Indexes_STATUS_DataType("String")
 )
 
-type IndexesSTATUSKind string
+type Indexes_STATUS_Kind string
 
 const (
-	IndexesSTATUSKind_Hash    = IndexesSTATUSKind("Hash")
-	IndexesSTATUSKind_Range   = IndexesSTATUSKind("Range")
-	IndexesSTATUSKind_Spatial = IndexesSTATUSKind("Spatial")
+	Indexes_STATUS_Kind_Hash    = Indexes_STATUS_Kind("Hash")
+	Indexes_STATUS_Kind_Range   = Indexes_STATUS_Kind("Range")
+	Indexes_STATUS_Kind_Spatial = Indexes_STATUS_Kind("Spatial")
 )

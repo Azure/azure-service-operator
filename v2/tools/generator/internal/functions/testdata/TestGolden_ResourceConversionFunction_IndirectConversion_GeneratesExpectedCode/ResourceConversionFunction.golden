@@ -30,7 +30,7 @@
 +		return errors.Wrap(err, "converting from hub to source")
 +	}
 +
-+	err = person.AssignPropertiesFromPerson(&source)
++	err = person.AssignProperties_From_Person(&source)
 +	if err != nil {
 +		return errors.Wrap(err, "converting from source to person")
 +	}
@@ -42,7 +42,7 @@
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
 +	// intermediate variable for conversion
 +	var destination v20211231.Person
-+	err := person.AssignPropertiesToPerson(&destination)
++	err := person.AssignProperties_To_Person(&destination)
 +	if err != nil {
 +		return errors.Wrap(err, "converting to destination from person")
 +	}

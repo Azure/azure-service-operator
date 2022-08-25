@@ -65,12 +65,12 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 }
 
 func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, nsg client.Object) {
-	protocol := network.SecurityRulePropertiesFormatProtocol_Tcp
-	allow := network.SecurityRulePropertiesFormatAccess_Allow
-	direction := network.SecurityRulePropertiesFormatDirection_Inbound
+	protocol := network.SecurityRulePropertiesFormat_Protocol_Tcp
+	allow := network.SecurityRulePropertiesFormat_Access_Allow
+	direction := network.SecurityRulePropertiesFormat_Direction_Inbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("23-45"),
@@ -84,10 +84,10 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 		},
 	}
 
-	deny := network.SecurityRulePropertiesFormatAccess_Deny
+	deny := network.SecurityRulePropertiesFormat_Access_Deny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroups_SecurityRules_Spec{
 			Owner:    testcommon.AsOwner(nsg),
 			Protocol: &protocol,
 			SourcePortRanges: []string{

@@ -7,8 +7,6 @@ package embeddedresources
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
@@ -20,9 +18,17 @@ type renamer struct {
 	definitions astmodel.TypeDefinitionSet
 }
 
-type renameAction func(original astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error)
+type renameAction func(
+	original astmodel.TypeName, // Original name of the resource type
+	associatedNames astmodel.TypeNameSet, // all the subresource names that copies have acquired
+	originalNames map[astmodel.TypeName]embeddedResourceTypeName, // map from the new names back to the original
+) (astmodel.TypeAssociation, error)
 
-func (r renamer) simplifyEmbeddedNameToOriginalName(original astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
+func (r renamer) simplifyEmbeddedNameToOriginalName(
+	original astmodel.TypeName,
+	associatedNames astmodel.TypeNameSet,
+	_ map[astmodel.TypeName]embeddedResourceTypeName,
+) (astmodel.TypeAssociation, error) {
 	_, originalExists := r.definitions[original]
 	if originalExists || len(associatedNames) != 1 {
 		return nil, nil
@@ -35,17 +41,23 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(original astmodel.TypeName, 
 	return renames, nil
 }
 
-func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(_ astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
+func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
+	_ astmodel.TypeName,
+	associatedNames astmodel.TypeNameSet,
+	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+) (astmodel.TypeAssociation, error) {
 	if len(associatedNames) != 1 {
 		return nil, nil
 	}
 
 	renames := make(astmodel.TypeAssociation)
 	associated := associatedNames.Single()
-	embeddedName, err := parseContextualTypeName(associated)
-	if err != nil {
-		return nil, err
+
+	embeddedName, ok := originalNames[associated]
+	if !ok {
+		return nil, errors.Errorf("could not find original name for %q", associated)
 	}
+
 	embeddedName.context = ""
 	embeddedName.count = 0
 	renames[associated] = embeddedName.ToSimplifiedTypeName()
@@ -54,13 +66,17 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(_ astmodel.TypeName, 
 	return renames, nil
 }
 
-func (r renamer) simplifyEmbeddedNameRemoveContext(_ astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
+func (r renamer) simplifyEmbeddedNameRemoveContext(
+	_ astmodel.TypeName,
+	associatedNames astmodel.TypeNameSet,
+	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+) (astmodel.TypeAssociation, error) {
 	// Gather information about the associated definitions
 	associatedCountPerContext := make(map[string]int, len(associatedNames))
 	for associated := range associatedNames {
-		embeddedName, err := parseContextualTypeName(associated)
-		if err != nil {
-			return nil, err
+		embeddedName, ok := originalNames[associated]
+		if !ok {
+			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
 		associatedCountPerContext[embeddedName.context] = associatedCountPerContext[embeddedName.context] + 1
 	}
@@ -72,9 +88,9 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(_ astmodel.TypeName, associat
 	// If all updated names share the same context, the context is not adding any disambiguation value so we can remove it
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
-		embeddedName, err := parseContextualTypeName(associated)
-		if err != nil {
-			return nil, err
+		embeddedName, ok := originalNames[associated]
+		if !ok {
+			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
 		embeddedName.context = ""
 		renames[associated] = embeddedName.ToSimplifiedTypeName()
@@ -83,14 +99,18 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(_ astmodel.TypeName, associat
 	return renames, nil
 }
 
-func (r renamer) simplifyEmbeddedName(_ astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
+func (r renamer) simplifyEmbeddedName(
+	_ astmodel.TypeName,
+	associatedNames astmodel.TypeNameSet,
+	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+) (astmodel.TypeAssociation, error) {
 	// remove _0, which especially for the cases where there's only a single
 	// kind of usage will make the type name much clearer
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
-		embeddedName, err := parseContextualTypeName(associated)
-		if err != nil {
-			return nil, err
+		embeddedName, ok := originalNames[associated]
+		if !ok {
+			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
 
 		possibleRename := embeddedName.ToSimplifiedTypeName()
@@ -135,20 +155,24 @@ func (r renamer) performRenames(
 }
 
 // simplifyTypeNames simplifies contextual type names if possible.
-func simplifyTypeNames(definitions astmodel.TypeDefinitionSet, flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
+func simplifyTypeNames(
+	definitions astmodel.TypeDefinitionSet,
+	flag astmodel.TypeFlag,
+	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+) (astmodel.TypeDefinitionSet, error) {
 	// Find all of the type names that have the flag we're interested in
 	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {
-			embeddedName, err := parseContextualTypeName(def.Name())
-			if err != nil {
-				return nil, err
+			en, ok := originalNames[def.Name()]
+			if !ok {
+				return nil, errors.Errorf("failed to find original name for renamed type %s", def.Name())
 			}
 
-			if updatedNames[embeddedName.original] == nil {
-				updatedNames[embeddedName.original] = astmodel.NewTypeNameSet(def.Name())
+			if updatedNames[en.original] == nil {
+				updatedNames[en.original] = astmodel.NewTypeNameSet(def.Name())
 			} else {
-				updatedNames[embeddedName.original].Add(def.Name())
+				updatedNames[en.original].Add(def.Name())
 			}
 		}
 	}
@@ -164,7 +188,7 @@ func simplifyTypeNames(definitions astmodel.TypeDefinitionSet, flag astmodel.Typ
 	renames := make(astmodel.TypeAssociation)
 	for original, associatedNames := range updatedNames {
 		for _, action := range renameActions {
-			result, err := action(original, associatedNames)
+			result, err := action(original, associatedNames, originalNames)
 			if err != nil {
 				return nil, err
 			}
@@ -222,26 +246,4 @@ func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.TypeName {
 
 func makeContextualTypeName(original astmodel.TypeName, context string, suffix string, count string) astmodel.TypeName {
 	return astmodel.MakeTypeName(original.PackageReference, original.Name()+context+suffix+count)
-}
-
-func parseContextualTypeName(name astmodel.TypeName) (embeddedResourceTypeName, error) {
-	split := strings.Split(name.Name(), "_")
-	if len(split) < 4 {
-		return embeddedResourceTypeName{}, errors.Errorf("can't split embedded resource type name: %q didn't have 4 sections", name)
-	}
-
-	original := strings.Join(split[:len(split)-3], "_")
-	resource := split[len(split)-3]
-	suffix := split[len(split)-2]
-	count, err := strconv.Atoi(split[len(split)-1])
-	if err != nil {
-		return embeddedResourceTypeName{}, err
-	}
-
-	return embeddedResourceTypeName{
-		original: astmodel.MakeTypeName(name.PackageReference, original),
-		context:  resource,
-		suffix:   suffix,
-		count:    count,
-	}, nil
 }

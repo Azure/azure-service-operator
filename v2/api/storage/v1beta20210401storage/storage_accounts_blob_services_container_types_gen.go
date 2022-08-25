@@ -26,8 +26,8 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainers_Spec `json:"spec,omitempty"`
-	Status            BlobContainer_STATUS                       `json:"status,omitempty"`
+	Spec              StorageAccounts_BlobServices_Containers_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_STATUS                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -176,8 +176,8 @@ func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(container)
 }
 
-// Storage version of v1beta20210401.StorageAccountsBlobServicesContainers_Spec
-type StorageAccountsBlobServicesContainers_Spec struct {
+// Storage version of v1beta20210401.StorageAccounts_BlobServices_Containers_Spec
+type StorageAccounts_BlobServices_Containers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -200,10 +200,10 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	Tags         map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainers_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobServices_Containers_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServicesContainers_Spec from the provided source
-func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our StorageAccounts_BlobServices_Containers_Spec from the provided source
+func (containers *StorageAccounts_BlobServices_Containers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -211,8 +211,8 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(so
 	return source.ConvertSpecTo(containers)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainers_Spec
-func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobServices_Containers_Spec
+func (containers *StorageAccounts_BlobServices_Containers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}

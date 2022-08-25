@@ -67,7 +67,7 @@ func Test_PrivateDnsZone_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateDnsZone to PrivateDnsZone via AssignPropertiesToPrivateDnsZone & AssignPropertiesFromPrivateDnsZone returns original",
+		"Round trip from PrivateDnsZone to PrivateDnsZone via AssignProperties_To_PrivateDnsZone & AssignProperties_From_PrivateDnsZone returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZone, PrivateDnsZoneGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForPrivateDnsZone(subject PrivateDnsZone) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20180901s.PrivateDnsZone
-	err := copied.AssignPropertiesToPrivateDnsZone(&other)
+	err := copied.AssignProperties_To_PrivateDnsZone(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateDnsZone
-	err = actual.AssignPropertiesFromPrivateDnsZone(&other)
+	err = actual.AssignProperties_From_PrivateDnsZone(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,8 +160,8 @@ func PrivateDnsZoneGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZone is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
-	gens["Spec"] = PrivateDnsZonesSpecGenerator()
-	gens["Status"] = PrivateZoneSTATUSGenerator()
+	gens["Spec"] = PrivateDnsZones_SpecGenerator()
+	gens["Status"] = PrivateZone_STATUSGenerator()
 }
 
 func Test_PrivateDnsZones_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -170,26 +170,26 @@ func Test_PrivateDnsZones_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateDnsZones_Spec to PrivateDnsZones_Spec via AssignPropertiesToPrivateDnsZonesSpec & AssignPropertiesFromPrivateDnsZonesSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZonesSpec, PrivateDnsZonesSpecGenerator()))
+		"Round trip from PrivateDnsZones_Spec to PrivateDnsZones_Spec via AssignProperties_To_PrivateDnsZones_Spec & AssignProperties_From_PrivateDnsZones_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZones_Spec, PrivateDnsZones_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZonesSpec tests if a specific instance of PrivateDnsZones_Spec can be assigned to v1beta20180901storage and back losslessly
-func RunPropertyAssignmentTestForPrivateDnsZonesSpec(subject PrivateDnsZones_Spec) string {
+// RunPropertyAssignmentTestForPrivateDnsZones_Spec tests if a specific instance of PrivateDnsZones_Spec can be assigned to v1beta20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZones_Spec(subject PrivateDnsZones_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20180901s.PrivateDnsZones_Spec
-	err := copied.AssignPropertiesToPrivateDnsZonesSpec(&other)
+	err := copied.AssignProperties_To_PrivateDnsZones_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateDnsZones_Spec
-	err = actual.AssignPropertiesFromPrivateDnsZonesSpec(&other)
+	err = actual.AssignProperties_From_PrivateDnsZones_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -214,12 +214,12 @@ func Test_PrivateDnsZones_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateDnsZones_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesSpec, PrivateDnsZonesSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_Spec, PrivateDnsZones_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateDnsZonesSpec runs a test to see if a specific instance of PrivateDnsZones_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZonesSpec(subject PrivateDnsZones_Spec) string {
+// RunJSONSerializationTestForPrivateDnsZones_Spec runs a test to see if a specific instance of PrivateDnsZones_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZones_Spec(subject PrivateDnsZones_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -246,24 +246,24 @@ func RunJSONSerializationTestForPrivateDnsZonesSpec(subject PrivateDnsZones_Spec
 }
 
 // Generator of PrivateDnsZones_Spec instances for property testing - lazily instantiated by
-// PrivateDnsZonesSpecGenerator()
-var privateDnsZonesSpecGenerator gopter.Gen
+// PrivateDnsZones_SpecGenerator()
+var privateDnsZones_SpecGenerator gopter.Gen
 
-// PrivateDnsZonesSpecGenerator returns a generator of PrivateDnsZones_Spec instances for property testing.
-func PrivateDnsZonesSpecGenerator() gopter.Gen {
-	if privateDnsZonesSpecGenerator != nil {
-		return privateDnsZonesSpecGenerator
+// PrivateDnsZones_SpecGenerator returns a generator of PrivateDnsZones_Spec instances for property testing.
+func PrivateDnsZones_SpecGenerator() gopter.Gen {
+	if privateDnsZones_SpecGenerator != nil {
+		return privateDnsZones_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZonesSpec(generators)
-	privateDnsZonesSpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec(generators)
+	privateDnsZones_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_Spec{}), generators)
 
-	return privateDnsZonesSpecGenerator
+	return privateDnsZones_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateDnsZonesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZonesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -276,26 +276,26 @@ func Test_PrivateZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PrivateZone_STATUS to PrivateZone_STATUS via AssignPropertiesToPrivateZoneSTATUS & AssignPropertiesFromPrivateZoneSTATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateZoneSTATUS, PrivateZoneSTATUSGenerator()))
+		"Round trip from PrivateZone_STATUS to PrivateZone_STATUS via AssignProperties_To_PrivateZone_STATUS & AssignProperties_From_PrivateZone_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateZone_STATUS, PrivateZone_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateZoneSTATUS tests if a specific instance of PrivateZone_STATUS can be assigned to v1beta20180901storage and back losslessly
-func RunPropertyAssignmentTestForPrivateZoneSTATUS(subject PrivateZone_STATUS) string {
+// RunPropertyAssignmentTestForPrivateZone_STATUS tests if a specific instance of PrivateZone_STATUS can be assigned to v1beta20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateZone_STATUS(subject PrivateZone_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20180901s.PrivateZone_STATUS
-	err := copied.AssignPropertiesToPrivateZoneSTATUS(&other)
+	err := copied.AssignProperties_To_PrivateZone_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateZone_STATUS
-	err = actual.AssignPropertiesFromPrivateZoneSTATUS(&other)
+	err = actual.AssignProperties_From_PrivateZone_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -320,12 +320,12 @@ func Test_PrivateZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateZone_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateZoneSTATUS, PrivateZoneSTATUSGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPrivateZone_STATUS, PrivateZone_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateZoneSTATUS runs a test to see if a specific instance of PrivateZone_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateZoneSTATUS(subject PrivateZone_STATUS) string {
+// RunJSONSerializationTestForPrivateZone_STATUS runs a test to see if a specific instance of PrivateZone_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateZone_STATUS(subject PrivateZone_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -351,24 +351,24 @@ func RunJSONSerializationTestForPrivateZoneSTATUS(subject PrivateZone_STATUS) st
 	return ""
 }
 
-// Generator of PrivateZone_STATUS instances for property testing - lazily instantiated by PrivateZoneSTATUSGenerator()
-var privateZoneSTATUSGenerator gopter.Gen
+// Generator of PrivateZone_STATUS instances for property testing - lazily instantiated by PrivateZone_STATUSGenerator()
+var privateZone_STATUSGenerator gopter.Gen
 
-// PrivateZoneSTATUSGenerator returns a generator of PrivateZone_STATUS instances for property testing.
-func PrivateZoneSTATUSGenerator() gopter.Gen {
-	if privateZoneSTATUSGenerator != nil {
-		return privateZoneSTATUSGenerator
+// PrivateZone_STATUSGenerator returns a generator of PrivateZone_STATUS instances for property testing.
+func PrivateZone_STATUSGenerator() gopter.Gen {
+	if privateZone_STATUSGenerator != nil {
+		return privateZone_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZoneSTATUS(generators)
-	privateZoneSTATUSGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateZone_STATUS(generators)
+	privateZone_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS{}), generators)
 
-	return privateZoneSTATUSGenerator
+	return privateZone_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateZoneSTATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateZoneSTATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateZone_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateZone_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
@@ -377,10 +377,10 @@ func AddIndependentPropertyGeneratorsForPrivateZoneSTATUS(gens map[string]gopter
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateZonePropertiesSTATUSProvisioningState_Canceled,
-		PrivateZonePropertiesSTATUSProvisioningState_Creating,
-		PrivateZonePropertiesSTATUSProvisioningState_Deleting,
-		PrivateZonePropertiesSTATUSProvisioningState_Failed,
-		PrivateZonePropertiesSTATUSProvisioningState_Succeeded,
-		PrivateZonePropertiesSTATUSProvisioningState_Updating))
+		PrivateZoneProperties_STATUS_ProvisioningState_Canceled,
+		PrivateZoneProperties_STATUS_ProvisioningState_Creating,
+		PrivateZoneProperties_STATUS_ProvisioningState_Deleting,
+		PrivateZoneProperties_STATUS_ProvisioningState_Failed,
+		PrivateZoneProperties_STATUS_ProvisioningState_Succeeded,
+		PrivateZoneProperties_STATUS_ProvisioningState_Updating))
 }

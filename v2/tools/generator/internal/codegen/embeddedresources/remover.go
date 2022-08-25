@@ -63,6 +63,7 @@ type EmbeddedResourceRemover struct {
 	typeSuffix                   string
 	typeFlag                     astmodel.TypeFlag
 	misbehavingEmbeddedResources astmodel.TypeNameSet
+	renames                      map[astmodel.TypeName]embeddedResourceTypeName // A set of all the type renames made, indexed by the new name
 }
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
@@ -91,6 +92,7 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 		resourceStatusTypes:          resourceStatusTypeNames,
 		typeSuffix:                   "SubResourceEmbedded",
 		typeFlag:                     astmodel.TypeFlag("embeddedSubResource"), // TODO: Instead of flag we could just use a map here if we wanted
+		renames:                      make(map[astmodel.TypeName]embeddedResourceTypeName),
 	}
 
 	return remover, nil
@@ -99,6 +101,8 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 // RemoveEmbeddedResources removes any embedded resources according to the
 func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
+
+	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
@@ -133,9 +137,13 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 			}
 		}
 
+		// Aggregate all renames
+		for nw, og := range e.renames {
+			originalNames[nw] = og
+		}
 	}
 
-	result, err := simplifyTypeNames(result, e.typeFlag)
+	result, err := simplifyTypeNames(result, e.typeFlag, originalNames)
 	if err != nil {
 		return nil, err
 	}
@@ -206,9 +214,16 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		// doing is context specific, a single type may end up with multiple shapes after pruning. In order to cater for this possibility we generate a
 		// unique name below and then collapse unneeded uniqueness away with simplifyTypeNames.
 		var newName astmodel.TypeName
+		var embeddedName embeddedResourceTypeName
 		exists := false
 		for count := 0; ; count++ {
-			newName = embeddedResourceTypeName{original: original.Name(), context: typedCtx.resource.Name(), suffix: e.typeSuffix, count: count}.ToTypeName()
+			embeddedName = embeddedResourceTypeName{
+				original: original.Name(),
+				context:  typedCtx.resource.Name(),
+				suffix:   e.typeSuffix,
+				count:    count,
+			}
+			newName = embeddedName.ToTypeName()
 			existing, ok := typedCtx.modifiedDefinitions[newName]
 			if !ok {
 				break
@@ -219,6 +234,9 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 				break
 			}
 		}
+
+		e.renames[newName] = embeddedName
+
 		updated = updated.WithName(newName)
 		updated = updated.WithType(flaggedType)
 		if !exists {

@@ -29,5 +29,5 @@ type RedisLinkedServerProperties_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerPropertiesSTATUSServerRole `json:"serverRole,omitempty"`
+	ServerRole *RedisLinkedServerProperties_STATUS_ServerRole `json:"serverRole,omitempty"`
 }

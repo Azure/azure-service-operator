@@ -18,7 +18,7 @@
 +	src, ok := source.(*v20211231.Person_STATUS)
 +	if ok {
 +		// Populate our instance from source
-+		return person.AssignPropertiesFromPersonSTATUS(src)
++		return person.AssignProperties_From_Person_STATUS(src)
 +	}
 +
 +	// Convert to an intermediate form
@@ -29,7 +29,7 @@
 +	}
 +
 +	// Update our instance from src
-+	err = person.AssignPropertiesFromPersonSTATUS(src)
++	err = person.AssignProperties_From_Person_STATUS(src)
 +	if err != nil {
 +		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 +	}
@@ -42,12 +42,12 @@
 +	dst, ok := destination.(*v20211231.Person_STATUS)
 +	if ok {
 +		// Populate destination from our instance
-+		return person.AssignPropertiesToPersonSTATUS(dst)
++		return person.AssignProperties_To_Person_STATUS(dst)
 +	}
 +
 +	// Convert to an intermediate form
 +	dst = &v20211231.Person_STATUS{}
-+	err := person.AssignPropertiesToPersonSTATUS(dst)
++	err := person.AssignProperties_To_Person_STATUS(dst)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 +	}
