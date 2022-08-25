@@ -66,8 +66,18 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
 	properties := o.container.Properties().Copy()
 
+	// Special handling for large objects with more than 50 properties - we skip testing primitive properties
+	// Gopter can't test structs with >50 generators due to a Go Runtime limitation.
+	// See https://github.com/golang/go/issues/54669 for more information
+	haveLargeObject := len(properties) > 50
+
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
+
+	if haveLargeObject {
+		simpleGenerators = nil
+		klog.V(3).Infof("Skipping tests for primitive properties on large object %s", name)
+	}
 
 	// Find all the complex generators (dependent on other generators we'll be generating elsewhere)
 	relatedGenerators := o.createGenerators(properties, genContext, o.createRelatedGenerator)
