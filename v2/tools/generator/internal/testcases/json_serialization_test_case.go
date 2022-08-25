@@ -645,6 +645,7 @@ func (o *JSONSerializationTestCase) createGenerators(
 	return result
 }
 
+// createIndependentGenerator creates an independent generator for a property whose type is
 // is directly supported by a Gopter generator, returning nil if the property type isn't supported.
 func (o *JSONSerializationTestCase) createIndependentGenerator(
 	name string,
@@ -709,6 +710,7 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 	return nil
 }
 
+// createIndependentGenerator creates a generator for a property whose type is
 // defined within the current package, returning nil if the property type isn't supported.
 func (o *JSONSerializationTestCase) createRelatedGenerator(
 	name string,
