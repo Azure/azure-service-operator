@@ -7,11 +7,9 @@ package pipeline
 
 import (
 	"context"
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
+	"github.com/pkg/errors"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
@@ -99,14 +97,6 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 	container, ok := astmodel.AsPropertyContainer(def.Type())
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a property container", def.Name())
-	}
-
-	// Skip creating a test case for any object with more than 50 properties
-	// Gopter can't test these due to a Go Runtime limitation
-	// See https://github.com/golang/go/issues/54669 for more information
-	if props := container.Properties(); props.Len() > 50 {
-		klog.V(3).Infof("Skipping resource conversion test case for %s as it has %d properties", def.Name(), props.Len())
-		return def, nil
 	}
 
 	isOneOf := astmodel.OneOfFlag.IsOn(def.Type()) // this is ugly but can’t do much better right now
