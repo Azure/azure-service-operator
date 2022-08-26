@@ -191,11 +191,10 @@ grouped by the originating ARM service.
 
 ## Machinelearningservices
 
-| Resource             | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                                      |
-|----------------------|-------------|----------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Workspace            | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)            |
-| WorkspacesCompute    | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml)    |
-| WorkspacesConnection | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspacesconnection.yaml) |
+| Resource          | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                                   |
+|-------------------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Workspace         | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)         |
+| WorkspacesCompute | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml) |
 
 ## Managedidentity
 
