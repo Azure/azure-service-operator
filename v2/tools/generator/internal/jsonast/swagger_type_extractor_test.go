@@ -33,7 +33,7 @@ func Example_inferNameFromURLPath_ChildResources() {
 
 	group, resource, name, _ := extractor.inferNameFromURLPath("/Microsoft.GroupName/resourceName/{resourceId}/someChild/{childId}")
 	fmt.Printf("%s/%s: %s", group, resource, name)
-	// Output: Microsoft.GroupName/resourceName/someChild: ResourceNameSomeChild
+	// Output: Microsoft.GroupName/resourceName/someChild: ResourceName_SomeChild
 }
 
 func Test_InferNameFromURLPath_FailsWithMultipleParametersInARow(t *testing.T) {
@@ -73,7 +73,7 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	g.Expect(err).To(BeNil())
 	g.Expect(group).To(Equal("Microsoft.Storage"))
 	g.Expect(resource).To(Equal("storageAccounts/blobServices/containers"))
-	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainer"))
+	g.Expect(name).To(Equal("StorageAccounts_BlobServices_Container"))
 }
 
 func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
