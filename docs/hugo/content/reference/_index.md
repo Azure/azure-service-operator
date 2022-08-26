@@ -16,9 +16,9 @@ grouped by the originating ARM service.
 
 ## Appconfiguration
 
-| Resource           | ARM Version | CRD Version    | Supported From | Sample |
-|--------------------|-------------|----------------|----------------|--------|
-| ConfigurationStore | 2022-05-01  | v1beta20220501 | v2.0.0-beta.3  | -      |
+| Resource           | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                             |
+|--------------------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| ConfigurationStore | 2022-05-01  | v1beta20220501 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/appconfiguration/v1beta/v1beta20220501_configurationstore.yaml) |
 
 ## Authorization
 
