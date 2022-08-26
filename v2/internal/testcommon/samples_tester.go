@@ -90,7 +90,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	err := filepath.Walk(t.groupVersionPath,
 		func(filePath string, info os.FileInfo, err error) error {
 
-			if !info.IsDir() && !IsExclusion(filePath, exclusions) {
+			if !info.IsDir() && !IsSampleExcluded(filePath, exclusions) {
 				sample, err := t.getObjectFromFile(filePath)
 				if err != nil {
 					return err
@@ -205,10 +205,21 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 	return sample
 }
 
-func IsExclusion(path string, exclusions []string) bool {
+func IsFolderExcluded(path string, exclusions []string) bool {
 	for _, exclusion := range exclusions {
-		filepath.Dir(path)
 		if strings.Contains(path, exclusion) {
+			return true
+		}
+	}
+	return false
+}
+
+func IsSampleExcluded(path string, exclusions []string) bool {
+	for _, exclusion := range exclusions {
+		base := filepath.Base(path)
+		baseWithoutAPIVersion := strings.Split(base, "_")[1]
+		baseWithoutAPIVersion = strings.TrimSuffix(baseWithoutAPIVersion, filepath.Ext(baseWithoutAPIVersion))
+		if baseWithoutAPIVersion == exclusion {
 			return true
 		}
 	}
