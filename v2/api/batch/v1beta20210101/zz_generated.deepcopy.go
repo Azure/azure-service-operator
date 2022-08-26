@@ -153,20 +153,12 @@ func (in *BatchAccountCreatePropertiesARM) DeepCopyInto(out *BatchAccountCreateP
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-<<<<<<< HEAD
 		*out = new(PoolAllocationMode)
-=======
-		*out = new(BatchAccountCreateProperties_PoolAllocationMode)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
-=======
-		*out = new(BatchAccountCreateProperties_PublicNetworkAccess)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -236,11 +228,7 @@ func (in *BatchAccountIdentity_STATUS) DeepCopyInto(out *BatchAccountIdentity_ST
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(BatchAccountIdentity_Type_STATUS)
-=======
-		*out = new(BatchAccountIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -277,11 +265,7 @@ func (in *BatchAccountIdentity_STATUSARM) DeepCopyInto(out *BatchAccountIdentity
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(BatchAccountIdentity_Type_STATUS)
-=======
-		*out = new(BatchAccountIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -454,11 +438,7 @@ func (in *BatchAccountProperties_STATUSARM) DeepCopyInto(out *BatchAccountProper
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-<<<<<<< HEAD
 		*out = new(BatchAccountProperties_ProvisioningState_STATUS)
-=======
-		*out = new(BatchAccountProperties_STATUS_ProvisioningState)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
@@ -574,11 +554,7 @@ func (in *BatchAccount_STATUS) DeepCopyInto(out *BatchAccount_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-<<<<<<< HEAD
 		*out = new(BatchAccountProperties_ProvisioningState_STATUS)
-=======
-		*out = new(BatchAccountProperties_STATUS_ProvisioningState)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
@@ -697,20 +673,12 @@ func (in *BatchAccount_Spec) DeepCopyInto(out *BatchAccount_Spec) {
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-<<<<<<< HEAD
 		*out = new(PoolAllocationMode)
-=======
-		*out = new(BatchAccountCreateProperties_PoolAllocationMode)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
-=======
-		*out = new(BatchAccountCreateProperties_PublicNetworkAccess)
->>>>>>> main
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -824,11 +792,7 @@ func (in *EncryptionProperties_STATUS) DeepCopyInto(out *EncryptionProperties_ST
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-<<<<<<< HEAD
 		*out = new(EncryptionProperties_KeySource_STATUS)
-=======
-		*out = new(EncryptionProperties_STATUS_KeySource)
->>>>>>> main
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -853,11 +817,7 @@ func (in *EncryptionProperties_STATUSARM) DeepCopyInto(out *EncryptionProperties
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-<<<<<<< HEAD
 		*out = new(EncryptionProperties_KeySource_STATUS)
-=======
-		*out = new(EncryptionProperties_STATUS_KeySource)
->>>>>>> main
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -1072,11 +1032,7 @@ func (in *PrivateEndpointConnectionProperties_STATUSARM) DeepCopyInto(out *Priva
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-<<<<<<< HEAD
 		*out = new(PrivateEndpointConnectionProperties_ProvisioningState_STATUS)
-=======
-		*out = new(PrivateEndpointConnectionProperties_STATUS_ProvisioningState)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -1121,11 +1077,7 @@ func (in *PrivateEndpointConnection_STATUS) DeepCopyInto(out *PrivateEndpointCon
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-<<<<<<< HEAD
 		*out = new(PrivateEndpointConnectionProperties_ProvisioningState_STATUS)
-=======
-		*out = new(PrivateEndpointConnectionProperties_STATUS_ProvisioningState)
->>>>>>> main
 		**out = **in
 	}
 	if in.Type != nil {

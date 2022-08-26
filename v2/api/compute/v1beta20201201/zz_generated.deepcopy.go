@@ -171,11 +171,7 @@ func (in *AdditionalUnattendContent_STATUS) DeepCopyInto(out *AdditionalUnattend
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_ComponentName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_ComponentName)
->>>>>>> main
 		**out = **in
 	}
 	if in.Content != nil {
@@ -185,20 +181,12 @@ func (in *AdditionalUnattendContent_STATUS) DeepCopyInto(out *AdditionalUnattend
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_PassName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_PassName)
->>>>>>> main
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_SettingName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_SettingName)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -218,11 +206,7 @@ func (in *AdditionalUnattendContent_STATUSARM) DeepCopyInto(out *AdditionalUnatt
 	*out = *in
 	if in.ComponentName != nil {
 		in, out := &in.ComponentName, &out.ComponentName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_ComponentName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_ComponentName)
->>>>>>> main
 		**out = **in
 	}
 	if in.Content != nil {
@@ -232,20 +216,12 @@ func (in *AdditionalUnattendContent_STATUSARM) DeepCopyInto(out *AdditionalUnatt
 	}
 	if in.PassName != nil {
 		in, out := &in.PassName, &out.PassName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_PassName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_PassName)
->>>>>>> main
 		**out = **in
 	}
 	if in.SettingName != nil {
 		in, out := &in.SettingName, &out.SettingName
-<<<<<<< HEAD
 		*out = new(AdditionalUnattendContent_SettingName_STATUS)
-=======
-		*out = new(AdditionalUnattendContent_STATUS_SettingName)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -724,11 +700,7 @@ func (in *AvailablePatchSummary_STATUS) DeepCopyInto(out *AvailablePatchSummary_
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-<<<<<<< HEAD
 		*out = new(AvailablePatchSummary_Status_STATUS)
-=======
-		*out = new(AvailablePatchSummary_STATUS_Status)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -783,11 +755,7 @@ func (in *AvailablePatchSummary_STATUSARM) DeepCopyInto(out *AvailablePatchSumma
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-<<<<<<< HEAD
 		*out = new(AvailablePatchSummary_Status_STATUS)
-=======
-		*out = new(AvailablePatchSummary_STATUS_Status)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -1047,29 +1015,17 @@ func (in *DataDisk) DeepCopyInto(out *DataDisk) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(DataDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(DataDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DetachOption != nil {
 		in, out := &in.DetachOption, &out.DetachOption
-<<<<<<< HEAD
 		*out = new(DetachOption)
-=======
-		*out = new(DataDisk_DetachOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskSizeGB != nil {
@@ -1129,29 +1085,17 @@ func (in *DataDiskARM) DeepCopyInto(out *DataDiskARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(DataDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(DataDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DetachOption != nil {
 		in, out := &in.DetachOption, &out.DetachOption
-<<<<<<< HEAD
 		*out = new(DetachOption)
-=======
-		*out = new(DataDisk_DetachOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskSizeGB != nil {
@@ -1451,20 +1395,12 @@ func (in *DiffDiskSettings) DeepCopyInto(out *DiffDiskSettings) {
 	*out = *in
 	if in.Option != nil {
 		in, out := &in.Option, &out.Option
-<<<<<<< HEAD
 		*out = new(DiffDiskOption)
-=======
-		*out = new(DiffDiskSettings_Option)
->>>>>>> main
 		**out = **in
 	}
 	if in.Placement != nil {
 		in, out := &in.Placement, &out.Placement
-<<<<<<< HEAD
 		*out = new(DiffDiskPlacement)
-=======
-		*out = new(DiffDiskSettings_Placement)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -1484,20 +1420,12 @@ func (in *DiffDiskSettingsARM) DeepCopyInto(out *DiffDiskSettingsARM) {
 	*out = *in
 	if in.Option != nil {
 		in, out := &in.Option, &out.Option
-<<<<<<< HEAD
 		*out = new(DiffDiskOption)
-=======
-		*out = new(DiffDiskSettings_Option)
->>>>>>> main
 		**out = **in
 	}
 	if in.Placement != nil {
 		in, out := &in.Placement, &out.Placement
-<<<<<<< HEAD
 		*out = new(DiffDiskPlacement)
-=======
-		*out = new(DiffDiskSettings_Placement)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -1760,7 +1688,7 @@ func (in *ExtendedLocation) DeepCopyInto(out *ExtendedLocation) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocation_Type)
+		*out = new(ExtendedLocationType)
 		**out = **in
 	}
 }
@@ -1785,7 +1713,7 @@ func (in *ExtendedLocationARM) DeepCopyInto(out *ExtendedLocationARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocation_Type)
+		*out = new(ExtendedLocationType)
 		**out = **in
 	}
 }
@@ -1895,11 +1823,7 @@ func (in *HardwareProfile_STATUS) DeepCopyInto(out *HardwareProfile_STATUS) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-<<<<<<< HEAD
 		*out = new(HardwareProfile_VmSize_STATUS)
-=======
-		*out = new(HardwareProfile_STATUS_VmSize)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -1919,11 +1843,7 @@ func (in *HardwareProfile_STATUSARM) DeepCopyInto(out *HardwareProfile_STATUSARM
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-<<<<<<< HEAD
 		*out = new(HardwareProfile_VmSize_STATUS)
-=======
-		*out = new(HardwareProfile_STATUS_VmSize)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2173,11 +2093,7 @@ func (in *InstanceViewStatus_STATUS) DeepCopyInto(out *InstanceViewStatus_STATUS
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-<<<<<<< HEAD
 		*out = new(InstanceViewStatus_Level_STATUS)
-=======
-		*out = new(InstanceViewStatus_STATUS_Level)
->>>>>>> main
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2217,11 +2133,7 @@ func (in *InstanceViewStatus_STATUSARM) DeepCopyInto(out *InstanceViewStatus_STA
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-<<<<<<< HEAD
 		*out = new(InstanceViewStatus_Level_STATUS)
-=======
-		*out = new(InstanceViewStatus_STATUS_Level)
->>>>>>> main
 		**out = **in
 	}
 	if in.Message != nil {
@@ -2501,11 +2413,7 @@ func (in *LastPatchInstallationSummary_STATUS) DeepCopyInto(out *LastPatchInstal
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-<<<<<<< HEAD
 		*out = new(LastPatchInstallationSummary_Status_STATUS)
-=======
-		*out = new(LastPatchInstallationSummary_STATUS_Status)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2575,11 +2483,7 @@ func (in *LastPatchInstallationSummary_STATUSARM) DeepCopyInto(out *LastPatchIns
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-<<<<<<< HEAD
 		*out = new(LastPatchInstallationSummary_Status_STATUS)
-=======
-		*out = new(LastPatchInstallationSummary_STATUS_Status)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2779,11 +2683,7 @@ func (in *LinuxPatchSettings_STATUS) DeepCopyInto(out *LinuxPatchSettings_STATUS
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-<<<<<<< HEAD
 		*out = new(LinuxPatchSettings_PatchMode_STATUS)
-=======
-		*out = new(LinuxPatchSettings_STATUS_PatchMode)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2803,11 +2703,7 @@ func (in *LinuxPatchSettings_STATUSARM) DeepCopyInto(out *LinuxPatchSettings_STA
 	*out = *in
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-<<<<<<< HEAD
 		*out = new(LinuxPatchSettings_PatchMode_STATUS)
-=======
-		*out = new(LinuxPatchSettings_STATUS_PatchMode)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2837,11 +2733,7 @@ func (in *MaintenanceRedeployStatus_STATUS) DeepCopyInto(out *MaintenanceRedeplo
 	}
 	if in.LastOperationResultCode != nil {
 		in, out := &in.LastOperationResultCode, &out.LastOperationResultCode
-<<<<<<< HEAD
 		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_STATUS)
-=======
-		*out = new(MaintenanceRedeployStatus_STATUS_LastOperationResultCode)
->>>>>>> main
 		**out = **in
 	}
 	if in.MaintenanceWindowEndTime != nil {
@@ -2891,11 +2783,7 @@ func (in *MaintenanceRedeployStatus_STATUSARM) DeepCopyInto(out *MaintenanceRede
 	}
 	if in.LastOperationResultCode != nil {
 		in, out := &in.LastOperationResultCode, &out.LastOperationResultCode
-<<<<<<< HEAD
 		*out = new(MaintenanceRedeployStatus_LastOperationResultCode_STATUS)
-=======
-		*out = new(MaintenanceRedeployStatus_STATUS_LastOperationResultCode)
->>>>>>> main
 		**out = **in
 	}
 	if in.MaintenanceWindowEndTime != nil {
@@ -2945,11 +2833,7 @@ func (in *ManagedDiskParameters) DeepCopyInto(out *ManagedDiskParameters) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-<<<<<<< HEAD
 		*out = new(StorageAccountType)
-=======
-		*out = new(ManagedDiskParameters_StorageAccountType)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -2979,11 +2863,7 @@ func (in *ManagedDiskParametersARM) DeepCopyInto(out *ManagedDiskParametersARM) 
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-<<<<<<< HEAD
 		*out = new(StorageAccountType)
-=======
-		*out = new(ManagedDiskParameters_StorageAccountType)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -3291,20 +3171,12 @@ func (in *OSDisk) DeepCopyInto(out *OSDisk) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(OSDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(OSDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -3369,20 +3241,12 @@ func (in *OSDiskARM) DeepCopyInto(out *OSDiskARM) {
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(OSDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(OSDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -3487,11 +3351,7 @@ func (in *OSDisk_STATUS) DeepCopyInto(out *OSDisk_STATUS) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(OSDisk_OsType_STATUS)
-=======
-		*out = new(OSDisk_STATUS_OsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3561,11 +3421,7 @@ func (in *OSDisk_STATUSARM) DeepCopyInto(out *OSDisk_STATUSARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(OSDisk_OsType_STATUS)
-=======
-		*out = new(OSDisk_STATUS_OsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.Vhd != nil {
@@ -3888,11 +3744,7 @@ func (in *PatchSettings_STATUS) DeepCopyInto(out *PatchSettings_STATUS) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-<<<<<<< HEAD
 		*out = new(PatchSettings_PatchMode_STATUS)
-=======
-		*out = new(PatchSettings_STATUS_PatchMode)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -3917,11 +3769,7 @@ func (in *PatchSettings_STATUSARM) DeepCopyInto(out *PatchSettings_STATUSARM) {
 	}
 	if in.PatchMode != nil {
 		in, out := &in.PatchMode, &out.PatchMode
-<<<<<<< HEAD
 		*out = new(PatchSettings_PatchMode_STATUS)
-=======
-		*out = new(PatchSettings_STATUS_PatchMode)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -4301,11 +4149,7 @@ func (in *ScaleInPolicy_STATUS) DeepCopyInto(out *ScaleInPolicy_STATUS) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-<<<<<<< HEAD
 		*out = make([]ScaleInPolicy_Rules_STATUS, len(*in))
-=======
-		*out = make([]ScaleInPolicy_STATUS_Rules, len(*in))
->>>>>>> main
 		copy(*out, *in)
 	}
 }
@@ -4325,11 +4169,7 @@ func (in *ScaleInPolicy_STATUSARM) DeepCopyInto(out *ScaleInPolicy_STATUSARM) {
 	*out = *in
 	if in.Rules != nil {
 		in, out := &in.Rules, &out.Rules
-<<<<<<< HEAD
 		*out = make([]ScaleInPolicy_Rules_STATUS, len(*in))
-=======
-		*out = make([]ScaleInPolicy_STATUS_Rules, len(*in))
->>>>>>> main
 		copy(*out, *in)
 	}
 }
@@ -4494,11 +4334,7 @@ func (in *SecurityProfile_STATUS) DeepCopyInto(out *SecurityProfile_STATUS) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-<<<<<<< HEAD
 		*out = new(SecurityProfile_SecurityType_STATUS)
-=======
-		*out = new(SecurityProfile_STATUS_SecurityType)
->>>>>>> main
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -4528,11 +4364,7 @@ func (in *SecurityProfile_STATUSARM) DeepCopyInto(out *SecurityProfile_STATUSARM
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-<<<<<<< HEAD
 		*out = new(SecurityProfile_SecurityType_STATUS)
-=======
-		*out = new(SecurityProfile_STATUS_SecurityType)
->>>>>>> main
 		**out = **in
 	}
 	if in.UefiSettings != nil {
@@ -5338,11 +5170,7 @@ func (in *UpgradePolicy_STATUS) DeepCopyInto(out *UpgradePolicy_STATUS) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-<<<<<<< HEAD
 		*out = new(UpgradePolicy_Mode_STATUS)
-=======
-		*out = new(UpgradePolicy_STATUS_Mode)
->>>>>>> main
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -5372,11 +5200,7 @@ func (in *UpgradePolicy_STATUSARM) DeepCopyInto(out *UpgradePolicy_STATUSARM) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-<<<<<<< HEAD
 		*out = new(UpgradePolicy_Mode_STATUS)
-=======
-		*out = new(UpgradePolicy_STATUS_Mode)
->>>>>>> main
 		**out = **in
 	}
 	if in.RollingUpgradePolicy != nil {
@@ -6022,11 +5846,7 @@ func (in *VirtualMachineIdentity_STATUS) DeepCopyInto(out *VirtualMachineIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(VirtualMachineIdentity_Type_STATUS)
-=======
-		*out = new(VirtualMachineIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -6056,11 +5876,7 @@ func (in *VirtualMachineIdentity_STATUSARM) DeepCopyInto(out *VirtualMachineIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(VirtualMachineIdentity_Type_STATUS)
-=======
-		*out = new(VirtualMachineIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -6109,11 +5925,7 @@ func (in *VirtualMachineInstanceView_STATUS) DeepCopyInto(out *VirtualMachineIns
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-<<<<<<< HEAD
 		*out = new(VirtualMachineInstanceView_HyperVGeneration_STATUS)
-=======
-		*out = new(VirtualMachineInstanceView_STATUS_HyperVGeneration)
->>>>>>> main
 		**out = **in
 	}
 	if in.MaintenanceRedeployStatus != nil {
@@ -6214,11 +6026,7 @@ func (in *VirtualMachineInstanceView_STATUSARM) DeepCopyInto(out *VirtualMachine
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-<<<<<<< HEAD
 		*out = new(VirtualMachineInstanceView_HyperVGeneration_STATUS)
-=======
-		*out = new(VirtualMachineInstanceView_STATUS_HyperVGeneration)
->>>>>>> main
 		**out = **in
 	}
 	if in.MaintenanceRedeployStatus != nil {
@@ -6638,20 +6446,12 @@ func (in *VirtualMachineScaleSetDataDisk) DeepCopyInto(out *VirtualMachineScaleS
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(VirtualMachineScaleSetDataDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(VirtualMachineScaleSetDataDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskIOPSReadWrite != nil {
@@ -6706,20 +6506,12 @@ func (in *VirtualMachineScaleSetDataDiskARM) DeepCopyInto(out *VirtualMachineSca
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(VirtualMachineScaleSetDataDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(VirtualMachineScaleSetDataDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiskIOPSReadWrite != nil {
@@ -7227,11 +7019,7 @@ func (in *VirtualMachineScaleSetIPConfigurationProperties_STATUSARM) DeepCopyInt
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetIPConfigurationProperties_STATUS_PrivateIPAddressVersion)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7304,11 +7092,7 @@ func (in *VirtualMachineScaleSetIPConfiguration_STATUS) DeepCopyInto(out *Virtua
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetIPConfigurationProperties_STATUS_PrivateIPAddressVersion)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicIPAddressConfiguration != nil {
@@ -7418,11 +7202,7 @@ func (in *VirtualMachineScaleSetIdentity_STATUS) DeepCopyInto(out *VirtualMachin
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetIdentity_Type_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -7452,11 +7232,7 @@ func (in *VirtualMachineScaleSetIdentity_STATUSARM) DeepCopyInto(out *VirtualMac
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetIdentity_Type_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetIdentity_STATUS_Type)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -7613,11 +7389,7 @@ func (in *VirtualMachineScaleSetManagedDiskParameters) DeepCopyInto(out *Virtual
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-<<<<<<< HEAD
 		*out = new(StorageAccountType)
-=======
-		*out = new(VirtualMachineScaleSetManagedDiskParameters_StorageAccountType)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -7642,11 +7414,7 @@ func (in *VirtualMachineScaleSetManagedDiskParametersARM) DeepCopyInto(out *Virt
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-<<<<<<< HEAD
 		*out = new(StorageAccountType)
-=======
-		*out = new(VirtualMachineScaleSetManagedDiskParameters_StorageAccountType)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -8192,20 +7960,12 @@ func (in *VirtualMachineScaleSetOSDisk) DeepCopyInto(out *VirtualMachineScaleSet
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -8265,20 +8025,12 @@ func (in *VirtualMachineScaleSetOSDiskARM) DeepCopyInto(out *VirtualMachineScale
 	*out = *in
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-<<<<<<< HEAD
 		*out = new(Caching)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_Caching)
->>>>>>> main
 		**out = **in
 	}
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-<<<<<<< HEAD
 		*out = new(CreateOption)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_CreateOption)
->>>>>>> main
 		**out = **in
 	}
 	if in.DiffDiskSettings != nil {
@@ -8373,11 +8125,7 @@ func (in *VirtualMachineScaleSetOSDisk_STATUS) DeepCopyInto(out *VirtualMachineS
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetOSDisk_OsType_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_STATUS_OsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -8442,11 +8190,7 @@ func (in *VirtualMachineScaleSetOSDisk_STATUSARM) DeepCopyInto(out *VirtualMachi
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetOSDisk_OsType_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetOSDisk_STATUS_OsType)
->>>>>>> main
 		**out = **in
 	}
 	if in.VhdContainers != nil {
@@ -9055,11 +8799,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -9106,11 +8846,7 @@ func (in *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) DeepCopyInt
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-<<<<<<< HEAD
 		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS)
-=======
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion)
->>>>>>> main
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -9824,11 +9560,7 @@ func (in *VirtualMachineScaleSet_Spec) DeepCopyInto(out *VirtualMachineScaleSet_
 	}
 	if in.OrchestrationMode != nil {
 		in, out := &in.OrchestrationMode, &out.OrchestrationMode
-<<<<<<< HEAD
 		*out = new(OrchestrationMode)
-=======
-		*out = new(VirtualMachineScaleSets_Spec_Properties_OrchestrationMode)
->>>>>>> main
 		**out = **in
 	}
 	if in.Overprovision != nil {
@@ -9962,892 +9694,7 @@ func (in *VirtualMachineScaleSet_SpecARM) DeepCopy() *VirtualMachineScaleSet_Spe
 	if in == nil {
 		return nil
 	}
-<<<<<<< HEAD
 	out := new(VirtualMachineScaleSet_SpecARM)
-=======
-	out := new(VirtualMachineScaleSets_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_PropertiesARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_PropertiesARM) {
-	*out = *in
-	if in.AdditionalCapabilities != nil {
-		in, out := &in.AdditionalCapabilities, &out.AdditionalCapabilities
-		*out = new(AdditionalCapabilitiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.AutomaticRepairsPolicy != nil {
-		in, out := &in.AutomaticRepairsPolicy, &out.AutomaticRepairsPolicy
-		*out = new(AutomaticRepairsPolicyARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.DoNotRunExtensionsOnOverprovisionedVMs != nil {
-		in, out := &in.DoNotRunExtensionsOnOverprovisionedVMs, &out.DoNotRunExtensionsOnOverprovisionedVMs
-		*out = new(bool)
-		**out = **in
-	}
-	if in.HostGroup != nil {
-		in, out := &in.HostGroup, &out.HostGroup
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.OrchestrationMode != nil {
-		in, out := &in.OrchestrationMode, &out.OrchestrationMode
-		*out = new(VirtualMachineScaleSets_Spec_Properties_OrchestrationMode)
-		**out = **in
-	}
-	if in.Overprovision != nil {
-		in, out := &in.Overprovision, &out.Overprovision
-		*out = new(bool)
-		**out = **in
-	}
-	if in.PlatformFaultDomainCount != nil {
-		in, out := &in.PlatformFaultDomainCount, &out.PlatformFaultDomainCount
-		*out = new(int)
-		**out = **in
-	}
-	if in.ProximityPlacementGroup != nil {
-		in, out := &in.ProximityPlacementGroup, &out.ProximityPlacementGroup
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ScaleInPolicy != nil {
-		in, out := &in.ScaleInPolicy, &out.ScaleInPolicy
-		*out = new(ScaleInPolicyARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SinglePlacementGroup != nil {
-		in, out := &in.SinglePlacementGroup, &out.SinglePlacementGroup
-		*out = new(bool)
-		**out = **in
-	}
-	if in.UpgradePolicy != nil {
-		in, out := &in.UpgradePolicy, &out.UpgradePolicy
-		*out = new(UpgradePolicyARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.VirtualMachineProfile != nil {
-		in, out := &in.VirtualMachineProfile, &out.VirtualMachineProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ZoneBalance != nil {
-		in, out := &in.ZoneBalance, &out.ZoneBalance
-		*out = new(bool)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_PropertiesARM.
-func (in *VirtualMachineScaleSets_Spec_PropertiesARM) DeepCopy() *VirtualMachineScaleSets_Spec_PropertiesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_PropertiesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) {
-	*out = *in
-	if in.BillingProfile != nil {
-		in, out := &in.BillingProfile, &out.BillingProfile
-		*out = new(BillingProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.DiagnosticsProfile != nil {
-		in, out := &in.DiagnosticsProfile, &out.DiagnosticsProfile
-		*out = new(DiagnosticsProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.EvictionPolicy != nil {
-		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_EvictionPolicy)
-		**out = **in
-	}
-	if in.ExtensionProfile != nil {
-		in, out := &in.ExtensionProfile, &out.ExtensionProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.LicenseType != nil {
-		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(string)
-		**out = **in
-	}
-	if in.NetworkProfile != nil {
-		in, out := &in.NetworkProfile, &out.NetworkProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.OsProfile != nil {
-		in, out := &in.OsProfile, &out.OsProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Priority != nil {
-		in, out := &in.Priority, &out.Priority
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Priority)
-		**out = **in
-	}
-	if in.ScheduledEventsProfile != nil {
-		in, out := &in.ScheduledEventsProfile, &out.ScheduledEventsProfile
-		*out = new(ScheduledEventsProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SecurityProfile != nil {
-		in, out := &in.SecurityProfile, &out.SecurityProfile
-		*out = new(SecurityProfile)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.StorageProfile != nil {
-		in, out := &in.StorageProfile, &out.StorageProfile
-		*out = new(VirtualMachineScaleSetStorageProfile)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM) {
-	*out = *in
-	if in.BillingProfile != nil {
-		in, out := &in.BillingProfile, &out.BillingProfile
-		*out = new(BillingProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.DiagnosticsProfile != nil {
-		in, out := &in.DiagnosticsProfile, &out.DiagnosticsProfile
-		*out = new(DiagnosticsProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.EvictionPolicy != nil {
-		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_EvictionPolicy)
-		**out = **in
-	}
-	if in.ExtensionProfile != nil {
-		in, out := &in.ExtensionProfile, &out.ExtensionProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.LicenseType != nil {
-		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(string)
-		**out = **in
-	}
-	if in.NetworkProfile != nil {
-		in, out := &in.NetworkProfile, &out.NetworkProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.OsProfile != nil {
-		in, out := &in.OsProfile, &out.OsProfile
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Priority != nil {
-		in, out := &in.Priority, &out.Priority
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Priority)
-		**out = **in
-	}
-	if in.ScheduledEventsProfile != nil {
-		in, out := &in.ScheduledEventsProfile, &out.ScheduledEventsProfile
-		*out = new(ScheduledEventsProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SecurityProfile != nil {
-		in, out := &in.SecurityProfile, &out.SecurityProfile
-		*out = new(SecurityProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.StorageProfile != nil {
-		in, out := &in.StorageProfile, &out.StorageProfile
-		*out = new(VirtualMachineScaleSetStorageProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) {
-	*out = *in
-	if in.Extensions != nil {
-		in, out := &in.Extensions, &out.Extensions
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.ExtensionsTimeBudget != nil {
-		in, out := &in.ExtensionsTimeBudget, &out.ExtensionsTimeBudget
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM) {
-	*out = *in
-	if in.Extensions != nil {
-		in, out := &in.Extensions, &out.Extensions
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.ExtensionsTimeBudget != nil {
-		in, out := &in.ExtensionsTimeBudget, &out.ExtensionsTimeBudget
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) {
-	*out = *in
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Publisher != nil {
-		in, out := &in.Publisher, &out.Publisher
-		*out = new(string)
-		**out = **in
-	}
-	if in.Settings != nil {
-		in, out := &in.Settings, &out.Settings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
-	}
-	if in.TypeHandlerVersion != nil {
-		in, out := &in.TypeHandlerVersion, &out.TypeHandlerVersion
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM) {
-	*out = *in
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(GenericExtensionARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) {
-	*out = *in
-	if in.HealthProbe != nil {
-		in, out := &in.HealthProbe, &out.HealthProbe
-		*out = new(ApiEntityReference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkInterfaceConfigurations != nil {
-		in, out := &in.NetworkInterfaceConfigurations, &out.NetworkInterfaceConfigurations
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM) {
-	*out = *in
-	if in.HealthProbe != nil {
-		in, out := &in.HealthProbe, &out.HealthProbe
-		*out = new(ApiEntityReferenceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkInterfaceConfigurations != nil {
-		in, out := &in.NetworkInterfaceConfigurations, &out.NetworkInterfaceConfigurations
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) {
-	*out = *in
-	if in.DnsSettings != nil {
-		in, out := &in.DnsSettings, &out.DnsSettings
-		*out = new(VirtualMachineScaleSetNetworkConfigurationDnsSettings)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.EnableAcceleratedNetworking != nil {
-		in, out := &in.EnableAcceleratedNetworking, &out.EnableAcceleratedNetworking
-		*out = new(bool)
-		**out = **in
-	}
-	if in.EnableFpga != nil {
-		in, out := &in.EnableFpga, &out.EnableFpga
-		*out = new(bool)
-		**out = **in
-	}
-	if in.EnableIPForwarding != nil {
-		in, out := &in.EnableIPForwarding, &out.EnableIPForwarding
-		*out = new(bool)
-		**out = **in
-	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.IpConfigurations != nil {
-		in, out := &in.IpConfigurations, &out.IpConfigurations
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.NetworkSecurityGroup != nil {
-		in, out := &in.NetworkSecurityGroup, &out.NetworkSecurityGroup
-		*out = new(SubResource)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Primary != nil {
-		in, out := &in.Primary, &out.Primary
-		*out = new(bool)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM) {
-	*out = *in
-	if in.DnsSettings != nil {
-		in, out := &in.DnsSettings, &out.DnsSettings
-		*out = new(VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.EnableAcceleratedNetworking != nil {
-		in, out := &in.EnableAcceleratedNetworking, &out.EnableAcceleratedNetworking
-		*out = new(bool)
-		**out = **in
-	}
-	if in.EnableFpga != nil {
-		in, out := &in.EnableFpga, &out.EnableFpga
-		*out = new(bool)
-		**out = **in
-	}
-	if in.EnableIPForwarding != nil {
-		in, out := &in.EnableIPForwarding, &out.EnableIPForwarding
-		*out = new(bool)
-		**out = **in
-	}
-	if in.IpConfigurations != nil {
-		in, out := &in.IpConfigurations, &out.IpConfigurations
-		*out = make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.NetworkSecurityGroup != nil {
-		in, out := &in.NetworkSecurityGroup, &out.NetworkSecurityGroup
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Primary != nil {
-		in, out := &in.Primary, &out.Primary
-		*out = new(bool)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_PropertiesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) {
-	*out = *in
-	if in.ApplicationGatewayBackendAddressPools != nil {
-		in, out := &in.ApplicationGatewayBackendAddressPools, &out.ApplicationGatewayBackendAddressPools
-		*out = make([]SubResource, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.ApplicationSecurityGroups != nil {
-		in, out := &in.ApplicationSecurityGroups, &out.ApplicationSecurityGroups
-		*out = make([]SubResource, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.LoadBalancerBackendAddressPools != nil {
-		in, out := &in.LoadBalancerBackendAddressPools, &out.LoadBalancerBackendAddressPools
-		*out = make([]SubResource, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.LoadBalancerInboundNatPools != nil {
-		in, out := &in.LoadBalancerInboundNatPools, &out.LoadBalancerInboundNatPools
-		*out = make([]SubResource, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Primary != nil {
-		in, out := &in.Primary, &out.Primary
-		*out = new(bool)
-		**out = **in
-	}
-	if in.PrivateIPAddressVersion != nil {
-		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion)
-		**out = **in
-	}
-	if in.PublicIPAddressConfiguration != nil {
-		in, out := &in.PublicIPAddressConfiguration, &out.PublicIPAddressConfiguration
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Subnet != nil {
-		in, out := &in.Subnet, &out.Subnet
-		*out = new(ApiEntityReference)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM) {
-	*out = *in
-	if in.ApplicationGatewayBackendAddressPools != nil {
-		in, out := &in.ApplicationGatewayBackendAddressPools, &out.ApplicationGatewayBackendAddressPools
-		*out = make([]SubResourceARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.ApplicationSecurityGroups != nil {
-		in, out := &in.ApplicationSecurityGroups, &out.ApplicationSecurityGroups
-		*out = make([]SubResourceARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.LoadBalancerBackendAddressPools != nil {
-		in, out := &in.LoadBalancerBackendAddressPools, &out.LoadBalancerBackendAddressPools
-		*out = make([]SubResourceARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.LoadBalancerInboundNatPools != nil {
-		in, out := &in.LoadBalancerInboundNatPools, &out.LoadBalancerInboundNatPools
-		*out = make([]SubResourceARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Primary != nil {
-		in, out := &in.Primary, &out.Primary
-		*out = new(bool)
-		**out = **in
-	}
-	if in.PrivateIPAddressVersion != nil {
-		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion)
-		**out = **in
-	}
-	if in.PublicIPAddressConfiguration != nil {
-		in, out := &in.PublicIPAddressConfiguration, &out.PublicIPAddressConfiguration
-		*out = new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Subnet != nil {
-		in, out := &in.Subnet, &out.Subnet
-		*out = new(ApiEntityReferenceARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_PropertiesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) {
-	*out = *in
-	if in.DnsSettings != nil {
-		in, out := &in.DnsSettings, &out.DnsSettings
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.IdleTimeoutInMinutes != nil {
-		in, out := &in.IdleTimeoutInMinutes, &out.IdleTimeoutInMinutes
-		*out = new(int)
-		**out = **in
-	}
-	if in.IpTags != nil {
-		in, out := &in.IpTags, &out.IpTags
-		*out = make([]VirtualMachineScaleSetIpTag, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.PublicIPAddressVersion != nil {
-		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion)
-		**out = **in
-	}
-	if in.PublicIPPrefix != nil {
-		in, out := &in.PublicIPPrefix, &out.PublicIPPrefix
-		*out = new(SubResource)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM) {
-	*out = *in
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) {
-	*out = *in
-	if in.AdminPassword != nil {
-		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(genruntime.SecretReference)
-		**out = **in
-	}
-	if in.AdminUsername != nil {
-		in, out := &in.AdminUsername, &out.AdminUsername
-		*out = new(string)
-		**out = **in
-	}
-	if in.ComputerNamePrefix != nil {
-		in, out := &in.ComputerNamePrefix, &out.ComputerNamePrefix
-		*out = new(string)
-		**out = **in
-	}
-	if in.CustomData != nil {
-		in, out := &in.CustomData, &out.CustomData
-		*out = new(string)
-		**out = **in
-	}
-	if in.LinuxConfiguration != nil {
-		in, out := &in.LinuxConfiguration, &out.LinuxConfiguration
-		*out = new(LinuxConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Secrets != nil {
-		in, out := &in.Secrets, &out.Secrets
-		*out = make([]VaultSecretGroup, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.WindowsConfiguration != nil {
-		in, out := &in.WindowsConfiguration, &out.WindowsConfiguration
-		*out = new(WindowsConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM) DeepCopyInto(out *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM) {
-	*out = *in
-	if in.AdminPassword != nil {
-		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(string)
-		**out = **in
-	}
-	if in.AdminUsername != nil {
-		in, out := &in.AdminUsername, &out.AdminUsername
-		*out = new(string)
-		**out = **in
-	}
-	if in.ComputerNamePrefix != nil {
-		in, out := &in.ComputerNamePrefix, &out.ComputerNamePrefix
-		*out = new(string)
-		**out = **in
-	}
-	if in.CustomData != nil {
-		in, out := &in.CustomData, &out.CustomData
-		*out = new(string)
-		**out = **in
-	}
-	if in.LinuxConfiguration != nil {
-		in, out := &in.LinuxConfiguration, &out.LinuxConfiguration
-		*out = new(LinuxConfigurationARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Secrets != nil {
-		in, out := &in.Secrets, &out.Secrets
-		*out = make([]VaultSecretGroupARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.WindowsConfiguration != nil {
-		in, out := &in.WindowsConfiguration, &out.WindowsConfiguration
-		*out = new(WindowsConfigurationARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM.
-func (in *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM) DeepCopy() *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
->>>>>>> main
 	in.DeepCopyInto(out)
 	return out
 }
@@ -11118,11 +9965,7 @@ func (in *VirtualMachine_Spec) DeepCopyInto(out *VirtualMachine_Spec) {
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-<<<<<<< HEAD
 		*out = new(EvictionPolicy)
-=======
-		*out = new(VirtualMachines_Spec_Properties_EvictionPolicy)
->>>>>>> main
 		**out = **in
 	}
 	if in.ExtendedLocation != nil {
@@ -11192,11 +10035,7 @@ func (in *VirtualMachine_Spec) DeepCopyInto(out *VirtualMachine_Spec) {
 	}
 	if in.Priority != nil {
 		in, out := &in.Priority, &out.Priority
-<<<<<<< HEAD
 		*out = new(Priority)
-=======
-		*out = new(VirtualMachines_Spec_Properties_Priority)
->>>>>>> main
 		**out = **in
 	}
 	if in.ProximityPlacementGroup != nil {
@@ -11290,334 +10129,7 @@ func (in *VirtualMachine_SpecARM) DeepCopy() *VirtualMachine_SpecARM {
 	if in == nil {
 		return nil
 	}
-<<<<<<< HEAD
 	out := new(VirtualMachine_SpecARM)
-=======
-	out := new(VirtualMachines_SpecARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_PropertiesARM) DeepCopyInto(out *VirtualMachines_Spec_PropertiesARM) {
-	*out = *in
-	if in.AdditionalCapabilities != nil {
-		in, out := &in.AdditionalCapabilities, &out.AdditionalCapabilities
-		*out = new(AdditionalCapabilitiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.AvailabilitySet != nil {
-		in, out := &in.AvailabilitySet, &out.AvailabilitySet
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.BillingProfile != nil {
-		in, out := &in.BillingProfile, &out.BillingProfile
-		*out = new(BillingProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.DiagnosticsProfile != nil {
-		in, out := &in.DiagnosticsProfile, &out.DiagnosticsProfile
-		*out = new(DiagnosticsProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.EvictionPolicy != nil {
-		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(VirtualMachines_Spec_Properties_EvictionPolicy)
-		**out = **in
-	}
-	if in.ExtensionsTimeBudget != nil {
-		in, out := &in.ExtensionsTimeBudget, &out.ExtensionsTimeBudget
-		*out = new(string)
-		**out = **in
-	}
-	if in.HardwareProfile != nil {
-		in, out := &in.HardwareProfile, &out.HardwareProfile
-		*out = new(HardwareProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Host != nil {
-		in, out := &in.Host, &out.Host
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.HostGroup != nil {
-		in, out := &in.HostGroup, &out.HostGroup
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.LicenseType != nil {
-		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(string)
-		**out = **in
-	}
-	if in.NetworkProfile != nil {
-		in, out := &in.NetworkProfile, &out.NetworkProfile
-		*out = new(VirtualMachines_Spec_Properties_NetworkProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.OsProfile != nil {
-		in, out := &in.OsProfile, &out.OsProfile
-		*out = new(VirtualMachines_Spec_Properties_OsProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.PlatformFaultDomain != nil {
-		in, out := &in.PlatformFaultDomain, &out.PlatformFaultDomain
-		*out = new(int)
-		**out = **in
-	}
-	if in.Priority != nil {
-		in, out := &in.Priority, &out.Priority
-		*out = new(VirtualMachines_Spec_Properties_Priority)
-		**out = **in
-	}
-	if in.ProximityPlacementGroup != nil {
-		in, out := &in.ProximityPlacementGroup, &out.ProximityPlacementGroup
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SecurityProfile != nil {
-		in, out := &in.SecurityProfile, &out.SecurityProfile
-		*out = new(SecurityProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.StorageProfile != nil {
-		in, out := &in.StorageProfile, &out.StorageProfile
-		*out = new(StorageProfileARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.VirtualMachineScaleSet != nil {
-		in, out := &in.VirtualMachineScaleSet, &out.VirtualMachineScaleSet
-		*out = new(SubResourceARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_PropertiesARM.
-func (in *VirtualMachines_Spec_PropertiesARM) DeepCopy() *VirtualMachines_Spec_PropertiesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_PropertiesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile) DeepCopyInto(out *VirtualMachines_Spec_Properties_NetworkProfile) {
-	*out = *in
-	if in.NetworkInterfaces != nil {
-		in, out := &in.NetworkInterfaces, &out.NetworkInterfaces
-		*out = make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_NetworkProfile.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile) DeepCopy() *VirtualMachines_Spec_Properties_NetworkProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_NetworkProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_NetworkProfileARM) DeepCopyInto(out *VirtualMachines_Spec_Properties_NetworkProfileARM) {
-	*out = *in
-	if in.NetworkInterfaces != nil {
-		in, out := &in.NetworkInterfaces, &out.NetworkInterfaces
-		*out = make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_NetworkProfileARM.
-func (in *VirtualMachines_Spec_Properties_NetworkProfileARM) DeepCopy() *VirtualMachines_Spec_Properties_NetworkProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_NetworkProfileARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) DeepCopyInto(out *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) {
-	*out = *in
-	if in.Primary != nil {
-		in, out := &in.Primary, &out.Primary
-		*out = new(bool)
-		**out = **in
-	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) DeepCopy() *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM) DeepCopyInto(out *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(NetworkInterfaceReferencePropertiesARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM.
-func (in *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM) DeepCopy() *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_OsProfile) DeepCopyInto(out *VirtualMachines_Spec_Properties_OsProfile) {
-	*out = *in
-	if in.AdminPassword != nil {
-		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(genruntime.SecretReference)
-		**out = **in
-	}
-	if in.AdminUsername != nil {
-		in, out := &in.AdminUsername, &out.AdminUsername
-		*out = new(string)
-		**out = **in
-	}
-	if in.AllowExtensionOperations != nil {
-		in, out := &in.AllowExtensionOperations, &out.AllowExtensionOperations
-		*out = new(bool)
-		**out = **in
-	}
-	if in.ComputerName != nil {
-		in, out := &in.ComputerName, &out.ComputerName
-		*out = new(string)
-		**out = **in
-	}
-	if in.CustomData != nil {
-		in, out := &in.CustomData, &out.CustomData
-		*out = new(string)
-		**out = **in
-	}
-	if in.LinuxConfiguration != nil {
-		in, out := &in.LinuxConfiguration, &out.LinuxConfiguration
-		*out = new(LinuxConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.RequireGuestProvisionSignal != nil {
-		in, out := &in.RequireGuestProvisionSignal, &out.RequireGuestProvisionSignal
-		*out = new(bool)
-		**out = **in
-	}
-	if in.Secrets != nil {
-		in, out := &in.Secrets, &out.Secrets
-		*out = make([]VaultSecretGroup, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.WindowsConfiguration != nil {
-		in, out := &in.WindowsConfiguration, &out.WindowsConfiguration
-		*out = new(WindowsConfiguration)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_OsProfile.
-func (in *VirtualMachines_Spec_Properties_OsProfile) DeepCopy() *VirtualMachines_Spec_Properties_OsProfile {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_OsProfile)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *VirtualMachines_Spec_Properties_OsProfileARM) DeepCopyInto(out *VirtualMachines_Spec_Properties_OsProfileARM) {
-	*out = *in
-	if in.AdminPassword != nil {
-		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(string)
-		**out = **in
-	}
-	if in.AdminUsername != nil {
-		in, out := &in.AdminUsername, &out.AdminUsername
-		*out = new(string)
-		**out = **in
-	}
-	if in.AllowExtensionOperations != nil {
-		in, out := &in.AllowExtensionOperations, &out.AllowExtensionOperations
-		*out = new(bool)
-		**out = **in
-	}
-	if in.ComputerName != nil {
-		in, out := &in.ComputerName, &out.ComputerName
-		*out = new(string)
-		**out = **in
-	}
-	if in.CustomData != nil {
-		in, out := &in.CustomData, &out.CustomData
-		*out = new(string)
-		**out = **in
-	}
-	if in.LinuxConfiguration != nil {
-		in, out := &in.LinuxConfiguration, &out.LinuxConfiguration
-		*out = new(LinuxConfigurationARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.RequireGuestProvisionSignal != nil {
-		in, out := &in.RequireGuestProvisionSignal, &out.RequireGuestProvisionSignal
-		*out = new(bool)
-		**out = **in
-	}
-	if in.Secrets != nil {
-		in, out := &in.Secrets, &out.Secrets
-		*out = make([]VaultSecretGroupARM, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.WindowsConfiguration != nil {
-		in, out := &in.WindowsConfiguration, &out.WindowsConfiguration
-		*out = new(WindowsConfigurationARM)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new VirtualMachines_Spec_Properties_OsProfileARM.
-func (in *VirtualMachines_Spec_Properties_OsProfileARM) DeepCopy() *VirtualMachines_Spec_Properties_OsProfileARM {
-	if in == nil {
-		return nil
-	}
-	out := new(VirtualMachines_Spec_Properties_OsProfileARM)
->>>>>>> main
 	in.DeepCopyInto(out)
 	return out
 }
@@ -11770,11 +10282,7 @@ func (in *WinRMListener_STATUS) DeepCopyInto(out *WinRMListener_STATUS) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-<<<<<<< HEAD
 		*out = new(WinRMListener_Protocol_STATUS)
-=======
-		*out = new(WinRMListener_STATUS_Protocol)
->>>>>>> main
 		**out = **in
 	}
 }
@@ -11799,11 +10307,7 @@ func (in *WinRMListener_STATUSARM) DeepCopyInto(out *WinRMListener_STATUSARM) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-<<<<<<< HEAD
 		*out = new(WinRMListener_Protocol_STATUS)
-=======
-		*out = new(WinRMListener_STATUS_Protocol)
->>>>>>> main
 		**out = **in
 	}
 }
