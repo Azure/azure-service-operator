@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-// Deprecated version of StorageAccountsQueueServicesQueue_STATUS. Use v1beta20210401.StorageAccountsQueueServicesQueue_STATUS instead
-type StorageAccountsQueueServicesQueue_STATUSARM struct {
+// Deprecated version of StorageAccounts_QueueServices_Queue_STATUS. Use v1beta20210401.StorageAccounts_QueueServices_Queue_STATUS instead
+type StorageAccounts_QueueServices_Queue_STATUSARM struct {
 	Id         *string                    `json:"id,omitempty"`
 	Name       *string                    `json:"name,omitempty"`
 	Properties *QueueProperties_STATUSARM `json:"properties,omitempty"`

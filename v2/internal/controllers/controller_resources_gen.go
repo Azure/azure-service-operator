@@ -361,9 +361,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(machinelearningservices_v20210701s.WorkspacesConnection),
-	})
-	result = append(result, &registration.StorageType{
 		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
 	})
 	result = append(result, &registration.StorageType{
@@ -684,16 +681,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
-	result = append(
-		result,
-		new(machinelearningservices_v20210701.Workspace),
-		new(machinelearningservices_v20210701.WorkspacesCompute),
-		new(machinelearningservices_v20210701.WorkspacesConnection))
-	result = append(
-		result,
-		new(machinelearningservices_v20210701s.Workspace),
-		new(machinelearningservices_v20210701s.WorkspacesCompute),
-		new(machinelearningservices_v20210701s.WorkspacesConnection))
+	result = append(result, new(machinelearningservices_v20210701.Workspace), new(machinelearningservices_v20210701.WorkspacesCompute))
+	result = append(result, new(machinelearningservices_v20210701s.Workspace), new(machinelearningservices_v20210701s.WorkspacesCompute))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
@@ -978,7 +967,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
-	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})

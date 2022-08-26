@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM, DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator()))
+		"Round trip of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM, DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(subject DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM runs a test to see if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(subject DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProc
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM
+	var actual DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProc
 	return ""
 }
 
-// Generator of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM instances for property testing - lazily
-// instantiated by DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator()
-var databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM instances for property testing -
+// lazily instantiated by DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator()
+var databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator with a simplified generator based on the
+// DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator returns a generator of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM instances for property testing.
+// We first initialize databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator
+func DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator() gopter.Gen {
+	if databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator != nil {
+		return databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(generators)
-	databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(generators)
+	databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(generators)
-	databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(generators)
+	databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARMGenerator
+	return databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersSt
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SqlStoredProcedureGetProperties_STATUSARMGenerator())
 }
 

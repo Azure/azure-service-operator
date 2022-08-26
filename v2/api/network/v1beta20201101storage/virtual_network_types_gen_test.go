@@ -74,7 +74,6 @@ func VirtualNetworkGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = VirtualNetwork_SpecGenerator()
 	gens["Status"] = VirtualNetwork_STATUSGenerator()
 }
@@ -162,12 +161,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_VirtualNetwork_SubResourceEmbeddedGenerator())
-	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringGenerator())
-=======
-	gens["Spec"] = VirtualNetworks_SpecGenerator()
-	gens["Status"] = VirtualNetwork_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_VirtualNetwork_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -257,94 +250,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
-<<<<<<< HEAD
-=======
-}
-
-func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworks_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworks_Spec runs a test to see if a specific instance of VirtualNetworks_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworks_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
-// VirtualNetworks_SpecGenerator()
-var virtualNetworks_SpecGenerator gopter.Gen
-
-// VirtualNetworks_SpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
-// We first initialize virtualNetworks_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworks_SpecGenerator() gopter.Gen {
-	if virtualNetworks_SpecGenerator != nil {
-		return virtualNetworks_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	return virtualNetworks_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
-	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
-	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
-	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
->>>>>>> main
 }
 
 func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -588,61 +493,6 @@ func AddIndependentPropertyGeneratorsForDhcpOptions_STATUS(gens map[string]gopte
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_Subnet_VirtualNetwork_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_VirtualNetwork_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded, Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded runs a test to see if a specific instance of Subnet_VirtualNetwork_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded(subject Subnet_VirtualNetwork_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_VirtualNetwork_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing - lazily instantiated by
-// Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()
-var subnet_VirtualNetwork_SubResourceEmbeddedGenerator gopter.Gen
-
-// Subnet_VirtualNetwork_SubResourceEmbeddedGenerator returns a generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing.
-func Subnet_VirtualNetwork_SubResourceEmbeddedGenerator() gopter.Gen {
-	if subnet_VirtualNetwork_SubResourceEmbeddedGenerator != nil {
-		return subnet_VirtualNetwork_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	subnet_VirtualNetwork_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_VirtualNetwork_SubResourceEmbedded{}), generators)
-
-	return subnet_VirtualNetwork_SubResourceEmbeddedGenerator
-}
-
 func Test_VirtualNetworkBgpCommunities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -764,59 +614,4 @@ func VirtualNetworkBgpCommunities_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_VirtualNetworkPeering_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkPeering via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeering, VirtualNetworkPeeringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkPeering runs a test to see if a specific instance of VirtualNetworkPeering round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeering(subject VirtualNetworkPeering) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkPeering
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkPeering instances for property testing - lazily instantiated by
-// VirtualNetworkPeeringGenerator()
-var virtualNetworkPeeringGenerator gopter.Gen
-
-// VirtualNetworkPeeringGenerator returns a generator of VirtualNetworkPeering instances for property testing.
-func VirtualNetworkPeeringGenerator() gopter.Gen {
-	if virtualNetworkPeeringGenerator != nil {
-		return virtualNetworkPeeringGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	virtualNetworkPeeringGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering{}), generators)
-
-	return virtualNetworkPeeringGenerator
 }

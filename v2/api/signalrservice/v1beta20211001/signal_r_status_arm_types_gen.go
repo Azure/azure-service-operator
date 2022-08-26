@@ -128,11 +128,7 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r_status_arm_types_gen.go
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-=======
-	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_resource_status_arm_types_gen.go
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -141,11 +137,7 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r_status_arm_types_gen.go
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_resource_status_arm_types_gen.go
 }
 
 type ManagedIdentityType_STATUS string
@@ -217,7 +209,6 @@ type SignalRTlsSettings_STATUSARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r_status_arm_types_gen.go
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -234,24 +225,6 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
-=======
-type SystemData_STATUS_CreatedByType string
-
-const (
-	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
-	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
-	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
-	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
-)
-
-type SystemData_STATUS_LastModifiedByType string
-
-const (
-	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
-	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
-	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
-	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_resource_status_arm_types_gen.go
 )
 
 type UserAssignedIdentityProperty_STATUSARM struct {

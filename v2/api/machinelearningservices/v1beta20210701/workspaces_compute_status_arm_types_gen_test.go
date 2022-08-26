@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_WorkspacesCompute_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Workspaces_Compute_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WorkspacesCompute_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspacesCompute_STATUSARM, WorkspacesCompute_STATUSARMGenerator()))
+		"Round trip of Workspaces_Compute_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspaces_Compute_STATUSARM, Workspaces_Compute_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspacesCompute_STATUSARM runs a test to see if a specific instance of WorkspacesCompute_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspacesCompute_STATUSARM(subject WorkspacesCompute_STATUSARM) string {
+// RunJSONSerializationTestForWorkspaces_Compute_STATUSARM runs a test to see if a specific instance of Workspaces_Compute_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspaces_Compute_STATUSARM(subject Workspaces_Compute_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForWorkspacesCompute_STATUSARM(subject WorkspacesCo
 	}
 
 	// Deserialize back into memory
-	var actual WorkspacesCompute_STATUSARM
+	var actual Workspaces_Compute_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForWorkspacesCompute_STATUSARM(subject WorkspacesCo
 	return ""
 }
 
-// Generator of WorkspacesCompute_STATUSARM instances for property testing - lazily instantiated by
-// WorkspacesCompute_STATUSARMGenerator()
-var workspacesCompute_STATUSARMGenerator gopter.Gen
+// Generator of Workspaces_Compute_STATUSARM instances for property testing - lazily instantiated by
+// Workspaces_Compute_STATUSARMGenerator()
+var workspaces_Compute_STATUSARMGenerator gopter.Gen
 
-// WorkspacesCompute_STATUSARMGenerator returns a generator of WorkspacesCompute_STATUSARM instances for property testing.
-// We first initialize workspacesCompute_STATUSARMGenerator with a simplified generator based on the
+// Workspaces_Compute_STATUSARMGenerator returns a generator of Workspaces_Compute_STATUSARM instances for property testing.
+// We first initialize workspaces_Compute_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WorkspacesCompute_STATUSARMGenerator() gopter.Gen {
-	if workspacesCompute_STATUSARMGenerator != nil {
-		return workspacesCompute_STATUSARMGenerator
+func Workspaces_Compute_STATUSARMGenerator() gopter.Gen {
+	if workspaces_Compute_STATUSARMGenerator != nil {
+		return workspaces_Compute_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesCompute_STATUSARM(generators)
-	workspacesCompute_STATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspacesCompute_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUSARM(generators)
+	workspaces_Compute_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_Compute_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspacesCompute_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForWorkspacesCompute_STATUSARM(generators)
-	workspacesCompute_STATUSARMGenerator = gen.Struct(reflect.TypeOf(WorkspacesCompute_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForWorkspaces_Compute_STATUSARM(generators)
+	workspaces_Compute_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Workspaces_Compute_STATUSARM{}), generators)
 
-	return workspacesCompute_STATUSARMGenerator
+	return workspaces_Compute_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspacesCompute_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspacesCompute_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForWorkspacesCompute_STATUSARM(gens map[str
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWorkspacesCompute_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspacesCompute_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForWorkspaces_Compute_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspaces_Compute_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(Identity_STATUSARMGenerator())
 	gens["Properties"] = gen.PtrOf(Compute_STATUSARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSARMGenerator())

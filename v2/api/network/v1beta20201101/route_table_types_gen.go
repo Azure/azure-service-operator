@@ -257,31 +257,18 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *v20201101s.Rou
 	table.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
 	var spec RouteTable_Spec
-	err := spec.AssignPropertiesFromRouteTable_Spec(&source.Spec)
+	err := spec.AssignProperties_From_RouteTable_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteTable_Spec() to populate field Spec")
-=======
-	var spec RouteTables_Spec
-	err := spec.AssignProperties_From_RouteTables_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTable_Spec() to populate field Spec")
 	}
 	table.Spec = spec
 
 	// Status
 	var status RouteTable_STATUS
-<<<<<<< HEAD
-	err = status.AssignPropertiesFromRouteTable_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRouteTable_STATUS() to populate field Status")
-=======
 	err = status.AssignProperties_From_RouteTable_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_RouteTable_STATUS() to populate field Status")
->>>>>>> main
 	}
 	table.Status = status
 
@@ -296,31 +283,18 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *v20201101s.
 	destination.ObjectMeta = *table.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
 	var spec v20201101s.RouteTable_Spec
-	err := table.Spec.AssignPropertiesToRouteTable_Spec(&spec)
+	err := table.Spec.AssignProperties_To_RouteTable_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteTable_Spec() to populate field Spec")
-=======
-	var spec v20201101s.RouteTables_Spec
-	err := table.Spec.AssignProperties_To_RouteTables_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20201101s.RouteTable_STATUS
-<<<<<<< HEAD
-	err = table.Status.AssignPropertiesToRouteTable_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRouteTable_STATUS() to populate field Status")
-=======
 	err = table.Status.AssignProperties_To_RouteTable_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_STATUS() to populate field Status")
->>>>>>> main
 	}
 	destination.Status = status
 
@@ -367,9 +341,6 @@ type RouteTable_Spec struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
-	// Routes: Collection of routes contained within a route table.
-	Routes []Route_RouteTable_SubResourceEmbedded `json:"routes,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -406,19 +377,12 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if table.DisableBgpRoutePropagation != nil || table.Routes != nil {
-		result.Properties = &RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM{}
+	if table.DisableBgpRoutePropagation != nil {
+		result.Properties = &RouteTablePropertiesFormatARM{}
 	}
 	if table.DisableBgpRoutePropagation != nil {
 		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
 		result.Properties.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	}
-	for _, item := range table.Routes {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.Routes = append(result.Properties.Routes, *itemARM.(*Route_RouteTable_SubResourceEmbeddedARM))
 	}
 
 	// Set property ‘Tags’:
@@ -468,19 +432,6 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// no assignment for property ‘Reference’
 
-	// Set property ‘Routes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Routes {
-			var item1 Route_RouteTable_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			table.Routes = append(table.Routes, item1)
-		}
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		table.Tags = make(map[string]string, len(typedInput.Tags))
@@ -500,7 +451,7 @@ func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	src, ok := source.(*v20201101s.RouteTable_Spec)
 	if ok {
 		// Populate our instance from source
-		return table.AssignPropertiesFromRouteTable_Spec(src)
+		return table.AssignProperties_From_RouteTable_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -511,7 +462,7 @@ func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 	}
 
 	// Update our instance from src
-	err = table.AssignPropertiesFromRouteTable_Spec(src)
+	err = table.AssignProperties_From_RouteTable_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -524,12 +475,12 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	dst, ok := destination.(*v20201101s.RouteTable_Spec)
 	if ok {
 		// Populate destination from our instance
-		return table.AssignPropertiesToRouteTable_Spec(dst)
+		return table.AssignProperties_To_RouteTable_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201101s.RouteTable_Spec{}
-	err := table.AssignPropertiesToRouteTable_Spec(dst)
+	err := table.AssignProperties_To_RouteTable_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -543,8 +494,8 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	return nil
 }
 
-// AssignPropertiesFromRouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
-func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201101s.RouteTable_Spec) error {
+// AssignProperties_From_RouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
+func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v20201101s.RouteTable_Spec) error {
 
 	// AzureName
 	table.AzureName = source.AzureName
@@ -576,24 +527,6 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201
 		table.Reference = nil
 	}
 
-	// Routes
-	if source.Routes != nil {
-		routeList := make([]Route_RouteTable_SubResourceEmbedded, len(source.Routes))
-		for routeIndex, routeItem := range source.Routes {
-			// Shadow the loop variable to avoid aliasing
-			routeItem := routeItem
-			var route Route_RouteTable_SubResourceEmbedded
-			err := route.AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded(&routeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded() to populate field Routes")
-			}
-			routeList[routeIndex] = route
-		}
-		table.Routes = routeList
-	} else {
-		table.Routes = nil
-	}
-
 	// Tags
 	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -601,8 +534,8 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201
 	return nil
 }
 
-// AssignPropertiesToRouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
-func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v20201101s.RouteTable_Spec) error {
+// AssignProperties_To_RouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
+func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v20201101s.RouteTable_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -637,24 +570,6 @@ func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v20
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
-	}
-
-	// Routes
-	if table.Routes != nil {
-		routeList := make([]v20201101s.Route_RouteTable_SubResourceEmbedded, len(table.Routes))
-		for routeIndex, routeItem := range table.Routes {
-			// Shadow the loop variable to avoid aliasing
-			routeItem := routeItem
-			var route v20201101s.Route_RouteTable_SubResourceEmbedded
-			err := routeItem.AssignPropertiesToRoute_RouteTable_SubResourceEmbedded(&route)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRoute_RouteTable_SubResourceEmbedded() to populate field Routes")
-			}
-			routeList[routeIndex] = route
-		}
-		destination.Routes = routeList
-	} else {
-		destination.Routes = nil
 	}
 
 	// Tags
@@ -718,11 +633,7 @@ func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	src, ok := source.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return table.AssignPropertiesFromRouteTable_STATUS(src)
-=======
 		return table.AssignProperties_From_RouteTable_STATUS(src)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -733,11 +644,7 @@ func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = table.AssignPropertiesFromRouteTable_STATUS(src)
-=======
 	err = table.AssignProperties_From_RouteTable_STATUS(src)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -750,20 +657,12 @@ func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return table.AssignPropertiesToRouteTable_STATUS(dst)
-=======
 		return table.AssignProperties_To_RouteTable_STATUS(dst)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201101s.RouteTable_STATUS{}
-<<<<<<< HEAD
-	err := table.AssignPropertiesToRouteTable_STATUS(dst)
-=======
 	err := table.AssignProperties_To_RouteTable_STATUS(dst)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -862,13 +761,8 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromRouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesFromRouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
-=======
 // AssignProperties_From_RouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
 func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
->>>>>>> main
 
 	// Conditions
 	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -914,13 +808,8 @@ func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToRouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignPropertiesToRouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
-=======
 // AssignProperties_To_RouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
 func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -963,176 +852,6 @@ func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destinatio
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(table.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Route_RouteTable_SubResourceEmbedded struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Route_RouteTable_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *Route_RouteTable_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if embedded == nil {
-		return nil, nil
-	}
-	result := &Route_RouteTable_SubResourceEmbeddedARM{}
-
-	// Set property ‘Id’:
-	if embedded.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *Route_RouteTable_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Route_RouteTable_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *Route_RouteTable_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(Route_RouteTable_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_RouteTable_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded populates our Route_RouteTable_SubResourceEmbedded from the provided source Route_RouteTable_SubResourceEmbedded
-func (embedded *Route_RouteTable_SubResourceEmbedded) AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded(source *v20201101s.Route_RouteTable_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-<<<<<<< HEAD
-// AssignPropertiesToRoute_RouteTable_SubResourceEmbedded populates the provided destination Route_RouteTable_SubResourceEmbedded from our Route_RouteTable_SubResourceEmbedded
-func (embedded *Route_RouteTable_SubResourceEmbedded) AssignPropertiesToRoute_RouteTable_SubResourceEmbedded(destination *v20201101s.Route_RouteTable_SubResourceEmbedded) error {
-=======
-var _ genruntime.ConvertibleSpec = &RouteTables_Spec{}
-
-// ConvertSpecFrom populates our RouteTables_Spec from the provided source
-func (tables *RouteTables_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201101s.RouteTables_Spec)
-	if ok {
-		// Populate our instance from source
-		return tables.AssignProperties_From_RouteTables_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.RouteTables_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = tables.AssignProperties_From_RouteTables_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our RouteTables_Spec
-func (tables *RouteTables_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201101s.RouteTables_Spec)
-	if ok {
-		// Populate destination from our instance
-		return tables.AssignProperties_To_RouteTables_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.RouteTables_Spec{}
-	err := tables.AssignProperties_To_RouteTables_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_RouteTables_Spec populates our RouteTables_Spec from the provided source RouteTables_Spec
-func (tables *RouteTables_Spec) AssignProperties_From_RouteTables_Spec(source *v20201101s.RouteTables_Spec) error {
-
-	// AzureName
-	tables.AzureName = source.AzureName
-
-	// DisableBgpRoutePropagation
-	if source.DisableBgpRoutePropagation != nil {
-		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
-		tables.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	} else {
-		tables.DisableBgpRoutePropagation = nil
-	}
-
-	// Location
-	tables.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		tables.Owner = &owner
-	} else {
-		tables.Owner = nil
-	}
-
-	// Tags
-	tables.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RouteTables_Spec populates the provided destination RouteTables_Spec from our RouteTables_Spec
-func (tables *RouteTables_Spec) AssignProperties_To_RouteTables_Spec(destination *v20201101s.RouteTables_Spec) error {
->>>>>>> main
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if embedded.Reference != nil {
-		reference := embedded.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

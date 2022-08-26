@@ -51,11 +51,7 @@ type ManagedClusterIdentity_STATUSARM struct {
 
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-<<<<<<< HEAD
 	Type *ManagedClusterIdentity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *ManagedClusterIdentity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 
 	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -161,19 +157,11 @@ type ManagedClusterProperties_STATUSARM struct {
 
 type ManagedClusterSKU_STATUSARM struct {
 	// Name: The name of a managed cluster SKU.
-<<<<<<< HEAD
 	Name *ManagedClusterSKU_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: If not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for
 	// more details.
 	Tier *ManagedClusterSKU_Tier_STATUS `json:"tier,omitempty"`
-=======
-	Name *ManagedClusterSKU_STATUS_Name `json:"name,omitempty"`
-
-	// Tier: If not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for
-	// more details.
-	Tier *ManagedClusterSKU_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main
 }
 
 type ContainerServiceLinuxProfile_STATUSARM struct {
@@ -199,7 +187,6 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
 	// balancer SKUs.
-<<<<<<< HEAD
 	LoadBalancerSku *ContainerServiceNetworkProfile_LoadBalancerSku_STATUS `json:"loadBalancerSku,omitempty"`
 
 	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
@@ -214,22 +201,6 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
 	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType *ContainerServiceNetworkProfile_OutboundType_STATUS `json:"outboundType,omitempty"`
-=======
-	LoadBalancerSku *ContainerServiceNetworkProfile_STATUS_LoadBalancerSku `json:"loadBalancerSku,omitempty"`
-
-	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
-	NetworkMode *ContainerServiceNetworkProfile_STATUS_NetworkMode `json:"networkMode,omitempty"`
-
-	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfile_STATUS_NetworkPlugin `json:"networkPlugin,omitempty"`
-
-	// NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *ContainerServiceNetworkProfile_STATUS_NetworkPolicy `json:"networkPolicy,omitempty"`
-
-	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
-	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfile_STATUS_OutboundType `json:"outboundType,omitempty"`
->>>>>>> main
 
 	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
@@ -411,11 +382,7 @@ type ManagedClusterAPIServerAccessProfile_STATUSARM struct {
 type ManagedClusterAutoUpgradeProfile_STATUSARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-<<<<<<< HEAD
 	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS `json:"upgradeChannel,omitempty"`
-=======
-	UpgradeChannel *ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel `json:"upgradeChannel,omitempty"`
->>>>>>> main
 }
 
 type ManagedClusterHTTPProxyConfig_STATUSARM struct {
@@ -432,7 +399,6 @@ type ManagedClusterHTTPProxyConfig_STATUSARM struct {
 	TrustedCa *string `json:"trustedCa,omitempty"`
 }
 
-<<<<<<< HEAD
 type ManagedClusterIdentity_Type_STATUS string
 
 const (
@@ -442,17 +408,6 @@ const (
 )
 
 type ManagedClusterIdentity_UserAssignedIdentities_STATUSARM struct {
-=======
-type ManagedClusterIdentity_STATUS_Type string
-
-const (
-	ManagedClusterIdentity_STATUS_Type_None           = ManagedClusterIdentity_STATUS_Type("None")
-	ManagedClusterIdentity_STATUS_Type_SystemAssigned = ManagedClusterIdentity_STATUS_Type("SystemAssigned")
-	ManagedClusterIdentity_STATUS_Type_UserAssigned   = ManagedClusterIdentity_STATUS_Type("UserAssigned")
-)
-
-type ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM struct {
->>>>>>> main
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -484,11 +439,7 @@ type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
 	// Expander: If not specified, the default is 'random'. See
 	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
 	// information.
-<<<<<<< HEAD
 	Expander *ManagedClusterProperties_AutoScalerProfile_Expander_STATUS `json:"expander,omitempty"`
-=======
-	Expander *ManagedClusterProperties_STATUS_AutoScalerProfile_Expander `json:"expander,omitempty"`
->>>>>>> main
 
 	// MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -552,7 +503,6 @@ type ManagedClusterServicePrincipalProfile_STATUSARM struct {
 	Secret *string `json:"secret,omitempty"`
 }
 
-<<<<<<< HEAD
 type ManagedClusterSKU_Name_STATUS string
 
 const ManagedClusterSKU_Name_Basic_STATUS = ManagedClusterSKU_Name_STATUS("Basic")
@@ -562,17 +512,6 @@ type ManagedClusterSKU_Tier_STATUS string
 const (
 	ManagedClusterSKU_Tier_Free_STATUS = ManagedClusterSKU_Tier_STATUS("Free")
 	ManagedClusterSKU_Tier_Paid_STATUS = ManagedClusterSKU_Tier_STATUS("Paid")
-=======
-type ManagedClusterSKU_STATUS_Name string
-
-const ManagedClusterSKU_STATUS_Name_Basic = ManagedClusterSKU_STATUS_Name("Basic")
-
-type ManagedClusterSKU_STATUS_Tier string
-
-const (
-	ManagedClusterSKU_STATUS_Tier_Free = ManagedClusterSKU_STATUS_Tier("Free")
-	ManagedClusterSKU_STATUS_Tier_Paid = ManagedClusterSKU_STATUS_Tier("Paid")
->>>>>>> main
 )
 
 type ManagedClusterWindowsProfile_STATUSARM struct {
@@ -603,16 +542,12 @@ type ManagedClusterWindowsProfile_STATUSARM struct {
 
 	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
-<<<<<<< HEAD
 	LicenseType *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
 }
 
 type PowerState_STATUSARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
 	Code *PowerState_Code_STATUS `json:"code,omitempty"`
-=======
-	LicenseType *ManagedClusterWindowsProfile_STATUS_LicenseType `json:"licenseType,omitempty"`
->>>>>>> main
 }
 
 type PrivateLinkResource_STATUSARM struct {
@@ -677,11 +612,7 @@ type ManagedClusterPodIdentity_STATUSARM struct {
 	ProvisioningInfo *ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
-<<<<<<< HEAD
 	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *ManagedClusterPodIdentity_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 }
 
 type ManagedClusterPodIdentityException_STATUSARM struct {

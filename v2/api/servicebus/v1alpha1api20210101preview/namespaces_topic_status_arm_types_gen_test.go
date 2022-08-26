@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_NamespacesTopic_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Topic_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesTopic_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesTopic_STATUSARM, NamespacesTopic_STATUSARMGenerator()))
+		"Round trip of Namespaces_Topic_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topic_STATUSARM, Namespaces_Topic_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesTopic_STATUSARM runs a test to see if a specific instance of NamespacesTopic_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesTopic_STATUSARM(subject NamespacesTopic_STATUSARM) string {
+// RunJSONSerializationTestForNamespaces_Topic_STATUSARM runs a test to see if a specific instance of Namespaces_Topic_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topic_STATUSARM(subject Namespaces_Topic_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespacesTopic_STATUSARM(subject NamespacesTopi
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesTopic_STATUSARM
+	var actual Namespaces_Topic_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,41 +56,41 @@ func RunJSONSerializationTestForNamespacesTopic_STATUSARM(subject NamespacesTopi
 	return ""
 }
 
-// Generator of NamespacesTopic_STATUSARM instances for property testing - lazily instantiated by
-// NamespacesTopic_STATUSARMGenerator()
-var namespacesTopic_STATUSARMGenerator gopter.Gen
+// Generator of Namespaces_Topic_STATUSARM instances for property testing - lazily instantiated by
+// Namespaces_Topic_STATUSARMGenerator()
+var namespaces_Topic_STATUSARMGenerator gopter.Gen
 
-// NamespacesTopic_STATUSARMGenerator returns a generator of NamespacesTopic_STATUSARM instances for property testing.
-// We first initialize namespacesTopic_STATUSARMGenerator with a simplified generator based on the
+// Namespaces_Topic_STATUSARMGenerator returns a generator of Namespaces_Topic_STATUSARM instances for property testing.
+// We first initialize namespaces_Topic_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesTopic_STATUSARMGenerator() gopter.Gen {
-	if namespacesTopic_STATUSARMGenerator != nil {
-		return namespacesTopic_STATUSARMGenerator
+func Namespaces_Topic_STATUSARMGenerator() gopter.Gen {
+	if namespaces_Topic_STATUSARMGenerator != nil {
+		return namespaces_Topic_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesTopic_STATUSARM(generators)
-	namespacesTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUSARM(generators)
+	namespaces_Topic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesTopic_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesTopic_STATUSARM(generators)
-	namespacesTopic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUSARM(generators)
+	namespaces_Topic_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_STATUSARM{}), generators)
 
-	return namespacesTopic_STATUSARMGenerator
+	return namespaces_Topic_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesTopic_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesTopic_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesTopic_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesTopic_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SBTopicProperties_STATUSARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }

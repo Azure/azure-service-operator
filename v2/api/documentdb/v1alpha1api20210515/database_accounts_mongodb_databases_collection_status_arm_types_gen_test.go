@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsMongodbDatabasesCollection_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_Collection_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsMongodbDatabasesCollection_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_STATUSARM, DatabaseAccountsMongodbDatabasesCollection_STATUSARMGenerator()))
+		"Round trip of DatabaseAccounts_MongodbDatabases_Collection_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM, DatabaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_STATUSARM runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesCollection_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(subject DatabaseAccountsMongodbDatabasesCollection_STATUSARM) string {
+// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(subject DatabaseAccounts_MongodbDatabases_Collection_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_STATU
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsMongodbDatabasesCollection_STATUSARM
+	var actual DatabaseAccounts_MongodbDatabases_Collection_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollection_STATU
 	return ""
 }
 
-// Generator of DatabaseAccountsMongodbDatabasesCollection_STATUSARM instances for property testing - lazily
-// instantiated by DatabaseAccountsMongodbDatabasesCollection_STATUSARMGenerator()
-var databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator gopter.Gen
+// Generator of DatabaseAccounts_MongodbDatabases_Collection_STATUSARM instances for property testing - lazily
+// instantiated by DatabaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator()
+var databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesCollection_STATUSARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollection_STATUSARM instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator with a simplified generator based on the
+// DatabaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator returns a generator of DatabaseAccounts_MongodbDatabases_Collection_STATUSARM instances for property testing.
+// We first initialize databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesCollection_STATUSARMGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator != nil {
-		return databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator
+func DatabaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator() gopter.Gen {
+	if databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator != nil {
+		return databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(generators)
-	databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollection_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(generators)
+	databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collection_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(generators)
-	databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesCollection_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(generators)
+	databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collection_STATUSARM{}), generators)
 
-	return databaseAccountsMongodbDatabasesCollection_STATUSARMGenerator
+	return databaseAccounts_MongodbDatabases_Collection_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollecti
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(MongoDBCollectionGetProperties_STATUSARMGenerator())
 }
 

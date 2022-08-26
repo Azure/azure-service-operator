@@ -74,13 +74,8 @@ func PrivateDnsZoneGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZone is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = PrivateDnsZone_SpecGenerator()
 	gens["Status"] = PrivateDnsZone_STATUSGenerator()
-=======
-	gens["Spec"] = PrivateDnsZones_SpecGenerator()
-	gens["Status"] = PrivateZone_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_PrivateDnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,7 +85,6 @@ func Test_PrivateDnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of PrivateDnsZone_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateDnsZone_Spec, PrivateDnsZone_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -98,15 +92,6 @@ func Test_PrivateDnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForPrivateDnsZone_Spec runs a test to see if a specific instance of PrivateDnsZone_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateDnsZone_Spec(subject PrivateDnsZone_Spec) string {
-=======
-		"Round trip of PrivateDnsZones_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_Spec, PrivateDnsZones_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateDnsZones_Spec runs a test to see if a specific instance of PrivateDnsZones_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZones_Spec(subject PrivateDnsZones_Spec) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -132,7 +117,6 @@ func RunJSONSerializationTestForPrivateDnsZones_Spec(subject PrivateDnsZones_Spe
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of PrivateDnsZone_Spec instances for property testing - lazily instantiated by
 // PrivateDnsZone_SpecGenerator()
 var privateDnsZone_SpecGenerator gopter.Gen
@@ -152,27 +136,6 @@ func PrivateDnsZone_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(gens map[string]gopter.Gen) {
-=======
-// Generator of PrivateDnsZones_Spec instances for property testing - lazily instantiated by
-// PrivateDnsZones_SpecGenerator()
-var privateDnsZones_SpecGenerator gopter.Gen
-
-// PrivateDnsZones_SpecGenerator returns a generator of PrivateDnsZones_Spec instances for property testing.
-func PrivateDnsZones_SpecGenerator() gopter.Gen {
-	if privateDnsZones_SpecGenerator != nil {
-		return privateDnsZones_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec(generators)
-	privateDnsZones_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_Spec{}), generators)
-
-	return privateDnsZones_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZones_Spec(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
@@ -185,7 +148,6 @@ func Test_PrivateDnsZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of PrivateDnsZone_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateDnsZone_STATUS, PrivateDnsZone_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -193,15 +155,6 @@ func Test_PrivateDnsZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 
 // RunJSONSerializationTestForPrivateDnsZone_STATUS runs a test to see if a specific instance of PrivateDnsZone_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateDnsZone_STATUS(subject PrivateDnsZone_STATUS) string {
-=======
-		"Round trip of PrivateZone_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateZone_STATUS, PrivateZone_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateZone_STATUS runs a test to see if a specific instance of PrivateZone_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateZone_STATUS(subject PrivateZone_STATUS) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +180,6 @@ func RunJSONSerializationTestForPrivateZone_STATUS(subject PrivateZone_STATUS) s
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of PrivateDnsZone_STATUS instances for property testing - lazily instantiated by
 // PrivateDnsZone_STATUSGenerator()
 var privateDnsZone_STATUSGenerator gopter.Gen
@@ -247,26 +199,6 @@ func PrivateDnsZone_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of PrivateZone_STATUS instances for property testing - lazily instantiated by PrivateZone_STATUSGenerator()
-var privateZone_STATUSGenerator gopter.Gen
-
-// PrivateZone_STATUSGenerator returns a generator of PrivateZone_STATUS instances for property testing.
-func PrivateZone_STATUSGenerator() gopter.Gen {
-	if privateZone_STATUSGenerator != nil {
-		return privateZone_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateZone_STATUS(generators)
-	privateZone_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateZone_STATUS{}), generators)
-
-	return privateZone_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateZone_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateZone_STATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())

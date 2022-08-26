@@ -30,13 +30,8 @@ import (
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              NamespacesEventhubsConsumergroup_Spec   `json:"spec,omitempty"`
-	Status            NamespacesEventhubsConsumergroup_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Eventhubs_Consumergroups_Spec `json:"spec,omitempty"`
-	Status            ConsumerGroup_STATUS                     `json:"status,omitempty"`
->>>>>>> main
+	Spec              Namespaces_Eventhubs_Consumergroup_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Eventhubs_Consumergroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -130,7 +125,7 @@ func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NamespacesEventhubsConsumergroup_STATUS{}
+	return &Namespaces_Eventhubs_Consumergroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -146,13 +141,13 @@ func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NamespacesEventhubsConsumergroup_STATUS); ok {
+	if st, ok := status.(*Namespaces_Eventhubs_Consumergroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NamespacesEventhubsConsumergroup_STATUS
+	var st Namespaces_Eventhubs_Consumergroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -262,32 +257,18 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesE
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec NamespacesEventhubsConsumergroup_Spec
-	err := spec.AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec(&source.Spec)
+	var spec Namespaces_Eventhubs_Consumergroup_Spec
+	err := spec.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec() to populate field Spec")
-=======
-	var spec Namespaces_Eventhubs_Consumergroups_Spec
-	err := spec.AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status NamespacesEventhubsConsumergroup_STATUS
-	err = status.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(&source.Status)
+	var status Namespaces_Eventhubs_Consumergroup_STATUS
+	err = status.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS() to populate field Status")
-=======
-	var status ConsumerGroup_STATUS
-	err = status.AssignProperties_From_ConsumerGroup_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ConsumerGroup_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -302,32 +283,18 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEve
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec v20211101s.NamespacesEventhubsConsumergroup_Spec
-	err := group.Spec.AssignPropertiesToNamespacesEventhubsConsumergroup_Spec(&spec)
+	var spec v20211101s.Namespaces_Eventhubs_Consumergroup_Spec
+	err := group.Spec.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroup_Spec() to populate field Spec")
-=======
-	var spec v20211101s.Namespaces_Eventhubs_Consumergroups_Spec
-	err := group.Spec.AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status v20211101s.NamespacesEventhubsConsumergroup_STATUS
-	err = group.Status.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(&status)
+	var status v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS
+	err = group.Status.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS() to populate field Status")
-=======
-	var status v20211101s.ConsumerGroup_STATUS
-	err = group.Status.AssignProperties_To_ConsumerGroup_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ConsumerGroup_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -354,7 +321,7 @@ type NamespacesEventhubsConsumerGroupList struct {
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
-type NamespacesEventhubsConsumergroup_Spec struct {
+type Namespaces_Eventhubs_Consumergroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -371,14 +338,14 @@ type NamespacesEventhubsConsumergroup_Spec struct {
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &NamespacesEventhubsConsumergroup_Spec{}
+var _ genruntime.ARMTransformer = &Namespaces_Eventhubs_Consumergroup_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if consumergroup == nil {
 		return nil, nil
 	}
-	result := &NamespacesEventhubsConsumergroup_SpecARM{}
+	result := &Namespaces_Eventhubs_Consumergroup_SpecARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = consumergroup.AzureName
@@ -388,7 +355,7 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertToARM(resolve
 
 	// Set property ‘Properties’:
 	if consumergroup.UserMetadata != nil {
-		result.Properties = &NamespacesEventhubsConsumergroup_Spec_PropertiesARM{}
+		result.Properties = &Namespaces_Eventhubs_Consumergroup_Spec_PropertiesARM{}
 	}
 	if consumergroup.UserMetadata != nil {
 		userMetadata := *consumergroup.UserMetadata
@@ -398,15 +365,15 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertToARM(resolve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesEventhubsConsumergroup_SpecARM{}
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Eventhubs_Consumergroup_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesEventhubsConsumergroup_SpecARM)
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhubsConsumergroup_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -430,25 +397,25 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) PopulateFromARM(owne
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroup_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_Consumergroup_Spec{}
 
-// ConvertSpecFrom populates our NamespacesEventhubsConsumergroup_Spec from the provided source
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.NamespacesEventhubsConsumergroup_Spec)
+// ConvertSpecFrom populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20211101s.Namespaces_Eventhubs_Consumergroup_Spec)
 	if ok {
 		// Populate our instance from source
-		return consumergroup.AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec(src)
+		return consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.NamespacesEventhubsConsumergroup_Spec{}
+	src = &v20211101s.Namespaces_Eventhubs_Consumergroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = consumergroup.AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec(src)
+	err = consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -456,17 +423,17 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecFrom(sour
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroup_Spec
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.NamespacesEventhubsConsumergroup_Spec)
+// ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_Consumergroup_Spec
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20211101s.Namespaces_Eventhubs_Consumergroup_Spec)
 	if ok {
 		// Populate destination from our instance
-		return consumergroup.AssignPropertiesToNamespacesEventhubsConsumergroup_Spec(dst)
+		return consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.NamespacesEventhubsConsumergroup_Spec{}
-	err := consumergroup.AssignPropertiesToNamespacesEventhubsConsumergroup_Spec(dst)
+	dst = &v20211101s.Namespaces_Eventhubs_Consumergroup_Spec{}
+	err := consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -480,8 +447,8 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecTo(destin
 	return nil
 }
 
-// AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec populates our NamespacesEventhubsConsumergroup_Spec from the provided source NamespacesEventhubsConsumergroup_Spec
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesFromNamespacesEventhubsConsumergroup_Spec(source *v20211101s.NamespacesEventhubsConsumergroup_Spec) error {
+// AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source Namespaces_Eventhubs_Consumergroup_Spec
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(source *v20211101s.Namespaces_Eventhubs_Consumergroup_Spec) error {
 
 	// AzureName
 	consumergroup.AzureName = source.AzureName
@@ -501,8 +468,8 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesFrom
 	return nil
 }
 
-// AssignPropertiesToNamespacesEventhubsConsumergroup_Spec populates the provided destination NamespacesEventhubsConsumergroup_Spec from our NamespacesEventhubsConsumergroup_Spec
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNamespacesEventhubsConsumergroup_Spec(destination *v20211101s.NamespacesEventhubsConsumergroup_Spec) error {
+// AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec populates the provided destination Namespaces_Eventhubs_Consumergroup_Spec from our Namespaces_Eventhubs_Consumergroup_Spec
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(destination *v20211101s.Namespaces_Eventhubs_Consumergroup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -535,16 +502,16 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNa
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) OriginalVersion() string {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (consumergroup *NamespacesEventhubsConsumergroup_Spec) SetAzureName(azureName string) {
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) SetAzureName(azureName string) {
 	consumergroup.AzureName = azureName
 }
 
-type NamespacesEventhubsConsumergroup_STATUS struct {
+type Namespaces_Eventhubs_Consumergroup_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -576,33 +543,25 @@ type NamespacesEventhubsConsumergroup_STATUS struct {
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NamespacesEventhubsConsumergroup_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Eventhubs_Consumergroup_STATUS{}
 
-// ConvertStatusFrom populates our NamespacesEventhubsConsumergroup_STATUS from the provided source
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.NamespacesEventhubsConsumergroup_STATUS)
+// ConvertStatusFrom populates our Namespaces_Eventhubs_Consumergroup_STATUS from the provided source
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return consumergroup.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(src)
-=======
-		return group.AssignProperties_From_ConsumerGroup_STATUS(src)
->>>>>>> main
+		return consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.NamespacesEventhubsConsumergroup_STATUS{}
+	src = &v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = consumergroup.AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(src)
-=======
-	err = group.AssignProperties_From_ConsumerGroup_STATUS(src)
->>>>>>> main
+	err = consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -610,26 +569,17 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusFrom(
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NamespacesEventhubsConsumergroup_STATUS
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.NamespacesEventhubsConsumergroup_STATUS)
+// ConvertStatusTo populates the provided destination from our Namespaces_Eventhubs_Consumergroup_STATUS
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return consumergroup.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(dst)
+		return consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.NamespacesEventhubsConsumergroup_STATUS{}
-	err := consumergroup.AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(dst)
-=======
-		return group.AssignProperties_To_ConsumerGroup_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211101s.ConsumerGroup_STATUS{}
-	err := group.AssignProperties_To_ConsumerGroup_STATUS(dst)
->>>>>>> main
+	dst = &v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS{}
+	err := consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -643,18 +593,18 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) ConvertStatusTo(de
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &NamespacesEventhubsConsumergroup_STATUS{}
+var _ genruntime.FromARMConverter = &Namespaces_Eventhubs_Consumergroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesEventhubsConsumergroup_STATUSARM{}
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Eventhubs_Consumergroup_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesEventhubsConsumergroup_STATUSARM)
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroup_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhubsConsumergroup_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -725,13 +675,8 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) PopulateFromARM(ow
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS populates our NamespacesEventhubsConsumergroup_STATUS from the provided source NamespacesEventhubsConsumergroup_STATUS
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesFromNamespacesEventhubsConsumergroup_STATUS(source *v20211101s.NamespacesEventhubsConsumergroup_STATUS) error {
-=======
-// AssignProperties_From_ConsumerGroup_STATUS populates our ConsumerGroup_STATUS from the provided source ConsumerGroup_STATUS
-func (group *ConsumerGroup_STATUS) AssignProperties_From_ConsumerGroup_STATUS(source *v20211101s.ConsumerGroup_STATUS) error {
->>>>>>> main
+// AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS populates our Namespaces_Eventhubs_Consumergroup_STATUS from the provided source Namespaces_Eventhubs_Consumergroup_STATUS
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(source *v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS) error {
 
 	// Conditions
 	consumergroup.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -751,15 +696,9 @@ func (group *ConsumerGroup_STATUS) AssignProperties_From_ConsumerGroup_STATUS(so
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		consumergroup.SystemData = &systemDatum
 	} else {
@@ -779,13 +718,8 @@ func (group *ConsumerGroup_STATUS) AssignProperties_From_ConsumerGroup_STATUS(so
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS populates the provided destination NamespacesEventhubsConsumergroup_STATUS from our NamespacesEventhubsConsumergroup_STATUS
-func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesToNamespacesEventhubsConsumergroup_STATUS(destination *v20211101s.NamespacesEventhubsConsumergroup_STATUS) error {
-=======
-// AssignProperties_To_ConsumerGroup_STATUS populates the provided destination ConsumerGroup_STATUS from our ConsumerGroup_STATUS
-func (group *ConsumerGroup_STATUS) AssignProperties_To_ConsumerGroup_STATUS(destination *v20211101s.ConsumerGroup_STATUS) error {
->>>>>>> main
+// AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS populates the provided destination Namespaces_Eventhubs_Consumergroup_STATUS from our Namespaces_Eventhubs_Consumergroup_STATUS
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(destination *v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -807,15 +741,9 @@ func (group *ConsumerGroup_STATUS) AssignProperties_To_ConsumerGroup_STATUS(dest
 	// SystemData
 	if consumergroup.SystemData != nil {
 		var systemDatum v20211101s.SystemData_STATUS
-<<<<<<< HEAD
-		err := consumergroup.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
-		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		err := consumergroup.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -842,244 +770,6 @@ func (group *ConsumerGroup_STATUS) AssignProperties_To_ConsumerGroup_STATUS(dest
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-type Namespaces_Eventhubs_Consumergroups_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a eventhub.azure.com/NamespacesEventhub resource
-	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
-	// used to store descriptive data, such as list of teams and their contact information also user-defined configuration
-	// settings can be stored.
-	UserMetadata *string `json:"userMetadata,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Namespaces_Eventhubs_Consumergroups_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if consumergroups == nil {
-		return nil, nil
-	}
-	result := &Namespaces_Eventhubs_Consumergroups_SpecARM{}
-
-	// Set property ‘Location’:
-	if consumergroups.Location != nil {
-		location := *consumergroups.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if consumergroups.UserMetadata != nil {
-		result.Properties = &ConsumerGroupPropertiesARM{}
-	}
-	if consumergroups.UserMetadata != nil {
-		userMetadata := *consumergroups.UserMetadata
-		result.Properties.UserMetadata = &userMetadata
-	}
-
-	// Set property ‘Tags’:
-	if consumergroups.Tags != nil {
-		result.Tags = make(map[string]string, len(consumergroups.Tags))
-		for key, value := range consumergroups.Tags {
-			result.Tags[key] = value
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Eventhubs_Consumergroups_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Eventhubs_Consumergroups_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroups_SpecARM, got %T", armInput)
-	}
-
-	// Set property ‘AzureName’:
-	consumergroups.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		consumergroups.Location = &location
-	}
-
-	// Set property ‘Owner’:
-	consumergroups.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		consumergroups.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			consumergroups.Tags[key] = value
-		}
-	}
-
-	// Set property ‘UserMetadata’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UserMetadata != nil {
-			userMetadata := *typedInput.Properties.UserMetadata
-			consumergroups.UserMetadata = &userMetadata
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_Consumergroups_Spec{}
-
-// ConvertSpecFrom populates our Namespaces_Eventhubs_Consumergroups_Spec from the provided source
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Namespaces_Eventhubs_Consumergroups_Spec)
-	if ok {
-		// Populate our instance from source
-		return consumergroups.AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20211101s.Namespaces_Eventhubs_Consumergroups_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = consumergroups.AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_Consumergroups_Spec
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Namespaces_Eventhubs_Consumergroups_Spec)
-	if ok {
-		// Populate destination from our instance
-		return consumergroups.AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211101s.Namespaces_Eventhubs_Consumergroups_Spec{}
-	err := consumergroups.AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec populates our Namespaces_Eventhubs_Consumergroups_Spec from the provided source Namespaces_Eventhubs_Consumergroups_Spec
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) AssignProperties_From_Namespaces_Eventhubs_Consumergroups_Spec(source *v20211101s.Namespaces_Eventhubs_Consumergroups_Spec) error {
-
-	// AzureName
-	consumergroups.AzureName = source.AzureName
-
-	// Location
-	consumergroups.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		consumergroups.Owner = &owner
-	} else {
-		consumergroups.Owner = nil
-	}
-
-	// Tags
-	consumergroups.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// UserMetadata
-	consumergroups.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec populates the provided destination Namespaces_Eventhubs_Consumergroups_Spec from our Namespaces_Eventhubs_Consumergroups_Spec
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) AssignProperties_To_Namespaces_Eventhubs_Consumergroups_Spec(destination *v20211101s.Namespaces_Eventhubs_Consumergroups_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = consumergroups.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(consumergroups.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = consumergroups.OriginalVersion()
-
-	// Owner
-	if consumergroups.Owner != nil {
-		owner := consumergroups.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(consumergroups.Tags)
-
-	// UserMetadata
-	destination.UserMetadata = genruntime.ClonePointerToString(consumergroups.UserMetadata)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (consumergroups *Namespaces_Eventhubs_Consumergroups_Spec) SetAzureName(azureName string) {
-	consumergroups.AzureName = azureName
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&NamespacesEventhubsConsumerGroup{}, &NamespacesEventhubsConsumerGroupList{})
 }

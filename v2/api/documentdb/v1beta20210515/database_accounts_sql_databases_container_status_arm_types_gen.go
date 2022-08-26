@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccountsSqlDatabasesContainer_STATUSARM struct {
+type DatabaseAccounts_SqlDatabases_Container_STATUSARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
@@ -68,21 +68,13 @@ type ConflictResolutionPolicy_STATUSARM struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
-=======
-	Mode *ConflictResolutionPolicy_STATUS_Mode `json:"mode,omitempty"`
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 }
 
 type ContainerPartitionKey_STATUSARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
-=======
-	Kind *ContainerPartitionKey_STATUS_Kind `json:"kind,omitempty"`
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -108,11 +100,7 @@ type IndexingPolicy_STATUSARM struct {
 	IncludedPaths []IncludedPath_STATUSARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
-=======
-	IndexingMode *IndexingPolicy_STATUS_IndexingMode `json:"indexingMode,omitempty"`
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_STATUSARM `json:"spatialIndexes,omitempty"`
@@ -126,18 +114,13 @@ type UniqueKeyPolicy_STATUSARM struct {
 
 type CompositePath_STATUSARM struct {
 	// Order: Sort order for composite paths.
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
-=======
-	Order *CompositePath_STATUS_Order `json:"order,omitempty"`
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 type ConflictResolutionPolicy_Mode_STATUS string
 
 const (
@@ -151,21 +134,6 @@ const (
 	ContainerPartitionKey_Kind_Hash_STATUS      = ContainerPartitionKey_Kind_STATUS("Hash")
 	ContainerPartitionKey_Kind_MultiHash_STATUS = ContainerPartitionKey_Kind_STATUS("MultiHash")
 	ContainerPartitionKey_Kind_Range_STATUS     = ContainerPartitionKey_Kind_STATUS("Range")
-=======
-type ConflictResolutionPolicy_STATUS_Mode string
-
-const (
-	ConflictResolutionPolicy_STATUS_Mode_Custom         = ConflictResolutionPolicy_STATUS_Mode("Custom")
-	ConflictResolutionPolicy_STATUS_Mode_LastWriterWins = ConflictResolutionPolicy_STATUS_Mode("LastWriterWins")
-)
-
-type ContainerPartitionKey_STATUS_Kind string
-
-const (
-	ContainerPartitionKey_STATUS_Kind_Hash      = ContainerPartitionKey_STATUS_Kind("Hash")
-	ContainerPartitionKey_STATUS_Kind_MultiHash = ContainerPartitionKey_STATUS_Kind("MultiHash")
-	ContainerPartitionKey_STATUS_Kind_Range     = ContainerPartitionKey_STATUS_Kind("Range")
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 )
 
 type ExcludedPath_STATUSARM struct {
@@ -183,21 +151,12 @@ type IncludedPath_STATUSARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 type IndexingPolicy_IndexingMode_STATUS string
 
 const (
 	IndexingPolicy_IndexingMode_Consistent_STATUS = IndexingPolicy_IndexingMode_STATUS("consistent")
 	IndexingPolicy_IndexingMode_Lazy_STATUS       = IndexingPolicy_IndexingMode_STATUS("lazy")
 	IndexingPolicy_IndexingMode_None_STATUS       = IndexingPolicy_IndexingMode_STATUS("none")
-=======
-type IndexingPolicy_STATUS_IndexingMode string
-
-const (
-	IndexingPolicy_STATUS_IndexingMode_Consistent = IndexingPolicy_STATUS_IndexingMode("consistent")
-	IndexingPolicy_STATUS_IndexingMode_Lazy       = IndexingPolicy_STATUS_IndexingMode("lazy")
-	IndexingPolicy_STATUS_IndexingMode_None       = IndexingPolicy_STATUS_IndexingMode("none")
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 )
 
 type SpatialSpec_STATUSARM struct {
@@ -214,34 +173,19 @@ type UniqueKey_STATUSARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 type CompositePath_Order_STATUS string
 
 const (
 	CompositePath_Order_Ascending_STATUS  = CompositePath_Order_STATUS("ascending")
 	CompositePath_Order_Descending_STATUS = CompositePath_Order_STATUS("descending")
-=======
-type CompositePath_STATUS_Order string
-
-const (
-	CompositePath_STATUS_Order_Ascending  = CompositePath_STATUS_Order("ascending")
-	CompositePath_STATUS_Order_Descending = CompositePath_STATUS_Order("descending")
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 )
 
 type Indexes_STATUSARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
 	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
-=======
-	DataType *Indexes_STATUS_DataType `json:"dataType,omitempty"`
-
-	// Kind: Indicates the type of index.
-	Kind *Indexes_STATUS_Kind `json:"kind,omitempty"`
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
@@ -256,7 +200,6 @@ const (
 	SpatialType_Polygon_STATUS      = SpatialType_STATUS("Polygon")
 )
 
-<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_container_status_arm_types_gen.go
 type Indexes_DataType_STATUS string
 
 const (
@@ -274,23 +217,4 @@ const (
 	Indexes_Kind_Hash_STATUS    = Indexes_Kind_STATUS("Hash")
 	Indexes_Kind_Range_STATUS   = Indexes_Kind_STATUS("Range")
 	Indexes_Kind_Spatial_STATUS = Indexes_Kind_STATUS("Spatial")
-=======
-type Indexes_STATUS_DataType string
-
-const (
-	Indexes_STATUS_DataType_LineString   = Indexes_STATUS_DataType("LineString")
-	Indexes_STATUS_DataType_MultiPolygon = Indexes_STATUS_DataType("MultiPolygon")
-	Indexes_STATUS_DataType_Number       = Indexes_STATUS_DataType("Number")
-	Indexes_STATUS_DataType_Point        = Indexes_STATUS_DataType("Point")
-	Indexes_STATUS_DataType_Polygon      = Indexes_STATUS_DataType("Polygon")
-	Indexes_STATUS_DataType_String       = Indexes_STATUS_DataType("String")
-)
-
-type Indexes_STATUS_Kind string
-
-const (
-	Indexes_STATUS_Kind_Hash    = Indexes_STATUS_Kind("Hash")
-	Indexes_STATUS_Kind_Range   = Indexes_STATUS_Kind("Range")
-	Indexes_STATUS_Kind_Spatial = Indexes_STATUS_Kind("Spatial")
->>>>>>> main:v2/api/documentdb/v1beta20210515/sql_container_get_results_status_arm_types_gen.go
 )

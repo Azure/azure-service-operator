@@ -25,13 +25,8 @@ import (
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              FlexibleServersDatabase_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServersDatabase_STATUS `json:"status,omitempty"`
-=======
-	Spec              FlexibleServers_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS                `json:"status,omitempty"`
->>>>>>> main
+	Spec              FlexibleServers_Database_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServers_Database_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
@@ -102,7 +97,7 @@ func (database *FlexibleServersDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServersDatabase_STATUS{}
+	return &FlexibleServers_Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -118,13 +113,13 @@ func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServersDatabase_STATUS); ok {
+	if st, ok := status.(*FlexibleServers_Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServersDatabase_STATUS
+	var st FlexibleServers_Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -141,32 +136,18 @@ func (database *FlexibleServersDatabase) AssignProperties_From_FlexibleServersDa
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec FlexibleServersDatabase_Spec
-	err := spec.AssignPropertiesFromFlexibleServersDatabase_Spec(&source.Spec)
+	var spec FlexibleServers_Database_Spec
+	err := spec.AssignProperties_From_FlexibleServers_Database_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersDatabase_Spec() to populate field Spec")
-=======
-	var spec FlexibleServers_Databases_Spec
-	err := spec.AssignProperties_From_FlexibleServers_Databases_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Databases_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Database_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status FlexibleServersDatabase_STATUS
-	err = status.AssignPropertiesFromFlexibleServersDatabase_STATUS(&source.Status)
+	var status FlexibleServers_Database_STATUS
+	err = status.AssignProperties_From_FlexibleServers_Database_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersDatabase_STATUS() to populate field Status")
-=======
-	var status Database_STATUS
-	err = status.AssignProperties_From_Database_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Database_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Database_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -181,32 +162,18 @@ func (database *FlexibleServersDatabase) AssignProperties_To_FlexibleServersData
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec v20210501s.FlexibleServersDatabase_Spec
-	err := database.Spec.AssignPropertiesToFlexibleServersDatabase_Spec(&spec)
+	var spec v20210501s.FlexibleServers_Database_Spec
+	err := database.Spec.AssignProperties_To_FlexibleServers_Database_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersDatabase_Spec() to populate field Spec")
-=======
-	var spec v20210501s.FlexibleServers_Databases_Spec
-	err := database.Spec.AssignProperties_To_FlexibleServers_Databases_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Databases_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Database_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status v20210501s.FlexibleServersDatabase_STATUS
-	err = database.Status.AssignPropertiesToFlexibleServersDatabase_STATUS(&status)
+	var status v20210501s.FlexibleServers_Database_STATUS
+	err = database.Status.AssignProperties_To_FlexibleServers_Database_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersDatabase_STATUS() to populate field Status")
-=======
-	var status v20210501s.Database_STATUS
-	err = database.Status.AssignProperties_To_Database_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Database_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Database_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -232,8 +199,8 @@ type FlexibleServersDatabaseList struct {
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-// Storage version of v1alpha1api20210501.FlexibleServersDatabase_Spec
-type FlexibleServersDatabase_Spec struct {
+// Storage version of v1alpha1api20210501.FlexibleServers_Database_Spec
+type FlexibleServers_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -249,25 +216,25 @@ type FlexibleServersDatabase_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServersDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServers_Database_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServersDatabase_Spec from the provided source
-func (database *FlexibleServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210501s.FlexibleServersDatabase_Spec)
+// ConvertSpecFrom populates our FlexibleServers_Database_Spec from the provided source
+func (database *FlexibleServers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210501s.FlexibleServers_Database_Spec)
 	if ok {
 		// Populate our instance from source
-		return database.AssignPropertiesFromFlexibleServersDatabase_Spec(src)
+		return database.AssignProperties_From_FlexibleServers_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.FlexibleServersDatabase_Spec{}
+	src = &v20210501s.FlexibleServers_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignPropertiesFromFlexibleServersDatabase_Spec(src)
+	err = database.AssignProperties_From_FlexibleServers_Database_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -275,17 +242,17 @@ func (database *FlexibleServersDatabase_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServersDatabase_Spec
-func (database *FlexibleServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210501s.FlexibleServersDatabase_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServers_Database_Spec
+func (database *FlexibleServers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210501s.FlexibleServers_Database_Spec)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignPropertiesToFlexibleServersDatabase_Spec(dst)
+		return database.AssignProperties_To_FlexibleServers_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.FlexibleServersDatabase_Spec{}
-	err := database.AssignPropertiesToFlexibleServersDatabase_Spec(dst)
+	dst = &v20210501s.FlexibleServers_Database_Spec{}
+	err := database.AssignProperties_To_FlexibleServers_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -299,8 +266,8 @@ func (database *FlexibleServersDatabase_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersDatabase_Spec populates our FlexibleServersDatabase_Spec from the provided source FlexibleServersDatabase_Spec
-func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServersDatabase_Spec(source *v20210501s.FlexibleServersDatabase_Spec) error {
+// AssignProperties_From_FlexibleServers_Database_Spec populates our FlexibleServers_Database_Spec from the provided source FlexibleServers_Database_Spec
+func (database *FlexibleServers_Database_Spec) AssignProperties_From_FlexibleServers_Database_Spec(source *v20210501s.FlexibleServers_Database_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -335,8 +302,8 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServer
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersDatabase_Spec populates the provided destination FlexibleServersDatabase_Spec from our FlexibleServersDatabase_Spec
-func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersDatabase_Spec(destination *v20210501s.FlexibleServersDatabase_Spec) error {
+// AssignProperties_To_FlexibleServers_Database_Spec populates the provided destination FlexibleServers_Database_Spec from our FlexibleServers_Database_Spec
+func (database *FlexibleServers_Database_Spec) AssignProperties_To_FlexibleServers_Database_Spec(destination *v20210501s.FlexibleServers_Database_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -371,9 +338,9 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersD
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.FlexibleServersDatabase_STATUS
-// Deprecated version of FlexibleServersDatabase_STATUS. Use v1beta20210501.FlexibleServersDatabase_STATUS instead
-type FlexibleServersDatabase_STATUS struct {
+// Storage version of v1alpha1api20210501.FlexibleServers_Database_STATUS
+// Deprecated version of FlexibleServers_Database_STATUS. Use v1beta20210501.FlexibleServers_Database_STATUS instead
+type FlexibleServers_Database_STATUS struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -384,33 +351,25 @@ type FlexibleServersDatabase_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServersDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServers_Database_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServersDatabase_STATUS from the provided source
-func (database *FlexibleServersDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.FlexibleServersDatabase_STATUS)
+// ConvertStatusFrom populates our FlexibleServers_Database_STATUS from the provided source
+func (database *FlexibleServers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.FlexibleServers_Database_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return database.AssignPropertiesFromFlexibleServersDatabase_STATUS(src)
-=======
-		return database.AssignProperties_From_Database_STATUS(src)
->>>>>>> main
+		return database.AssignProperties_From_FlexibleServers_Database_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.FlexibleServersDatabase_STATUS{}
+	src = &v20210501s.FlexibleServers_Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = database.AssignPropertiesFromFlexibleServersDatabase_STATUS(src)
-=======
-	err = database.AssignProperties_From_Database_STATUS(src)
->>>>>>> main
+	err = database.AssignProperties_From_FlexibleServers_Database_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -418,26 +377,17 @@ func (database *FlexibleServersDatabase_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServersDatabase_STATUS
-func (database *FlexibleServersDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.FlexibleServersDatabase_STATUS)
+// ConvertStatusTo populates the provided destination from our FlexibleServers_Database_STATUS
+func (database *FlexibleServers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.FlexibleServers_Database_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return database.AssignPropertiesToFlexibleServersDatabase_STATUS(dst)
+		return database.AssignProperties_To_FlexibleServers_Database_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.FlexibleServersDatabase_STATUS{}
-	err := database.AssignPropertiesToFlexibleServersDatabase_STATUS(dst)
-=======
-		return database.AssignProperties_To_Database_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.Database_STATUS{}
-	err := database.AssignProperties_To_Database_STATUS(dst)
->>>>>>> main
+	dst = &v20210501s.FlexibleServers_Database_STATUS{}
+	err := database.AssignProperties_To_FlexibleServers_Database_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -451,13 +401,8 @@ func (database *FlexibleServersDatabase_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromFlexibleServersDatabase_STATUS populates our FlexibleServersDatabase_STATUS from the provided source FlexibleServersDatabase_STATUS
-func (database *FlexibleServersDatabase_STATUS) AssignPropertiesFromFlexibleServersDatabase_STATUS(source *v20210501s.FlexibleServersDatabase_STATUS) error {
-=======
-// AssignProperties_From_Database_STATUS populates our Database_STATUS from the provided source Database_STATUS
-func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v20210501s.Database_STATUS) error {
->>>>>>> main
+// AssignProperties_From_FlexibleServers_Database_STATUS populates our FlexibleServers_Database_STATUS from the provided source FlexibleServers_Database_STATUS
+func (database *FlexibleServers_Database_STATUS) AssignProperties_From_FlexibleServers_Database_STATUS(source *v20210501s.FlexibleServers_Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -479,15 +424,9 @@ func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		database.SystemData = &systemDatum
 	} else {
@@ -508,13 +447,8 @@ func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToFlexibleServersDatabase_STATUS populates the provided destination FlexibleServersDatabase_STATUS from our FlexibleServersDatabase_STATUS
-func (database *FlexibleServersDatabase_STATUS) AssignPropertiesToFlexibleServersDatabase_STATUS(destination *v20210501s.FlexibleServersDatabase_STATUS) error {
-=======
-// AssignProperties_To_Database_STATUS populates the provided destination Database_STATUS from our Database_STATUS
-func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination *v20210501s.Database_STATUS) error {
->>>>>>> main
+// AssignProperties_To_FlexibleServers_Database_STATUS populates the provided destination FlexibleServers_Database_STATUS from our FlexibleServers_Database_STATUS
+func (database *FlexibleServers_Database_STATUS) AssignProperties_To_FlexibleServers_Database_STATUS(destination *v20210501s.FlexibleServers_Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -536,15 +470,9 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	// SystemData
 	if database.SystemData != nil {
 		var systemDatum v20210501s.SystemData_STATUS
-<<<<<<< HEAD
-		err := database.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
 		err := database.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -565,162 +493,6 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1alpha1api20210501.FlexibleServers_Databases_Spec
-type FlexibleServers_Databases_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Charset         *string `json:"charset,omitempty"`
-	Collation       *string `json:"collation,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a dbformysql.azure.com/FlexibleServer resource
-	Owner       *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Databases_Spec{}
-
-// ConvertSpecFrom populates our FlexibleServers_Databases_Spec from the provided source
-func (databases *FlexibleServers_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210501s.FlexibleServers_Databases_Spec)
-	if ok {
-		// Populate our instance from source
-		return databases.AssignProperties_From_FlexibleServers_Databases_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210501s.FlexibleServers_Databases_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = databases.AssignProperties_From_FlexibleServers_Databases_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Databases_Spec
-func (databases *FlexibleServers_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210501s.FlexibleServers_Databases_Spec)
-	if ok {
-		// Populate destination from our instance
-		return databases.AssignProperties_To_FlexibleServers_Databases_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.FlexibleServers_Databases_Spec{}
-	err := databases.AssignProperties_To_FlexibleServers_Databases_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_FlexibleServers_Databases_Spec populates our FlexibleServers_Databases_Spec from the provided source FlexibleServers_Databases_Spec
-func (databases *FlexibleServers_Databases_Spec) AssignProperties_From_FlexibleServers_Databases_Spec(source *v20210501s.FlexibleServers_Databases_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	databases.AzureName = source.AzureName
-
-	// Charset
-	databases.Charset = genruntime.ClonePointerToString(source.Charset)
-
-	// Collation
-	databases.Collation = genruntime.ClonePointerToString(source.Collation)
-
-	// Location
-	databases.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginalVersion
-	databases.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		databases.Owner = &owner
-	} else {
-		databases.Owner = nil
-	}
-
-	// Tags
-	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		databases.PropertyBag = propertyBag
-	} else {
-		databases.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FlexibleServers_Databases_Spec populates the provided destination FlexibleServers_Databases_Spec from our FlexibleServers_Databases_Spec
-func (databases *FlexibleServers_Databases_Spec) AssignProperties_To_FlexibleServers_Databases_Spec(destination *v20210501s.FlexibleServers_Databases_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(databases.PropertyBag)
-
-	// AzureName
-	destination.AzureName = databases.AzureName
-
-	// Charset
-	destination.Charset = genruntime.ClonePointerToString(databases.Charset)
-
-	// Collation
-	destination.Collation = genruntime.ClonePointerToString(databases.Collation)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(databases.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = databases.OriginalVersion
-
-	// Owner
-	if databases.Owner != nil {
-		owner := databases.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&FlexibleServersDatabase{}, &FlexibleServersDatabaseList{})
 }

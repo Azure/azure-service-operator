@@ -225,11 +225,7 @@ func ImageProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageProperties_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_V1_STATUS, HyperVGenerationType_V2_STATUS))
-=======
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_STATUS_V1, HyperVGenerationType_STATUS_V2))
->>>>>>> main
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -444,7 +440,6 @@ func ImageDataDisk_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_Caching_None_STATUS, ImageDataDisk_Caching_ReadOnly_STATUS, ImageDataDisk_Caching_ReadWrite_STATUS))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
@@ -456,19 +451,6 @@ func AddIndependentPropertyGeneratorsForImageDataDisk_STATUSARM(gens map[string]
 		StorageAccountType_StandardSSD_ZRS_STATUS,
 		StorageAccountType_Standard_LRS_STATUS,
 		StorageAccountType_UltraSSD_LRS_STATUS))
-=======
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageDataDisk_STATUS_Caching_None, ImageDataDisk_STATUS_Caching_ReadOnly, ImageDataDisk_STATUS_Caching_ReadWrite))
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["Lun"] = gen.PtrOf(gen.Int())
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_STATUS_PremiumV2_LRS,
-		StorageAccountType_STATUS_Premium_LRS,
-		StorageAccountType_STATUS_Premium_ZRS,
-		StorageAccountType_STATUS_StandardSSD_LRS,
-		StorageAccountType_STATUS_StandardSSD_ZRS,
-		StorageAccountType_STATUS_Standard_LRS,
-		StorageAccountType_STATUS_UltraSSD_LRS))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForImageDataDisk_STATUSARM is a factory method for creating gopter generators
@@ -546,7 +528,6 @@ func ImageOSDisk_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM(gens map[string]gopter.Gen) {
 	gens["BlobUri"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
 	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_Caching_None_STATUS, ImageOSDisk_Caching_ReadOnly_STATUS, ImageOSDisk_Caching_ReadWrite_STATUS))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsState_Generalized_STATUS, ImageOSDisk_OsState_Specialized_STATUS))
@@ -559,20 +540,6 @@ func AddIndependentPropertyGeneratorsForImageOSDisk_STATUSARM(gens map[string]go
 		StorageAccountType_StandardSSD_ZRS_STATUS,
 		StorageAccountType_Standard_LRS_STATUS,
 		StorageAccountType_UltraSSD_LRS_STATUS))
-=======
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_Caching_None, ImageOSDisk_STATUS_Caching_ReadOnly, ImageOSDisk_STATUS_Caching_ReadWrite))
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_OsState_Generalized, ImageOSDisk_STATUS_OsState_Specialized))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_STATUS_OsType_Linux, ImageOSDisk_STATUS_OsType_Windows))
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_STATUS_PremiumV2_LRS,
-		StorageAccountType_STATUS_Premium_LRS,
-		StorageAccountType_STATUS_Premium_ZRS,
-		StorageAccountType_STATUS_StandardSSD_LRS,
-		StorageAccountType_STATUS_StandardSSD_ZRS,
-		StorageAccountType_STATUS_Standard_LRS,
-		StorageAccountType_STATUS_UltraSSD_LRS))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForImageOSDisk_STATUSARM is a factory method for creating gopter generators

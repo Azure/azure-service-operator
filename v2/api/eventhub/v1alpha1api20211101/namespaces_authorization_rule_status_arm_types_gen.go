@@ -3,17 +3,17 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-// Deprecated version of NamespacesAuthorizationRule_STATUS. Use v1beta20211101.NamespacesAuthorizationRule_STATUS instead
-type NamespacesAuthorizationRule_STATUSARM struct {
-	Id         *string                                           `json:"id,omitempty"`
-	Location   *string                                           `json:"location,omitempty"`
-	Name       *string                                           `json:"name,omitempty"`
-	Properties *NamespacesAuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                             `json:"systemData,omitempty"`
-	Type       *string                                           `json:"type,omitempty"`
+// Deprecated version of Namespaces_AuthorizationRule_STATUS. Use v1beta20211101.Namespaces_AuthorizationRule_STATUS instead
+type Namespaces_AuthorizationRule_STATUSARM struct {
+	Id         *string                                            `json:"id,omitempty"`
+	Location   *string                                            `json:"location,omitempty"`
+	Name       *string                                            `json:"name,omitempty"`
+	Properties *Namespaces_AuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUSARM                              `json:"systemData,omitempty"`
+	Type       *string                                            `json:"type,omitempty"`
 }
 
-// Deprecated version of NamespacesAuthorizationRule_Properties_STATUS. Use v1beta20211101.NamespacesAuthorizationRule_Properties_STATUS instead
-type NamespacesAuthorizationRule_Properties_STATUSARM struct {
-	Rights []NamespacesAuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+// Deprecated version of Namespaces_AuthorizationRule_Properties_STATUS. Use v1beta20211101.Namespaces_AuthorizationRule_Properties_STATUS instead
+type Namespaces_AuthorizationRule_Properties_STATUSARM struct {
+	Rights []Namespaces_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
 }

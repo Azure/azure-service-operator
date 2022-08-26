@@ -48,11 +48,7 @@ type VirtualMachineIdentity_STATUSARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-<<<<<<< HEAD
 	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *VirtualMachineIdentity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 }
 
 type VirtualMachineProperties_STATUSARM struct {
@@ -203,11 +199,7 @@ type HardwareProfile_STATUSARM struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-<<<<<<< HEAD
 	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
-=======
-	VmSize *HardwareProfile_STATUS_VmSize `json:"vmSize,omitempty"`
->>>>>>> main
 }
 
 type NetworkProfile_STATUSARM struct {
@@ -281,11 +273,7 @@ type SecurityProfile_STATUSARM struct {
 
 	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.
-<<<<<<< HEAD
 	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
-=======
-	SecurityType *SecurityProfile_STATUS_SecurityType `json:"securityType,omitempty"`
->>>>>>> main
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -309,7 +297,6 @@ type StorageProfile_STATUSARM struct {
 	OsDisk *OSDisk_STATUSARM `json:"osDisk,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineIdentity_Type_STATUS string
 
 const (
@@ -317,51 +304,6 @@ const (
 	VirtualMachineIdentity_Type_SystemAssigned_STATUS             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
 	VirtualMachineIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineIdentity_Type_UserAssigned_STATUS               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
-=======
-type VirtualMachineExtensionProperties_STATUSARM struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	// newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// ForceUpdateTag: How the extension handler should be forced to update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	// InstanceView: The virtual machine extension instance view.
-	InstanceView *VirtualMachineExtensionInstanceView_STATUSARM `json:"instanceView,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineIdentity_STATUS_Type string
-
-const (
-	VirtualMachineIdentity_STATUS_Type_None                       = VirtualMachineIdentity_STATUS_Type("None")
-	VirtualMachineIdentity_STATUS_Type_SystemAssigned             = VirtualMachineIdentity_STATUS_Type("SystemAssigned")
-	VirtualMachineIdentity_STATUS_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_STATUS_Type("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_STATUS_Type_UserAssigned               = VirtualMachineIdentity_STATUS_Type("UserAssigned")
->>>>>>> main
 )
 
 type VirtualMachineInstanceView_STATUSARM struct {
@@ -386,11 +328,7 @@ type VirtualMachineInstanceView_STATUSARM struct {
 	Extensions []VirtualMachineExtensionInstanceView_STATUSARM `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-<<<<<<< HEAD
 	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-=======
-	HyperVGeneration *VirtualMachineInstanceView_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>> main
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUSARM `json:"maintenanceRedeployStatus,omitempty"`
@@ -555,11 +493,7 @@ type InstanceViewStatus_STATUSARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-<<<<<<< HEAD
 	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
-=======
-	Level *InstanceViewStatus_STATUS_Level `json:"level,omitempty"`
->>>>>>> main
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -592,11 +526,7 @@ type MaintenanceRedeployStatus_STATUSARM struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-<<<<<<< HEAD
 	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
-=======
-	LastOperationResultCode *MaintenanceRedeployStatus_STATUS_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
->>>>>>> main
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -661,11 +591,7 @@ type OSDisk_STATUSARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-<<<<<<< HEAD
 	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
-=======
-	OsType *OSDisk_STATUS_OsType `json:"osType,omitempty"`
->>>>>>> main
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_STATUSARM `json:"vhd,omitempty"`
@@ -767,11 +693,7 @@ type WindowsConfiguration_STATUSARM struct {
 
 type AdditionalUnattendContent_STATUSARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-<<<<<<< HEAD
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
-=======
-	ComponentName *AdditionalUnattendContent_STATUS_ComponentName `json:"componentName,omitempty"`
->>>>>>> main
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -779,19 +701,11 @@ type AdditionalUnattendContent_STATUSARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-<<<<<<< HEAD
 	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
 	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
-=======
-	PassName *AdditionalUnattendContent_STATUS_PassName `json:"passName,omitempty"`
-
-	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
-	// AutoLogon.
-	SettingName *AdditionalUnattendContent_STATUS_SettingName `json:"settingName,omitempty"`
->>>>>>> main
 }
 
 type AvailablePatchSummary_STATUSARM struct {
@@ -821,11 +735,7 @@ type AvailablePatchSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<< HEAD
 	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *AvailablePatchSummary_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }
 
 type DiffDiskSettings_STATUSARM struct {
@@ -891,11 +801,7 @@ type LastPatchInstallationSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<< HEAD
 	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *LastPatchInstallationSummary_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }
 
 type LinuxPatchSettings_STATUSARM struct {
@@ -904,11 +810,7 @@ type LinuxPatchSettings_STATUSARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-<<<<<<< HEAD
 	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-=======
-	PatchMode *LinuxPatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
->>>>>>> main
 }
 
 type ManagedDiskParameters_STATUSARM struct {
@@ -943,11 +845,7 @@ type PatchSettings_STATUSARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-<<<<<<< HEAD
 	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-=======
-	PatchMode *PatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
->>>>>>> main
 }
 
 type SshConfiguration_STATUSARM struct {
@@ -1057,11 +955,7 @@ type WinRMListener_STATUSARM struct {
 	// Possible values are:
 	// http
 	// https
-<<<<<<< HEAD
 	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
-=======
-	Protocol *WinRMListener_STATUS_Protocol `json:"protocol,omitempty"`
->>>>>>> main
 }
 
 type ApiErrorBase_STATUSARM struct {

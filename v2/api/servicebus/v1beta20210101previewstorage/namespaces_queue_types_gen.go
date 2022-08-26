@@ -28,13 +28,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
-	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Queues_Spec `json:"spec,omitempty"`
-	Status            SBQueue_STATUS         `json:"status,omitempty"`
->>>>>>> main
+	Spec              Namespaces_Queue_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Queue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -83,7 +78,7 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NamespacesQueue_STATUS{}
+	return &Namespaces_Queue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NamespacesQueue_STATUS); ok {
+	if st, ok := status.(*Namespaces_Queue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NamespacesQueue_STATUS
+	var st Namespaces_Queue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,13 +133,8 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210101preview.NamespacesQueue_Spec
-type NamespacesQueue_Spec struct {
-=======
-// Storage version of v1beta20210101preview.Namespaces_Queues_Spec
-type Namespaces_Queues_Spec struct {
->>>>>>> main
+// Storage version of v1beta20210101preview.Namespaces_Queue_Spec
+type Namespaces_Queue_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -173,42 +163,28 @@ type Namespaces_Queues_Spec struct {
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
 }
 
-<<<<<<< HEAD
-var _ genruntime.ConvertibleSpec = &NamespacesQueue_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Queue_Spec{}
 
-// ConvertSpecFrom populates our NamespacesQueue_Spec from the provided source
-func (queue *NamespacesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Namespaces_Queue_Spec from the provided source
+func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == queue {
-=======
-var _ genruntime.ConvertibleSpec = &Namespaces_Queues_Spec{}
-
-// ConvertSpecFrom populates our Namespaces_Queues_Spec from the provided source
-func (queues *Namespaces_Queues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == queues {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(queue)
 }
 
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our NamespacesQueue_Spec
-func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Namespaces_Queue_Spec
+func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == queue {
-=======
-// ConvertSpecTo populates the provided destination from our Namespaces_Queues_Spec
-func (queues *Namespaces_Queues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == queues {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(queue)
 }
 
-// Storage version of v1beta20210101preview.NamespacesQueue_STATUS
-type NamespacesQueue_STATUS struct {
+// Storage version of v1beta20210101preview.Namespaces_Queue_STATUS
+type Namespaces_Queue_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
@@ -238,10 +214,10 @@ type NamespacesQueue_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NamespacesQueue_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Queue_STATUS{}
 
-// ConvertStatusFrom populates our NamespacesQueue_STATUS from the provided source
-func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Queue_STATUS from the provided source
+func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -249,8 +225,8 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return source.ConvertStatusTo(queue)
 }
 
-// ConvertStatusTo populates the provided destination from our NamespacesQueue_STATUS
-func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Queue_STATUS
+func (queue *Namespaces_Queue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

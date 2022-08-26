@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type NamespacesAuthorizationRule_STATUSARM struct {
+type Namespaces_AuthorizationRule_STATUSARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,7 +15,7 @@ type NamespacesAuthorizationRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
-	Properties *NamespacesAuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *Namespaces_AuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
@@ -24,7 +24,7 @@ type NamespacesAuthorizationRule_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NamespacesAuthorizationRule_Properties_STATUSARM struct {
+type Namespaces_AuthorizationRule_Properties_STATUSARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []NamespacesAuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+	Rights []Namespaces_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
 }

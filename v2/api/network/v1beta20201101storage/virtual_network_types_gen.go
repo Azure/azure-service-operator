@@ -158,10 +158,8 @@ type VirtualNetwork_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
-	Reference              *genruntime.ResourceReference               `armReference:"Id" json:"reference,omitempty"`
-	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
-	Tags                   map[string]string                           `json:"tags,omitempty"`
-	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Tags      map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
@@ -250,14 +248,6 @@ type DhcpOptions_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.Subnet_VirtualNetwork_SubResourceEmbedded
-type Subnet_VirtualNetwork_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
 // Storage version of v1beta20201101.VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -269,14 +259,6 @@ type VirtualNetworkBgpCommunities_STATUS struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
-}
-
-// Storage version of v1beta20201101.VirtualNetworkPeering
-type VirtualNetworkPeering struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

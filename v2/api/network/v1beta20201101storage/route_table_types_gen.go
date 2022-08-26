@@ -150,9 +150,8 @@ type RouteTable_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference          `armReference:"Id" json:"reference,omitempty"`
-	Routes    []Route_RouteTable_SubResourceEmbedded `json:"routes,omitempty"`
-	Tags      map[string]string                      `json:"tags,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Tags      map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
@@ -208,14 +207,6 @@ func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	}
 
 	return destination.ConvertStatusFrom(table)
-}
-
-// Storage version of v1beta20201101.Route_RouteTable_SubResourceEmbedded
-type Route_RouteTable_SubResourceEmbedded struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

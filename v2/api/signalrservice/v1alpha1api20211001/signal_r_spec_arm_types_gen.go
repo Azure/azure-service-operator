@@ -9,11 +9,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type SignalR_SpecARM struct {
 	AzureName  string                `json:"azureName,omitempty"`
 	Identity   *ManagedIdentityARM   `json:"identity,omitempty"`
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Kind       *ServiceKind          `json:"kind,omitempty"`
-=======
-	Kind       *SignalR_Spec_Kind    `json:"kind,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *SignalRPropertiesARM `json:"properties,omitempty"`
@@ -40,17 +36,11 @@ func (signalR *SignalR_SpecARM) GetType() string {
 
 // Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
 type ManagedIdentityARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Type *ManagedIdentityType `json:"type,omitempty"`
-=======
-	Type                   *ManagedIdentity_Type `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON    `json:"userAssignedIdentities,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
 type ResourceSkuARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Capacity *int            `json:"capacity,omitempty"`
 	Name     *string         `json:"name,omitempty"`
 	Tier     *SignalRSkuTier `json:"tier,omitempty"`
@@ -63,20 +53,6 @@ type ServiceKind string
 const (
 	ServiceKind_RawWebSockets = ServiceKind("RawWebSockets")
 	ServiceKind_SignalR       = ServiceKind("SignalR")
-=======
-	Capacity *int              `json:"capacity,omitempty"`
-	Name     *string           `json:"name,omitempty"`
-	Tier     *ResourceSku_Tier `json:"tier,omitempty"`
-}
-
-// Deprecated version of SignalR_Spec_Kind. Use v1beta20211001.SignalR_Spec_Kind instead
-// +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type SignalR_Spec_Kind string
-
-const (
-	SignalR_Spec_Kind_RawWebSockets = SignalR_Spec_Kind("RawWebSockets")
-	SignalR_Spec_Kind_SignalR       = SignalR_Spec_Kind("SignalR")
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 )
 
 // Deprecated version of SignalRProperties. Use v1beta20211001.SignalRProperties instead
@@ -92,18 +68,14 @@ type SignalRPropertiesARM struct {
 	Upstream                 *ServerlessUpstreamSettingsARM `json:"upstream,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 // Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead
-=======
-// Deprecated version of ManagedIdentity_Type. Use v1beta20211001.ManagedIdentity_Type instead
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedIdentity_Type string
+type ManagedIdentityType string
 
 const (
-	ManagedIdentity_Type_None           = ManagedIdentity_Type("None")
-	ManagedIdentity_Type_SystemAssigned = ManagedIdentity_Type("SystemAssigned")
-	ManagedIdentity_Type_UserAssigned   = ManagedIdentity_Type("UserAssigned")
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
@@ -111,20 +83,6 @@ type ResourceLogConfigurationARM struct {
 	Categories []ResourceLogCategoryARM `json:"categories,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
-=======
-// Deprecated version of ResourceSku_Tier. Use v1beta20211001.ResourceSku_Tier instead
-// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type ResourceSku_Tier string
-
-const (
-	ResourceSku_Tier_Basic    = ResourceSku_Tier("Basic")
-	ResourceSku_Tier_Free     = ResourceSku_Tier("Free")
-	ResourceSku_Tier_Premium  = ResourceSku_Tier("Premium")
-	ResourceSku_Tier_Standard = ResourceSku_Tier("Standard")
-)
-
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 // Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
 type ServerlessUpstreamSettingsARM struct {
 	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
@@ -137,28 +95,16 @@ type SignalRCorsSettingsARM struct {
 
 // Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
 type SignalRFeatureARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Flag       *FeatureFlags     `json:"flag,omitempty"`
 	Properties map[string]string `json:"properties,omitempty"`
 	Value      *string           `json:"value,omitempty"`
-=======
-	Flag       *SignalRFeature_Flag `json:"flag,omitempty"`
-	Properties map[string]string    `json:"properties,omitempty"`
-	Value      *string              `json:"value,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
 type SignalRNetworkACLsARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	DefaultAction    *ACLAction              `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACLARM `json:"privateEndpoints,omitempty"`
 	PublicNetwork    *NetworkACLARM          `json:"publicNetwork,omitempty"`
-=======
-	DefaultAction    *SignalRNetworkACLs_DefaultAction `json:"defaultAction,omitempty"`
-	PrivateEndpoints []PrivateEndpointACLARM           `json:"privateEndpoints,omitempty"`
-	PublicNetwork    *NetworkACLARM                    `json:"publicNetwork,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of SignalRSkuTier. Use v1beta20211001.SignalRSkuTier instead
@@ -179,26 +125,15 @@ type SignalRTlsSettingsARM struct {
 
 // Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
 type NetworkACLARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Allow []SignalRRequestType `json:"allow,omitempty"`
 	Deny  []SignalRRequestType `json:"deny,omitempty"`
-=======
-	Allow []NetworkACL_Allow `json:"allow,omitempty"`
-	Deny  []NetworkACL_Deny  `json:"deny,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
 type PrivateEndpointACLARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Allow []SignalRRequestType `json:"allow,omitempty"`
 	Deny  []SignalRRequestType `json:"deny,omitempty"`
 	Name  *string              `json:"name,omitempty"`
-=======
-	Allow []PrivateEndpointACL_Allow `json:"allow,omitempty"`
-	Deny  []PrivateEndpointACL_Deny  `json:"deny,omitempty"`
-	Name  *string                    `json:"name,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
@@ -219,11 +154,7 @@ type UpstreamTemplateARM struct {
 // Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
 type UpstreamAuthSettingsARM struct {
 	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
-<<<<<<< HEAD:v2/api/signalrservice/v1alpha1api20211001/signal_r__spec_arm_types_gen.go
 	Type            *UpstreamAuthType           `json:"type,omitempty"`
-=======
-	Type            *UpstreamAuthSettings_Type  `json:"type,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1alpha1api20211001/signal_r_spec_arm_types_gen.go
 }
 
 // Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead

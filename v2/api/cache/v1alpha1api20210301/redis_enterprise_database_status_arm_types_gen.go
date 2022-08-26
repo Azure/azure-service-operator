@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210301
 
-// Deprecated version of RedisEnterpriseDatabase_STATUS. Use v1beta20210301.RedisEnterpriseDatabase_STATUS instead
-type RedisEnterpriseDatabase_STATUSARM struct {
+// Deprecated version of RedisEnterprise_Database_STATUS. Use v1beta20210301.RedisEnterprise_Database_STATUS instead
+type RedisEnterprise_Database_STATUSARM struct {
 	Id         *string                       `json:"id,omitempty"`
 	Name       *string                       `json:"name,omitempty"`
 	Properties *DatabaseProperties_STATUSARM `json:"properties,omitempty"`

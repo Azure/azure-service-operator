@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM, DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator()))
+		"Round trip of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM, DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(subject DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM runs a test to see if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(subject DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM
+	var actual DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	return ""
 }
 
-// Generator of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM instances for property testing -
-// lazily instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator()
-var databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM instances for property testing -
+// lazily instantiated by DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator()
+var databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator with a simplified generator based on the
+// DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator returns a generator of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM instances for property testing.
+// We first initialize databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator
+func DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator() gopter.Gen {
+	if databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator != nil {
+		return databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(generators)
+	databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(generators)
+	databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARMGenerator
+	return databaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -91,7 +91,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTh
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ThroughputSettingsGetProperties_STATUSARMGenerator())
 }

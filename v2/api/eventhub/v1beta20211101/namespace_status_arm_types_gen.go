@@ -95,30 +95,12 @@ type Namespace_Properties_STATUSARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
-=======
-type Identity_STATUSARM struct {
-	// PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: Type of managed service identity.
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Properties for User Assigned Identities
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUSARM `json:"userAssignedIdentities,omitempty"`
-}
-
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 type Sku_STATUSARM struct {
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
 	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
@@ -143,21 +125,11 @@ type SystemData_STATUSARM struct {
 
 	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	Name *Sku_STATUS_Name `json:"name,omitempty"`
-
-	// Tier: The billing tier of this particular SKU.
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 }
 
 type Encryption_STATUSARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
 	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
-=======
-	KeySource *Encryption_STATUS_KeySource `json:"keySource,omitempty"`
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 
 	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
@@ -166,7 +138,6 @@ type Encryption_STATUSARM struct {
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
 type Identity_Type_STATUS string
 
 const (
@@ -174,15 +145,6 @@ const (
 	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
 	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned, UserAssigned")
 	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
-=======
-type Identity_STATUS_Type string
-
-const (
-	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
-	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
-	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
-	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 )
 
 type PrivateEndpointConnection_STATUSARM struct {
@@ -194,7 +156,6 @@ type PrivateEndpointConnection_STATUSARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
 type Sku_Name_STATUS string
 
 const (
@@ -227,22 +188,6 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
-=======
-type Sku_STATUS_Name string
-
-const (
-	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
-	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
-	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
-)
-
-type Sku_STATUS_Tier string
-
-const (
-	Sku_STATUS_Tier_Basic    = Sku_STATUS_Tier("Basic")
-	Sku_STATUS_Tier_Premium  = Sku_STATUS_Tier("Premium")
-	Sku_STATUS_Tier_Standard = Sku_STATUS_Tier("Standard")
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 )
 
 type UserAssignedIdentity_STATUSARM struct {
@@ -253,13 +198,6 @@ type UserAssignedIdentity_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespace_status_arm_types_gen.go
-=======
-type Encryption_STATUS_KeySource string
-
-const Encryption_STATUS_KeySource_MicrosoftKeyVault = Encryption_STATUS_KeySource("Microsoft.KeyVault")
-
->>>>>>> main:v2/api/eventhub/v1beta20211101/eh_namespace_status_arm_types_gen.go
 type KeyVaultProperties_STATUSARM struct {
 	Identity *UserAssignedIdentityProperties_STATUSARM `json:"identity,omitempty"`
 

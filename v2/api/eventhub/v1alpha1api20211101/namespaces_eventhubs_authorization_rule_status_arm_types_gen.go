@@ -3,17 +3,17 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-// Deprecated version of NamespacesEventhubsAuthorizationRule_STATUS. Use v1beta20211101.NamespacesEventhubsAuthorizationRule_STATUS instead
-type NamespacesEventhubsAuthorizationRule_STATUSARM struct {
-	Id         *string                                                    `json:"id,omitempty"`
-	Location   *string                                                    `json:"location,omitempty"`
-	Name       *string                                                    `json:"name,omitempty"`
-	Properties *NamespacesEventhubsAuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                                      `json:"systemData,omitempty"`
-	Type       *string                                                    `json:"type,omitempty"`
+// Deprecated version of Namespaces_Eventhubs_AuthorizationRule_STATUS. Use v1beta20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS instead
+type Namespaces_Eventhubs_AuthorizationRule_STATUSARM struct {
+	Id         *string                                                      `json:"id,omitempty"`
+	Location   *string                                                      `json:"location,omitempty"`
+	Name       *string                                                      `json:"name,omitempty"`
+	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUSARM                                        `json:"systemData,omitempty"`
+	Type       *string                                                      `json:"type,omitempty"`
 }
 
-// Deprecated version of NamespacesEventhubsAuthorizationRule_Properties_STATUS. Use v1beta20211101.NamespacesEventhubsAuthorizationRule_Properties_STATUS instead
-type NamespacesEventhubsAuthorizationRule_Properties_STATUSARM struct {
-	Rights []NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+// Deprecated version of Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS. Use v1beta20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS instead
+type Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM struct {
+	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
 }

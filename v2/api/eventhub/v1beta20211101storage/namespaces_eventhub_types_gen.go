@@ -28,13 +28,8 @@ import (
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              NamespacesEventhub_Spec   `json:"spec,omitempty"`
-	Status            NamespacesEventhub_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Eventhubs_Spec `json:"spec,omitempty"`
-	Status            Eventhub_STATUS           `json:"status,omitempty"`
->>>>>>> main
+	Spec              Namespaces_Eventhub_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Eventhub_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhub{}
@@ -83,7 +78,7 @@ func (eventhub *NamespacesEventhub) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NamespacesEventhub_STATUS{}
+	return &Namespaces_Eventhub_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NamespacesEventhub_STATUS); ok {
+	if st, ok := status.(*Namespaces_Eventhub_STATUS); ok {
 		eventhub.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NamespacesEventhub_STATUS
+	var st Namespaces_Eventhub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +133,8 @@ type NamespacesEventhubList struct {
 	Items           []NamespacesEventhub `json:"items"`
 }
 
-// Storage version of v1beta20211101.NamespacesEventhub_Spec
-type NamespacesEventhub_Spec struct {
+// Storage version of v1beta20211101.Namespaces_Eventhub_Spec
+type Namespaces_Eventhub_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName              string              `json:"azureName,omitempty"`
@@ -154,13 +149,12 @@ type NamespacesEventhub_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PartitionCount *int                               `json:"partitionCount,omitempty"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Status         *string                            `json:"status,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesEventhub_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Eventhub_Spec{}
 
-// ConvertSpecFrom populates our NamespacesEventhub_Spec from the provided source
-func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Namespaces_Eventhub_Spec from the provided source
+func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +162,8 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.Conve
 	return source.ConvertSpecTo(eventhub)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesEventhub_Spec
-func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Namespaces_Eventhub_Spec
+func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +171,8 @@ func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(eventhub)
 }
 
-// Storage version of v1beta20211101.NamespacesEventhub_STATUS
-type NamespacesEventhub_STATUS struct {
+// Storage version of v1beta20211101.Namespaces_Eventhub_STATUS
+type Namespaces_Eventhub_STATUS struct {
 	CaptureDescription     *CaptureDescription_STATUS `json:"captureDescription,omitempty"`
 	Conditions             []conditions.Condition     `json:"conditions,omitempty"`
 	CreatedAt              *string                    `json:"createdAt,omitempty"`
@@ -195,10 +189,10 @@ type NamespacesEventhub_STATUS struct {
 	UpdatedAt              *string                    `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NamespacesEventhub_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Eventhub_STATUS{}
 
-// ConvertStatusFrom populates our NamespacesEventhub_STATUS from the provided source
-func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Eventhub_STATUS from the provided source
+func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +200,8 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(eventhub)
 }
 
-// ConvertStatusTo populates the provided destination from our NamespacesEventhub_STATUS
-func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Eventhub_STATUS
+func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -215,7 +209,6 @@ func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntim
 	return destination.ConvertStatusFrom(eventhub)
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20211101.CaptureDescription
 type CaptureDescription struct {
 	Destination       *Destination           `json:"destination,omitempty"`
@@ -225,48 +218,6 @@ type CaptureDescription struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SizeLimitInBytes  *int                   `json:"sizeLimitInBytes,omitempty"`
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
-=======
-// Storage version of v1beta20211101.Namespaces_Eventhubs_Spec
-type Namespaces_Eventhubs_Spec struct {
-	// +kubebuilder:validation:MaxLength=256
-	// +kubebuilder:validation:MinLength=1
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName              string                                                   `json:"azureName,omitempty"`
-	CaptureDescription     *Namespaces_Eventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
-	Location               *string                                                  `json:"location,omitempty"`
-	MessageRetentionInDays *int                                                     `json:"messageRetentionInDays,omitempty"`
-	OriginalVersion        string                                                   `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a eventhub.azure.com/Namespace resource
-	Owner          *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
-	PartitionCount *int                               `json:"partitionCount,omitempty"`
-	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags           map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_Spec{}
-
-// ConvertSpecFrom populates our Namespaces_Eventhubs_Spec from the provided source
-func (eventhubs *Namespaces_Eventhubs_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == eventhubs {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(eventhubs)
-}
-
-// ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_Spec
-func (eventhubs *Namespaces_Eventhubs_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == eventhubs {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(eventhubs)
->>>>>>> main
 }
 
 // Storage version of v1beta20211101.CaptureDescription_STATUS
@@ -280,7 +231,6 @@ type CaptureDescription_STATUS struct {
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20211101.Destination
 type Destination struct {
 	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
@@ -293,17 +243,6 @@ type Destination struct {
 
 	// StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
 	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
-=======
-// Storage version of v1beta20211101.Namespaces_Eventhubs_Spec_Properties_CaptureDescription
-type Namespaces_Eventhubs_Spec_Properties_CaptureDescription struct {
-	Destination       *Namespaces_Eventhubs_Spec_Properties_CaptureDescription_Destination `json:"destination,omitempty"`
-	Enabled           *bool                                                                `json:"enabled,omitempty"`
-	Encoding          *string                                                              `json:"encoding,omitempty"`
-	IntervalInSeconds *int                                                                 `json:"intervalInSeconds,omitempty"`
-	PropertyBag       genruntime.PropertyBag                                               `json:"$propertyBag,omitempty"`
-	SizeLimitInBytes  *int                                                                 `json:"sizeLimitInBytes,omitempty"`
-	SkipEmptyArchives *bool                                                                `json:"skipEmptyArchives,omitempty"`
->>>>>>> main
 }
 
 // Storage version of v1beta20211101.Destination_STATUS
@@ -318,23 +257,6 @@ type Destination_STATUS struct {
 	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20211101.Namespaces_Eventhubs_Spec_Properties_CaptureDescription_Destination
-type Namespaces_Eventhubs_Spec_Properties_CaptureDescription_Destination struct {
-	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
-	BlobContainer          *string                `json:"blobContainer,omitempty"`
-	DataLakeAccountName    *string                `json:"dataLakeAccountName,omitempty"`
-	DataLakeFolderPath     *string                `json:"dataLakeFolderPath,omitempty"`
-	DataLakeSubscriptionId *string                `json:"dataLakeSubscriptionId,omitempty"`
-	Name                   *string                `json:"name,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
-	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&NamespacesEventhub{}, &NamespacesEventhubList{})
 }

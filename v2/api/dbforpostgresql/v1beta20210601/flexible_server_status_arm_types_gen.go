@@ -42,11 +42,7 @@ type ServerProperties_STATUSARM struct {
 	Backup *Backup_STATUSARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-=======
-	CreateMode *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -72,11 +68,7 @@ type ServerProperties_STATUSARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: A state of a server that is visible to user.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	State *ServerProperties_State_STATUS `json:"state,omitempty"`
-=======
-	State *ServerProperties_STATUS_State `json:"state,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_STATUSARM `json:"storage,omitempty"`
@@ -90,7 +82,6 @@ type Sku_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Burstable.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
@@ -112,9 +103,6 @@ type SystemData_STATUSARM struct {
 
 	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 }
 
 type Backup_STATUSARM struct {
@@ -125,30 +113,18 @@ type Backup_STATUSARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
-=======
-	GeoRedundantBackup *Backup_STATUS_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 }
 
 type HighAvailability_STATUSARM struct {
 	// Mode: The HA mode for the server.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
-=======
-	Mode *HighAvailability_STATUS_Mode `json:"mode,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: A state of a HA server that is visible to user.
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	State *HighAvailability_State_STATUS `json:"state,omitempty"`
-=======
-	State *HighAvailability_STATUS_State `json:"state,omitempty"`
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 }
 
 type MaintenanceWindow_STATUSARM struct {
@@ -173,7 +149,6 @@ type Network_STATUSARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 
 	// PublicNetworkAccess: public network access is enabled or not
-<<<<<<< HEAD:v2/api/dbforpostgresql/v1beta20210601/flexible_server_status_arm_types_gen.go
 	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
@@ -183,17 +158,6 @@ const (
 	Sku_Tier_Burstable_STATUS       = Sku_Tier_STATUS("Burstable")
 	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
 	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
-=======
-	PublicNetworkAccess *Network_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-}
-
-type Sku_STATUS_Tier string
-
-const (
-	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
-	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
-	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
->>>>>>> main:v2/api/dbforpostgresql/v1beta20210601/server_status_arm_types_gen.go
 )
 
 type Storage_STATUSARM struct {

@@ -83,10 +83,7 @@ func Redis_SpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_SpecARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD:v2/api/cache/v1beta20201201/redis__spec_arm_types_gen_test.go
 	gens["AzureName"] = gen.AlphaString()
-=======
->>>>>>> main:v2/api/cache/v1beta20201201/redis_spec_arm_types_gen_test.go
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

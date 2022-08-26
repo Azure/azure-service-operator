@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20211101
 
-type NamespacesEventhub_STATUSARM struct {
+type Namespaces_Eventhub_STATUSARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -15,7 +15,7 @@ type NamespacesEventhub_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
-	Properties *NamespacesEventhub_Properties_STATUSARM `json:"properties,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_STATUSARM `json:"properties,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
@@ -24,7 +24,7 @@ type NamespacesEventhub_STATUSARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NamespacesEventhub_Properties_STATUSARM struct {
+type Namespaces_Eventhub_Properties_STATUSARM struct {
 	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescription_STATUSARM `json:"captureDescription,omitempty"`
 
@@ -41,11 +41,7 @@ type NamespacesEventhub_Properties_STATUSARM struct {
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
 	// Status: Enumerates the possible values for the status of the Event Hub.
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespaces_eventhub_status_arm_types_gen.go
-	Status *NamespacesEventhub_Properties_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *Eventhub_STATUS_Properties_Status `json:"status,omitempty"`
->>>>>>> main:v2/api/eventhub/v1beta20211101/eventhub_status_arm_types_gen.go
+	Status *Namespaces_Eventhub_Properties_Status_STATUS `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
@@ -60,11 +56,7 @@ type CaptureDescription_STATUSARM struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespaces_eventhub_status_arm_types_gen.go
 	Encoding *CaptureDescription_Encoding_STATUS `json:"encoding,omitempty"`
-=======
-	Encoding *CaptureDescription_STATUS_Encoding `json:"encoding,omitempty"`
->>>>>>> main:v2/api/eventhub/v1beta20211101/eventhub_status_arm_types_gen.go
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -78,30 +70,6 @@ type CaptureDescription_STATUSARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/eventhub/v1beta20211101/namespaces_eventhub_status_arm_types_gen.go
-=======
-type Eventhub_STATUS_Properties_Status string
-
-const (
-	Eventhub_STATUS_Properties_Status_Active          = Eventhub_STATUS_Properties_Status("Active")
-	Eventhub_STATUS_Properties_Status_Creating        = Eventhub_STATUS_Properties_Status("Creating")
-	Eventhub_STATUS_Properties_Status_Deleting        = Eventhub_STATUS_Properties_Status("Deleting")
-	Eventhub_STATUS_Properties_Status_Disabled        = Eventhub_STATUS_Properties_Status("Disabled")
-	Eventhub_STATUS_Properties_Status_ReceiveDisabled = Eventhub_STATUS_Properties_Status("ReceiveDisabled")
-	Eventhub_STATUS_Properties_Status_Renaming        = Eventhub_STATUS_Properties_Status("Renaming")
-	Eventhub_STATUS_Properties_Status_Restoring       = Eventhub_STATUS_Properties_Status("Restoring")
-	Eventhub_STATUS_Properties_Status_SendDisabled    = Eventhub_STATUS_Properties_Status("SendDisabled")
-	Eventhub_STATUS_Properties_Status_Unknown         = Eventhub_STATUS_Properties_Status("Unknown")
-)
-
-type CaptureDescription_STATUS_Encoding string
-
-const (
-	CaptureDescription_STATUS_Encoding_Avro        = CaptureDescription_STATUS_Encoding("Avro")
-	CaptureDescription_STATUS_Encoding_AvroDeflate = CaptureDescription_STATUS_Encoding("AvroDeflate")
-)
-
->>>>>>> main:v2/api/eventhub/v1beta20211101/eventhub_status_arm_types_gen.go
 type Destination_STATUSARM struct {
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`

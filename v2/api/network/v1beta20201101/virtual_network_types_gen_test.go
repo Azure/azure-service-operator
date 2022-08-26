@@ -160,7 +160,6 @@ func VirtualNetworkGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = VirtualNetwork_SpecGenerator()
 	gens["Status"] = VirtualNetwork_STATUSGenerator()
 }
@@ -171,7 +170,7 @@ func Test_VirtualNetwork_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualNetwork_Spec to VirtualNetwork_Spec via AssignPropertiesToVirtualNetwork_Spec & AssignPropertiesFromVirtualNetwork_Spec returns original",
+		"Round trip from VirtualNetwork_Spec to VirtualNetwork_Spec via AssignProperties_To_VirtualNetwork_Spec & AssignProperties_From_VirtualNetwork_Spec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetwork_Spec, VirtualNetwork_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -183,14 +182,14 @@ func RunPropertyAssignmentTestForVirtualNetwork_Spec(subject VirtualNetwork_Spec
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.VirtualNetwork_Spec
-	err := copied.AssignPropertiesToVirtualNetwork_Spec(&other)
+	err := copied.AssignProperties_To_VirtualNetwork_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetwork_Spec
-	err = actual.AssignPropertiesFromVirtualNetwork_Spec(&other)
+	err = actual.AssignProperties_From_VirtualNetwork_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -289,12 +288,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_VirtualNetwork_SubResourceEmbeddedGenerator())
-	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringGenerator())
-=======
-	gens["Spec"] = VirtualNetworks_SpecGenerator()
-	gens["Status"] = VirtualNetwork_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_VirtualNetwork_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -303,11 +296,7 @@ func Test_VirtualNetwork_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from VirtualNetwork_STATUS to VirtualNetwork_STATUS via AssignPropertiesToVirtualNetwork_STATUS & AssignPropertiesFromVirtualNetwork_STATUS returns original",
-=======
 		"Round trip from VirtualNetwork_STATUS to VirtualNetwork_STATUS via AssignProperties_To_VirtualNetwork_STATUS & AssignProperties_From_VirtualNetwork_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetwork_STATUS, VirtualNetwork_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -319,22 +308,14 @@ func RunPropertyAssignmentTestForVirtualNetwork_STATUS(subject VirtualNetwork_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.VirtualNetwork_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToVirtualNetwork_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_VirtualNetwork_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetwork_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromVirtualNetwork_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_VirtualNetwork_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -442,135 +423,6 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
-<<<<<<< HEAD
-=======
-}
-
-func Test_VirtualNetworks_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualNetworks_Spec to VirtualNetworks_Spec via AssignProperties_To_VirtualNetworks_Spec & AssignProperties_From_VirtualNetworks_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualNetworks_Spec tests if a specific instance of VirtualNetworks_Spec can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetworks_Spec
-	err := copied.AssignProperties_To_VirtualNetworks_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworks_Spec
-	err = actual.AssignProperties_From_VirtualNetworks_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworks_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworks_Spec runs a test to see if a specific instance of VirtualNetworks_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworks_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
-// VirtualNetworks_SpecGenerator()
-var virtualNetworks_SpecGenerator gopter.Gen
-
-// VirtualNetworks_SpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
-// We first initialize virtualNetworks_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualNetworks_SpecGenerator() gopter.Gen {
-	if virtualNetworks_SpecGenerator != nil {
-		return virtualNetworks_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(generators)
-	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
-
-	return virtualNetworks_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
-	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
-	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
-	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
-	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
-	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
->>>>>>> main
 }
 
 func Test_AddressSpace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -681,11 +533,7 @@ func Test_AddressSpace_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from AddressSpace_STATUS to AddressSpace_STATUS via AssignPropertiesToAddressSpace_STATUS & AssignPropertiesFromAddressSpace_STATUS returns original",
-=======
 		"Round trip from AddressSpace_STATUS to AddressSpace_STATUS via AssignProperties_To_AddressSpace_STATUS & AssignProperties_From_AddressSpace_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForAddressSpace_STATUS, AddressSpace_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -697,22 +545,14 @@ func RunPropertyAssignmentTestForAddressSpace_STATUS(subject AddressSpace_STATUS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.AddressSpace_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToAddressSpace_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_AddressSpace_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AddressSpace_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromAddressSpace_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_AddressSpace_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -898,11 +738,7 @@ func Test_DhcpOptions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from DhcpOptions_STATUS to DhcpOptions_STATUS via AssignPropertiesToDhcpOptions_STATUS & AssignPropertiesFromDhcpOptions_STATUS returns original",
-=======
 		"Round trip from DhcpOptions_STATUS to DhcpOptions_STATUS via AssignProperties_To_DhcpOptions_STATUS & AssignProperties_From_DhcpOptions_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDhcpOptions_STATUS, DhcpOptions_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -914,22 +750,14 @@ func RunPropertyAssignmentTestForDhcpOptions_STATUS(subject DhcpOptions_STATUS) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.DhcpOptions_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToDhcpOptions_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_DhcpOptions_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DhcpOptions_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromDhcpOptions_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_DhcpOptions_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1004,103 +832,6 @@ func DhcpOptions_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDhcpOptions_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDhcpOptions_STATUS(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_Subnet_VirtualNetwork_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Subnet_VirtualNetwork_SubResourceEmbedded to Subnet_VirtualNetwork_SubResourceEmbedded via AssignPropertiesToSubnet_VirtualNetwork_SubResourceEmbedded & AssignPropertiesFromSubnet_VirtualNetwork_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubnet_VirtualNetwork_SubResourceEmbedded, Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSubnet_VirtualNetwork_SubResourceEmbedded tests if a specific instance of Subnet_VirtualNetwork_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForSubnet_VirtualNetwork_SubResourceEmbedded(subject Subnet_VirtualNetwork_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Subnet_VirtualNetwork_SubResourceEmbedded
-	err := copied.AssignPropertiesToSubnet_VirtualNetwork_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Subnet_VirtualNetwork_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSubnet_VirtualNetwork_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Subnet_VirtualNetwork_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_VirtualNetwork_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded, Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded runs a test to see if a specific instance of Subnet_VirtualNetwork_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_VirtualNetwork_SubResourceEmbedded(subject Subnet_VirtualNetwork_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_VirtualNetwork_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing - lazily instantiated by
-// Subnet_VirtualNetwork_SubResourceEmbeddedGenerator()
-var subnet_VirtualNetwork_SubResourceEmbeddedGenerator gopter.Gen
-
-// Subnet_VirtualNetwork_SubResourceEmbeddedGenerator returns a generator of Subnet_VirtualNetwork_SubResourceEmbedded instances for property testing.
-func Subnet_VirtualNetwork_SubResourceEmbeddedGenerator() gopter.Gen {
-	if subnet_VirtualNetwork_SubResourceEmbeddedGenerator != nil {
-		return subnet_VirtualNetwork_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	subnet_VirtualNetwork_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_VirtualNetwork_SubResourceEmbedded{}), generators)
-
-	return subnet_VirtualNetwork_SubResourceEmbeddedGenerator
 }
 
 func Test_VirtualNetworkBgpCommunities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1212,11 +943,7 @@ func Test_VirtualNetworkBgpCommunities_STATUS_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from VirtualNetworkBgpCommunities_STATUS to VirtualNetworkBgpCommunities_STATUS via AssignPropertiesToVirtualNetworkBgpCommunities_STATUS & AssignPropertiesFromVirtualNetworkBgpCommunities_STATUS returns original",
-=======
 		"Round trip from VirtualNetworkBgpCommunities_STATUS to VirtualNetworkBgpCommunities_STATUS via AssignProperties_To_VirtualNetworkBgpCommunities_STATUS & AssignProperties_From_VirtualNetworkBgpCommunities_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS, VirtualNetworkBgpCommunities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1228,22 +955,14 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS(subject Vir
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.VirtualNetworkBgpCommunities_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToVirtualNetworkBgpCommunities_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_VirtualNetworkBgpCommunities_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkBgpCommunities_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromVirtualNetworkBgpCommunities_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_VirtualNetworkBgpCommunities_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1320,101 +1039,4 @@ func VirtualNetworkBgpCommunities_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS(gens map[string]gopter.Gen) {
 	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_VirtualNetworkPeering_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualNetworkPeering to VirtualNetworkPeering via AssignPropertiesToVirtualNetworkPeering & AssignPropertiesFromVirtualNetworkPeering returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkPeering, VirtualNetworkPeeringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualNetworkPeering tests if a specific instance of VirtualNetworkPeering can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForVirtualNetworkPeering(subject VirtualNetworkPeering) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetworkPeering
-	err := copied.AssignPropertiesToVirtualNetworkPeering(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualNetworkPeering
-	err = actual.AssignPropertiesFromVirtualNetworkPeering(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualNetworkPeering_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualNetworkPeering via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualNetworkPeering, VirtualNetworkPeeringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualNetworkPeering runs a test to see if a specific instance of VirtualNetworkPeering round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualNetworkPeering(subject VirtualNetworkPeering) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualNetworkPeering
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualNetworkPeering instances for property testing - lazily instantiated by
-// VirtualNetworkPeeringGenerator()
-var virtualNetworkPeeringGenerator gopter.Gen
-
-// VirtualNetworkPeeringGenerator returns a generator of VirtualNetworkPeering instances for property testing.
-func VirtualNetworkPeeringGenerator() gopter.Gen {
-	if virtualNetworkPeeringGenerator != nil {
-		return virtualNetworkPeeringGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	virtualNetworkPeeringGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering{}), generators)
-
-	return virtualNetworkPeeringGenerator
 }

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type VirtualNetworksVirtualNetworkPeering_STATUSARM struct {
+type VirtualNetworks_VirtualNetworkPeering_STATUSARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -36,11 +36,7 @@ type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// PeeringState: The status of the virtual network peering.
-<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_networks_virtual_network_peering_status_arm_types_gen.go
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
-=======
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState `json:"peeringState,omitempty"`
->>>>>>> main:v2/api/network/v1beta20201101/virtual_network_peering_status_arm_types_gen.go
 
 	// ProvisioningState: The provisioning state of the virtual network peering resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -65,22 +61,3 @@ type VirtualNetworkPeeringPropertiesFormat_STATUSARM struct {
 	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
-<<<<<<< HEAD:v2/api/network/v1beta20201101/virtual_networks_virtual_network_peering_status_arm_types_gen.go
-=======
-
-type VirtualNetworkBgpCommunities_STATUSARM struct {
-	// RegionalCommunity: The BGP community associated with the region of the virtual network.
-	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
-
-	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
-	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
-}
-
-type VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState string
-
-const (
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Connected    = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Disconnected = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormat_STATUS_PeeringState("Initiated")
-)
->>>>>>> main:v2/api/network/v1beta20201101/virtual_network_peering_status_arm_types_gen.go

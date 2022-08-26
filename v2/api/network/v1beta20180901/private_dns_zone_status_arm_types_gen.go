@@ -39,9 +39,5 @@ type PrivateZoneProperties_STATUSARM struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-<<<<<<< HEAD:v2/api/network/v1beta20180901/private_dns_zone_status_arm_types_gen.go
 	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *PrivateZoneProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main:v2/api/network/v1beta20180901/private_zone_status_arm_types_gen.go
 }

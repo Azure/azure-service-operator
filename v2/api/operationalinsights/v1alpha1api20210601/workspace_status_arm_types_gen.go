@@ -22,11 +22,7 @@ type WorkspaceProperties_STATUSARM struct {
 	ForceCmkForQuery                *bool                                         `json:"forceCmkForQuery,omitempty"`
 	ModifiedDate                    *string                                       `json:"modifiedDate,omitempty"`
 	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUSARM         `json:"privateLinkScopedResources,omitempty"`
-<<<<<<< HEAD
 	ProvisioningState               *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState               *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType_STATUS               `json:"publicNetworkAccessForQuery,omitempty"`
 	RetentionInDays                 *int                                          `json:"retentionInDays,omitempty"`
@@ -43,11 +39,7 @@ type PrivateLinkScopedResource_STATUSARM struct {
 // Deprecated version of WorkspaceCapping_STATUS. Use v1beta20210601.WorkspaceCapping_STATUS instead
 type WorkspaceCapping_STATUSARM struct {
 	DailyQuotaGb        *float64                                     `json:"dailyQuotaGb,omitempty"`
-<<<<<<< HEAD
 	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
-=======
-	DataIngestionStatus *WorkspaceCapping_STATUS_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
->>>>>>> main
 	QuotaNextResetTime  *string                                      `json:"quotaNextResetTime,omitempty"`
 }
 
@@ -62,13 +54,7 @@ type WorkspaceFeatures_STATUSARM struct {
 
 // Deprecated version of WorkspaceSku_STATUS. Use v1beta20210601.WorkspaceSku_STATUS instead
 type WorkspaceSku_STATUSARM struct {
-<<<<<<< HEAD
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                                       `json:"lastSkuUpdate,omitempty"`
 	Name                     *WorkspaceSku_Name_STATUS                     `json:"name,omitempty"`
-=======
-	CapacityReservationLevel *WorkspaceSku_STATUS_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                                       `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSku_STATUS_Name                     `json:"name,omitempty"`
->>>>>>> main
 }

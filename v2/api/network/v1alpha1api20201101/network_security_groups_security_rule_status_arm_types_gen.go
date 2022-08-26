@@ -3,40 +3,17 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-<<<<<<<< HEAD:v2/api/network/v1alpha1api20201101/network_security_groups_security_rule_status_arm_types_gen.go
-// Deprecated version of NetworkSecurityGroupsSecurityRule_STATUS. Use v1beta20201101.NetworkSecurityGroupsSecurityRule_STATUS instead
-type NetworkSecurityGroupsSecurityRule_STATUSARM struct {
-========
-// Deprecated version of SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead
-type SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM struct {
->>>>>>>> main:v2/api/network/v1alpha1api20201101/security_rule_status_network_security_groups_security_rule_sub_resource_embedded_arm_types_gen.go
-	Etag       *string                                 `json:"etag,omitempty"`
-	Id         *string                                 `json:"id,omitempty"`
-	Name       *string                                 `json:"name,omitempty"`
-	Properties *SecurityRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
-	Type       *string                                 `json:"type,omitempty"`
+// Deprecated version of NetworkSecurityGroups_SecurityRule_STATUS. Use v1beta20201101.NetworkSecurityGroups_SecurityRule_STATUS instead
+type NetworkSecurityGroups_SecurityRule_STATUSARM struct {
+	Etag       *string                                                     `json:"etag,omitempty"`
+	Id         *string                                                     `json:"id,omitempty"`
+	Name       *string                                                     `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Type       *string                                                     `json:"type,omitempty"`
 }
 
-// Deprecated version of SecurityRulePropertiesFormat_STATUS. Use v1beta20201101.SecurityRulePropertiesFormat_STATUS instead
-type SecurityRulePropertiesFormat_STATUSARM struct {
-<<<<<<<< HEAD:v2/api/network/v1alpha1api20201101/network_security_groups_security_rule_status_arm_types_gen.go
-	Access                               *SecurityRuleAccess_STATUS                                                                 `json:"access,omitempty"`
-	Description                          *string                                                                                    `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                                                                                    `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                                                                                   `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                                                                                    `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                                                                                   `json:"destinationPortRanges,omitempty"`
-	Direction                            *SecurityRuleDirection_STATUS                                                              `json:"direction,omitempty"`
-	Priority                             *int                                                                                       `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormat_Protocol_STATUS                                              `json:"protocol,omitempty"`
-	ProvisioningState                    *ProvisioningState_STATUS                                                                  `json:"provisioningState,omitempty"`
-	SourceAddressPrefix                  *string                                                                                    `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes                []string                                                                                   `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                      *string                                                                                    `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                     []string                                                                                   `json:"sourcePortRanges,omitempty"`
-========
+// Deprecated version of SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded. Use v1beta20201101.SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded instead
+type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	Access                               *SecurityRuleAccess_STATUS                                                                  `json:"access,omitempty"`
 	Description                          *string                                                                                     `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                                                                     `json:"destinationAddressPrefix,omitempty"`
@@ -46,14 +23,13 @@ type SecurityRulePropertiesFormat_STATUSARM struct {
 	DestinationPortRanges                []string                                                                                    `json:"destinationPortRanges,omitempty"`
 	Direction                            *SecurityRuleDirection_STATUS                                                               `json:"direction,omitempty"`
 	Priority                             *int                                                                                        `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormat_STATUS_Protocol                                               `json:"protocol,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormat_Protocol_STATUS                                               `json:"protocol,omitempty"`
 	ProvisioningState                    *ProvisioningState_STATUS                                                                   `json:"provisioningState,omitempty"`
 	SourceAddressPrefix                  *string                                                                                     `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                                                                    `json:"sourceAddressPrefixes,omitempty"`
 	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM `json:"sourceApplicationSecurityGroups,omitempty"`
 	SourcePortRange                      *string                                                                                     `json:"sourcePortRange,omitempty"`
 	SourcePortRanges                     []string                                                                                    `json:"sourcePortRanges,omitempty"`
->>>>>>>> main:v2/api/network/v1alpha1api20201101/security_rule_status_network_security_groups_security_rule_sub_resource_embedded_arm_types_gen.go
 }
 
 // Deprecated version of ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead

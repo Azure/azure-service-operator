@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-// Deprecated version of VirtualNetworksVirtualNetworkPeering_STATUS. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering_STATUS instead
-type VirtualNetworksVirtualNetworkPeering_STATUSARM struct {
+// Deprecated version of VirtualNetworks_VirtualNetworkPeering_STATUS. Use v1beta20201101.VirtualNetworks_VirtualNetworkPeering_STATUS instead
+type VirtualNetworks_VirtualNetworkPeering_STATUSARM struct {
 	Etag       *string                                          `json:"etag,omitempty"`
 	Id         *string                                          `json:"id,omitempty"`
 	Name       *string                                          `json:"name,omitempty"`

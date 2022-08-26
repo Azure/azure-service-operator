@@ -43,11 +43,7 @@ type Sku_STATUSARM struct {
 type VirtualMachineScaleSetIdentity_STATUSARM struct {
 	PrincipalId *string                                     `json:"principalId,omitempty"`
 	TenantId    *string                                     `json:"tenantId,omitempty"`
-<<<<<<< HEAD
 	Type        *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type        *VirtualMachineScaleSetIdentity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of VirtualMachineScaleSetProperties_STATUS. Use v1beta20201201.VirtualMachineScaleSetProperties_STATUS instead
@@ -87,11 +83,7 @@ const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZo
 
 // Deprecated version of ScaleInPolicy_STATUS. Use v1beta20201201.ScaleInPolicy_STATUS instead
 type ScaleInPolicy_STATUSARM struct {
-<<<<<<< HEAD
 	Rules []ScaleInPolicy_Rules_STATUS `json:"rules,omitempty"`
-=======
-	Rules []ScaleInPolicy_STATUS_Rules `json:"rules,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of SubResource_STATUS. Use v1beta20201201.SubResource_STATUS instead
@@ -102,7 +94,6 @@ type SubResource_STATUSARM struct {
 // Deprecated version of UpgradePolicy_STATUS. Use v1beta20201201.UpgradePolicy_STATUS instead
 type UpgradePolicy_STATUSARM struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_STATUSARM `json:"automaticOSUpgradePolicy,omitempty"`
-<<<<<<< HEAD
 	Mode                     *UpgradePolicy_Mode_STATUS          `json:"mode,omitempty"`
 	RollingUpgradePolicy     *RollingUpgradePolicy_STATUSARM     `json:"rollingUpgradePolicy,omitempty"`
 }
@@ -116,21 +107,6 @@ const (
 	VirtualMachineScaleSetIdentity_Type_SystemAssigned_STATUS             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
 	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_UserAssigned_STATUS               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
-=======
-	Mode                     *UpgradePolicy_STATUS_Mode          `json:"mode,omitempty"`
-	RollingUpgradePolicy     *RollingUpgradePolicy_STATUSARM     `json:"rollingUpgradePolicy,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSetIdentity_STATUS_Type. Use
-// v1beta20201201.VirtualMachineScaleSetIdentity_STATUS_Type instead
-type VirtualMachineScaleSetIdentity_STATUS_Type string
-
-const (
-	VirtualMachineScaleSetIdentity_STATUS_Type_None                       = VirtualMachineScaleSetIdentity_STATUS_Type("None")
-	VirtualMachineScaleSetIdentity_STATUS_Type_SystemAssigned             = VirtualMachineScaleSetIdentity_STATUS_Type("SystemAssigned")
-	VirtualMachineScaleSetIdentity_STATUS_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_STATUS_Type("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_STATUS_Type_UserAssigned               = VirtualMachineScaleSetIdentity_STATUS_Type("UserAssigned")
->>>>>>> main
 )
 
 // Deprecated version of VirtualMachineScaleSetVMProfile_STATUS. Use v1beta20201201.VirtualMachineScaleSetVMProfile_STATUS instead
@@ -243,11 +219,7 @@ type VirtualMachineScaleSetOSDisk_STATUSARM struct {
 	Image                   *VirtualHardDisk_STATUSARM                             `json:"image,omitempty"`
 	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters_STATUSARM `json:"managedDisk,omitempty"`
 	Name                    *string                                                `json:"name,omitempty"`
-<<<<<<< HEAD
 	OsType                  *VirtualMachineScaleSetOSDisk_OsType_STATUS            `json:"osType,omitempty"`
-=======
-	OsType                  *VirtualMachineScaleSetOSDisk_STATUS_OsType            `json:"osType,omitempty"`
->>>>>>> main
 	VhdContainers           []string                                               `json:"vhdContainers,omitempty"`
 	WriteAcceleratorEnabled *bool                                                  `json:"writeAcceleratorEnabled,omitempty"`
 }
@@ -288,11 +260,7 @@ type VirtualMachineScaleSetIPConfigurationProperties_STATUSARM struct {
 	LoadBalancerBackendAddressPools       []SubResource_STATUSARM                                                         `json:"loadBalancerBackendAddressPools,omitempty"`
 	LoadBalancerInboundNatPools           []SubResource_STATUSARM                                                         `json:"loadBalancerInboundNatPools,omitempty"`
 	Primary                               *bool                                                                           `json:"primary,omitempty"`
-<<<<<<< HEAD
 	PrivateIPAddressVersion               *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-=======
-	PrivateIPAddressVersion               *VirtualMachineScaleSetIPConfigurationProperties_STATUS_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
->>>>>>> main
 	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSARM                   `json:"publicIPAddressConfiguration,omitempty"`
 	Subnet                                *ApiEntityReference_STATUSARM                                                   `json:"subnet,omitempty"`
 }
@@ -308,11 +276,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM stru
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSARM                    `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                                                        `json:"idleTimeoutInMinutes,omitempty"`
 	IpTags                 []VirtualMachineScaleSetIpTag_STATUSARM                                                     `json:"ipTags,omitempty"`
-<<<<<<< HEAD
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
-=======
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
->>>>>>> main
 	PublicIPPrefix         *SubResource_STATUSARM                                                                      `json:"publicIPPrefix,omitempty"`
 }
 

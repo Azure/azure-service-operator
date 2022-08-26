@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-// Deprecated version of DomainsTopic_STATUS. Use v1beta20200601.DomainsTopic_STATUS instead
-type DomainsTopic_STATUSARM struct {
+// Deprecated version of Domains_Topic_STATUS. Use v1beta20200601.Domains_Topic_STATUS instead
+type Domains_Topic_STATUSARM struct {
 	Id         *string                          `json:"id,omitempty"`
 	Name       *string                          `json:"name,omitempty"`
 	Properties *DomainTopicProperties_STATUSARM `json:"properties,omitempty"`

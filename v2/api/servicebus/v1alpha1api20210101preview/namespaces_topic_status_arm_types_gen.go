@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-// Deprecated version of NamespacesTopic_STATUS. Use v1beta20210101preview.NamespacesTopic_STATUS instead
-type NamespacesTopic_STATUSARM struct {
+// Deprecated version of Namespaces_Topic_STATUS. Use v1beta20210101preview.Namespaces_Topic_STATUS instead
+type Namespaces_Topic_STATUSARM struct {
 	Id         *string                      `json:"id,omitempty"`
 	Name       *string                      `json:"name,omitempty"`
 	Properties *SBTopicProperties_STATUSARM `json:"properties,omitempty"`

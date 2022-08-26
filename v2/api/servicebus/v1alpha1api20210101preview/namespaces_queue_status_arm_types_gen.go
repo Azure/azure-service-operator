@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-// Deprecated version of NamespacesQueue_STATUS. Use v1beta20210101preview.NamespacesQueue_STATUS instead
-type NamespacesQueue_STATUSARM struct {
+// Deprecated version of Namespaces_Queue_STATUS. Use v1beta20210101preview.Namespaces_Queue_STATUS instead
+type Namespaces_Queue_STATUSARM struct {
 	Id         *string                      `json:"id,omitempty"`
 	Name       *string                      `json:"name,omitempty"`
 	Properties *SBQueueProperties_STATUSARM `json:"properties,omitempty"`

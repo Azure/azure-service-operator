@@ -43,11 +43,7 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	Type *Identity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *Identity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 
 	// UserAssignedIdentities: Metadata of user assigned identity.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -65,11 +61,7 @@ type ServerProperties_STATUSARM struct {
 	Backup *Backup_STATUSARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-=======
-	CreateMode *ServerProperties_STATUS_CreateMode `json:"createMode,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption_STATUSARM `json:"dataEncryption,omitempty"`
@@ -99,11 +91,7 @@ type ServerProperties_STATUSARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: The state of a server.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	State *ServerProperties_State_STATUS `json:"state,omitempty"`
-=======
-	State *ServerProperties_STATUS_State `json:"state,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 
 	// Storage: Storage related properties of a server.
 	Storage *Storage_STATUSARM `json:"storage,omitempty"`
@@ -117,7 +105,6 @@ type Sku_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
@@ -139,9 +126,6 @@ type SystemData_STATUSARM struct {
 
 	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 }
 
 type Backup_STATUSARM struct {
@@ -170,40 +154,23 @@ type DataEncryption_STATUSARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *DataEncryption_STATUS_Type `json:"type,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 }
 
 type HighAvailability_STATUSARM struct {
 	// Mode: High availability mode for a server.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
-=======
-	Mode *HighAvailability_STATUS_Mode `json:"mode,omitempty"`
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: The state of server high availability.
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 	State *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
 type Identity_Type_STATUS string
 
 const Identity_Type_UserAssigned_STATUS = Identity_Type_STATUS("UserAssigned")
-=======
-	State *HighAvailability_STATUS_State `json:"state,omitempty"`
-}
-
-type Identity_STATUS_Type string
-
-const Identity_STATUS_Type_UserAssigned = Identity_STATUS_Type("UserAssigned")
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 
 type MaintenanceWindow_STATUSARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -231,21 +198,12 @@ type Network_STATUSARM struct {
 	PublicNetworkAccess *EnableStatusEnum_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/dbformysql/v1beta20210501/flexible_server_status_arm_types_gen.go
 type Sku_Tier_STATUS string
 
 const (
 	Sku_Tier_Burstable_STATUS       = Sku_Tier_STATUS("Burstable")
 	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
 	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
-=======
-type Sku_STATUS_Tier string
-
-const (
-	Sku_STATUS_Tier_Burstable       = Sku_STATUS_Tier("Burstable")
-	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
-	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
->>>>>>> main:v2/api/dbformysql/v1beta20210501/server_status_arm_types_gen.go
 )
 
 type Storage_STATUSARM struct {

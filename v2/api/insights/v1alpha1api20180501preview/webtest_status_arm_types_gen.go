@@ -30,11 +30,7 @@ type WebTestProperties_STATUSARM struct {
 	Description        *string                                      `json:"Description,omitempty"`
 	Enabled            *bool                                        `json:"Enabled,omitempty"`
 	Frequency          *int                                         `json:"Frequency,omitempty"`
-<<<<<<< HEAD:v2/api/insights/v1alpha1api20180501preview/webtest_status_arm_types_gen.go
 	Kind               *WebTestProperties_Kind_STATUS               `json:"Kind,omitempty"`
-=======
-	Kind               *WebTestProperties_STATUS_Kind               `json:"Kind,omitempty"`
->>>>>>> main:v2/api/insights/v1alpha1api20180501preview/web_test_status_arm_types_gen.go
 	Locations          []WebTestGeolocation_STATUSARM               `json:"Locations,omitempty"`
 	Name               *string                                      `json:"Name,omitempty"`
 	ProvisioningState  *string                                      `json:"provisioningState,omitempty"`
@@ -55,23 +51,8 @@ type WebTestProperties_Configuration_STATUSARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/insights/v1alpha1api20180501preview/webtest_status_arm_types_gen.go
 // Deprecated version of WebTestProperties_Request_STATUS. Use v1beta20180501preview.WebTestProperties_Request_STATUS instead
 type WebTestProperties_Request_STATUSARM struct {
-=======
-// Deprecated version of WebTestProperties_STATUS_Kind. Use v1beta20180501preview.WebTestProperties_STATUS_Kind instead
-type WebTestProperties_STATUS_Kind string
-
-const (
-	WebTestProperties_STATUS_Kind_Basic     = WebTestProperties_STATUS_Kind("basic")
-	WebTestProperties_STATUS_Kind_Multistep = WebTestProperties_STATUS_Kind("multistep")
-	WebTestProperties_STATUS_Kind_Ping      = WebTestProperties_STATUS_Kind("ping")
-	WebTestProperties_STATUS_Kind_Standard  = WebTestProperties_STATUS_Kind("standard")
-)
-
-// Deprecated version of WebTestProperties_STATUS_Request. Use v1beta20180501preview.WebTestProperties_STATUS_Request instead
-type WebTestProperties_STATUS_RequestARM struct {
->>>>>>> main:v2/api/insights/v1alpha1api20180501preview/web_test_status_arm_types_gen.go
 	FollowRedirects        *bool                   `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_STATUSARM `json:"Headers,omitempty"`
 	HttpVerb               *string                 `json:"HttpVerb,omitempty"`

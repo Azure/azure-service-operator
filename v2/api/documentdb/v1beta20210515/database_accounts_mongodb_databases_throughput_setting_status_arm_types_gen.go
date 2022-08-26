@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccountsMongodbDatabasesThroughputSetting_STATUSARM struct {
+type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUSARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 

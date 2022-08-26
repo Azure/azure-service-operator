@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-// Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS instead
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM struct {
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS instead
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM struct {
 	Id         *string                                    `json:"id,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`
 	Name       *string                                    `json:"name,omitempty"`

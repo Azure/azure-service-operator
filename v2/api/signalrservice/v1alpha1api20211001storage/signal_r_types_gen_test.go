@@ -161,11 +161,7 @@ func SignalRGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSignalR is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignalR(gens map[string]gopter.Gen) {
 	gens["Spec"] = SignalR_SpecGenerator()
-<<<<<<< HEAD
 	gens["Status"] = SignalR_STATUSGenerator()
-=======
-	gens["Status"] = SignalRResource_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_SignalR_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -174,11 +170,7 @@ func Test_SignalR_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalR_Spec to SignalR_Spec via AssignPropertiesToSignalR_Spec & AssignPropertiesFromSignalR_Spec returns original",
-=======
 		"Round trip from SignalR_Spec to SignalR_Spec via AssignProperties_To_SignalR_Spec & AssignProperties_From_SignalR_Spec returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSignalR_Spec, SignalR_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -190,22 +182,14 @@ func RunPropertyAssignmentTestForSignalR_Spec(subject SignalR_Spec) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SignalR_Spec
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSignalR_Spec(&other)
-=======
 	err := copied.AssignProperties_To_SignalR_Spec(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SignalR_Spec
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSignalR_Spec(&other)
-=======
 	err = actual.AssignProperties_From_SignalR_Spec(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -316,46 +300,26 @@ func Test_SignalR_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalR_STATUS to SignalR_STATUS via AssignPropertiesToSignalR_STATUS & AssignPropertiesFromSignalR_STATUS returns original",
+		"Round trip from SignalR_STATUS to SignalR_STATUS via AssignProperties_To_SignalR_STATUS & AssignProperties_From_SignalR_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSignalR_STATUS, SignalR_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
 // RunPropertyAssignmentTestForSignalR_STATUS tests if a specific instance of SignalR_STATUS can be assigned to v1beta20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalR_STATUS(subject SignalR_STATUS) string {
-=======
-		"Round trip from SignalRResource_STATUS to SignalRResource_STATUS via AssignProperties_To_SignalRResource_STATUS & AssignProperties_From_SignalRResource_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSignalRResource_STATUS, SignalRResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSignalRResource_STATUS tests if a specific instance of SignalRResource_STATUS can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForSignalRResource_STATUS(subject SignalRResource_STATUS) string {
->>>>>>> main
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-<<<<<<< HEAD
 	var other v20211001s.SignalR_STATUS
-	err := copied.AssignPropertiesToSignalR_STATUS(&other)
-=======
-	var other v20211001s.SignalRResource_STATUS
-	err := copied.AssignProperties_To_SignalRResource_STATUS(&other)
->>>>>>> main
+	err := copied.AssignProperties_To_SignalR_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-<<<<<<< HEAD
 	var actual SignalR_STATUS
-	err = actual.AssignPropertiesFromSignalR_STATUS(&other)
-=======
-	var actual SignalRResource_STATUS
-	err = actual.AssignProperties_From_SignalRResource_STATUS(&other)
->>>>>>> main
+	err = actual.AssignProperties_From_SignalR_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -379,7 +343,6 @@ func Test_SignalR_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of SignalR_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForSignalR_STATUS, SignalR_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -387,15 +350,6 @@ func Test_SignalR_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForSignalR_STATUS runs a test to see if a specific instance of SignalR_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForSignalR_STATUS(subject SignalR_STATUS) string {
-=======
-		"Round trip of SignalRResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRResource_STATUS, SignalRResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSignalRResource_STATUS runs a test to see if a specific instance of SignalRResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRResource_STATUS(subject SignalRResource_STATUS) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -421,7 +375,6 @@ func RunJSONSerializationTestForSignalRResource_STATUS(subject SignalRResource_S
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of SignalR_STATUS instances for property testing - lazily instantiated by SignalR_STATUSGenerator()
 var signalR_STATUSGenerator gopter.Gen
 
@@ -449,36 +402,6 @@ func SignalR_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalR_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of SignalRResource_STATUS instances for property testing - lazily instantiated by
-// SignalRResource_STATUSGenerator()
-var signalRResource_STATUSGenerator gopter.Gen
-
-// SignalRResource_STATUSGenerator returns a generator of SignalRResource_STATUS instances for property testing.
-// We first initialize signalRResource_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SignalRResource_STATUSGenerator() gopter.Gen {
-	if signalRResource_STATUSGenerator != nil {
-		return signalRResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResource_STATUS(generators)
-	signalRResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalRResource_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResource_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSignalRResource_STATUS(generators)
-	signalRResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalRResource_STATUS{}), generators)
-
-	return signalRResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSignalRResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRResource_STATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["DisableAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ExternalIP"] = gen.PtrOf(gen.AlphaString())
@@ -497,13 +420,8 @@ func AddIndependentPropertyGeneratorsForSignalRResource_STATUS(gens map[string]g
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
-<<<<<<< HEAD
 // AddRelatedPropertyGeneratorsForSignalR_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Gen) {
-=======
-// AddRelatedPropertyGeneratorsForSignalRResource_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRResource_STATUS(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Cors"] = gen.PtrOf(SignalRCorsSettings_STATUSGenerator())
 	gens["Features"] = gen.SliceOf(SignalRFeature_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedIdentity_STATUSGenerator())
@@ -625,11 +543,7 @@ func Test_ManagedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ManagedIdentity_STATUS to ManagedIdentity_STATUS via AssignPropertiesToManagedIdentity_STATUS & AssignPropertiesFromManagedIdentity_STATUS returns original",
-=======
 		"Round trip from ManagedIdentity_STATUS to ManagedIdentity_STATUS via AssignProperties_To_ManagedIdentity_STATUS & AssignProperties_From_ManagedIdentity_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForManagedIdentity_STATUS, ManagedIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -641,22 +555,14 @@ func RunPropertyAssignmentTestForManagedIdentity_STATUS(subject ManagedIdentity_
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ManagedIdentity_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToManagedIdentity_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ManagedIdentity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedIdentity_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromManagedIdentity_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ManagedIdentity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -756,11 +662,7 @@ func Test_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_WhenPrope
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded to PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded via AssignPropertiesToPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded & AssignPropertiesFromPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded returns original",
-=======
 		"Round trip from PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded to PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded, PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -772,22 +674,14 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_SignalR_SubRes
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&other)
-=======
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&other)
-=======
 	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -988,11 +882,7 @@ func Test_ResourceLogConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ResourceLogConfiguration_STATUS to ResourceLogConfiguration_STATUS via AssignPropertiesToResourceLogConfiguration_STATUS & AssignPropertiesFromResourceLogConfiguration_STATUS returns original",
-=======
 		"Round trip from ResourceLogConfiguration_STATUS to ResourceLogConfiguration_STATUS via AssignProperties_To_ResourceLogConfiguration_STATUS & AssignProperties_From_ResourceLogConfiguration_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForResourceLogConfiguration_STATUS, ResourceLogConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1004,22 +894,14 @@ func RunPropertyAssignmentTestForResourceLogConfiguration_STATUS(subject Resourc
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ResourceLogConfiguration_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToResourceLogConfiguration_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ResourceLogConfiguration_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ResourceLogConfiguration_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromResourceLogConfiguration_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ResourceLogConfiguration_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1207,11 +1089,7 @@ func Test_ResourceSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ResourceSku_STATUS to ResourceSku_STATUS via AssignPropertiesToResourceSku_STATUS & AssignPropertiesFromResourceSku_STATUS returns original",
-=======
 		"Round trip from ResourceSku_STATUS to ResourceSku_STATUS via AssignProperties_To_ResourceSku_STATUS & AssignProperties_From_ResourceSku_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForResourceSku_STATUS, ResourceSku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1223,22 +1101,14 @@ func RunPropertyAssignmentTestForResourceSku_STATUS(subject ResourceSku_STATUS) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ResourceSku_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToResourceSku_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ResourceSku_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ResourceSku_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromResourceSku_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ResourceSku_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1428,11 +1298,7 @@ func Test_ServerlessUpstreamSettings_STATUS_WhenPropertiesConverted_RoundTripsWi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ServerlessUpstreamSettings_STATUS to ServerlessUpstreamSettings_STATUS via AssignPropertiesToServerlessUpstreamSettings_STATUS & AssignPropertiesFromServerlessUpstreamSettings_STATUS returns original",
-=======
 		"Round trip from ServerlessUpstreamSettings_STATUS to ServerlessUpstreamSettings_STATUS via AssignProperties_To_ServerlessUpstreamSettings_STATUS & AssignProperties_From_ServerlessUpstreamSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForServerlessUpstreamSettings_STATUS, ServerlessUpstreamSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1444,22 +1310,14 @@ func RunPropertyAssignmentTestForServerlessUpstreamSettings_STATUS(subject Serve
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ServerlessUpstreamSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToServerlessUpstreamSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ServerlessUpstreamSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServerlessUpstreamSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromServerlessUpstreamSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ServerlessUpstreamSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1543,11 +1401,7 @@ func Test_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded_WhenPrope
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded to SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded via AssignPropertiesToSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded & AssignPropertiesFromSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded returns original",
-=======
 		"Round trip from SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded to SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded via AssignProperties_To_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded & AssignProperties_From_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded, SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1559,22 +1413,14 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS_SignalR_SubRes
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&other)
-=======
 	err := copied.AssignProperties_To_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&other)
-=======
 	err = actual.AssignProperties_From_SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1775,11 +1621,7 @@ func Test_SignalRCorsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalRCorsSettings_STATUS to SignalRCorsSettings_STATUS via AssignPropertiesToSignalRCorsSettings_STATUS & AssignPropertiesFromSignalRCorsSettings_STATUS returns original",
-=======
 		"Round trip from SignalRCorsSettings_STATUS to SignalRCorsSettings_STATUS via AssignProperties_To_SignalRCorsSettings_STATUS & AssignProperties_From_SignalRCorsSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSignalRCorsSettings_STATUS, SignalRCorsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1791,22 +1633,14 @@ func RunPropertyAssignmentTestForSignalRCorsSettings_STATUS(subject SignalRCorsS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SignalRCorsSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSignalRCorsSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SignalRCorsSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SignalRCorsSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSignalRCorsSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SignalRCorsSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1994,11 +1828,7 @@ func Test_SignalRFeature_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalRFeature_STATUS to SignalRFeature_STATUS via AssignPropertiesToSignalRFeature_STATUS & AssignPropertiesFromSignalRFeature_STATUS returns original",
-=======
 		"Round trip from SignalRFeature_STATUS to SignalRFeature_STATUS via AssignProperties_To_SignalRFeature_STATUS & AssignProperties_From_SignalRFeature_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSignalRFeature_STATUS, SignalRFeature_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2010,22 +1840,14 @@ func RunPropertyAssignmentTestForSignalRFeature_STATUS(subject SignalRFeature_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SignalRFeature_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSignalRFeature_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SignalRFeature_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SignalRFeature_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSignalRFeature_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SignalRFeature_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2228,11 +2050,7 @@ func Test_SignalRNetworkACLs_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalRNetworkACLs_STATUS to SignalRNetworkACLs_STATUS via AssignPropertiesToSignalRNetworkACLs_STATUS & AssignPropertiesFromSignalRNetworkACLs_STATUS returns original",
-=======
 		"Round trip from SignalRNetworkACLs_STATUS to SignalRNetworkACLs_STATUS via AssignProperties_To_SignalRNetworkACLs_STATUS & AssignProperties_From_SignalRNetworkACLs_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSignalRNetworkACLs_STATUS, SignalRNetworkACLs_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2244,22 +2062,14 @@ func RunPropertyAssignmentTestForSignalRNetworkACLs_STATUS(subject SignalRNetwor
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SignalRNetworkACLs_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSignalRNetworkACLs_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SignalRNetworkACLs_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SignalRNetworkACLs_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSignalRNetworkACLs_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SignalRNetworkACLs_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2460,11 +2270,7 @@ func Test_SignalRTlsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SignalRTlsSettings_STATUS to SignalRTlsSettings_STATUS via AssignPropertiesToSignalRTlsSettings_STATUS & AssignPropertiesFromSignalRTlsSettings_STATUS returns original",
-=======
 		"Round trip from SignalRTlsSettings_STATUS to SignalRTlsSettings_STATUS via AssignProperties_To_SignalRTlsSettings_STATUS & AssignProperties_From_SignalRTlsSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSignalRTlsSettings_STATUS, SignalRTlsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2476,22 +2282,14 @@ func RunPropertyAssignmentTestForSignalRTlsSettings_STATUS(subject SignalRTlsSet
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SignalRTlsSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSignalRTlsSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SignalRTlsSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SignalRTlsSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSignalRTlsSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SignalRTlsSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2575,11 +2373,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignPropertiesToSystemData_STATUS & AssignPropertiesFromSystemData_STATUS returns original",
-=======
 		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2591,22 +2385,14 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.SystemData_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSystemData_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SystemData_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSystemData_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SystemData_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2797,11 +2583,7 @@ func Test_NetworkACL_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from NetworkACL_STATUS to NetworkACL_STATUS via AssignPropertiesToNetworkACL_STATUS & AssignPropertiesFromNetworkACL_STATUS returns original",
-=======
 		"Round trip from NetworkACL_STATUS to NetworkACL_STATUS via AssignProperties_To_NetworkACL_STATUS & AssignProperties_From_NetworkACL_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkACL_STATUS, NetworkACL_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2813,22 +2595,14 @@ func RunPropertyAssignmentTestForNetworkACL_STATUS(subject NetworkACL_STATUS) st
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.NetworkACL_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToNetworkACL_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_NetworkACL_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkACL_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromNetworkACL_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_NetworkACL_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3016,11 +2790,7 @@ func Test_PrivateEndpointACL_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from PrivateEndpointACL_STATUS to PrivateEndpointACL_STATUS via AssignPropertiesToPrivateEndpointACL_STATUS & AssignPropertiesFromPrivateEndpointACL_STATUS returns original",
-=======
 		"Round trip from PrivateEndpointACL_STATUS to PrivateEndpointACL_STATUS via AssignProperties_To_PrivateEndpointACL_STATUS & AssignProperties_From_PrivateEndpointACL_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointACL_STATUS, PrivateEndpointACL_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3032,22 +2802,14 @@ func RunPropertyAssignmentTestForPrivateEndpointACL_STATUS(subject PrivateEndpoi
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.PrivateEndpointACL_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToPrivateEndpointACL_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_PrivateEndpointACL_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateEndpointACL_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromPrivateEndpointACL_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_PrivateEndpointACL_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3237,11 +2999,7 @@ func Test_ResourceLogCategory_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ResourceLogCategory_STATUS to ResourceLogCategory_STATUS via AssignPropertiesToResourceLogCategory_STATUS & AssignPropertiesFromResourceLogCategory_STATUS returns original",
-=======
 		"Round trip from ResourceLogCategory_STATUS to ResourceLogCategory_STATUS via AssignProperties_To_ResourceLogCategory_STATUS & AssignProperties_From_ResourceLogCategory_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForResourceLogCategory_STATUS, ResourceLogCategory_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3253,22 +3011,14 @@ func RunPropertyAssignmentTestForResourceLogCategory_STATUS(subject ResourceLogC
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ResourceLogCategory_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToResourceLogCategory_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ResourceLogCategory_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ResourceLogCategory_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromResourceLogCategory_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ResourceLogCategory_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3472,11 +3222,7 @@ func Test_UpstreamTemplate_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from UpstreamTemplate_STATUS to UpstreamTemplate_STATUS via AssignPropertiesToUpstreamTemplate_STATUS & AssignPropertiesFromUpstreamTemplate_STATUS returns original",
-=======
 		"Round trip from UpstreamTemplate_STATUS to UpstreamTemplate_STATUS via AssignProperties_To_UpstreamTemplate_STATUS & AssignProperties_From_UpstreamTemplate_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForUpstreamTemplate_STATUS, UpstreamTemplate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3488,22 +3234,14 @@ func RunPropertyAssignmentTestForUpstreamTemplate_STATUS(subject UpstreamTemplat
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.UpstreamTemplate_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToUpstreamTemplate_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_UpstreamTemplate_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UpstreamTemplate_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromUpstreamTemplate_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_UpstreamTemplate_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3604,11 +3342,7 @@ func Test_UserAssignedIdentityProperty_STATUS_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from UserAssignedIdentityProperty_STATUS to UserAssignedIdentityProperty_STATUS via AssignPropertiesToUserAssignedIdentityProperty_STATUS & AssignPropertiesFromUserAssignedIdentityProperty_STATUS returns original",
-=======
 		"Round trip from UserAssignedIdentityProperty_STATUS to UserAssignedIdentityProperty_STATUS via AssignProperties_To_UserAssignedIdentityProperty_STATUS & AssignProperties_From_UserAssignedIdentityProperty_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentityProperty_STATUS, UserAssignedIdentityProperty_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3620,22 +3354,14 @@ func RunPropertyAssignmentTestForUserAssignedIdentityProperty_STATUS(subject Use
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.UserAssignedIdentityProperty_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToUserAssignedIdentityProperty_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_UserAssignedIdentityProperty_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UserAssignedIdentityProperty_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromUserAssignedIdentityProperty_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_UserAssignedIdentityProperty_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3837,11 +3563,7 @@ func Test_UpstreamAuthSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from UpstreamAuthSettings_STATUS to UpstreamAuthSettings_STATUS via AssignPropertiesToUpstreamAuthSettings_STATUS & AssignPropertiesFromUpstreamAuthSettings_STATUS returns original",
-=======
 		"Round trip from UpstreamAuthSettings_STATUS to UpstreamAuthSettings_STATUS via AssignProperties_To_UpstreamAuthSettings_STATUS & AssignProperties_From_UpstreamAuthSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForUpstreamAuthSettings_STATUS, UpstreamAuthSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3853,22 +3575,14 @@ func RunPropertyAssignmentTestForUpstreamAuthSettings_STATUS(subject UpstreamAut
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.UpstreamAuthSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToUpstreamAuthSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_UpstreamAuthSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UpstreamAuthSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromUpstreamAuthSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_UpstreamAuthSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4069,11 +3783,7 @@ func Test_ManagedIdentitySettings_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ManagedIdentitySettings_STATUS to ManagedIdentitySettings_STATUS via AssignPropertiesToManagedIdentitySettings_STATUS & AssignPropertiesFromManagedIdentitySettings_STATUS returns original",
-=======
 		"Round trip from ManagedIdentitySettings_STATUS to ManagedIdentitySettings_STATUS via AssignProperties_To_ManagedIdentitySettings_STATUS & AssignProperties_From_ManagedIdentitySettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForManagedIdentitySettings_STATUS, ManagedIdentitySettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4085,22 +3795,14 @@ func RunPropertyAssignmentTestForManagedIdentitySettings_STATUS(subject ManagedI
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211001s.ManagedIdentitySettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToManagedIdentitySettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ManagedIdentitySettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedIdentitySettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromManagedIdentitySettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ManagedIdentitySettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

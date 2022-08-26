@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-// Deprecated version of FlexibleServersFirewallRule_STATUS. Use v1beta20210601.FlexibleServersFirewallRule_STATUS instead
-type FlexibleServersFirewallRule_STATUSARM struct {
+// Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1beta20210601.FlexibleServers_FirewallRule_STATUS instead
+type FlexibleServers_FirewallRule_STATUSARM struct {
 	Id         *string                           `json:"id,omitempty"`
 	Name       *string                           `json:"name,omitempty"`
 	Properties *FirewallRuleProperties_STATUSARM `json:"properties,omitempty"`

@@ -57,11 +57,7 @@ type ContainerGroup_Properties_STATUSARM struct {
 	IpAddress *IpAddress_STATUSARM `json:"ipAddress,omitempty"`
 
 	// OsType: The operating system type required by the containers in the container group.
-<<<<<<< HEAD
 	OsType *ContainerGroup_Properties_OsType_STATUS `json:"osType,omitempty"`
-=======
-	OsType *ContainerGroup_STATUS_Properties_OsType `json:"osType,omitempty"`
->>>>>>> main
 
 	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -70,11 +66,7 @@ type ContainerGroup_Properties_STATUSARM struct {
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-<<<<<<< HEAD
 	RestartPolicy *ContainerGroup_Properties_RestartPolicy_STATUS `json:"restartPolicy,omitempty"`
-=======
-	RestartPolicy *ContainerGroup_STATUS_Properties_RestartPolicy `json:"restartPolicy,omitempty"`
->>>>>>> main
 
 	// Sku: The SKU for a container group.
 	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
@@ -98,11 +90,7 @@ type ContainerGroupIdentity_STATUSARM struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-<<<<<<< HEAD
 	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *ContainerGroupIdentity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 
 	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -131,7 +119,6 @@ type ContainerGroupDiagnostics_STATUSARM struct {
 	LogAnalytics *LogAnalytics_STATUSARM `json:"logAnalytics,omitempty"`
 }
 
-<<<<<<< HEAD
 type ContainerGroupIdentity_Type_STATUS string
 
 const (
@@ -142,18 +129,6 @@ const (
 )
 
 type ContainerGroupIdentity_UserAssignedIdentities_STATUSARM struct {
-=======
-type ContainerGroupIdentity_STATUS_Type string
-
-const (
-	ContainerGroupIdentity_STATUS_Type_None                       = ContainerGroupIdentity_STATUS_Type("None")
-	ContainerGroupIdentity_STATUS_Type_SystemAssigned             = ContainerGroupIdentity_STATUS_Type("SystemAssigned")
-	ContainerGroupIdentity_STATUS_Type_SystemAssignedUserAssigned = ContainerGroupIdentity_STATUS_Type("SystemAssigned, UserAssigned")
-	ContainerGroupIdentity_STATUS_Type_UserAssigned               = ContainerGroupIdentity_STATUS_Type("UserAssigned")
-)
-
-type ContainerGroupIdentity_STATUS_UserAssignedIdentitiesARM struct {
->>>>>>> main
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -218,11 +193,7 @@ type IpAddress_STATUSARM struct {
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
 
 	// DnsNameLabelReusePolicy: The value representing the security enum.
-<<<<<<< HEAD
 	DnsNameLabelReusePolicy *IpAddress_DnsNameLabelReusePolicy_STATUS `json:"dnsNameLabelReusePolicy,omitempty"`
-=======
-	DnsNameLabelReusePolicy *IpAddress_STATUS_DnsNameLabelReusePolicy `json:"dnsNameLabelReusePolicy,omitempty"`
->>>>>>> main
 
 	// Fqdn: The FQDN for the IP.
 	Fqdn *string `json:"fqdn,omitempty"`
@@ -234,11 +205,7 @@ type IpAddress_STATUSARM struct {
 	Ports []Port_STATUSARM `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-<<<<<<< HEAD
 	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *IpAddress_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 }
 
 type Volume_STATUSARM struct {
@@ -353,11 +320,7 @@ type InitContainerPropertiesDefinition_STATUSARM struct {
 
 type LogAnalytics_STATUSARM struct {
 	// LogType: The log type to be used.
-<<<<<<< HEAD
 	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
-=======
-	LogType *LogAnalytics_STATUS_LogType `json:"logType,omitempty"`
->>>>>>> main
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -377,11 +340,7 @@ type Port_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-<<<<<<< HEAD
 	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
-=======
-	Protocol *Port_STATUS_Protocol `json:"protocol,omitempty"`
->>>>>>> main
 }
 
 type ContainerPort_STATUSARM struct {
@@ -389,11 +348,7 @@ type ContainerPort_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-<<<<<<< HEAD
 	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
-=======
-	Protocol *ContainerPort_STATUS_Protocol `json:"protocol,omitempty"`
->>>>>>> main
 }
 
 type ContainerProbe_STATUSARM struct {
@@ -493,11 +448,7 @@ type ContainerHttpGet_STATUSARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-<<<<<<< HEAD
 	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
-=======
-	Scheme *ContainerHttpGet_STATUS_Scheme `json:"scheme,omitempty"`
->>>>>>> main
 }
 
 type ContainerState_STATUSARM struct {
@@ -544,11 +495,7 @@ type GpuResource_STATUSARM struct {
 	Count *int `json:"count,omitempty"`
 
 	// Sku: The SKU of the GPU resource.
-<<<<<<< HEAD
 	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
-=======
-	Sku *GpuResource_STATUS_Sku `json:"sku,omitempty"`
->>>>>>> main
 }
 
 type HttpHeader_STATUSARM struct {

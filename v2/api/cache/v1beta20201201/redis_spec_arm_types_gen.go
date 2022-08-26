@@ -44,20 +44,12 @@ type RedisCreatePropertiesARM struct {
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
-<<<<<<< HEAD:v2/api/cache/v1beta20201201/redis__spec_arm_types_gen.go
 	// '1.2')
-=======
-	// '1.2').
->>>>>>> main:v2/api/cache/v1beta20201201/redis_spec_arm_types_gen.go
 	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-<<<<<<< HEAD:v2/api/cache/v1beta20201201/redis__spec_arm_types_gen.go
 	// 'Enabled'
-=======
-	// 'Enabled'.
->>>>>>> main:v2/api/cache/v1beta20201201/redis_spec_arm_types_gen.go
 	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
@@ -97,10 +89,6 @@ type SkuARM struct {
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family *Sku_Family `json:"family,omitempty"`
 
-<<<<<<< HEAD:v2/api/cache/v1beta20201201/redis__spec_arm_types_gen.go
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-=======
-	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
->>>>>>> main:v2/api/cache/v1beta20201201/redis_spec_arm_types_gen.go
 	Name *Sku_Name `json:"name,omitempty"`
 }

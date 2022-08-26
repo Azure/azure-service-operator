@@ -20,7 +20,7 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku_STATUSARM `json:"sku,omitempty"`
@@ -35,7 +35,7 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type PublicIPAddressPropertiesFormat_STATUSARM struct {
+type PublicIPAddressPropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_STATUSARM `json:"ddosSettings,omitempty"`
 
@@ -49,17 +49,13 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpConfiguration: The IP configuration associated with the public IP address.
-	IpConfiguration *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbeddedARM `json:"ipConfiguration,omitempty"`
+	IpConfiguration *IPConfiguration_STATUS_SubResourceEmbeddedARM `json:"ipConfiguration,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
 	IpTags []IpTag_STATUSARM `json:"ipTags,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
-<<<<<<< HEAD:v2/api/network/v1beta20201101/public_ip_address_status__public_ip_address__sub_resource_embedded_arm_types_gen.go
 	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
-=======
-	MigrationPhase *PublicIPAddressPropertiesFormat_STATUS_MigrationPhase `json:"migrationPhase,omitempty"`
->>>>>>> main:v2/api/network/v1beta20201101/public_ip_address_status_public_ip_address_sub_resource_embedded_arm_types_gen.go
 
 	// NatGateway: The NatGateway for the Public IP address.
 	NatGateway *NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedARM `json:"natGateway,omitempty"`
@@ -82,17 +78,10 @@ type PublicIPAddressPropertiesFormat_STATUSARM struct {
 
 type PublicIPAddressSku_STATUSARM struct {
 	// Name: Name of a public IP address SKU.
-<<<<<<< HEAD:v2/api/network/v1beta20201101/public_ip_address_status__public_ip_address__sub_resource_embedded_arm_types_gen.go
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP address SKU.
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
-=======
-	Name *PublicIPAddressSku_STATUS_Name `json:"name,omitempty"`
-
-	// Tier: Tier of a public IP address SKU.
-	Tier *PublicIPAddressSku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main:v2/api/network/v1beta20201101/public_ip_address_status_public_ip_address_sub_resource_embedded_arm_types_gen.go
 }
 
 type DdosSettings_STATUSARM struct {
@@ -104,14 +93,10 @@ type DdosSettings_STATUSARM struct {
 
 	// ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
 	// ability to be customized.
-<<<<<<< HEAD:v2/api/network/v1beta20201101/public_ip_address_status__public_ip_address__sub_resource_embedded_arm_types_gen.go
 	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
-=======
-	ProtectionCoverage *DdosSettings_STATUS_ProtectionCoverage `json:"protectionCoverage,omitempty"`
->>>>>>> main:v2/api/network/v1beta20201101/public_ip_address_status_public_ip_address_sub_resource_embedded_arm_types_gen.go
 }
 
-type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {
+type IPConfiguration_STATUS_SubResourceEmbeddedARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -122,7 +107,7 @@ type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the IP configuration.
-	Properties *IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Properties *IPConfigurationPropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
 }
 
 type IpTag_STATUSARM struct {
@@ -160,7 +145,6 @@ type PublicIPAddressDnsSettings_STATUSARM struct {
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/network/v1beta20201101/public_ip_address_status__public_ip_address__sub_resource_embedded_arm_types_gen.go
 type PublicIPAddressSku_Name_STATUS string
 
 const (
@@ -173,23 +157,9 @@ type PublicIPAddressSku_Tier_STATUS string
 const (
 	PublicIPAddressSku_Tier_Global_STATUS   = PublicIPAddressSku_Tier_STATUS("Global")
 	PublicIPAddressSku_Tier_Regional_STATUS = PublicIPAddressSku_Tier_STATUS("Regional")
-=======
-type PublicIPAddressSku_STATUS_Name string
-
-const (
-	PublicIPAddressSku_STATUS_Name_Basic    = PublicIPAddressSku_STATUS_Name("Basic")
-	PublicIPAddressSku_STATUS_Name_Standard = PublicIPAddressSku_STATUS_Name("Standard")
 )
 
-type PublicIPAddressSku_STATUS_Tier string
-
-const (
-	PublicIPAddressSku_STATUS_Tier_Global   = PublicIPAddressSku_STATUS_Tier("Global")
-	PublicIPAddressSku_STATUS_Tier_Regional = PublicIPAddressSku_STATUS_Tier("Regional")
->>>>>>> main:v2/api/network/v1beta20201101/public_ip_address_status_public_ip_address_sub_resource_embedded_arm_types_gen.go
-)
-
-type IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {
+type IPConfigurationPropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
@@ -205,11 +175,7 @@ type IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbeddedA
 
 type NatGatewaySku_STATUSARM struct {
 	// Name: Name of Nat Gateway SKU.
-<<<<<<< HEAD:v2/api/network/v1beta20201101/public_ip_address_status__public_ip_address__sub_resource_embedded_arm_types_gen.go
 	Name *NatGatewaySku_Name_STATUS `json:"name,omitempty"`
-=======
-	Name *NatGatewaySku_STATUS_Name `json:"name,omitempty"`
->>>>>>> main:v2/api/network/v1beta20201101/public_ip_address_status_public_ip_address_sub_resource_embedded_arm_types_gen.go
 }
 
 type Subnet_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {

@@ -3,17 +3,17 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-// Deprecated version of StorageAccountsBlobService_STATUS. Use v1beta20210401.StorageAccountsBlobService_STATUS instead
-type StorageAccountsBlobService_STATUSARM struct {
-	Id         *string                                          `json:"id,omitempty"`
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *StorageAccountsBlobService_Properties_STATUSARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUSARM                                   `json:"sku,omitempty"`
-	Type       *string                                          `json:"type,omitempty"`
+// Deprecated version of StorageAccounts_BlobService_STATUS. Use v1beta20210401.StorageAccounts_BlobService_STATUS instead
+type StorageAccounts_BlobService_STATUSARM struct {
+	Id         *string                                           `json:"id,omitempty"`
+	Name       *string                                           `json:"name,omitempty"`
+	Properties *StorageAccounts_BlobService_Properties_STATUSARM `json:"properties,omitempty"`
+	Sku        *Sku_STATUSARM                                    `json:"sku,omitempty"`
+	Type       *string                                           `json:"type,omitempty"`
 }
 
-// Deprecated version of StorageAccountsBlobService_Properties_STATUS. Use v1beta20210401.StorageAccountsBlobService_Properties_STATUS instead
-type StorageAccountsBlobService_Properties_STATUSARM struct {
+// Deprecated version of StorageAccounts_BlobService_Properties_STATUS. Use v1beta20210401.StorageAccounts_BlobService_Properties_STATUS instead
+type StorageAccounts_BlobService_Properties_STATUSARM struct {
 	AutomaticSnapshotPolicyEnabled *bool                                   `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_STATUSARM                   `json:"changeFeed,omitempty"`
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUSARM        `json:"containerDeleteRetentionPolicy,omitempty"`

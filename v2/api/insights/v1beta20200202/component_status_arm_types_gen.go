@@ -40,11 +40,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	// Application_Type: Type of application being monitored.
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen.go
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type_STATUS `json:"Application_Type,omitempty"`
-=======
-	Application_Type *ApplicationInsightsComponentProperties_STATUS_Application_Type `json:"Application_Type,omitempty"`
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen.go
 
 	// ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`
@@ -60,11 +56,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 
 	// Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
 	// to be set to 'Bluefield' when creating/updating a component via the REST API.
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen.go
 	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_STATUS `json:"Flow_Type,omitempty"`
-=======
-	Flow_Type *ApplicationInsightsComponentProperties_STATUS_Flow_Type `json:"Flow_Type,omitempty"`
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen.go
 
 	// ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
@@ -80,11 +72,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen.go
 	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_STATUS `json:"IngestionMode,omitempty"`
-=======
-	IngestionMode *ApplicationInsightsComponentProperties_STATUS_IngestionMode `json:"IngestionMode,omitempty"`
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen.go
 
 	// InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
 	// the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
@@ -113,11 +101,7 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen.go
 	Request_Source *ApplicationInsightsComponentProperties_Request_Source_STATUS `json:"Request_Source,omitempty"`
-=======
-	Request_Source *ApplicationInsightsComponentProperties_STATUS_Request_Source `json:"Request_Source,omitempty"`
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen.go
 
 	// RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -134,32 +118,6 @@ type ApplicationInsightsComponentProperties_STATUSARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen.go
-=======
-type ApplicationInsightsComponentProperties_STATUS_Application_Type string
-
-const (
-	ApplicationInsightsComponentProperties_STATUS_Application_Type_Other = ApplicationInsightsComponentProperties_STATUS_Application_Type("other")
-	ApplicationInsightsComponentProperties_STATUS_Application_Type_Web   = ApplicationInsightsComponentProperties_STATUS_Application_Type("web")
-)
-
-type ApplicationInsightsComponentProperties_STATUS_Flow_Type string
-
-const ApplicationInsightsComponentProperties_STATUS_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_STATUS_Flow_Type("Bluefield")
-
-type ApplicationInsightsComponentProperties_STATUS_IngestionMode string
-
-const (
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsights                       = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_STATUS_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_STATUS_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_STATUS_IngestionMode("LogAnalytics")
-)
-
-type ApplicationInsightsComponentProperties_STATUS_Request_Source string
-
-const ApplicationInsightsComponentProperties_STATUS_Request_Source_Rest = ApplicationInsightsComponentProperties_STATUS_Request_Source("rest")
-
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen.go
 type PrivateLinkScopedResource_STATUSARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`

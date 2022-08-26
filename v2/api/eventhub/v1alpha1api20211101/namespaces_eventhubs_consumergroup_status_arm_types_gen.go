@@ -3,18 +3,18 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-// Deprecated version of NamespacesEventhubsConsumergroup_STATUS. Use v1beta20211101.NamespacesEventhubsConsumergroup_STATUS instead
-type NamespacesEventhubsConsumergroup_STATUSARM struct {
-	Id         *string                                                `json:"id,omitempty"`
-	Location   *string                                                `json:"location,omitempty"`
-	Name       *string                                                `json:"name,omitempty"`
-	Properties *NamespacesEventhubsConsumergroup_Properties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                                  `json:"systemData,omitempty"`
-	Type       *string                                                `json:"type,omitempty"`
+// Deprecated version of Namespaces_Eventhubs_Consumergroup_STATUS. Use v1beta20211101.Namespaces_Eventhubs_Consumergroup_STATUS instead
+type Namespaces_Eventhubs_Consumergroup_STATUSARM struct {
+	Id         *string                                                  `json:"id,omitempty"`
+	Location   *string                                                  `json:"location,omitempty"`
+	Name       *string                                                  `json:"name,omitempty"`
+	Properties *Namespaces_Eventhubs_Consumergroup_Properties_STATUSARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUSARM                                    `json:"systemData,omitempty"`
+	Type       *string                                                  `json:"type,omitempty"`
 }
 
-// Deprecated version of NamespacesEventhubsConsumergroup_Properties_STATUS. Use v1beta20211101.NamespacesEventhubsConsumergroup_Properties_STATUS instead
-type NamespacesEventhubsConsumergroup_Properties_STATUSARM struct {
+// Deprecated version of Namespaces_Eventhubs_Consumergroup_Properties_STATUS. Use v1beta20211101.Namespaces_Eventhubs_Consumergroup_Properties_STATUS instead
+type Namespaces_Eventhubs_Consumergroup_Properties_STATUSARM struct {
 	CreatedAt    *string `json:"createdAt,omitempty"`
 	UpdatedAt    *string `json:"updatedAt,omitempty"`
 	UserMetadata *string `json:"userMetadata,omitempty"`

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_StorageAccountsBlobService_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_BlobService_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountsBlobService_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsBlobService_STATUSARM, StorageAccountsBlobService_STATUSARMGenerator()))
+		"Round trip of StorageAccounts_BlobService_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_BlobService_STATUSARM, StorageAccounts_BlobService_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsBlobService_STATUSARM runs a test to see if a specific instance of StorageAccountsBlobService_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsBlobService_STATUSARM(subject StorageAccountsBlobService_STATUSARM) string {
+// RunJSONSerializationTestForStorageAccounts_BlobService_STATUSARM runs a test to see if a specific instance of StorageAccounts_BlobService_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_BlobService_STATUSARM(subject StorageAccounts_BlobService_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForStorageAccountsBlobService_STATUSARM(subject Sto
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountsBlobService_STATUSARM
+	var actual StorageAccounts_BlobService_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,59 +56,59 @@ func RunJSONSerializationTestForStorageAccountsBlobService_STATUSARM(subject Sto
 	return ""
 }
 
-// Generator of StorageAccountsBlobService_STATUSARM instances for property testing - lazily instantiated by
-// StorageAccountsBlobService_STATUSARMGenerator()
-var storageAccountsBlobService_STATUSARMGenerator gopter.Gen
+// Generator of StorageAccounts_BlobService_STATUSARM instances for property testing - lazily instantiated by
+// StorageAccounts_BlobService_STATUSARMGenerator()
+var storageAccounts_BlobService_STATUSARMGenerator gopter.Gen
 
-// StorageAccountsBlobService_STATUSARMGenerator returns a generator of StorageAccountsBlobService_STATUSARM instances for property testing.
-// We first initialize storageAccountsBlobService_STATUSARMGenerator with a simplified generator based on the
+// StorageAccounts_BlobService_STATUSARMGenerator returns a generator of StorageAccounts_BlobService_STATUSARM instances for property testing.
+// We first initialize storageAccounts_BlobService_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountsBlobService_STATUSARMGenerator() gopter.Gen {
-	if storageAccountsBlobService_STATUSARMGenerator != nil {
-		return storageAccountsBlobService_STATUSARMGenerator
+func StorageAccounts_BlobService_STATUSARMGenerator() gopter.Gen {
+	if storageAccounts_BlobService_STATUSARMGenerator != nil {
+		return storageAccounts_BlobService_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(generators)
-	storageAccountsBlobService_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobService_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM(generators)
+	storageAccounts_BlobService_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobService_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(generators)
-	storageAccountsBlobService_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobService_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM(generators)
+	storageAccounts_BlobService_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobService_STATUSARM{}), generators)
 
-	return storageAccountsBlobService_STATUSARMGenerator
+	return storageAccounts_BlobService_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountsBlobService_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsBlobService_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageAccountsBlobService_Properties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(StorageAccounts_BlobService_Properties_STATUSARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSARMGenerator())
 }
 
-func Test_StorageAccountsBlobService_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccounts_BlobService_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountsBlobService_Properties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountsBlobService_Properties_STATUSARM, StorageAccountsBlobService_Properties_STATUSARMGenerator()))
+		"Round trip of StorageAccounts_BlobService_Properties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_BlobService_Properties_STATUSARM, StorageAccounts_BlobService_Properties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountsBlobService_Properties_STATUSARM runs a test to see if a specific instance of StorageAccountsBlobService_Properties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountsBlobService_Properties_STATUSARM(subject StorageAccountsBlobService_Properties_STATUSARM) string {
+// RunJSONSerializationTestForStorageAccounts_BlobService_Properties_STATUSARM runs a test to see if a specific instance of StorageAccounts_BlobService_Properties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_BlobService_Properties_STATUSARM(subject StorageAccounts_BlobService_Properties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +116,7 @@ func RunJSONSerializationTestForStorageAccountsBlobService_Properties_STATUSARM(
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountsBlobService_Properties_STATUSARM
+	var actual StorageAccounts_BlobService_Properties_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,41 +134,41 @@ func RunJSONSerializationTestForStorageAccountsBlobService_Properties_STATUSARM(
 	return ""
 }
 
-// Generator of StorageAccountsBlobService_Properties_STATUSARM instances for property testing - lazily instantiated by
-// StorageAccountsBlobService_Properties_STATUSARMGenerator()
-var storageAccountsBlobService_Properties_STATUSARMGenerator gopter.Gen
+// Generator of StorageAccounts_BlobService_Properties_STATUSARM instances for property testing - lazily instantiated by
+// StorageAccounts_BlobService_Properties_STATUSARMGenerator()
+var storageAccounts_BlobService_Properties_STATUSARMGenerator gopter.Gen
 
-// StorageAccountsBlobService_Properties_STATUSARMGenerator returns a generator of StorageAccountsBlobService_Properties_STATUSARM instances for property testing.
-// We first initialize storageAccountsBlobService_Properties_STATUSARMGenerator with a simplified generator based on the
+// StorageAccounts_BlobService_Properties_STATUSARMGenerator returns a generator of StorageAccounts_BlobService_Properties_STATUSARM instances for property testing.
+// We first initialize storageAccounts_BlobService_Properties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountsBlobService_Properties_STATUSARMGenerator() gopter.Gen {
-	if storageAccountsBlobService_Properties_STATUSARMGenerator != nil {
-		return storageAccountsBlobService_Properties_STATUSARMGenerator
+func StorageAccounts_BlobService_Properties_STATUSARMGenerator() gopter.Gen {
+	if storageAccounts_BlobService_Properties_STATUSARMGenerator != nil {
+		return storageAccounts_BlobService_Properties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM(generators)
-	storageAccountsBlobService_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobService_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM(generators)
+	storageAccounts_BlobService_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobService_Properties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM(generators)
-	storageAccountsBlobService_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobService_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM(generators)
+	storageAccounts_BlobService_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobService_Properties_STATUSARM{}), generators)
 
-	return storageAccountsBlobService_Properties_STATUSARMGenerator
+	return storageAccounts_BlobService_Properties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AutomaticSnapshotPolicyEnabled"] = gen.PtrOf(gen.Bool())
 	gens["DefaultServiceVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["IsVersioningEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_Properties_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_BlobService_Properties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["ChangeFeed"] = gen.PtrOf(ChangeFeed_STATUSARMGenerator())
 	gens["ContainerDeleteRetentionPolicy"] = gen.PtrOf(DeleteRetentionPolicy_STATUSARMGenerator())
 	gens["Cors"] = gen.PtrOf(CorsRules_STATUSARMGenerator())

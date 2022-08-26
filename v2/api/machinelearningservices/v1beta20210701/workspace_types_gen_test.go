@@ -160,7 +160,6 @@ func WorkspaceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWorkspace is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspace(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = Workspace_SpecGenerator()
 	gens["Status"] = Workspace_STATUSGenerator()
 }
@@ -171,7 +170,7 @@ func Test_Workspace_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Workspace_Spec to Workspace_Spec via AssignPropertiesToWorkspace_Spec & AssignPropertiesFromWorkspace_Spec returns original",
+		"Round trip from Workspace_Spec to Workspace_Spec via AssignProperties_To_Workspace_Spec & AssignProperties_From_Workspace_Spec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWorkspace_Spec, Workspace_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -183,14 +182,14 @@ func RunPropertyAssignmentTestForWorkspace_Spec(subject Workspace_Spec) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.Workspace_Spec
-	err := copied.AssignPropertiesToWorkspace_Spec(&other)
+	err := copied.AssignProperties_To_Workspace_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Workspace_Spec
-	err = actual.AssignPropertiesFromWorkspace_Spec(&other)
+	err = actual.AssignProperties_From_Workspace_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -294,10 +293,6 @@ func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResourceGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
-=======
-	gens["Spec"] = Workspaces_SpecGenerator()
-	gens["Status"] = Workspace_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Workspace_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -306,11 +301,7 @@ func Test_Workspace_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from Workspace_STATUS to Workspace_STATUS via AssignPropertiesToWorkspace_STATUS & AssignPropertiesFromWorkspace_STATUS returns original",
-=======
 		"Round trip from Workspace_STATUS to Workspace_STATUS via AssignProperties_To_Workspace_STATUS & AssignProperties_From_Workspace_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForWorkspace_STATUS, Workspace_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -322,22 +313,14 @@ func RunPropertyAssignmentTestForWorkspace_STATUS(subject Workspace_STATUS) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.Workspace_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToWorkspace_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_Workspace_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Workspace_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromWorkspace_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_Workspace_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -436,7 +419,6 @@ func AddIndependentPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		WorkspaceProperties_ProvisioningState_Canceled_STATUS,
 		WorkspaceProperties_ProvisioningState_Creating_STATUS,
 		WorkspaceProperties_ProvisioningState_Deleting_STATUS,
@@ -445,16 +427,6 @@ func AddIndependentPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.
 		WorkspaceProperties_ProvisioningState_Unknown_STATUS,
 		WorkspaceProperties_ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled_STATUS, WorkspaceProperties_PublicNetworkAccess_Enabled_STATUS))
-=======
-		WorkspaceProperties_STATUS_ProvisioningState_Canceled,
-		WorkspaceProperties_STATUS_ProvisioningState_Creating,
-		WorkspaceProperties_STATUS_ProvisioningState_Deleting,
-		WorkspaceProperties_STATUS_ProvisioningState_Failed,
-		WorkspaceProperties_STATUS_ProvisioningState_Succeeded,
-		WorkspaceProperties_STATUS_ProvisioningState_Unknown,
-		WorkspaceProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_STATUS_PublicNetworkAccess_Disabled, WorkspaceProperties_STATUS_PublicNetworkAccess_Enabled))
->>>>>>> main
 	gens["ServiceProvisionedResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageHnsEnabled"] = gen.PtrOf(gen.Bool())
@@ -469,149 +441,11 @@ func AddRelatedPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.Gen)
 	gens["Encryption"] = gen.PtrOf(EncryptionProperty_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(Identity_STATUSGenerator())
 	gens["NotebookInfo"] = gen.PtrOf(NotebookResourceInfo_STATUSGenerator())
-<<<<<<< HEAD
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-=======
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator())
->>>>>>> main
 	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettings_STATUSGenerator())
 	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResource_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-<<<<<<< HEAD
-=======
-}
-
-func Test_Workspaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Workspaces_Spec to Workspaces_Spec via AssignProperties_To_Workspaces_Spec & AssignProperties_From_Workspaces_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Spec, Workspaces_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWorkspaces_Spec tests if a specific instance of Workspaces_Spec can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_Spec(subject Workspaces_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Spec
-	err := copied.AssignProperties_To_Workspaces_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_Spec
-	err = actual.AssignProperties_From_Workspaces_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Workspaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspaces_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_Spec, Workspaces_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaces_Spec runs a test to see if a specific instance of Workspaces_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_Spec(subject Workspaces_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspaces_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspaces_Spec instances for property testing - lazily instantiated by Workspaces_SpecGenerator()
-var workspaces_SpecGenerator gopter.Gen
-
-// Workspaces_SpecGenerator returns a generator of Workspaces_Spec instances for property testing.
-// We first initialize workspaces_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Workspaces_SpecGenerator() gopter.Gen {
-	if workspaces_SpecGenerator != nil {
-		return workspaces_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Spec(generators)
-	workspaces_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Spec(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_Spec(generators)
-	workspaces_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_Spec{}), generators)
-
-	return workspaces_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaces_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_Spec(gens map[string]gopter.Gen) {
-	gens["AllowPublicAccessWhenBehindVnet"] = gen.PtrOf(gen.Bool())
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DiscoveryUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["FriendlyName"] = gen.PtrOf(gen.AlphaString())
-	gens["HbiWorkspace"] = gen.PtrOf(gen.Bool())
-	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(Workspaces_Spec_Properties_PublicNetworkAccess_Disabled, Workspaces_Spec_Properties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForWorkspaces_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_Spec(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(EncryptionPropertyGenerator())
-	gens["Identity"] = gen.PtrOf(IdentityGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(WorkspaceOperatorSpecGenerator())
-	gens["ServiceManagedResourcesSettings"] = gen.PtrOf(ServiceManagedResourcesSettingsGenerator())
-	gens["SharedPrivateLinkResources"] = gen.SliceOf(Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
->>>>>>> main
 }
 
 func Test_EncryptionProperty_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -737,11 +571,7 @@ func Test_EncryptionProperty_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from EncryptionProperty_STATUS to EncryptionProperty_STATUS via AssignPropertiesToEncryptionProperty_STATUS & AssignPropertiesFromEncryptionProperty_STATUS returns original",
-=======
 		"Round trip from EncryptionProperty_STATUS to EncryptionProperty_STATUS via AssignProperties_To_EncryptionProperty_STATUS & AssignProperties_From_EncryptionProperty_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForEncryptionProperty_STATUS, EncryptionProperty_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -753,22 +583,14 @@ func RunPropertyAssignmentTestForEncryptionProperty_STATUS(subject EncryptionPro
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.EncryptionProperty_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToEncryptionProperty_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_EncryptionProperty_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual EncryptionProperty_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromEncryptionProperty_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_EncryptionProperty_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -852,11 +674,7 @@ func EncryptionProperty_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty_STATUS(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_Disabled_STATUS, EncryptionProperty_Status_Enabled_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_STATUS_Status_Disabled, EncryptionProperty_STATUS_Status_Enabled))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_STATUS is a factory method for creating gopter generators
@@ -977,11 +795,7 @@ func Test_Identity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from Identity_STATUS to Identity_STATUS via AssignPropertiesToIdentity_STATUS & AssignPropertiesFromIdentity_STATUS returns original",
-=======
 		"Round trip from Identity_STATUS to Identity_STATUS via AssignProperties_To_Identity_STATUS & AssignProperties_From_Identity_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForIdentity_STATUS, Identity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -993,22 +807,14 @@ func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.Identity_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToIdentity_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_Identity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Identity_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromIdentity_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_Identity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1094,17 +900,10 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		Identity_Type_None_STATUS,
 		Identity_Type_SystemAssigned_STATUS,
 		Identity_Type_SystemAssignedUserAssigned_STATUS,
 		Identity_Type_UserAssigned_STATUS))
-=======
-		Identity_STATUS_Type_None,
-		Identity_STATUS_Type_SystemAssigned,
-		Identity_STATUS_Type_SystemAssignedUserAssigned,
-		Identity_STATUS_Type_UserAssigned))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
@@ -1118,11 +917,7 @@ func Test_NotebookResourceInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from NotebookResourceInfo_STATUS to NotebookResourceInfo_STATUS via AssignPropertiesToNotebookResourceInfo_STATUS & AssignPropertiesFromNotebookResourceInfo_STATUS returns original",
-=======
 		"Round trip from NotebookResourceInfo_STATUS to NotebookResourceInfo_STATUS via AssignProperties_To_NotebookResourceInfo_STATUS & AssignProperties_From_NotebookResourceInfo_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNotebookResourceInfo_STATUS, NotebookResourceInfo_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1134,22 +929,14 @@ func RunPropertyAssignmentTestForNotebookResourceInfo_STATUS(subject NotebookRes
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.NotebookResourceInfo_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToNotebookResourceInfo_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_NotebookResourceInfo_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NotebookResourceInfo_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromNotebookResourceInfo_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_NotebookResourceInfo_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1248,46 +1035,26 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from PrivateEndpointConnection_STATUS to PrivateEndpointConnection_STATUS via AssignPropertiesToPrivateEndpointConnection_STATUS & AssignPropertiesFromPrivateEndpointConnection_STATUS returns original",
+		"Round trip from PrivateEndpointConnection_STATUS to PrivateEndpointConnection_STATUS via AssignProperties_To_PrivateEndpointConnection_STATUS & AssignProperties_From_PrivateEndpointConnection_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
 // RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to v1beta20210701storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
-=======
-		"Round trip from PrivateEndpointConnection_STATUS_SubResourceEmbedded to PrivateEndpointConnection_STATUS_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded, PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_SubResourceEmbedded can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_SubResourceEmbedded) string {
->>>>>>> main
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-<<<<<<< HEAD
 	var other v20210701s.PrivateEndpointConnection_STATUS
-	err := copied.AssignPropertiesToPrivateEndpointConnection_STATUS(&other)
-=======
-	var other v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&other)
->>>>>>> main
+	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-<<<<<<< HEAD
 	var actual PrivateEndpointConnection_STATUS
-	err = actual.AssignPropertiesFromPrivateEndpointConnection_STATUS(&other)
-=======
-	var actual PrivateEndpointConnection_STATUS_SubResourceEmbedded
-	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&other)
->>>>>>> main
+	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1311,7 +1078,6 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of PrivateEndpointConnection_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1319,15 +1085,6 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUS runs a test to see if a specific instance of PrivateEndpointConnection_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
-=======
-		"Round trip of PrivateEndpointConnection_STATUS_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded, PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_SubResourceEmbedded) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1353,7 +1110,6 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbe
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of PrivateEndpointConnection_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSGenerator()
 var privateEndpointConnection_STATUSGenerator gopter.Gen
@@ -1387,41 +1143,6 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
-=======
-// Generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator()
-var privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator gopter.Gen
-
-// PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded instances for property testing.
-// We first initialize privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator != nil {
-		return privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(generators)
-	privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(generators)
-	privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbedded{}), generators)
-
-	return privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["Identity"] = gen.PtrOf(Identity_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
@@ -1536,11 +1257,7 @@ func Test_ServiceManagedResourcesSettings_STATUS_WhenPropertiesConverted_RoundTr
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from ServiceManagedResourcesSettings_STATUS to ServiceManagedResourcesSettings_STATUS via AssignPropertiesToServiceManagedResourcesSettings_STATUS & AssignPropertiesFromServiceManagedResourcesSettings_STATUS returns original",
-=======
 		"Round trip from ServiceManagedResourcesSettings_STATUS to ServiceManagedResourcesSettings_STATUS via AssignProperties_To_ServiceManagedResourcesSettings_STATUS & AssignProperties_From_ServiceManagedResourcesSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForServiceManagedResourcesSettings_STATUS, ServiceManagedResourcesSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1552,22 +1269,14 @@ func RunPropertyAssignmentTestForServiceManagedResourcesSettings_STATUS(subject 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.ServiceManagedResourcesSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToServiceManagedResourcesSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_ServiceManagedResourcesSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ServiceManagedResourcesSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromServiceManagedResourcesSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_ServiceManagedResourcesSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1643,7 +1352,6 @@ func ServiceManagedResourcesSettings_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForServiceManagedResourcesSettings_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServiceManagedResourcesSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["CosmosDb"] = gen.PtrOf(CosmosDbSettings_STATUSGenerator())
-<<<<<<< HEAD
 }
 
 func Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1652,7 +1360,7 @@ func Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SharedPrivateLinkResource to SharedPrivateLinkResource via AssignPropertiesToSharedPrivateLinkResource & AssignPropertiesFromSharedPrivateLinkResource returns original",
+		"Round trip from SharedPrivateLinkResource to SharedPrivateLinkResource via AssignProperties_To_SharedPrivateLinkResource & AssignProperties_From_SharedPrivateLinkResource returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResource, SharedPrivateLinkResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1664,14 +1372,14 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource(subject SharedPrivate
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.SharedPrivateLinkResource
-	err := copied.AssignPropertiesToSharedPrivateLinkResource(&other)
+	err := copied.AssignProperties_To_SharedPrivateLinkResource(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SharedPrivateLinkResource
-	err = actual.AssignPropertiesFromSharedPrivateLinkResource(&other)
+	err = actual.AssignProperties_From_SharedPrivateLinkResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1755,8 +1463,6 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResource(gens map[strin
 		PrivateEndpointServiceConnectionStatus_Pending,
 		PrivateEndpointServiceConnectionStatus_Rejected,
 		PrivateEndpointServiceConnectionStatus_Timeout))
-=======
->>>>>>> main
 }
 
 func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1765,11 +1471,7 @@ func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SharedPrivateLinkResource_STATUS to SharedPrivateLinkResource_STATUS via AssignPropertiesToSharedPrivateLinkResource_STATUS & AssignPropertiesFromSharedPrivateLinkResource_STATUS returns original",
-=======
 		"Round trip from SharedPrivateLinkResource_STATUS to SharedPrivateLinkResource_STATUS via AssignProperties_To_SharedPrivateLinkResource_STATUS & AssignProperties_From_SharedPrivateLinkResource_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS, SharedPrivateLinkResource_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1781,22 +1483,14 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS(subject Shared
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.SharedPrivateLinkResource_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSharedPrivateLinkResource_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SharedPrivateLinkResource_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SharedPrivateLinkResource_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSharedPrivateLinkResource_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SharedPrivateLinkResource_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1992,11 +1686,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from Sku_STATUS to Sku_STATUS via AssignPropertiesToSku_STATUS & AssignPropertiesFromSku_STATUS returns original",
-=======
 		"Round trip from Sku_STATUS to Sku_STATUS via AssignProperties_To_Sku_STATUS & AssignProperties_From_Sku_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSku_STATUS, Sku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2008,22 +1698,14 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.Sku_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSku_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Sku_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSku_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_Sku_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2222,11 +1904,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignPropertiesToSystemData_STATUS & AssignPropertiesFromSystemData_STATUS returns original",
-=======
 		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2238,22 +1916,14 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.SystemData_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToSystemData_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SystemData_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromSystemData_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_SystemData_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2330,7 +2000,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		SystemData_CreatedByType_Application_STATUS,
 		SystemData_CreatedByType_Key_STATUS,
 		SystemData_CreatedByType_ManagedIdentity_STATUS,
@@ -2342,19 +2011,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 		SystemData_LastModifiedByType_Key_STATUS,
 		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
 		SystemData_LastModifiedByType_User_STATUS))
-=======
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
->>>>>>> main
 }
 
 func Test_WorkspaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2460,120 +2116,6 @@ func AddRelatedPropertyGeneratorsForWorkspaceOperatorSpec(gens map[string]gopter
 	gens["Secrets"] = gen.PtrOf(WorkspaceOperatorSecretsGenerator())
 }
 
-<<<<<<< HEAD
-=======
-func Test_Workspaces_Spec_Properties_SharedPrivateLinkResources_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Workspaces_Spec_Properties_SharedPrivateLinkResources to Workspaces_Spec_Properties_SharedPrivateLinkResources via AssignProperties_To_Workspaces_Spec_Properties_SharedPrivateLinkResources & AssignProperties_From_Workspaces_Spec_Properties_SharedPrivateLinkResources returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources, Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources tests if a specific instance of Workspaces_Spec_Properties_SharedPrivateLinkResources can be assigned to v1beta20210701storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources(subject Workspaces_Spec_Properties_SharedPrivateLinkResources) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Spec_Properties_SharedPrivateLinkResources
-	err := copied.AssignProperties_To_Workspaces_Spec_Properties_SharedPrivateLinkResources(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_Spec_Properties_SharedPrivateLinkResources
-	err = actual.AssignProperties_From_Workspaces_Spec_Properties_SharedPrivateLinkResources(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Workspaces_Spec_Properties_SharedPrivateLinkResources_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Workspaces_Spec_Properties_SharedPrivateLinkResources via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources, Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources runs a test to see if a specific instance of Workspaces_Spec_Properties_SharedPrivateLinkResources round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_Spec_Properties_SharedPrivateLinkResources(subject Workspaces_Spec_Properties_SharedPrivateLinkResources) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Workspaces_Spec_Properties_SharedPrivateLinkResources
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Workspaces_Spec_Properties_SharedPrivateLinkResources instances for property testing - lazily
-// instantiated by Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator()
-var workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator gopter.Gen
-
-// Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator returns a generator of Workspaces_Spec_Properties_SharedPrivateLinkResources instances for property testing.
-func Workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator() gopter.Gen {
-	if workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator != nil {
-		return workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_Spec_Properties_SharedPrivateLinkResources(generators)
-	workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator = gen.Struct(reflect.TypeOf(Workspaces_Spec_Properties_SharedPrivateLinkResources{}), generators)
-
-	return workspaces_Spec_Properties_SharedPrivateLinkResourcesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaces_Spec_Properties_SharedPrivateLinkResources is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_Spec_Properties_SharedPrivateLinkResources(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourceProperty_Status_Approved,
-		SharedPrivateLinkResourceProperty_Status_Disconnected,
-		SharedPrivateLinkResourceProperty_Status_Pending,
-		SharedPrivateLinkResourceProperty_Status_Rejected,
-		SharedPrivateLinkResourceProperty_Status_Timeout))
-}
-
->>>>>>> main
 func Test_CosmosDbSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2682,11 +2224,7 @@ func Test_CosmosDbSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from CosmosDbSettings_STATUS to CosmosDbSettings_STATUS via AssignPropertiesToCosmosDbSettings_STATUS & AssignPropertiesFromCosmosDbSettings_STATUS returns original",
-=======
 		"Round trip from CosmosDbSettings_STATUS to CosmosDbSettings_STATUS via AssignProperties_To_CosmosDbSettings_STATUS & AssignProperties_From_CosmosDbSettings_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForCosmosDbSettings_STATUS, CosmosDbSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2698,22 +2236,14 @@ func RunPropertyAssignmentTestForCosmosDbSettings_STATUS(subject CosmosDbSetting
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.CosmosDbSettings_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToCosmosDbSettings_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_CosmosDbSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual CosmosDbSettings_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromCosmosDbSettings_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_CosmosDbSettings_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2899,11 +2429,7 @@ func Test_IdentityForCmk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from IdentityForCmk_STATUS to IdentityForCmk_STATUS via AssignPropertiesToIdentityForCmk_STATUS & AssignPropertiesFromIdentityForCmk_STATUS returns original",
-=======
 		"Round trip from IdentityForCmk_STATUS to IdentityForCmk_STATUS via AssignProperties_To_IdentityForCmk_STATUS & AssignProperties_From_IdentityForCmk_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForIdentityForCmk_STATUS, IdentityForCmk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2915,22 +2441,14 @@ func RunPropertyAssignmentTestForIdentityForCmk_STATUS(subject IdentityForCmk_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.IdentityForCmk_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToIdentityForCmk_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_IdentityForCmk_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual IdentityForCmk_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromIdentityForCmk_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_IdentityForCmk_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3118,11 +2636,7 @@ func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from KeyVaultProperties_STATUS to KeyVaultProperties_STATUS via AssignPropertiesToKeyVaultProperties_STATUS & AssignPropertiesFromKeyVaultProperties_STATUS returns original",
-=======
 		"Round trip from KeyVaultProperties_STATUS to KeyVaultProperties_STATUS via AssignProperties_To_KeyVaultProperties_STATUS & AssignProperties_From_KeyVaultProperties_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForKeyVaultProperties_STATUS, KeyVaultProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3134,22 +2648,14 @@ func RunPropertyAssignmentTestForKeyVaultProperties_STATUS(subject KeyVaultPrope
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.KeyVaultProperties_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToKeyVaultProperties_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual KeyVaultProperties_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromKeyVaultProperties_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_KeyVaultProperties_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3235,11 +2741,7 @@ func Test_NotebookPreparationError_STATUS_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from NotebookPreparationError_STATUS to NotebookPreparationError_STATUS via AssignPropertiesToNotebookPreparationError_STATUS & AssignPropertiesFromNotebookPreparationError_STATUS returns original",
-=======
 		"Round trip from NotebookPreparationError_STATUS to NotebookPreparationError_STATUS via AssignProperties_To_NotebookPreparationError_STATUS & AssignProperties_From_NotebookPreparationError_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNotebookPreparationError_STATUS, NotebookPreparationError_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3251,22 +2753,14 @@ func RunPropertyAssignmentTestForNotebookPreparationError_STATUS(subject Noteboo
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.NotebookPreparationError_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToNotebookPreparationError_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_NotebookPreparationError_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NotebookPreparationError_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromNotebookPreparationError_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_NotebookPreparationError_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3351,11 +2845,7 @@ func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
-		"Round trip from UserAssignedIdentity_STATUS to UserAssignedIdentity_STATUS via AssignPropertiesToUserAssignedIdentity_STATUS & AssignPropertiesFromUserAssignedIdentity_STATUS returns original",
-=======
 		"Round trip from UserAssignedIdentity_STATUS to UserAssignedIdentity_STATUS via AssignProperties_To_UserAssignedIdentity_STATUS & AssignProperties_From_UserAssignedIdentity_STATUS returns original",
->>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentity_STATUS, UserAssignedIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3367,22 +2857,14 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.UserAssignedIdentity_STATUS
-<<<<<<< HEAD
-	err := copied.AssignPropertiesToUserAssignedIdentity_STATUS(&other)
-=======
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UserAssignedIdentity_STATUS
-<<<<<<< HEAD
-	err = actual.AssignPropertiesFromUserAssignedIdentity_STATUS(&other)
-=======
 	err = actual.AssignProperties_From_UserAssignedIdentity_STATUS(&other)
->>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

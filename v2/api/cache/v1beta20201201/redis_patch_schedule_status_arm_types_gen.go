@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type RedisPatchSchedule_STATUSARM struct {
+type Redis_PatchSchedule_STATUSARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -28,11 +28,7 @@ type ScheduleEntries_STATUSARM struct {
 
 type ScheduleEntry_STATUSARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-<<<<<<< HEAD
 	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
-=======
-	DayOfWeek *ScheduleEntry_STATUS_DayOfWeek `json:"dayOfWeek,omitempty"`
->>>>>>> main
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`

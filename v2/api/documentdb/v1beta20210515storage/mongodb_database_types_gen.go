@@ -28,13 +28,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              DatabaseAccountsMongodbDatabase_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccountsMongodbDatabase_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_MongodbDatabases_Spec `json:"spec,omitempty"`
-	Status            MongoDBDatabaseGetResults_STATUS       `json:"status,omitempty"`
->>>>>>> main
+	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -83,7 +78,7 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccountsMongodbDatabase_STATUS{}
+	return &DatabaseAccounts_MongodbDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccountsMongodbDatabase_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_MongodbDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccountsMongodbDatabase_STATUS
+	var st DatabaseAccounts_MongodbDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,13 +133,8 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabase_Spec
-type DatabaseAccountsMongodbDatabase_Spec struct {
-=======
-// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_Spec
-type DatabaseAccounts_MongodbDatabases_Spec struct {
->>>>>>> main
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabase_Spec
+type DatabaseAccounts_MongodbDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -162,42 +152,28 @@ type DatabaseAccounts_MongodbDatabases_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-<<<<<<< HEAD
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabase_Spec from the provided source
-func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source
+func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == database {
-=======
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Spec{}
-
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Spec from the provided source
-func (databases *DatabaseAccounts_MongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(database)
 }
 
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabase_Spec
-func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_Spec
+func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == database {
-=======
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Spec
-func (databases *DatabaseAccounts_MongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabase_STATUS
-type DatabaseAccountsMongodbDatabase_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabase_STATUS
+type DatabaseAccounts_MongodbDatabase_STATUS struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
 	Location    *string                                       `json:"location,omitempty"`
@@ -209,10 +185,10 @@ type DatabaseAccountsMongodbDatabase_STATUS struct {
 	Type        *string                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabase_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabase_STATUS from the provided source
-func (database *DatabaseAccountsMongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -220,8 +196,8 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) ConvertStatusFrom(source
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabase_STATUS
-func (database *DatabaseAccountsMongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_STATUS
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

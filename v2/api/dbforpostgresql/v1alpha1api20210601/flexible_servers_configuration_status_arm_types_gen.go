@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-// Deprecated version of FlexibleServersConfiguration_STATUS. Use v1beta20210601.FlexibleServersConfiguration_STATUS instead
-type FlexibleServersConfiguration_STATUSARM struct {
+// Deprecated version of FlexibleServers_Configuration_STATUS. Use v1beta20210601.FlexibleServers_Configuration_STATUS instead
+type FlexibleServers_Configuration_STATUSARM struct {
 	Id         *string                            `json:"id,omitempty"`
 	Name       *string                            `json:"name,omitempty"`
 	Properties *ConfigurationProperties_STATUSARM `json:"properties,omitempty"`

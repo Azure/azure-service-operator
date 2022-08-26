@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccountsSqlDatabase_STATUSARM struct {
+type DatabaseAccounts_SqlDatabase_STATUSARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 

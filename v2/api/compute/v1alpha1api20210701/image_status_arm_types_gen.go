@@ -48,11 +48,7 @@ type SubResource_STATUSARM struct {
 // Deprecated version of ImageDataDisk_STATUS. Use v1beta20210701.ImageDataDisk_STATUS instead
 type ImageDataDisk_STATUSARM struct {
 	BlobUri            *string                       `json:"blobUri,omitempty"`
-<<<<<<< HEAD
 	Caching            *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
-=======
-	Caching            *ImageDataDisk_STATUS_Caching `json:"caching,omitempty"`
->>>>>>> main
 	DiskEncryptionSet  *SubResource_STATUSARM        `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                          `json:"diskSizeGB,omitempty"`
 	Lun                *int                          `json:"lun,omitempty"`
@@ -64,21 +60,12 @@ type ImageDataDisk_STATUSARM struct {
 // Deprecated version of ImageOSDisk_STATUS. Use v1beta20210701.ImageOSDisk_STATUS instead
 type ImageOSDisk_STATUSARM struct {
 	BlobUri            *string                     `json:"blobUri,omitempty"`
-<<<<<<< HEAD
 	Caching            *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
 	DiskEncryptionSet  *SubResource_STATUSARM      `json:"diskEncryptionSet,omitempty"`
 	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
 	ManagedDisk        *SubResource_STATUSARM      `json:"managedDisk,omitempty"`
 	OsState            *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
 	OsType             *ImageOSDisk_OsType_STATUS  `json:"osType,omitempty"`
-=======
-	Caching            *ImageOSDisk_STATUS_Caching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_STATUSARM      `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_STATUSARM      `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDisk_STATUS_OsState `json:"osState,omitempty"`
-	OsType             *ImageOSDisk_STATUS_OsType  `json:"osType,omitempty"`
->>>>>>> main
 	Snapshot           *SubResource_STATUSARM      `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType_STATUS  `json:"storageAccountType,omitempty"`
 }

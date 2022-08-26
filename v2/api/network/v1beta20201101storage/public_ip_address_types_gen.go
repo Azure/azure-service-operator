@@ -190,30 +190,30 @@ func (address *PublicIPAddress_Spec) ConvertSpecTo(destination genruntime.Conver
 
 // Storage version of v1beta20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
 type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
-	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
-	DdosSettings             *DdosSettings_STATUS                                        `json:"ddosSettings,omitempty"`
-	DnsSettings              *PublicIPAddressDnsSettings_STATUS                          `json:"dnsSettings,omitempty"`
-	Etag                     *string                                                     `json:"etag,omitempty"`
-	ExtendedLocation         *ExtendedLocation_STATUS                                    `json:"extendedLocation,omitempty"`
-	Id                       *string                                                     `json:"id,omitempty"`
-	IdleTimeoutInMinutes     *int                                                        `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress                *string                                                     `json:"ipAddress,omitempty"`
-	IpConfiguration          *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded `json:"ipConfiguration,omitempty"`
-	IpTags                   []IpTag_STATUS                                              `json:"ipTags,omitempty"`
-	Location                 *string                                                     `json:"location,omitempty"`
-	MigrationPhase           *string                                                     `json:"migrationPhase,omitempty"`
-	Name                     *string                                                     `json:"name,omitempty"`
-	NatGateway               *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded      `json:"natGateway,omitempty"`
-	PropertyBag              genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
-	ProvisioningState        *string                                                     `json:"provisioningState,omitempty"`
-	PublicIPAddressVersion   *string                                                     `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                                                     `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource_STATUS                                         `json:"publicIPPrefix,omitempty"`
-	ResourceGuid             *string                                                     `json:"resourceGuid,omitempty"`
-	Sku                      *PublicIPAddressSku_STATUS                                  `json:"sku,omitempty"`
-	Tags                     map[string]string                                           `json:"tags,omitempty"`
-	Type                     *string                                                     `json:"type,omitempty"`
-	Zones                    []string                                                    `json:"zones,omitempty"`
+	Conditions               []conditions.Condition                                 `json:"conditions,omitempty"`
+	DdosSettings             *DdosSettings_STATUS                                   `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettings_STATUS                     `json:"dnsSettings,omitempty"`
+	Etag                     *string                                                `json:"etag,omitempty"`
+	ExtendedLocation         *ExtendedLocation_STATUS                               `json:"extendedLocation,omitempty"`
+	Id                       *string                                                `json:"id,omitempty"`
+	IdleTimeoutInMinutes     *int                                                   `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                                                `json:"ipAddress,omitempty"`
+	IpConfiguration          *IPConfiguration_STATUS_SubResourceEmbedded            `json:"ipConfiguration,omitempty"`
+	IpTags                   []IpTag_STATUS                                         `json:"ipTags,omitempty"`
+	Location                 *string                                                `json:"location,omitempty"`
+	MigrationPhase           *string                                                `json:"migrationPhase,omitempty"`
+	Name                     *string                                                `json:"name,omitempty"`
+	NatGateway               *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded `json:"natGateway,omitempty"`
+	PropertyBag              genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState        *string                                                `json:"provisioningState,omitempty"`
+	PublicIPAddressVersion   *string                                                `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                                                `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource_STATUS                                    `json:"publicIPPrefix,omitempty"`
+	ResourceGuid             *string                                                `json:"resourceGuid,omitempty"`
+	Sku                      *PublicIPAddressSku_STATUS                             `json:"sku,omitempty"`
+	Tags                     map[string]string                                      `json:"tags,omitempty"`
+	Type                     *string                                                `json:"type,omitempty"`
+	Zones                    []string                                               `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
@@ -252,8 +252,8 @@ type DdosSettings_STATUS struct {
 	ProtectionCoverage *string                `json:"protectionCoverage,omitempty"`
 }
 
-// Storage version of v1beta20201101.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
-type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded struct {
+// Storage version of v1beta20201101.IPConfiguration_STATUS_SubResourceEmbedded
+type IPConfiguration_STATUS_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
 	Name                      *string                                            `json:"name,omitempty"`

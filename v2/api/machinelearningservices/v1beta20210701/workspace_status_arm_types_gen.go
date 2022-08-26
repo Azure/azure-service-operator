@@ -126,17 +126,10 @@ type WorkspaceProperties_STATUSARM struct {
 
 	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
 	// resource provisioning.
-<<<<<<< HEAD
 	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
 	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-=======
-	ProvisioningState *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
->>>>>>> main
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
 	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUSARM `json:"serviceManagedResourcesSettings,omitempty"`
@@ -170,11 +163,7 @@ type EncryptionProperty_STATUSARM struct {
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
-<<<<<<< HEAD
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *EncryptionProperty_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }
 
 type Identity_Type_STATUS string

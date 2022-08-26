@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210101preview
 
-type NamespacesQueue_STATUSARM struct {
+type Namespaces_Queue_STATUSARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

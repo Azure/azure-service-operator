@@ -25,13 +25,8 @@ import (
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              RedisEnterpriseDatabase_Spec   `json:"spec,omitempty"`
-	Status            RedisEnterpriseDatabase_STATUS `json:"status,omitempty"`
-=======
-	Spec              RedisEnterprise_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS                `json:"status,omitempty"`
->>>>>>> main
+	Spec              RedisEnterprise_Database_Spec   `json:"spec,omitempty"`
+	Status            RedisEnterprise_Database_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -102,7 +97,7 @@ func (database *RedisEnterpriseDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisEnterpriseDatabase_STATUS{}
+	return &RedisEnterprise_Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -118,13 +113,13 @@ func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *RedisEnterpriseDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisEnterpriseDatabase_STATUS); ok {
+	if st, ok := status.(*RedisEnterprise_Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisEnterpriseDatabase_STATUS
+	var st RedisEnterprise_Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -141,32 +136,18 @@ func (database *RedisEnterpriseDatabase) AssignProperties_From_RedisEnterpriseDa
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec RedisEnterpriseDatabase_Spec
-	err := spec.AssignPropertiesFromRedisEnterpriseDatabase_Spec(&source.Spec)
+	var spec RedisEnterprise_Database_Spec
+	err := spec.AssignProperties_From_RedisEnterprise_Database_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterpriseDatabase_Spec() to populate field Spec")
-=======
-	var spec RedisEnterprise_Databases_Spec
-	err := spec.AssignProperties_From_RedisEnterprise_Databases_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Databases_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Database_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status RedisEnterpriseDatabase_STATUS
-	err = status.AssignPropertiesFromRedisEnterpriseDatabase_STATUS(&source.Status)
+	var status RedisEnterprise_Database_STATUS
+	err = status.AssignProperties_From_RedisEnterprise_Database_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterpriseDatabase_STATUS() to populate field Status")
-=======
-	var status Database_STATUS
-	err = status.AssignProperties_From_Database_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Database_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_RedisEnterprise_Database_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -181,32 +162,18 @@ func (database *RedisEnterpriseDatabase) AssignProperties_To_RedisEnterpriseData
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec v20210301s.RedisEnterpriseDatabase_Spec
-	err := database.Spec.AssignPropertiesToRedisEnterpriseDatabase_Spec(&spec)
+	var spec v20210301s.RedisEnterprise_Database_Spec
+	err := database.Spec.AssignProperties_To_RedisEnterprise_Database_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterpriseDatabase_Spec() to populate field Spec")
-=======
-	var spec v20210301s.RedisEnterprise_Databases_Spec
-	err := database.Spec.AssignProperties_To_RedisEnterprise_Databases_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Databases_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Database_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status v20210301s.RedisEnterpriseDatabase_STATUS
-	err = database.Status.AssignPropertiesToRedisEnterpriseDatabase_STATUS(&status)
+	var status v20210301s.RedisEnterprise_Database_STATUS
+	err = database.Status.AssignProperties_To_RedisEnterprise_Database_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterpriseDatabase_STATUS() to populate field Status")
-=======
-	var status v20210301s.Database_STATUS
-	err = database.Status.AssignProperties_To_Database_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Database_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_RedisEnterprise_Database_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -232,8 +199,8 @@ type RedisEnterpriseDatabaseList struct {
 	Items           []RedisEnterpriseDatabase `json:"items"`
 }
 
-// Storage version of v1alpha1api20210301.RedisEnterpriseDatabase_Spec
-type RedisEnterpriseDatabase_Spec struct {
+// Storage version of v1alpha1api20210301.RedisEnterprise_Database_Spec
+type RedisEnterprise_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string   `json:"azureName,omitempty"`
@@ -253,25 +220,25 @@ type RedisEnterpriseDatabase_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RedisEnterpriseDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &RedisEnterprise_Database_Spec{}
 
-// ConvertSpecFrom populates our RedisEnterpriseDatabase_Spec from the provided source
-func (database *RedisEnterpriseDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210301s.RedisEnterpriseDatabase_Spec)
+// ConvertSpecFrom populates our RedisEnterprise_Database_Spec from the provided source
+func (database *RedisEnterprise_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210301s.RedisEnterprise_Database_Spec)
 	if ok {
 		// Populate our instance from source
-		return database.AssignPropertiesFromRedisEnterpriseDatabase_Spec(src)
+		return database.AssignProperties_From_RedisEnterprise_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210301s.RedisEnterpriseDatabase_Spec{}
+	src = &v20210301s.RedisEnterprise_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignPropertiesFromRedisEnterpriseDatabase_Spec(src)
+	err = database.AssignProperties_From_RedisEnterprise_Database_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -279,17 +246,17 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our RedisEnterpriseDatabase_Spec
-func (database *RedisEnterpriseDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210301s.RedisEnterpriseDatabase_Spec)
+// ConvertSpecTo populates the provided destination from our RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210301s.RedisEnterprise_Database_Spec)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignPropertiesToRedisEnterpriseDatabase_Spec(dst)
+		return database.AssignProperties_To_RedisEnterprise_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210301s.RedisEnterpriseDatabase_Spec{}
-	err := database.AssignPropertiesToRedisEnterpriseDatabase_Spec(dst)
+	dst = &v20210301s.RedisEnterprise_Database_Spec{}
+	err := database.AssignProperties_To_RedisEnterprise_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -303,8 +270,8 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignPropertiesFromRedisEnterpriseDatabase_Spec populates our RedisEnterpriseDatabase_Spec from the provided source RedisEnterpriseDatabase_Spec
-func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpriseDatabase_Spec(source *v20210301s.RedisEnterpriseDatabase_Spec) error {
+// AssignProperties_From_RedisEnterprise_Database_Spec populates our RedisEnterprise_Database_Spec from the provided source RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) AssignProperties_From_RedisEnterprise_Database_Spec(source *v20210301s.RedisEnterprise_Database_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -327,9 +294,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
 			var module Module
-			err := module.AssignPropertiesFromModule(&moduleItem)
+			err := module.AssignProperties_From_Module(&moduleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromModule() to populate field Modules")
+				return errors.Wrap(err, "calling AssignProperties_From_Module() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -352,9 +319,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 	// Persistence
 	if source.Persistence != nil {
 		var persistence Persistence
-		err := persistence.AssignPropertiesFromPersistence(source.Persistence)
+		err := persistence.AssignProperties_From_Persistence(source.Persistence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPersistence() to populate field Persistence")
+			return errors.Wrap(err, "calling AssignProperties_From_Persistence() to populate field Persistence")
 		}
 		database.Persistence = &persistence
 	} else {
@@ -375,8 +342,8 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 	return nil
 }
 
-// AssignPropertiesToRedisEnterpriseDatabase_Spec populates the provided destination RedisEnterpriseDatabase_Spec from our RedisEnterpriseDatabase_Spec
-func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseDatabase_Spec(destination *v20210301s.RedisEnterpriseDatabase_Spec) error {
+// AssignProperties_To_RedisEnterprise_Database_Spec populates the provided destination RedisEnterprise_Database_Spec from our RedisEnterprise_Database_Spec
+func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterprise_Database_Spec(destination *v20210301s.RedisEnterprise_Database_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -399,9 +366,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
 			var module v20210301s.Module
-			err := moduleItem.AssignPropertiesToModule(&module)
+			err := moduleItem.AssignProperties_To_Module(&module)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToModule() to populate field Modules")
+				return errors.Wrap(err, "calling AssignProperties_To_Module() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -424,9 +391,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 	// Persistence
 	if database.Persistence != nil {
 		var persistence v20210301s.Persistence
-		err := database.Persistence.AssignPropertiesToPersistence(&persistence)
+		err := database.Persistence.AssignProperties_To_Persistence(&persistence)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPersistence() to populate field Persistence")
+			return errors.Wrap(err, "calling AssignProperties_To_Persistence() to populate field Persistence")
 		}
 		destination.Persistence = &persistence
 	} else {
@@ -447,9 +414,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 	return nil
 }
 
-// Storage version of v1alpha1api20210301.RedisEnterpriseDatabase_STATUS
-// Deprecated version of RedisEnterpriseDatabase_STATUS. Use v1beta20210301.RedisEnterpriseDatabase_STATUS instead
-type RedisEnterpriseDatabase_STATUS struct {
+// Storage version of v1alpha1api20210301.RedisEnterprise_Database_STATUS
+// Deprecated version of RedisEnterprise_Database_STATUS. Use v1beta20210301.RedisEnterprise_Database_STATUS instead
+type RedisEnterprise_Database_STATUS struct {
 	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
@@ -465,33 +432,25 @@ type RedisEnterpriseDatabase_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisEnterpriseDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &RedisEnterprise_Database_STATUS{}
 
-// ConvertStatusFrom populates our RedisEnterpriseDatabase_STATUS from the provided source
-func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210301s.RedisEnterpriseDatabase_STATUS)
+// ConvertStatusFrom populates our RedisEnterprise_Database_STATUS from the provided source
+func (database *RedisEnterprise_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210301s.RedisEnterprise_Database_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return database.AssignPropertiesFromRedisEnterpriseDatabase_STATUS(src)
-=======
-		return database.AssignProperties_From_Database_STATUS(src)
->>>>>>> main
+		return database.AssignProperties_From_RedisEnterprise_Database_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210301s.RedisEnterpriseDatabase_STATUS{}
+	src = &v20210301s.RedisEnterprise_Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = database.AssignPropertiesFromRedisEnterpriseDatabase_STATUS(src)
-=======
-	err = database.AssignProperties_From_Database_STATUS(src)
->>>>>>> main
+	err = database.AssignProperties_From_RedisEnterprise_Database_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -499,26 +458,17 @@ func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RedisEnterpriseDatabase_STATUS
-func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210301s.RedisEnterpriseDatabase_STATUS)
+// ConvertStatusTo populates the provided destination from our RedisEnterprise_Database_STATUS
+func (database *RedisEnterprise_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210301s.RedisEnterprise_Database_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return database.AssignPropertiesToRedisEnterpriseDatabase_STATUS(dst)
+		return database.AssignProperties_To_RedisEnterprise_Database_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210301s.RedisEnterpriseDatabase_STATUS{}
-	err := database.AssignPropertiesToRedisEnterpriseDatabase_STATUS(dst)
-=======
-		return database.AssignProperties_To_Database_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210301s.Database_STATUS{}
-	err := database.AssignProperties_To_Database_STATUS(dst)
->>>>>>> main
+	dst = &v20210301s.RedisEnterprise_Database_STATUS{}
+	err := database.AssignProperties_To_RedisEnterprise_Database_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -532,13 +482,8 @@ func (database *RedisEnterpriseDatabase_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromRedisEnterpriseDatabase_STATUS populates our RedisEnterpriseDatabase_STATUS from the provided source RedisEnterpriseDatabase_STATUS
-func (database *RedisEnterpriseDatabase_STATUS) AssignPropertiesFromRedisEnterpriseDatabase_STATUS(source *v20210301s.RedisEnterpriseDatabase_STATUS) error {
-=======
-// AssignProperties_From_Database_STATUS populates our Database_STATUS from the provided source Database_STATUS
-func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v20210301s.Database_STATUS) error {
->>>>>>> main
+// AssignProperties_From_RedisEnterprise_Database_STATUS populates our RedisEnterprise_Database_STATUS from the provided source RedisEnterprise_Database_STATUS
+func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnterprise_Database_STATUS(source *v20210301s.RedisEnterprise_Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -564,15 +509,9 @@ func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
 			var module Module_STATUS
-<<<<<<< HEAD
-			err := module.AssignPropertiesFromModule_STATUS(&moduleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromModule_STATUS() to populate field Modules")
-=======
 			err := module.AssignProperties_From_Module_STATUS(&moduleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_Module_STATUS() to populate field Modules")
->>>>>>> main
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -587,15 +526,9 @@ func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v
 	// Persistence
 	if source.Persistence != nil {
 		var persistence Persistence_STATUS
-<<<<<<< HEAD
-		err := persistence.AssignPropertiesFromPersistence_STATUS(source.Persistence)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPersistence_STATUS() to populate field Persistence")
-=======
 		err := persistence.AssignProperties_From_Persistence_STATUS(source.Persistence)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Persistence_STATUS() to populate field Persistence")
->>>>>>> main
 		}
 		database.Persistence = &persistence
 	} else {
@@ -625,13 +558,8 @@ func (database *Database_STATUS) AssignProperties_From_Database_STATUS(source *v
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToRedisEnterpriseDatabase_STATUS populates the provided destination RedisEnterpriseDatabase_STATUS from our RedisEnterpriseDatabase_STATUS
-func (database *RedisEnterpriseDatabase_STATUS) AssignPropertiesToRedisEnterpriseDatabase_STATUS(destination *v20210301s.RedisEnterpriseDatabase_STATUS) error {
-=======
-// AssignProperties_To_Database_STATUS populates the provided destination Database_STATUS from our Database_STATUS
-func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination *v20210301s.Database_STATUS) error {
->>>>>>> main
+// AssignProperties_To_RedisEnterprise_Database_STATUS populates the provided destination RedisEnterprise_Database_STATUS from our RedisEnterprise_Database_STATUS
+func (database *RedisEnterprise_Database_STATUS) AssignProperties_To_RedisEnterprise_Database_STATUS(destination *v20210301s.RedisEnterprise_Database_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -657,15 +585,9 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 			// Shadow the loop variable to avoid aliasing
 			moduleItem := moduleItem
 			var module v20210301s.Module_STATUS
-<<<<<<< HEAD
-			err := moduleItem.AssignPropertiesToModule_STATUS(&module)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToModule_STATUS() to populate field Modules")
-=======
 			err := moduleItem.AssignProperties_To_Module_STATUS(&module)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Module_STATUS() to populate field Modules")
->>>>>>> main
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -680,15 +602,9 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	// Persistence
 	if database.Persistence != nil {
 		var persistence v20210301s.Persistence_STATUS
-<<<<<<< HEAD
-		err := database.Persistence.AssignPropertiesToPersistence_STATUS(&persistence)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPersistence_STATUS() to populate field Persistence")
-=======
 		err := database.Persistence.AssignProperties_To_Persistence_STATUS(&persistence)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Persistence_STATUS() to populate field Persistence")
->>>>>>> main
 		}
 		destination.Persistence = &persistence
 	} else {
@@ -718,238 +634,6 @@ func (database *Database_STATUS) AssignProperties_To_Database_STATUS(destination
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1alpha1api20210301.RedisEnterprise_Databases_Spec
-type RedisEnterprise_Databases_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName        string   `json:"azureName,omitempty"`
-	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
-	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy   *string  `json:"evictionPolicy,omitempty"`
-	Location         *string  `json:"location,omitempty"`
-	Modules          []Module `json:"modules,omitempty"`
-	OriginalVersion  string   `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cache.azure.com/RedisEnterprise resource
-	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
-	Persistence *Persistence                       `json:"persistence,omitempty"`
-	Port        *int                               `json:"port,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &RedisEnterprise_Databases_Spec{}
-
-// ConvertSpecFrom populates our RedisEnterprise_Databases_Spec from the provided source
-func (databases *RedisEnterprise_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210301s.RedisEnterprise_Databases_Spec)
-	if ok {
-		// Populate our instance from source
-		return databases.AssignProperties_From_RedisEnterprise_Databases_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210301s.RedisEnterprise_Databases_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = databases.AssignProperties_From_RedisEnterprise_Databases_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210301s.RedisEnterprise_Databases_Spec)
-	if ok {
-		// Populate destination from our instance
-		return databases.AssignProperties_To_RedisEnterprise_Databases_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210301s.RedisEnterprise_Databases_Spec{}
-	err := databases.AssignProperties_To_RedisEnterprise_Databases_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_RedisEnterprise_Databases_Spec populates our RedisEnterprise_Databases_Spec from the provided source RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) AssignProperties_From_RedisEnterprise_Databases_Spec(source *v20210301s.RedisEnterprise_Databases_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	databases.AzureName = source.AzureName
-
-	// ClientProtocol
-	databases.ClientProtocol = genruntime.ClonePointerToString(source.ClientProtocol)
-
-	// ClusteringPolicy
-	databases.ClusteringPolicy = genruntime.ClonePointerToString(source.ClusteringPolicy)
-
-	// EvictionPolicy
-	databases.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
-
-	// Location
-	databases.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Modules
-	if source.Modules != nil {
-		moduleList := make([]Module, len(source.Modules))
-		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
-			var module Module
-			err := module.AssignProperties_From_Module(&moduleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Module() to populate field Modules")
-			}
-			moduleList[moduleIndex] = module
-		}
-		databases.Modules = moduleList
-	} else {
-		databases.Modules = nil
-	}
-
-	// OriginalVersion
-	databases.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		databases.Owner = &owner
-	} else {
-		databases.Owner = nil
-	}
-
-	// Persistence
-	if source.Persistence != nil {
-		var persistence Persistence
-		err := persistence.AssignProperties_From_Persistence(source.Persistence)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Persistence() to populate field Persistence")
-		}
-		databases.Persistence = &persistence
-	} else {
-		databases.Persistence = nil
-	}
-
-	// Port
-	databases.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Tags
-	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		databases.PropertyBag = propertyBag
-	} else {
-		databases.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RedisEnterprise_Databases_Spec populates the provided destination RedisEnterprise_Databases_Spec from our RedisEnterprise_Databases_Spec
-func (databases *RedisEnterprise_Databases_Spec) AssignProperties_To_RedisEnterprise_Databases_Spec(destination *v20210301s.RedisEnterprise_Databases_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(databases.PropertyBag)
-
-	// AzureName
-	destination.AzureName = databases.AzureName
-
-	// ClientProtocol
-	destination.ClientProtocol = genruntime.ClonePointerToString(databases.ClientProtocol)
-
-	// ClusteringPolicy
-	destination.ClusteringPolicy = genruntime.ClonePointerToString(databases.ClusteringPolicy)
-
-	// EvictionPolicy
-	destination.EvictionPolicy = genruntime.ClonePointerToString(databases.EvictionPolicy)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(databases.Location)
-
-	// Modules
-	if databases.Modules != nil {
-		moduleList := make([]v20210301s.Module, len(databases.Modules))
-		for moduleIndex, moduleItem := range databases.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
-			var module v20210301s.Module
-			err := moduleItem.AssignProperties_To_Module(&module)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Module() to populate field Modules")
-			}
-			moduleList[moduleIndex] = module
-		}
-		destination.Modules = moduleList
-	} else {
-		destination.Modules = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = databases.OriginalVersion
-
-	// Owner
-	if databases.Owner != nil {
-		owner := databases.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Persistence
-	if databases.Persistence != nil {
-		var persistence v20210301s.Persistence
-		err := databases.Persistence.AssignProperties_To_Persistence(&persistence)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Persistence() to populate field Persistence")
-		}
-		destination.Persistence = &persistence
-	} else {
-		destination.Persistence = nil
-	}
-
-	// Port
-	destination.Port = genruntime.ClonePointerToInt(databases.Port)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
->>>>>>> main
 // Storage version of v1alpha1api20210301.Module
 // Deprecated version of Module. Use v1beta20210301.Module instead
 type Module struct {
@@ -1011,13 +695,8 @@ type Module_STATUS struct {
 	Version     *string                `json:"version,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromModule_STATUS populates our Module_STATUS from the provided source Module_STATUS
-func (module *Module_STATUS) AssignPropertiesFromModule_STATUS(source *v20210301s.Module_STATUS) error {
-=======
 // AssignProperties_From_Module_STATUS populates our Module_STATUS from the provided source Module_STATUS
 func (module *Module_STATUS) AssignProperties_From_Module_STATUS(source *v20210301s.Module_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1041,13 +720,8 @@ func (module *Module_STATUS) AssignProperties_From_Module_STATUS(source *v202103
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToModule_STATUS populates the provided destination Module_STATUS from our Module_STATUS
-func (module *Module_STATUS) AssignPropertiesToModule_STATUS(destination *v20210301s.Module_STATUS) error {
-=======
 // AssignProperties_To_Module_STATUS populates the provided destination Module_STATUS from our Module_STATUS
 func (module *Module_STATUS) AssignProperties_To_Module_STATUS(destination *v20210301s.Module_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(module.PropertyBag)
 
@@ -1167,13 +841,8 @@ type Persistence_STATUS struct {
 	RdbFrequency *string                `json:"rdbFrequency,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromPersistence_STATUS populates our Persistence_STATUS from the provided source Persistence_STATUS
-func (persistence *Persistence_STATUS) AssignPropertiesFromPersistence_STATUS(source *v20210301s.Persistence_STATUS) error {
-=======
 // AssignProperties_From_Persistence_STATUS populates our Persistence_STATUS from the provided source Persistence_STATUS
 func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(source *v20210301s.Persistence_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1210,13 +879,8 @@ func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToPersistence_STATUS populates the provided destination Persistence_STATUS from our Persistence_STATUS
-func (persistence *Persistence_STATUS) AssignPropertiesToPersistence_STATUS(destination *v20210301s.Persistence_STATUS) error {
-=======
 // AssignProperties_To_Persistence_STATUS populates the provided destination Persistence_STATUS from our Persistence_STATUS
 func (persistence *Persistence_STATUS) AssignProperties_To_Persistence_STATUS(destination *v20210301s.Persistence_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(persistence.PropertyBag)
 

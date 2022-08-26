@@ -16,7 +16,6 @@ type Redis_STATUSARM struct {
 
 // Deprecated version of RedisProperties_STATUS. Use v1beta20201201.RedisProperties_STATUS instead
 type RedisProperties_STATUSARM struct {
-<<<<<<< HEAD:v2/api/cache/v1alpha1api20201201/redis_status_arm_types_gen.go
 	AccessKeys                 *RedisAccessKeys_STATUSARM                  `json:"accessKeys,omitempty"`
 	EnableNonSslPort           *bool                                       `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                     `json:"hostName,omitempty"`
@@ -37,27 +36,6 @@ type RedisProperties_STATUSARM struct {
 	StaticIP                   *string                                     `json:"staticIP,omitempty"`
 	SubnetId                   *string                                     `json:"subnetId,omitempty"`
 	TenantSettings             map[string]string                           `json:"tenantSettings,omitempty"`
-=======
-	EnableNonSslPort           *bool                                                     `json:"enableNonSslPort,omitempty"`
-	HostName                   *string                                                   `json:"hostName,omitempty"`
-	Instances                  []RedisInstanceDetails_STATUSARM                          `json:"instances,omitempty"`
-	LinkedServers              []RedisLinkedServer_STATUSARM                             `json:"linkedServers,omitempty"`
-	MinimumTlsVersion          *RedisProperties_STATUS_MinimumTlsVersion                 `json:"minimumTlsVersion,omitempty"`
-	Port                       *int                                                      `json:"port,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RedisProperties_STATUS_ProvisioningState                 `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RedisProperties_STATUS_PublicNetworkAccess               `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration         map[string]string                                         `json:"redisConfiguration,omitempty"`
-	RedisVersion               *string                                                   `json:"redisVersion,omitempty"`
-	ReplicasPerMaster          *int                                                      `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary         *int                                                      `json:"replicasPerPrimary,omitempty"`
-	ShardCount                 *int                                                      `json:"shardCount,omitempty"`
-	Sku                        *Sku_STATUSARM                                            `json:"sku,omitempty"`
-	SslPort                    *int                                                      `json:"sslPort,omitempty"`
-	StaticIP                   *string                                                   `json:"staticIP,omitempty"`
-	SubnetId                   *string                                                   `json:"subnetId,omitempty"`
-	TenantSettings             map[string]string                                         `json:"tenantSettings,omitempty"`
->>>>>>> main:v2/api/cache/v1alpha1api20201201/redis_resource_status_arm_types_gen.go
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201201.PrivateEndpointConnection_STATUS instead
@@ -89,11 +67,6 @@ type RedisLinkedServer_STATUSARM struct {
 // Deprecated version of Sku_STATUS. Use v1beta20201201.Sku_STATUS instead
 type Sku_STATUSARM struct {
 	Capacity *int               `json:"capacity,omitempty"`
-<<<<<<< HEAD:v2/api/cache/v1alpha1api20201201/redis_status_arm_types_gen.go
 	Family   *Sku_Family_STATUS `json:"family,omitempty"`
 	Name     *Sku_Name_STATUS   `json:"name,omitempty"`
-=======
-	Family   *Sku_STATUS_Family `json:"family,omitempty"`
-	Name     *Sku_STATUS_Name   `json:"name,omitempty"`
->>>>>>> main:v2/api/cache/v1alpha1api20201201/redis_resource_status_arm_types_gen.go
 }

@@ -3,25 +3,25 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-// Deprecated version of NamespacesEventhub_STATUS. Use v1beta20211101.NamespacesEventhub_STATUS instead
-type NamespacesEventhub_STATUSARM struct {
-	Id         *string                                  `json:"id,omitempty"`
-	Location   *string                                  `json:"location,omitempty"`
-	Name       *string                                  `json:"name,omitempty"`
-	Properties *NamespacesEventhub_Properties_STATUSARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUSARM                    `json:"systemData,omitempty"`
-	Type       *string                                  `json:"type,omitempty"`
+// Deprecated version of Namespaces_Eventhub_STATUS. Use v1beta20211101.Namespaces_Eventhub_STATUS instead
+type Namespaces_Eventhub_STATUSARM struct {
+	Id         *string                                   `json:"id,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       *string                                   `json:"name,omitempty"`
+	Properties *Namespaces_Eventhub_Properties_STATUSARM `json:"properties,omitempty"`
+	SystemData *SystemData_STATUSARM                     `json:"systemData,omitempty"`
+	Type       *string                                   `json:"type,omitempty"`
 }
 
-// Deprecated version of NamespacesEventhub_Properties_STATUS. Use v1beta20211101.NamespacesEventhub_Properties_STATUS instead
-type NamespacesEventhub_Properties_STATUSARM struct {
-	CaptureDescription     *CaptureDescription_STATUSARM                `json:"captureDescription,omitempty"`
-	CreatedAt              *string                                      `json:"createdAt,omitempty"`
-	MessageRetentionInDays *int                                         `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                                         `json:"partitionCount,omitempty"`
-	PartitionIds           []string                                     `json:"partitionIds,omitempty"`
-	Status                 *NamespacesEventhub_Properties_Status_STATUS `json:"status,omitempty"`
-	UpdatedAt              *string                                      `json:"updatedAt,omitempty"`
+// Deprecated version of Namespaces_Eventhub_Properties_STATUS. Use v1beta20211101.Namespaces_Eventhub_Properties_STATUS instead
+type Namespaces_Eventhub_Properties_STATUSARM struct {
+	CaptureDescription     *CaptureDescription_STATUSARM                 `json:"captureDescription,omitempty"`
+	CreatedAt              *string                                       `json:"createdAt,omitempty"`
+	MessageRetentionInDays *int                                          `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                                          `json:"partitionCount,omitempty"`
+	PartitionIds           []string                                      `json:"partitionIds,omitempty"`
+	Status                 *Namespaces_Eventhub_Properties_Status_STATUS `json:"status,omitempty"`
+	UpdatedAt              *string                                       `json:"updatedAt,omitempty"`
 }
 
 // Deprecated version of CaptureDescription_STATUS. Use v1beta20211101.CaptureDescription_STATUS instead

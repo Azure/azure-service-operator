@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-// Deprecated version of StorageAccountsBlobServicesContainer_STATUS. Use v1beta20210401.StorageAccountsBlobServicesContainer_STATUS instead
-type StorageAccountsBlobServicesContainer_STATUSARM struct {
+// Deprecated version of StorageAccounts_BlobServices_Container_STATUS. Use v1beta20210401.StorageAccounts_BlobServices_Container_STATUS instead
+type StorageAccounts_BlobServices_Container_STATUSARM struct {
 	Etag       *string                        `json:"etag,omitempty"`
 	Id         *string                        `json:"id,omitempty"`
 	Name       *string                        `json:"name,omitempty"`
@@ -23,68 +23,16 @@ type ContainerProperties_STATUSARM struct {
 	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUSARM   `json:"immutabilityPolicy,omitempty"`
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUSARM `json:"immutableStorageWithVersioning,omitempty"`
 	LastModifiedTime               *string                                   `json:"lastModifiedTime,omitempty"`
-<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_blob_services_container_status_arm_types_gen.go
 	LeaseDuration                  *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 	LeaseState                     *ContainerProperties_LeaseState_STATUS    `json:"leaseState,omitempty"`
 	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS   `json:"leaseStatus,omitempty"`
 	LegalHold                      *LegalHoldProperties_STATUSARM            `json:"legalHold,omitempty"`
 	Metadata                       map[string]string                         `json:"metadata,omitempty"`
 	PublicAccess                   *ContainerProperties_PublicAccess_STATUS  `json:"publicAccess,omitempty"`
-=======
-	LeaseDuration                  *ContainerProperties_STATUS_LeaseDuration `json:"leaseDuration,omitempty"`
-	LeaseState                     *ContainerProperties_STATUS_LeaseState    `json:"leaseState,omitempty"`
-	LeaseStatus                    *ContainerProperties_STATUS_LeaseStatus   `json:"leaseStatus,omitempty"`
-	LegalHold                      *LegalHoldProperties_STATUSARM            `json:"legalHold,omitempty"`
-	Metadata                       map[string]string                         `json:"metadata,omitempty"`
-	PublicAccess                   *ContainerProperties_STATUS_PublicAccess  `json:"publicAccess,omitempty"`
->>>>>>> main:v2/api/storage/v1alpha1api20210401/blob_container_status_arm_types_gen.go
 	RemainingRetentionDays         *int                                      `json:"remainingRetentionDays,omitempty"`
 	Version                        *string                                   `json:"version,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_blob_services_container_status_arm_types_gen.go
-=======
-// Deprecated version of ContainerProperties_STATUS_LeaseDuration. Use
-// v1beta20210401.ContainerProperties_STATUS_LeaseDuration instead
-type ContainerProperties_STATUS_LeaseDuration string
-
-const (
-	ContainerProperties_STATUS_LeaseDuration_Fixed    = ContainerProperties_STATUS_LeaseDuration("Fixed")
-	ContainerProperties_STATUS_LeaseDuration_Infinite = ContainerProperties_STATUS_LeaseDuration("Infinite")
-)
-
-// Deprecated version of ContainerProperties_STATUS_LeaseState. Use v1beta20210401.ContainerProperties_STATUS_LeaseState
-// instead
-type ContainerProperties_STATUS_LeaseState string
-
-const (
-	ContainerProperties_STATUS_LeaseState_Available = ContainerProperties_STATUS_LeaseState("Available")
-	ContainerProperties_STATUS_LeaseState_Breaking  = ContainerProperties_STATUS_LeaseState("Breaking")
-	ContainerProperties_STATUS_LeaseState_Broken    = ContainerProperties_STATUS_LeaseState("Broken")
-	ContainerProperties_STATUS_LeaseState_Expired   = ContainerProperties_STATUS_LeaseState("Expired")
-	ContainerProperties_STATUS_LeaseState_Leased    = ContainerProperties_STATUS_LeaseState("Leased")
-)
-
-// Deprecated version of ContainerProperties_STATUS_LeaseStatus. Use v1beta20210401.ContainerProperties_STATUS_LeaseStatus
-// instead
-type ContainerProperties_STATUS_LeaseStatus string
-
-const (
-	ContainerProperties_STATUS_LeaseStatus_Locked   = ContainerProperties_STATUS_LeaseStatus("Locked")
-	ContainerProperties_STATUS_LeaseStatus_Unlocked = ContainerProperties_STATUS_LeaseStatus("Unlocked")
-)
-
-// Deprecated version of ContainerProperties_STATUS_PublicAccess. Use
-// v1beta20210401.ContainerProperties_STATUS_PublicAccess instead
-type ContainerProperties_STATUS_PublicAccess string
-
-const (
-	ContainerProperties_STATUS_PublicAccess_Blob      = ContainerProperties_STATUS_PublicAccess("Blob")
-	ContainerProperties_STATUS_PublicAccess_Container = ContainerProperties_STATUS_PublicAccess("Container")
-	ContainerProperties_STATUS_PublicAccess_None      = ContainerProperties_STATUS_PublicAccess("None")
-)
-
->>>>>>> main:v2/api/storage/v1alpha1api20210401/blob_container_status_arm_types_gen.go
 // Deprecated version of ImmutabilityPolicyProperties_STATUS. Use v1beta20210401.ImmutabilityPolicyProperties_STATUS instead
 type ImmutabilityPolicyProperties_STATUSARM struct {
 	Etag          *string                               `json:"etag,omitempty"`
@@ -95,11 +43,7 @@ type ImmutabilityPolicyProperties_STATUSARM struct {
 // Deprecated version of ImmutableStorageWithVersioning_STATUS. Use v1beta20210401.ImmutableStorageWithVersioning_STATUS instead
 type ImmutableStorageWithVersioning_STATUSARM struct {
 	Enabled        *bool                                                 `json:"enabled,omitempty"`
-<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_blob_services_container_status_arm_types_gen.go
 	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
-=======
-	MigrationState *ImmutableStorageWithVersioning_STATUS_MigrationState `json:"migrationState,omitempty"`
->>>>>>> main:v2/api/storage/v1alpha1api20210401/blob_container_status_arm_types_gen.go
 	TimeStamp      *string                                               `json:"timeStamp,omitempty"`
 }
 
@@ -113,24 +57,9 @@ type LegalHoldProperties_STATUSARM struct {
 type ImmutabilityPolicyProperty_STATUSARM struct {
 	AllowProtectedAppendWrites            *bool                                    `json:"allowProtectedAppendWrites,omitempty"`
 	ImmutabilityPeriodSinceCreationInDays *int                                     `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_blob_services_container_status_arm_types_gen.go
 	State                                 *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
 }
 
-=======
-	State                                 *ImmutabilityPolicyProperty_STATUS_State `json:"state,omitempty"`
-}
-
-// Deprecated version of ImmutableStorageWithVersioning_STATUS_MigrationState. Use
-// v1beta20210401.ImmutableStorageWithVersioning_STATUS_MigrationState instead
-type ImmutableStorageWithVersioning_STATUS_MigrationState string
-
-const (
-	ImmutableStorageWithVersioning_STATUS_MigrationState_Completed  = ImmutableStorageWithVersioning_STATUS_MigrationState("Completed")
-	ImmutableStorageWithVersioning_STATUS_MigrationState_InProgress = ImmutableStorageWithVersioning_STATUS_MigrationState("InProgress")
-)
-
->>>>>>> main:v2/api/storage/v1alpha1api20210401/blob_container_status_arm_types_gen.go
 // Deprecated version of TagProperty_STATUS. Use v1beta20210401.TagProperty_STATUS instead
 type TagProperty_STATUSARM struct {
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -146,21 +75,6 @@ type UpdateHistoryProperty_STATUSARM struct {
 	ObjectIdentifier                      *string                              `json:"objectIdentifier,omitempty"`
 	TenantId                              *string                              `json:"tenantId,omitempty"`
 	Timestamp                             *string                              `json:"timestamp,omitempty"`
-<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_blob_services_container_status_arm_types_gen.go
 	Update                                *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
 	Upn                                   *string                              `json:"upn,omitempty"`
 }
-=======
-	Update                                *UpdateHistoryProperty_STATUS_Update `json:"update,omitempty"`
-	Upn                                   *string                              `json:"upn,omitempty"`
-}
-
-// Deprecated version of UpdateHistoryProperty_STATUS_Update. Use v1beta20210401.UpdateHistoryProperty_STATUS_Update instead
-type UpdateHistoryProperty_STATUS_Update string
-
-const (
-	UpdateHistoryProperty_STATUS_Update_Extend = UpdateHistoryProperty_STATUS_Update("extend")
-	UpdateHistoryProperty_STATUS_Update_Lock   = UpdateHistoryProperty_STATUS_Update("lock")
-	UpdateHistoryProperty_STATUS_Update_Put    = UpdateHistoryProperty_STATUS_Update("put")
-)
->>>>>>> main:v2/api/storage/v1alpha1api20210401/blob_container_status_arm_types_gen.go

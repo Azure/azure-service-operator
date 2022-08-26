@@ -169,7 +169,6 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUSARM(gens map[s
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		WorkspaceProperties_ProvisioningState_Canceled_STATUS,
 		WorkspaceProperties_ProvisioningState_Creating_STATUS,
 		WorkspaceProperties_ProvisioningState_Deleting_STATUS,
@@ -179,17 +178,6 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUSARM(gens map[s
 		WorkspaceProperties_ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
-=======
-		WorkspaceProperties_STATUS_ProvisioningState_Canceled,
-		WorkspaceProperties_STATUS_ProvisioningState_Creating,
-		WorkspaceProperties_STATUS_ProvisioningState_Deleting,
-		WorkspaceProperties_STATUS_ProvisioningState_Failed,
-		WorkspaceProperties_STATUS_ProvisioningState_ProvisioningAccount,
-		WorkspaceProperties_STATUS_ProvisioningState_Succeeded,
-		WorkspaceProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
->>>>>>> main
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -323,21 +311,12 @@ func WorkspaceCapping_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceCapping_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
 	gens["DataIngestionStatus"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		WorkspaceCapping_DataIngestionStatus_ApproachingQuota_STATUS,
 		WorkspaceCapping_DataIngestionStatus_ForceOff_STATUS,
 		WorkspaceCapping_DataIngestionStatus_ForceOn_STATUS,
 		WorkspaceCapping_DataIngestionStatus_OverQuota_STATUS,
 		WorkspaceCapping_DataIngestionStatus_RespectQuota_STATUS,
 		WorkspaceCapping_DataIngestionStatus_SubscriptionSuspended_STATUS))
-=======
-		WorkspaceCapping_STATUS_DataIngestionStatus_ApproachingQuota,
-		WorkspaceCapping_STATUS_DataIngestionStatus_ForceOff,
-		WorkspaceCapping_STATUS_DataIngestionStatus_ForceOn,
-		WorkspaceCapping_STATUS_DataIngestionStatus_OverQuota,
-		WorkspaceCapping_STATUS_DataIngestionStatus_RespectQuota,
-		WorkspaceCapping_STATUS_DataIngestionStatus_SubscriptionSuspended))
->>>>>>> main
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -465,7 +444,6 @@ func WorkspaceSku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		WorkspaceSku_CapacityReservationLevel_100_STATUS,
 		WorkspaceSku_CapacityReservationLevel_1000_STATUS,
 		WorkspaceSku_CapacityReservationLevel_200_STATUS,
@@ -484,24 +462,4 @@ func AddIndependentPropertyGeneratorsForWorkspaceSku_STATUSARM(gens map[string]g
 		WorkspaceSku_Name_Premium_STATUS,
 		WorkspaceSku_Name_Standalone_STATUS,
 		WorkspaceSku_Name_Standard_STATUS))
-=======
-		WorkspaceSku_STATUS_CapacityReservationLevel_100,
-		WorkspaceSku_STATUS_CapacityReservationLevel_1000,
-		WorkspaceSku_STATUS_CapacityReservationLevel_200,
-		WorkspaceSku_STATUS_CapacityReservationLevel_2000,
-		WorkspaceSku_STATUS_CapacityReservationLevel_300,
-		WorkspaceSku_STATUS_CapacityReservationLevel_400,
-		WorkspaceSku_STATUS_CapacityReservationLevel_500,
-		WorkspaceSku_STATUS_CapacityReservationLevel_5000))
-	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_STATUS_Name_CapacityReservation,
-		WorkspaceSku_STATUS_Name_Free,
-		WorkspaceSku_STATUS_Name_LACluster,
-		WorkspaceSku_STATUS_Name_PerGB2018,
-		WorkspaceSku_STATUS_Name_PerNode,
-		WorkspaceSku_STATUS_Name_Premium,
-		WorkspaceSku_STATUS_Name_Standalone,
-		WorkspaceSku_STATUS_Name_Standard))
->>>>>>> main
 }

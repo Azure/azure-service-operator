@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-// Deprecated version of RedisFirewallRule_STATUS. Use v1beta20201201.RedisFirewallRule_STATUS instead
-type RedisFirewallRule_STATUSARM struct {
+// Deprecated version of Redis_FirewallRule_STATUS. Use v1beta20201201.Redis_FirewallRule_STATUS instead
+type Redis_FirewallRule_STATUSARM struct {
 	Id         *string                                `json:"id,omitempty"`
 	Name       *string                                `json:"name,omitempty"`
 	Properties *RedisFirewallRuleProperties_STATUSARM `json:"properties,omitempty"`

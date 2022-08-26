@@ -176,7 +176,6 @@ func AddIndependentPropertyGeneratorsForDiskProperties_STATUSARM(gens map[string
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		DiskState_ActiveSAS_STATUS,
 		DiskState_ActiveUpload_STATUS,
 		DiskState_Attached_STATUS,
@@ -187,18 +186,6 @@ func AddIndependentPropertyGeneratorsForDiskProperties_STATUSARM(gens map[string
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll_STATUS, NetworkAccessPolicy_AllowPrivate_STATUS, NetworkAccessPolicy_DenyAll_STATUS))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux_STATUS, DiskProperties_OsType_Windows_STATUS))
-=======
-		DiskState_STATUS_ActiveSAS,
-		DiskState_STATUS_ActiveUpload,
-		DiskState_STATUS_Attached,
-		DiskState_STATUS_ReadyToUpload,
-		DiskState_STATUS_Reserved,
-		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_STATUS_HyperVGeneration_V1, DiskProperties_STATUS_HyperVGeneration_V2))
-	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_STATUS_OsType_Linux, DiskProperties_STATUS_OsType_Windows))
->>>>>>> main
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
@@ -272,17 +259,10 @@ func DiskSku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		DiskSku_Name_Premium_LRS_STATUS,
 		DiskSku_Name_StandardSSD_LRS_STATUS,
 		DiskSku_Name_Standard_LRS_STATUS,
 		DiskSku_Name_UltraSSD_LRS_STATUS))
-=======
-		DiskSku_STATUS_Name_Premium_LRS,
-		DiskSku_STATUS_Name_StandardSSD_LRS,
-		DiskSku_STATUS_Name_Standard_LRS,
-		DiskSku_STATUS_Name_UltraSSD_LRS))
->>>>>>> main
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -416,7 +396,6 @@ func CreationData_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationData_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationData_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		CreationData_CreateOption_Attach_STATUS,
 		CreationData_CreateOption_Copy_STATUS,
 		CreationData_CreateOption_Empty_STATUS,
@@ -424,15 +403,6 @@ func AddIndependentPropertyGeneratorsForCreationData_STATUSARM(gens map[string]g
 		CreationData_CreateOption_Import_STATUS,
 		CreationData_CreateOption_Restore_STATUS,
 		CreationData_CreateOption_Upload_STATUS))
-=======
-		CreationData_STATUS_CreateOption_Attach,
-		CreationData_STATUS_CreateOption_Copy,
-		CreationData_STATUS_CreateOption_Empty,
-		CreationData_STATUS_CreateOption_FromImage,
-		CreationData_STATUS_CreateOption_Import,
-		CreationData_STATUS_CreateOption_Restore,
-		CreationData_STATUS_CreateOption_Upload))
->>>>>>> main
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())

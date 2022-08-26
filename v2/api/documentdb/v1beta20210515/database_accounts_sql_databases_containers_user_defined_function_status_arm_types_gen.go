@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUSARM struct {
+type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUSARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 

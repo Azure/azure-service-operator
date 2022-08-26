@@ -6,15 +6,9 @@ package v1beta20211001
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type SignalR_SpecARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	AzureName string              `json:"azureName,omitempty"`
 	Identity  *ManagedIdentityARM `json:"identity,omitempty"`
 	Kind      *ServiceKind        `json:"kind,omitempty"`
-=======
-	// Identity: A class represent managed identities used for request and response
-	Identity *ManagedIdentityARM `json:"identity,omitempty"`
-	Kind     *SignalR_Spec_Kind  `json:"kind,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location   *string               `json:"location,omitempty"`
@@ -44,14 +38,7 @@ func (signalR *SignalR_SpecARM) GetType() string {
 }
 
 type ManagedIdentityARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Type *ManagedIdentityType `json:"type,omitempty"`
-=======
-	Type *ManagedIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Get or set the user assigned identities
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 }
 
 type ResourceSkuARM struct {
@@ -63,7 +50,6 @@ type ResourceSkuARM struct {
 
 	// Name: The name of the SKU. Required.
 	// Allowed values: Standard_S1, Free_F1
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Name *string         `json:"name,omitempty"`
 	Tier *SignalRSkuTier `json:"tier,omitempty"`
 }
@@ -76,21 +62,6 @@ const (
 	ServiceKind_SignalR       = ServiceKind("SignalR")
 )
 
-=======
-	Name *string           `json:"name,omitempty"`
-	Tier *ResourceSku_Tier `json:"tier,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type SignalR_Spec_Kind string
-
-const (
-	SignalR_Spec_Kind_RawWebSockets = SignalR_Spec_Kind("RawWebSockets")
-	SignalR_Spec_Kind_SignalR       = SignalR_Spec_Kind("SignalR")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRProperties
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 type SignalRPropertiesARM struct {
 	Cors *SignalRCorsSettingsARM `json:"cors,omitempty"`
 
@@ -122,12 +93,12 @@ type SignalRPropertiesARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedIdentity_Type string
+type ManagedIdentityType string
 
 const (
-	ManagedIdentity_Type_None           = ManagedIdentity_Type("None")
-	ManagedIdentity_Type_SystemAssigned = ManagedIdentity_Type("SystemAssigned")
-	ManagedIdentity_Type_UserAssigned   = ManagedIdentity_Type("UserAssigned")
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
 type ResourceLogConfigurationARM struct {
@@ -135,20 +106,6 @@ type ResourceLogConfigurationARM struct {
 	Categories []ResourceLogCategoryARM `json:"categories,omitempty"`
 }
 
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
-=======
-// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type ResourceSku_Tier string
-
-const (
-	ResourceSku_Tier_Basic    = ResourceSku_Tier("Basic")
-	ResourceSku_Tier_Free     = ResourceSku_Tier("Free")
-	ResourceSku_Tier_Premium  = ResourceSku_Tier("Premium")
-	ResourceSku_Tier_Standard = ResourceSku_Tier("Standard")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 type ServerlessUpstreamSettingsARM struct {
 	// Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
@@ -161,11 +118,7 @@ type SignalRCorsSettingsARM struct {
 }
 
 type SignalRFeatureARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Flag *FeatureFlags `json:"flag,omitempty"`
-=======
-	Flag *SignalRFeature_Flag `json:"flag,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 
 	// Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -176,11 +129,7 @@ type SignalRFeatureARM struct {
 }
 
 type SignalRNetworkACLsARM struct {
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	DefaultAction *ACLAction `json:"defaultAction,omitempty"`
-=======
-	DefaultAction *SignalRNetworkACLs_DefaultAction `json:"defaultAction,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACLARM `json:"privateEndpoints,omitempty"`
@@ -204,32 +153,18 @@ type SignalRTlsSettingsARM struct {
 
 type NetworkACLARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Allow []SignalRRequestType `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType `json:"deny,omitempty"`
-=======
-	Allow []NetworkACL_Allow `json:"allow,omitempty"`
-
-	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []NetworkACL_Deny `json:"deny,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 }
 
 type PrivateEndpointACLARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Allow []SignalRRequestType `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Deny []SignalRRequestType `json:"deny,omitempty"`
-=======
-	Allow []PrivateEndpointACL_Allow `json:"allow,omitempty"`
-
-	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []PrivateEndpointACL_Deny `json:"deny,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 
 	// Name: Name of the private endpoint connection
 	Name *string `json:"name,omitempty"`
@@ -281,11 +216,7 @@ type UpstreamTemplateARM struct {
 
 type UpstreamAuthSettingsARM struct {
 	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
-<<<<<<< HEAD:v2/api/signalrservice/v1beta20211001/signal_r__spec_arm_types_gen.go
 	Type            *UpstreamAuthType           `json:"type,omitempty"`
-=======
-	Type            *UpstreamAuthSettings_Type  `json:"type,omitempty"`
->>>>>>> main:v2/api/signalrservice/v1beta20211001/signal_r_spec_arm_types_gen.go
 }
 
 type ManagedIdentitySettingsARM struct {

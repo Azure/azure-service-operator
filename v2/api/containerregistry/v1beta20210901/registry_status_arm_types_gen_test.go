@@ -168,17 +168,10 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_STATUSARM(gens map[st
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		IdentityProperties_Type_None_STATUS,
 		IdentityProperties_Type_SystemAssigned_STATUS,
 		IdentityProperties_Type_SystemAssignedUserAssigned_STATUS,
 		IdentityProperties_Type_UserAssigned_STATUS))
-=======
-		IdentityProperties_STATUS_Type_None,
-		IdentityProperties_STATUS_Type_SystemAssigned,
-		IdentityProperties_STATUS_Type_SystemAssignedUserAssigned,
-		IdentityProperties_STATUS_Type_UserAssigned))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_STATUSARM is a factory method for creating gopter generators
@@ -258,7 +251,6 @@ func AddIndependentPropertyGeneratorsForRegistryProperties_STATUSARM(gens map[st
 	gens["DataEndpointEnabled"] = gen.PtrOf(gen.Bool())
 	gens["DataEndpointHostNames"] = gen.SliceOf(gen.AlphaString())
 	gens["LoginServer"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_NetworkRuleBypassOptions_AzureServices_STATUS, RegistryProperties_NetworkRuleBypassOptions_None_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		RegistryProperties_ProvisioningState_Canceled_STATUS,
@@ -269,18 +261,6 @@ func AddIndependentPropertyGeneratorsForRegistryProperties_STATUSARM(gens map[st
 		RegistryProperties_ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_PublicNetworkAccess_Disabled_STATUS, RegistryProperties_PublicNetworkAccess_Enabled_STATUS))
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_Disabled_STATUS, RegistryProperties_ZoneRedundancy_Enabled_STATUS))
-=======
-	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_NetworkRuleBypassOptions_AzureServices, RegistryProperties_STATUS_NetworkRuleBypassOptions_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RegistryProperties_STATUS_ProvisioningState_Canceled,
-		RegistryProperties_STATUS_ProvisioningState_Creating,
-		RegistryProperties_STATUS_ProvisioningState_Deleting,
-		RegistryProperties_STATUS_ProvisioningState_Failed,
-		RegistryProperties_STATUS_ProvisioningState_Succeeded,
-		RegistryProperties_STATUS_ProvisioningState_Updating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_PublicNetworkAccess_Disabled, RegistryProperties_STATUS_PublicNetworkAccess_Enabled))
-	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_STATUS_ZoneRedundancy_Disabled, RegistryProperties_STATUS_ZoneRedundancy_Enabled))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForRegistryProperties_STATUSARM is a factory method for creating gopter generators
@@ -288,11 +268,7 @@ func AddRelatedPropertyGeneratorsForRegistryProperties_STATUSARM(gens map[string
 	gens["Encryption"] = gen.PtrOf(EncryptionProperty_STATUSARMGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSet_STATUSARMGenerator())
 	gens["Policies"] = gen.PtrOf(Policies_STATUSARMGenerator())
-<<<<<<< HEAD
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSARMGenerator())
-=======
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator())
->>>>>>> main
 	gens["Status"] = gen.PtrOf(Status_STATUSARMGenerator())
 }
 
@@ -354,7 +330,6 @@ func Sku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		Sku_Name_Basic_STATUS,
 		Sku_Name_Classic_STATUS,
 		Sku_Name_Premium_STATUS,
@@ -364,17 +339,6 @@ func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen
 		Sku_Tier_Classic_STATUS,
 		Sku_Tier_Premium_STATUS,
 		Sku_Tier_Standard_STATUS))
-=======
-		Sku_STATUS_Name_Basic,
-		Sku_STATUS_Name_Classic,
-		Sku_STATUS_Name_Premium,
-		Sku_STATUS_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		Sku_STATUS_Tier_Basic,
-		Sku_STATUS_Tier_Classic,
-		Sku_STATUS_Tier_Premium,
-		Sku_STATUS_Tier_Standard))
->>>>>>> main
 }
 
 func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -438,7 +402,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gop
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		SystemData_CreatedByType_Application_STATUS,
 		SystemData_CreatedByType_Key_STATUS,
 		SystemData_CreatedByType_ManagedIdentity_STATUS,
@@ -450,19 +413,6 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gop
 		SystemData_LastModifiedByType_Key_STATUS,
 		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
 		SystemData_LastModifiedByType_User_STATUS))
-=======
-		SystemData_STATUS_CreatedByType_Application,
-		SystemData_STATUS_CreatedByType_Key,
-		SystemData_STATUS_CreatedByType_ManagedIdentity,
-		SystemData_STATUS_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_STATUS_LastModifiedByType_Application,
-		SystemData_STATUS_LastModifiedByType_Key,
-		SystemData_STATUS_LastModifiedByType_ManagedIdentity,
-		SystemData_STATUS_LastModifiedByType_User))
->>>>>>> main
 }
 
 func Test_EncryptionProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -532,11 +482,7 @@ func EncryptionProperty_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_Disabled_STATUS, EncryptionProperty_Status_Enabled_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_STATUS_Status_Disabled, EncryptionProperty_STATUS_Status_Enabled))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_STATUSARM is a factory method for creating gopter generators
@@ -611,11 +557,7 @@ func NetworkRuleSet_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_Allow_STATUS, NetworkRuleSet_DefaultAction_Deny_STATUS))
-=======
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_STATUS_DefaultAction_Allow, NetworkRuleSet_STATUS_DefaultAction_Deny))
->>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUSARM is a factory method for creating gopter generators
@@ -693,7 +635,6 @@ func Test_PrivateEndpointConnection_STATUSARM_WhenSerializedToJson_DeserializesA
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD
 		"Round trip of PrivateEndpointConnection_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUSARM, PrivateEndpointConnection_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -701,15 +642,6 @@ func Test_PrivateEndpointConnection_STATUSARM_WhenSerializedToJson_DeserializesA
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUSARM runs a test to see if a specific instance of PrivateEndpointConnection_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointConnection_STATUSARM(subject PrivateEndpointConnection_STATUSARM) string {
-=======
-		"Round trip of PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, PrivateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(subject PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM) string {
->>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -735,7 +667,6 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbe
 	return ""
 }
 
-<<<<<<< HEAD
 // Generator of PrivateEndpointConnection_STATUSARM instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSARMGenerator()
 var privateEndpointConnection_STATUSARMGenerator gopter.Gen
@@ -769,41 +700,6 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUSARM(gens
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUSARM(gens map[string]gopter.Gen) {
-=======
-// Generator of PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator()
-var privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator gopter.Gen
-
-// PrivateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM instances for property testing.
-// We first initialize privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator() gopter.Gen {
-	if privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator != nil {
-		return privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(generators)
-	privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(generators)
-	privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}), generators)
-
-	return privateEndpointConnection_STATUS_SubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
->>>>>>> main
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
@@ -989,11 +885,7 @@ func ExportPolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForExportPolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExportPolicy_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(ExportPolicy_Status_Disabled_STATUS, ExportPolicy_Status_Enabled_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(ExportPolicy_STATUS_Status_Disabled, ExportPolicy_STATUS_Status_Enabled))
->>>>>>> main
 }
 
 func Test_IPRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1053,11 +945,7 @@ func IPRule_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIPRule_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPRule_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRule_Action_Allow_STATUS))
-=======
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(IPRule_STATUS_Action_Allow))
->>>>>>> main
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1184,11 +1072,7 @@ func QuarantinePolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForQuarantinePolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForQuarantinePolicy_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(QuarantinePolicy_Status_Disabled_STATUS, QuarantinePolicy_Status_Enabled_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(QuarantinePolicy_STATUS_Status_Disabled, QuarantinePolicy_STATUS_Status_Enabled))
->>>>>>> main
 }
 
 func Test_RetentionPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1251,11 +1135,7 @@ func RetentionPolicy_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRetentionPolicy_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["LastUpdatedTime"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(RetentionPolicy_Status_Disabled_STATUS, RetentionPolicy_Status_Enabled_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(RetentionPolicy_STATUS_Status_Disabled, RetentionPolicy_STATUS_Status_Enabled))
->>>>>>> main
 }
 
 func Test_TrustPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1316,11 +1196,6 @@ func TrustPolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTrustPolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTrustPolicy_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_Status_Disabled_STATUS, TrustPolicy_Status_Enabled_STATUS))
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_Type_Notary_STATUS))
-=======
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_STATUS_Status_Disabled, TrustPolicy_STATUS_Status_Enabled))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_STATUS_Type_Notary))
->>>>>>> main
 }

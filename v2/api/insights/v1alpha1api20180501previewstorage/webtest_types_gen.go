@@ -137,32 +137,18 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *v20180501ps.Webtes
 	webtest.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
 	var spec Webtest_Spec
-	err := spec.AssignPropertiesFromWebtest_Spec(&source.Spec)
+	err := spec.AssignProperties_From_Webtest_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWebtest_Spec() to populate field Spec")
-=======
-	var spec Webtests_Spec
-	err := spec.AssignProperties_From_Webtests_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Webtests_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Webtest_Spec() to populate field Spec")
 	}
 	webtest.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status Webtest_STATUS
-	err = status.AssignPropertiesFromWebtest_STATUS(&source.Status)
+	err = status.AssignProperties_From_Webtest_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWebtest_STATUS() to populate field Status")
-=======
-	var status WebTest_STATUS
-	err = status.AssignProperties_From_WebTest_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WebTest_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Webtest_STATUS() to populate field Status")
 	}
 	webtest.Status = status
 
@@ -177,32 +163,18 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *v20180501ps.Web
 	destination.ObjectMeta = *webtest.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
 	var spec v20180501ps.Webtest_Spec
-	err := webtest.Spec.AssignPropertiesToWebtest_Spec(&spec)
+	err := webtest.Spec.AssignProperties_To_Webtest_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWebtest_Spec() to populate field Spec")
-=======
-	var spec v20180501ps.Webtests_Spec
-	err := webtest.Spec.AssignProperties_To_Webtests_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Webtests_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Webtest_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
 	var status v20180501ps.Webtest_STATUS
-	err = webtest.Status.AssignPropertiesToWebtest_STATUS(&status)
+	err = webtest.Status.AssignProperties_To_Webtest_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWebtest_STATUS() to populate field Status")
-=======
-	var status v20180501ps.WebTest_STATUS
-	err = webtest.Status.AssignProperties_To_WebTest_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WebTest_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Webtest_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -272,11 +244,7 @@ func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	src, ok := source.(*v20180501ps.Webtest_Spec)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return webtest.AssignPropertiesFromWebtest_Spec(src)
-=======
-		return test.AssignProperties_From_WebTest_STATUS(src)
->>>>>>> main
+		return webtest.AssignProperties_From_Webtest_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -287,11 +255,7 @@ func (webtest *Webtest_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = webtest.AssignPropertiesFromWebtest_Spec(src)
-=======
-	err = test.AssignProperties_From_WebTest_STATUS(src)
->>>>>>> main
+	err = webtest.AssignProperties_From_Webtest_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -304,21 +268,12 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	dst, ok := destination.(*v20180501ps.Webtest_Spec)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return webtest.AssignPropertiesToWebtest_Spec(dst)
+		return webtest.AssignProperties_To_Webtest_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20180501ps.Webtest_Spec{}
-	err := webtest.AssignPropertiesToWebtest_Spec(dst)
-=======
-		return test.AssignProperties_To_WebTest_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180501ps.WebTest_STATUS{}
-	err := test.AssignProperties_To_WebTest_STATUS(dst)
->>>>>>> main
+	err := webtest.AssignProperties_To_Webtest_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -332,13 +287,8 @@ func (webtest *Webtest_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebtest_Spec populates our Webtest_Spec from the provided source Webtest_Spec
-func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501ps.Webtest_Spec) error {
-=======
-// AssignProperties_From_WebTest_STATUS populates our WebTest_STATUS from the provided source WebTest_STATUS
-func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v20180501ps.WebTest_STATUS) error {
->>>>>>> main
+// AssignProperties_From_Webtest_Spec populates our Webtest_Spec from the provided source Webtest_Spec
+func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v20180501ps.Webtest_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -347,17 +297,10 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 
 	// Configuration
 	if source.Configuration != nil {
-<<<<<<< HEAD
 		var configuration WebTestProperties_Configuration
-		err := configuration.AssignPropertiesFromWebTestProperties_Configuration(source.Configuration)
+		err := configuration.AssignProperties_From_WebTestProperties_Configuration(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Configuration() to populate field Configuration")
-=======
-		var configuration WebTestProperties_STATUS_Configuration
-		err := configuration.AssignProperties_From_WebTestProperties_STATUS_Configuration(source.Configuration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_STATUS_Configuration() to populate field Configuration")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -390,17 +333,10 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 		for locationIndex, locationItem := range source.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-<<<<<<< HEAD
 			var location WebTestGeolocation
-			err := location.AssignPropertiesFromWebTestGeolocation(&locationItem)
+			err := location.AssignProperties_From_WebTestGeolocation(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocation() to populate field Locations")
-=======
-			var location WebTestGeolocation_STATUS
-			err := location.AssignProperties_From_WebTestGeolocation_STATUS(&locationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation_STATUS() to populate field Locations")
->>>>>>> main
+				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -428,17 +364,10 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 
 	// Request
 	if source.Request != nil {
-<<<<<<< HEAD
 		var request WebTestProperties_Request
-		err := request.AssignPropertiesFromWebTestProperties_Request(source.Request)
+		err := request.AssignProperties_From_WebTestProperties_Request(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Request() to populate field Request")
-=======
-		var request WebTestProperties_STATUS_Request
-		err := request.AssignProperties_From_WebTestProperties_STATUS_Request(source.Request)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_STATUS_Request() to populate field Request")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -469,17 +398,10 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 
 	// ValidationRules
 	if source.ValidationRules != nil {
-<<<<<<< HEAD
 		var validationRule WebTestProperties_ValidationRules
-		err := validationRule.AssignPropertiesFromWebTestProperties_ValidationRules(source.ValidationRules)
+		err := validationRule.AssignProperties_From_WebTestProperties_ValidationRules(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_ValidationRules() to populate field ValidationRules")
-=======
-		var validationRule WebTestProperties_STATUS_ValidationRules
-		err := validationRule.AssignProperties_From_WebTestProperties_STATUS_ValidationRules(source.ValidationRules)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_STATUS_ValidationRules() to populate field ValidationRules")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -497,13 +419,8 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebtest_Spec populates the provided destination Webtest_Spec from our Webtest_Spec
-func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v20180501ps.Webtest_Spec) error {
-=======
-// AssignProperties_To_WebTest_STATUS populates the provided destination WebTest_STATUS from our WebTest_STATUS
-func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v20180501ps.WebTest_STATUS) error {
->>>>>>> main
+// AssignProperties_To_Webtest_Spec populates the provided destination Webtest_Spec from our Webtest_Spec
+func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v20180501ps.Webtest_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(webtest.PropertyBag)
 
@@ -511,19 +428,11 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	destination.AzureName = webtest.AzureName
 
 	// Configuration
-<<<<<<< HEAD
 	if webtest.Configuration != nil {
 		var configuration v20180501ps.WebTestProperties_Configuration
-		err := webtest.Configuration.AssignPropertiesToWebTestProperties_Configuration(&configuration)
+		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Configuration() to populate field Configuration")
-=======
-	if test.Configuration != nil {
-		var configuration v20180501ps.WebTestProperties_STATUS_Configuration
-		err := test.Configuration.AssignProperties_To_WebTestProperties_STATUS_Configuration(&configuration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_STATUS_Configuration() to populate field Configuration")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -556,17 +465,10 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 		for locationIndex, locationItem := range webtest.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-<<<<<<< HEAD
 			var location v20180501ps.WebTestGeolocation
-			err := locationItem.AssignPropertiesToWebTestGeolocation(&location)
+			err := locationItem.AssignProperties_To_WebTestGeolocation(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation() to populate field Locations")
-=======
-			var location v20180501ps.WebTestGeolocation_STATUS
-			err := locationItem.AssignProperties_To_WebTestGeolocation_STATUS(&location)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation_STATUS() to populate field Locations")
->>>>>>> main
+				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -593,19 +495,11 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	destination.PropertiesKind = genruntime.ClonePointerToString(webtest.PropertiesKind)
 
 	// Request
-<<<<<<< HEAD
 	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request
-		err := webtest.Request.AssignPropertiesToWebTestProperties_Request(&request)
+		err := webtest.Request.AssignProperties_To_WebTestProperties_Request(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Request() to populate field Request")
-=======
-	if test.Request != nil {
-		var request v20180501ps.WebTestProperties_STATUS_Request
-		err := test.Request.AssignProperties_To_WebTestProperties_STATUS_Request(&request)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_STATUS_Request() to populate field Request")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -635,19 +529,11 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
 
 	// ValidationRules
-<<<<<<< HEAD
 	if webtest.ValidationRules != nil {
 		var validationRule v20180501ps.WebTestProperties_ValidationRules
-		err := webtest.ValidationRules.AssignPropertiesToWebTestProperties_ValidationRules(&validationRule)
+		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_ValidationRules() to populate field ValidationRules")
-=======
-	if test.ValidationRules != nil {
-		var validationRule v20180501ps.WebTestProperties_STATUS_ValidationRules
-		err := test.ValidationRules.AssignProperties_To_WebTestProperties_STATUS_ValidationRules(&validationRule)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_STATUS_ValidationRules() to populate field ValidationRules")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -698,11 +584,7 @@ func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	src, ok := source.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return webtest.AssignPropertiesFromWebtest_STATUS(src)
-=======
-		return webtests.AssignProperties_From_Webtests_Spec(src)
->>>>>>> main
+		return webtest.AssignProperties_From_Webtest_STATUS(src)
 	}
 
 	// Convert to an intermediate form
@@ -713,11 +595,7 @@ func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = webtest.AssignPropertiesFromWebtest_STATUS(src)
-=======
-	err = webtests.AssignProperties_From_Webtests_Spec(src)
->>>>>>> main
+	err = webtest.AssignProperties_From_Webtest_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -730,21 +608,12 @@ func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	dst, ok := destination.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return webtest.AssignPropertiesToWebtest_STATUS(dst)
+		return webtest.AssignProperties_To_Webtest_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20180501ps.Webtest_STATUS{}
-	err := webtest.AssignPropertiesToWebtest_STATUS(dst)
-=======
-		return webtests.AssignProperties_To_Webtests_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20180501ps.Webtests_Spec{}
-	err := webtests.AssignProperties_To_Webtests_Spec(dst)
->>>>>>> main
+	err := webtest.AssignProperties_To_Webtest_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -758,13 +627,8 @@ func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebtest_STATUS populates our Webtest_STATUS from the provided source Webtest_STATUS
-func (webtest *Webtest_STATUS) AssignPropertiesFromWebtest_STATUS(source *v20180501ps.Webtest_STATUS) error {
-=======
-// AssignProperties_From_Webtests_Spec populates our Webtests_Spec from the provided source Webtests_Spec
-func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v20180501ps.Webtests_Spec) error {
->>>>>>> main
+// AssignProperties_From_Webtest_STATUS populates our Webtest_STATUS from the provided source Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *v20180501ps.Webtest_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -773,17 +637,10 @@ func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v2018
 
 	// Configuration
 	if source.Configuration != nil {
-<<<<<<< HEAD
 		var configuration WebTestProperties_Configuration_STATUS
-		err := configuration.AssignPropertiesFromWebTestProperties_Configuration_STATUS(source.Configuration)
+		err := configuration.AssignProperties_From_WebTestProperties_Configuration_STATUS(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Configuration_STATUS() to populate field Configuration")
-=======
-		var configuration WebTestPropertiesConfiguration
-		err := configuration.AssignProperties_From_WebTestPropertiesConfiguration(source.Configuration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesConfiguration() to populate field Configuration")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -819,17 +676,10 @@ func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v2018
 		for locationIndex, locationItem := range source.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-<<<<<<< HEAD
 			var location WebTestGeolocation_STATUS
-			err := location.AssignPropertiesFromWebTestGeolocation_STATUS(&locationItem)
+			err := location.AssignProperties_From_WebTestGeolocation_STATUS(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocation_STATUS() to populate field Locations")
-=======
-			var location WebTestGeolocation
-			err := location.AssignProperties_From_WebTestGeolocation(&locationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation() to populate field Locations")
->>>>>>> main
+				return errors.Wrap(err, "calling AssignProperties_From_WebTestGeolocation_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -852,17 +702,10 @@ func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v2018
 
 	// Request
 	if source.Request != nil {
-<<<<<<< HEAD
 		var request WebTestProperties_Request_STATUS
-		err := request.AssignPropertiesFromWebTestProperties_Request_STATUS(source.Request)
+		err := request.AssignProperties_From_WebTestProperties_Request_STATUS(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Request_STATUS() to populate field Request")
-=======
-		var request WebTestPropertiesRequest
-		err := request.AssignProperties_From_WebTestPropertiesRequest(source.Request)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesRequest() to populate field Request")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request_STATUS() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -896,17 +739,10 @@ func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v2018
 
 	// ValidationRules
 	if source.ValidationRules != nil {
-<<<<<<< HEAD
 		var validationRule WebTestProperties_ValidationRules_STATUS
-		err := validationRule.AssignPropertiesFromWebTestProperties_ValidationRules_STATUS(source.ValidationRules)
+		err := validationRule.AssignProperties_From_WebTestProperties_ValidationRules_STATUS(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
-=======
-		var validationRule WebTestPropertiesValidationRules
-		err := validationRule.AssignProperties_From_WebTestPropertiesValidationRules(source.ValidationRules)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesValidationRules() to populate field ValidationRules")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -924,13 +760,8 @@ func (webtests *Webtests_Spec) AssignProperties_From_Webtests_Spec(source *v2018
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebtest_STATUS populates the provided destination Webtest_STATUS from our Webtest_STATUS
-func (webtest *Webtest_STATUS) AssignPropertiesToWebtest_STATUS(destination *v20180501ps.Webtest_STATUS) error {
-=======
-// AssignProperties_To_Webtests_Spec populates the provided destination Webtests_Spec from our Webtests_Spec
-func (webtests *Webtests_Spec) AssignProperties_To_Webtests_Spec(destination *v20180501ps.Webtests_Spec) error {
->>>>>>> main
+// AssignProperties_To_Webtest_STATUS populates the provided destination Webtest_STATUS from our Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v20180501ps.Webtest_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(webtest.PropertyBag)
 
@@ -938,19 +769,11 @@ func (webtests *Webtests_Spec) AssignProperties_To_Webtests_Spec(destination *v2
 	destination.Conditions = genruntime.CloneSliceOfCondition(webtest.Conditions)
 
 	// Configuration
-<<<<<<< HEAD
 	if webtest.Configuration != nil {
 		var configuration v20180501ps.WebTestProperties_Configuration_STATUS
-		err := webtest.Configuration.AssignPropertiesToWebTestProperties_Configuration_STATUS(&configuration)
+		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration_STATUS(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Configuration_STATUS() to populate field Configuration")
-=======
-	if webtests.Configuration != nil {
-		var configuration v20180501ps.WebTestPropertiesConfiguration
-		err := webtests.Configuration.AssignProperties_To_WebTestPropertiesConfiguration(&configuration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesConfiguration() to populate field Configuration")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -986,17 +809,10 @@ func (webtests *Webtests_Spec) AssignProperties_To_Webtests_Spec(destination *v2
 		for locationIndex, locationItem := range webtest.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-<<<<<<< HEAD
 			var location v20180501ps.WebTestGeolocation_STATUS
-			err := locationItem.AssignPropertiesToWebTestGeolocation_STATUS(&location)
+			err := locationItem.AssignProperties_To_WebTestGeolocation_STATUS(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation_STATUS() to populate field Locations")
-=======
-			var location v20180501ps.WebTestGeolocation
-			err := locationItem.AssignProperties_To_WebTestGeolocation(&location)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation() to populate field Locations")
->>>>>>> main
+				return errors.Wrap(err, "calling AssignProperties_To_WebTestGeolocation_STATUS() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -1018,19 +834,11 @@ func (webtests *Webtests_Spec) AssignProperties_To_Webtests_Spec(destination *v2
 	destination.ProvisioningState = genruntime.ClonePointerToString(webtest.ProvisioningState)
 
 	// Request
-<<<<<<< HEAD
 	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request_STATUS
-		err := webtest.Request.AssignPropertiesToWebTestProperties_Request_STATUS(&request)
+		err := webtest.Request.AssignProperties_To_WebTestProperties_Request_STATUS(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Request_STATUS() to populate field Request")
-=======
-	if webtests.Request != nil {
-		var request v20180501ps.WebTestPropertiesRequest
-		err := webtests.Request.AssignProperties_To_WebTestPropertiesRequest(&request)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesRequest() to populate field Request")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request_STATUS() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -1063,19 +871,11 @@ func (webtests *Webtests_Spec) AssignProperties_To_Webtests_Spec(destination *v2
 	destination.Type = genruntime.ClonePointerToString(webtest.Type)
 
 	// ValidationRules
-<<<<<<< HEAD
 	if webtest.ValidationRules != nil {
 		var validationRule v20180501ps.WebTestProperties_ValidationRules_STATUS
-		err := webtest.ValidationRules.AssignPropertiesToWebTestProperties_ValidationRules_STATUS(&validationRule)
+		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
-=======
-	if webtests.ValidationRules != nil {
-		var validationRule v20180501ps.WebTestPropertiesValidationRules
-		err := webtests.ValidationRules.AssignProperties_To_WebTestPropertiesValidationRules(&validationRule)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesValidationRules() to populate field ValidationRules")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -1145,13 +945,8 @@ type WebTestGeolocation_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestGeolocation_STATUS populates our WebTestGeolocation_STATUS from the provided source WebTestGeolocation_STATUS
-func (geolocation *WebTestGeolocation_STATUS) AssignPropertiesFromWebTestGeolocation_STATUS(source *v20180501ps.WebTestGeolocation_STATUS) error {
-=======
 // AssignProperties_From_WebTestGeolocation_STATUS populates our WebTestGeolocation_STATUS from the provided source WebTestGeolocation_STATUS
 func (geolocation *WebTestGeolocation_STATUS) AssignProperties_From_WebTestGeolocation_STATUS(source *v20180501ps.WebTestGeolocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1169,13 +964,8 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_From_WebTestGeolo
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestGeolocation_STATUS populates the provided destination WebTestGeolocation_STATUS from our WebTestGeolocation_STATUS
-func (geolocation *WebTestGeolocation_STATUS) AssignPropertiesToWebTestGeolocation_STATUS(destination *v20180501ps.WebTestGeolocation_STATUS) error {
-=======
 // AssignProperties_To_WebTestGeolocation_STATUS populates the provided destination WebTestGeolocation_STATUS from our WebTestGeolocation_STATUS
 func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeolocation_STATUS(destination *v20180501ps.WebTestGeolocation_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(geolocation.PropertyBag)
 
@@ -1200,13 +990,8 @@ type WebTestProperties_Configuration struct {
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_Configuration populates our WebTestProperties_Configuration from the provided source WebTestProperties_Configuration
-func (configuration *WebTestProperties_Configuration) AssignPropertiesFromWebTestProperties_Configuration(source *v20180501ps.WebTestProperties_Configuration) error {
-=======
-// AssignProperties_From_WebTestProperties_STATUS_Configuration populates our WebTestProperties_STATUS_Configuration from the provided source WebTestProperties_STATUS_Configuration
-func (configuration *WebTestProperties_STATUS_Configuration) AssignProperties_From_WebTestProperties_STATUS_Configuration(source *v20180501ps.WebTestProperties_STATUS_Configuration) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_Configuration populates our WebTestProperties_Configuration from the provided source WebTestProperties_Configuration
+func (configuration *WebTestProperties_Configuration) AssignProperties_From_WebTestProperties_Configuration(source *v20180501ps.WebTestProperties_Configuration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1224,13 +1009,8 @@ func (configuration *WebTestProperties_STATUS_Configuration) AssignProperties_Fr
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_Configuration populates the provided destination WebTestProperties_Configuration from our WebTestProperties_Configuration
-func (configuration *WebTestProperties_Configuration) AssignPropertiesToWebTestProperties_Configuration(destination *v20180501ps.WebTestProperties_Configuration) error {
-=======
-// AssignProperties_To_WebTestProperties_STATUS_Configuration populates the provided destination WebTestProperties_STATUS_Configuration from our WebTestProperties_STATUS_Configuration
-func (configuration *WebTestProperties_STATUS_Configuration) AssignProperties_To_WebTestProperties_STATUS_Configuration(destination *v20180501ps.WebTestProperties_STATUS_Configuration) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_Configuration populates the provided destination WebTestProperties_Configuration from our WebTestProperties_Configuration
+func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTestProperties_Configuration(destination *v20180501ps.WebTestProperties_Configuration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -1248,267 +1028,15 @@ func (configuration *WebTestProperties_STATUS_Configuration) AssignProperties_To
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20180501preview.WebTestProperties_Configuration_STATUS
 // Deprecated version of WebTestProperties_Configuration_STATUS. Use v1beta20180501preview.WebTestProperties_Configuration_STATUS instead
 type WebTestProperties_Configuration_STATUS struct {
-=======
-// Storage version of v1alpha1api20180501preview.WebTestProperties_STATUS_Request
-// Deprecated version of WebTestProperties_STATUS_Request. Use v1beta20180501preview.WebTestProperties_STATUS_Request instead
-type WebTestProperties_STATUS_Request struct {
-	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
-	Headers                []HeaderField_STATUS   `json:"Headers,omitempty"`
-	HttpVerb               *string                `json:"HttpVerb,omitempty"`
-	ParseDependentRequests *bool                  `json:"ParseDependentRequests,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RequestBody            *string                `json:"RequestBody,omitempty"`
-	RequestUrl             *string                `json:"RequestUrl,omitempty"`
-}
-
-// AssignProperties_From_WebTestProperties_STATUS_Request populates our WebTestProperties_STATUS_Request from the provided source WebTestProperties_STATUS_Request
-func (request *WebTestProperties_STATUS_Request) AssignProperties_From_WebTestProperties_STATUS_Request(source *v20180501ps.WebTestProperties_STATUS_Request) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// FollowRedirects
-	if source.FollowRedirects != nil {
-		followRedirect := *source.FollowRedirects
-		request.FollowRedirects = &followRedirect
-	} else {
-		request.FollowRedirects = nil
-	}
-
-	// Headers
-	if source.Headers != nil {
-		headerList := make([]HeaderField_STATUS, len(source.Headers))
-		for headerIndex, headerItem := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerItem := headerItem
-			var header HeaderField_STATUS
-			err := header.AssignProperties_From_HeaderField_STATUS(&headerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HeaderField_STATUS() to populate field Headers")
-			}
-			headerList[headerIndex] = header
-		}
-		request.Headers = headerList
-	} else {
-		request.Headers = nil
-	}
-
-	// HttpVerb
-	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
-
-	// ParseDependentRequests
-	if source.ParseDependentRequests != nil {
-		parseDependentRequest := *source.ParseDependentRequests
-		request.ParseDependentRequests = &parseDependentRequest
-	} else {
-		request.ParseDependentRequests = nil
-	}
-
-	// RequestBody
-	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
-
-	// RequestUrl
-	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		request.PropertyBag = propertyBag
-	} else {
-		request.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestProperties_STATUS_Request populates the provided destination WebTestProperties_STATUS_Request from our WebTestProperties_STATUS_Request
-func (request *WebTestProperties_STATUS_Request) AssignProperties_To_WebTestProperties_STATUS_Request(destination *v20180501ps.WebTestProperties_STATUS_Request) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
-
-	// FollowRedirects
-	if request.FollowRedirects != nil {
-		followRedirect := *request.FollowRedirects
-		destination.FollowRedirects = &followRedirect
-	} else {
-		destination.FollowRedirects = nil
-	}
-
-	// Headers
-	if request.Headers != nil {
-		headerList := make([]v20180501ps.HeaderField_STATUS, len(request.Headers))
-		for headerIndex, headerItem := range request.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerItem := headerItem
-			var header v20180501ps.HeaderField_STATUS
-			err := headerItem.AssignProperties_To_HeaderField_STATUS(&header)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HeaderField_STATUS() to populate field Headers")
-			}
-			headerList[headerIndex] = header
-		}
-		destination.Headers = headerList
-	} else {
-		destination.Headers = nil
-	}
-
-	// HttpVerb
-	destination.HttpVerb = genruntime.ClonePointerToString(request.HttpVerb)
-
-	// ParseDependentRequests
-	if request.ParseDependentRequests != nil {
-		parseDependentRequest := *request.ParseDependentRequests
-		destination.ParseDependentRequests = &parseDependentRequest
-	} else {
-		destination.ParseDependentRequests = nil
-	}
-
-	// RequestBody
-	destination.RequestBody = genruntime.ClonePointerToString(request.RequestBody)
-
-	// RequestUrl
-	destination.RequestUrl = genruntime.ClonePointerToString(request.RequestUrl)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20180501preview.WebTestProperties_STATUS_ValidationRules
-// Deprecated version of WebTestProperties_STATUS_ValidationRules. Use v1beta20180501preview.WebTestProperties_STATUS_ValidationRules instead
-type WebTestProperties_STATUS_ValidationRules struct {
-	ContentValidation             *WebTestProperties_STATUS_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
-	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
-	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
-	PropertyBag                   genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
-	SSLCertRemainingLifetimeCheck *int                                                        `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
-}
-
-// AssignProperties_From_WebTestProperties_STATUS_ValidationRules populates our WebTestProperties_STATUS_ValidationRules from the provided source WebTestProperties_STATUS_ValidationRules
-func (rules *WebTestProperties_STATUS_ValidationRules) AssignProperties_From_WebTestProperties_STATUS_ValidationRules(source *v20180501ps.WebTestProperties_STATUS_ValidationRules) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ContentValidation
-	if source.ContentValidation != nil {
-		var contentValidation WebTestProperties_STATUS_ValidationRules_ContentValidation
-		err := contentValidation.AssignProperties_From_WebTestProperties_STATUS_ValidationRules_ContentValidation(source.ContentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_STATUS_ValidationRules_ContentValidation() to populate field ContentValidation")
-		}
-		rules.ContentValidation = &contentValidation
-	} else {
-		rules.ContentValidation = nil
-	}
-
-	// ExpectedHttpStatusCode
-	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
-
-	// IgnoreHttpsStatusCode
-	if source.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
-		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	} else {
-		rules.IgnoreHttpsStatusCode = nil
-	}
-
-	// SSLCertRemainingLifetimeCheck
-	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
-
-	// SSLCheck
-	if source.SSLCheck != nil {
-		sslCheck := *source.SSLCheck
-		rules.SSLCheck = &sslCheck
-	} else {
-		rules.SSLCheck = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		rules.PropertyBag = propertyBag
-	} else {
-		rules.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestProperties_STATUS_ValidationRules populates the provided destination WebTestProperties_STATUS_ValidationRules from our WebTestProperties_STATUS_ValidationRules
-func (rules *WebTestProperties_STATUS_ValidationRules) AssignProperties_To_WebTestProperties_STATUS_ValidationRules(destination *v20180501ps.WebTestProperties_STATUS_ValidationRules) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
-
-	// ContentValidation
-	if rules.ContentValidation != nil {
-		var contentValidation v20180501ps.WebTestProperties_STATUS_ValidationRules_ContentValidation
-		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_STATUS_ValidationRules_ContentValidation(&contentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_STATUS_ValidationRules_ContentValidation() to populate field ContentValidation")
-		}
-		destination.ContentValidation = &contentValidation
-	} else {
-		destination.ContentValidation = nil
-	}
-
-	// ExpectedHttpStatusCode
-	destination.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(rules.ExpectedHttpStatusCode)
-
-	// IgnoreHttpsStatusCode
-	if rules.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
-		destination.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	} else {
-		destination.IgnoreHttpsStatusCode = nil
-	}
-
-	// SSLCertRemainingLifetimeCheck
-	destination.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(rules.SSLCertRemainingLifetimeCheck)
-
-	// SSLCheck
-	if rules.SSLCheck != nil {
-		sslCheck := *rules.SSLCheck
-		destination.SSLCheck = &sslCheck
-	} else {
-		destination.SSLCheck = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20180501preview.WebTestPropertiesConfiguration
-// Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
-type WebTestPropertiesConfiguration struct {
->>>>>>> main
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_Configuration_STATUS populates our WebTestProperties_Configuration_STATUS from the provided source WebTestProperties_Configuration_STATUS
-func (configuration *WebTestProperties_Configuration_STATUS) AssignPropertiesFromWebTestProperties_Configuration_STATUS(source *v20180501ps.WebTestProperties_Configuration_STATUS) error {
-=======
-// AssignProperties_From_WebTestPropertiesConfiguration populates our WebTestPropertiesConfiguration from the provided source WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignProperties_From_WebTestPropertiesConfiguration(source *v20180501ps.WebTestPropertiesConfiguration) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_Configuration_STATUS populates our WebTestProperties_Configuration_STATUS from the provided source WebTestProperties_Configuration_STATUS
+func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_From_WebTestProperties_Configuration_STATUS(source *v20180501ps.WebTestProperties_Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1526,13 +1054,8 @@ func (configuration *WebTestPropertiesConfiguration) AssignProperties_From_WebTe
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_Configuration_STATUS populates the provided destination WebTestProperties_Configuration_STATUS from our WebTestProperties_Configuration_STATUS
-func (configuration *WebTestProperties_Configuration_STATUS) AssignPropertiesToWebTestProperties_Configuration_STATUS(destination *v20180501ps.WebTestProperties_Configuration_STATUS) error {
-=======
-// AssignProperties_To_WebTestPropertiesConfiguration populates the provided destination WebTestPropertiesConfiguration from our WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignProperties_To_WebTestPropertiesConfiguration(destination *v20180501ps.WebTestPropertiesConfiguration) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_Configuration_STATUS populates the provided destination WebTestProperties_Configuration_STATUS from our WebTestProperties_Configuration_STATUS
+func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_To_WebTestProperties_Configuration_STATUS(destination *v20180501ps.WebTestProperties_Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -1562,13 +1085,8 @@ type WebTestProperties_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_Request populates our WebTestProperties_Request from the provided source WebTestProperties_Request
-func (request *WebTestProperties_Request) AssignPropertiesFromWebTestProperties_Request(source *v20180501ps.WebTestProperties_Request) error {
-=======
-// AssignProperties_From_WebTestPropertiesRequest populates our WebTestPropertiesRequest from the provided source WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignProperties_From_WebTestPropertiesRequest(source *v20180501ps.WebTestPropertiesRequest) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_Request populates our WebTestProperties_Request from the provided source WebTestProperties_Request
+func (request *WebTestProperties_Request) AssignProperties_From_WebTestProperties_Request(source *v20180501ps.WebTestProperties_Request) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1626,13 +1144,8 @@ func (request *WebTestPropertiesRequest) AssignProperties_From_WebTestProperties
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_Request populates the provided destination WebTestProperties_Request from our WebTestProperties_Request
-func (request *WebTestProperties_Request) AssignPropertiesToWebTestProperties_Request(destination *v20180501ps.WebTestProperties_Request) error {
-=======
-// AssignProperties_To_WebTestPropertiesRequest populates the provided destination WebTestPropertiesRequest from our WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignProperties_To_WebTestPropertiesRequest(destination *v20180501ps.WebTestPropertiesRequest) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_Request populates the provided destination WebTestProperties_Request from our WebTestProperties_Request
+func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_Request(destination *v20180501ps.WebTestProperties_Request) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
 
@@ -1702,9 +1215,8 @@ type WebTestProperties_Request_STATUS struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_Request_STATUS populates our WebTestProperties_Request_STATUS from the provided source WebTestProperties_Request_STATUS
-func (request *WebTestProperties_Request_STATUS) AssignPropertiesFromWebTestProperties_Request_STATUS(source *v20180501ps.WebTestProperties_Request_STATUS) error {
+// AssignProperties_From_WebTestProperties_Request_STATUS populates our WebTestProperties_Request_STATUS from the provided source WebTestProperties_Request_STATUS
+func (request *WebTestProperties_Request_STATUS) AssignProperties_From_WebTestProperties_Request_STATUS(source *v20180501ps.WebTestProperties_Request_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1723,9 +1235,9 @@ func (request *WebTestProperties_Request_STATUS) AssignPropertiesFromWebTestProp
 			// Shadow the loop variable to avoid aliasing
 			headerItem := headerItem
 			var header HeaderField_STATUS
-			err := header.AssignPropertiesFromHeaderField_STATUS(&headerItem)
+			err := header.AssignProperties_From_HeaderField_STATUS(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHeaderField_STATUS() to populate field Headers")
+				return errors.Wrap(err, "calling AssignProperties_From_HeaderField_STATUS() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -1762,8 +1274,8 @@ func (request *WebTestProperties_Request_STATUS) AssignPropertiesFromWebTestProp
 	return nil
 }
 
-// AssignPropertiesToWebTestProperties_Request_STATUS populates the provided destination WebTestProperties_Request_STATUS from our WebTestProperties_Request_STATUS
-func (request *WebTestProperties_Request_STATUS) AssignPropertiesToWebTestProperties_Request_STATUS(destination *v20180501ps.WebTestProperties_Request_STATUS) error {
+// AssignProperties_To_WebTestProperties_Request_STATUS populates the provided destination WebTestProperties_Request_STATUS from our WebTestProperties_Request_STATUS
+func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProperties_Request_STATUS(destination *v20180501ps.WebTestProperties_Request_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
 
@@ -1782,9 +1294,9 @@ func (request *WebTestProperties_Request_STATUS) AssignPropertiesToWebTestProper
 			// Shadow the loop variable to avoid aliasing
 			headerItem := headerItem
 			var header v20180501ps.HeaderField_STATUS
-			err := headerItem.AssignPropertiesToHeaderField_STATUS(&header)
+			err := headerItem.AssignProperties_To_HeaderField_STATUS(&header)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHeaderField_STATUS() to populate field Headers")
+				return errors.Wrap(err, "calling AssignProperties_To_HeaderField_STATUS() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -1832,28 +1344,17 @@ type WebTestProperties_ValidationRules struct {
 	SSLCheck                      *bool                                                `json:"SSLCheck,omitempty"`
 }
 
-// AssignPropertiesFromWebTestProperties_ValidationRules populates our WebTestProperties_ValidationRules from the provided source WebTestProperties_ValidationRules
-func (rules *WebTestProperties_ValidationRules) AssignPropertiesFromWebTestProperties_ValidationRules(source *v20180501ps.WebTestProperties_ValidationRules) error {
-=======
-// AssignProperties_From_WebTestPropertiesValidationRules populates our WebTestPropertiesValidationRules from the provided source WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignProperties_From_WebTestPropertiesValidationRules(source *v20180501ps.WebTestPropertiesValidationRules) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_ValidationRules populates our WebTestProperties_ValidationRules from the provided source WebTestProperties_ValidationRules
+func (rules *WebTestProperties_ValidationRules) AssignProperties_From_WebTestProperties_ValidationRules(source *v20180501ps.WebTestProperties_ValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ContentValidation
 	if source.ContentValidation != nil {
-<<<<<<< HEAD
 		var contentValidation WebTestProperties_ValidationRules_ContentValidation
-		err := contentValidation.AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation(source.ContentValidation)
+		err := contentValidation.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
-=======
-		var contentValidation WebTestPropertiesValidationRulesContentValidation
-		err := contentValidation.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(source.ContentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
 		}
 		rules.ContentValidation = &contentValidation
 	} else {
@@ -1893,23 +1394,17 @@ func (rules *WebTestPropertiesValidationRules) AssignProperties_From_WebTestProp
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_ValidationRules populates the provided destination WebTestProperties_ValidationRules from our WebTestProperties_ValidationRules
-func (rules *WebTestProperties_ValidationRules) AssignPropertiesToWebTestProperties_ValidationRules(destination *v20180501ps.WebTestProperties_ValidationRules) error {
-=======
-// AssignProperties_To_WebTestPropertiesValidationRules populates the provided destination WebTestPropertiesValidationRules from our WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignProperties_To_WebTestPropertiesValidationRules(destination *v20180501ps.WebTestPropertiesValidationRules) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_ValidationRules populates the provided destination WebTestProperties_ValidationRules from our WebTestProperties_ValidationRules
+func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestProperties_ValidationRules(destination *v20180501ps.WebTestProperties_ValidationRules) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
 
 	// ContentValidation
 	if rules.ContentValidation != nil {
-<<<<<<< HEAD
 		var contentValidation v20180501ps.WebTestProperties_ValidationRules_ContentValidation
-		err := rules.ContentValidation.AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation(&contentValidation)
+		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {
@@ -1960,17 +1455,17 @@ type WebTestProperties_ValidationRules_STATUS struct {
 	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
 }
 
-// AssignPropertiesFromWebTestProperties_ValidationRules_STATUS populates our WebTestProperties_ValidationRules_STATUS from the provided source WebTestProperties_ValidationRules_STATUS
-func (rules *WebTestProperties_ValidationRules_STATUS) AssignPropertiesFromWebTestProperties_ValidationRules_STATUS(source *v20180501ps.WebTestProperties_ValidationRules_STATUS) error {
+// AssignProperties_From_WebTestProperties_ValidationRules_STATUS populates our WebTestProperties_ValidationRules_STATUS from the provided source WebTestProperties_ValidationRules_STATUS
+func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_From_WebTestProperties_ValidationRules_STATUS(source *v20180501ps.WebTestProperties_ValidationRules_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ContentValidation
 	if source.ContentValidation != nil {
 		var contentValidation WebTestProperties_ValidationRules_ContentValidation_STATUS
-		err := contentValidation.AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
+		err := contentValidation.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
 		}
 		rules.ContentValidation = &contentValidation
 	} else {
@@ -2010,23 +1505,17 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignPropertiesFromWebTe
 	return nil
 }
 
-// AssignPropertiesToWebTestProperties_ValidationRules_STATUS populates the provided destination WebTestProperties_ValidationRules_STATUS from our WebTestProperties_ValidationRules_STATUS
-func (rules *WebTestProperties_ValidationRules_STATUS) AssignPropertiesToWebTestProperties_ValidationRules_STATUS(destination *v20180501ps.WebTestProperties_ValidationRules_STATUS) error {
+// AssignProperties_To_WebTestProperties_ValidationRules_STATUS populates the provided destination WebTestProperties_ValidationRules_STATUS from our WebTestProperties_ValidationRules_STATUS
+func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTestProperties_ValidationRules_STATUS(destination *v20180501ps.WebTestProperties_ValidationRules_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
 
 	// ContentValidation
 	if rules.ContentValidation != nil {
 		var contentValidation v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS
-		err := rules.ContentValidation.AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS(&contentValidation)
+		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
-=======
-		var contentValidation v20180501ps.WebTestPropertiesValidationRulesContentValidation
-		err := rules.ContentValidation.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(&contentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {
@@ -2126,13 +1615,8 @@ type HeaderField_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromHeaderField_STATUS populates our HeaderField_STATUS from the provided source HeaderField_STATUS
-func (field *HeaderField_STATUS) AssignPropertiesFromHeaderField_STATUS(source *v20180501ps.HeaderField_STATUS) error {
-=======
 // AssignProperties_From_HeaderField_STATUS populates our HeaderField_STATUS from the provided source HeaderField_STATUS
 func (field *HeaderField_STATUS) AssignProperties_From_HeaderField_STATUS(source *v20180501ps.HeaderField_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2153,13 +1637,8 @@ func (field *HeaderField_STATUS) AssignProperties_From_HeaderField_STATUS(source
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToHeaderField_STATUS populates the provided destination HeaderField_STATUS from our HeaderField_STATUS
-func (field *HeaderField_STATUS) AssignPropertiesToHeaderField_STATUS(destination *v20180501ps.HeaderField_STATUS) error {
-=======
 // AssignProperties_To_HeaderField_STATUS populates the provided destination HeaderField_STATUS from our HeaderField_STATUS
 func (field *HeaderField_STATUS) AssignProperties_To_HeaderField_STATUS(destination *v20180501ps.HeaderField_STATUS) error {
->>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
 
@@ -2189,13 +1668,8 @@ type WebTestProperties_ValidationRules_ContentValidation struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation populates our WebTestProperties_ValidationRules_ContentValidation from the provided source WebTestProperties_ValidationRules_ContentValidation
-func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation(source *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
-=======
-// AssignProperties_From_WebTestProperties_STATUS_ValidationRules_ContentValidation populates our WebTestProperties_STATUS_ValidationRules_ContentValidation from the provided source WebTestProperties_STATUS_ValidationRules_ContentValidation
-func (validation *WebTestProperties_STATUS_ValidationRules_ContentValidation) AssignProperties_From_WebTestProperties_STATUS_ValidationRules_ContentValidation(source *v20180501ps.WebTestProperties_STATUS_ValidationRules_ContentValidation) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation populates our WebTestProperties_ValidationRules_ContentValidation from the provided source WebTestProperties_ValidationRules_ContentValidation
+func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(source *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2229,13 +1703,8 @@ func (validation *WebTestProperties_STATUS_ValidationRules_ContentValidation) As
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation populates the provided destination WebTestProperties_ValidationRules_ContentValidation from our WebTestProperties_ValidationRules_ContentValidation
-func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
-=======
-// AssignProperties_To_WebTestProperties_STATUS_ValidationRules_ContentValidation populates the provided destination WebTestProperties_STATUS_ValidationRules_ContentValidation from our WebTestProperties_STATUS_ValidationRules_ContentValidation
-func (validation *WebTestProperties_STATUS_ValidationRules_ContentValidation) AssignProperties_To_WebTestProperties_STATUS_ValidationRules_ContentValidation(destination *v20180501ps.WebTestProperties_STATUS_ValidationRules_ContentValidation) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation populates the provided destination WebTestProperties_ValidationRules_ContentValidation from our WebTestProperties_ValidationRules_ContentValidation
+func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
 
@@ -2278,13 +1747,8 @@ type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS populates our WebTestProperties_ValidationRules_ContentValidation_STATUS from the provided source WebTestProperties_ValidationRules_ContentValidation_STATUS
-func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS(source *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
-=======
-// AssignProperties_From_WebTestPropertiesValidationRulesContentValidation populates our WebTestPropertiesValidationRulesContentValidation from the provided source WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(source *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
->>>>>>> main
+// AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS populates our WebTestProperties_ValidationRules_ContentValidation_STATUS from the provided source WebTestProperties_ValidationRules_ContentValidation_STATUS
+func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2318,13 +1782,8 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPrope
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS populates the provided destination WebTestProperties_ValidationRules_ContentValidation_STATUS from our WebTestProperties_ValidationRules_ContentValidation_STATUS
-func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
-=======
-// AssignProperties_To_WebTestPropertiesValidationRulesContentValidation populates the provided destination WebTestPropertiesValidationRulesContentValidation from our WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(destination *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
->>>>>>> main
+// AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS populates the provided destination WebTestProperties_ValidationRules_ContentValidation_STATUS from our WebTestProperties_ValidationRules_ContentValidation_STATUS
+func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
 

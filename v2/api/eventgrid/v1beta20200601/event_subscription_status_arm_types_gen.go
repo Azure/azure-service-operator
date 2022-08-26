@@ -28,11 +28,7 @@ type EventSubscriptionProperties_STATUSARM struct {
 	Destination *EventSubscriptionDestination_STATUSARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
-<<<<<<< HEAD
 	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_STATUS `json:"eventDeliverySchema,omitempty"`
-=======
-	EventDeliverySchema *EventSubscriptionProperties_STATUS_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
->>>>>>> main
 
 	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -44,11 +40,7 @@ type EventSubscriptionProperties_STATUSARM struct {
 	Labels []string `json:"labels,omitempty"`
 
 	// ProvisioningState: Provisioning state of the event subscription.
-<<<<<<< HEAD
 	ProvisioningState *EventSubscriptionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *EventSubscriptionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
@@ -60,20 +52,12 @@ type EventSubscriptionProperties_STATUSARM struct {
 
 type DeadLetterDestination_STATUSARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
-<<<<<<< HEAD
 	EndpointType *DeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-=======
-	EndpointType *DeadLetterDestination_STATUS_EndpointType `json:"endpointType,omitempty"`
->>>>>>> main
 }
 
 type EventSubscriptionDestination_STATUSARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-<<<<<<< HEAD
 	EndpointType *EventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-=======
-	EndpointType *EventSubscriptionDestination_STATUS_EndpointType `json:"endpointType,omitempty"`
->>>>>>> main
 }
 
 type EventSubscriptionFilter_STATUSARM struct {
@@ -111,9 +95,5 @@ type AdvancedFilter_STATUSARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-<<<<<<< HEAD
 	OperatorType *AdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-=======
-	OperatorType *AdvancedFilter_STATUS_OperatorType `json:"operatorType,omitempty"`
->>>>>>> main
 }

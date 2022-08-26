@@ -81,11 +81,7 @@ type DiskProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-<<<<<<< HEAD
 	HyperVGeneration *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-=======
-	HyperVGeneration *DiskProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>> main
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
@@ -93,11 +89,7 @@ type DiskProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-<<<<<<< HEAD
 	OsType *DiskProperties_OsType_STATUS `json:"osType,omitempty"`
-=======
-	OsType *DiskProperties_STATUS_OsType `json:"osType,omitempty"`
->>>>>>> main
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -123,11 +115,7 @@ type DiskProperties_STATUSARM struct {
 
 type DiskSku_STATUSARM struct {
 	// Name: The sku name.
-<<<<<<< HEAD
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
-=======
-	Name *DiskSku_STATUS_Name `json:"name,omitempty"`
->>>>>>> main
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
@@ -143,11 +131,7 @@ type ExtendedLocation_STATUSARM struct {
 
 type CreationData_STATUSARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-<<<<<<< HEAD
 	CreateOption *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
-=======
-	CreateOption *CreationData_STATUS_CreateOption `json:"createOption,omitempty"`
->>>>>>> main
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
@@ -178,7 +162,6 @@ type CreationData_STATUSARM struct {
 	UploadSizeBytes *int `json:"uploadSizeBytes,omitempty"`
 }
 
-<<<<<<< HEAD
 type DiskSku_Name_STATUS string
 
 const (
@@ -186,15 +169,6 @@ const (
 	DiskSku_Name_StandardSSD_LRS_STATUS = DiskSku_Name_STATUS("StandardSSD_LRS")
 	DiskSku_Name_Standard_LRS_STATUS    = DiskSku_Name_STATUS("Standard_LRS")
 	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
-=======
-type DiskSku_STATUS_Name string
-
-const (
-	DiskSku_STATUS_Name_Premium_LRS     = DiskSku_STATUS_Name("Premium_LRS")
-	DiskSku_STATUS_Name_StandardSSD_LRS = DiskSku_STATUS_Name("StandardSSD_LRS")
-	DiskSku_STATUS_Name_Standard_LRS    = DiskSku_STATUS_Name("Standard_LRS")
-	DiskSku_STATUS_Name_UltraSSD_LRS    = DiskSku_STATUS_Name("UltraSSD_LRS")
->>>>>>> main
 )
 
 type Encryption_STATUSARM struct {

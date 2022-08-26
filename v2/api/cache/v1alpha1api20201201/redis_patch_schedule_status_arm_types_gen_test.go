@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_RedisPatchSchedule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Redis_PatchSchedule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisPatchSchedule_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisPatchSchedule_STATUSARM, RedisPatchSchedule_STATUSARMGenerator()))
+		"Round trip of Redis_PatchSchedule_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_PatchSchedule_STATUSARM, Redis_PatchSchedule_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisPatchSchedule_STATUSARM runs a test to see if a specific instance of RedisPatchSchedule_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisPatchSchedule_STATUSARM(subject RedisPatchSchedule_STATUSARM) string {
+// RunJSONSerializationTestForRedis_PatchSchedule_STATUSARM runs a test to see if a specific instance of Redis_PatchSchedule_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_PatchSchedule_STATUSARM(subject Redis_PatchSchedule_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForRedisPatchSchedule_STATUSARM(subject RedisPatchS
 	}
 
 	// Deserialize back into memory
-	var actual RedisPatchSchedule_STATUSARM
+	var actual Redis_PatchSchedule_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForRedisPatchSchedule_STATUSARM(subject RedisPatchS
 	return ""
 }
 
-// Generator of RedisPatchSchedule_STATUSARM instances for property testing - lazily instantiated by
-// RedisPatchSchedule_STATUSARMGenerator()
-var redisPatchSchedule_STATUSARMGenerator gopter.Gen
+// Generator of Redis_PatchSchedule_STATUSARM instances for property testing - lazily instantiated by
+// Redis_PatchSchedule_STATUSARMGenerator()
+var redis_PatchSchedule_STATUSARMGenerator gopter.Gen
 
-// RedisPatchSchedule_STATUSARMGenerator returns a generator of RedisPatchSchedule_STATUSARM instances for property testing.
-// We first initialize redisPatchSchedule_STATUSARMGenerator with a simplified generator based on the
+// Redis_PatchSchedule_STATUSARMGenerator returns a generator of Redis_PatchSchedule_STATUSARM instances for property testing.
+// We first initialize redis_PatchSchedule_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisPatchSchedule_STATUSARMGenerator() gopter.Gen {
-	if redisPatchSchedule_STATUSARMGenerator != nil {
-		return redisPatchSchedule_STATUSARMGenerator
+func Redis_PatchSchedule_STATUSARMGenerator() gopter.Gen {
+	if redis_PatchSchedule_STATUSARMGenerator != nil {
+		return redis_PatchSchedule_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUSARM(generators)
-	redisPatchSchedule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUSARM(generators)
+	redis_PatchSchedule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUSARM(generators)
-	redisPatchSchedule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUSARM(generators)
+	redis_PatchSchedule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_STATUSARM{}), generators)
 
-	return redisPatchSchedule_STATUSARMGenerator
+	return redis_PatchSchedule_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ScheduleEntries_STATUSARMGenerator())
 }
 
@@ -215,7 +215,6 @@ func ScheduleEntry_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleEntry_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleEntry_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DayOfWeek"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		ScheduleEntry_DayOfWeek_Everyday_STATUS,
 		ScheduleEntry_DayOfWeek_Friday_STATUS,
 		ScheduleEntry_DayOfWeek_Monday_STATUS,
@@ -225,17 +224,6 @@ func AddIndependentPropertyGeneratorsForScheduleEntry_STATUSARM(gens map[string]
 		ScheduleEntry_DayOfWeek_Tuesday_STATUS,
 		ScheduleEntry_DayOfWeek_Wednesday_STATUS,
 		ScheduleEntry_DayOfWeek_Weekend_STATUS))
-=======
-		ScheduleEntry_STATUS_DayOfWeek_Everyday,
-		ScheduleEntry_STATUS_DayOfWeek_Friday,
-		ScheduleEntry_STATUS_DayOfWeek_Monday,
-		ScheduleEntry_STATUS_DayOfWeek_Saturday,
-		ScheduleEntry_STATUS_DayOfWeek_Sunday,
-		ScheduleEntry_STATUS_DayOfWeek_Thursday,
-		ScheduleEntry_STATUS_DayOfWeek_Tuesday,
-		ScheduleEntry_STATUS_DayOfWeek_Wednesday,
-		ScheduleEntry_STATUS_DayOfWeek_Weekend))
->>>>>>> main
 	gens["MaintenanceWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["StartHourUtc"] = gen.PtrOf(gen.Int())
 }

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_NamespacesEventhub_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhub_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhub_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhub_STATUSARM, NamespacesEventhub_STATUSARMGenerator()))
+		"Round trip of Namespaces_Eventhub_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_STATUSARM, Namespaces_Eventhub_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhub_STATUSARM runs a test to see if a specific instance of NamespacesEventhub_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhub_STATUSARM(subject NamespacesEventhub_STATUSARM) string {
+// RunJSONSerializationTestForNamespaces_Eventhub_STATUSARM runs a test to see if a specific instance of Namespaces_Eventhub_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhub_STATUSARM(subject Namespaces_Eventhub_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespacesEventhub_STATUSARM(subject NamespacesE
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhub_STATUSARM
+	var actual Namespaces_Eventhub_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,60 +56,60 @@ func RunJSONSerializationTestForNamespacesEventhub_STATUSARM(subject NamespacesE
 	return ""
 }
 
-// Generator of NamespacesEventhub_STATUSARM instances for property testing - lazily instantiated by
-// NamespacesEventhub_STATUSARMGenerator()
-var namespacesEventhub_STATUSARMGenerator gopter.Gen
+// Generator of Namespaces_Eventhub_STATUSARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhub_STATUSARMGenerator()
+var namespaces_Eventhub_STATUSARMGenerator gopter.Gen
 
-// NamespacesEventhub_STATUSARMGenerator returns a generator of NamespacesEventhub_STATUSARM instances for property testing.
-// We first initialize namespacesEventhub_STATUSARMGenerator with a simplified generator based on the
+// Namespaces_Eventhub_STATUSARMGenerator returns a generator of Namespaces_Eventhub_STATUSARM instances for property testing.
+// We first initialize namespaces_Eventhub_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesEventhub_STATUSARMGenerator() gopter.Gen {
-	if namespacesEventhub_STATUSARMGenerator != nil {
-		return namespacesEventhub_STATUSARMGenerator
+func Namespaces_Eventhub_STATUSARMGenerator() gopter.Gen {
+	if namespaces_Eventhub_STATUSARMGenerator != nil {
+		return namespaces_Eventhub_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhub_STATUSARM(generators)
-	namespacesEventhub_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhub_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_STATUSARM(generators)
+	namespaces_Eventhub_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhub_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhub_STATUSARM(generators)
-	namespacesEventhub_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhub_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_STATUSARM(generators)
+	namespaces_Eventhub_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_STATUSARM{}), generators)
 
-	return namespacesEventhub_STATUSARMGenerator
+	return namespaces_Eventhub_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhub_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhub_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesEventhub_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhub_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NamespacesEventhub_Properties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(Namespaces_Eventhub_Properties_STATUSARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
-func Test_NamespacesEventhub_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhub_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhub_Properties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhub_Properties_STATUSARM, NamespacesEventhub_Properties_STATUSARMGenerator()))
+		"Round trip of Namespaces_Eventhub_Properties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhub_Properties_STATUSARM, Namespaces_Eventhub_Properties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhub_Properties_STATUSARM runs a test to see if a specific instance of NamespacesEventhub_Properties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhub_Properties_STATUSARM(subject NamespacesEventhub_Properties_STATUSARM) string {
+// RunJSONSerializationTestForNamespaces_Eventhub_Properties_STATUSARM runs a test to see if a specific instance of Namespaces_Eventhub_Properties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhub_Properties_STATUSARM(subject Namespaces_Eventhub_Properties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForNamespacesEventhub_Properties_STATUSARM(subject 
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhub_Properties_STATUSARM
+	var actual Namespaces_Eventhub_Properties_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,53 +135,53 @@ func RunJSONSerializationTestForNamespacesEventhub_Properties_STATUSARM(subject 
 	return ""
 }
 
-// Generator of NamespacesEventhub_Properties_STATUSARM instances for property testing - lazily instantiated by
-// NamespacesEventhub_Properties_STATUSARMGenerator()
-var namespacesEventhub_Properties_STATUSARMGenerator gopter.Gen
+// Generator of Namespaces_Eventhub_Properties_STATUSARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhub_Properties_STATUSARMGenerator()
+var namespaces_Eventhub_Properties_STATUSARMGenerator gopter.Gen
 
-// NamespacesEventhub_Properties_STATUSARMGenerator returns a generator of NamespacesEventhub_Properties_STATUSARM instances for property testing.
-// We first initialize namespacesEventhub_Properties_STATUSARMGenerator with a simplified generator based on the
+// Namespaces_Eventhub_Properties_STATUSARMGenerator returns a generator of Namespaces_Eventhub_Properties_STATUSARM instances for property testing.
+// We first initialize namespaces_Eventhub_Properties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesEventhub_Properties_STATUSARMGenerator() gopter.Gen {
-	if namespacesEventhub_Properties_STATUSARMGenerator != nil {
-		return namespacesEventhub_Properties_STATUSARMGenerator
+func Namespaces_Eventhub_Properties_STATUSARMGenerator() gopter.Gen {
+	if namespaces_Eventhub_Properties_STATUSARMGenerator != nil {
+		return namespaces_Eventhub_Properties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(generators)
-	namespacesEventhub_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhub_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM(generators)
+	namespaces_Eventhub_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(generators)
-	namespacesEventhub_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhub_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM(generators)
+	namespaces_Eventhub_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhub_Properties_STATUSARM{}), generators)
 
-	return namespacesEventhub_Properties_STATUSARMGenerator
+	return namespaces_Eventhub_Properties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		NamespacesEventhub_Properties_Status_Active_STATUS,
-		NamespacesEventhub_Properties_Status_Creating_STATUS,
-		NamespacesEventhub_Properties_Status_Deleting_STATUS,
-		NamespacesEventhub_Properties_Status_Disabled_STATUS,
-		NamespacesEventhub_Properties_Status_ReceiveDisabled_STATUS,
-		NamespacesEventhub_Properties_Status_Renaming_STATUS,
-		NamespacesEventhub_Properties_Status_Restoring_STATUS,
-		NamespacesEventhub_Properties_Status_SendDisabled_STATUS,
-		NamespacesEventhub_Properties_Status_Unknown_STATUS))
+		Namespaces_Eventhub_Properties_Status_Active_STATUS,
+		Namespaces_Eventhub_Properties_Status_Creating_STATUS,
+		Namespaces_Eventhub_Properties_Status_Deleting_STATUS,
+		Namespaces_Eventhub_Properties_Status_Disabled_STATUS,
+		Namespaces_Eventhub_Properties_Status_ReceiveDisabled_STATUS,
+		Namespaces_Eventhub_Properties_Status_Renaming_STATUS,
+		Namespaces_Eventhub_Properties_Status_Restoring_STATUS,
+		Namespaces_Eventhub_Properties_Status_SendDisabled_STATUS,
+		Namespaces_Eventhub_Properties_Status_Unknown_STATUS))
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CaptureDescription"] = gen.PtrOf(CaptureDescription_STATUSARMGenerator())
 }
 

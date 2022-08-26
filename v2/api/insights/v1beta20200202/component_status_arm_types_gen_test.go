@@ -24,7 +24,6 @@ func Test_Component_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 		"Round trip of Component_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForComponent_STATUSARM, Component_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -32,15 +31,6 @@ func Test_Component_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testin
 
 // RunJSONSerializationTestForComponent_STATUSARM runs a test to see if a specific instance of Component_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForComponent_STATUSARM(subject Component_STATUSARM) string {
-=======
-		"Round trip of ApplicationInsightsComponent_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationInsightsComponent_STATUSARM, ApplicationInsightsComponent_STATUSARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationInsightsComponent_STATUSARM runs a test to see if a specific instance of ApplicationInsightsComponent_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationInsightsComponent_STATUSARM(subject ApplicationInsightsComponent_STATUSARM) string {
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -66,7 +56,6 @@ func RunJSONSerializationTestForApplicationInsightsComponent_STATUSARM(subject A
 	return ""
 }
 
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 // Generator of Component_STATUSARM instances for property testing - lazily instantiated by
 // Component_STATUSARMGenerator()
 var component_STATUSARMGenerator gopter.Gen
@@ -95,36 +84,6 @@ func Component_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForComponent_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComponent_STATUSARM(gens map[string]gopter.Gen) {
-=======
-// Generator of ApplicationInsightsComponent_STATUSARM instances for property testing - lazily instantiated by
-// ApplicationInsightsComponent_STATUSARMGenerator()
-var applicationInsightsComponent_STATUSARMGenerator gopter.Gen
-
-// ApplicationInsightsComponent_STATUSARMGenerator returns a generator of ApplicationInsightsComponent_STATUSARM instances for property testing.
-// We first initialize applicationInsightsComponent_STATUSARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationInsightsComponent_STATUSARMGenerator() gopter.Gen {
-	if applicationInsightsComponent_STATUSARMGenerator != nil {
-		return applicationInsightsComponent_STATUSARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(generators)
-	applicationInsightsComponent_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponent_STATUSARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(generators)
-	applicationInsightsComponent_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponent_STATUSARM{}), generators)
-
-	return applicationInsightsComponent_STATUSARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationInsightsComponent_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(gens map[string]gopter.Gen) {
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
@@ -133,13 +92,8 @@ func AddIndependentPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(g
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 // AddRelatedPropertyGeneratorsForComponent_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent_STATUSARM(gens map[string]gopter.Gen) {
-=======
-// AddRelatedPropertyGeneratorsForApplicationInsightsComponent_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationInsightsComponent_STATUSARM(gens map[string]gopter.Gen) {
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["Properties"] = gen.PtrOf(ApplicationInsightsComponentProperties_STATUSARMGenerator())
 }
 
@@ -212,42 +166,24 @@ func ApplicationInsightsComponentProperties_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_Other_STATUS, ApplicationInsightsComponentProperties_Application_Type_Web_STATUS))
-=======
-	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_STATUS_Application_Type_Other, ApplicationInsightsComponentProperties_STATUS_Application_Type_Web))
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_Bluefield_STATUS))
-=======
-	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_STATUS_Flow_Type_Bluefield))
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["HockeyAppToken"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights_STATUS, ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings_STATUS, ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics_STATUS))
-=======
-	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsights, ApplicationInsightsComponentProperties_STATUS_IngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_STATUS_IngestionMode_LogAnalytics))
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["InstrumentationKey"] = gen.PtrOf(gen.AlphaString())
 	gens["LaMigrationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-<<<<<<< HEAD:v2/api/insights/v1beta20200202/component_status_arm_types_gen_test.go
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest_STATUS))
-=======
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_STATUS_Request_Source_Rest))
->>>>>>> main:v2/api/insights/v1beta20200202/application_insights_component_status_arm_types_gen_test.go
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())

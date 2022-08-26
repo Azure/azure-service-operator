@@ -74,7 +74,6 @@ func SnapshotGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSnapshot is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSnapshot(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["Spec"] = Snapshot_SpecGenerator()
 	gens["Status"] = Snapshot_STATUSGenerator()
 }
@@ -165,10 +164,6 @@ func AddRelatedPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())
-=======
-	gens["Spec"] = Snapshots_SpecGenerator()
-	gens["Status"] = Snapshot_STATUSGenerator()
->>>>>>> main
 }
 
 func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -264,97 +259,6 @@ func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) 
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
-<<<<<<< HEAD
-=======
-}
-
-func Test_Snapshots_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshots_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshots_Spec, Snapshots_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSnapshots_Spec runs a test to see if a specific instance of Snapshots_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshots_Spec(subject Snapshots_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Snapshots_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Snapshots_Spec instances for property testing - lazily instantiated by Snapshots_SpecGenerator()
-var snapshots_SpecGenerator gopter.Gen
-
-// Snapshots_SpecGenerator returns a generator of Snapshots_Spec instances for property testing.
-// We first initialize snapshots_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Snapshots_SpecGenerator() gopter.Gen {
-	if snapshots_SpecGenerator != nil {
-		return snapshots_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshots_Spec(generators)
-	snapshots_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshots_Spec(generators)
-	AddRelatedPropertyGeneratorsForSnapshots_Spec(generators)
-	snapshots_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshots_Spec{}), generators)
-
-	return snapshots_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshots_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshots_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.AlphaString())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshots_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshots_Spec(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
-	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())
->>>>>>> main
 }
 
 func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

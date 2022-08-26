@@ -25,17 +25,10 @@ type SnapshotProperties_STATUSARM struct {
 	DiskState                    *DiskState_STATUS                           `json:"diskState,omitempty"`
 	Encryption                   *Encryption_STATUSARM                       `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM     `json:"encryptionSettingsCollection,omitempty"`
-<<<<<<< HEAD
 	HyperVGeneration             *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 	Incremental                  *bool                                       `json:"incremental,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS                 `json:"networkAccessPolicy,omitempty"`
 	OsType                       *SnapshotProperties_OsType_STATUS           `json:"osType,omitempty"`
-=======
-	HyperVGeneration             *SnapshotProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Incremental                  *bool                                       `json:"incremental,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS                 `json:"networkAccessPolicy,omitempty"`
-	OsType                       *SnapshotProperties_STATUS_OsType           `json:"osType,omitempty"`
->>>>>>> main
 	ProvisioningState            *string                                     `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlan_STATUSARM                     `json:"purchasePlan,omitempty"`
 	TimeCreated                  *string                                     `json:"timeCreated,omitempty"`
@@ -44,7 +37,6 @@ type SnapshotProperties_STATUSARM struct {
 
 // Deprecated version of SnapshotSku_STATUS. Use v1beta20200930.SnapshotSku_STATUS instead
 type SnapshotSku_STATUSARM struct {
-<<<<<<< HEAD
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
 	Tier *string                  `json:"tier,omitempty"`
 }
@@ -56,17 +48,4 @@ const (
 	SnapshotSku_Name_Premium_LRS_STATUS  = SnapshotSku_Name_STATUS("Premium_LRS")
 	SnapshotSku_Name_Standard_LRS_STATUS = SnapshotSku_Name_STATUS("Standard_LRS")
 	SnapshotSku_Name_Standard_ZRS_STATUS = SnapshotSku_Name_STATUS("Standard_ZRS")
-=======
-	Name *SnapshotSku_STATUS_Name `json:"name,omitempty"`
-	Tier *string                  `json:"tier,omitempty"`
-}
-
-// Deprecated version of SnapshotSku_STATUS_Name. Use v1beta20200930.SnapshotSku_STATUS_Name instead
-type SnapshotSku_STATUS_Name string
-
-const (
-	SnapshotSku_STATUS_Name_Premium_LRS  = SnapshotSku_STATUS_Name("Premium_LRS")
-	SnapshotSku_STATUS_Name_Standard_LRS = SnapshotSku_STATUS_Name("Standard_LRS")
-	SnapshotSku_STATUS_Name_Standard_ZRS = SnapshotSku_STATUS_Name("Standard_ZRS")
->>>>>>> main
 )

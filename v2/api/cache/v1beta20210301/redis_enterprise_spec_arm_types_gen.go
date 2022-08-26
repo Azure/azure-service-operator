@@ -43,11 +43,7 @@ func (enterprise *RedisEnterprise_SpecARM) GetType() string {
 }
 
 type ClusterPropertiesARM struct {
-<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise__spec_arm_types_gen.go
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-=======
-	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
->>>>>>> main:v2/api/cache/v1beta20210301/redis_enterprise_spec_arm_types_gen.go
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
@@ -56,11 +52,7 @@ type SkuARM struct {
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise__spec_arm_types_gen.go
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-=======
-	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
->>>>>>> main:v2/api/cache/v1beta20210301/redis_enterprise_spec_arm_types_gen.go
 	Name *Sku_Name `json:"name,omitempty"`
 }
 

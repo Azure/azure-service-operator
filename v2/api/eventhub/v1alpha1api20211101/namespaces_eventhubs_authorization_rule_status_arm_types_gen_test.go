@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_NamespacesEventhubsAuthorizationRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhubs_AuthorizationRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhubsAuthorizationRule_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_STATUSARM, NamespacesEventhubsAuthorizationRule_STATUSARMGenerator()))
+		"Round trip of Namespaces_Eventhubs_AuthorizationRule_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_STATUSARM, Namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_STATUSARM runs a test to see if a specific instance of NamespacesEventhubsAuthorizationRule_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_STATUSARM(subject NamespacesEventhubsAuthorizationRule_STATUSARM) string {
+// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_STATUSARM runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRule_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(subject Namespaces_Eventhubs_AuthorizationRule_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_STATUSARM(s
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhubsAuthorizationRule_STATUSARM
+	var actual Namespaces_Eventhubs_AuthorizationRule_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,60 +56,60 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_STATUSARM(s
 	return ""
 }
 
-// Generator of NamespacesEventhubsAuthorizationRule_STATUSARM instances for property testing - lazily instantiated by
-// NamespacesEventhubsAuthorizationRule_STATUSARMGenerator()
-var namespacesEventhubsAuthorizationRule_STATUSARMGenerator gopter.Gen
+// Generator of Namespaces_Eventhubs_AuthorizationRule_STATUSARM instances for property testing - lazily instantiated by
+// Namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator()
+var namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator gopter.Gen
 
-// NamespacesEventhubsAuthorizationRule_STATUSARMGenerator returns a generator of NamespacesEventhubsAuthorizationRule_STATUSARM instances for property testing.
-// We first initialize namespacesEventhubsAuthorizationRule_STATUSARMGenerator with a simplified generator based on the
+// Namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRule_STATUSARM instances for property testing.
+// We first initialize namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NamespacesEventhubsAuthorizationRule_STATUSARMGenerator() gopter.Gen {
-	if namespacesEventhubsAuthorizationRule_STATUSARMGenerator != nil {
-		return namespacesEventhubsAuthorizationRule_STATUSARMGenerator
+func Namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator() gopter.Gen {
+	if namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator != nil {
+		return namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM(generators)
-	namespacesEventhubsAuthorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(generators)
+	namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM(generators)
-	namespacesEventhubsAuthorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRule_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(generators)
+	namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_STATUSARM{}), generators)
 
-	return namespacesEventhubsAuthorizationRule_STATUSARMGenerator
+	return namespaces_Eventhubs_AuthorizationRule_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NamespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
-func Test_NamespacesEventhubsAuthorizationRule_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhubsAuthorizationRule_Properties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM, NamespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator()))
+		"Round trip of Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM, Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM runs a test to see if a specific instance of NamespacesEventhubsAuthorizationRule_Properties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM(subject NamespacesEventhubsAuthorizationRule_Properties_STATUSARM) string {
+// RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM runs a test to see if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM(subject Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Properties_
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhubsAuthorizationRule_Properties_STATUSARM
+	var actual Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -135,24 +135,24 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Properties_
 	return ""
 }
 
-// Generator of NamespacesEventhubsAuthorizationRule_Properties_STATUSARM instances for property testing - lazily
-// instantiated by NamespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator()
-var namespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator gopter.Gen
+// Generator of Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM instances for property testing - lazily
+// instantiated by Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator()
+var namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator gopter.Gen
 
-// NamespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator returns a generator of NamespacesEventhubsAuthorizationRule_Properties_STATUSARM instances for property testing.
-func NamespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator() gopter.Gen {
-	if namespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator != nil {
-		return namespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator
+// Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator returns a generator of Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM instances for property testing.
+func Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator() gopter.Gen {
+	if namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator != nil {
+		return namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM(generators)
-	namespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRule_Properties_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM(generators)
+	namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM{}), generators)
 
-	return namespacesEventhubsAuthorizationRule_Properties_STATUSARMGenerator
+	return namespaces_Eventhubs_AuthorizationRule_Properties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Properties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesEventhubsAuthorizationRule_Properties_Rights_Listen_STATUS, NamespacesEventhubsAuthorizationRule_Properties_Rights_Manage_STATUS, NamespacesEventhubsAuthorizationRule_Properties_Rights_Send_STATUS))
+// AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Eventhubs_AuthorizationRule_Properties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Listen_STATUS, Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Manage_STATUS, Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Send_STATUS))
 }

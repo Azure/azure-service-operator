@@ -32,17 +32,10 @@ type DiskProperties_STATUSARM struct {
 	DiskState                    *DiskState_STATUS                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption_STATUSARM                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
-<<<<<<< HEAD
 	HyperVGeneration             *DiskProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
 	MaxShares                    *int                                    `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS             `json:"networkAccessPolicy,omitempty"`
 	OsType                       *DiskProperties_OsType_STATUS           `json:"osType,omitempty"`
-=======
-	HyperVGeneration             *DiskProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	MaxShares                    *int                                    `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_STATUS             `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskProperties_STATUS_OsType           `json:"osType,omitempty"`
->>>>>>> main
 	ProvisioningState            *string                                 `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlan_STATUSARM                 `json:"purchasePlan,omitempty"`
 	ShareInfo                    []ShareInfoElement_STATUSARM            `json:"shareInfo,omitempty"`
@@ -53,11 +46,7 @@ type DiskProperties_STATUSARM struct {
 
 // Deprecated version of DiskSku_STATUS. Use v1beta20200930.DiskSku_STATUS instead
 type DiskSku_STATUSARM struct {
-<<<<<<< HEAD
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
-=======
-	Name *DiskSku_STATUS_Name `json:"name,omitempty"`
->>>>>>> main
 	Tier *string              `json:"tier,omitempty"`
 }
 
@@ -69,11 +58,7 @@ type ExtendedLocation_STATUSARM struct {
 
 // Deprecated version of CreationData_STATUS. Use v1beta20200930.CreationData_STATUS instead
 type CreationData_STATUSARM struct {
-<<<<<<< HEAD
 	CreateOption          *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
-=======
-	CreateOption          *CreationData_STATUS_CreateOption `json:"createOption,omitempty"`
->>>>>>> main
 	GalleryImageReference *ImageDiskReference_STATUSARM     `json:"galleryImageReference,omitempty"`
 	ImageReference        *ImageDiskReference_STATUSARM     `json:"imageReference,omitempty"`
 	LogicalSectorSize     *int                              `json:"logicalSectorSize,omitempty"`
@@ -84,7 +69,6 @@ type CreationData_STATUSARM struct {
 	UploadSizeBytes       *int                              `json:"uploadSizeBytes,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of DiskSku_Name_STATUS. Use v1beta20200930.DiskSku_Name_STATUS instead
 type DiskSku_Name_STATUS string
 
@@ -93,16 +77,6 @@ const (
 	DiskSku_Name_StandardSSD_LRS_STATUS = DiskSku_Name_STATUS("StandardSSD_LRS")
 	DiskSku_Name_Standard_LRS_STATUS    = DiskSku_Name_STATUS("Standard_LRS")
 	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
-=======
-// Deprecated version of DiskSku_STATUS_Name. Use v1beta20200930.DiskSku_STATUS_Name instead
-type DiskSku_STATUS_Name string
-
-const (
-	DiskSku_STATUS_Name_Premium_LRS     = DiskSku_STATUS_Name("Premium_LRS")
-	DiskSku_STATUS_Name_StandardSSD_LRS = DiskSku_STATUS_Name("StandardSSD_LRS")
-	DiskSku_STATUS_Name_Standard_LRS    = DiskSku_STATUS_Name("Standard_LRS")
-	DiskSku_STATUS_Name_UltraSSD_LRS    = DiskSku_STATUS_Name("UltraSSD_LRS")
->>>>>>> main
 )
 
 // Deprecated version of Encryption_STATUS. Use v1beta20200930.Encryption_STATUS instead

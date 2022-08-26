@@ -28,13 +28,8 @@ import (
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              ServersDatabase_Spec   `json:"spec,omitempty"`
-	Status            ServersDatabase_STATUS `json:"status,omitempty"`
-=======
-	Spec              Servers_Databases_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS        `json:"status,omitempty"`
->>>>>>> main
+	Spec              Servers_Database_Spec   `json:"spec,omitempty"`
+	Status            Servers_Database_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -83,7 +78,7 @@ func (database *Database) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *Database) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ServersDatabase_STATUS{}
+	return &Servers_Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (database *Database) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ServersDatabase_STATUS); ok {
+	if st, ok := status.(*Servers_Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ServersDatabase_STATUS
+	var st Servers_Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +133,8 @@ type DatabaseList struct {
 	Items           []Database `json:"items"`
 }
 
-// Storage version of v1beta20180601.ServersDatabase_Spec
-type ServersDatabase_Spec struct {
+// Storage version of v1beta20180601.Servers_Database_Spec
+type Servers_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -155,10 +150,10 @@ type ServersDatabase_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ServersDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &Servers_Database_Spec{}
 
-// ConvertSpecFrom populates our ServersDatabase_Spec from the provided source
-func (database *ServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Servers_Database_Spec from the provided source
+func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -166,8 +161,8 @@ func (database *ServersDatabase_Spec) ConvertSpecFrom(source genruntime.Converti
 	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our ServersDatabase_Spec
-func (database *ServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Servers_Database_Spec
+func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -175,8 +170,8 @@ func (database *ServersDatabase_Spec) ConvertSpecTo(destination genruntime.Conve
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1beta20180601.ServersDatabase_STATUS
-type ServersDatabase_STATUS struct {
+// Storage version of v1beta20180601.Servers_Database_STATUS
+type Servers_Database_STATUS struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -186,10 +181,10 @@ type ServersDatabase_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ServersDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &Servers_Database_STATUS{}
 
-// ConvertStatusFrom populates our ServersDatabase_STATUS from the provided source
-func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Servers_Database_STATUS from the provided source
+func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -197,8 +192,8 @@ func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our ServersDatabase_STATUS
-func (database *ServersDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Servers_Database_STATUS
+func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,48 +201,6 @@ func (database *ServersDatabase_STATUS) ConvertStatusTo(destination genruntime.C
 	return destination.ConvertStatusFrom(database)
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1beta20180601.Servers_Databases_Spec
-type Servers_Databases_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Charset         *string `json:"charset,omitempty"`
-	Collation       *string `json:"collation,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a dbformariadb.azure.com/Server resource
-	Owner       *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Servers_Databases_Spec{}
-
-// ConvertSpecFrom populates our Servers_Databases_Spec from the provided source
-func (databases *Servers_Databases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(databases)
-}
-
-// ConvertSpecTo populates the provided destination from our Servers_Databases_Spec
-func (databases *Servers_Databases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(databases)
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&Database{}, &DatabaseList{})
 }

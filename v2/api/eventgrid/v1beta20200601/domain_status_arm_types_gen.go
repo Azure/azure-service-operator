@@ -35,11 +35,7 @@ type DomainProperties_STATUSARM struct {
 	InboundIpRules []InboundIpRule_STATUSARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-<<<<<<< HEAD
 	InputSchema *DomainProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
-=======
-	InputSchema *DomainProperties_STATUS_InputSchema `json:"inputSchema,omitempty"`
->>>>>>> main
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_STATUSARM `json:"inputSchemaMapping,omitempty"`
@@ -51,16 +47,11 @@ type DomainProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
-<<<<<<< HEAD
 	ProvisioningState *DomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *DomainProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-<<<<<<< HEAD
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
@@ -82,18 +73,11 @@ type SystemData_STATUSARM struct {
 
 	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-=======
-	PublicNetworkAccess *DomainProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
->>>>>>> main
 }
 
 type InboundIpRule_STATUSARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-<<<<<<< HEAD
 	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
-=======
-	Action *InboundIpRule_STATUS_Action `json:"action,omitempty"`
->>>>>>> main
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -101,11 +85,7 @@ type InboundIpRule_STATUSARM struct {
 
 type InputSchemaMapping_STATUSARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-<<<<<<< HEAD
 	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
-=======
-	InputSchemaMappingType *InputSchemaMapping_STATUS_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
->>>>>>> main
 }
 
 type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {

@@ -25,13 +25,8 @@ import (
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              NamespacesAuthorizationRule_Spec   `json:"spec,omitempty"`
-	Status            NamespacesAuthorizationRule_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_AuthorizationRules_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_STATUS           `json:"status,omitempty"`
->>>>>>> main
+	Spec              Namespaces_AuthorizationRule_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_AuthorizationRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -102,7 +97,7 @@ func (rule *NamespacesAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NamespacesAuthorizationRule_STATUS{}
+	return &Namespaces_AuthorizationRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -118,13 +113,13 @@ func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NamespacesAuthorizationRule_STATUS); ok {
+	if st, ok := status.(*Namespaces_AuthorizationRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NamespacesAuthorizationRule_STATUS
+	var st Namespaces_AuthorizationRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -141,32 +136,18 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec NamespacesAuthorizationRule_Spec
-	err := spec.AssignPropertiesFromNamespacesAuthorizationRule_Spec(&source.Spec)
+	var spec Namespaces_AuthorizationRule_Spec
+	err := spec.AssignProperties_From_Namespaces_AuthorizationRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesAuthorizationRule_Spec() to populate field Spec")
-=======
-	var spec Namespaces_AuthorizationRules_Spec
-	err := spec.AssignProperties_From_Namespaces_AuthorizationRules_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_AuthorizationRules_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_AuthorizationRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status NamespacesAuthorizationRule_STATUS
-	err = status.AssignPropertiesFromNamespacesAuthorizationRule_STATUS(&source.Status)
+	var status Namespaces_AuthorizationRule_STATUS
+	err = status.AssignProperties_From_Namespaces_AuthorizationRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesAuthorizationRule_STATUS() to populate field Status")
-=======
-	var status AuthorizationRule_STATUS
-	err = status.AssignProperties_From_AuthorizationRule_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationRule_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_AuthorizationRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -181,32 +162,18 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec v20211101s.NamespacesAuthorizationRule_Spec
-	err := rule.Spec.AssignPropertiesToNamespacesAuthorizationRule_Spec(&spec)
+	var spec v20211101s.Namespaces_AuthorizationRule_Spec
+	err := rule.Spec.AssignProperties_To_Namespaces_AuthorizationRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesAuthorizationRule_Spec() to populate field Spec")
-=======
-	var spec v20211101s.Namespaces_AuthorizationRules_Spec
-	err := rule.Spec.AssignProperties_To_Namespaces_AuthorizationRules_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_AuthorizationRules_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_AuthorizationRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status v20211101s.NamespacesAuthorizationRule_STATUS
-	err = rule.Status.AssignPropertiesToNamespacesAuthorizationRule_STATUS(&status)
+	var status v20211101s.Namespaces_AuthorizationRule_STATUS
+	err = rule.Status.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesAuthorizationRule_STATUS() to populate field Status")
-=======
-	var status v20211101s.AuthorizationRule_STATUS
-	err = rule.Status.AssignProperties_To_AuthorizationRule_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationRule_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_AuthorizationRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -232,8 +199,8 @@ type NamespacesAuthorizationRuleList struct {
 	Items           []NamespacesAuthorizationRule `json:"items"`
 }
 
-// Storage version of v1alpha1api20211101.NamespacesAuthorizationRule_Spec
-type NamespacesAuthorizationRule_Spec struct {
+// Storage version of v1alpha1api20211101.Namespaces_AuthorizationRule_Spec
+type Namespaces_AuthorizationRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -248,25 +215,25 @@ type NamespacesAuthorizationRule_Spec struct {
 	Rights      []string                           `json:"rights,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesAuthorizationRule_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_AuthorizationRule_Spec{}
 
-// ConvertSpecFrom populates our NamespacesAuthorizationRule_Spec from the provided source
-func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.NamespacesAuthorizationRule_Spec)
+// ConvertSpecFrom populates our Namespaces_AuthorizationRule_Spec from the provided source
+func (rule *Namespaces_AuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20211101s.Namespaces_AuthorizationRule_Spec)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignPropertiesFromNamespacesAuthorizationRule_Spec(src)
+		return rule.AssignProperties_From_Namespaces_AuthorizationRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.NamespacesAuthorizationRule_Spec{}
+	src = &v20211101s.Namespaces_AuthorizationRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignPropertiesFromNamespacesAuthorizationRule_Spec(src)
+	err = rule.AssignProperties_From_Namespaces_AuthorizationRule_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -274,17 +241,17 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesAuthorizationRule_Spec
-func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.NamespacesAuthorizationRule_Spec)
+// ConvertSpecTo populates the provided destination from our Namespaces_AuthorizationRule_Spec
+func (rule *Namespaces_AuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20211101s.Namespaces_AuthorizationRule_Spec)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignPropertiesToNamespacesAuthorizationRule_Spec(dst)
+		return rule.AssignProperties_To_Namespaces_AuthorizationRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.NamespacesAuthorizationRule_Spec{}
-	err := rule.AssignPropertiesToNamespacesAuthorizationRule_Spec(dst)
+	dst = &v20211101s.Namespaces_AuthorizationRule_Spec{}
+	err := rule.AssignProperties_To_Namespaces_AuthorizationRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -298,8 +265,8 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignPropertiesFromNamespacesAuthorizationRule_Spec populates our NamespacesAuthorizationRule_Spec from the provided source NamespacesAuthorizationRule_Spec
-func (rule *NamespacesAuthorizationRule_Spec) AssignPropertiesFromNamespacesAuthorizationRule_Spec(source *v20211101s.NamespacesAuthorizationRule_Spec) error {
+// AssignProperties_From_Namespaces_AuthorizationRule_Spec populates our Namespaces_AuthorizationRule_Spec from the provided source Namespaces_AuthorizationRule_Spec
+func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_AuthorizationRule_Spec(source *v20211101s.Namespaces_AuthorizationRule_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -331,8 +298,8 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignPropertiesFromNamespacesAuth
 	return nil
 }
 
-// AssignPropertiesToNamespacesAuthorizationRule_Spec populates the provided destination NamespacesAuthorizationRule_Spec from our NamespacesAuthorizationRule_Spec
-func (rule *NamespacesAuthorizationRule_Spec) AssignPropertiesToNamespacesAuthorizationRule_Spec(destination *v20211101s.NamespacesAuthorizationRule_Spec) error {
+// AssignProperties_To_Namespaces_AuthorizationRule_Spec populates the provided destination Namespaces_AuthorizationRule_Spec from our Namespaces_AuthorizationRule_Spec
+func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_AuthorizationRule_Spec(destination *v20211101s.Namespaces_AuthorizationRule_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -364,9 +331,9 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignPropertiesToNamespacesAuthor
 	return nil
 }
 
-// Storage version of v1alpha1api20211101.NamespacesAuthorizationRule_STATUS
-// Deprecated version of NamespacesAuthorizationRule_STATUS. Use v1beta20211101.NamespacesAuthorizationRule_STATUS instead
-type NamespacesAuthorizationRule_STATUS struct {
+// Storage version of v1alpha1api20211101.Namespaces_AuthorizationRule_STATUS
+// Deprecated version of Namespaces_AuthorizationRule_STATUS. Use v1beta20211101.Namespaces_AuthorizationRule_STATUS instead
+type Namespaces_AuthorizationRule_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	Location    *string                `json:"location,omitempty"`
@@ -377,33 +344,25 @@ type NamespacesAuthorizationRule_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NamespacesAuthorizationRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_AuthorizationRule_STATUS{}
 
-// ConvertStatusFrom populates our NamespacesAuthorizationRule_STATUS from the provided source
-func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20211101s.NamespacesAuthorizationRule_STATUS)
+// ConvertStatusFrom populates our Namespaces_AuthorizationRule_STATUS from the provided source
+func (rule *Namespaces_AuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20211101s.Namespaces_AuthorizationRule_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return rule.AssignPropertiesFromNamespacesAuthorizationRule_STATUS(src)
-=======
-		return rule.AssignProperties_From_AuthorizationRule_STATUS(src)
->>>>>>> main
+		return rule.AssignProperties_From_Namespaces_AuthorizationRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20211101s.NamespacesAuthorizationRule_STATUS{}
+	src = &v20211101s.Namespaces_AuthorizationRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = rule.AssignPropertiesFromNamespacesAuthorizationRule_STATUS(src)
-=======
-	err = rule.AssignProperties_From_AuthorizationRule_STATUS(src)
->>>>>>> main
+	err = rule.AssignProperties_From_Namespaces_AuthorizationRule_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -411,26 +370,17 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20211101s.NamespacesAuthorizationRule_STATUS)
+// ConvertStatusTo populates the provided destination from our Namespaces_AuthorizationRule_STATUS
+func (rule *Namespaces_AuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20211101s.Namespaces_AuthorizationRule_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return rule.AssignPropertiesToNamespacesAuthorizationRule_STATUS(dst)
+		return rule.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20211101s.NamespacesAuthorizationRule_STATUS{}
-	err := rule.AssignPropertiesToNamespacesAuthorizationRule_STATUS(dst)
-=======
-		return rule.AssignProperties_To_AuthorizationRule_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211101s.AuthorizationRule_STATUS{}
-	err := rule.AssignProperties_To_AuthorizationRule_STATUS(dst)
->>>>>>> main
+	dst = &v20211101s.Namespaces_AuthorizationRule_STATUS{}
+	err := rule.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -444,13 +394,8 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromNamespacesAuthorizationRule_STATUS populates our NamespacesAuthorizationRule_STATUS from the provided source NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) AssignPropertiesFromNamespacesAuthorizationRule_STATUS(source *v20211101s.NamespacesAuthorizationRule_STATUS) error {
-=======
-// AssignProperties_From_AuthorizationRule_STATUS populates our AuthorizationRule_STATUS from the provided source AuthorizationRule_STATUS
-func (rule *AuthorizationRule_STATUS) AssignProperties_From_AuthorizationRule_STATUS(source *v20211101s.AuthorizationRule_STATUS) error {
->>>>>>> main
+// AssignProperties_From_Namespaces_AuthorizationRule_STATUS populates our Namespaces_AuthorizationRule_STATUS from the provided source Namespaces_AuthorizationRule_STATUS
+func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_From_Namespaces_AuthorizationRule_STATUS(source *v20211101s.Namespaces_AuthorizationRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -472,15 +417,9 @@ func (rule *AuthorizationRule_STATUS) AssignProperties_From_AuthorizationRule_ST
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
-<<<<<<< HEAD
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-=======
 		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -501,13 +440,8 @@ func (rule *AuthorizationRule_STATUS) AssignProperties_From_AuthorizationRule_ST
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToNamespacesAuthorizationRule_STATUS populates the provided destination NamespacesAuthorizationRule_STATUS from our NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) AssignPropertiesToNamespacesAuthorizationRule_STATUS(destination *v20211101s.NamespacesAuthorizationRule_STATUS) error {
-=======
-// AssignProperties_To_AuthorizationRule_STATUS populates the provided destination AuthorizationRule_STATUS from our AuthorizationRule_STATUS
-func (rule *AuthorizationRule_STATUS) AssignProperties_To_AuthorizationRule_STATUS(destination *v20211101s.AuthorizationRule_STATUS) error {
->>>>>>> main
+// AssignProperties_To_Namespaces_AuthorizationRule_STATUS populates the provided destination Namespaces_AuthorizationRule_STATUS from our Namespaces_AuthorizationRule_STATUS
+func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_AuthorizationRule_STATUS(destination *v20211101s.Namespaces_AuthorizationRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -529,15 +463,9 @@ func (rule *AuthorizationRule_STATUS) AssignProperties_To_AuthorizationRule_STAT
 	// SystemData
 	if rule.SystemData != nil {
 		var systemDatum v20211101s.SystemData_STATUS
-<<<<<<< HEAD
-		err := rule.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-=======
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
->>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -558,156 +486,6 @@ func (rule *AuthorizationRule_STATUS) AssignProperties_To_AuthorizationRule_STAT
 	return nil
 }
 
-<<<<<<< HEAD
-=======
-// Storage version of v1alpha1api20211101.Namespaces_AuthorizationRules_Spec
-type Namespaces_AuthorizationRules_Spec struct {
-	// +kubebuilder:validation:MinLength=1
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a eventhub.azure.com/Namespace resource
-	Owner       *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Rights      []string                           `json:"rights,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Namespaces_AuthorizationRules_Spec{}
-
-// ConvertSpecFrom populates our Namespaces_AuthorizationRules_Spec from the provided source
-func (rules *Namespaces_AuthorizationRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211101s.Namespaces_AuthorizationRules_Spec)
-	if ok {
-		// Populate our instance from source
-		return rules.AssignProperties_From_Namespaces_AuthorizationRules_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20211101s.Namespaces_AuthorizationRules_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = rules.AssignProperties_From_Namespaces_AuthorizationRules_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Namespaces_AuthorizationRules_Spec
-func (rules *Namespaces_AuthorizationRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211101s.Namespaces_AuthorizationRules_Spec)
-	if ok {
-		// Populate destination from our instance
-		return rules.AssignProperties_To_Namespaces_AuthorizationRules_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211101s.Namespaces_AuthorizationRules_Spec{}
-	err := rules.AssignProperties_To_Namespaces_AuthorizationRules_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_AuthorizationRules_Spec populates our Namespaces_AuthorizationRules_Spec from the provided source Namespaces_AuthorizationRules_Spec
-func (rules *Namespaces_AuthorizationRules_Spec) AssignProperties_From_Namespaces_AuthorizationRules_Spec(source *v20211101s.Namespaces_AuthorizationRules_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	rules.AzureName = source.AzureName
-
-	// Location
-	rules.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginalVersion
-	rules.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		rules.Owner = &owner
-	} else {
-		rules.Owner = nil
-	}
-
-	// Rights
-	rules.Rights = genruntime.CloneSliceOfString(source.Rights)
-
-	// Tags
-	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		rules.PropertyBag = propertyBag
-	} else {
-		rules.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_AuthorizationRules_Spec populates the provided destination Namespaces_AuthorizationRules_Spec from our Namespaces_AuthorizationRules_Spec
-func (rules *Namespaces_AuthorizationRules_Spec) AssignProperties_To_Namespaces_AuthorizationRules_Spec(destination *v20211101s.Namespaces_AuthorizationRules_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
-
-	// AzureName
-	destination.AzureName = rules.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rules.Location)
-
-	// OriginalVersion
-	destination.OriginalVersion = rules.OriginalVersion
-
-	// Owner
-	if rules.Owner != nil {
-		owner := rules.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Rights
-	destination.Rights = genruntime.CloneSliceOfString(rules.Rights)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
->>>>>>> main
 func init() {
 	SchemeBuilder.Register(&NamespacesAuthorizationRule{}, &NamespacesAuthorizationRuleList{})
 }

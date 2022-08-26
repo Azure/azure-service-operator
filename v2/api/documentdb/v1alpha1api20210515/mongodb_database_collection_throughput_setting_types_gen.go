@@ -28,13 +28,8 @@ import (
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS `json:"status,omitempty"`
-=======
-	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                                   `json:"status,omitempty"`
->>>>>>> main
+	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -142,7 +137,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
+	return &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -158,13 +153,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
+	var st DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -274,32 +269,18 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_From
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(&source.Spec)
+	var spec DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
+	err := spec.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec() to populate field Spec")
-=======
-	var spec DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-	err = status.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(&source.Status)
+	var status DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS() to populate field Status")
-=======
-	var status ThroughputSettingsGetResults_STATUS
-	err = status.AssignProperties_From_ThroughputSettingsGetResults_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ThroughputSettingsGetResults_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -314,32 +295,18 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_To_M
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-<<<<<<< HEAD
-	var spec alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
-	err := setting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(&spec)
+	var spec alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
+	err := setting.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec() to populate field Spec")
-=======
-	var spec alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
-	err := setting.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec() to populate field Spec")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-<<<<<<< HEAD
-	var status alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-	err = setting.Status.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(&status)
+	var status alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+	err = setting.Status.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS() to populate field Status")
-=======
-	var status alpha20210515s.ThroughputSettingsGetResults_STATUS
-	err = setting.Status.AssignProperties_To_ThroughputSettingsGetResults_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsGetResults_STATUS() to populate field Status")
->>>>>>> main
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -364,50 +331,34 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-<<<<<<< HEAD
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
-=======
-type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec struct {
-	Location *string `json:"location,omitempty"`
->>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/DatabaseAccountsMongodbDatabasesCollection resource
-	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccountsMongodbDatabasesCollection"`
+	// reference to a documentdb.azure.com/DatabaseAccounts_MongodbDatabases_Collection resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccounts_MongodbDatabases_Collection"`
 
 	// +kubebuilder:validation:Required
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 	Tags     map[string]string           `json:"tags,omitempty"`
 }
 
-<<<<<<< HEAD
-var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if setting == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM{}
+	result := &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM{}
 
 	// Set property ‘AzureName’:
 	result.AzureName = setting.AzureName
-=======
-var _ genruntime.ARMTransformer = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if settings == nil {
-		return nil, nil
-	}
-	result := &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM{}
->>>>>>> main
 
 	// Set property ‘Location’:
 	if setting.Location != nil {
@@ -442,27 +393,15 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-<<<<<<< HEAD
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM{}
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM)
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM, got %T", armInput)
-=======
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_SpecARM, got %T", armInput)
->>>>>>> main
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
@@ -505,44 +444,25 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 	return nil
 }
 
-<<<<<<< HEAD
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec from the provided source
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec)
 	if ok {
 		// Populate our instance from source
-		return setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(src)
+		return setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
-=======
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec{}
-
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec)
-	if ok {
-		// Populate our instance from source
-		return settings.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec{}
->>>>>>> main
+	src = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(src)
-=======
-	err = settings.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(src)
->>>>>>> main
+	err = setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -550,31 +470,17 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 	return nil
 }
 
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec)
 	if ok {
 		// Populate destination from our instance
-		return setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(dst)
+		return setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
-	err := setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(dst)
-=======
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec)
-	if ok {
-		// Populate destination from our instance
-		return settings.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec{}
-	err := settings.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(dst)
->>>>>>> main
+	dst = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec{}
+	err := setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -588,16 +494,11 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec from the provided source DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(source *alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) error {
+// AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(source *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error {
 
 	// AzureName
 	setting.AzureName = source.AzureName
-=======
-// AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(source *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) error {
->>>>>>> main
 
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
@@ -629,13 +530,8 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec populates the provided destination DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec(destination *alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) error {
-=======
-// AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec populates the provided destination DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec(destination *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) error {
->>>>>>> main
+// AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec populates the provided destination DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(destination *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -659,11 +555,7 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 	// Resource
 	if setting.Resource != nil {
 		var resource alpha20210515s.ThroughputSettingsResource
-<<<<<<< HEAD
-		err := setting.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
-=======
-		err := settings.Resource.AssignProperties_To_ThroughputSettingsResource(&resource)
->>>>>>> main
+		err := setting.Resource.AssignProperties_To_ThroughputSettingsResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsResource() to populate field Resource")
 		}
@@ -687,21 +579,17 @@ func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-<<<<<<< HEAD
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) OriginalVersion() string {
-=======
-func (settings *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSettings_Spec) OriginalVersion() string {
->>>>>>> main
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) SetAzureName(azureName string) {
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) SetAzureName(azureName string) {
 	setting.AzureName = azureName
 }
 
-// Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS instead
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct {
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS instead
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                           `json:"conditions,omitempty"`
 	Id         *string                                          `json:"id,omitempty"`
@@ -712,33 +600,25 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct 
 	Type       *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from the provided source
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(src)
-=======
-		return results.AssignProperties_From_ThroughputSettingsGetResults_STATUS(src)
->>>>>>> main
+		return setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
+	src = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = setting.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(src)
-=======
-	err = results.AssignProperties_From_ThroughputSettingsGetResults_STATUS(src)
->>>>>>> main
+	err = setting.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -746,26 +626,17 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(dst)
+		return setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
-	err := setting.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(dst)
-=======
-		return results.AssignProperties_To_ThroughputSettingsGetResults_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210515s.ThroughputSettingsGetResults_STATUS{}
-	err := results.AssignProperties_To_ThroughputSettingsGetResults_STATUS(dst)
->>>>>>> main
+	dst = &alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
+	err := setting.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -779,18 +650,18 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
+var _ genruntime.FromARMConverter = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM{}
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM)
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -845,13 +716,8 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from the provided source DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(source *alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) error {
-=======
-// AssignProperties_From_ThroughputSettingsGetResults_STATUS populates our ThroughputSettingsGetResults_STATUS from the provided source ThroughputSettingsGetResults_STATUS
-func (results *ThroughputSettingsGetResults_STATUS) AssignProperties_From_ThroughputSettingsGetResults_STATUS(source *alpha20210515s.ThroughputSettingsGetResults_STATUS) error {
->>>>>>> main
+// AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(source *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) error {
 
 	// Conditions
 	setting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -867,17 +733,10 @@ func (results *ThroughputSettingsGetResults_STATUS) AssignProperties_From_Throug
 
 	// Resource
 	if source.Resource != nil {
-<<<<<<< HEAD
 		var resource ThroughputSettingsGetProperties_Resource_STATUS
-		err := resource.AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
+		err := resource.AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-=======
-		var resource ThroughputSettingsGetProperties_STATUS_Resource
-		err := resource.AssignProperties_From_ThroughputSettingsGetProperties_STATUS_Resource(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ThroughputSettingsGetProperties_STATUS_Resource() to populate field Resource")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -894,13 +753,8 @@ func (results *ThroughputSettingsGetResults_STATUS) AssignProperties_From_Throug
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS populates the provided destination DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
-func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS(destination *alpha20210515s.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) error {
-=======
-// AssignProperties_To_ThroughputSettingsGetResults_STATUS populates the provided destination ThroughputSettingsGetResults_STATUS from our ThroughputSettingsGetResults_STATUS
-func (results *ThroughputSettingsGetResults_STATUS) AssignProperties_To_ThroughputSettingsGetResults_STATUS(destination *alpha20210515s.ThroughputSettingsGetResults_STATUS) error {
->>>>>>> main
+// AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS populates the provided destination DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(destination *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -917,19 +771,11 @@ func (results *ThroughputSettingsGetResults_STATUS) AssignProperties_To_Throughp
 	destination.Name = genruntime.ClonePointerToString(setting.Name)
 
 	// Resource
-<<<<<<< HEAD
 	if setting.Resource != nil {
 		var resource alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS
-		err := setting.Resource.AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(&resource)
+		err := setting.Resource.AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-=======
-	if results.Resource != nil {
-		var resource alpha20210515s.ThroughputSettingsGetProperties_STATUS_Resource
-		err := results.Resource.AssignProperties_To_ThroughputSettingsGetProperties_STATUS_Resource(&resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsGetProperties_STATUS_Resource() to populate field Resource")
->>>>>>> main
+			return errors.Wrap(err, "calling AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -1029,26 +875,15 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsGetProperties_Resource_STATUS from the provided source ThroughputSettingsGetProperties_Resource_STATUS
-func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source *alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
-=======
-// AssignProperties_From_ThroughputSettingsGetProperties_STATUS_Resource populates our ThroughputSettingsGetProperties_STATUS_Resource from the provided source ThroughputSettingsGetProperties_STATUS_Resource
-func (resource *ThroughputSettingsGetProperties_STATUS_Resource) AssignProperties_From_ThroughputSettingsGetProperties_STATUS_Resource(source *alpha20210515s.ThroughputSettingsGetProperties_STATUS_Resource) error {
->>>>>>> main
+// AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsGetProperties_Resource_STATUS from the provided source ThroughputSettingsGetProperties_Resource_STATUS
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignProperties_From_ThroughputSettingsGetProperties_Resource_STATUS(source *alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
 
 	// AutoscaleSettings
 	if source.AutoscaleSettings != nil {
 		var autoscaleSetting AutoscaleSettingsResource_STATUS
-<<<<<<< HEAD
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
-=======
 		err := autoscaleSetting.AssignProperties_From_AutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
->>>>>>> main
 		}
 		resource.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1082,28 +917,17 @@ func (resource *ThroughputSettingsGetProperties_STATUS_Resource) AssignPropertie
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS populates the provided destination ThroughputSettingsGetProperties_Resource_STATUS from our ThroughputSettingsGetProperties_Resource_STATUS
-func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(destination *alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
-=======
-// AssignProperties_To_ThroughputSettingsGetProperties_STATUS_Resource populates the provided destination ThroughputSettingsGetProperties_STATUS_Resource from our ThroughputSettingsGetProperties_STATUS_Resource
-func (resource *ThroughputSettingsGetProperties_STATUS_Resource) AssignProperties_To_ThroughputSettingsGetProperties_STATUS_Resource(destination *alpha20210515s.ThroughputSettingsGetProperties_STATUS_Resource) error {
->>>>>>> main
+// AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS populates the provided destination ThroughputSettingsGetProperties_Resource_STATUS from our ThroughputSettingsGetProperties_Resource_STATUS
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignProperties_To_ThroughputSettingsGetProperties_Resource_STATUS(destination *alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoscaleSettings
 	if resource.AutoscaleSettings != nil {
 		var autoscaleSetting alpha20210515s.AutoscaleSettingsResource_STATUS
-<<<<<<< HEAD
-		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource_STATUS(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
-=======
 		err := resource.AutoscaleSettings.AssignProperties_To_AutoscaleSettingsResource_STATUS(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
->>>>>>> main
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1432,26 +1256,15 @@ func (resource *AutoscaleSettingsResource_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromAutoscaleSettingsResource_STATUS populates our AutoscaleSettingsResource_STATUS from the provided source AutoscaleSettingsResource_STATUS
-func (resource *AutoscaleSettingsResource_STATUS) AssignPropertiesFromAutoscaleSettingsResource_STATUS(source *alpha20210515s.AutoscaleSettingsResource_STATUS) error {
-=======
 // AssignProperties_From_AutoscaleSettingsResource_STATUS populates our AutoscaleSettingsResource_STATUS from the provided source AutoscaleSettingsResource_STATUS
 func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_From_AutoscaleSettingsResource_STATUS(source *alpha20210515s.AutoscaleSettingsResource_STATUS) error {
->>>>>>> main
 
 	// AutoUpgradePolicy
 	if source.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy AutoUpgradePolicyResource_STATUS
-<<<<<<< HEAD
-		err := autoUpgradePolicy.AssignPropertiesFromAutoUpgradePolicyResource_STATUS(source.AutoUpgradePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
-=======
 		err := autoUpgradePolicy.AssignProperties_From_AutoUpgradePolicyResource_STATUS(source.AutoUpgradePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_AutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
->>>>>>> main
 		}
 		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1468,28 +1281,17 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_From_Autoscal
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToAutoscaleSettingsResource_STATUS populates the provided destination AutoscaleSettingsResource_STATUS from our AutoscaleSettingsResource_STATUS
-func (resource *AutoscaleSettingsResource_STATUS) AssignPropertiesToAutoscaleSettingsResource_STATUS(destination *alpha20210515s.AutoscaleSettingsResource_STATUS) error {
-=======
 // AssignProperties_To_AutoscaleSettingsResource_STATUS populates the provided destination AutoscaleSettingsResource_STATUS from our AutoscaleSettingsResource_STATUS
 func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_To_AutoscaleSettingsResource_STATUS(destination *alpha20210515s.AutoscaleSettingsResource_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoUpgradePolicy
 	if resource.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy alpha20210515s.AutoUpgradePolicyResource_STATUS
-<<<<<<< HEAD
-		err := resource.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResource_STATUS(&autoUpgradePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
-=======
 		err := resource.AutoUpgradePolicy.AssignProperties_To_AutoUpgradePolicyResource_STATUS(&autoUpgradePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
->>>>>>> main
 		}
 		destination.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1647,26 +1449,15 @@ func (resource *AutoUpgradePolicyResource_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromAutoUpgradePolicyResource_STATUS populates our AutoUpgradePolicyResource_STATUS from the provided source AutoUpgradePolicyResource_STATUS
-func (resource *AutoUpgradePolicyResource_STATUS) AssignPropertiesFromAutoUpgradePolicyResource_STATUS(source *alpha20210515s.AutoUpgradePolicyResource_STATUS) error {
-=======
 // AssignProperties_From_AutoUpgradePolicyResource_STATUS populates our AutoUpgradePolicyResource_STATUS from the provided source AutoUpgradePolicyResource_STATUS
 func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_From_AutoUpgradePolicyResource_STATUS(source *alpha20210515s.AutoUpgradePolicyResource_STATUS) error {
->>>>>>> main
 
 	// ThroughputPolicy
 	if source.ThroughputPolicy != nil {
 		var throughputPolicy ThroughputPolicyResource_STATUS
-<<<<<<< HEAD
-		err := throughputPolicy.AssignPropertiesFromThroughputPolicyResource_STATUS(source.ThroughputPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
-=======
 		err := throughputPolicy.AssignProperties_From_ThroughputPolicyResource_STATUS(source.ThroughputPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
->>>>>>> main
 		}
 		resource.ThroughputPolicy = &throughputPolicy
 	} else {
@@ -1677,28 +1468,17 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_From_AutoUpgr
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToAutoUpgradePolicyResource_STATUS populates the provided destination AutoUpgradePolicyResource_STATUS from our AutoUpgradePolicyResource_STATUS
-func (resource *AutoUpgradePolicyResource_STATUS) AssignPropertiesToAutoUpgradePolicyResource_STATUS(destination *alpha20210515s.AutoUpgradePolicyResource_STATUS) error {
-=======
 // AssignProperties_To_AutoUpgradePolicyResource_STATUS populates the provided destination AutoUpgradePolicyResource_STATUS from our AutoUpgradePolicyResource_STATUS
 func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_To_AutoUpgradePolicyResource_STATUS(destination *alpha20210515s.AutoUpgradePolicyResource_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ThroughputPolicy
 	if resource.ThroughputPolicy != nil {
 		var throughputPolicy alpha20210515s.ThroughputPolicyResource_STATUS
-<<<<<<< HEAD
-		err := resource.ThroughputPolicy.AssignPropertiesToThroughputPolicyResource_STATUS(&throughputPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
-=======
 		err := resource.ThroughputPolicy.AssignProperties_To_ThroughputPolicyResource_STATUS(&throughputPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
->>>>>>> main
 		}
 		destination.ThroughputPolicy = &throughputPolicy
 	} else {
@@ -1854,13 +1634,8 @@ func (resource *ThroughputPolicyResource_STATUS) PopulateFromARM(owner genruntim
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromThroughputPolicyResource_STATUS populates our ThroughputPolicyResource_STATUS from the provided source ThroughputPolicyResource_STATUS
-func (resource *ThroughputPolicyResource_STATUS) AssignPropertiesFromThroughputPolicyResource_STATUS(source *alpha20210515s.ThroughputPolicyResource_STATUS) error {
-=======
 // AssignProperties_From_ThroughputPolicyResource_STATUS populates our ThroughputPolicyResource_STATUS from the provided source ThroughputPolicyResource_STATUS
 func (resource *ThroughputPolicyResource_STATUS) AssignProperties_From_ThroughputPolicyResource_STATUS(source *alpha20210515s.ThroughputPolicyResource_STATUS) error {
->>>>>>> main
 
 	// IncrementPercent
 	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
@@ -1877,13 +1652,8 @@ func (resource *ThroughputPolicyResource_STATUS) AssignProperties_From_Throughpu
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToThroughputPolicyResource_STATUS populates the provided destination ThroughputPolicyResource_STATUS from our ThroughputPolicyResource_STATUS
-func (resource *ThroughputPolicyResource_STATUS) AssignPropertiesToThroughputPolicyResource_STATUS(destination *alpha20210515s.ThroughputPolicyResource_STATUS) error {
-=======
 // AssignProperties_To_ThroughputPolicyResource_STATUS populates the provided destination ThroughputPolicyResource_STATUS from our ThroughputPolicyResource_STATUS
 func (resource *ThroughputPolicyResource_STATUS) AssignProperties_To_ThroughputPolicyResource_STATUS(destination *alpha20210515s.ThroughputPolicyResource_STATUS) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

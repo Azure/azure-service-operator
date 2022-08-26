@@ -28,13 +28,8 @@ type ExtendedLocation_STATUSARM struct {
 type ManagedClusterIdentity_STATUSARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
-<<<<<<< HEAD
 	Type                   *ManagedClusterIdentity_Type_STATUS                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
-=======
-	Type                   *ManagedClusterIdentity_STATUS_Type                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ManagedClusterProperties_STATUS. Use v1beta20210501.ManagedClusterProperties_STATUS instead
@@ -71,13 +66,8 @@ type ManagedClusterProperties_STATUSARM struct {
 
 // Deprecated version of ManagedClusterSKU_STATUS. Use v1beta20210501.ManagedClusterSKU_STATUS instead
 type ManagedClusterSKU_STATUSARM struct {
-<<<<<<< HEAD
 	Name *ManagedClusterSKU_Name_STATUS `json:"name,omitempty"`
 	Tier *ManagedClusterSKU_Tier_STATUS `json:"tier,omitempty"`
-=======
-	Name *ManagedClusterSKU_STATUS_Name `json:"name,omitempty"`
-	Tier *ManagedClusterSKU_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ContainerServiceLinuxProfile_STATUS. Use v1beta20210501.ContainerServiceLinuxProfile_STATUS instead
@@ -91,19 +81,11 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 	DnsServiceIP        *string                                                `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                                `json:"dockerBridgeCidr,omitempty"`
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_STATUSARM           `json:"loadBalancerProfile,omitempty"`
-<<<<<<< HEAD
 	LoadBalancerSku     *ContainerServiceNetworkProfile_LoadBalancerSku_STATUS `json:"loadBalancerSku,omitempty"`
 	NetworkMode         *ContainerServiceNetworkProfile_NetworkMode_STATUS     `json:"networkMode,omitempty"`
 	NetworkPlugin       *ContainerServiceNetworkProfile_NetworkPlugin_STATUS   `json:"networkPlugin,omitempty"`
 	NetworkPolicy       *ContainerServiceNetworkProfile_NetworkPolicy_STATUS   `json:"networkPolicy,omitempty"`
 	OutboundType        *ContainerServiceNetworkProfile_OutboundType_STATUS    `json:"outboundType,omitempty"`
-=======
-	LoadBalancerSku     *ContainerServiceNetworkProfile_STATUS_LoadBalancerSku `json:"loadBalancerSku,omitempty"`
-	NetworkMode         *ContainerServiceNetworkProfile_STATUS_NetworkMode     `json:"networkMode,omitempty"`
-	NetworkPlugin       *ContainerServiceNetworkProfile_STATUS_NetworkPlugin   `json:"networkPlugin,omitempty"`
-	NetworkPolicy       *ContainerServiceNetworkProfile_STATUS_NetworkPolicy   `json:"networkPolicy,omitempty"`
-	OutboundType        *ContainerServiceNetworkProfile_STATUS_OutboundType    `json:"outboundType,omitempty"`
->>>>>>> main
 	PodCidr             *string                                                `json:"podCidr,omitempty"`
 	ServiceCidr         *string                                                `json:"serviceCidr,omitempty"`
 }
@@ -175,11 +157,7 @@ type ManagedClusterAPIServerAccessProfile_STATUSARM struct {
 
 // Deprecated version of ManagedClusterAutoUpgradeProfile_STATUS. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_STATUS instead
 type ManagedClusterAutoUpgradeProfile_STATUSARM struct {
-<<<<<<< HEAD
 	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS `json:"upgradeChannel,omitempty"`
-=======
-	UpgradeChannel *ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel `json:"upgradeChannel,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ManagedClusterHTTPProxyConfig_STATUS. Use v1beta20210501.ManagedClusterHTTPProxyConfig_STATUS instead
@@ -190,7 +168,6 @@ type ManagedClusterHTTPProxyConfig_STATUSARM struct {
 	TrustedCa  *string  `json:"trustedCa,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of ManagedClusterIdentity_Type_STATUS. Use v1beta20210501.ManagedClusterIdentity_Type_STATUS instead
 type ManagedClusterIdentity_Type_STATUS string
 
@@ -202,19 +179,6 @@ const (
 
 // Deprecated version of ManagedClusterIdentity_UserAssignedIdentities_STATUS. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS instead
 type ManagedClusterIdentity_UserAssignedIdentities_STATUSARM struct {
-=======
-// Deprecated version of ManagedClusterIdentity_STATUS_Type. Use v1beta20210501.ManagedClusterIdentity_STATUS_Type instead
-type ManagedClusterIdentity_STATUS_Type string
-
-const (
-	ManagedClusterIdentity_STATUS_Type_None           = ManagedClusterIdentity_STATUS_Type("None")
-	ManagedClusterIdentity_STATUS_Type_SystemAssigned = ManagedClusterIdentity_STATUS_Type("SystemAssigned")
-	ManagedClusterIdentity_STATUS_Type_UserAssigned   = ManagedClusterIdentity_STATUS_Type("UserAssigned")
-)
-
-// Deprecated version of ManagedClusterIdentity_STATUS_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_STATUS_UserAssignedIdentities instead
-type ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM struct {
->>>>>>> main
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
@@ -227,17 +191,10 @@ type ManagedClusterPodIdentityProfile_STATUSARM struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUSARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of ManagedClusterProperties_AutoScalerProfile_STATUS. Use v1beta20210501.ManagedClusterProperties_AutoScalerProfile_STATUS instead
 type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
 	BalanceSimilarNodeGroups      *string                                                     `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *ManagedClusterProperties_AutoScalerProfile_Expander_STATUS `json:"expander,omitempty"`
-=======
-// Deprecated version of ManagedClusterProperties_STATUS_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_STATUS_AutoScalerProfile instead
-type ManagedClusterProperties_STATUS_AutoScalerProfileARM struct {
-	BalanceSimilarNodeGroups      *string                                                     `json:"balance-similar-node-groups,omitempty"`
-	Expander                      *ManagedClusterProperties_STATUS_AutoScalerProfile_Expander `json:"expander,omitempty"`
->>>>>>> main
 	MaxEmptyBulkDelete            *string                                                     `json:"max-empty-bulk-delete,omitempty"`
 	MaxGracefulTerminationSec     *string                                                     `json:"max-graceful-termination-sec,omitempty"`
 	MaxNodeProvisionTime          *string                                                     `json:"max-node-provision-time,omitempty"`
@@ -261,7 +218,6 @@ type ManagedClusterServicePrincipalProfile_STATUSARM struct {
 	Secret   *string `json:"secret,omitempty"`
 }
 
-<<<<<<< HEAD
 // Deprecated version of ManagedClusterSKU_Name_STATUS. Use v1beta20210501.ManagedClusterSKU_Name_STATUS instead
 type ManagedClusterSKU_Name_STATUS string
 
@@ -273,19 +229,6 @@ type ManagedClusterSKU_Tier_STATUS string
 const (
 	ManagedClusterSKU_Tier_Free_STATUS = ManagedClusterSKU_Tier_STATUS("Free")
 	ManagedClusterSKU_Tier_Paid_STATUS = ManagedClusterSKU_Tier_STATUS("Paid")
-=======
-// Deprecated version of ManagedClusterSKU_STATUS_Name. Use v1beta20210501.ManagedClusterSKU_STATUS_Name instead
-type ManagedClusterSKU_STATUS_Name string
-
-const ManagedClusterSKU_STATUS_Name_Basic = ManagedClusterSKU_STATUS_Name("Basic")
-
-// Deprecated version of ManagedClusterSKU_STATUS_Tier. Use v1beta20210501.ManagedClusterSKU_STATUS_Tier instead
-type ManagedClusterSKU_STATUS_Tier string
-
-const (
-	ManagedClusterSKU_STATUS_Tier_Free = ManagedClusterSKU_STATUS_Tier("Free")
-	ManagedClusterSKU_STATUS_Tier_Paid = ManagedClusterSKU_STATUS_Tier("Paid")
->>>>>>> main
 )
 
 // Deprecated version of ManagedClusterWindowsProfile_STATUS. Use v1beta20210501.ManagedClusterWindowsProfile_STATUS instead
@@ -293,16 +236,12 @@ type ManagedClusterWindowsProfile_STATUSARM struct {
 	AdminPassword  *string                                          `json:"adminPassword,omitempty"`
 	AdminUsername  *string                                          `json:"adminUsername,omitempty"`
 	EnableCSIProxy *bool                                            `json:"enableCSIProxy,omitempty"`
-<<<<<<< HEAD
 	LicenseType    *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
 }
 
 // Deprecated version of PowerState_STATUS. Use v1beta20210501.PowerState_STATUS instead
 type PowerState_STATUSARM struct {
 	Code *PowerState_Code_STATUS `json:"code,omitempty"`
-=======
-	LicenseType    *ManagedClusterWindowsProfile_STATUS_LicenseType `json:"licenseType,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of PrivateLinkResource_STATUS. Use v1beta20210501.PrivateLinkResource_STATUS instead
@@ -336,13 +275,8 @@ type ManagedClusterPodIdentity_STATUSARM struct {
 	Identity          *UserAssignedIdentity_STATUSARM                       `json:"identity,omitempty"`
 	Name              *string                                               `json:"name,omitempty"`
 	Namespace         *string                                               `json:"namespace,omitempty"`
-<<<<<<< HEAD
 	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM `json:"provisioningInfo,omitempty"`
 	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
-=======
-	ProvisioningInfo  *ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM `json:"provisioningInfo,omitempty"`
-	ProvisioningState *ManagedClusterPodIdentity_STATUS_ProvisioningState   `json:"provisioningState,omitempty"`
->>>>>>> main
 }
 
 // Deprecated version of ManagedClusterPodIdentityException_STATUS. Use v1beta20210501.ManagedClusterPodIdentityException_STATUS instead

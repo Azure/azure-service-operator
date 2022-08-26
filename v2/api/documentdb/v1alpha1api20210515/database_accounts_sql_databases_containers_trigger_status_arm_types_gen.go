@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-// Deprecated version of DatabaseAccountsSqlDatabasesContainersTrigger_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS instead
-type DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM struct {
+// Deprecated version of DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS instead
+type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUSARM struct {
 	Id         *string                            `json:"id,omitempty"`
 	Location   *string                            `json:"location,omitempty"`
 	Name       *string                            `json:"name,omitempty"`

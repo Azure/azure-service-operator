@@ -48,11 +48,7 @@ type VirtualMachineIdentity_STATUSARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-<<<<<<< HEAD
 	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
-=======
-	Type *VirtualMachineIdentity_STATUS_Type `json:"type,omitempty"`
->>>>>>> main
 }
 
 type VirtualMachineProperties_STATUSARM struct {
@@ -234,11 +230,7 @@ type HardwareProfile_STATUSARM struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-<<<<<<< HEAD
 	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
-=======
-	VmSize *HardwareProfile_STATUS_VmSize `json:"vmSize,omitempty"`
->>>>>>> main
 
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2021-07-01.
@@ -250,11 +242,7 @@ type HardwareProfile_STATUSARM struct {
 type NetworkProfile_STATUSARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
-<<<<<<< HEAD
 	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS `json:"networkApiVersion,omitempty"`
-=======
-	NetworkApiVersion *NetworkProfile_STATUS_NetworkApiVersion `json:"networkApiVersion,omitempty"`
->>>>>>> main
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
@@ -331,11 +319,7 @@ type SecurityProfile_STATUSARM struct {
 	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
 	// UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set.
-<<<<<<< HEAD
 	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
-=======
-	SecurityType *SecurityProfile_STATUS_SecurityType `json:"securityType,omitempty"`
->>>>>>> main
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -359,7 +343,6 @@ type StorageProfile_STATUSARM struct {
 	OsDisk *OSDisk_STATUSARM `json:"osDisk,omitempty"`
 }
 
-<<<<<<< HEAD
 type VirtualMachineIdentity_Type_STATUS string
 
 const (
@@ -367,59 +350,6 @@ const (
 	VirtualMachineIdentity_Type_SystemAssigned_STATUS             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
 	VirtualMachineIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineIdentity_Type_UserAssigned_STATUS               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
-=======
-type VirtualMachineExtensionProperties_STATUSARM struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	// newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// ForceUpdateTag: How the extension handler should be forced to update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	// InstanceView: The virtual machine extension instance view.
-	InstanceView *VirtualMachineExtensionInstanceView_STATUSARM `json:"instanceView,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
-	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// SuppressFailures: Indicates whether failures stemming from the extension will be suppressed (Operational failures such
-	// as not connecting to the VM will not be suppressed regardless of this value). The default is false.
-	SuppressFailures *bool `json:"suppressFailures,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineIdentity_STATUS_Type string
-
-const (
-	VirtualMachineIdentity_STATUS_Type_None                       = VirtualMachineIdentity_STATUS_Type("None")
-	VirtualMachineIdentity_STATUS_Type_SystemAssigned             = VirtualMachineIdentity_STATUS_Type("SystemAssigned")
-	VirtualMachineIdentity_STATUS_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_STATUS_Type("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_STATUS_Type_UserAssigned               = VirtualMachineIdentity_STATUS_Type("UserAssigned")
->>>>>>> main
 )
 
 type VirtualMachineInstanceView_STATUSARM struct {
@@ -444,11 +374,7 @@ type VirtualMachineInstanceView_STATUSARM struct {
 	Extensions []VirtualMachineExtensionInstanceView_STATUSARM `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-<<<<<<< HEAD
 	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-=======
-	HyperVGeneration *VirtualMachineInstanceView_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
->>>>>>> main
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUSARM `json:"maintenanceRedeployStatus,omitempty"`
@@ -632,11 +558,7 @@ type InstanceViewStatus_STATUSARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-<<<<<<< HEAD
 	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
-=======
-	Level *InstanceViewStatus_STATUS_Level `json:"level,omitempty"`
->>>>>>> main
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -669,11 +591,7 @@ type MaintenanceRedeployStatus_STATUSARM struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-<<<<<<< HEAD
 	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
-=======
-	LastOperationResultCode *MaintenanceRedeployStatus_STATUS_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
->>>>>>> main
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -746,11 +664,7 @@ type OSDisk_STATUSARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-<<<<<<< HEAD
 	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
-=======
-	OsType *OSDisk_STATUS_OsType `json:"osType,omitempty"`
->>>>>>> main
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_STATUSARM `json:"vhd,omitempty"`
@@ -907,11 +821,7 @@ type WindowsConfiguration_STATUSARM struct {
 
 type AdditionalUnattendContent_STATUSARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-<<<<<<< HEAD
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
-=======
-	ComponentName *AdditionalUnattendContent_STATUS_ComponentName `json:"componentName,omitempty"`
->>>>>>> main
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -919,19 +829,11 @@ type AdditionalUnattendContent_STATUSARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-<<<<<<< HEAD
 	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
 	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
-=======
-	PassName *AdditionalUnattendContent_STATUS_PassName `json:"passName,omitempty"`
-
-	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
-	// AutoLogon.
-	SettingName *AdditionalUnattendContent_STATUS_SettingName `json:"settingName,omitempty"`
->>>>>>> main
 }
 
 type AvailablePatchSummary_STATUSARM struct {
@@ -961,11 +863,7 @@ type AvailablePatchSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<< HEAD
 	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *AvailablePatchSummary_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }
 
 type DiffDiskSettings_STATUSARM struct {
@@ -1030,11 +928,7 @@ type LastPatchInstallationSummary_STATUSARM struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-<<<<<<< HEAD
 	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *LastPatchInstallationSummary_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }
 
 type LinuxPatchSettings_STATUSARM struct {
@@ -1042,11 +936,7 @@ type LinuxPatchSettings_STATUSARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-<<<<<<< HEAD
 	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-=======
-	AssessmentMode *LinuxPatchSettings_STATUS_AssessmentMode `json:"assessmentMode,omitempty"`
->>>>>>> main
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Linux.
@@ -1058,11 +948,7 @@ type LinuxPatchSettings_STATUSARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-<<<<<<< HEAD
 	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-=======
-	PatchMode *LinuxPatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
->>>>>>> main
 }
 
 type ManagedDiskParameters_STATUSARM struct {
@@ -1082,11 +968,7 @@ type ManagedDiskParameters_STATUSARM struct {
 
 type NetworkInterfaceReferenceProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-<<<<<<< HEAD
 	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-=======
-	DeleteOption *NetworkInterfaceReferenceProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
->>>>>>> main
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -1097,11 +979,7 @@ type PatchSettings_STATUSARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-<<<<<<< HEAD
 	AssessmentMode *PatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-=======
-	AssessmentMode *PatchSettings_STATUS_AssessmentMode `json:"assessmentMode,omitempty"`
->>>>>>> main
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Windows.
@@ -1121,11 +999,7 @@ type PatchSettings_STATUSARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-<<<<<<< HEAD
 	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
-=======
-	PatchMode *PatchSettings_STATUS_PatchMode `json:"patchMode,omitempty"`
->>>>>>> main
 }
 
 type SshConfiguration_STATUSARM struct {
@@ -1174,11 +1048,7 @@ type VirtualMachineExtensionHandlerInstanceView_STATUSARM struct {
 
 type VirtualMachineNetworkInterfaceConfigurationProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-<<<<<<< HEAD
 	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-=======
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
->>>>>>> main
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUSARM `json:"dnsSettings,omitempty"`
@@ -1243,11 +1113,7 @@ type KeyVaultSecretReference_STATUSARM struct {
 
 type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUSARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-<<<<<<< HEAD
 	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
-=======
-	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting `json:"rebootSetting,omitempty"`
->>>>>>> main
 }
 
 type SshPublicKey_STATUSARM struct {
@@ -1282,20 +1148,12 @@ type VMDiskSecurityProfile_STATUSARM struct {
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
 	// for encryption of just the VMGuestState blob.
 	// NOTE: It can be set for only Confidential VMs.
-<<<<<<< HEAD
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS `json:"securityEncryptionType,omitempty"`
-=======
-	SecurityEncryptionType *VMDiskSecurityProfile_STATUS_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
->>>>>>> main
 }
 
 type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUSARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-<<<<<<< HEAD
 	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
-=======
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS_RebootSetting `json:"rebootSetting,omitempty"`
->>>>>>> main
 }
 
 type WinRMListener_STATUSARM struct {
@@ -1317,11 +1175,7 @@ type WinRMListener_STATUSARM struct {
 	// Possible values are:
 	// http
 	// https
-<<<<<<< HEAD
 	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
-=======
-	Protocol *WinRMListener_STATUS_Protocol `json:"protocol,omitempty"`
->>>>>>> main
 }
 
 type ApiErrorBase_STATUSARM struct {
@@ -1362,11 +1216,7 @@ type VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUSARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<< HEAD
 	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-=======
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_STATUS_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
->>>>>>> main
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_STATUSARM `json:"publicIPAddressConfiguration,omitempty"`
@@ -1384,26 +1234,15 @@ type VirtualMachinePublicIPAddressConfiguration_STATUSARM struct {
 
 type PublicIPAddressSku_STATUSARM struct {
 	// Name: Specify public IP sku name
-<<<<<<< HEAD
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Specify public IP sku tier
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
-=======
-	Name *PublicIPAddressSku_STATUS_Name `json:"name,omitempty"`
-
-	// Tier: Specify public IP sku tier
-	Tier *PublicIPAddressSku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main
 }
 
 type VirtualMachinePublicIPAddressConfigurationProperties_STATUSARM struct {
 	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-<<<<<<< HEAD
 	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-=======
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_DeleteOption `json:"deleteOption,omitempty"`
->>>>>>> main
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUSARM `json:"dnsSettings,omitempty"`
@@ -1416,17 +1255,10 @@ type VirtualMachinePublicIPAddressConfigurationProperties_STATUSARM struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-<<<<<<< HEAD
 	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: Specify the public IP allocation type
 	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
-=======
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: Specify the public IP allocation type
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_STATUS_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
->>>>>>> main
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_STATUSARM `json:"publicIPPrefix,omitempty"`

@@ -64,11 +64,7 @@ type ServerProperties_STATUSARM struct {
 	StorageProfile *StorageProfile_STATUSARM `json:"storageProfile,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-<<<<<<< HEAD
 	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
-=======
-	UserVisibleState *ServerProperties_STATUS_UserVisibleState `json:"userVisibleState,omitempty"`
->>>>>>> main
 
 	// Version: Server version.
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
@@ -88,11 +84,7 @@ type Sku_STATUSARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-<<<<<<< HEAD
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
-=======
-	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
->>>>>>> main
 }
 
 type ServerPrivateEndpointConnection_STATUSARM struct {
@@ -103,21 +95,12 @@ type ServerPrivateEndpointConnection_STATUSARM struct {
 	Properties *ServerPrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
 }
 
-<<<<<<< HEAD
 type Sku_Tier_STATUS string
 
 const (
 	Sku_Tier_Basic_STATUS           = Sku_Tier_STATUS("Basic")
 	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
 	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
-=======
-type Sku_STATUS_Tier string
-
-const (
-	Sku_STATUS_Tier_Basic           = Sku_STATUS_Tier("Basic")
-	Sku_STATUS_Tier_GeneralPurpose  = Sku_STATUS_Tier("GeneralPurpose")
-	Sku_STATUS_Tier_MemoryOptimized = Sku_STATUS_Tier("MemoryOptimized")
->>>>>>> main
 )
 
 type StorageProfile_STATUSARM struct {
@@ -125,17 +108,10 @@ type StorageProfile_STATUSARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-<<<<<<< HEAD
 	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
 	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS `json:"storageAutogrow,omitempty"`
-=======
-	GeoRedundantBackup *StorageProfile_STATUS_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_STATUS_StorageAutogrow `json:"storageAutogrow,omitempty"`
->>>>>>> main
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
@@ -149,11 +125,7 @@ type ServerPrivateEndpointConnectionProperties_STATUSARM struct {
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-<<<<<<< HEAD
 	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-=======
-	ProvisioningState *ServerPrivateEndpointConnectionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
->>>>>>> main
 }
 
 type PrivateEndpointProperty_STATUSARM struct {
@@ -163,19 +135,11 @@ type PrivateEndpointProperty_STATUSARM struct {
 
 type ServerPrivateLinkServiceConnectionStateProperty_STATUSARM struct {
 	// ActionsRequired: The actions required for private link service connection.
-<<<<<<< HEAD
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
-=======
-	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ActionsRequired `json:"actionsRequired,omitempty"`
->>>>>>> main
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-<<<<<<< HEAD
 	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
-=======
-	Status *ServerPrivateLinkServiceConnectionStateProperty_STATUS_Status `json:"status,omitempty"`
->>>>>>> main
 }

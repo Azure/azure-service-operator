@@ -28,13 +28,8 @@ import (
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              RouteTablesRoute_Spec   `json:"spec,omitempty"`
-	Status            RouteTablesRoute_STATUS `json:"status,omitempty"`
-=======
-	Spec              RouteTables_Routes_Spec `json:"spec,omitempty"`
-	Status            Route_STATUS            `json:"status,omitempty"`
->>>>>>> main
+	Spec              RouteTables_Route_Spec   `json:"spec,omitempty"`
+	Status            RouteTables_Route_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -83,7 +78,7 @@ func (route *RouteTablesRoute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (route *RouteTablesRoute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RouteTablesRoute_STATUS{}
+	return &RouteTables_Route_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (route *RouteTablesRoute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RouteTablesRoute_STATUS); ok {
+	if st, ok := status.(*RouteTables_Route_STATUS); ok {
 		route.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RouteTablesRoute_STATUS
+	var st RouteTables_Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,48 +133,8 @@ type RouteTablesRouteList struct {
 	Items           []RouteTablesRoute `json:"items"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20201101.RouteTablesRoute_Spec
-type RouteTablesRoute_Spec struct {
-=======
-// Storage version of v1beta20201101.Route_STATUS
-type Route_STATUS struct {
-	AddressPrefix     *string                `json:"addressPrefix,omitempty"`
-	Conditions        []conditions.Condition `json:"conditions,omitempty"`
-	Etag              *string                `json:"etag,omitempty"`
-	HasBgpOverride    *bool                  `json:"hasBgpOverride,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	NextHopIpAddress  *string                `json:"nextHopIpAddress,omitempty"`
-	NextHopType       *string                `json:"nextHopType,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Route_STATUS{}
-
-// ConvertStatusFrom populates our Route_STATUS from the provided source
-func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(route)
-}
-
-// ConvertStatusTo populates the provided destination from our Route_STATUS
-func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(route)
-}
-
-// Storage version of v1beta20201101.RouteTables_Routes_Spec
-type RouteTables_Routes_Spec struct {
->>>>>>> main
+// Storage version of v1beta20201101.RouteTables_Route_Spec
+type RouteTables_Route_Spec struct {
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -202,42 +157,28 @@ type RouteTables_Routes_Spec struct {
 	Type      *string                       `json:"type,omitempty"`
 }
 
-<<<<<<< HEAD
-var _ genruntime.ConvertibleSpec = &RouteTablesRoute_Spec{}
+var _ genruntime.ConvertibleSpec = &RouteTables_Route_Spec{}
 
-// ConvertSpecFrom populates our RouteTablesRoute_Spec from the provided source
-func (route *RouteTablesRoute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our RouteTables_Route_Spec from the provided source
+func (route *RouteTables_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == route {
-=======
-var _ genruntime.ConvertibleSpec = &RouteTables_Routes_Spec{}
-
-// ConvertSpecFrom populates our RouteTables_Routes_Spec from the provided source
-func (routes *RouteTables_Routes_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == routes {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(route)
 }
 
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our RouteTablesRoute_Spec
-func (route *RouteTablesRoute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == route {
-=======
-// ConvertSpecTo populates the provided destination from our RouteTables_Routes_Spec
-func (routes *RouteTables_Routes_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == routes {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(route)
 }
 
-// Storage version of v1beta20201101.RouteTablesRoute_STATUS
-type RouteTablesRoute_STATUS struct {
+// Storage version of v1beta20201101.RouteTables_Route_STATUS
+type RouteTables_Route_STATUS struct {
 	AddressPrefix     *string                `json:"addressPrefix,omitempty"`
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Etag              *string                `json:"etag,omitempty"`
@@ -251,10 +192,10 @@ type RouteTablesRoute_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RouteTablesRoute_STATUS{}
+var _ genruntime.ConvertibleStatus = &RouteTables_Route_STATUS{}
 
-// ConvertStatusFrom populates our RouteTablesRoute_STATUS from the provided source
-func (route *RouteTablesRoute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our RouteTables_Route_STATUS from the provided source
+func (route *RouteTables_Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == route {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -262,8 +203,8 @@ func (route *RouteTablesRoute_STATUS) ConvertStatusFrom(source genruntime.Conver
 	return source.ConvertStatusTo(route)
 }
 
-// ConvertStatusTo populates the provided destination from our RouteTablesRoute_STATUS
-func (route *RouteTablesRoute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == route {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-type FlexibleServersFirewallRule_STATUSARM struct {
+type FlexibleServers_FirewallRule_STATUSARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

@@ -162,7 +162,6 @@ func EventSubscriptionProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionProperties_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0_STATUS, EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema_STATUS, EventSubscriptionProperties_EventDeliverySchema_EventGridSchema_STATUS))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
@@ -174,19 +173,6 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionProperties_STATUSARM(ge
 		EventSubscriptionProperties_ProvisioningState_Failed_STATUS,
 		EventSubscriptionProperties_ProvisioningState_Succeeded_STATUS,
 		EventSubscriptionProperties_ProvisioningState_Updating_STATUS))
-=======
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_STATUS_EventDeliverySchema_CloudEventSchemaV1_0, EventSubscriptionProperties_STATUS_EventDeliverySchema_CustomInputSchema, EventSubscriptionProperties_STATUS_EventDeliverySchema_EventGridSchema))
-	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
-	gens["Labels"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionProperties_STATUS_ProvisioningState_AwaitingManualAction,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Canceled,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Creating,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Deleting,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Failed,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Succeeded,
-		EventSubscriptionProperties_STATUS_ProvisioningState_Updating))
->>>>>>> main
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -256,11 +242,7 @@ func DeadLetterDestination_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUSARM(gens map[string]gopter.Gen) {
-<<<<<<< HEAD
 	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointType_StorageBlob_STATUS))
-=======
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_STATUS_EndpointType_StorageBlob))
->>>>>>> main
 }
 
 func Test_EventSubscriptionDestination_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -322,7 +304,6 @@ func EventSubscriptionDestination_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		EventSubscriptionDestination_EndpointType_AzureFunction_STATUS,
 		EventSubscriptionDestination_EndpointType_EventHub_STATUS,
 		EventSubscriptionDestination_EndpointType_HybridConnection_STATUS,
@@ -330,15 +311,6 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUSARM(g
 		EventSubscriptionDestination_EndpointType_ServiceBusTopic_STATUS,
 		EventSubscriptionDestination_EndpointType_StorageQueue_STATUS,
 		EventSubscriptionDestination_EndpointType_WebHook_STATUS))
-=======
-		EventSubscriptionDestination_STATUS_EndpointType_AzureFunction,
-		EventSubscriptionDestination_STATUS_EndpointType_EventHub,
-		EventSubscriptionDestination_STATUS_EndpointType_HybridConnection,
-		EventSubscriptionDestination_STATUS_EndpointType_ServiceBusQueue,
-		EventSubscriptionDestination_STATUS_EndpointType_ServiceBusTopic,
-		EventSubscriptionDestination_STATUS_EndpointType_StorageQueue,
-		EventSubscriptionDestination_STATUS_EndpointType_WebHook))
->>>>>>> main
 }
 
 func Test_EventSubscriptionFilter_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -541,7 +513,6 @@ func AdvancedFilter_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAdvancedFilter_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-<<<<<<< HEAD
 		AdvancedFilter_OperatorType_BoolEquals_STATUS,
 		AdvancedFilter_OperatorType_NumberGreaterThan_STATUS,
 		AdvancedFilter_OperatorType_NumberGreaterThanOrEquals_STATUS,
@@ -554,18 +525,4 @@ func AddIndependentPropertyGeneratorsForAdvancedFilter_STATUSARM(gens map[string
 		AdvancedFilter_OperatorType_StringEndsWith_STATUS,
 		AdvancedFilter_OperatorType_StringIn_STATUS,
 		AdvancedFilter_OperatorType_StringNotIn_STATUS))
-=======
-		AdvancedFilter_STATUS_OperatorType_BoolEquals,
-		AdvancedFilter_STATUS_OperatorType_NumberGreaterThan,
-		AdvancedFilter_STATUS_OperatorType_NumberGreaterThanOrEquals,
-		AdvancedFilter_STATUS_OperatorType_NumberIn,
-		AdvancedFilter_STATUS_OperatorType_NumberLessThan,
-		AdvancedFilter_STATUS_OperatorType_NumberLessThanOrEquals,
-		AdvancedFilter_STATUS_OperatorType_NumberNotIn,
-		AdvancedFilter_STATUS_OperatorType_StringBeginsWith,
-		AdvancedFilter_STATUS_OperatorType_StringContains,
-		AdvancedFilter_STATUS_OperatorType_StringEndsWith,
-		AdvancedFilter_STATUS_OperatorType_StringIn,
-		AdvancedFilter_STATUS_OperatorType_StringNotIn))
->>>>>>> main
 }

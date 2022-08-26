@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-// Deprecated version of DatabaseAccountsMongodbDatabasesCollection_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS instead
-type DatabaseAccountsMongodbDatabasesCollection_STATUSARM struct {
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collection_STATUS instead
+type DatabaseAccounts_MongodbDatabases_Collection_STATUSARM struct {
 	Id         *string                                   `json:"id,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
 	Name       *string                                   `json:"name,omitempty"`

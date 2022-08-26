@@ -28,13 +28,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-<<<<<<< HEAD
-	Spec              NamespacesTopic_Spec   `json:"spec,omitempty"`
-	Status            NamespacesTopic_STATUS `json:"status,omitempty"`
-=======
-	Spec              Namespaces_Topics_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS         `json:"status,omitempty"`
->>>>>>> main
+	Spec              Namespaces_Topic_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -83,7 +78,7 @@ func (topic *NamespacesTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NamespacesTopic_STATUS{}
+	return &Namespaces_Topic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -99,13 +94,13 @@ func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NamespacesTopic_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NamespacesTopic_STATUS
+	var st Namespaces_Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,13 +133,8 @@ type NamespacesTopicList struct {
 	Items           []NamespacesTopic `json:"items"`
 }
 
-<<<<<<< HEAD
-// Storage version of v1beta20210101preview.NamespacesTopic_Spec
-type NamespacesTopic_Spec struct {
-=======
-// Storage version of v1beta20210101preview.Namespaces_Topics_Spec
-type Namespaces_Topics_Spec struct {
->>>>>>> main
+// Storage version of v1beta20210101preview.Namespaces_Topic_Spec
+type Namespaces_Topic_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -168,42 +158,28 @@ type Namespaces_Topics_Spec struct {
 	SupportOrdering            *bool                              `json:"supportOrdering,omitempty"`
 }
 
-<<<<<<< HEAD
-var _ genruntime.ConvertibleSpec = &NamespacesTopic_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_Topic_Spec{}
 
-// ConvertSpecFrom populates our NamespacesTopic_Spec from the provided source
-func (topic *NamespacesTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Namespaces_Topic_Spec from the provided source
+func (topic *Namespaces_Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topic {
-=======
-var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Spec{}
-
-// ConvertSpecFrom populates our Namespaces_Topics_Spec from the provided source
-func (topics *Namespaces_Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topics {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(topic)
 }
 
-<<<<<<< HEAD
-// ConvertSpecTo populates the provided destination from our NamespacesTopic_Spec
-func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Namespaces_Topic_Spec
+func (topic *Namespaces_Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topic {
-=======
-// ConvertSpecTo populates the provided destination from our Namespaces_Topics_Spec
-func (topics *Namespaces_Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topics {
->>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return destination.ConvertSpecFrom(topic)
 }
 
-// Storage version of v1beta20210101preview.NamespacesTopic_STATUS
-type NamespacesTopic_STATUS struct {
+// Storage version of v1beta20210101preview.Namespaces_Topic_STATUS
+type Namespaces_Topic_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
@@ -228,10 +204,10 @@ type NamespacesTopic_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NamespacesTopic_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topic_STATUS{}
 
-// ConvertStatusFrom populates our NamespacesTopic_STATUS from the provided source
-func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Topic_STATUS from the provided source
+func (topic *Namespaces_Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -239,8 +215,8 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our NamespacesTopic_STATUS
-func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Topic_STATUS
+func (topic *Namespaces_Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

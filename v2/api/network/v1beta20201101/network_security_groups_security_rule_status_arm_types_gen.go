@@ -3,11 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/network_security_groups_security_rule_status_arm_types_gen.go
-type NetworkSecurityGroupsSecurityRule_STATUSARM struct {
-========
-type SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedARM struct {
->>>>>>>> main:v2/api/network/v1beta20201101/security_rule_status_network_security_groups_security_rule_sub_resource_embedded_arm_types_gen.go
+type NetworkSecurityGroups_SecurityRule_STATUSARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -18,13 +14,13 @@ type SecurityRule_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbeddedA
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the security rule.
-	Properties *SecurityRulePropertiesFormat_STATUSARM `json:"properties,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SecurityRulePropertiesFormat_STATUSARM struct {
+type SecurityRulePropertiesFormat_STATUS_SubResourceEmbeddedARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
@@ -56,11 +52,7 @@ type SecurityRulePropertiesFormat_STATUSARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// Protocol: Network protocol this rule applies to.
-<<<<<<<< HEAD:v2/api/network/v1beta20201101/network_security_groups_security_rule_status_arm_types_gen.go
 	Protocol *SecurityRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-========
-	Protocol *SecurityRulePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
->>>>>>>> main:v2/api/network/v1beta20201101/security_rule_status_network_security_groups_security_rule_sub_resource_embedded_arm_types_gen.go
 
 	// ProvisioningState: The provisioning state of the security rule resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
