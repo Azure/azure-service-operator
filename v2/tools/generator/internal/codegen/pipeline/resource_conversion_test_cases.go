@@ -6,13 +6,11 @@
 package pipeline
 
 import (
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
 )
 
 // InjectResourceConversionTestsID is the unique identifier for this stage
@@ -71,14 +69,6 @@ func makeResourceConversionTestCaseFactory(idFactory astmodel.IdentifierFactory)
 func (_ *resourceConversionTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
 	resourceType, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
-		return false
-	}
-
-	// Skip creating a test case for any resource with more than 50 properties
-	// Gopter can't test these due to a Go Runtime limitation
-	// See https://github.com/golang/go/issues/54669 for more information
-	if props := resourceType.Properties(); props.Len() > 50 {
-		klog.V(3).Infof("Skipping resource conversion test case for %s as it has %d properties", def.Name(), props.Len())
 		return false
 	}
 
