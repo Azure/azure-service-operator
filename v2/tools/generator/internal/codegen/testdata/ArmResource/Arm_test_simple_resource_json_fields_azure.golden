@@ -226,15 +226,9 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *v202001
 
 	// Spec
 	var spec FakeResource_Spec
-<<<<<<< HEAD
-	err := spec.AssignPropertiesFromFakeResource_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFakeResource_Spec() to populate field Spec")
-=======
 	err := spec.AssignProperties_From_FakeResource_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_FakeResource_Spec() to populate field Spec")
->>>>>>> main
 	}
 	resource.Spec = spec
 
@@ -250,15 +244,9 @@ func (resource *FakeResource) AssignProperties_To_FakeResource(destination *v202
 
 	// Spec
 	var spec v20200101s.FakeResource_Spec
-<<<<<<< HEAD
-	err := resource.Spec.AssignPropertiesToFakeResource_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFakeResource_Spec() to populate field Spec")
-=======
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
->>>>>>> main
 	}
 	destination.Spec = spec
 
@@ -436,11 +424,7 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src, ok := source.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return resource.AssignPropertiesFromFakeResource_Spec(src)
-=======
 		return resource.AssignProperties_From_FakeResource_Spec(src)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -451,11 +435,7 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = resource.AssignPropertiesFromFakeResource_Spec(src)
-=======
 	err = resource.AssignProperties_From_FakeResource_Spec(src)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -468,20 +448,12 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst, ok := destination.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return resource.AssignPropertiesToFakeResource_Spec(dst)
-=======
 		return resource.AssignProperties_To_FakeResource_Spec(dst)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.FakeResource_Spec{}
-<<<<<<< HEAD
-	err := resource.AssignPropertiesToFakeResource_Spec(dst)
-=======
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -495,9 +467,8 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromFakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
-func (resource *FakeResource_Spec) AssignPropertiesFromFakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
+// AssignProperties_From_FakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
+func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -505,10 +476,6 @@ func (resource *FakeResource_Spec) AssignPropertiesFromFakeResource_Spec(source 
 	} else {
 		resource.APIVersion = ""
 	}
-=======
-// AssignProperties_From_FakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
-func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
->>>>>>> main
 
 	// AzureName
 	resource.AzureName = source.AzureName
@@ -561,13 +528,8 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToFakeResource_Spec populates the provided destination FakeResource_Spec from our FakeResource_Spec
-func (resource *FakeResource_Spec) AssignPropertiesToFakeResource_Spec(destination *v20200101s.FakeResource_Spec) error {
-=======
 // AssignProperties_To_FakeResource_Spec populates the provided destination FakeResource_Spec from our FakeResource_Spec
 func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destination *v20200101s.FakeResource_Spec) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

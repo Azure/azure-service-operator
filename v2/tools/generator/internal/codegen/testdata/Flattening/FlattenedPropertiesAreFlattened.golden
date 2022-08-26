@@ -21,15 +21,9 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 	// Inner_Flat
 	if source.Inner_Flat != nil {
 		var inner_Flat Inner
-<<<<<<< HEAD
-		err := inner_Flat.AssignPropertiesFromInner(source.Inner_Flat)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field Inner_Flat")
-=======
 		err := inner_Flat.AssignProperties_From_Inner(source.Inner_Flat)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Flat")
->>>>>>> main
 		}
 		test.Inner_Flat = &inner_Flat
 	} else {
@@ -39,15 +33,9 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 	// Inner_Not_Flat
 	if source.Inner_Not_Flat != nil {
 		var inner_Not_Flat Inner
-<<<<<<< HEAD
-		err := inner_Not_Flat.AssignPropertiesFromInner(source.Inner_Not_Flat)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInner() to populate field Inner_Not_Flat")
-=======
 		err := inner_Not_Flat.AssignProperties_From_Inner(source.Inner_Not_Flat)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Inner() to populate field Inner_Not_Flat")
->>>>>>> main
 		}
 		test.Inner_Not_Flat = &inner_Not_Flat
 	} else {
@@ -66,15 +54,9 @@ func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Inner_Flat
 	if test.Inner_Flat != nil {
 		var inner_Flat v20200101s.Inner
-<<<<<<< HEAD
-		err := test.Inner_Flat.AssignPropertiesToInner(&inner_Flat)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field Inner_Flat")
-=======
 		err := test.Inner_Flat.AssignProperties_To_Inner(&inner_Flat)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Flat")
->>>>>>> main
 		}
 		destination.Inner_Flat = &inner_Flat
 	} else {
@@ -84,15 +66,9 @@ func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Inner_Not_Flat
 	if test.Inner_Not_Flat != nil {
 		var inner_Not_Flat v20200101s.Inner
-<<<<<<< HEAD
-		err := test.Inner_Not_Flat.AssignPropertiesToInner(&inner_Not_Flat)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInner() to populate field Inner_Not_Flat")
-=======
 		err := test.Inner_Not_Flat.AssignProperties_To_Inner(&inner_Not_Flat)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Inner() to populate field Inner_Not_Flat")
->>>>>>> main
 		}
 		destination.Inner_Not_Flat = &inner_Not_Flat
 	} else {

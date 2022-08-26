@@ -16,13 +16,8 @@ type Person_Spec struct {
 	KnownAs string `json:"knownAs,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231.Person_Spec) error {
-=======
 // AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
 func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231.Person_Spec) error {
->>>>>>> main
 
 	// FamilyName
 	person.FamilyName = source.FamilyName
@@ -37,13 +32,8 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231.P
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231.Person_Spec) error {
-=======
 // AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
 func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20211231.Person_Spec) error {
->>>>>>> main
 
 	// FamilyName
 	destination.FamilyName = person.FamilyName

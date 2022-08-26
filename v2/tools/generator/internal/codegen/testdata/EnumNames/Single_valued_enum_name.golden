@@ -218,15 +218,9 @@ func (resource *AResource) AssignProperties_From_AResource(source *v20200101s.AR
 
 	// Spec
 	var spec AResource_Spec
-<<<<<<< HEAD
-	err := spec.AssignPropertiesFromAResource_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAResource_Spec() to populate field Spec")
-=======
 	err := spec.AssignProperties_From_AResource_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_AResource_Spec() to populate field Spec")
->>>>>>> main
 	}
 	resource.Spec = spec
 
@@ -242,15 +236,9 @@ func (resource *AResource) AssignProperties_To_AResource(destination *v20200101s
 
 	// Spec
 	var spec v20200101s.AResource_Spec
-<<<<<<< HEAD
-	err := resource.Spec.AssignPropertiesToAResource_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAResource_Spec() to populate field Spec")
-=======
 	err := resource.Spec.AssignProperties_To_AResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
->>>>>>> main
 	}
 	destination.Spec = spec
 
@@ -371,11 +359,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
-<<<<<<< HEAD
-		return resource.AssignPropertiesFromAResource_Spec(src)
-=======
 		return resource.AssignProperties_From_AResource_Spec(src)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -386,11 +370,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	}
 
 	// Update our instance from src
-<<<<<<< HEAD
-	err = resource.AssignPropertiesFromAResource_Spec(src)
-=======
 	err = resource.AssignProperties_From_AResource_Spec(src)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -403,20 +383,12 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
-<<<<<<< HEAD
-		return resource.AssignPropertiesToAResource_Spec(dst)
-=======
 		return resource.AssignProperties_To_AResource_Spec(dst)
->>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.AResource_Spec{}
-<<<<<<< HEAD
-	err := resource.AssignPropertiesToAResource_Spec(dst)
-=======
 	err := resource.AssignProperties_To_AResource_Spec(dst)
->>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -430,9 +402,8 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromAResource_Spec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v20200101s.AResource_Spec) error {
+// AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
+func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -440,10 +411,6 @@ func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v2020
 	} else {
 		resource.APIVersion = ""
 	}
-=======
-// AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
->>>>>>> main
 
 	// Owner
 	if source.Owner != nil {
@@ -464,13 +431,8 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToAResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesToAResource_Spec(destination *v20200101s.AResource_Spec) error {
-=======
 // AssignProperties_To_AResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
 func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *v20200101s.AResource_Spec) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

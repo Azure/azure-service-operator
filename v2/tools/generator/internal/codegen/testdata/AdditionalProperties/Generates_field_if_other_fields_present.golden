@@ -20,15 +20,9 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 	// Tags
 	if source.Tags != nil {
 		var tag Test_Tags
-<<<<<<< HEAD
-		err := tag.AssignPropertiesFromTest_Tags(source.Tags)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTest_Tags() to populate field Tags")
-=======
 		err := tag.AssignProperties_From_Test_Tags(source.Tags)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Test_Tags() to populate field Tags")
->>>>>>> main
 		}
 		test.Tags = &tag
 	} else {
@@ -47,15 +41,9 @@ func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Tags
 	if test.Tags != nil {
 		var tag v20200101s.Test_Tags
-<<<<<<< HEAD
-		err := test.Tags.AssignPropertiesToTest_Tags(&tag)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTest_Tags() to populate field Tags")
-=======
 		err := test.Tags.AssignProperties_To_Test_Tags(&tag)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Test_Tags() to populate field Tags")
->>>>>>> main
 		}
 		destination.Tags = &tag
 	} else {
@@ -78,13 +66,8 @@ type Test_Tags struct {
 	OtherField           *string            `json:"otherField,omitempty"`
 }
 
-<<<<<<< HEAD
-// AssignPropertiesFromTest_Tags populates our Test_Tags from the provided source Test_Tags
-func (tags *Test_Tags) AssignPropertiesFromTest_Tags(source *v20200101s.Test_Tags) error {
-=======
 // AssignProperties_From_Test_Tags populates our Test_Tags from the provided source Test_Tags
 func (tags *Test_Tags) AssignProperties_From_Test_Tags(source *v20200101s.Test_Tags) error {
->>>>>>> main
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -106,13 +89,8 @@ func (tags *Test_Tags) AssignProperties_From_Test_Tags(source *v20200101s.Test_T
 	return nil
 }
 
-<<<<<<< HEAD
-// AssignPropertiesToTest_Tags populates the provided destination Test_Tags from our Test_Tags
-func (tags *Test_Tags) AssignPropertiesToTest_Tags(destination *v20200101s.Test_Tags) error {
-=======
 // AssignProperties_To_Test_Tags populates the provided destination Test_Tags from our Test_Tags
 func (tags *Test_Tags) AssignProperties_To_Test_Tags(destination *v20200101s.Test_Tags) error {
->>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -25,11 +25,7 @@
 +	src, ok := source.(*v20211231.Person_Spec)
 +	if ok {
 +		// Populate our instance from source
-<<<<<<< HEAD
-+		return person.AssignPropertiesFromPerson_Spec(src)
-=======
 +		return person.AssignProperties_From_Person_Spec(src)
->>>>>>> main
 +	}
 +
 +	// Convert to an intermediate form
@@ -40,11 +36,7 @@
 +	}
 +
 +	// Update our instance from src
-<<<<<<< HEAD
-+	err = person.AssignPropertiesFromPerson_Spec(src)
-=======
 +	err = person.AssignProperties_From_Person_Spec(src)
->>>>>>> main
 +	if err != nil {
 +		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 +	}
@@ -57,20 +49,12 @@
 +	dst, ok := destination.(*v20211231.Person_Spec)
 +	if ok {
 +		// Populate destination from our instance
-<<<<<<< HEAD
-+		return person.AssignPropertiesToPerson_Spec(dst)
-=======
 +		return person.AssignProperties_To_Person_Spec(dst)
->>>>>>> main
 +	}
 +
 +	// Convert to an intermediate form
 +	dst = &v20211231.Person_Spec{}
-<<<<<<< HEAD
-+	err := person.AssignPropertiesToPerson_Spec(dst)
-=======
 +	err := person.AssignProperties_To_Person_Spec(dst)
->>>>>>> main
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 +	}
