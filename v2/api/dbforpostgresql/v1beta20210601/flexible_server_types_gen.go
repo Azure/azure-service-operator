@@ -2693,13 +2693,14 @@ const (
 	ServerProperties_STATUS_State_Updating = ServerProperties_STATUS_State("Updating")
 )
 
-// +kubebuilder:validation:Enum={"11","12","13"}
+// +kubebuilder:validation:Enum={"11","12","13","14"}
 type ServerProperties_Version string
 
 const (
 	ServerProperties_Version_11 = ServerProperties_Version("11")
 	ServerProperties_Version_12 = ServerProperties_Version("12")
 	ServerProperties_Version_13 = ServerProperties_Version("13")
+	ServerProperties_Version_14 = ServerProperties_Version("14")
 )
 
 type ServerVersion_STATUS string

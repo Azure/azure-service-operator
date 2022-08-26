@@ -2263,7 +2263,12 @@ func (pools *ManagedClusters_AgentPools_Spec) AssignProperties_From_ManagedClust
 	}
 
 	// ProximityPlacementGroupID
-	pools.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
+	if source.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := *source.ProximityPlacementGroupID
+		pools.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		pools.ProximityPlacementGroupID = nil
+	}
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -2510,7 +2515,12 @@ func (pools *ManagedClusters_AgentPools_Spec) AssignProperties_To_ManagedCluster
 	}
 
 	// ProximityPlacementGroupID
-	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pools.ProximityPlacementGroupID)
+	if pools.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := *pools.ProximityPlacementGroupID
+		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		destination.ProximityPlacementGroupID = nil
+	}
 
 	// ScaleSetEvictionPolicy
 	if pools.ScaleSetEvictionPolicy != nil {
