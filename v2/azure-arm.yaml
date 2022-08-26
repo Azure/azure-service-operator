@@ -650,7 +650,12 @@ status:
 #     These resources are embedded resources which are overwritten when their parent resource
 #     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
 #
-objectModelConfiguration: 
+objectModelConfiguration:
+  appconfiguration:
+    2022-05-01:
+      ConfigurationStore:
+        $export: true
+        $supportedFrom: v2.0.0-beta.3
   authorization:
     2020-08-01-preview:
       RoleAssignment:
