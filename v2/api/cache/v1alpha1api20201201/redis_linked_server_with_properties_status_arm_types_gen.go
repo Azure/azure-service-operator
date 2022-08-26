@@ -16,5 +16,9 @@ type RedisLinkedServerProperties_STATUSARM struct {
 	LinkedRedisCacheId       *string                                        `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                        `json:"linkedRedisCacheLocation,omitempty"`
 	ProvisioningState        *string                                        `json:"provisioningState,omitempty"`
+<<<<<<< HEAD
 	ServerRole               *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
+=======
+	ServerRole               *RedisLinkedServerProperties_STATUS_ServerRole `json:"serverRole,omitempty"`
+>>>>>>> main
 }

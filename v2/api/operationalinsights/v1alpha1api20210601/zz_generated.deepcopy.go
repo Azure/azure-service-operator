@@ -143,7 +143,11 @@ func (in *WorkspaceCapping_STATUS) DeepCopyInto(out *WorkspaceCapping_STATUS) {
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
+<<<<<<< HEAD
 		*out = new(WorkspaceCapping_DataIngestionStatus_STATUS)
+=======
+		*out = new(WorkspaceCapping_STATUS_DataIngestionStatus)
+>>>>>>> main
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -173,7 +177,11 @@ func (in *WorkspaceCapping_STATUSARM) DeepCopyInto(out *WorkspaceCapping_STATUSA
 	}
 	if in.DataIngestionStatus != nil {
 		in, out := &in.DataIngestionStatus, &out.DataIngestionStatus
+<<<<<<< HEAD
 		*out = new(WorkspaceCapping_DataIngestionStatus_STATUS)
+=======
+		*out = new(WorkspaceCapping_STATUS_DataIngestionStatus)
+>>>>>>> main
 		**out = **in
 	}
 	if in.QuotaNextResetTime != nil {
@@ -405,12 +413,20 @@ func (in *WorkspacePropertiesARM) DeepCopyInto(out *WorkspacePropertiesARM) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
+<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
+=======
+		*out = new(WorkspaceProperties_PublicNetworkAccessForIngestion)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
+<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
+=======
+		*out = new(WorkspaceProperties_PublicNetworkAccessForQuery)
+>>>>>>> main
 		**out = **in
 	}
 	if in.RetentionInDays != nil {
@@ -477,7 +493,11 @@ func (in *WorkspaceProperties_STATUSARM) DeepCopyInto(out *WorkspaceProperties_S
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
+<<<<<<< HEAD
 		*out = new(WorkspaceProperties_ProvisioningState_STATUS)
+=======
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -572,7 +592,11 @@ func (in *WorkspaceSku_STATUS) DeepCopyInto(out *WorkspaceSku_STATUS) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
+<<<<<<< HEAD
 		*out = new(WorkspaceSku_CapacityReservationLevel_STATUS)
+=======
+		*out = new(WorkspaceSku_STATUS_CapacityReservationLevel)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -582,7 +606,11 @@ func (in *WorkspaceSku_STATUS) DeepCopyInto(out *WorkspaceSku_STATUS) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
+<<<<<<< HEAD
 		*out = new(WorkspaceSku_Name_STATUS)
+=======
+		*out = new(WorkspaceSku_STATUS_Name)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -602,7 +630,11 @@ func (in *WorkspaceSku_STATUSARM) DeepCopyInto(out *WorkspaceSku_STATUSARM) {
 	*out = *in
 	if in.CapacityReservationLevel != nil {
 		in, out := &in.CapacityReservationLevel, &out.CapacityReservationLevel
+<<<<<<< HEAD
 		*out = new(WorkspaceSku_CapacityReservationLevel_STATUS)
+=======
+		*out = new(WorkspaceSku_STATUS_CapacityReservationLevel)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastSkuUpdate != nil {
@@ -612,7 +644,11 @@ func (in *WorkspaceSku_STATUSARM) DeepCopyInto(out *WorkspaceSku_STATUSARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
+<<<<<<< HEAD
 		*out = new(WorkspaceSku_Name_STATUS)
+=======
+		*out = new(WorkspaceSku_STATUS_Name)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -691,7 +727,11 @@ func (in *Workspace_STATUS) DeepCopyInto(out *Workspace_STATUS) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
+<<<<<<< HEAD
 		*out = new(WorkspaceProperties_ProvisioningState_STATUS)
+=======
+		*out = new(WorkspaceProperties_STATUS_ProvisioningState)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
@@ -830,12 +870,20 @@ func (in *Workspace_Spec) DeepCopyInto(out *Workspace_Spec) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
+<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
+=======
+		*out = new(WorkspaceProperties_PublicNetworkAccessForIngestion)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
+<<<<<<< HEAD
 		*out = new(PublicNetworkAccessType)
+=======
+		*out = new(WorkspaceProperties_PublicNetworkAccessForQuery)
+>>>>>>> main
 		**out = **in
 	}
 	if in.RetentionInDays != nil {

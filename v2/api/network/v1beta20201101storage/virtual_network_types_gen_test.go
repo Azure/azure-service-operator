@@ -74,6 +74,7 @@ func VirtualNetworkGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = VirtualNetwork_SpecGenerator()
 	gens["Status"] = VirtualNetwork_STATUSGenerator()
 }
@@ -163,6 +164,10 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 	gens["Subnets"] = gen.SliceOf(Subnet_VirtualNetwork_SubResourceEmbeddedGenerator())
 	gens["VirtualNetworkPeerings"] = gen.SliceOf(VirtualNetworkPeeringGenerator())
+=======
+	gens["Spec"] = VirtualNetworks_SpecGenerator()
+	gens["Status"] = VirtualNetwork_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_VirtualNetwork_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -252,6 +257,94 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]gopter
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptions_STATUSGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworks_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworks_Spec, VirtualNetworks_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworks_Spec runs a test to see if a specific instance of VirtualNetworks_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworks_Spec(subject VirtualNetworks_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworks_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
+// VirtualNetworks_SpecGenerator()
+var virtualNetworks_SpecGenerator gopter.Gen
+
+// VirtualNetworks_SpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
+// We first initialize virtualNetworks_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualNetworks_SpecGenerator() gopter.Gen {
+	if virtualNetworks_SpecGenerator != nil {
+		return virtualNetworks_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
+	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(generators)
+	virtualNetworks_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworks_Spec{}), generators)
+
+	return virtualNetworks_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
+	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualNetworks_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworks_Spec(gens map[string]gopter.Gen) {
+	gens["AddressSpace"] = gen.PtrOf(AddressSpaceGenerator())
+	gens["BgpCommunities"] = gen.PtrOf(VirtualNetworkBgpCommunitiesGenerator())
+	gens["DdosProtectionPlan"] = gen.PtrOf(SubResourceGenerator())
+	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
+>>>>>>> main
 }
 
 func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

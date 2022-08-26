@@ -39,9 +39,13 @@ type FakeResource_Spec struct {
 }
 
 type FakeResourceParameters struct {
+<<<<<<< HEAD
 	// +kubebuilder:validation:Required
 	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
 	Color      *FakeResource_Spec_Color     `json:"color,omitempty"`
+=======
+	Color *FakeResource_Spec_Color `json:"color,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	Foo *Foo `json:"foo,omitempty"`

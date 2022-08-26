@@ -419,7 +419,7 @@ func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
 	location := to.StringPtr("West US")
 
-	version := mysql.ServerVersion_8021
+	version := mysql.ServerProperties_Version_8021
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
 		Key:  adminKey,
@@ -451,7 +451,7 @@ func newMySQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleS
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServersFirewallRule_Spec{
+		Spec: mysql.FlexibleServers_FirewallRules_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("0.0.0.0"),
 			EndIpAddress:   to.StringPtr("255.255.255.255"),

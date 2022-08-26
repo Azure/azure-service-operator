@@ -57,7 +57,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Delete the deployment
-	_, err = testContext.AzureClient.DeleteByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
+	_, err = testContext.AzureClient.BeginDeleteByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Ensure that the resource group is deleted

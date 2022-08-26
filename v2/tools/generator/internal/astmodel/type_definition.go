@@ -141,7 +141,12 @@ func (def TypeDefinition) HasTestCases() bool {
 // this is not always used as we often combine multiple definitions into one file
 func FileNameHint(name TypeName) string {
 	result := transformToSnakeCase(name.name)
-	result = strings.Replace(result, "_statusarm", "_status_arm", -1)
+
+	//TODO: Change the ARM suffix to "_ARM" and get rid of this hack
+	result = strings.Replace(
+		result,
+		strings.ToLower(StatusSuffix)+strings.ToLower(ArmSuffix),
+		strings.ToLower(StatusSuffix)+"_"+strings.ToLower(ArmSuffix), -1)
 	return result
 }
 

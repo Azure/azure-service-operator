@@ -2,11 +2,20 @@
 |------------------------------------------|---------------------|----------------|
 | APIVersion                               | v1alpha1api20210501 | v1beta20210501 |
 | Backup                                   | v1alpha1api20210501 | v1beta20210501 |
+<<<<<<< HEAD
 | Backup_STATUS                            | v1alpha1api20210501 | v1beta20210501 |
 | DataEncryption                           | v1alpha1api20210501 | v1beta20210501 |
 | DataEncryption_STATUS                    | v1alpha1api20210501 | v1beta20210501 |
 | DataEncryption_Type                      | v1alpha1api20210501 | v1beta20210501 |
 | DataEncryption_Type_STATUS               | v1alpha1api20210501 | v1beta20210501 |
+=======
+| Backup_GeoRedundantBackup                | v1alpha1api20210501 | v1beta20210501 |
+| Backup_STATUS                            | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryption                           | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryption_STATUS                    | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryption_STATUS_Type               | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryption_Type                      | v1alpha1api20210501 | v1beta20210501 |
+>>>>>>> main
 | DatabaseProperties                       | v1alpha1api20210501 | v1beta20210501 |
 | DatabaseProperties_STATUS                | v1alpha1api20210501 | v1beta20210501 |
 | EnableStatusEnum                         | v1alpha1api20210501 | v1beta20210501 |
@@ -17,6 +26,7 @@
 | FlexibleServer_STATUS                    | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServer_Spec                      | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServersDatabase                  | v1alpha1api20210501 | v1beta20210501 |
+<<<<<<< HEAD
 | FlexibleServersDatabase_STATUS           | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServersDatabase_Spec             | v1alpha1api20210501 | v1beta20210501 |
 | FlexibleServersFirewallRule              | v1alpha1api20210501 | v1beta20210501 |
@@ -31,6 +41,21 @@
 | Identity_STATUS                          | v1alpha1api20210501 | v1beta20210501 |
 | Identity_Type                            | v1alpha1api20210501 | v1beta20210501 |
 | Identity_Type_STATUS                     | v1alpha1api20210501 | v1beta20210501 |
+=======
+| FlexibleServersFirewallRule              | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServers_Databases_Spec           | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServers_FirewallRules_Spec       | v1alpha1api20210501 | v1beta20210501 |
+| FlexibleServers_Spec                     | v1alpha1api20210501 | v1beta20210501 |
+| HighAvailability                         | v1alpha1api20210501 | v1beta20210501 |
+| HighAvailability_Mode                    | v1alpha1api20210501 | v1beta20210501 |
+| HighAvailability_STATUS                  | v1alpha1api20210501 | v1beta20210501 |
+| HighAvailability_STATUS_Mode             | v1alpha1api20210501 | v1beta20210501 |
+| HighAvailability_STATUS_State            | v1alpha1api20210501 | v1beta20210501 |
+| Identity                                 | v1alpha1api20210501 | v1beta20210501 |
+| Identity_STATUS                          | v1alpha1api20210501 | v1beta20210501 |
+| Identity_STATUS_Type                     | v1alpha1api20210501 | v1beta20210501 |
+| Identity_Type                            | v1alpha1api20210501 | v1beta20210501 |
+>>>>>>> main
 | MaintenanceWindow                        | v1alpha1api20210501 | v1beta20210501 |
 | MaintenanceWindow_STATUS                 | v1alpha1api20210501 | v1beta20210501 |
 | Network                                  | v1alpha1api20210501 | v1beta20210501 |
@@ -39,17 +64,35 @@
 | ReplicationRole_STATUS                   | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties                         | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_CreateMode              | v1alpha1api20210501 | v1beta20210501 |
+<<<<<<< HEAD
 | ServerProperties_CreateMode_STATUS       | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_STATUS                  | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_State_STATUS            | v1alpha1api20210501 | v1beta20210501 |
 | ServerVersion                            | v1alpha1api20210501 | v1beta20210501 |
+=======
+| ServerProperties_ReplicationRole         | v1alpha1api20210501 | v1beta20210501 |
+| ServerProperties_STATUS                  | v1alpha1api20210501 | v1beta20210501 |
+| ServerProperties_STATUS_CreateMode       | v1alpha1api20210501 | v1beta20210501 |
+| ServerProperties_STATUS_State            | v1alpha1api20210501 | v1beta20210501 |
+| ServerProperties_Version                 | v1alpha1api20210501 | v1beta20210501 |
+>>>>>>> main
 | ServerVersion_STATUS                     | v1alpha1api20210501 | v1beta20210501 |
 | Sku                                      | v1alpha1api20210501 | v1beta20210501 |
 | Sku_STATUS                               | v1alpha1api20210501 | v1beta20210501 |
+<<<<<<< HEAD
 | Sku_Tier                                 | v1alpha1api20210501 | v1beta20210501 |
 | Sku_Tier_STATUS                          | v1alpha1api20210501 | v1beta20210501 |
 | Storage                                  | v1alpha1api20210501 | v1beta20210501 |
 | Storage_STATUS                           | v1alpha1api20210501 | v1beta20210501 |
 | SystemData_CreatedByType_STATUS          | v1alpha1api20210501 | v1beta20210501 |
 | SystemData_LastModifiedByType_STATUS     | v1alpha1api20210501 | v1beta20210501 |
+=======
+| Sku_STATUS_Tier                          | v1alpha1api20210501 | v1beta20210501 |
+| Sku_Tier                                 | v1alpha1api20210501 | v1beta20210501 |
+| Storage                                  | v1alpha1api20210501 | v1beta20210501 |
+| Storage_AutoGrow                         | v1alpha1api20210501 | v1beta20210501 |
+| Storage_STATUS                           | v1alpha1api20210501 | v1beta20210501 |
+>>>>>>> main
 | SystemData_STATUS                        | v1alpha1api20210501 | v1beta20210501 |
+| SystemData_STATUS_CreatedByType          | v1alpha1api20210501 | v1beta20210501 |
+| SystemData_STATUS_LastModifiedByType     | v1alpha1api20210501 | v1beta20210501 |

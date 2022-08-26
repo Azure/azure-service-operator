@@ -64,8 +64,8 @@ func Test_EventGrid_Topic(t *testing.T) {
 }
 
 func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
-	kind := storage.StorageAccount_Spec_Kind_StorageV2
-	sku := storage.SkuName_Standard_LRS
+	kind := storage.StorageAccounts_Spec_Kind_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("stor")
 	tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	acct := &storage.StorageAccount{
@@ -83,7 +83,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("qservice"),
-		Spec: storage.StorageAccountsQueueService_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
@@ -92,7 +92,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
+		Spec: storage.StorageAccounts_QueueServices_Queues_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}

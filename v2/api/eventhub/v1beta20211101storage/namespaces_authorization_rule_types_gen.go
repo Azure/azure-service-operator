@@ -28,8 +28,13 @@ import (
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesAuthorizationRule_Spec   `json:"spec,omitempty"`
 	Status            NamespacesAuthorizationRule_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_AuthorizationRules_Spec `json:"spec,omitempty"`
+	Status            AuthorizationRule_STATUS           `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
@@ -201,6 +206,48 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genr
 	return destination.ConvertStatusFrom(rule)
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20211101.Namespaces_AuthorizationRules_Spec
+type Namespaces_AuthorizationRules_Spec struct {
+	// +kubebuilder:validation:MinLength=1
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
+	Owner       *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Rights      []string                           `json:"rights,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Namespaces_AuthorizationRules_Spec{}
+
+// ConvertSpecFrom populates our Namespaces_AuthorizationRules_Spec from the provided source
+func (rules *Namespaces_AuthorizationRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(rules)
+}
+
+// ConvertSpecTo populates the provided destination from our Namespaces_AuthorizationRules_Spec
+func (rules *Namespaces_AuthorizationRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(rules)
+}
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&NamespacesAuthorizationRule{}, &NamespacesAuthorizationRuleList{})
 }

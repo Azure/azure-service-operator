@@ -18,8 +18,13 @@ type BatchAccount_STATUSARM struct {
 type BatchAccountIdentity_STATUSARM struct {
 	PrincipalId            *string                                                          `json:"principalId,omitempty"`
 	TenantId               *string                                                          `json:"tenantId,omitempty"`
+<<<<<<< HEAD
 	Type                   *BatchAccountIdentity_Type_STATUS                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]BatchAccountIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+=======
+	Type                   *BatchAccountIdentity_STATUS_Type                                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of BatchAccountProperties_STATUS. Use v1beta20210101.BatchAccountProperties_STATUS instead
@@ -36,7 +41,11 @@ type BatchAccountProperties_STATUSARM struct {
 	PoolAllocationMode                    *PoolAllocationMode_STATUS                       `json:"poolAllocationMode,omitempty"`
 	PoolQuota                             *int                                             `json:"poolQuota,omitempty"`
 	PrivateEndpointConnections            []PrivateEndpointConnection_STATUSARM            `json:"privateEndpointConnections,omitempty"`
+<<<<<<< HEAD
 	ProvisioningState                     *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState                     *BatchAccountProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 	PublicNetworkAccess                   *PublicNetworkAccessType_STATUS                  `json:"publicNetworkAccess,omitempty"`
 }
 
@@ -46,6 +55,7 @@ type AutoStorageProperties_STATUSARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of BatchAccountIdentity_Type_STATUS. Use v1beta20210101.BatchAccountIdentity_Type_STATUS instead
 type BatchAccountIdentity_Type_STATUS string
 
@@ -57,13 +67,30 @@ const (
 
 // Deprecated version of BatchAccountIdentity_UserAssignedIdentities_STATUS. Use v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS instead
 type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
+=======
+// Deprecated version of BatchAccountIdentity_STATUS_Type. Use v1beta20210101.BatchAccountIdentity_STATUS_Type instead
+type BatchAccountIdentity_STATUS_Type string
+
+const (
+	BatchAccountIdentity_STATUS_Type_None           = BatchAccountIdentity_STATUS_Type("None")
+	BatchAccountIdentity_STATUS_Type_SystemAssigned = BatchAccountIdentity_STATUS_Type("SystemAssigned")
+	BatchAccountIdentity_STATUS_Type_UserAssigned   = BatchAccountIdentity_STATUS_Type("UserAssigned")
+)
+
+// Deprecated version of BatchAccountIdentity_STATUS_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_STATUS_UserAssignedIdentities instead
+type BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM struct {
+>>>>>>> main
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of EncryptionProperties_STATUS. Use v1beta20210101.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUSARM struct {
+<<<<<<< HEAD
 	KeySource          *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+=======
+	KeySource          *EncryptionProperties_STATUS_KeySource `json:"keySource,omitempty"`
+>>>>>>> main
 	KeyVaultProperties *KeyVaultProperties_STATUSARM          `json:"keyVaultProperties,omitempty"`
 }
 
@@ -97,7 +124,11 @@ type KeyVaultProperties_STATUSARM struct {
 type PrivateEndpointConnectionProperties_STATUSARM struct {
 	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                    `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                  `json:"privateLinkServiceConnectionState,omitempty"`
+<<<<<<< HEAD
 	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState                 *PrivateEndpointConnectionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of PrivateEndpoint_STATUS. Use v1beta20210101.PrivateEndpoint_STATUS instead

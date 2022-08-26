@@ -81,15 +81,15 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-pwlckr\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr\",\r\n
-      \ \"etag\": \"W/\\\"55e33d7f-d609-448d-8634-5a9d74d32ec4\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"df1a9833-cc19-4bc2-96b6-a90154d973b9\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"bab60616-7528-413b-bd9e-5862b6263a06\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"bb2b3a85-3543-4e36-a9be-a0311711c18f\",\r\n
       \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/97bdb46b-d4dc-4287-82ff-35517a1083e6?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/fda44fdf-d605-4552-9731-64df8eaed376?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -118,7 +118,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/97bdb46b-d4dc-4287-82ff-35517a1083e6?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/fda44fdf-d605-4552-9731-64df8eaed376?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -153,9 +153,9 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-pwlckr\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr\",\r\n
-      \ \"etag\": \"W/\\\"ce0c2772-bd4f-4da2-9457-3c79affaf6ad\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"77d711cf-b28e-4d80-8677-32adbd8bc3b2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"bab60616-7528-413b-bd9e-5862b6263a06\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"bb2b3a85-3543-4e36-a9be-a0311711c18f\",\r\n
       \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -163,7 +163,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"ce0c2772-bd4f-4da2-9457-3c79affaf6ad"
+      - W/"77d711cf-b28e-4d80-8677-32adbd8bc3b2"
       Expires:
       - "-1"
       Pragma:
@@ -192,9 +192,9 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-pwlckr\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr\",\r\n
-      \ \"etag\": \"W/\\\"ce0c2772-bd4f-4da2-9457-3c79affaf6ad\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"77d711cf-b28e-4d80-8677-32adbd8bc3b2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"bab60616-7528-413b-bd9e-5862b6263a06\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"bb2b3a85-3543-4e36-a9be-a0311711c18f\",\r\n
       \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -202,7 +202,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"ce0c2772-bd4f-4da2-9457-3c79affaf6ad"
+      - W/"77d711cf-b28e-4d80-8677-32adbd8bc3b2"
       Expires:
       - "-1"
       Pragma:
@@ -235,13 +235,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-hayhtc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \ \"etag\": \"W/\\\"e89160e5-e14b-4785-b296-90110a4caa14\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"26e32b24-e767-41f0-9621-d7d4c900832f\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2959f639-8583-406f-a3a5-0aa5423cd99b?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/255f85d6-daf4-40eb-9c87-687a3f0f45bb?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -270,7 +270,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2959f639-8583-406f-a3a5-0aa5423cd99b?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/255f85d6-daf4-40eb-9c87-687a3f0f45bb?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -305,7 +305,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-hayhtc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \ \"etag\": \"W/\\\"9b1901ea-f410-40b8-8648-514e476211ed\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"e6700a1f-fc38-4ea6-aa24-7e779fdb7c73\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -315,7 +315,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"9b1901ea-f410-40b8-8648-514e476211ed"
+      - W/"e6700a1f-fc38-4ea6-aa24-7e779fdb7c73"
       Expires:
       - "-1"
       Pragma:
@@ -344,7 +344,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-hayhtc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \ \"etag\": \"W/\\\"9b1901ea-f410-40b8-8648-514e476211ed\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"e6700a1f-fc38-4ea6-aa24-7e779fdb7c73\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -354,7 +354,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"9b1901ea-f410-40b8-8648-514e476211ed"
+      - W/"e6700a1f-fc38-4ea6-aa24-7e779fdb7c73"
       Expires:
       - "-1"
       Pragma:
@@ -388,14 +388,14 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-pwlckr\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr\",\r\n
-      \ \"etag\": \"W/\\\"bbfcf220-ca79-4757-9031-b8ad2223a02a\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"d5dacb5c-339f-43e7-a10d-da93bd9b90e2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"tags\":
       {\r\n    \"taters\": \"boil 'em, mash 'em, stick 'em in a stew\"\r\n  },\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"bab60616-7528-413b-bd9e-5862b6263a06\",\r\n    \"disableBgpRoutePropagation\":
+      \"bb2b3a85-3543-4e36-a9be-a0311711c18f\",\r\n    \"disableBgpRoutePropagation\":
       false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"asotest-ipv4route-hayhtc\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \       \"etag\": \"W/\\\"bbfcf220-ca79-4757-9031-b8ad2223a02a\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"d5dacb5c-339f-43e7-a10d-da93bd9b90e2\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
       \"Storage\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\":
       \"10.0.100.4\",\r\n          \"hasBgpOverride\": false\r\n        },\r\n        \"type\":
@@ -404,7 +404,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/1e13bf9e-beed-48a6-abdf-a9d88e7268a2?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7f2a71ee-7353-4449-91eb-5b01712e16eb?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -437,14 +437,14 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-pwlckr\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr\",\r\n
-      \ \"etag\": \"W/\\\"bbfcf220-ca79-4757-9031-b8ad2223a02a\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"d5dacb5c-339f-43e7-a10d-da93bd9b90e2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"tags\":
       {\r\n    \"taters\": \"boil 'em, mash 'em, stick 'em in a stew\"\r\n  },\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"bab60616-7528-413b-bd9e-5862b6263a06\",\r\n    \"disableBgpRoutePropagation\":
+      \"bb2b3a85-3543-4e36-a9be-a0311711c18f\",\r\n    \"disableBgpRoutePropagation\":
       false,\r\n    \"routes\": [\r\n      {\r\n        \"name\": \"asotest-ipv4route-hayhtc\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \       \"etag\": \"W/\\\"bbfcf220-ca79-4757-9031-b8ad2223a02a\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"d5dacb5c-339f-43e7-a10d-da93bd9b90e2\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
       \"Storage\",\r\n          \"nextHopType\": \"VirtualAppliance\",\r\n          \"nextHopIpAddress\":
       \"10.0.100.4\",\r\n          \"hasBgpOverride\": false\r\n        },\r\n        \"type\":
@@ -455,7 +455,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"bbfcf220-ca79-4757-9031-b8ad2223a02a"
+      - W/"d5dacb5c-339f-43e7-a10d-da93bd9b90e2"
       Expires:
       - "-1"
       Pragma:
@@ -484,7 +484,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-hayhtc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc\",\r\n
-      \ \"etag\": \"W/\\\"bbfcf220-ca79-4757-9031-b8ad2223a02a\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"d5dacb5c-339f-43e7-a10d-da93bd9b90e2\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -494,7 +494,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"bbfcf220-ca79-4757-9031-b8ad2223a02a"
+      - W/"d5dacb5c-339f-43e7-a10d-da93bd9b90e2"
       Expires:
       - "-1"
       Pragma:
@@ -510,45 +510,6 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr?api-version=2020-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2810f2d3-15a7-49a2-b403-a46da9c492f9?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/2810f2d3-15a7-49a2-b403-a46da9c492f9?api-version=2020-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "2"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
     duration: ""
 - request:
     body: ""
@@ -586,119 +547,137 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc?api-version=2020-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 204 No Content
-    code: 204
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/routeTables/asotest-routetable-pwlckr''
-      under resource group ''asotest-rg-jnkrot'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "244"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
+      Retry-After:
+      - "15"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot/providers/Microsoft.Network/routeTables/asotest-routetable-pwlckr/routes/asotest-ipv4route-hayhtc?api-version=2020-11-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/routeTables/asotest-routetable-pwlckr''
-      under resource group ''asotest-rg-jnkrot'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "244"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jnkrot?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-jnkrot''
-      could not be found."}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKTktST1QtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -707,8 +686,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""

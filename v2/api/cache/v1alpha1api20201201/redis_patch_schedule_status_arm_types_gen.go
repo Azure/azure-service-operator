@@ -19,7 +19,11 @@ type ScheduleEntries_STATUSARM struct {
 
 // Deprecated version of ScheduleEntry_STATUS. Use v1beta20201201.ScheduleEntry_STATUS instead
 type ScheduleEntry_STATUSARM struct {
+<<<<<<< HEAD
 	DayOfWeek         *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+=======
+	DayOfWeek         *ScheduleEntry_STATUS_DayOfWeek `json:"dayOfWeek,omitempty"`
+>>>>>>> main
 	MaintenanceWindow *string                         `json:"maintenanceWindow,omitempty"`
 	StartHourUtc      *int                            `json:"startHourUtc,omitempty"`
 }

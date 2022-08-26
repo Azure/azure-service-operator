@@ -45,7 +45,11 @@ type ManagementPolicyRule_STATUSARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_management_policy_status_arm_types_gen.go
 	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+=======
+	Type *ManagementPolicyRule_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main:v2/api/storage/v1beta20210401/management_policy_status_arm_types_gen.go
 }
 
 type ManagementPolicyDefinition_STATUSARM struct {
@@ -56,6 +60,13 @@ type ManagementPolicyDefinition_STATUSARM struct {
 	Filters *ManagementPolicyFilter_STATUSARM `json:"filters,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_management_policy_status_arm_types_gen.go
+=======
+type ManagementPolicyRule_STATUS_Type string
+
+const ManagementPolicyRule_STATUS_Type_Lifecycle = ManagementPolicyRule_STATUS_Type("Lifecycle")
+
+>>>>>>> main:v2/api/storage/v1beta20210401/management_policy_status_arm_types_gen.go
 type ManagementPolicyAction_STATUSARM struct {
 	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_STATUSARM `json:"baseBlob,omitempty"`

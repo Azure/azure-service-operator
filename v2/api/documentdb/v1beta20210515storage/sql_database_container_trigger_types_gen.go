@@ -28,8 +28,13 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              DatabaseAccountsSqlDatabasesContainersTrigger_Spec   `json:"spec,omitempty"`
 	Status            DatabaseAccountsSqlDatabasesContainersTrigger_STATUS `json:"status,omitempty"`
+=======
+	Spec              DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec `json:"spec,omitempty"`
+	Status            SqlTriggerGetResults_STATUS                            `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -133,8 +138,13 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersTrigger_Spec
 type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
+=======
+// Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
+type DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec struct {
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -152,20 +162,34 @@ type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersTrigger_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersTrigger_Spec from the provided source
 func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == trigger {
+=======
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec{}
+
+// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec from the provided source
+func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == triggers {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(trigger)
 }
 
+<<<<<<< HEAD
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersTrigger_Spec
 func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == trigger {
+=======
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec
+func (triggers *DatabaseAccounts_SqlDatabases_Containers_Triggers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == triggers {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 

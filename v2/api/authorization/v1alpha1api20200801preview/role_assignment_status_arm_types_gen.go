@@ -20,7 +20,11 @@ type RoleAssignmentProperties_STATUSARM struct {
 	DelegatedManagedIdentityResourceId *string                                        `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                                        `json:"description,omitempty"`
 	PrincipalId                        *string                                        `json:"principalId,omitempty"`
+<<<<<<< HEAD
 	PrincipalType                      *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
+=======
+	PrincipalType                      *RoleAssignmentProperties_STATUS_PrincipalType `json:"principalType,omitempty"`
+>>>>>>> main
 	RoleDefinitionId                   *string                                        `json:"roleDefinitionId,omitempty"`
 	Scope                              *string                                        `json:"scope,omitempty"`
 	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`

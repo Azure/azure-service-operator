@@ -57,10 +57,10 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 }
 
 func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTable) {
-	nextHopType := network.RouteNextHopType_VirtualAppliance
+	nextHopType := network.RoutePropertiesFormat_NextHopType_VirtualAppliance
 	ipv6Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
-		Spec: network.RouteTablesRoute_Spec{
+		Spec: network.RouteTables_Routes_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("cab:cab::/96"),
 			NextHopType:      &nextHopType,
@@ -70,7 +70,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
-		Spec: network.RouteTablesRoute_Spec{
+		Spec: network.RouteTables_Routes_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("Storage"),
 			NextHopType:      &nextHopType,
@@ -124,10 +124,10 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 		},
 	}
 
-	nextHopType := network.RouteNextHopType_VirtualAppliance
+	nextHopType := network.RoutePropertiesFormat_NextHopType_VirtualAppliance
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
-		Spec: network.RouteTablesRoute_Spec{
+		Spec: network.RouteTables_Routes_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("Storage"),
 			NextHopType:      &nextHopType,

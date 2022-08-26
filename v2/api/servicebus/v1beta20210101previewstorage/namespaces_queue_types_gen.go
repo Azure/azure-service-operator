@@ -28,8 +28,13 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
 	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
+=======
+	Spec              Namespaces_Queues_Spec `json:"spec,omitempty"`
+	Status            SBQueue_STATUS         `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -133,8 +138,13 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20210101preview.NamespacesQueue_Spec
 type NamespacesQueue_Spec struct {
+=======
+// Storage version of v1beta20210101preview.Namespaces_Queues_Spec
+type Namespaces_Queues_Spec struct {
+>>>>>>> main
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -163,20 +173,34 @@ type NamespacesQueue_Spec struct {
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleSpec = &NamespacesQueue_Spec{}
 
 // ConvertSpecFrom populates our NamespacesQueue_Spec from the provided source
 func (queue *NamespacesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == queue {
+=======
+var _ genruntime.ConvertibleSpec = &Namespaces_Queues_Spec{}
+
+// ConvertSpecFrom populates our Namespaces_Queues_Spec from the provided source
+func (queues *Namespaces_Queues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == queues {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(queue)
 }
 
+<<<<<<< HEAD
 // ConvertSpecTo populates the provided destination from our NamespacesQueue_Spec
 func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == queue {
+=======
+// ConvertSpecTo populates the provided destination from our Namespaces_Queues_Spec
+func (queues *Namespaces_Queues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == queues {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 

@@ -49,7 +49,11 @@ type WebTestProperties_STATUSARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
+<<<<<<< HEAD:v2/api/insights/v1beta20180501preview/webtest_status_arm_types_gen.go
 	Kind *WebTestProperties_Kind_STATUS `json:"Kind,omitempty"`
+=======
+	Kind *WebTestProperties_STATUS_Kind `json:"Kind,omitempty"`
+>>>>>>> main:v2/api/insights/v1beta20180501preview/web_test_status_arm_types_gen.go
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
@@ -89,7 +93,20 @@ type WebTestProperties_Configuration_STATUSARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/insights/v1beta20180501preview/webtest_status_arm_types_gen.go
 type WebTestProperties_Request_STATUSARM struct {
+=======
+type WebTestProperties_STATUS_Kind string
+
+const (
+	WebTestProperties_STATUS_Kind_Basic     = WebTestProperties_STATUS_Kind("basic")
+	WebTestProperties_STATUS_Kind_Multistep = WebTestProperties_STATUS_Kind("multistep")
+	WebTestProperties_STATUS_Kind_Ping      = WebTestProperties_STATUS_Kind("ping")
+	WebTestProperties_STATUS_Kind_Standard  = WebTestProperties_STATUS_Kind("standard")
+)
+
+type WebTestProperties_STATUS_RequestARM struct {
+>>>>>>> main:v2/api/insights/v1beta20180501preview/web_test_status_arm_types_gen.go
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 

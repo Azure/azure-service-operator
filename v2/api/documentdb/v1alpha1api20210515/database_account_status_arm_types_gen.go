@@ -7,7 +7,11 @@ package v1alpha1api20210515
 type DatabaseAccount_STATUSARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Identity   *ManagedServiceIdentity_STATUSARM       `json:"identity,omitempty"`
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 	Kind       *DatabaseAccount_Kind_STATUS            `json:"kind,omitempty"`
+=======
+	Kind       *DatabaseAccountGetResults_STATUS_Kind  `json:"kind,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 	Location   *string                                 `json:"location,omitempty"`
 	Name       *string                                 `json:"name,omitempty"`
 	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
@@ -15,6 +19,7 @@ type DatabaseAccount_STATUSARM struct {
 	Type       *string                                 `json:"type,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 // Deprecated version of DatabaseAccount_Kind_STATUS. Use v1beta20210515.DatabaseAccount_Kind_STATUS instead
 type DatabaseAccount_Kind_STATUS string
 
@@ -22,6 +27,49 @@ const (
 	DatabaseAccount_Kind_GlobalDocumentDB_STATUS = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
 	DatabaseAccount_Kind_MongoDB_STATUS          = DatabaseAccount_Kind_STATUS("MongoDB")
 	DatabaseAccount_Kind_Parse_STATUS            = DatabaseAccount_Kind_STATUS("Parse")
+=======
+// Deprecated version of DatabaseAccountGetProperties_STATUS. Use v1beta20210515.DatabaseAccountGetProperties_STATUS instead
+type DatabaseAccountGetProperties_STATUSARM struct {
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUSARM                 `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_STATUSARM                                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_STATUSARM                                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_STATUSARM                                    `json:"capabilities,omitempty"`
+	ConnectorOffer                     *ConnectorOffer_STATUS                                    `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUSARM                              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUSARM                                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountOfferType_STATUS                          `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                                   `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                                     `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                                   `json:"documentEndpoint,omitempty"`
+	EnableAnalyticalStorage            *bool                                                     `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                                     `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                                     `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                                     `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                                     `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUSARM                                `json:"failoverPolicies,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUSARM                              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                                     `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                                   `json:"keyVaultKeyUri,omitempty"`
+	Locations                          []Location_STATUSARM                                      `json:"locations,omitempty"`
+	NetworkAclBypass                   *NetworkAclBypass_STATUS                                  `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                                                  `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                  *string                                                   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                *PublicNetworkAccess_STATUS                               `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUSARM                                      `json:"readLocations,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUSARM                            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUSARM                                      `json:"writeLocations,omitempty"`
+}
+
+// Deprecated version of DatabaseAccountGetResults_STATUS_Kind. Use v1beta20210515.DatabaseAccountGetResults_STATUS_Kind
+// instead
+type DatabaseAccountGetResults_STATUS_Kind string
+
+const (
+	DatabaseAccountGetResults_STATUS_Kind_GlobalDocumentDB = DatabaseAccountGetResults_STATUS_Kind("GlobalDocumentDB")
+	DatabaseAccountGetResults_STATUS_Kind_MongoDB          = DatabaseAccountGetResults_STATUS_Kind("MongoDB")
+	DatabaseAccountGetResults_STATUS_Kind_Parse            = DatabaseAccountGetResults_STATUS_Kind("Parse")
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 )
 
 // Deprecated version of DatabaseAccountGetProperties_STATUS. Use v1beta20210515.DatabaseAccountGetProperties_STATUS instead
@@ -61,8 +109,13 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 type ManagedServiceIdentity_STATUSARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 	Type                   *ManagedServiceIdentity_Type_STATUS                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUSARM `json:"userAssignedIdentities,omitempty"`
+=======
+	Type                   *ManagedServiceIdentity_STATUS_Type                                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 }
 
 // Deprecated version of AnalyticalStorageConfiguration_STATUS. Use v1beta20210515.AnalyticalStorageConfiguration_STATUS instead
@@ -72,7 +125,11 @@ type AnalyticalStorageConfiguration_STATUSARM struct {
 
 // Deprecated version of ApiProperties_STATUS. Use v1beta20210515.ApiProperties_STATUS instead
 type ApiProperties_STATUSARM struct {
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 	ServerVersion *ApiProperties_ServerVersion_STATUS `json:"serverVersion,omitempty"`
+=======
+	ServerVersion *ApiProperties_STATUS_ServerVersion `json:"serverVersion,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 }
 
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
@@ -87,7 +144,11 @@ type Capability_STATUSARM struct {
 
 // Deprecated version of ConsistencyPolicy_STATUS. Use v1beta20210515.ConsistencyPolicy_STATUS instead
 type ConsistencyPolicy_STATUSARM struct {
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
+=======
+	DefaultConsistencyLevel *ConsistencyPolicy_STATUS_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 	MaxIntervalInSeconds    *int                                              `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                                              `json:"maxStalenessPrefix,omitempty"`
 }
@@ -123,6 +184,7 @@ type Location_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 // Deprecated version of ManagedServiceIdentity_Type_STATUS. Use v1beta20210515.ManagedServiceIdentity_Type_STATUS instead
 type ManagedServiceIdentity_Type_STATUS string
 
@@ -135,12 +197,31 @@ const (
 
 // Deprecated version of ManagedServiceIdentity_UserAssignedIdentities_STATUS. Use v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS instead
 type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
+=======
+// Deprecated version of ManagedServiceIdentity_STATUS_Type. Use v1beta20210515.ManagedServiceIdentity_STATUS_Type instead
+type ManagedServiceIdentity_STATUS_Type string
+
+const (
+	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
+	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
+	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
+)
+
+// Deprecated version of ManagedServiceIdentity_STATUS_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_STATUS_UserAssignedIdentities instead
+type ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM struct {
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1alpha1api20210515/database_account_status_arm_types_gen.go
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210515.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUSARM struct {
+=======
+// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
+type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+>>>>>>> main:v2/api/documentdb/v1alpha1api20210515/database_account_get_results_status_arm_types_gen.go
 	Id *string `json:"id,omitempty"`
 }
 

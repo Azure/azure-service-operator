@@ -230,12 +230,20 @@ func ManagedClusterIdentity_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUSARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentity_Type_None_STATUS, ManagedClusterIdentity_Type_SystemAssigned_STATUS, ManagedClusterIdentity_Type_UserAssigned_STATUS))
+=======
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedClusterIdentity_STATUS_Type_None, ManagedClusterIdentity_STATUS_Type_SystemAssigned, ManagedClusterIdentity_STATUS_Type_UserAssigned))
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUSARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentity_UserAssignedIdentities_STATUSARMGenerator())
+=======
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator())
+>>>>>>> main
 }
 
 func Test_ManagedClusterProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -325,7 +333,11 @@ func AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUSARM(gens map[
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_STATUSARMGenerator())
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_STATUSARMGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_STATUSARMGenerator())
+<<<<<<< HEAD
 	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_AutoScalerProfile_STATUSARMGenerator())
+=======
+	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_STATUS_AutoScalerProfileARMGenerator())
+>>>>>>> main
 	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfile_STATUSARMGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_STATUSARMGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_STATUSARMGenerator())
@@ -395,8 +407,13 @@ func ManagedClusterSKU_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterSKU_STATUSARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Name_Basic_STATUS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_Tier_Free_STATUS, ManagedClusterSKU_Tier_Paid_STATUS))
+=======
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_STATUS_Name_Basic))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(ManagedClusterSKU_STATUS_Tier_Free, ManagedClusterSKU_STATUS_Tier_Paid))
+>>>>>>> main
 }
 
 func Test_ContainerServiceLinuxProfile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -543,11 +560,19 @@ func ContainerServiceNetworkProfile_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DnsServiceIP"] = gen.PtrOf(gen.AlphaString())
 	gens["DockerBridgeCidr"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_LoadBalancerSku_Basic_STATUS, ContainerServiceNetworkProfile_LoadBalancerSku_Standard_STATUS))
 	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkMode_Bridge_STATUS, ContainerServiceNetworkProfile_NetworkMode_Transparent_STATUS))
 	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkPlugin_Azure_STATUS, ContainerServiceNetworkProfile_NetworkPlugin_Kubenet_STATUS))
 	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkPolicy_Azure_STATUS, ContainerServiceNetworkProfile_NetworkPolicy_Calico_STATUS))
 	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_OutboundType_LoadBalancer_STATUS, ContainerServiceNetworkProfile_OutboundType_UserDefinedRouting_STATUS))
+=======
+	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_STATUS_LoadBalancerSku_Basic, ContainerServiceNetworkProfile_STATUS_LoadBalancerSku_Standard))
+	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_STATUS_NetworkMode_Bridge, ContainerServiceNetworkProfile_STATUS_NetworkMode_Transparent))
+	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_STATUS_NetworkPlugin_Azure, ContainerServiceNetworkProfile_STATUS_NetworkPlugin_Kubenet))
+	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_STATUS_NetworkPolicy_Azure, ContainerServiceNetworkProfile_STATUS_NetworkPolicy_Calico))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_STATUS_OutboundType_LoadBalancer, ContainerServiceNetworkProfile_STATUS_OutboundType_UserDefinedRouting))
+>>>>>>> main
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
@@ -862,11 +887,19 @@ func ManagedClusterAutoUpgradeProfile_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
+<<<<<<< HEAD
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage_STATUS,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_None_STATUS,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_Patch_STATUS,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_Rapid_STATUS,
 		ManagedClusterAutoUpgradeProfile_UpgradeChannel_Stable_STATUS))
+=======
+		ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel_NodeImage,
+		ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel_None,
+		ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel_Patch,
+		ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel_Rapid,
+		ManagedClusterAutoUpgradeProfile_STATUS_UpgradeChannel_Stable))
+>>>>>>> main
 }
 
 func Test_ManagedClusterHTTPProxyConfig_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -940,6 +973,7 @@ func Test_ManagedClusterIdentity_UserAssignedIdentities_STATUSARM_WhenSerialized
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterIdentity_UserAssignedIdentities_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentity_UserAssignedIdentities_STATUSARM, ManagedClusterIdentity_UserAssignedIdentities_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -947,6 +981,15 @@ func Test_ManagedClusterIdentity_UserAssignedIdentities_STATUSARM_WhenSerialized
 
 // RunJSONSerializationTestForManagedClusterIdentity_UserAssignedIdentities_STATUSARM runs a test to see if a specific instance of ManagedClusterIdentity_UserAssignedIdentities_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterIdentity_UserAssignedIdentities_STATUSARM(subject ManagedClusterIdentity_UserAssignedIdentities_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM, ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM runs a test to see if a specific instance of ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM(subject ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -972,6 +1015,7 @@ func RunJSONSerializationTestForManagedClusterIdentity_UserAssignedIdentities_ST
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterIdentity_UserAssignedIdentities_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterIdentity_UserAssignedIdentities_STATUSARMGenerator()
 var managedClusterIdentity_UserAssignedIdentities_STATUSARMGenerator gopter.Gen
@@ -991,6 +1035,27 @@ func ManagedClusterIdentity_UserAssignedIdentities_STATUSARMGenerator() gopter.G
 
 // AddIndependentPropertyGeneratorsForManagedClusterIdentity_UserAssignedIdentities_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterIdentity_UserAssignedIdentities_STATUSARM(gens map[string]gopter.Gen) {
+=======
+// Generator of ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM instances for property testing - lazily
+// instantiated by ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator()
+var managedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator gopter.Gen
+
+// ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator returns a generator of ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM instances for property testing.
+func ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator() gopter.Gen {
+	if managedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator != nil {
+		return managedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM(generators)
+	managedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM{}), generators)
+
+	return managedClusterIdentity_STATUS_UserAssignedIdentitiesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_UserAssignedIdentitiesARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1079,6 +1144,7 @@ func Test_ManagedClusterProperties_AutoScalerProfile_STATUSARM_WhenSerializedToJ
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterProperties_AutoScalerProfile_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUSARM, ManagedClusterProperties_AutoScalerProfile_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1086,6 +1152,15 @@ func Test_ManagedClusterProperties_AutoScalerProfile_STATUSARM_WhenSerializedToJ
 
 // RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUSARM runs a test to see if a specific instance of ManagedClusterProperties_AutoScalerProfile_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATUSARM(subject ManagedClusterProperties_AutoScalerProfile_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterProperties_STATUS_AutoScalerProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterProperties_STATUS_AutoScalerProfileARM, ManagedClusterProperties_STATUS_AutoScalerProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterProperties_STATUS_AutoScalerProfileARM runs a test to see if a specific instance of ManagedClusterProperties_STATUS_AutoScalerProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterProperties_STATUS_AutoScalerProfileARM(subject ManagedClusterProperties_STATUS_AutoScalerProfileARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1111,6 +1186,7 @@ func RunJSONSerializationTestForManagedClusterProperties_AutoScalerProfile_STATU
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterProperties_AutoScalerProfile_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterProperties_AutoScalerProfile_STATUSARMGenerator()
 var managedClusterProperties_AutoScalerProfile_STATUSARMGenerator gopter.Gen
@@ -1136,6 +1212,33 @@ func AddIndependentPropertyGeneratorsForManagedClusterProperties_AutoScalerProfi
 		ManagedClusterProperties_AutoScalerProfile_Expander_MostPods_STATUS,
 		ManagedClusterProperties_AutoScalerProfile_Expander_Priority_STATUS,
 		ManagedClusterProperties_AutoScalerProfile_Expander_Random_STATUS))
+=======
+// Generator of ManagedClusterProperties_STATUS_AutoScalerProfileARM instances for property testing - lazily
+// instantiated by ManagedClusterProperties_STATUS_AutoScalerProfileARMGenerator()
+var managedClusterProperties_STATUS_AutoScalerProfileARMGenerator gopter.Gen
+
+// ManagedClusterProperties_STATUS_AutoScalerProfileARMGenerator returns a generator of ManagedClusterProperties_STATUS_AutoScalerProfileARM instances for property testing.
+func ManagedClusterProperties_STATUS_AutoScalerProfileARMGenerator() gopter.Gen {
+	if managedClusterProperties_STATUS_AutoScalerProfileARMGenerator != nil {
+		return managedClusterProperties_STATUS_AutoScalerProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_AutoScalerProfileARM(generators)
+	managedClusterProperties_STATUS_AutoScalerProfileARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_STATUS_AutoScalerProfileARM{}), generators)
+
+	return managedClusterProperties_STATUS_AutoScalerProfileARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_AutoScalerProfileARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_AutoScalerProfileARM(gens map[string]gopter.Gen) {
+	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
+	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterProperties_STATUS_AutoScalerProfile_Expander_LeastWaste,
+		ManagedClusterProperties_STATUS_AutoScalerProfile_Expander_MostPods,
+		ManagedClusterProperties_STATUS_AutoScalerProfile_Expander_Priority,
+		ManagedClusterProperties_STATUS_AutoScalerProfile_Expander_Random))
+>>>>>>> main
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
@@ -1276,6 +1379,7 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUSARM(g
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
+<<<<<<< HEAD
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_LicenseType_None_STATUS, ManagedClusterWindowsProfile_LicenseType_Windows_Server_STATUS))
 }
 
@@ -1338,6 +1442,9 @@ func PowerState_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPowerState_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerState_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_Running_STATUS, PowerState_Code_Stopped_STATUS))
+=======
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_STATUS_LicenseType_None, ManagedClusterWindowsProfile_STATUS_LicenseType_Windows_Server))
+>>>>>>> main
 }
 
 func Test_PrivateLinkResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1541,9 +1648,15 @@ func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS
 // AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EffectiveOutboundIPs"] = gen.SliceOf(ResourceReference_STATUSARMGenerator())
+<<<<<<< HEAD
 	gens["ManagedOutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARMGenerator())
 	gens["OutboundIPPrefixes"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARMGenerator())
 	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARMGenerator())
+=======
+	gens["ManagedOutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator())
+	gens["OutboundIPPrefixes"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator())
+	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator())
+>>>>>>> main
 }
 
 func Test_ManagedClusterPodIdentity_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1617,16 +1730,27 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentity_STATUSARM(gens
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+<<<<<<< HEAD
 		ManagedClusterPodIdentity_ProvisioningState_Assigned_STATUS,
 		ManagedClusterPodIdentity_ProvisioningState_Deleting_STATUS,
 		ManagedClusterPodIdentity_ProvisioningState_Failed_STATUS,
 		ManagedClusterPodIdentity_ProvisioningState_Updating_STATUS))
+=======
+		ManagedClusterPodIdentity_STATUS_ProvisioningState_Assigned,
+		ManagedClusterPodIdentity_STATUS_ProvisioningState_Deleting,
+		ManagedClusterPodIdentity_STATUS_ProvisioningState_Failed,
+		ManagedClusterPodIdentity_STATUS_ProvisioningState_Updating))
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(UserAssignedIdentity_STATUSARMGenerator())
+<<<<<<< HEAD
 	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentity_ProvisioningInfo_STATUSARMGenerator())
+=======
+	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator())
+>>>>>>> main
 }
 
 func Test_ManagedClusterPodIdentityException_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1760,6 +1884,7 @@ func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM_WhenSer
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM, ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1767,6 +1892,15 @@ func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM_WhenSer
 
 // RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM(subject ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM, ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM(subject ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1792,6 +1926,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_ManagedOutboun
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARMGenerator()
 var managedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARMGenerator gopter.Gen
@@ -1811,6 +1946,27 @@ func ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARMGenerator() g
 
 // AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUSARM(gens map[string]gopter.Gen) {
+=======
+// Generator of ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator()
+var managedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator gopter.Gen
+
+// ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM(generators)
+	managedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM{}), generators)
+
+	return managedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_ManagedOutboundIPsARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Count"] = gen.PtrOf(gen.Int())
 }
 
@@ -1821,6 +1977,7 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM_WhenSer
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM, ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1828,6 +1985,15 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM_WhenSer
 
 // RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM(subject ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM, ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM(subject ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1853,6 +2019,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPPref
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARMGenerator()
 var managedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARMGenerator gopter.Gen
@@ -1872,6 +2039,27 @@ func ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARMGenerator() g
 
 // AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUSARM(gens map[string]gopter.Gen) {
+=======
+// Generator of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator()
+var managedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator gopter.Gen
+
+// ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM(generators)
+	managedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM{}), generators)
+
+	return managedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPPrefixesARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["PublicIPPrefixes"] = gen.SliceOf(ResourceReference_STATUSARMGenerator())
 }
 
@@ -1882,6 +2070,7 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM_WhenSerialized
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM, ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1889,6 +2078,15 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM_WhenSerialized
 
 // RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM(subject ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM, ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM(subject ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1914,6 +2112,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile_OutboundIPs_ST
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARMGenerator()
 var managedClusterLoadBalancerProfile_OutboundIPs_STATUSARMGenerator gopter.Gen
@@ -1933,6 +2132,27 @@ func ManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARMGenerator() gopter.G
 
 // AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_OutboundIPs_STATUSARM(gens map[string]gopter.Gen) {
+=======
+// Generator of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM instances for property testing - lazily
+// instantiated by ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator()
+var managedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator gopter.Gen
+
+// ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM instances for property testing.
+func ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator != nil {
+		return managedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM(generators)
+	managedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM{}), generators)
+
+	return managedClusterLoadBalancerProfile_STATUS_OutboundIPsARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS_OutboundIPsARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["PublicIPs"] = gen.SliceOf(ResourceReference_STATUSARMGenerator())
 }
 
@@ -1943,6 +2163,7 @@ func Test_ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM_WhenSerializedToJ
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUSARM, ManagedClusterPodIdentity_ProvisioningInfo_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1950,6 +2171,15 @@ func Test_ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM_WhenSerializedToJ
 
 // RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUSARM runs a test to see if a specific instance of ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM round trips to JSON and back losslessly
 func RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATUSARM(subject ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM) string {
+=======
+		"Round trip of ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM, ManagedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM runs a test to see if a specific instance of ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM(subject ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1975,6 +2205,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentity_ProvisioningInfo_STATU
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ManagedClusterPodIdentity_ProvisioningInfo_STATUSARM instances for property testing - lazily
 // instantiated by ManagedClusterPodIdentity_ProvisioningInfo_STATUSARMGenerator()
 var managedClusterPodIdentity_ProvisioningInfo_STATUSARMGenerator gopter.Gen
@@ -1994,6 +2225,27 @@ func ManagedClusterPodIdentity_ProvisioningInfo_STATUSARMGenerator() gopter.Gen 
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_ProvisioningInfo_STATUSARM(gens map[string]gopter.Gen) {
+=======
+// Generator of ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM instances for property testing - lazily
+// instantiated by ManagedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator()
+var managedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator gopter.Gen
+
+// ManagedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator returns a generator of ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM instances for property testing.
+func ManagedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator() gopter.Gen {
+	if managedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator != nil {
+		return managedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM(generators)
+	managedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity_STATUS_ProvisioningInfoARM{}), generators)
+
+	return managedClusterPodIdentity_STATUS_ProvisioningInfoARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity_STATUS_ProvisioningInfoARM(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningError_STATUSARMGenerator())
 }
 

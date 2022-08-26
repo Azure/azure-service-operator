@@ -53,7 +53,11 @@ type VaultProperties_STATUSARM struct {
 	AccessPolicies []AccessPolicyEntry_STATUSARM `json:"accessPolicies,omitempty"`
 
 	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
+<<<<<<< HEAD
 	CreateMode *VaultProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+=======
+	CreateMode *VaultProperties_STATUS_CreateMode `json:"createMode,omitempty"`
+>>>>>>> main
 
 	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
 	// property to true activates protection against purge for this vault and its content - only the Key Vault service may
@@ -95,7 +99,11 @@ type VaultProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnectionItem_STATUSARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
+<<<<<<< HEAD
 	ProvisioningState *VaultProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState *VaultProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 
 	// Sku: SKU details
 	Sku *Sku_STATUSARM `json:"sku,omitempty"`
@@ -137,11 +145,19 @@ const (
 type NetworkRuleSet_STATUSARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
+<<<<<<< HEAD
 	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass,omitempty"`
 
 	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
 	// the bypass property has been evaluated.
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+=======
+	Bypass *NetworkRuleSet_STATUS_Bypass `json:"bypass,omitempty"`
+
+	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
+	// the bypass property has been evaluated.
+	DefaultAction *NetworkRuleSet_STATUS_DefaultAction `json:"defaultAction,omitempty"`
+>>>>>>> main
 
 	// IpRules: The list of IP address rules.
 	IpRules []IPRule_STATUSARM `json:"ipRules,omitempty"`
@@ -163,6 +179,7 @@ type PrivateEndpointConnectionItem_STATUSARM struct {
 
 type Sku_STATUSARM struct {
 	// Family: SKU family name
+<<<<<<< HEAD
 	Family *Sku_Family_STATUS `json:"family,omitempty"`
 
 	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
@@ -181,6 +198,26 @@ type VaultProperties_ProvisioningState_STATUS string
 const (
 	VaultProperties_ProvisioningState_RegisteringDns_STATUS = VaultProperties_ProvisioningState_STATUS("RegisteringDns")
 	VaultProperties_ProvisioningState_Succeeded_STATUS      = VaultProperties_ProvisioningState_STATUS("Succeeded")
+=======
+	Family *Sku_STATUS_Family `json:"family,omitempty"`
+
+	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
+}
+
+type VaultProperties_STATUS_CreateMode string
+
+const (
+	VaultProperties_STATUS_CreateMode_Default = VaultProperties_STATUS_CreateMode("default")
+	VaultProperties_STATUS_CreateMode_Recover = VaultProperties_STATUS_CreateMode("recover")
+)
+
+type VaultProperties_STATUS_ProvisioningState string
+
+const (
+	VaultProperties_STATUS_ProvisioningState_RegisteringDns = VaultProperties_STATUS_ProvisioningState("RegisteringDns")
+	VaultProperties_STATUS_ProvisioningState_Succeeded      = VaultProperties_STATUS_ProvisioningState("Succeeded")
+>>>>>>> main
 )
 
 type IPRule_STATUSARM struct {
@@ -189,6 +226,7 @@ type IPRule_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+<<<<<<< HEAD
 type NetworkRuleSet_Bypass_STATUS string
 
 const (
@@ -201,10 +239,25 @@ type NetworkRuleSet_DefaultAction_STATUS string
 const (
 	NetworkRuleSet_DefaultAction_Allow_STATUS = NetworkRuleSet_DefaultAction_STATUS("Allow")
 	NetworkRuleSet_DefaultAction_Deny_STATUS  = NetworkRuleSet_DefaultAction_STATUS("Deny")
+=======
+type NetworkRuleSet_STATUS_Bypass string
+
+const (
+	NetworkRuleSet_STATUS_Bypass_AzureServices = NetworkRuleSet_STATUS_Bypass("AzureServices")
+	NetworkRuleSet_STATUS_Bypass_None          = NetworkRuleSet_STATUS_Bypass("None")
+)
+
+type NetworkRuleSet_STATUS_DefaultAction string
+
+const (
+	NetworkRuleSet_STATUS_DefaultAction_Allow = NetworkRuleSet_STATUS_DefaultAction("Allow")
+	NetworkRuleSet_STATUS_DefaultAction_Deny  = NetworkRuleSet_STATUS_DefaultAction("Deny")
+>>>>>>> main
 )
 
 type Permissions_STATUSARM struct {
 	// Certificates: Permissions to certificates
+<<<<<<< HEAD
 	Certificates []Permissions_Certificates_STATUS `json:"certificates,omitempty"`
 
 	// Keys: Permissions to keys
@@ -215,6 +268,18 @@ type Permissions_STATUSARM struct {
 
 	// Storage: Permissions to storage accounts
 	Storage []Permissions_Storage_STATUS `json:"storage,omitempty"`
+=======
+	Certificates []Permissions_STATUS_Certificates `json:"certificates,omitempty"`
+
+	// Keys: Permissions to keys
+	Keys []Permissions_STATUS_Keys `json:"keys,omitempty"`
+
+	// Secrets: Permissions to secrets
+	Secrets []Permissions_STATUS_Secrets `json:"secrets,omitempty"`
+
+	// Storage: Permissions to storage accounts
+	Storage []Permissions_STATUS_Storage `json:"storage,omitempty"`
+>>>>>>> main
 }
 
 type PrivateEndpointConnectionProperties_STATUSARM struct {
@@ -228,6 +293,7 @@ type PrivateEndpointConnectionProperties_STATUSARM struct {
 	ProvisioningState *PrivateEndpointConnectionProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+<<<<<<< HEAD
 type Sku_Family_STATUS string
 
 const Sku_Family_A_STATUS = Sku_Family_STATUS("A")
@@ -237,6 +303,17 @@ type Sku_Name_STATUS string
 const (
 	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("premium")
 	Sku_Name_Standard_STATUS = Sku_Name_STATUS("standard")
+=======
+type Sku_STATUS_Family string
+
+const Sku_STATUS_Family_A = Sku_STATUS_Family("A")
+
+type Sku_STATUS_Name string
+
+const (
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("standard")
+>>>>>>> main
 )
 
 type VirtualNetworkRule_STATUSARM struct {
@@ -249,6 +326,7 @@ type VirtualNetworkRule_STATUSARM struct {
 	IgnoreMissingVnetServiceEndpoint *bool `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 }
 
+<<<<<<< HEAD
 type Permissions_Certificates_STATUS string
 
 const (
@@ -322,6 +400,81 @@ const (
 	Permissions_Storage_Set_STATUS           = Permissions_Storage_STATUS("set")
 	Permissions_Storage_Setsas_STATUS        = Permissions_Storage_STATUS("setsas")
 	Permissions_Storage_Update_STATUS        = Permissions_Storage_STATUS("update")
+=======
+type Permissions_STATUS_Certificates string
+
+const (
+	Permissions_STATUS_Certificates_Backup         = Permissions_STATUS_Certificates("backup")
+	Permissions_STATUS_Certificates_Create         = Permissions_STATUS_Certificates("create")
+	Permissions_STATUS_Certificates_Delete         = Permissions_STATUS_Certificates("delete")
+	Permissions_STATUS_Certificates_Deleteissuers  = Permissions_STATUS_Certificates("deleteissuers")
+	Permissions_STATUS_Certificates_Get            = Permissions_STATUS_Certificates("get")
+	Permissions_STATUS_Certificates_Getissuers     = Permissions_STATUS_Certificates("getissuers")
+	Permissions_STATUS_Certificates_Import         = Permissions_STATUS_Certificates("import")
+	Permissions_STATUS_Certificates_List           = Permissions_STATUS_Certificates("list")
+	Permissions_STATUS_Certificates_Listissuers    = Permissions_STATUS_Certificates("listissuers")
+	Permissions_STATUS_Certificates_Managecontacts = Permissions_STATUS_Certificates("managecontacts")
+	Permissions_STATUS_Certificates_Manageissuers  = Permissions_STATUS_Certificates("manageissuers")
+	Permissions_STATUS_Certificates_Purge          = Permissions_STATUS_Certificates("purge")
+	Permissions_STATUS_Certificates_Recover        = Permissions_STATUS_Certificates("recover")
+	Permissions_STATUS_Certificates_Restore        = Permissions_STATUS_Certificates("restore")
+	Permissions_STATUS_Certificates_Setissuers     = Permissions_STATUS_Certificates("setissuers")
+	Permissions_STATUS_Certificates_Update         = Permissions_STATUS_Certificates("update")
+)
+
+type Permissions_STATUS_Keys string
+
+const (
+	Permissions_STATUS_Keys_Backup    = Permissions_STATUS_Keys("backup")
+	Permissions_STATUS_Keys_Create    = Permissions_STATUS_Keys("create")
+	Permissions_STATUS_Keys_Decrypt   = Permissions_STATUS_Keys("decrypt")
+	Permissions_STATUS_Keys_Delete    = Permissions_STATUS_Keys("delete")
+	Permissions_STATUS_Keys_Encrypt   = Permissions_STATUS_Keys("encrypt")
+	Permissions_STATUS_Keys_Get       = Permissions_STATUS_Keys("get")
+	Permissions_STATUS_Keys_Import    = Permissions_STATUS_Keys("import")
+	Permissions_STATUS_Keys_List      = Permissions_STATUS_Keys("list")
+	Permissions_STATUS_Keys_Purge     = Permissions_STATUS_Keys("purge")
+	Permissions_STATUS_Keys_Recover   = Permissions_STATUS_Keys("recover")
+	Permissions_STATUS_Keys_Release   = Permissions_STATUS_Keys("release")
+	Permissions_STATUS_Keys_Restore   = Permissions_STATUS_Keys("restore")
+	Permissions_STATUS_Keys_Sign      = Permissions_STATUS_Keys("sign")
+	Permissions_STATUS_Keys_UnwrapKey = Permissions_STATUS_Keys("unwrapKey")
+	Permissions_STATUS_Keys_Update    = Permissions_STATUS_Keys("update")
+	Permissions_STATUS_Keys_Verify    = Permissions_STATUS_Keys("verify")
+	Permissions_STATUS_Keys_WrapKey   = Permissions_STATUS_Keys("wrapKey")
+)
+
+type Permissions_STATUS_Secrets string
+
+const (
+	Permissions_STATUS_Secrets_Backup  = Permissions_STATUS_Secrets("backup")
+	Permissions_STATUS_Secrets_Delete  = Permissions_STATUS_Secrets("delete")
+	Permissions_STATUS_Secrets_Get     = Permissions_STATUS_Secrets("get")
+	Permissions_STATUS_Secrets_List    = Permissions_STATUS_Secrets("list")
+	Permissions_STATUS_Secrets_Purge   = Permissions_STATUS_Secrets("purge")
+	Permissions_STATUS_Secrets_Recover = Permissions_STATUS_Secrets("recover")
+	Permissions_STATUS_Secrets_Restore = Permissions_STATUS_Secrets("restore")
+	Permissions_STATUS_Secrets_Set     = Permissions_STATUS_Secrets("set")
+)
+
+type Permissions_STATUS_Storage string
+
+const (
+	Permissions_STATUS_Storage_Backup        = Permissions_STATUS_Storage("backup")
+	Permissions_STATUS_Storage_Delete        = Permissions_STATUS_Storage("delete")
+	Permissions_STATUS_Storage_Deletesas     = Permissions_STATUS_Storage("deletesas")
+	Permissions_STATUS_Storage_Get           = Permissions_STATUS_Storage("get")
+	Permissions_STATUS_Storage_Getsas        = Permissions_STATUS_Storage("getsas")
+	Permissions_STATUS_Storage_List          = Permissions_STATUS_Storage("list")
+	Permissions_STATUS_Storage_Listsas       = Permissions_STATUS_Storage("listsas")
+	Permissions_STATUS_Storage_Purge         = Permissions_STATUS_Storage("purge")
+	Permissions_STATUS_Storage_Recover       = Permissions_STATUS_Storage("recover")
+	Permissions_STATUS_Storage_Regeneratekey = Permissions_STATUS_Storage("regeneratekey")
+	Permissions_STATUS_Storage_Restore       = Permissions_STATUS_Storage("restore")
+	Permissions_STATUS_Storage_Set           = Permissions_STATUS_Storage("set")
+	Permissions_STATUS_Storage_Setsas        = Permissions_STATUS_Storage("setsas")
+	Permissions_STATUS_Storage_Update        = Permissions_STATUS_Storage("update")
+>>>>>>> main
 )
 
 type PrivateEndpoint_STATUSARM struct {
@@ -331,7 +484,11 @@ type PrivateEndpoint_STATUSARM struct {
 
 type PrivateLinkServiceConnectionState_STATUSARM struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
+<<<<<<< HEAD
 	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
+=======
+	ActionsRequired *PrivateLinkServiceConnectionState_STATUS_ActionsRequired `json:"actionsRequired,omitempty"`
+>>>>>>> main
 
 	// Description: The reason for approval or rejection.
 	Description *string `json:"description,omitempty"`

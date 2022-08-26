@@ -31,8 +31,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
-	osType := aks.OSType_Linux
-	agentPoolMode := aks.AgentPoolMode_System
+	osType := aks.ManagedClusterAgentPoolProfile_OsType_Linux
+	agentPoolMode := aks.ManagedClusterAgentPoolProfile_Mode_System
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
@@ -81,9 +81,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKU_Name_Basic_STATUS))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKU_STATUS_Name_Basic))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_Tier_Paid_STATUS))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_STATUS_Tier_Paid))
 
 	// Run sub tests
 	tc.RunSubtests(
@@ -112,12 +112,12 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 }
 
 func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
-	osType := aks.OSType_Linux
-	agentPoolMode := aks.AgentPoolMode_System
+	osType := aks.ManagedClusterAgentPoolProfileProperties_OsType_Linux
+	agentPoolMode := aks.ManagedClusterAgentPoolProfileProperties_Mode_System
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClustersAgentPool_Spec{
+		Spec: aks.ManagedClusters_AgentPools_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.IntPtr(1),
 			VmSize: to.StringPtr("Standard_DS2_v2"),

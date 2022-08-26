@@ -24,7 +24,11 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	EnableDnsForwarding            *bool                                                              `json:"enableDnsForwarding,omitempty"`
 	EnablePrivateIpAddress         *bool                                                              `json:"enablePrivateIpAddress,omitempty"`
 	GatewayDefaultSite             *SubResource_STATUSARM                                             `json:"gatewayDefaultSite,omitempty"`
+<<<<<<< HEAD
 	GatewayType                    *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS          `json:"gatewayType,omitempty"`
+=======
+	GatewayType                    *VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType          `json:"gatewayType,omitempty"`
+>>>>>>> main
 	InboundDnsForwardingEndpoint   *string                                                            `json:"inboundDnsForwardingEndpoint,omitempty"`
 	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUSARM                   `json:"ipConfigurations,omitempty"`
 	ProvisioningState              *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
@@ -32,8 +36,13 @@ type VirtualNetworkGatewayPropertiesFormat_STATUSARM struct {
 	Sku                            *VirtualNetworkGatewaySku_STATUSARM                                `json:"sku,omitempty"`
 	VNetExtendedLocationResourceId *string                                                            `json:"vNetExtendedLocationResourceId,omitempty"`
 	VpnClientConfiguration         *VpnClientConfiguration_STATUSARM                                  `json:"vpnClientConfiguration,omitempty"`
+<<<<<<< HEAD
 	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
 	VpnType                        *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS              `json:"vpnType,omitempty"`
+=======
+	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType              `json:"vpnType,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of AddressSpace_STATUS. Use v1beta20201101.AddressSpace_STATUS instead
@@ -60,8 +69,13 @@ type VirtualNetworkGatewayIPConfiguration_STATUSARM struct {
 // Deprecated version of VirtualNetworkGatewaySku_STATUS. Use v1beta20201101.VirtualNetworkGatewaySku_STATUS instead
 type VirtualNetworkGatewaySku_STATUSARM struct {
 	Capacity *int                                  `json:"capacity,omitempty"`
+<<<<<<< HEAD
 	Name     *VirtualNetworkGatewaySku_Name_STATUS `json:"name,omitempty"`
 	Tier     *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name     *VirtualNetworkGatewaySku_STATUS_Name `json:"name,omitempty"`
+	Tier     *VirtualNetworkGatewaySku_STATUS_Tier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of VpnClientConfiguration_STATUS. Use v1beta20201101.VpnClientConfiguration_STATUS instead
@@ -72,10 +86,17 @@ type VpnClientConfiguration_STATUSARM struct {
 	RadiusServerAddress          *string                                                `json:"radiusServerAddress,omitempty"`
 	RadiusServerSecret           *string                                                `json:"radiusServerSecret,omitempty"`
 	RadiusServers                []RadiusServer_STATUSARM                               `json:"radiusServers,omitempty"`
+<<<<<<< HEAD
 	VpnAuthenticationTypes       []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
 	VpnClientAddressPool         *AddressSpace_STATUSARM                                `json:"vpnClientAddressPool,omitempty"`
 	VpnClientIpsecPolicies       []IpsecPolicy_STATUSARM                                `json:"vpnClientIpsecPolicies,omitempty"`
 	VpnClientProtocols           []VpnClientConfiguration_VpnClientProtocols_STATUS     `json:"vpnClientProtocols,omitempty"`
+=======
+	VpnAuthenticationTypes       []VpnClientConfiguration_STATUS_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace_STATUSARM                                `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy_STATUSARM                                `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []VpnClientConfiguration_STATUS_VpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
+>>>>>>> main
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUSARM                `json:"vpnClientRevokedCertificates,omitempty"`
 	VpnClientRootCertificates    []VpnClientRootCertificate_STATUSARM                   `json:"vpnClientRootCertificates,omitempty"`
 }

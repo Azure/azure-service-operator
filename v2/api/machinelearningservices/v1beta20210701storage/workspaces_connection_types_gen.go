@@ -28,8 +28,13 @@ import (
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              WorkspacesConnection_Spec   `json:"spec,omitempty"`
 	Status            WorkspacesConnection_STATUS `json:"status,omitempty"`
+=======
+	Spec              Workspaces_Connections_Spec `json:"spec,omitempty"`
+	Status            WorkspaceConnection_STATUS  `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &WorkspacesConnection{}
@@ -208,6 +213,52 @@ func (connection *WorkspacesConnection_STATUS) ConvertStatusTo(destination genru
 	return destination.ConvertStatusFrom(connection)
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20210701.Workspaces_Connections_Spec
+type Workspaces_Connections_Spec struct {
+	AuthType *string `json:"authType,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Category        *string `json:"category,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a machinelearningservices.azure.com/Workspace resource
+	Owner       *genruntime.KnownResourceReference `group:"machinelearningservices.azure.com" json:"owner,omitempty" kind:"Workspace"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Target      *string                            `json:"target,omitempty"`
+	Value       *string                            `json:"value,omitempty"`
+	ValueFormat *string                            `json:"valueFormat,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Workspaces_Connections_Spec{}
+
+// ConvertSpecFrom populates our Workspaces_Connections_Spec from the provided source
+func (connections *Workspaces_Connections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == connections {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(connections)
+}
+
+// ConvertSpecTo populates the provided destination from our Workspaces_Connections_Spec
+func (connections *Workspaces_Connections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == connections {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(connections)
+}
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&WorkspacesConnection{}, &WorkspacesConnectionList{})
 }

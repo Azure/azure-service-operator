@@ -74,6 +74,7 @@ func PublicIPAddressGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForPublicIPAddress is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPublicIPAddress(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = PublicIPAddress_SpecGenerator()
 	gens["Status"] = PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedGenerator()
 }
@@ -168,6 +169,10 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress_Spec(gens map[string]gopter.
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())
 	gens["ServicePublicIPAddress"] = gen.PtrOf(PublicIPAddressSpec_SubResourceEmbeddedGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuGenerator())
+=======
+	gens["Spec"] = PublicIPAddresses_SpecGenerator()
+	gens["Status"] = PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbeddedGenerator()
+>>>>>>> main
 }
 
 func Test_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -263,6 +268,97 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_PublicIPAddress_SubRe
 	gens["NatGateway"] = gen.PtrOf(NatGateway_STATUS_PublicIPAddress_SubResourceEmbeddedGenerator())
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_PublicIPAddresses_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PublicIPAddresses_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPublicIPAddresses_Spec, PublicIPAddresses_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPublicIPAddresses_Spec runs a test to see if a specific instance of PublicIPAddresses_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPublicIPAddresses_Spec(subject PublicIPAddresses_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PublicIPAddresses_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PublicIPAddresses_Spec instances for property testing - lazily instantiated by
+// PublicIPAddresses_SpecGenerator()
+var publicIPAddresses_SpecGenerator gopter.Gen
+
+// PublicIPAddresses_SpecGenerator returns a generator of PublicIPAddresses_Spec instances for property testing.
+// We first initialize publicIPAddresses_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PublicIPAddresses_SpecGenerator() gopter.Gen {
+	if publicIPAddresses_SpecGenerator != nil {
+		return publicIPAddresses_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPublicIPAddresses_Spec(generators)
+	publicIPAddresses_SpecGenerator = gen.Struct(reflect.TypeOf(PublicIPAddresses_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPublicIPAddresses_Spec(generators)
+	AddRelatedPropertyGeneratorsForPublicIPAddresses_Spec(generators)
+	publicIPAddresses_SpecGenerator = gen.Struct(reflect.TypeOf(PublicIPAddresses_Spec{}), generators)
+
+	return publicIPAddresses_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPublicIPAddresses_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPublicIPAddresses_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPublicIPAddresses_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPublicIPAddresses_Spec(gens map[string]gopter.Gen) {
+	gens["DdosSettings"] = gen.PtrOf(DdosSettingsGenerator())
+	gens["DnsSettings"] = gen.PtrOf(PublicIPAddressDnsSettingsGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpTags"] = gen.SliceOf(IpTagGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())
+	gens["Sku"] = gen.PtrOf(PublicIPAddressSkuGenerator())
+>>>>>>> main
 }
 
 func Test_DdosSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -692,6 +788,7 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPAddress_SubRes
 // AddRelatedPropertyGeneratorsForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Sku"] = gen.PtrOf(NatGatewaySku_STATUSGenerator())
+<<<<<<< HEAD
 }
 
 func Test_NatGatewaySpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -771,6 +868,8 @@ func AddRelatedPropertyGeneratorsForNatGatewaySpec(gens map[string]gopter.Gen) {
 	gens["PublicIpAddresses"] = gen.SliceOf(SubResourceGenerator())
 	gens["PublicIpPrefixes"] = gen.SliceOf(SubResourceGenerator())
 	gens["Sku"] = gen.PtrOf(NatGatewaySkuGenerator())
+=======
+>>>>>>> main
 }
 
 func Test_PublicIPAddressDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

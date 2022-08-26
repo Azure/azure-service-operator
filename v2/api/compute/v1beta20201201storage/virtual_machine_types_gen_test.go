@@ -68,7 +68,7 @@ func Test_VirtualMachine_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachine to VirtualMachine via AssignPropertiesToVirtualMachine & AssignPropertiesFromVirtualMachine returns original",
+		"Round trip from VirtualMachine to VirtualMachine via AssignProperties_To_VirtualMachine & AssignProperties_From_VirtualMachine returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine, VirtualMachineGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -80,14 +80,14 @@ func RunPropertyAssignmentTestForVirtualMachine(subject VirtualMachine) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachine
-	err := copied.AssignPropertiesToVirtualMachine(&other)
+	err := copied.AssignProperties_To_VirtualMachine(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachine
-	err = actual.AssignPropertiesFromVirtualMachine(&other)
+	err = actual.AssignProperties_From_VirtualMachine(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -161,6 +161,7 @@ func VirtualMachineGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualMachine is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachine(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = VirtualMachine_SpecGenerator()
 	gens["Status"] = VirtualMachine_STATUSGenerator()
 }
@@ -304,6 +305,10 @@ func AddRelatedPropertyGeneratorsForVirtualMachine_Spec(gens map[string]gopter.G
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileGenerator())
 	gens["StorageProfile"] = gen.PtrOf(StorageProfileGenerator())
 	gens["VirtualMachineScaleSet"] = gen.PtrOf(SubResourceGenerator())
+=======
+	gens["Spec"] = VirtualMachines_SpecGenerator()
+	gens["Status"] = VirtualMachine_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_VirtualMachine_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -312,7 +317,11 @@ func Test_VirtualMachine_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachine_STATUS to VirtualMachine_STATUS via AssignPropertiesToVirtualMachine_STATUS & AssignPropertiesFromVirtualMachine_STATUS returns original",
+=======
+		"Round trip from VirtualMachine_STATUS to VirtualMachine_STATUS via AssignProperties_To_VirtualMachine_STATUS & AssignProperties_From_VirtualMachine_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachine_STATUS, VirtualMachine_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -324,14 +333,22 @@ func RunPropertyAssignmentTestForVirtualMachine_STATUS(subject VirtualMachine_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachine_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachine_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachine_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachine_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachine_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachine_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -446,9 +463,157 @@ func AddRelatedPropertyGeneratorsForVirtualMachine_STATUS(gens map[string]gopter
 	gens["OsProfile"] = gen.PtrOf(OSProfile_STATUSGenerator())
 	gens["Plan"] = gen.PtrOf(Plan_STATUSGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResource_STATUSGenerator())
+<<<<<<< HEAD
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfile_STATUSGenerator())
 	gens["StorageProfile"] = gen.PtrOf(StorageProfile_STATUSGenerator())
 	gens["VirtualMachineScaleSet"] = gen.PtrOf(SubResource_STATUSGenerator())
+=======
+	gens["Resources"] = gen.SliceOf(VirtualMachineExtension_STATUSGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(SecurityProfile_STATUSGenerator())
+	gens["StorageProfile"] = gen.PtrOf(StorageProfile_STATUSGenerator())
+	gens["VirtualMachineScaleSet"] = gen.PtrOf(SubResource_STATUSGenerator())
+}
+
+func Test_VirtualMachines_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachines_Spec to VirtualMachines_Spec via AssignProperties_To_VirtualMachines_Spec & AssignProperties_From_VirtualMachines_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachines_Spec, VirtualMachines_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachines_Spec tests if a specific instance of VirtualMachines_Spec can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachines_Spec(subject VirtualMachines_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.VirtualMachines_Spec
+	err := copied.AssignProperties_To_VirtualMachines_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachines_Spec
+	err = actual.AssignProperties_From_VirtualMachines_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachines_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachines_Spec, VirtualMachines_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachines_Spec runs a test to see if a specific instance of VirtualMachines_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachines_Spec(subject VirtualMachines_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec instances for property testing - lazily instantiated by
+// VirtualMachines_SpecGenerator()
+var virtualMachines_SpecGenerator gopter.Gen
+
+// VirtualMachines_SpecGenerator returns a generator of VirtualMachines_Spec instances for property testing.
+// We first initialize virtualMachines_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachines_SpecGenerator() gopter.Gen {
+	if virtualMachines_SpecGenerator != nil {
+		return virtualMachines_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachines_Spec(generators)
+	virtualMachines_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachines_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachines_Spec(generators)
+	virtualMachines_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec{}), generators)
+
+	return virtualMachines_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachines_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachines_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EvictionPolicy"] = gen.PtrOf(gen.AlphaString())
+	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
+	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
+	gens["Priority"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachines_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachines_Spec(gens map[string]gopter.Gen) {
+	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilitiesGenerator())
+	gens["AvailabilitySet"] = gen.PtrOf(SubResourceGenerator())
+	gens["BillingProfile"] = gen.PtrOf(BillingProfileGenerator())
+	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfileGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["HardwareProfile"] = gen.PtrOf(HardwareProfileGenerator())
+	gens["Host"] = gen.PtrOf(SubResourceGenerator())
+	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
+	gens["Identity"] = gen.PtrOf(VirtualMachineIdentityGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachines_Spec_Properties_NetworkProfileGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachines_Spec_Properties_OsProfileGenerator())
+	gens["Plan"] = gen.PtrOf(PlanGenerator())
+	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileGenerator())
+	gens["StorageProfile"] = gen.PtrOf(StorageProfileGenerator())
+	gens["VirtualMachineScaleSet"] = gen.PtrOf(SubResourceGenerator())
+>>>>>>> main
 }
 
 func Test_AdditionalCapabilities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -457,7 +622,7 @@ func Test_AdditionalCapabilities_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdditionalCapabilities to AdditionalCapabilities via AssignPropertiesToAdditionalCapabilities & AssignPropertiesFromAdditionalCapabilities returns original",
+		"Round trip from AdditionalCapabilities to AdditionalCapabilities via AssignProperties_To_AdditionalCapabilities & AssignProperties_From_AdditionalCapabilities returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAdditionalCapabilities, AdditionalCapabilitiesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -469,14 +634,14 @@ func RunPropertyAssignmentTestForAdditionalCapabilities(subject AdditionalCapabi
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.AdditionalCapabilities
-	err := copied.AssignPropertiesToAdditionalCapabilities(&other)
+	err := copied.AssignProperties_To_AdditionalCapabilities(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdditionalCapabilities
-	err = actual.AssignPropertiesFromAdditionalCapabilities(&other)
+	err = actual.AssignProperties_From_AdditionalCapabilities(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -560,7 +725,11 @@ func Test_AdditionalCapabilities_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from AdditionalCapabilities_STATUS to AdditionalCapabilities_STATUS via AssignPropertiesToAdditionalCapabilities_STATUS & AssignPropertiesFromAdditionalCapabilities_STATUS returns original",
+=======
+		"Round trip from AdditionalCapabilities_STATUS to AdditionalCapabilities_STATUS via AssignProperties_To_AdditionalCapabilities_STATUS & AssignProperties_From_AdditionalCapabilities_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForAdditionalCapabilities_STATUS, AdditionalCapabilities_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -572,14 +741,22 @@ func RunPropertyAssignmentTestForAdditionalCapabilities_STATUS(subject Additiona
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.AdditionalCapabilities_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToAdditionalCapabilities_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_AdditionalCapabilities_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdditionalCapabilities_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromAdditionalCapabilities_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_AdditionalCapabilities_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -663,7 +840,7 @@ func Test_BillingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BillingProfile to BillingProfile via AssignPropertiesToBillingProfile & AssignPropertiesFromBillingProfile returns original",
+		"Round trip from BillingProfile to BillingProfile via AssignProperties_To_BillingProfile & AssignProperties_From_BillingProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForBillingProfile, BillingProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -675,14 +852,14 @@ func RunPropertyAssignmentTestForBillingProfile(subject BillingProfile) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.BillingProfile
-	err := copied.AssignPropertiesToBillingProfile(&other)
+	err := copied.AssignProperties_To_BillingProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BillingProfile
-	err = actual.AssignPropertiesFromBillingProfile(&other)
+	err = actual.AssignProperties_From_BillingProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -765,7 +942,11 @@ func Test_BillingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from BillingProfile_STATUS to BillingProfile_STATUS via AssignPropertiesToBillingProfile_STATUS & AssignPropertiesFromBillingProfile_STATUS returns original",
+=======
+		"Round trip from BillingProfile_STATUS to BillingProfile_STATUS via AssignProperties_To_BillingProfile_STATUS & AssignProperties_From_BillingProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForBillingProfile_STATUS, BillingProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -777,14 +958,22 @@ func RunPropertyAssignmentTestForBillingProfile_STATUS(subject BillingProfile_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.BillingProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToBillingProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_BillingProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BillingProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromBillingProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_BillingProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -868,7 +1057,7 @@ func Test_DiagnosticsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DiagnosticsProfile to DiagnosticsProfile via AssignPropertiesToDiagnosticsProfile & AssignPropertiesFromDiagnosticsProfile returns original",
+		"Round trip from DiagnosticsProfile to DiagnosticsProfile via AssignProperties_To_DiagnosticsProfile & AssignProperties_From_DiagnosticsProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsProfile, DiagnosticsProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -880,14 +1069,14 @@ func RunPropertyAssignmentTestForDiagnosticsProfile(subject DiagnosticsProfile) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiagnosticsProfile
-	err := copied.AssignPropertiesToDiagnosticsProfile(&other)
+	err := copied.AssignProperties_To_DiagnosticsProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiagnosticsProfile
-	err = actual.AssignPropertiesFromDiagnosticsProfile(&other)
+	err = actual.AssignProperties_From_DiagnosticsProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -970,7 +1159,11 @@ func Test_DiagnosticsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from DiagnosticsProfile_STATUS to DiagnosticsProfile_STATUS via AssignPropertiesToDiagnosticsProfile_STATUS & AssignPropertiesFromDiagnosticsProfile_STATUS returns original",
+=======
+		"Round trip from DiagnosticsProfile_STATUS to DiagnosticsProfile_STATUS via AssignProperties_To_DiagnosticsProfile_STATUS & AssignProperties_From_DiagnosticsProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDiagnosticsProfile_STATUS, DiagnosticsProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -982,14 +1175,22 @@ func RunPropertyAssignmentTestForDiagnosticsProfile_STATUS(subject DiagnosticsPr
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiagnosticsProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToDiagnosticsProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_DiagnosticsProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiagnosticsProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromDiagnosticsProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_DiagnosticsProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1073,7 +1274,7 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ExtendedLocation to ExtendedLocation via AssignPropertiesToExtendedLocation & AssignPropertiesFromExtendedLocation returns original",
+		"Round trip from ExtendedLocation to ExtendedLocation via AssignProperties_To_ExtendedLocation & AssignProperties_From_ExtendedLocation returns original",
 		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation, ExtendedLocationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1085,14 +1286,14 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.ExtendedLocation
-	err := copied.AssignPropertiesToExtendedLocation(&other)
+	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ExtendedLocation
-	err = actual.AssignPropertiesFromExtendedLocation(&other)
+	err = actual.AssignProperties_From_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1176,7 +1377,11 @@ func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignPropertiesToExtendedLocation_STATUS & AssignPropertiesFromExtendedLocation_STATUS returns original",
+=======
+		"Round trip from ExtendedLocation_STATUS to ExtendedLocation_STATUS via AssignProperties_To_ExtendedLocation_STATUS & AssignProperties_From_ExtendedLocation_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForExtendedLocation_STATUS, ExtendedLocation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1188,14 +1393,22 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToExtendedLocation_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ExtendedLocation_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromExtendedLocation_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ExtendedLocation_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1280,7 +1493,7 @@ func Test_HardwareProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from HardwareProfile to HardwareProfile via AssignPropertiesToHardwareProfile & AssignPropertiesFromHardwareProfile returns original",
+		"Round trip from HardwareProfile to HardwareProfile via AssignProperties_To_HardwareProfile & AssignProperties_From_HardwareProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForHardwareProfile, HardwareProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1292,14 +1505,14 @@ func RunPropertyAssignmentTestForHardwareProfile(subject HardwareProfile) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.HardwareProfile
-	err := copied.AssignPropertiesToHardwareProfile(&other)
+	err := copied.AssignProperties_To_HardwareProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual HardwareProfile
-	err = actual.AssignPropertiesFromHardwareProfile(&other)
+	err = actual.AssignProperties_From_HardwareProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1382,7 +1595,11 @@ func Test_HardwareProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from HardwareProfile_STATUS to HardwareProfile_STATUS via AssignPropertiesToHardwareProfile_STATUS & AssignPropertiesFromHardwareProfile_STATUS returns original",
+=======
+		"Round trip from HardwareProfile_STATUS to HardwareProfile_STATUS via AssignProperties_To_HardwareProfile_STATUS & AssignProperties_From_HardwareProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForHardwareProfile_STATUS, HardwareProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1394,14 +1611,22 @@ func RunPropertyAssignmentTestForHardwareProfile_STATUS(subject HardwareProfile_
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.HardwareProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToHardwareProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_HardwareProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual HardwareProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromHardwareProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_HardwareProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1587,7 +1812,11 @@ func Test_NetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkProfile_STATUS to NetworkProfile_STATUS via AssignPropertiesToNetworkProfile_STATUS & AssignPropertiesFromNetworkProfile_STATUS returns original",
+=======
+		"Round trip from NetworkProfile_STATUS to NetworkProfile_STATUS via AssignProperties_To_NetworkProfile_STATUS & AssignProperties_From_NetworkProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkProfile_STATUS, NetworkProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1599,14 +1828,22 @@ func RunPropertyAssignmentTestForNetworkProfile_STATUS(subject NetworkProfile_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.NetworkProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_NetworkProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_NetworkProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1682,6 +1919,7 @@ func NetworkProfile_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNetworkProfile_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterfaceReference_STATUSGenerator())
+<<<<<<< HEAD
 }
 
 func Test_OSProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1804,6 +2042,8 @@ func AddRelatedPropertyGeneratorsForOSProfile(gens map[string]gopter.Gen) {
 	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
 	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
 	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
+=======
+>>>>>>> main
 }
 
 func Test_OSProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1812,7 +2052,11 @@ func Test_OSProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from OSProfile_STATUS to OSProfile_STATUS via AssignPropertiesToOSProfile_STATUS & AssignPropertiesFromOSProfile_STATUS returns original",
+=======
+		"Round trip from OSProfile_STATUS to OSProfile_STATUS via AssignProperties_To_OSProfile_STATUS & AssignProperties_From_OSProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForOSProfile_STATUS, OSProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1824,14 +2068,22 @@ func RunPropertyAssignmentTestForOSProfile_STATUS(subject OSProfile_STATUS) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.OSProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToOSProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_OSProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual OSProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromOSProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_OSProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1934,7 +2186,7 @@ func Test_Plan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Plan to Plan via AssignPropertiesToPlan & AssignPropertiesFromPlan returns original",
+		"Round trip from Plan to Plan via AssignProperties_To_Plan & AssignProperties_From_Plan returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPlan, PlanGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1946,14 +2198,14 @@ func RunPropertyAssignmentTestForPlan(subject Plan) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.Plan
-	err := copied.AssignPropertiesToPlan(&other)
+	err := copied.AssignProperties_To_Plan(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Plan
-	err = actual.AssignPropertiesFromPlan(&other)
+	err = actual.AssignProperties_From_Plan(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2039,7 +2291,11 @@ func Test_Plan_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from Plan_STATUS to Plan_STATUS via AssignPropertiesToPlan_STATUS & AssignPropertiesFromPlan_STATUS returns original",
+=======
+		"Round trip from Plan_STATUS to Plan_STATUS via AssignProperties_To_Plan_STATUS & AssignProperties_From_Plan_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPlan_STATUS, Plan_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2051,14 +2307,22 @@ func RunPropertyAssignmentTestForPlan_STATUS(subject Plan_STATUS) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.Plan_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPlan_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_Plan_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Plan_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPlan_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_Plan_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2144,7 +2408,7 @@ func Test_SecurityProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SecurityProfile to SecurityProfile via AssignPropertiesToSecurityProfile & AssignPropertiesFromSecurityProfile returns original",
+		"Round trip from SecurityProfile to SecurityProfile via AssignProperties_To_SecurityProfile & AssignProperties_From_SecurityProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSecurityProfile, SecurityProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2156,14 +2420,14 @@ func RunPropertyAssignmentTestForSecurityProfile(subject SecurityProfile) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.SecurityProfile
-	err := copied.AssignPropertiesToSecurityProfile(&other)
+	err := copied.AssignProperties_To_SecurityProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SecurityProfile
-	err = actual.AssignPropertiesFromSecurityProfile(&other)
+	err = actual.AssignProperties_From_SecurityProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2261,7 +2525,11 @@ func Test_SecurityProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from SecurityProfile_STATUS to SecurityProfile_STATUS via AssignPropertiesToSecurityProfile_STATUS & AssignPropertiesFromSecurityProfile_STATUS returns original",
+=======
+		"Round trip from SecurityProfile_STATUS to SecurityProfile_STATUS via AssignProperties_To_SecurityProfile_STATUS & AssignProperties_From_SecurityProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSecurityProfile_STATUS, SecurityProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2273,14 +2541,22 @@ func RunPropertyAssignmentTestForSecurityProfile_STATUS(subject SecurityProfile_
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.SecurityProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSecurityProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_SecurityProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SecurityProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSecurityProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_SecurityProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2379,7 +2655,7 @@ func Test_StorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageProfile to StorageProfile via AssignPropertiesToStorageProfile & AssignPropertiesFromStorageProfile returns original",
+		"Round trip from StorageProfile to StorageProfile via AssignProperties_To_StorageProfile & AssignProperties_From_StorageProfile returns original",
 		prop.ForAll(RunPropertyAssignmentTestForStorageProfile, StorageProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2391,14 +2667,14 @@ func RunPropertyAssignmentTestForStorageProfile(subject StorageProfile) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.StorageProfile
-	err := copied.AssignPropertiesToStorageProfile(&other)
+	err := copied.AssignProperties_To_StorageProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageProfile
-	err = actual.AssignPropertiesFromStorageProfile(&other)
+	err = actual.AssignProperties_From_StorageProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2483,7 +2759,11 @@ func Test_StorageProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from StorageProfile_STATUS to StorageProfile_STATUS via AssignPropertiesToStorageProfile_STATUS & AssignPropertiesFromStorageProfile_STATUS returns original",
+=======
+		"Round trip from StorageProfile_STATUS to StorageProfile_STATUS via AssignProperties_To_StorageProfile_STATUS & AssignProperties_From_StorageProfile_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForStorageProfile_STATUS, StorageProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2495,14 +2775,22 @@ func RunPropertyAssignmentTestForStorageProfile_STATUS(subject StorageProfile_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.StorageProfile_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToStorageProfile_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_StorageProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual StorageProfile_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromStorageProfile_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_StorageProfile_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2588,7 +2876,7 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SubResource to SubResource via AssignPropertiesToSubResource & AssignPropertiesFromSubResource returns original",
+		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2600,14 +2888,14 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.SubResource
-	err := copied.AssignPropertiesToSubResource(&other)
+	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SubResource
-	err = actual.AssignPropertiesFromSubResource(&other)
+	err = actual.AssignProperties_From_SubResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2684,7 +2972,11 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignPropertiesToSubResource_STATUS & AssignPropertiesFromSubResource_STATUS returns original",
+=======
+		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2696,14 +2988,22 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20210701s.SubResource_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSubResource_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_SubResource_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SubResource_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSubResource_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_SubResource_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2780,13 +3080,144 @@ func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+<<<<<<< HEAD
+=======
+func Test_VirtualMachineExtension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineExtension_STATUS to VirtualMachineExtension_STATUS via AssignProperties_To_VirtualMachineExtension_STATUS & AssignProperties_From_VirtualMachineExtension_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineExtension_STATUS, VirtualMachineExtension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineExtension_STATUS tests if a specific instance of VirtualMachineExtension_STATUS can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineExtension_STATUS(subject VirtualMachineExtension_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.VirtualMachineExtension_STATUS
+	err := copied.AssignProperties_To_VirtualMachineExtension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineExtension_STATUS
+	err = actual.AssignProperties_From_VirtualMachineExtension_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineExtension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineExtension_STATUS, VirtualMachineExtension_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineExtension_STATUS runs a test to see if a specific instance of VirtualMachineExtension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineExtension_STATUS(subject VirtualMachineExtension_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineExtension_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineExtension_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineExtension_STATUSGenerator()
+var virtualMachineExtension_STATUSGenerator gopter.Gen
+
+// VirtualMachineExtension_STATUSGenerator returns a generator of VirtualMachineExtension_STATUS instances for property testing.
+// We first initialize virtualMachineExtension_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineExtension_STATUSGenerator() gopter.Gen {
+	if virtualMachineExtension_STATUSGenerator != nil {
+		return virtualMachineExtension_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	virtualMachineExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtension_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS(generators)
+	virtualMachineExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtension_STATUS{}), generators)
+
+	return virtualMachineExtension_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(gens map[string]gopter.Gen) {
+	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
+	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineExtension_STATUS(gens map[string]gopter.Gen) {
+	gens["InstanceView"] = gen.PtrOf(VirtualMachineExtensionInstanceView_STATUSGenerator())
+}
+
+>>>>>>> main
 func Test_VirtualMachineIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineIdentity to VirtualMachineIdentity via AssignPropertiesToVirtualMachineIdentity & AssignPropertiesFromVirtualMachineIdentity returns original",
+		"Round trip from VirtualMachineIdentity to VirtualMachineIdentity via AssignProperties_To_VirtualMachineIdentity & AssignProperties_From_VirtualMachineIdentity returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineIdentity, VirtualMachineIdentityGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2798,14 +3229,14 @@ func RunPropertyAssignmentTestForVirtualMachineIdentity(subject VirtualMachineId
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineIdentity
-	err := copied.AssignPropertiesToVirtualMachineIdentity(&other)
+	err := copied.AssignProperties_To_VirtualMachineIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineIdentity
-	err = actual.AssignPropertiesFromVirtualMachineIdentity(&other)
+	err = actual.AssignProperties_From_VirtualMachineIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2889,7 +3320,11 @@ func Test_VirtualMachineIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineIdentity_STATUS to VirtualMachineIdentity_STATUS via AssignPropertiesToVirtualMachineIdentity_STATUS & AssignPropertiesFromVirtualMachineIdentity_STATUS returns original",
+=======
+		"Round trip from VirtualMachineIdentity_STATUS to VirtualMachineIdentity_STATUS via AssignProperties_To_VirtualMachineIdentity_STATUS & AssignProperties_From_VirtualMachineIdentity_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineIdentity_STATUS, VirtualMachineIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2901,14 +3336,22 @@ func RunPropertyAssignmentTestForVirtualMachineIdentity_STATUS(subject VirtualMa
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineIdentity_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineIdentity_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineIdentity_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineIdentity_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineIdentity_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineIdentity_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2994,7 +3437,11 @@ func Test_VirtualMachineInstanceView_STATUS_WhenPropertiesConverted_RoundTripsWi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineInstanceView_STATUS to VirtualMachineInstanceView_STATUS via AssignPropertiesToVirtualMachineInstanceView_STATUS & AssignPropertiesFromVirtualMachineInstanceView_STATUS returns original",
+=======
+		"Round trip from VirtualMachineInstanceView_STATUS to VirtualMachineInstanceView_STATUS via AssignProperties_To_VirtualMachineInstanceView_STATUS & AssignProperties_From_VirtualMachineInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineInstanceView_STATUS, VirtualMachineInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3006,14 +3453,22 @@ func RunPropertyAssignmentTestForVirtualMachineInstanceView_STATUS(subject Virtu
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3117,6 +3572,235 @@ func AddRelatedPropertyGeneratorsForVirtualMachineInstanceView_STATUS(gens map[s
 	gens["Statuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
 	gens["VmAgent"] = gen.PtrOf(VirtualMachineAgentInstanceView_STATUSGenerator())
 	gens["VmHealth"] = gen.PtrOf(VirtualMachineHealthStatus_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_VirtualMachines_Spec_Properties_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachines_Spec_Properties_NetworkProfile to VirtualMachines_Spec_Properties_NetworkProfile via AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile & AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile, VirtualMachines_Spec_Properties_NetworkProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile tests if a specific instance of VirtualMachines_Spec_Properties_NetworkProfile can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile(subject VirtualMachines_Spec_Properties_NetworkProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.VirtualMachines_Spec_Properties_NetworkProfile
+	err := copied.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachines_Spec_Properties_NetworkProfile
+	err = actual.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachines_Spec_Properties_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec_Properties_NetworkProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile, VirtualMachines_Spec_Properties_NetworkProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile runs a test to see if a specific instance of VirtualMachines_Spec_Properties_NetworkProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile(subject VirtualMachines_Spec_Properties_NetworkProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec_Properties_NetworkProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec_Properties_NetworkProfile instances for property testing - lazily instantiated by
+// VirtualMachines_Spec_Properties_NetworkProfileGenerator()
+var virtualMachines_Spec_Properties_NetworkProfileGenerator gopter.Gen
+
+// VirtualMachines_Spec_Properties_NetworkProfileGenerator returns a generator of VirtualMachines_Spec_Properties_NetworkProfile instances for property testing.
+func VirtualMachines_Spec_Properties_NetworkProfileGenerator() gopter.Gen {
+	if virtualMachines_Spec_Properties_NetworkProfileGenerator != nil {
+		return virtualMachines_Spec_Properties_NetworkProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile(generators)
+	virtualMachines_Spec_Properties_NetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_NetworkProfile{}), generators)
+
+	return virtualMachines_Spec_Properties_NetworkProfileGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile(gens map[string]gopter.Gen) {
+	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator())
+}
+
+func Test_VirtualMachines_Spec_Properties_OsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachines_Spec_Properties_OsProfile to VirtualMachines_Spec_Properties_OsProfile via AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile & AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_OsProfile, VirtualMachines_Spec_Properties_OsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_OsProfile tests if a specific instance of VirtualMachines_Spec_Properties_OsProfile can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_OsProfile(subject VirtualMachines_Spec_Properties_OsProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.VirtualMachines_Spec_Properties_OsProfile
+	err := copied.AssignProperties_To_VirtualMachines_Spec_Properties_OsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachines_Spec_Properties_OsProfile
+	err = actual.AssignProperties_From_VirtualMachines_Spec_Properties_OsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachines_Spec_Properties_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec_Properties_OsProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachines_Spec_Properties_OsProfile, VirtualMachines_Spec_Properties_OsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachines_Spec_Properties_OsProfile runs a test to see if a specific instance of VirtualMachines_Spec_Properties_OsProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachines_Spec_Properties_OsProfile(subject VirtualMachines_Spec_Properties_OsProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec_Properties_OsProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec_Properties_OsProfile instances for property testing - lazily instantiated by
+// VirtualMachines_Spec_Properties_OsProfileGenerator()
+var virtualMachines_Spec_Properties_OsProfileGenerator gopter.Gen
+
+// VirtualMachines_Spec_Properties_OsProfileGenerator returns a generator of VirtualMachines_Spec_Properties_OsProfile instances for property testing.
+// We first initialize virtualMachines_Spec_Properties_OsProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachines_Spec_Properties_OsProfileGenerator() gopter.Gen {
+	if virtualMachines_Spec_Properties_OsProfileGenerator != nil {
+		return virtualMachines_Spec_Properties_OsProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile(generators)
+	virtualMachines_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile(generators)
+	virtualMachines_Spec_Properties_OsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfile{}), generators)
+
+	return virtualMachines_Spec_Properties_OsProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
+	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
+	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
+	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachines_Spec_Properties_OsProfile(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
+>>>>>>> main
 }
 
 func Test_BootDiagnostics_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3125,7 +3809,7 @@ func Test_BootDiagnostics_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BootDiagnostics to BootDiagnostics via AssignPropertiesToBootDiagnostics & AssignPropertiesFromBootDiagnostics returns original",
+		"Round trip from BootDiagnostics to BootDiagnostics via AssignProperties_To_BootDiagnostics & AssignProperties_From_BootDiagnostics returns original",
 		prop.ForAll(RunPropertyAssignmentTestForBootDiagnostics, BootDiagnosticsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3137,14 +3821,14 @@ func RunPropertyAssignmentTestForBootDiagnostics(subject BootDiagnostics) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.BootDiagnostics
-	err := copied.AssignPropertiesToBootDiagnostics(&other)
+	err := copied.AssignProperties_To_BootDiagnostics(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BootDiagnostics
-	err = actual.AssignPropertiesFromBootDiagnostics(&other)
+	err = actual.AssignProperties_From_BootDiagnostics(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3228,7 +3912,11 @@ func Test_BootDiagnostics_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from BootDiagnostics_STATUS to BootDiagnostics_STATUS via AssignPropertiesToBootDiagnostics_STATUS & AssignPropertiesFromBootDiagnostics_STATUS returns original",
+=======
+		"Round trip from BootDiagnostics_STATUS to BootDiagnostics_STATUS via AssignProperties_To_BootDiagnostics_STATUS & AssignProperties_From_BootDiagnostics_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForBootDiagnostics_STATUS, BootDiagnostics_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3240,14 +3928,22 @@ func RunPropertyAssignmentTestForBootDiagnostics_STATUS(subject BootDiagnostics_
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.BootDiagnostics_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToBootDiagnostics_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_BootDiagnostics_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BootDiagnostics_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromBootDiagnostics_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_BootDiagnostics_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3332,7 +4028,11 @@ func Test_BootDiagnosticsInstanceView_STATUS_WhenPropertiesConverted_RoundTripsW
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from BootDiagnosticsInstanceView_STATUS to BootDiagnosticsInstanceView_STATUS via AssignPropertiesToBootDiagnosticsInstanceView_STATUS & AssignPropertiesFromBootDiagnosticsInstanceView_STATUS returns original",
+=======
+		"Round trip from BootDiagnosticsInstanceView_STATUS to BootDiagnosticsInstanceView_STATUS via AssignProperties_To_BootDiagnosticsInstanceView_STATUS & AssignProperties_From_BootDiagnosticsInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForBootDiagnosticsInstanceView_STATUS, BootDiagnosticsInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3344,14 +4044,22 @@ func RunPropertyAssignmentTestForBootDiagnosticsInstanceView_STATUS(subject Boot
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.BootDiagnosticsInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToBootDiagnosticsInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_BootDiagnosticsInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BootDiagnosticsInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromBootDiagnosticsInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_BootDiagnosticsInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3450,7 +4158,7 @@ func Test_DataDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DataDisk to DataDisk via AssignPropertiesToDataDisk & AssignPropertiesFromDataDisk returns original",
+		"Round trip from DataDisk to DataDisk via AssignProperties_To_DataDisk & AssignProperties_From_DataDisk returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDataDisk, DataDiskGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3462,14 +4170,14 @@ func RunPropertyAssignmentTestForDataDisk(subject DataDisk) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DataDisk
-	err := copied.AssignPropertiesToDataDisk(&other)
+	err := copied.AssignProperties_To_DataDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DataDisk
-	err = actual.AssignPropertiesFromDataDisk(&other)
+	err = actual.AssignProperties_From_DataDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3575,7 +4283,11 @@ func Test_DataDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from DataDisk_STATUS to DataDisk_STATUS via AssignPropertiesToDataDisk_STATUS & AssignPropertiesFromDataDisk_STATUS returns original",
+=======
+		"Round trip from DataDisk_STATUS to DataDisk_STATUS via AssignProperties_To_DataDisk_STATUS & AssignProperties_From_DataDisk_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDataDisk_STATUS, DataDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3587,14 +4299,22 @@ func RunPropertyAssignmentTestForDataDisk_STATUS(subject DataDisk_STATUS) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DataDisk_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToDataDisk_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_DataDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DataDisk_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromDataDisk_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_DataDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3702,7 +4422,11 @@ func Test_DiskInstanceView_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from DiskInstanceView_STATUS to DiskInstanceView_STATUS via AssignPropertiesToDiskInstanceView_STATUS & AssignPropertiesFromDiskInstanceView_STATUS returns original",
+=======
+		"Round trip from DiskInstanceView_STATUS to DiskInstanceView_STATUS via AssignProperties_To_DiskInstanceView_STATUS & AssignProperties_From_DiskInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDiskInstanceView_STATUS, DiskInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3714,14 +4438,22 @@ func RunPropertyAssignmentTestForDiskInstanceView_STATUS(subject DiskInstanceVie
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiskInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToDiskInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_DiskInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiskInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromDiskInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_DiskInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3820,7 +4552,7 @@ func Test_ImageReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ImageReference to ImageReference via AssignPropertiesToImageReference & AssignPropertiesFromImageReference returns original",
+		"Round trip from ImageReference to ImageReference via AssignProperties_To_ImageReference & AssignProperties_From_ImageReference returns original",
 		prop.ForAll(RunPropertyAssignmentTestForImageReference, ImageReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3832,14 +4564,14 @@ func RunPropertyAssignmentTestForImageReference(subject ImageReference) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ImageReference
-	err := copied.AssignPropertiesToImageReference(&other)
+	err := copied.AssignProperties_To_ImageReference(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ImageReference
-	err = actual.AssignPropertiesFromImageReference(&other)
+	err = actual.AssignProperties_From_ImageReference(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3925,7 +4657,11 @@ func Test_ImageReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ImageReference_STATUS to ImageReference_STATUS via AssignPropertiesToImageReference_STATUS & AssignPropertiesFromImageReference_STATUS returns original",
+=======
+		"Round trip from ImageReference_STATUS to ImageReference_STATUS via AssignProperties_To_ImageReference_STATUS & AssignProperties_From_ImageReference_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForImageReference_STATUS, ImageReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3937,14 +4673,22 @@ func RunPropertyAssignmentTestForImageReference_STATUS(subject ImageReference_ST
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ImageReference_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToImageReference_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ImageReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ImageReference_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromImageReference_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ImageReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4033,7 +4777,11 @@ func Test_InstanceViewStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from InstanceViewStatus_STATUS to InstanceViewStatus_STATUS via AssignPropertiesToInstanceViewStatus_STATUS & AssignPropertiesFromInstanceViewStatus_STATUS returns original",
+=======
+		"Round trip from InstanceViewStatus_STATUS to InstanceViewStatus_STATUS via AssignProperties_To_InstanceViewStatus_STATUS & AssignProperties_From_InstanceViewStatus_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForInstanceViewStatus_STATUS, InstanceViewStatus_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4045,14 +4793,22 @@ func RunPropertyAssignmentTestForInstanceViewStatus_STATUS(subject InstanceViewS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.InstanceViewStatus_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToInstanceViewStatus_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_InstanceViewStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual InstanceViewStatus_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromInstanceViewStatus_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_InstanceViewStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4140,7 +4896,7 @@ func Test_LinuxConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LinuxConfiguration to LinuxConfiguration via AssignPropertiesToLinuxConfiguration & AssignPropertiesFromLinuxConfiguration returns original",
+		"Round trip from LinuxConfiguration to LinuxConfiguration via AssignProperties_To_LinuxConfiguration & AssignProperties_From_LinuxConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForLinuxConfiguration, LinuxConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4152,14 +4908,14 @@ func RunPropertyAssignmentTestForLinuxConfiguration(subject LinuxConfiguration) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.LinuxConfiguration
-	err := copied.AssignPropertiesToLinuxConfiguration(&other)
+	err := copied.AssignProperties_To_LinuxConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LinuxConfiguration
-	err = actual.AssignPropertiesFromLinuxConfiguration(&other)
+	err = actual.AssignProperties_From_LinuxConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4258,7 +5014,11 @@ func Test_LinuxConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from LinuxConfiguration_STATUS to LinuxConfiguration_STATUS via AssignPropertiesToLinuxConfiguration_STATUS & AssignPropertiesFromLinuxConfiguration_STATUS returns original",
+=======
+		"Round trip from LinuxConfiguration_STATUS to LinuxConfiguration_STATUS via AssignProperties_To_LinuxConfiguration_STATUS & AssignProperties_From_LinuxConfiguration_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForLinuxConfiguration_STATUS, LinuxConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4270,14 +5030,22 @@ func RunPropertyAssignmentTestForLinuxConfiguration_STATUS(subject LinuxConfigur
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.LinuxConfiguration_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToLinuxConfiguration_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_LinuxConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LinuxConfiguration_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromLinuxConfiguration_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_LinuxConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4377,7 +5145,11 @@ func Test_MaintenanceRedeployStatus_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from MaintenanceRedeployStatus_STATUS to MaintenanceRedeployStatus_STATUS via AssignPropertiesToMaintenanceRedeployStatus_STATUS & AssignPropertiesFromMaintenanceRedeployStatus_STATUS returns original",
+=======
+		"Round trip from MaintenanceRedeployStatus_STATUS to MaintenanceRedeployStatus_STATUS via AssignProperties_To_MaintenanceRedeployStatus_STATUS & AssignProperties_From_MaintenanceRedeployStatus_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForMaintenanceRedeployStatus_STATUS, MaintenanceRedeployStatus_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4389,14 +5161,22 @@ func RunPropertyAssignmentTestForMaintenanceRedeployStatus_STATUS(subject Mainte
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.MaintenanceRedeployStatus_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToMaintenanceRedeployStatus_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_MaintenanceRedeployStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual MaintenanceRedeployStatus_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromMaintenanceRedeployStatus_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_MaintenanceRedeployStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4589,7 +5369,11 @@ func Test_NetworkInterfaceReference_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterfaceReference_STATUS to NetworkInterfaceReference_STATUS via AssignPropertiesToNetworkInterfaceReference_STATUS & AssignPropertiesFromNetworkInterfaceReference_STATUS returns original",
+=======
+		"Round trip from NetworkInterfaceReference_STATUS to NetworkInterfaceReference_STATUS via AssignProperties_To_NetworkInterfaceReference_STATUS & AssignProperties_From_NetworkInterfaceReference_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceReference_STATUS, NetworkInterfaceReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4601,14 +5385,22 @@ func RunPropertyAssignmentTestForNetworkInterfaceReference_STATUS(subject Networ
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.NetworkInterfaceReference_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterfaceReference_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterfaceReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceReference_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterfaceReference_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterfaceReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4693,7 +5485,7 @@ func Test_OSDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from OSDisk to OSDisk via AssignPropertiesToOSDisk & AssignPropertiesFromOSDisk returns original",
+		"Round trip from OSDisk to OSDisk via AssignProperties_To_OSDisk & AssignProperties_From_OSDisk returns original",
 		prop.ForAll(RunPropertyAssignmentTestForOSDisk, OSDiskGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4705,14 +5497,14 @@ func RunPropertyAssignmentTestForOSDisk(subject OSDisk) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.OSDisk
-	err := copied.AssignPropertiesToOSDisk(&other)
+	err := copied.AssignProperties_To_OSDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual OSDisk
-	err = actual.AssignPropertiesFromOSDisk(&other)
+	err = actual.AssignProperties_From_OSDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4818,7 +5610,11 @@ func Test_OSDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from OSDisk_STATUS to OSDisk_STATUS via AssignPropertiesToOSDisk_STATUS & AssignPropertiesFromOSDisk_STATUS returns original",
+=======
+		"Round trip from OSDisk_STATUS to OSDisk_STATUS via AssignProperties_To_OSDisk_STATUS & AssignProperties_From_OSDisk_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForOSDisk_STATUS, OSDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4830,14 +5626,22 @@ func RunPropertyAssignmentTestForOSDisk_STATUS(subject OSDisk_STATUS) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.OSDisk_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToOSDisk_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_OSDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual OSDisk_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromOSDisk_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_OSDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -4943,7 +5747,7 @@ func Test_UefiSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from UefiSettings to UefiSettings via AssignPropertiesToUefiSettings & AssignPropertiesFromUefiSettings returns original",
+		"Round trip from UefiSettings to UefiSettings via AssignProperties_To_UefiSettings & AssignProperties_From_UefiSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForUefiSettings, UefiSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -4955,14 +5759,14 @@ func RunPropertyAssignmentTestForUefiSettings(subject UefiSettings) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.UefiSettings
-	err := copied.AssignPropertiesToUefiSettings(&other)
+	err := copied.AssignProperties_To_UefiSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UefiSettings
-	err = actual.AssignPropertiesFromUefiSettings(&other)
+	err = actual.AssignProperties_From_UefiSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5046,7 +5850,11 @@ func Test_UefiSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from UefiSettings_STATUS to UefiSettings_STATUS via AssignPropertiesToUefiSettings_STATUS & AssignPropertiesFromUefiSettings_STATUS returns original",
+=======
+		"Round trip from UefiSettings_STATUS to UefiSettings_STATUS via AssignProperties_To_UefiSettings_STATUS & AssignProperties_From_UefiSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForUefiSettings_STATUS, UefiSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5058,14 +5866,22 @@ func RunPropertyAssignmentTestForUefiSettings_STATUS(subject UefiSettings_STATUS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.UefiSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToUefiSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_UefiSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual UefiSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromUefiSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_UefiSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5150,7 +5966,7 @@ func Test_VaultSecretGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VaultSecretGroup to VaultSecretGroup via AssignPropertiesToVaultSecretGroup & AssignPropertiesFromVaultSecretGroup returns original",
+		"Round trip from VaultSecretGroup to VaultSecretGroup via AssignProperties_To_VaultSecretGroup & AssignProperties_From_VaultSecretGroup returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVaultSecretGroup, VaultSecretGroupGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5162,14 +5978,14 @@ func RunPropertyAssignmentTestForVaultSecretGroup(subject VaultSecretGroup) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VaultSecretGroup
-	err := copied.AssignPropertiesToVaultSecretGroup(&other)
+	err := copied.AssignProperties_To_VaultSecretGroup(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VaultSecretGroup
-	err = actual.AssignPropertiesFromVaultSecretGroup(&other)
+	err = actual.AssignProperties_From_VaultSecretGroup(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5253,7 +6069,11 @@ func Test_VaultSecretGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VaultSecretGroup_STATUS to VaultSecretGroup_STATUS via AssignPropertiesToVaultSecretGroup_STATUS & AssignPropertiesFromVaultSecretGroup_STATUS returns original",
+=======
+		"Round trip from VaultSecretGroup_STATUS to VaultSecretGroup_STATUS via AssignProperties_To_VaultSecretGroup_STATUS & AssignProperties_From_VaultSecretGroup_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVaultSecretGroup_STATUS, VaultSecretGroup_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5265,14 +6085,22 @@ func RunPropertyAssignmentTestForVaultSecretGroup_STATUS(subject VaultSecretGrou
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VaultSecretGroup_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVaultSecretGroup_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VaultSecretGroup_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VaultSecretGroup_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVaultSecretGroup_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VaultSecretGroup_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5357,7 +6185,11 @@ func Test_VirtualMachineAgentInstanceView_STATUS_WhenPropertiesConverted_RoundTr
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineAgentInstanceView_STATUS to VirtualMachineAgentInstanceView_STATUS via AssignPropertiesToVirtualMachineAgentInstanceView_STATUS & AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS returns original",
+=======
+		"Round trip from VirtualMachineAgentInstanceView_STATUS to VirtualMachineAgentInstanceView_STATUS via AssignProperties_To_VirtualMachineAgentInstanceView_STATUS & AssignProperties_From_VirtualMachineAgentInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineAgentInstanceView_STATUS, VirtualMachineAgentInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5369,14 +6201,22 @@ func RunPropertyAssignmentTestForVirtualMachineAgentInstanceView_STATUS(subject 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineAgentInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineAgentInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineAgentInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineAgentInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineAgentInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5475,7 +6315,11 @@ func Test_VirtualMachineExtensionInstanceView_STATUS_WhenPropertiesConverted_Rou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineExtensionInstanceView_STATUS to VirtualMachineExtensionInstanceView_STATUS via AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS & AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS returns original",
+=======
+		"Round trip from VirtualMachineExtensionInstanceView_STATUS to VirtualMachineExtensionInstanceView_STATUS via AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS & AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineExtensionInstanceView_STATUS, VirtualMachineExtensionInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5487,14 +6331,22 @@ func RunPropertyAssignmentTestForVirtualMachineExtensionInstanceView_STATUS(subj
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineExtensionInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineExtensionInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5595,7 +6447,11 @@ func Test_VirtualMachineHealthStatus_STATUS_WhenPropertiesConverted_RoundTripsWi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineHealthStatus_STATUS to VirtualMachineHealthStatus_STATUS via AssignPropertiesToVirtualMachineHealthStatus_STATUS & AssignPropertiesFromVirtualMachineHealthStatus_STATUS returns original",
+=======
+		"Round trip from VirtualMachineHealthStatus_STATUS to VirtualMachineHealthStatus_STATUS via AssignProperties_To_VirtualMachineHealthStatus_STATUS & AssignProperties_From_VirtualMachineHealthStatus_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineHealthStatus_STATUS, VirtualMachineHealthStatus_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5607,14 +6463,22 @@ func RunPropertyAssignmentTestForVirtualMachineHealthStatus_STATUS(subject Virtu
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineHealthStatus_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineHealthStatus_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineHealthStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineHealthStatus_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineHealthStatus_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineHealthStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5698,7 +6562,11 @@ func Test_VirtualMachinePatchStatus_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachinePatchStatus_STATUS to VirtualMachinePatchStatus_STATUS via AssignPropertiesToVirtualMachinePatchStatus_STATUS & AssignPropertiesFromVirtualMachinePatchStatus_STATUS returns original",
+=======
+		"Round trip from VirtualMachinePatchStatus_STATUS to VirtualMachinePatchStatus_STATUS via AssignProperties_To_VirtualMachinePatchStatus_STATUS & AssignProperties_From_VirtualMachinePatchStatus_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachinePatchStatus_STATUS, VirtualMachinePatchStatus_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5710,14 +6578,22 @@ func RunPropertyAssignmentTestForVirtualMachinePatchStatus_STATUS(subject Virtua
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachinePatchStatus_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachinePatchStatus_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachinePatchStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachinePatchStatus_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachinePatchStatus_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachinePatchStatus_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -5795,6 +6671,112 @@ func AddRelatedPropertyGeneratorsForVirtualMachinePatchStatus_STATUS(gens map[st
 	gens["AvailablePatchSummary"] = gen.PtrOf(AvailablePatchSummary_STATUSGenerator())
 	gens["ConfigurationStatuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
 	gens["LastPatchInstallationSummary"] = gen.PtrOf(LastPatchInstallationSummary_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces to VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces via AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces & AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces tests if a specific instance of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(subject VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+	err := copied.AssignProperties_To_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+	err = actual.AssignProperties_From_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces runs a test to see if a specific instance of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(subject VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing - lazily
+// instantiated by VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator()
+var virtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator gopter.Gen
+
+// VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator returns a generator of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instances for property testing.
+func VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator() gopter.Gen {
+	if virtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator != nil {
+		return virtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(generators)
+	virtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{}), generators)
+
+	return virtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces(gens map[string]gopter.Gen) {
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+>>>>>>> main
 }
 
 func Test_WindowsConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5803,7 +6785,7 @@ func Test_WindowsConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WindowsConfiguration to WindowsConfiguration via AssignPropertiesToWindowsConfiguration & AssignPropertiesFromWindowsConfiguration returns original",
+		"Round trip from WindowsConfiguration to WindowsConfiguration via AssignProperties_To_WindowsConfiguration & AssignProperties_From_WindowsConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWindowsConfiguration, WindowsConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5815,14 +6797,14 @@ func RunPropertyAssignmentTestForWindowsConfiguration(subject WindowsConfigurati
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WindowsConfiguration
-	err := copied.AssignPropertiesToWindowsConfiguration(&other)
+	err := copied.AssignProperties_To_WindowsConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WindowsConfiguration
-	err = actual.AssignPropertiesFromWindowsConfiguration(&other)
+	err = actual.AssignProperties_From_WindowsConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5924,7 +6906,11 @@ func Test_WindowsConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from WindowsConfiguration_STATUS to WindowsConfiguration_STATUS via AssignPropertiesToWindowsConfiguration_STATUS & AssignPropertiesFromWindowsConfiguration_STATUS returns original",
+=======
+		"Round trip from WindowsConfiguration_STATUS to WindowsConfiguration_STATUS via AssignProperties_To_WindowsConfiguration_STATUS & AssignProperties_From_WindowsConfiguration_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForWindowsConfiguration_STATUS, WindowsConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -5936,14 +6922,22 @@ func RunPropertyAssignmentTestForWindowsConfiguration_STATUS(subject WindowsConf
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WindowsConfiguration_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToWindowsConfiguration_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_WindowsConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WindowsConfiguration_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromWindowsConfiguration_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_WindowsConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6045,7 +7039,7 @@ func Test_AdditionalUnattendContent_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AdditionalUnattendContent to AdditionalUnattendContent via AssignPropertiesToAdditionalUnattendContent & AssignPropertiesFromAdditionalUnattendContent returns original",
+		"Round trip from AdditionalUnattendContent to AdditionalUnattendContent via AssignProperties_To_AdditionalUnattendContent & AssignProperties_From_AdditionalUnattendContent returns original",
 		prop.ForAll(RunPropertyAssignmentTestForAdditionalUnattendContent, AdditionalUnattendContentGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6057,14 +7051,14 @@ func RunPropertyAssignmentTestForAdditionalUnattendContent(subject AdditionalUna
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.AdditionalUnattendContent
-	err := copied.AssignPropertiesToAdditionalUnattendContent(&other)
+	err := copied.AssignProperties_To_AdditionalUnattendContent(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdditionalUnattendContent
-	err = actual.AssignPropertiesFromAdditionalUnattendContent(&other)
+	err = actual.AssignProperties_From_AdditionalUnattendContent(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -6151,7 +7145,11 @@ func Test_AdditionalUnattendContent_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from AdditionalUnattendContent_STATUS to AdditionalUnattendContent_STATUS via AssignPropertiesToAdditionalUnattendContent_STATUS & AssignPropertiesFromAdditionalUnattendContent_STATUS returns original",
+=======
+		"Round trip from AdditionalUnattendContent_STATUS to AdditionalUnattendContent_STATUS via AssignProperties_To_AdditionalUnattendContent_STATUS & AssignProperties_From_AdditionalUnattendContent_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForAdditionalUnattendContent_STATUS, AdditionalUnattendContent_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6163,14 +7161,22 @@ func RunPropertyAssignmentTestForAdditionalUnattendContent_STATUS(subject Additi
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.AdditionalUnattendContent_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToAdditionalUnattendContent_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_AdditionalUnattendContent_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AdditionalUnattendContent_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromAdditionalUnattendContent_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_AdditionalUnattendContent_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6257,7 +7263,11 @@ func Test_AvailablePatchSummary_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from AvailablePatchSummary_STATUS to AvailablePatchSummary_STATUS via AssignPropertiesToAvailablePatchSummary_STATUS & AssignPropertiesFromAvailablePatchSummary_STATUS returns original",
+=======
+		"Round trip from AvailablePatchSummary_STATUS to AvailablePatchSummary_STATUS via AssignProperties_To_AvailablePatchSummary_STATUS & AssignProperties_From_AvailablePatchSummary_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForAvailablePatchSummary_STATUS, AvailablePatchSummary_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6269,14 +7279,22 @@ func RunPropertyAssignmentTestForAvailablePatchSummary_STATUS(subject AvailableP
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.AvailablePatchSummary_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToAvailablePatchSummary_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_AvailablePatchSummary_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual AvailablePatchSummary_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromAvailablePatchSummary_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_AvailablePatchSummary_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6380,7 +7398,7 @@ func Test_DiffDiskSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DiffDiskSettings to DiffDiskSettings via AssignPropertiesToDiffDiskSettings & AssignPropertiesFromDiffDiskSettings returns original",
+		"Round trip from DiffDiskSettings to DiffDiskSettings via AssignProperties_To_DiffDiskSettings & AssignProperties_From_DiffDiskSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDiffDiskSettings, DiffDiskSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6392,14 +7410,14 @@ func RunPropertyAssignmentTestForDiffDiskSettings(subject DiffDiskSettings) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiffDiskSettings
-	err := copied.AssignPropertiesToDiffDiskSettings(&other)
+	err := copied.AssignProperties_To_DiffDiskSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiffDiskSettings
-	err = actual.AssignPropertiesFromDiffDiskSettings(&other)
+	err = actual.AssignProperties_From_DiffDiskSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -6483,7 +7501,11 @@ func Test_DiffDiskSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from DiffDiskSettings_STATUS to DiffDiskSettings_STATUS via AssignPropertiesToDiffDiskSettings_STATUS & AssignPropertiesFromDiffDiskSettings_STATUS returns original",
+=======
+		"Round trip from DiffDiskSettings_STATUS to DiffDiskSettings_STATUS via AssignProperties_To_DiffDiskSettings_STATUS & AssignProperties_From_DiffDiskSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDiffDiskSettings_STATUS, DiffDiskSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6495,14 +7517,22 @@ func RunPropertyAssignmentTestForDiffDiskSettings_STATUS(subject DiffDiskSetting
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiffDiskSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToDiffDiskSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_DiffDiskSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiffDiskSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromDiffDiskSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_DiffDiskSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6587,7 +7617,7 @@ func Test_DiskEncryptionSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DiskEncryptionSettings to DiskEncryptionSettings via AssignPropertiesToDiskEncryptionSettings & AssignPropertiesFromDiskEncryptionSettings returns original",
+		"Round trip from DiskEncryptionSettings to DiskEncryptionSettings via AssignProperties_To_DiskEncryptionSettings & AssignProperties_From_DiskEncryptionSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSettings, DiskEncryptionSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6599,14 +7629,14 @@ func RunPropertyAssignmentTestForDiskEncryptionSettings(subject DiskEncryptionSe
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiskEncryptionSettings
-	err := copied.AssignPropertiesToDiskEncryptionSettings(&other)
+	err := copied.AssignProperties_To_DiskEncryptionSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiskEncryptionSettings
-	err = actual.AssignPropertiesFromDiskEncryptionSettings(&other)
+	err = actual.AssignProperties_From_DiskEncryptionSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -6705,7 +7735,11 @@ func Test_DiskEncryptionSettings_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from DiskEncryptionSettings_STATUS to DiskEncryptionSettings_STATUS via AssignPropertiesToDiskEncryptionSettings_STATUS & AssignPropertiesFromDiskEncryptionSettings_STATUS returns original",
+=======
+		"Round trip from DiskEncryptionSettings_STATUS to DiskEncryptionSettings_STATUS via AssignProperties_To_DiskEncryptionSettings_STATUS & AssignProperties_From_DiskEncryptionSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSettings_STATUS, DiskEncryptionSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6717,14 +7751,22 @@ func RunPropertyAssignmentTestForDiskEncryptionSettings_STATUS(subject DiskEncry
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.DiskEncryptionSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToDiskEncryptionSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_DiskEncryptionSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DiskEncryptionSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromDiskEncryptionSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_DiskEncryptionSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6823,7 +7865,11 @@ func Test_LastPatchInstallationSummary_STATUS_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from LastPatchInstallationSummary_STATUS to LastPatchInstallationSummary_STATUS via AssignPropertiesToLastPatchInstallationSummary_STATUS & AssignPropertiesFromLastPatchInstallationSummary_STATUS returns original",
+=======
+		"Round trip from LastPatchInstallationSummary_STATUS to LastPatchInstallationSummary_STATUS via AssignProperties_To_LastPatchInstallationSummary_STATUS & AssignProperties_From_LastPatchInstallationSummary_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForLastPatchInstallationSummary_STATUS, LastPatchInstallationSummary_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6835,14 +7881,22 @@ func RunPropertyAssignmentTestForLastPatchInstallationSummary_STATUS(subject Las
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.LastPatchInstallationSummary_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToLastPatchInstallationSummary_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_LastPatchInstallationSummary_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LastPatchInstallationSummary_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromLastPatchInstallationSummary_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_LastPatchInstallationSummary_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -6949,7 +8003,7 @@ func Test_LinuxPatchSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from LinuxPatchSettings to LinuxPatchSettings via AssignPropertiesToLinuxPatchSettings & AssignPropertiesFromLinuxPatchSettings returns original",
+		"Round trip from LinuxPatchSettings to LinuxPatchSettings via AssignProperties_To_LinuxPatchSettings & AssignProperties_From_LinuxPatchSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForLinuxPatchSettings, LinuxPatchSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -6961,14 +8015,14 @@ func RunPropertyAssignmentTestForLinuxPatchSettings(subject LinuxPatchSettings) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.LinuxPatchSettings
-	err := copied.AssignPropertiesToLinuxPatchSettings(&other)
+	err := copied.AssignProperties_To_LinuxPatchSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LinuxPatchSettings
-	err = actual.AssignPropertiesFromLinuxPatchSettings(&other)
+	err = actual.AssignProperties_From_LinuxPatchSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -7051,7 +8105,11 @@ func Test_LinuxPatchSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from LinuxPatchSettings_STATUS to LinuxPatchSettings_STATUS via AssignPropertiesToLinuxPatchSettings_STATUS & AssignPropertiesFromLinuxPatchSettings_STATUS returns original",
+=======
+		"Round trip from LinuxPatchSettings_STATUS to LinuxPatchSettings_STATUS via AssignProperties_To_LinuxPatchSettings_STATUS & AssignProperties_From_LinuxPatchSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForLinuxPatchSettings_STATUS, LinuxPatchSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7063,14 +8121,22 @@ func RunPropertyAssignmentTestForLinuxPatchSettings_STATUS(subject LinuxPatchSet
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.LinuxPatchSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToLinuxPatchSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_LinuxPatchSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual LinuxPatchSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromLinuxPatchSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_LinuxPatchSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -7154,7 +8220,7 @@ func Test_ManagedDiskParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ManagedDiskParameters to ManagedDiskParameters via AssignPropertiesToManagedDiskParameters & AssignPropertiesFromManagedDiskParameters returns original",
+		"Round trip from ManagedDiskParameters to ManagedDiskParameters via AssignProperties_To_ManagedDiskParameters & AssignProperties_From_ManagedDiskParameters returns original",
 		prop.ForAll(RunPropertyAssignmentTestForManagedDiskParameters, ManagedDiskParametersGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7166,14 +8232,14 @@ func RunPropertyAssignmentTestForManagedDiskParameters(subject ManagedDiskParame
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ManagedDiskParameters
-	err := copied.AssignPropertiesToManagedDiskParameters(&other)
+	err := copied.AssignProperties_To_ManagedDiskParameters(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedDiskParameters
-	err = actual.AssignPropertiesFromManagedDiskParameters(&other)
+	err = actual.AssignProperties_From_ManagedDiskParameters(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -7271,7 +8337,11 @@ func Test_ManagedDiskParameters_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ManagedDiskParameters_STATUS to ManagedDiskParameters_STATUS via AssignPropertiesToManagedDiskParameters_STATUS & AssignPropertiesFromManagedDiskParameters_STATUS returns original",
+=======
+		"Round trip from ManagedDiskParameters_STATUS to ManagedDiskParameters_STATUS via AssignProperties_To_ManagedDiskParameters_STATUS & AssignProperties_From_ManagedDiskParameters_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForManagedDiskParameters_STATUS, ManagedDiskParameters_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7283,14 +8353,22 @@ func RunPropertyAssignmentTestForManagedDiskParameters_STATUS(subject ManagedDis
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ManagedDiskParameters_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToManagedDiskParameters_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ManagedDiskParameters_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ManagedDiskParameters_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromManagedDiskParameters_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ManagedDiskParameters_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -7389,7 +8467,7 @@ func Test_PatchSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from PatchSettings to PatchSettings via AssignPropertiesToPatchSettings & AssignPropertiesFromPatchSettings returns original",
+		"Round trip from PatchSettings to PatchSettings via AssignProperties_To_PatchSettings & AssignProperties_From_PatchSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPatchSettings, PatchSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7401,14 +8479,14 @@ func RunPropertyAssignmentTestForPatchSettings(subject PatchSettings) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.PatchSettings
-	err := copied.AssignPropertiesToPatchSettings(&other)
+	err := copied.AssignProperties_To_PatchSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PatchSettings
-	err = actual.AssignPropertiesFromPatchSettings(&other)
+	err = actual.AssignProperties_From_PatchSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -7492,7 +8570,11 @@ func Test_PatchSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PatchSettings_STATUS to PatchSettings_STATUS via AssignPropertiesToPatchSettings_STATUS & AssignPropertiesFromPatchSettings_STATUS returns original",
+=======
+		"Round trip from PatchSettings_STATUS to PatchSettings_STATUS via AssignProperties_To_PatchSettings_STATUS & AssignProperties_From_PatchSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPatchSettings_STATUS, PatchSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7504,14 +8586,22 @@ func RunPropertyAssignmentTestForPatchSettings_STATUS(subject PatchSettings_STAT
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.PatchSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPatchSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_PatchSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PatchSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPatchSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_PatchSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -7596,7 +8686,7 @@ func Test_SshConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SshConfiguration to SshConfiguration via AssignPropertiesToSshConfiguration & AssignPropertiesFromSshConfiguration returns original",
+		"Round trip from SshConfiguration to SshConfiguration via AssignProperties_To_SshConfiguration & AssignProperties_From_SshConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSshConfiguration, SshConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7608,14 +8698,14 @@ func RunPropertyAssignmentTestForSshConfiguration(subject SshConfiguration) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.SshConfiguration
-	err := copied.AssignPropertiesToSshConfiguration(&other)
+	err := copied.AssignProperties_To_SshConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SshConfiguration
-	err = actual.AssignPropertiesFromSshConfiguration(&other)
+	err = actual.AssignProperties_From_SshConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -7698,7 +8788,11 @@ func Test_SshConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from SshConfiguration_STATUS to SshConfiguration_STATUS via AssignPropertiesToSshConfiguration_STATUS & AssignPropertiesFromSshConfiguration_STATUS returns original",
+=======
+		"Round trip from SshConfiguration_STATUS to SshConfiguration_STATUS via AssignProperties_To_SshConfiguration_STATUS & AssignProperties_From_SshConfiguration_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSshConfiguration_STATUS, SshConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7710,14 +8804,22 @@ func RunPropertyAssignmentTestForSshConfiguration_STATUS(subject SshConfiguratio
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.SshConfiguration_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSshConfiguration_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_SshConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SshConfiguration_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSshConfiguration_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_SshConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -7801,7 +8903,7 @@ func Test_VaultCertificate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VaultCertificate to VaultCertificate via AssignPropertiesToVaultCertificate & AssignPropertiesFromVaultCertificate returns original",
+		"Round trip from VaultCertificate to VaultCertificate via AssignProperties_To_VaultCertificate & AssignProperties_From_VaultCertificate returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVaultCertificate, VaultCertificateGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7813,14 +8915,14 @@ func RunPropertyAssignmentTestForVaultCertificate(subject VaultCertificate) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VaultCertificate
-	err := copied.AssignPropertiesToVaultCertificate(&other)
+	err := copied.AssignProperties_To_VaultCertificate(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VaultCertificate
-	err = actual.AssignPropertiesFromVaultCertificate(&other)
+	err = actual.AssignProperties_From_VaultCertificate(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -7904,7 +9006,11 @@ func Test_VaultCertificate_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VaultCertificate_STATUS to VaultCertificate_STATUS via AssignPropertiesToVaultCertificate_STATUS & AssignPropertiesFromVaultCertificate_STATUS returns original",
+=======
+		"Round trip from VaultCertificate_STATUS to VaultCertificate_STATUS via AssignProperties_To_VaultCertificate_STATUS & AssignProperties_From_VaultCertificate_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVaultCertificate_STATUS, VaultCertificate_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -7916,14 +9022,22 @@ func RunPropertyAssignmentTestForVaultCertificate_STATUS(subject VaultCertificat
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VaultCertificate_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVaultCertificate_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VaultCertificate_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VaultCertificate_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVaultCertificate_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VaultCertificate_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8008,7 +9122,7 @@ func Test_VirtualHardDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualHardDisk to VirtualHardDisk via AssignPropertiesToVirtualHardDisk & AssignPropertiesFromVirtualHardDisk returns original",
+		"Round trip from VirtualHardDisk to VirtualHardDisk via AssignProperties_To_VirtualHardDisk & AssignProperties_From_VirtualHardDisk returns original",
 		prop.ForAll(RunPropertyAssignmentTestForVirtualHardDisk, VirtualHardDiskGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8020,14 +9134,14 @@ func RunPropertyAssignmentTestForVirtualHardDisk(subject VirtualHardDisk) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualHardDisk
-	err := copied.AssignPropertiesToVirtualHardDisk(&other)
+	err := copied.AssignProperties_To_VirtualHardDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualHardDisk
-	err = actual.AssignPropertiesFromVirtualHardDisk(&other)
+	err = actual.AssignProperties_From_VirtualHardDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -8110,7 +9224,11 @@ func Test_VirtualHardDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualHardDisk_STATUS to VirtualHardDisk_STATUS via AssignPropertiesToVirtualHardDisk_STATUS & AssignPropertiesFromVirtualHardDisk_STATUS returns original",
+=======
+		"Round trip from VirtualHardDisk_STATUS to VirtualHardDisk_STATUS via AssignProperties_To_VirtualHardDisk_STATUS & AssignProperties_From_VirtualHardDisk_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualHardDisk_STATUS, VirtualHardDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8122,14 +9240,22 @@ func RunPropertyAssignmentTestForVirtualHardDisk_STATUS(subject VirtualHardDisk_
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualHardDisk_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualHardDisk_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualHardDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualHardDisk_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualHardDisk_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualHardDisk_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8213,7 +9339,11 @@ func Test_VirtualMachineExtensionHandlerInstanceView_STATUS_WhenPropertiesConver
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualMachineExtensionHandlerInstanceView_STATUS to VirtualMachineExtensionHandlerInstanceView_STATUS via AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS & AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS returns original",
+=======
+		"Round trip from VirtualMachineExtensionHandlerInstanceView_STATUS to VirtualMachineExtensionHandlerInstanceView_STATUS via AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS & AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineExtensionHandlerInstanceView_STATUS, VirtualMachineExtensionHandlerInstanceView_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8225,14 +9355,22 @@ func RunPropertyAssignmentTestForVirtualMachineExtensionHandlerInstanceView_STAT
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.VirtualMachineExtensionHandlerInstanceView_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_VirtualMachineExtensionHandlerInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualMachineExtensionHandlerInstanceView_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_VirtualMachineExtensionHandlerInstanceView_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8331,7 +9469,7 @@ func Test_WinRMConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WinRMConfiguration to WinRMConfiguration via AssignPropertiesToWinRMConfiguration & AssignPropertiesFromWinRMConfiguration returns original",
+		"Round trip from WinRMConfiguration to WinRMConfiguration via AssignProperties_To_WinRMConfiguration & AssignProperties_From_WinRMConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWinRMConfiguration, WinRMConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8343,14 +9481,14 @@ func RunPropertyAssignmentTestForWinRMConfiguration(subject WinRMConfiguration) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WinRMConfiguration
-	err := copied.AssignPropertiesToWinRMConfiguration(&other)
+	err := copied.AssignProperties_To_WinRMConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WinRMConfiguration
-	err = actual.AssignPropertiesFromWinRMConfiguration(&other)
+	err = actual.AssignProperties_From_WinRMConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -8433,7 +9571,11 @@ func Test_WinRMConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from WinRMConfiguration_STATUS to WinRMConfiguration_STATUS via AssignPropertiesToWinRMConfiguration_STATUS & AssignPropertiesFromWinRMConfiguration_STATUS returns original",
+=======
+		"Round trip from WinRMConfiguration_STATUS to WinRMConfiguration_STATUS via AssignProperties_To_WinRMConfiguration_STATUS & AssignProperties_From_WinRMConfiguration_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForWinRMConfiguration_STATUS, WinRMConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8445,14 +9587,22 @@ func RunPropertyAssignmentTestForWinRMConfiguration_STATUS(subject WinRMConfigur
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WinRMConfiguration_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToWinRMConfiguration_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_WinRMConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WinRMConfiguration_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromWinRMConfiguration_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_WinRMConfiguration_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8536,7 +9686,11 @@ func Test_ApiError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ApiError_STATUS to ApiError_STATUS via AssignPropertiesToApiError_STATUS & AssignPropertiesFromApiError_STATUS returns original",
+=======
+		"Round trip from ApiError_STATUS to ApiError_STATUS via AssignProperties_To_ApiError_STATUS & AssignProperties_From_ApiError_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForApiError_STATUS, ApiError_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8548,14 +9702,22 @@ func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ApiError_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToApiError_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ApiError_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ApiError_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromApiError_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ApiError_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8647,6 +9809,106 @@ func AddIndependentPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.G
 func AddRelatedPropertyGeneratorsForApiError_STATUS(gens map[string]gopter.Gen) {
 	gens["Details"] = gen.SliceOf(ApiErrorBase_STATUSGenerator())
 	gens["Innererror"] = gen.PtrOf(InnerError_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_DiskEncryptionSetParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DiskEncryptionSetParameters to DiskEncryptionSetParameters via AssignProperties_To_DiskEncryptionSetParameters & AssignProperties_From_DiskEncryptionSetParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiskEncryptionSetParameters, DiskEncryptionSetParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDiskEncryptionSetParameters tests if a specific instance of DiskEncryptionSetParameters can be assigned to v1beta20210701storage and back losslessly
+func RunPropertyAssignmentTestForDiskEncryptionSetParameters(subject DiskEncryptionSetParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210701s.DiskEncryptionSetParameters
+	err := copied.AssignProperties_To_DiskEncryptionSetParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DiskEncryptionSetParameters
+	err = actual.AssignProperties_From_DiskEncryptionSetParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DiskEncryptionSetParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskEncryptionSetParameters via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetParameters, DiskEncryptionSetParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskEncryptionSetParameters runs a test to see if a specific instance of DiskEncryptionSetParameters round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskEncryptionSetParameters(subject DiskEncryptionSetParameters) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskEncryptionSetParameters
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskEncryptionSetParameters instances for property testing - lazily instantiated by
+// DiskEncryptionSetParametersGenerator()
+var diskEncryptionSetParametersGenerator gopter.Gen
+
+// DiskEncryptionSetParametersGenerator returns a generator of DiskEncryptionSetParameters instances for property testing.
+func DiskEncryptionSetParametersGenerator() gopter.Gen {
+	if diskEncryptionSetParametersGenerator != nil {
+		return diskEncryptionSetParametersGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	diskEncryptionSetParametersGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetParameters{}), generators)
+
+	return diskEncryptionSetParametersGenerator
+>>>>>>> main
 }
 
 func Test_KeyVaultKeyReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -8655,7 +9917,7 @@ func Test_KeyVaultKeyReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from KeyVaultKeyReference to KeyVaultKeyReference via AssignPropertiesToKeyVaultKeyReference & AssignPropertiesFromKeyVaultKeyReference returns original",
+		"Round trip from KeyVaultKeyReference to KeyVaultKeyReference via AssignProperties_To_KeyVaultKeyReference & AssignProperties_From_KeyVaultKeyReference returns original",
 		prop.ForAll(RunPropertyAssignmentTestForKeyVaultKeyReference, KeyVaultKeyReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8667,14 +9929,14 @@ func RunPropertyAssignmentTestForKeyVaultKeyReference(subject KeyVaultKeyReferen
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.KeyVaultKeyReference
-	err := copied.AssignPropertiesToKeyVaultKeyReference(&other)
+	err := copied.AssignProperties_To_KeyVaultKeyReference(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual KeyVaultKeyReference
-	err = actual.AssignPropertiesFromKeyVaultKeyReference(&other)
+	err = actual.AssignProperties_From_KeyVaultKeyReference(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -8772,7 +10034,11 @@ func Test_KeyVaultKeyReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from KeyVaultKeyReference_STATUS to KeyVaultKeyReference_STATUS via AssignPropertiesToKeyVaultKeyReference_STATUS & AssignPropertiesFromKeyVaultKeyReference_STATUS returns original",
+=======
+		"Round trip from KeyVaultKeyReference_STATUS to KeyVaultKeyReference_STATUS via AssignProperties_To_KeyVaultKeyReference_STATUS & AssignProperties_From_KeyVaultKeyReference_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForKeyVaultKeyReference_STATUS, KeyVaultKeyReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8784,14 +10050,22 @@ func RunPropertyAssignmentTestForKeyVaultKeyReference_STATUS(subject KeyVaultKey
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.KeyVaultKeyReference_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToKeyVaultKeyReference_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_KeyVaultKeyReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual KeyVaultKeyReference_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromKeyVaultKeyReference_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_KeyVaultKeyReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -8889,7 +10163,7 @@ func Test_KeyVaultSecretReference_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from KeyVaultSecretReference to KeyVaultSecretReference via AssignPropertiesToKeyVaultSecretReference & AssignPropertiesFromKeyVaultSecretReference returns original",
+		"Round trip from KeyVaultSecretReference to KeyVaultSecretReference via AssignProperties_To_KeyVaultSecretReference & AssignProperties_From_KeyVaultSecretReference returns original",
 		prop.ForAll(RunPropertyAssignmentTestForKeyVaultSecretReference, KeyVaultSecretReferenceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -8901,14 +10175,14 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference(subject KeyVaultSecretR
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.KeyVaultSecretReference
-	err := copied.AssignPropertiesToKeyVaultSecretReference(&other)
+	err := copied.AssignProperties_To_KeyVaultSecretReference(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual KeyVaultSecretReference
-	err = actual.AssignPropertiesFromKeyVaultSecretReference(&other)
+	err = actual.AssignProperties_From_KeyVaultSecretReference(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -9006,7 +10280,11 @@ func Test_KeyVaultSecretReference_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from KeyVaultSecretReference_STATUS to KeyVaultSecretReference_STATUS via AssignPropertiesToKeyVaultSecretReference_STATUS & AssignPropertiesFromKeyVaultSecretReference_STATUS returns original",
+=======
+		"Round trip from KeyVaultSecretReference_STATUS to KeyVaultSecretReference_STATUS via AssignProperties_To_KeyVaultSecretReference_STATUS & AssignProperties_From_KeyVaultSecretReference_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForKeyVaultSecretReference_STATUS, KeyVaultSecretReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9018,14 +10296,22 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference_STATUS(subject KeyVault
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.KeyVaultSecretReference_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToKeyVaultSecretReference_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_KeyVaultSecretReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual KeyVaultSecretReference_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromKeyVaultSecretReference_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_KeyVaultSecretReference_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -9115,6 +10401,112 @@ func AddIndependentPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[
 // AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[string]gopter.Gen) {
 	gens["SourceVault"] = gen.PtrOf(SubResource_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_SshPublicKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SshPublicKey to SshPublicKey via AssignProperties_To_SshPublicKey & AssignProperties_From_SshPublicKey returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSshPublicKey, SshPublicKeyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSshPublicKey tests if a specific instance of SshPublicKey can be assigned to v1beta20220301storage and back losslessly
+func RunPropertyAssignmentTestForSshPublicKey(subject SshPublicKey) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220301s.SshPublicKey
+	err := copied.AssignProperties_To_SshPublicKey(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SshPublicKey
+	err = actual.AssignProperties_From_SshPublicKey(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SshPublicKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SshPublicKey via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSshPublicKey, SshPublicKeyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSshPublicKey runs a test to see if a specific instance of SshPublicKey round trips to JSON and back losslessly
+func RunJSONSerializationTestForSshPublicKey(subject SshPublicKey) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SshPublicKey
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SshPublicKey instances for property testing - lazily instantiated by SshPublicKeyGenerator()
+var sshPublicKeyGenerator gopter.Gen
+
+// SshPublicKeyGenerator returns a generator of SshPublicKey instances for property testing.
+func SshPublicKeyGenerator() gopter.Gen {
+	if sshPublicKeyGenerator != nil {
+		return sshPublicKeyGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSshPublicKey(generators)
+	sshPublicKeyGenerator = gen.Struct(reflect.TypeOf(SshPublicKey{}), generators)
+
+	return sshPublicKeyGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSshPublicKey is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSshPublicKey(gens map[string]gopter.Gen) {
+	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
+	gens["Path"] = gen.PtrOf(gen.AlphaString())
+>>>>>>> main
 }
 
 func Test_SshPublicKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9123,7 +10515,11 @@ func Test_SshPublicKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from SshPublicKey_STATUS to SshPublicKey_STATUS via AssignPropertiesToSshPublicKey_STATUS & AssignPropertiesFromSshPublicKey_STATUS returns original",
+=======
+		"Round trip from SshPublicKey_STATUS to SshPublicKey_STATUS via AssignProperties_To_SshPublicKey_STATUS & AssignProperties_From_SshPublicKey_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSshPublicKey_STATUS, SshPublicKey_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9135,14 +10531,22 @@ func RunPropertyAssignmentTestForSshPublicKey_STATUS(subject SshPublicKey_STATUS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.SshPublicKey_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSshPublicKey_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_SshPublicKey_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SshPublicKey_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSshPublicKey_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_SshPublicKey_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -9217,6 +10621,7 @@ func SshPublicKey_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSshPublicKey_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSshPublicKey_STATUS(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
@@ -9320,6 +10725,8 @@ func SshPublicKeySpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSshPublicKeySpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSshPublicKeySpec(gens map[string]gopter.Gen) {
+=======
+>>>>>>> main
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
@@ -9330,7 +10737,7 @@ func Test_WinRMListener_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WinRMListener to WinRMListener via AssignPropertiesToWinRMListener & AssignPropertiesFromWinRMListener returns original",
+		"Round trip from WinRMListener to WinRMListener via AssignProperties_To_WinRMListener & AssignProperties_From_WinRMListener returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWinRMListener, WinRMListenerGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9342,14 +10749,14 @@ func RunPropertyAssignmentTestForWinRMListener(subject WinRMListener) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WinRMListener
-	err := copied.AssignPropertiesToWinRMListener(&other)
+	err := copied.AssignProperties_To_WinRMListener(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WinRMListener
-	err = actual.AssignPropertiesFromWinRMListener(&other)
+	err = actual.AssignProperties_From_WinRMListener(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -9433,7 +10840,11 @@ func Test_WinRMListener_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from WinRMListener_STATUS to WinRMListener_STATUS via AssignPropertiesToWinRMListener_STATUS & AssignPropertiesFromWinRMListener_STATUS returns original",
+=======
+		"Round trip from WinRMListener_STATUS to WinRMListener_STATUS via AssignProperties_To_WinRMListener_STATUS & AssignProperties_From_WinRMListener_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForWinRMListener_STATUS, WinRMListener_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9445,14 +10856,22 @@ func RunPropertyAssignmentTestForWinRMListener_STATUS(subject WinRMListener_STAT
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.WinRMListener_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToWinRMListener_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_WinRMListener_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WinRMListener_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromWinRMListener_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_WinRMListener_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -9537,7 +10956,11 @@ func Test_ApiErrorBase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ApiErrorBase_STATUS to ApiErrorBase_STATUS via AssignPropertiesToApiErrorBase_STATUS & AssignPropertiesFromApiErrorBase_STATUS returns original",
+=======
+		"Round trip from ApiErrorBase_STATUS to ApiErrorBase_STATUS via AssignProperties_To_ApiErrorBase_STATUS & AssignProperties_From_ApiErrorBase_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForApiErrorBase_STATUS, ApiErrorBase_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9549,14 +10972,22 @@ func RunPropertyAssignmentTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.ApiErrorBase_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToApiErrorBase_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ApiErrorBase_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ApiErrorBase_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromApiErrorBase_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ApiErrorBase_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -9642,7 +11073,11 @@ func Test_InnerError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from InnerError_STATUS to InnerError_STATUS via AssignPropertiesToInnerError_STATUS & AssignPropertiesFromInnerError_STATUS returns original",
+=======
+		"Round trip from InnerError_STATUS to InnerError_STATUS via AssignProperties_To_InnerError_STATUS & AssignProperties_From_InnerError_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForInnerError_STATUS, InnerError_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -9654,14 +11089,22 @@ func RunPropertyAssignmentTestForInnerError_STATUS(subject InnerError_STATUS) st
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20220301s.InnerError_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToInnerError_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_InnerError_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual InnerError_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromInnerError_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_InnerError_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

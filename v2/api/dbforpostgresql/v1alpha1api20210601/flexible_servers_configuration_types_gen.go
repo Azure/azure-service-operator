@@ -28,8 +28,13 @@ import (
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              FlexibleServersConfiguration_Spec   `json:"spec,omitempty"`
 	Status            FlexibleServersConfiguration_STATUS `json:"status,omitempty"`
+=======
+	Spec              FlexibleServers_Configurations_Spec `json:"spec,omitempty"`
+	Status            Configuration_STATUS                `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -56,7 +61,7 @@ func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hu
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = configuration.AssignPropertiesFromFlexibleServersConfiguration(&source)
+	err = configuration.AssignProperties_From_FlexibleServersConfiguration(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to configuration")
 	}
@@ -68,7 +73,7 @@ func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hu
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20210601s.FlexibleServersConfiguration
-	err := configuration.AssignPropertiesToFlexibleServersConfiguration(&destination)
+	err := configuration.AssignProperties_To_FlexibleServersConfiguration(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from configuration")
 	}
@@ -262,25 +267,39 @@ func (configuration *FlexibleServersConfiguration) validateWriteOnceProperties(o
 	return genruntime.ValidateWriteOnceProperties(oldObj, configuration)
 }
 
-// AssignPropertiesFromFlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration
-func (configuration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleServersConfiguration(source *alpha20210601s.FlexibleServersConfiguration) error {
+// AssignProperties_From_FlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration
+func (configuration *FlexibleServersConfiguration) AssignProperties_From_FlexibleServersConfiguration(source *alpha20210601s.FlexibleServersConfiguration) error {
 
 	// ObjectMeta
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec FlexibleServersConfiguration_Spec
 	err := spec.AssignPropertiesFromFlexibleServersConfiguration_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfiguration_Spec() to populate field Spec")
+=======
+	var spec FlexibleServers_Configurations_Spec
+	err := spec.AssignProperties_From_FlexibleServers_Configurations_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Configurations_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	configuration.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status FlexibleServersConfiguration_STATUS
 	err = status.AssignPropertiesFromFlexibleServersConfiguration_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfiguration_STATUS() to populate field Status")
+=======
+	var status Configuration_STATUS
+	err = status.AssignProperties_From_Configuration_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Configuration_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	configuration.Status = status
 
@@ -288,25 +307,39 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleS
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersConfiguration populates the provided destination FlexibleServersConfiguration from our FlexibleServersConfiguration
-func (configuration *FlexibleServersConfiguration) AssignPropertiesToFlexibleServersConfiguration(destination *alpha20210601s.FlexibleServersConfiguration) error {
+// AssignProperties_To_FlexibleServersConfiguration populates the provided destination FlexibleServersConfiguration from our FlexibleServersConfiguration
+func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleServersConfiguration(destination *alpha20210601s.FlexibleServersConfiguration) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec alpha20210601s.FlexibleServersConfiguration_Spec
 	err := configuration.Spec.AssignPropertiesToFlexibleServersConfiguration_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfiguration_Spec() to populate field Spec")
+=======
+	var spec alpha20210601s.FlexibleServers_Configurations_Spec
+	err := configuration.Spec.AssignProperties_To_FlexibleServers_Configurations_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configurations_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status alpha20210601s.FlexibleServersConfiguration_STATUS
 	err = configuration.Status.AssignPropertiesToFlexibleServersConfiguration_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfiguration_STATUS() to populate field Status")
+=======
+	var status alpha20210601s.Configuration_STATUS
+	err = configuration.Status.AssignProperties_To_Configuration_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Configuration_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -336,6 +369,7 @@ type FlexibleServersConfiguration_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+<<<<<<< HEAD
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -343,6 +377,24 @@ type FlexibleServersConfiguration_Spec struct {
 	Owner  *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 	Source *string                            `json:"source,omitempty"`
 	Value  *string                            `json:"value,omitempty"`
+=======
+	// Conditions: The observed state of the resource
+	Conditions             []conditions.Condition                   `json:"conditions,omitempty"`
+	DataType               *ConfigurationProperties_STATUS_DataType `json:"dataType,omitempty"`
+	DefaultValue           *string                                  `json:"defaultValue,omitempty"`
+	Description            *string                                  `json:"description,omitempty"`
+	DocumentationLink      *string                                  `json:"documentationLink,omitempty"`
+	Id                     *string                                  `json:"id,omitempty"`
+	IsConfigPendingRestart *bool                                    `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool                                    `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool                                    `json:"isReadOnly,omitempty"`
+	Name                   *string                                  `json:"name,omitempty"`
+	Source                 *string                                  `json:"source,omitempty"`
+	SystemData             *SystemData_STATUS                       `json:"systemData,omitempty"`
+	Type                   *string                                  `json:"type,omitempty"`
+	Unit                   *string                                  `json:"unit,omitempty"`
+	Value                  *string                                  `json:"value,omitempty"`
+>>>>>>> main
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersConfiguration_Spec{}
@@ -424,7 +476,11 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecFrom(source g
 	src, ok := source.(*alpha20210601s.FlexibleServersConfiguration_Spec)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return configuration.AssignPropertiesFromFlexibleServersConfiguration_Spec(src)
+=======
+		return configuration.AssignProperties_From_Configuration_STATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -577,7 +633,11 @@ func (configuration *FlexibleServersConfiguration_STATUS) ConvertStatusFrom(sour
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = configuration.AssignPropertiesFromFlexibleServersConfiguration_STATUS(src)
+=======
+	err = configuration.AssignProperties_From_Configuration_STATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -590,12 +650,21 @@ func (configuration *FlexibleServersConfiguration_STATUS) ConvertStatusTo(destin
 	dst, ok := destination.(*alpha20210601s.FlexibleServersConfiguration_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return configuration.AssignPropertiesToFlexibleServersConfiguration_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20210601s.FlexibleServersConfiguration_STATUS{}
 	err := configuration.AssignPropertiesToFlexibleServersConfiguration_STATUS(dst)
+=======
+		return configuration.AssignProperties_To_Configuration_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210601s.Configuration_STATUS{}
+	err := configuration.AssignProperties_To_Configuration_STATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -757,8 +826,13 @@ func (configuration *FlexibleServersConfiguration_STATUS) PopulateFromARM(owner 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromFlexibleServersConfiguration_STATUS populates our FlexibleServersConfiguration_STATUS from the provided source FlexibleServersConfiguration_STATUS
 func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesFromFlexibleServersConfiguration_STATUS(source *alpha20210601s.FlexibleServersConfiguration_STATUS) error {
+=======
+// AssignProperties_From_Configuration_STATUS populates our Configuration_STATUS from the provided source Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_STATUS(source *alpha20210601s.Configuration_STATUS) error {
+>>>>>>> main
 
 	// AllowedValues
 	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
@@ -768,7 +842,11 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesFromFl
 
 	// DataType
 	if source.DataType != nil {
+<<<<<<< HEAD
 		dataType := ConfigurationProperties_DataType_STATUS(*source.DataType)
+=======
+		dataType := ConfigurationProperties_STATUS_DataType(*source.DataType)
+>>>>>>> main
 		configuration.DataType = &dataType
 	} else {
 		configuration.DataType = nil
@@ -819,9 +897,15 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesFromFl
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
+<<<<<<< HEAD
 		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+=======
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -841,8 +925,13 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesFromFl
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToFlexibleServersConfiguration_STATUS populates the provided destination FlexibleServersConfiguration_STATUS from our FlexibleServersConfiguration_STATUS
 func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesToFlexibleServersConfiguration_STATUS(destination *alpha20210601s.FlexibleServersConfiguration_STATUS) error {
+=======
+// AssignProperties_To_Configuration_STATUS populates the provided destination Configuration_STATUS from our Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STATUS(destination *alpha20210601s.Configuration_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -905,9 +994,15 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesToFlex
 	// SystemData
 	if configuration.SystemData != nil {
 		var systemDatum alpha20210601s.SystemData_STATUS
+<<<<<<< HEAD
 		err := configuration.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+=======
+		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+>>>>>>> main
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -934,6 +1029,7 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesToFlex
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of ConfigurationProperties_DataType_STATUS. Use
 // v1beta20210601.ConfigurationProperties_DataType_STATUS instead
 type ConfigurationProperties_DataType_STATUS string
@@ -944,6 +1040,252 @@ const (
 	ConfigurationProperties_DataType_Integer_STATUS     = ConfigurationProperties_DataType_STATUS("Integer")
 	ConfigurationProperties_DataType_Numeric_STATUS     = ConfigurationProperties_DataType_STATUS("Numeric")
 )
+=======
+type FlexibleServers_Configurations_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
+	Owner  *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	Source *string                            `json:"source,omitempty"`
+	Tags   map[string]string                  `json:"tags,omitempty"`
+	Value  *string                            `json:"value,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &FlexibleServers_Configurations_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configurations *FlexibleServers_Configurations_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configurations == nil {
+		return nil, nil
+	}
+	result := &FlexibleServers_Configurations_SpecARM{}
+
+	// Set property ‘Location’:
+	if configurations.Location != nil {
+		location := *configurations.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if configurations.Source != nil || configurations.Value != nil {
+		result.Properties = &ConfigurationPropertiesARM{}
+	}
+	if configurations.Source != nil {
+		source := *configurations.Source
+		result.Properties.Source = &source
+	}
+	if configurations.Value != nil {
+		value := *configurations.Value
+		result.Properties.Value = &value
+	}
+
+	// Set property ‘Tags’:
+	if configurations.Tags != nil {
+		result.Tags = make(map[string]string, len(configurations.Tags))
+		for key, tagsValue := range configurations.Tags {
+			result.Tags[key] = tagsValue
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configurations *FlexibleServers_Configurations_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServers_Configurations_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configurations *FlexibleServers_Configurations_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServers_Configurations_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Configurations_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	configurations.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		configurations.Location = &location
+	}
+
+	// Set property ‘Owner’:
+	configurations.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Source’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Source != nil {
+			source := *typedInput.Properties.Source
+			configurations.Source = &source
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		configurations.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			configurations.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Value’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Value != nil {
+			value := *typedInput.Properties.Value
+			configurations.Value = &value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &FlexibleServers_Configurations_Spec{}
+
+// ConvertSpecFrom populates our FlexibleServers_Configurations_Spec from the provided source
+func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210601s.FlexibleServers_Configurations_Spec)
+	if ok {
+		// Populate our instance from source
+		return configurations.AssignProperties_From_FlexibleServers_Configurations_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210601s.FlexibleServers_Configurations_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = configurations.AssignProperties_From_FlexibleServers_Configurations_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our FlexibleServers_Configurations_Spec
+func (configurations *FlexibleServers_Configurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210601s.FlexibleServers_Configurations_Spec)
+	if ok {
+		// Populate destination from our instance
+		return configurations.AssignProperties_To_FlexibleServers_Configurations_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210601s.FlexibleServers_Configurations_Spec{}
+	err := configurations.AssignProperties_To_FlexibleServers_Configurations_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_FlexibleServers_Configurations_Spec populates our FlexibleServers_Configurations_Spec from the provided source FlexibleServers_Configurations_Spec
+func (configurations *FlexibleServers_Configurations_Spec) AssignProperties_From_FlexibleServers_Configurations_Spec(source *alpha20210601s.FlexibleServers_Configurations_Spec) error {
+
+	// AzureName
+	configurations.AzureName = source.AzureName
+
+	// Location
+	configurations.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		configurations.Owner = &owner
+	} else {
+		configurations.Owner = nil
+	}
+
+	// Source
+	configurations.Source = genruntime.ClonePointerToString(source.Source)
+
+	// Tags
+	configurations.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Value
+	configurations.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServers_Configurations_Spec populates the provided destination FlexibleServers_Configurations_Spec from our FlexibleServers_Configurations_Spec
+func (configurations *FlexibleServers_Configurations_Spec) AssignProperties_To_FlexibleServers_Configurations_Spec(destination *alpha20210601s.FlexibleServers_Configurations_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = configurations.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(configurations.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = configurations.OriginalVersion()
+
+	// Owner
+	if configurations.Owner != nil {
+		owner := configurations.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Source
+	destination.Source = genruntime.ClonePointerToString(configurations.Source)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(configurations.Tags)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(configurations.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (configurations *FlexibleServers_Configurations_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (configurations *FlexibleServers_Configurations_Spec) SetAzureName(azureName string) {
+	configurations.AzureName = azureName
+}
+>>>>>>> main
 
 func init() {
 	SchemeBuilder.Register(&FlexibleServersConfiguration{}, &FlexibleServersConfigurationList{})

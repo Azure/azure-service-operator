@@ -47,7 +47,11 @@ type WorkspaceProperties_STATUSARM struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUSARM `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
+<<<<<<< HEAD
 	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState *WorkspaceProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -79,7 +83,11 @@ type WorkspaceCapping_STATUSARM struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	// DataIngestionStatus: The status of data ingestion for this workspace.
+<<<<<<< HEAD
 	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
+=======
+	DataIngestionStatus *WorkspaceCapping_STATUS_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
+>>>>>>> main
 
 	// QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
@@ -105,11 +113,19 @@ type WorkspaceFeatures_STATUSARM struct {
 type WorkspaceSku_STATUSARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
+<<<<<<< HEAD
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel_STATUS `json:"capacityReservationLevel,omitempty"`
+=======
+	CapacityReservationLevel *WorkspaceSku_STATUS_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
+>>>>>>> main
 
 	// LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// Name: The name of the SKU.
+<<<<<<< HEAD
 	Name *WorkspaceSku_Name_STATUS `json:"name,omitempty"`
+=======
+	Name *WorkspaceSku_STATUS_Name `json:"name,omitempty"`
+>>>>>>> main
 }

@@ -108,7 +108,7 @@ typeFilters:
 
   - action: prune
     group: machinelearningservices
-    name: WorkspacesService*
+    name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
     
   - action: prune
@@ -337,7 +337,7 @@ objectModelConfiguration:
       Server:
         $export: true
         $supportedFrom: "-"
-      ServersDatabase:
+      Servers_Database:
         $export: true
         $supportedFrom: "-"
   cache:

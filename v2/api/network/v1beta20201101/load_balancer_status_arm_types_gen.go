@@ -78,10 +78,17 @@ type LoadBalancerPropertiesFormat_STATUSARM struct {
 
 type LoadBalancerSku_STATUSARM struct {
 	// Name: Name of a load balancer SKU.
+<<<<<<< HEAD
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *LoadBalancerSku_STATUS_Name `json:"name,omitempty"`
+
+	// Tier: Tier of a load balancer SKU.
+	Tier *LoadBalancerSku_STATUS_Tier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
@@ -137,6 +144,7 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+<<<<<<< HEAD
 type LoadBalancerSku_Name_STATUS string
 
 const (
@@ -149,6 +157,20 @@ type LoadBalancerSku_Tier_STATUS string
 const (
 	LoadBalancerSku_Tier_Global_STATUS   = LoadBalancerSku_Tier_STATUS("Global")
 	LoadBalancerSku_Tier_Regional_STATUS = LoadBalancerSku_Tier_STATUS("Regional")
+=======
+type LoadBalancerSku_STATUS_Name string
+
+const (
+	LoadBalancerSku_STATUS_Name_Basic    = LoadBalancerSku_STATUS_Name("Basic")
+	LoadBalancerSku_STATUS_Name_Standard = LoadBalancerSku_STATUS_Name("Standard")
+)
+
+type LoadBalancerSku_STATUS_Tier string
+
+const (
+	LoadBalancerSku_STATUS_Tier_Global   = LoadBalancerSku_STATUS_Tier("Global")
+	LoadBalancerSku_STATUS_Tier_Regional = LoadBalancerSku_STATUS_Tier("Regional")
+>>>>>>> main
 )
 
 type LoadBalancingRule_STATUSARM struct {
@@ -309,7 +331,11 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
+<<<<<<< HEAD
 	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
+=======
+	LoadDistribution *LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution `json:"loadDistribution,omitempty"`
+>>>>>>> main
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_STATUSARM `json:"probe,omitempty"`
@@ -340,7 +366,11 @@ type OutboundRulePropertiesFormat_STATUSARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
+<<<<<<< HEAD
 	Protocol *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+=======
+	Protocol *OutboundRulePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+>>>>>>> main
 
 	// ProvisioningState: The provisioning state of the outbound rule resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -366,7 +396,11 @@ type ProbePropertiesFormat_STATUSARM struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
+<<<<<<< HEAD
 	Protocol *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+=======
+	Protocol *ProbePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+>>>>>>> main
 
 	// ProvisioningState: The provisioning state of the probe resource.
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`

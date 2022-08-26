@@ -38,6 +38,15 @@ type SqlStoredProcedureGetProperties_Resource_STATUSARM struct {
 	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_accounts_sql_databases_containers_stored_procedure_status_arm_types_gen.go
+=======
+	// TriggerOperation: The operation the trigger is associated with
+	TriggerOperation *SqlTriggerGetProperties_STATUS_Resource_TriggerOperation `json:"triggerOperation,omitempty"`
+
+	// TriggerType: Type of the Trigger
+	TriggerType *SqlTriggerGetProperties_STATUS_Resource_TriggerType `json:"triggerType,omitempty"`
+
+>>>>>>> main:v2/api/documentdb/v1beta20210515/sql_trigger_get_results_status_arm_types_gen.go
 	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }

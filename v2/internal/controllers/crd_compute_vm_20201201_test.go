@@ -71,17 +71,19 @@ func newVirtualMachine20201201(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2020.NetworkProfile{
-				NetworkInterfaces: []compute2020.NetworkInterfaceReference{{
-					Reference: tc.MakeReferenceFromResource(networkInterface),
-				}},
+			NetworkProfile: &compute2020.VirtualMachines_Spec_Properties_NetworkProfile{
+				NetworkInterfaces: []compute2020.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{
+					{
+						Reference: tc.MakeReferenceFromResource(networkInterface),
+					},
+				},
 			},
 		},
 	}
 }
 
 func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet) *network.NetworkInterface {
-	dynamic := network.IPAllocationMethod_Dynamic
+	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
 		Spec: network.NetworkInterface_Spec{

@@ -75,6 +75,7 @@ func NetworkSecurityGroupGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroup is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = NetworkSecurityGroup_SpecGenerator()
 	gens["Status"] = NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
 }
@@ -155,6 +156,10 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec(gens map[strin
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_Spec(gens map[string]gopter.Gen) {
 	gens["SecurityRules"] = gen.SliceOf(SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
+=======
+	gens["Spec"] = NetworkSecurityGroups_SpecGenerator()
+	gens["Status"] = NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
+>>>>>>> main
 }
 
 func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -236,10 +241,17 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecur
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["DefaultSecurityRules"] = gen.SliceOf(SecurityRule_STATUSGenerator())
 	gens["FlowLogs"] = gen.SliceOf(FlowLog_STATUSGenerator())
 	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
 	gens["SecurityRules"] = gen.SliceOf(SecurityRule_STATUSGenerator())
+=======
+	gens["DefaultSecurityRules"] = gen.SliceOf(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
+	gens["FlowLogs"] = gen.SliceOf(FlowLog_STATUS_SubResourceEmbeddedGenerator())
+	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
+	gens["SecurityRules"] = gen.SliceOf(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
+>>>>>>> main
 	gens["Subnets"] = gen.SliceOf(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
 }
 
@@ -250,6 +262,7 @@ func Test_FlowLog_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of FlowLog_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForFlowLog_STATUS, FlowLog_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -257,6 +270,15 @@ func Test_FlowLog_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 
 // RunJSONSerializationTestForFlowLog_STATUS runs a test to see if a specific instance of FlowLog_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForFlowLog_STATUS(subject FlowLog_STATUS) string {
+=======
+		"Round trip of NetworkSecurityGroups_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkSecurityGroups_Spec, NetworkSecurityGroups_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkSecurityGroups_Spec runs a test to see if a specific instance of NetworkSecurityGroups_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkSecurityGroups_Spec(subject NetworkSecurityGroups_Spec) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -282,6 +304,7 @@ func RunJSONSerializationTestForFlowLog_STATUS(subject FlowLog_STATUS) string {
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of FlowLog_STATUS instances for property testing - lazily instantiated by FlowLog_STATUSGenerator()
 var flowLog_STATUSGenerator gopter.Gen
 
@@ -300,6 +323,91 @@ func FlowLog_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlowLog_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlowLog_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of NetworkSecurityGroups_Spec instances for property testing - lazily instantiated by
+// NetworkSecurityGroups_SpecGenerator()
+var networkSecurityGroups_SpecGenerator gopter.Gen
+
+// NetworkSecurityGroups_SpecGenerator returns a generator of NetworkSecurityGroups_Spec instances for property testing.
+func NetworkSecurityGroups_SpecGenerator() gopter.Gen {
+	if networkSecurityGroups_SpecGenerator != nil {
+		return networkSecurityGroups_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkSecurityGroups_Spec(generators)
+	networkSecurityGroups_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkSecurityGroups_Spec{}), generators)
+
+	return networkSecurityGroups_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkSecurityGroups_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkSecurityGroups_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_FlowLog_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlowLog_STATUS_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlowLog_STATUS_SubResourceEmbedded, FlowLog_STATUS_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlowLog_STATUS_SubResourceEmbedded runs a test to see if a specific instance of FlowLog_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlowLog_STATUS_SubResourceEmbedded(subject FlowLog_STATUS_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlowLog_STATUS_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlowLog_STATUS_SubResourceEmbedded instances for property testing - lazily instantiated by
+// FlowLog_STATUS_SubResourceEmbeddedGenerator()
+var flowLog_STATUS_SubResourceEmbeddedGenerator gopter.Gen
+
+// FlowLog_STATUS_SubResourceEmbeddedGenerator returns a generator of FlowLog_STATUS_SubResourceEmbedded instances for property testing.
+func FlowLog_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
+	if flowLog_STATUS_SubResourceEmbeddedGenerator != nil {
+		return flowLog_STATUS_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlowLog_STATUS_SubResourceEmbedded(generators)
+	flowLog_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(FlowLog_STATUS_SubResourceEmbedded{}), generators)
+
+	return flowLog_STATUS_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFlowLog_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlowLog_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -385,6 +493,7 @@ func Test_SecurityRule_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedTo
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of SecurityRule_NetworkSecurityGroup_SubResourceEmbedded via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForSecurityRule_NetworkSecurityGroup_SubResourceEmbedded, SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -392,6 +501,15 @@ func Test_SecurityRule_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedTo
 
 // RunJSONSerializationTestForSecurityRule_NetworkSecurityGroup_SubResourceEmbedded runs a test to see if a specific instance of SecurityRule_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForSecurityRule_NetworkSecurityGroup_SubResourceEmbedded(subject SecurityRule_NetworkSecurityGroup_SubResourceEmbedded) string {
+=======
+		"Round trip of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded, SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded runs a test to see if a specific instance of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -417,6 +535,7 @@ func RunJSONSerializationTestForSecurityRule_NetworkSecurityGroup_SubResourceEmb
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of SecurityRule_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
 // instantiated by SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
 var securityRule_NetworkSecurityGroup_SubResourceEmbeddedGenerator gopter.Gen
@@ -491,6 +610,27 @@ func SecurityRule_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRule_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
+// instantiated by SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
+var securityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator gopter.Gen
+
+// SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator returns a generator of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
+func SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator() gopter.Gen {
+	if securityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator != nil {
+		return securityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded(generators)
+	securityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}), generators)
+
+	return securityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 

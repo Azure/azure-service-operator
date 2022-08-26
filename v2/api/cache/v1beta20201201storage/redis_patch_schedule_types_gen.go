@@ -28,7 +28,11 @@ import (
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisPatchSchedule_Spec   `json:"spec,omitempty"`
+=======
+	Spec              Redis_PatchSchedules_Spec `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
 }
 
@@ -133,12 +137,19 @@ type RedisPatchScheduleList struct {
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.RedisPatchSchedule_Spec
 type RedisPatchSchedule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
 	OriginalVersion string `json:"originalVersion,omitempty"`
+=======
+// Storage version of v1beta20201201.Redis_PatchSchedules_Spec
+type Redis_PatchSchedules_Spec struct {
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+>>>>>>> main
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -147,6 +158,7 @@ type RedisPatchSchedule_Spec struct {
 	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
+<<<<<<< HEAD
 }
 
 var _ genruntime.ConvertibleSpec = &RedisPatchSchedule_Spec{}
@@ -167,6 +179,29 @@ func (schedule *RedisPatchSchedule_Spec) ConvertSpecTo(destination genruntime.Co
 	}
 
 	return destination.ConvertSpecFrom(schedule)
+=======
+	Tags            map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Redis_PatchSchedules_Spec{}
+
+// ConvertSpecFrom populates our Redis_PatchSchedules_Spec from the provided source
+func (schedules *Redis_PatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == schedules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(schedules)
+}
+
+// ConvertSpecTo populates the provided destination from our Redis_PatchSchedules_Spec
+func (schedules *Redis_PatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == schedules {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(schedules)
+>>>>>>> main
 }
 
 // Storage version of v1beta20201201.RedisPatchSchedule_STATUS

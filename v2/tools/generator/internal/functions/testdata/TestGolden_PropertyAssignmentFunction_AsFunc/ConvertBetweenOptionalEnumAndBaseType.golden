@@ -9,8 +9,8 @@ type Person struct {
 	Sku string `json:"sku,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 
 	// Sku
 	if source.Sku != nil {
@@ -23,8 +23,8 @@ func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// Sku
 	sku := vnext.Bucket(person.Sku)

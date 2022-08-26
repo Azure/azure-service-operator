@@ -31,5 +31,14 @@ type WorkspaceConnectionProps_STATUSARM struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
+<<<<<<< HEAD:v2/api/machinelearningservices/v1beta20210701/workspaces_connection_status_arm_types_gen.go
 	ValueFormat *WorkspaceConnectionProps_ValueFormat_STATUS `json:"valueFormat,omitempty"`
 }
+=======
+	ValueFormat *WorkspaceConnectionProps_STATUS_ValueFormat `json:"valueFormat,omitempty"`
+}
+
+type WorkspaceConnectionProps_STATUS_ValueFormat string
+
+const WorkspaceConnectionProps_STATUS_ValueFormat_JSON = WorkspaceConnectionProps_STATUS_ValueFormat("JSON")
+>>>>>>> main:v2/api/machinelearningservices/v1beta20210701/workspace_connection_status_arm_types_gen.go

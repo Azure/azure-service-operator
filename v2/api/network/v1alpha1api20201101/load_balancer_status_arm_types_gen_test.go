@@ -305,8 +305,13 @@ func LoadBalancerSku_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerSku_STATUSARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_Basic_STATUS, LoadBalancerSku_Name_Standard_STATUS))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_Global_STATUS, LoadBalancerSku_Tier_Regional_STATUS))
+=======
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_STATUS_Name_Basic, LoadBalancerSku_STATUS_Name_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_STATUS_Tier_Global, LoadBalancerSku_STATUS_Tier_Regional))
+>>>>>>> main
 }
 
 func Test_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1069,8 +1074,13 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_STATUS
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+<<<<<<< HEAD
 	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_Default_STATUS, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP_STATUS, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol_STATUS))
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All_STATUS, TransportProtocol_Tcp_STATUS, TransportProtocol_Udp_STATUS))
+=======
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_Default, LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_SourceIP, LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution_SourceIPProtocol))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+>>>>>>> main
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_Deleting_STATUS,
 		ProvisioningState_Failed_STATUS,
@@ -1155,7 +1165,11 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_STATUSARM(g
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+<<<<<<< HEAD
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_All_STATUS, OutboundRulePropertiesFormat_Protocol_Tcp_STATUS, OutboundRulePropertiesFormat_Protocol_Udp_STATUS))
+=======
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_STATUS_Protocol_All, OutboundRulePropertiesFormat_STATUS_Protocol_Tcp, OutboundRulePropertiesFormat_STATUS_Protocol_Udp))
+>>>>>>> main
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_Deleting_STATUS,
 		ProvisioningState_Failed_STATUS,
@@ -1239,7 +1253,11 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormat_STATUSARM(gens map
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
+<<<<<<< HEAD
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_Http_STATUS, ProbePropertiesFormat_Protocol_Https_STATUS, ProbePropertiesFormat_Protocol_Tcp_STATUS))
+=======
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_STATUS_Protocol_Http, ProbePropertiesFormat_STATUS_Protocol_Https, ProbePropertiesFormat_STATUS_Protocol_Tcp))
+>>>>>>> main
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_Deleting_STATUS,
 		ProvisioningState_Failed_STATUS,

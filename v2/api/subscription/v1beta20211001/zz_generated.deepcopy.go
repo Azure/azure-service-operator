@@ -305,7 +305,11 @@ func (in *PutAliasRequestProperties) DeepCopyInto(out *PutAliasRequestProperties
 	}
 	if in.Workload != nil {
 		in, out := &in.Workload, &out.Workload
+<<<<<<< HEAD
 		*out = new(Workload)
+=======
+		*out = new(PutAliasRequestProperties_Workload)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -350,7 +354,11 @@ func (in *PutAliasRequestPropertiesARM) DeepCopyInto(out *PutAliasRequestPropert
 	}
 	if in.Workload != nil {
 		in, out := &in.Workload, &out.Workload
+<<<<<<< HEAD
 		*out = new(Workload)
+=======
+		*out = new(PutAliasRequestProperties_Workload)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -400,7 +408,11 @@ func (in *SubscriptionAliasResponseProperties_STATUS) DeepCopyInto(out *Subscrip
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
+<<<<<<< HEAD
 		*out = new(SubscriptionAliasResponseProperties_ProvisioningState_STATUS)
+=======
+		*out = new(SubscriptionAliasResponseProperties_STATUS_ProvisioningState)
+>>>>>>> main
 		**out = **in
 	}
 	if in.ResellerId != nil {
@@ -477,7 +489,11 @@ func (in *SubscriptionAliasResponseProperties_STATUSARM) DeepCopyInto(out *Subsc
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
+<<<<<<< HEAD
 		*out = new(SubscriptionAliasResponseProperties_ProvisioningState_STATUS)
+=======
+		*out = new(SubscriptionAliasResponseProperties_STATUS_ProvisioningState)
+>>>>>>> main
 		**out = **in
 	}
 	if in.ResellerId != nil {
@@ -534,7 +550,11 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
+<<<<<<< HEAD
 		*out = new(SystemData_CreatedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_CreatedByType)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -549,7 +569,11 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
+<<<<<<< HEAD
 		*out = new(SystemData_LastModifiedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_LastModifiedByType)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -579,7 +603,11 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
+<<<<<<< HEAD
 		*out = new(SystemData_CreatedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_CreatedByType)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -594,7 +622,11 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
+<<<<<<< HEAD
 		*out = new(SystemData_LastModifiedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_LastModifiedByType)
+>>>>>>> main
 		**out = **in
 	}
 }

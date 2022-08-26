@@ -50,7 +50,7 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected managedidentity/v1beta20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
-	return identity.AssignPropertiesFromUserAssignedIdentity(source)
+	return identity.AssignProperties_From_UserAssignedIdentity(source)
 }
 
 // ConvertTo populates the provided hub UserAssignedIdentity from our UserAssignedIdentity
@@ -60,7 +60,7 @@ func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected managedidentity/v1beta20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
-	return identity.AssignPropertiesToUserAssignedIdentity(destination)
+	return identity.AssignProperties_To_UserAssignedIdentity(destination)
 }
 
 var _ genruntime.KubernetesResource = &UserAssignedIdentity{}
@@ -129,25 +129,39 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v20181130s.UserAssignedIdentity) error {
+// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20181130s.UserAssignedIdentity) error {
 
 	// ObjectMeta
 	identity.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec UserAssignedIdentity_Spec
 	err := spec.AssignPropertiesFromUserAssignedIdentity_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentity_Spec() to populate field Spec")
+=======
+	var spec UserAssignedIdentities_Spec
+	err := spec.AssignProperties_From_UserAssignedIdentities_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	identity.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status UserAssignedIdentity_STATUS
 	err = status.AssignPropertiesFromUserAssignedIdentity_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentity_STATUS() to populate field Status")
+=======
+	var status Identity_STATUS
+	err = status.AssignProperties_From_Identity_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	identity.Status = status
 
@@ -155,25 +169,39 @@ func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(s
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v20181130s.UserAssignedIdentity) error {
+// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20181130s.UserAssignedIdentity) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *identity.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec v20181130s.UserAssignedIdentity_Spec
 	err := identity.Spec.AssignPropertiesToUserAssignedIdentity_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity_Spec() to populate field Spec")
+=======
+	var spec v20181130s.UserAssignedIdentities_Spec
+	err := identity.Spec.AssignProperties_To_UserAssignedIdentities_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	destination.Spec = spec
 
 	// Status
+<<<<<<< HEAD
 	var status v20181130s.UserAssignedIdentity_STATUS
 	err = identity.Status.AssignPropertiesToUserAssignedIdentity_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity_STATUS() to populate field Status")
+=======
+	var status v20181130s.Identity_STATUS
+	err = identity.Status.AssignProperties_To_Identity_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -367,7 +395,11 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 	src, ok := source.(*v20181130s.UserAssignedIdentity_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return identity.AssignPropertiesFromUserAssignedIdentity_STATUS(src)
+=======
+		return identity.AssignProperties_From_Identity_STATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -378,7 +410,11 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = identity.AssignPropertiesFromUserAssignedIdentity_STATUS(src)
+=======
+	err = identity.AssignProperties_From_Identity_STATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -391,12 +427,21 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	dst, ok := destination.(*v20181130s.UserAssignedIdentity_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return identity.AssignPropertiesToUserAssignedIdentity_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20181130s.UserAssignedIdentity_STATUS{}
 	err := identity.AssignPropertiesToUserAssignedIdentity_STATUS(dst)
+=======
+		return identity.AssignProperties_To_Identity_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20181130s.Identity_STATUS{}
+	err := identity.AssignProperties_To_Identity_STATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -410,8 +455,13 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromUserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIdentity_STATUS(source *v20181130s.UserAssignedIdentity_STATUS) error {
+=======
+// AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
+func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v20181130s.Identity_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -453,8 +503,13 @@ func (identity *UserAssignedIdentity_STATUS) AssignPropertiesFromUserAssignedIde
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToUserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdentity_STATUS(destination *v20181130s.UserAssignedIdentity_STATUS) error {
+=======
+// AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
+func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v20181130s.Identity_STATUS) error {
+>>>>>>> main
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -496,6 +551,148 @@ func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdent
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1alpha1api20181130.UserAssignedIdentities_Spec
+type UserAssignedIdentities_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_Spec{}
+
+// ConvertSpecFrom populates our UserAssignedIdentities_Spec from the provided source
+func (identities *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20181130s.UserAssignedIdentities_Spec)
+	if ok {
+		// Populate our instance from source
+		return identities.AssignProperties_From_UserAssignedIdentities_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20181130s.UserAssignedIdentities_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = identities.AssignProperties_From_UserAssignedIdentities_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_Spec
+func (identities *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20181130s.UserAssignedIdentities_Spec)
+	if ok {
+		// Populate destination from our instance
+		return identities.AssignProperties_To_UserAssignedIdentities_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20181130s.UserAssignedIdentities_Spec{}
+	err := identities.AssignProperties_To_UserAssignedIdentities_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentities_Spec populates our UserAssignedIdentities_Spec from the provided source UserAssignedIdentities_Spec
+func (identities *UserAssignedIdentities_Spec) AssignProperties_From_UserAssignedIdentities_Spec(source *v20181130s.UserAssignedIdentities_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	identities.AzureName = source.AzureName
+
+	// Location
+	identities.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	identities.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		identities.Owner = &owner
+	} else {
+		identities.Owner = nil
+	}
+
+	// Tags
+	identities.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identities.PropertyBag = propertyBag
+	} else {
+		identities.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentities_Spec populates the provided destination UserAssignedIdentities_Spec from our UserAssignedIdentities_Spec
+func (identities *UserAssignedIdentities_Spec) AssignProperties_To_UserAssignedIdentities_Spec(destination *v20181130s.UserAssignedIdentities_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
+
+	// AzureName
+	destination.AzureName = identities.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(identities.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = identities.OriginalVersion
+
+	// Owner
+	if identities.Owner != nil {
+		owner := identities.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(identities.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&UserAssignedIdentity{}, &UserAssignedIdentityList{})
 }

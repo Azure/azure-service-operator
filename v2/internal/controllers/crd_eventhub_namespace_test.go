@@ -70,16 +70,13 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(eventhub.APIVersion_Value))
 }
 
 func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	eh := &eventhub.NamespacesEventhub{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhub_Spec{
+		Spec: eventhub.Namespaces_Eventhubs_Spec{
 			Owner:                  testcommon.AsOwner(namespace),
 			MessageRetentionInDays: to.IntPtr(7),
 			PartitionCount:         to.IntPtr(1),
@@ -121,11 +118,11 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	rule := &eventhub.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesAuthorizationRule_Spec{
+		Spec: eventhub.Namespaces_AuthorizationRules_Spec{
 			Owner: testcommon.AsOwner(namespace),
-			Rights: []eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights{
-				eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights_Listen,
-				eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights_Send,
+			Rights: []eventhub.AuthorizationRuleProperties_Rights{
+				eventhub.AuthorizationRuleProperties_Rights_Listen,
+				eventhub.AuthorizationRuleProperties_Rights_Send,
 			},
 		},
 	}
@@ -142,11 +139,11 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
 	rule := &eventhub.NamespacesEventhubsAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhubsAuthorizationRule_Spec{
+		Spec: eventhub.Namespaces_Eventhubs_AuthorizationRules_Spec{
 			Owner: testcommon.AsOwner(eh),
-			Rights: []eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights{
-				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Listen,
-				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Send,
+			Rights: []eventhub.AuthorizationRuleProperties_Rights{
+				eventhub.AuthorizationRuleProperties_Rights_Listen,
+				eventhub.AuthorizationRuleProperties_Rights_Send,
 			},
 		},
 	}
@@ -164,7 +161,7 @@ func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Ob
 	userMetadata := to.StringPtr("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhubsConsumergroup_Spec{
+		Spec: eventhub.Namespaces_Eventhubs_Consumergroups_Spec{
 			Owner:        testcommon.AsOwner(eh),
 			UserMetadata: to.StringPtr("This is some fun metadata"),
 		},

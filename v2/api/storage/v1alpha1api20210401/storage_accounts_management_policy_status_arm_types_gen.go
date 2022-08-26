@@ -27,7 +27,11 @@ type ManagementPolicyRule_STATUSARM struct {
 	Definition *ManagementPolicyDefinition_STATUSARM `json:"definition,omitempty"`
 	Enabled    *bool                                 `json:"enabled,omitempty"`
 	Name       *string                               `json:"name,omitempty"`
+<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_management_policy_status_arm_types_gen.go
 	Type       *ManagementPolicyRule_Type_STATUS     `json:"type,omitempty"`
+=======
+	Type       *ManagementPolicyRule_STATUS_Type     `json:"type,omitempty"`
+>>>>>>> main:v2/api/storage/v1alpha1api20210401/management_policy_status_arm_types_gen.go
 }
 
 // Deprecated version of ManagementPolicyDefinition_STATUS. Use v1beta20210401.ManagementPolicyDefinition_STATUS instead
@@ -36,6 +40,14 @@ type ManagementPolicyDefinition_STATUSARM struct {
 	Filters *ManagementPolicyFilter_STATUSARM `json:"filters,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/storage/v1alpha1api20210401/storage_accounts_management_policy_status_arm_types_gen.go
+=======
+// Deprecated version of ManagementPolicyRule_STATUS_Type. Use v1beta20210401.ManagementPolicyRule_STATUS_Type instead
+type ManagementPolicyRule_STATUS_Type string
+
+const ManagementPolicyRule_STATUS_Type_Lifecycle = ManagementPolicyRule_STATUS_Type("Lifecycle")
+
+>>>>>>> main:v2/api/storage/v1alpha1api20210401/management_policy_status_arm_types_gen.go
 // Deprecated version of ManagementPolicyAction_STATUS. Use v1beta20210401.ManagementPolicyAction_STATUS instead
 type ManagementPolicyAction_STATUSARM struct {
 	BaseBlob *ManagementPolicyBaseBlob_STATUSARM `json:"baseBlob,omitempty"`

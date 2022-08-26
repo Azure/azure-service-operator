@@ -51,7 +51,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	//tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	//tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	workload := subscription.Workload_Production
+	workload := subscription.PutAliasRequestProperties_Workload_Production
 	sub := &subscription.Alias{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: subscription.Alias_Spec{

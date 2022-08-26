@@ -124,7 +124,7 @@ func findChildren(rt *astmodel.ResourceType, others astmodel.TypeDefinitionSet) 
 }
 
 // this is the name we expect to see on "child resources" in the ARM JSON schema
-const ChildResourceNameSuffix = "ChildResource"
+const ChildResourceNameSuffix = "_ChildResource"
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,

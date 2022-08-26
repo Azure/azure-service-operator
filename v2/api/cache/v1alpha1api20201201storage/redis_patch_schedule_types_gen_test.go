@@ -67,7 +67,7 @@ func Test_RedisPatchSchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RedisPatchSchedule to RedisPatchSchedule via AssignPropertiesToRedisPatchSchedule & AssignPropertiesFromRedisPatchSchedule returns original",
+		"Round trip from RedisPatchSchedule to RedisPatchSchedule via AssignProperties_To_RedisPatchSchedule & AssignProperties_From_RedisPatchSchedule returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule, RedisPatchScheduleGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201201s.RedisPatchSchedule
-	err := copied.AssignPropertiesToRedisPatchSchedule(&other)
+	err := copied.AssignProperties_To_RedisPatchSchedule(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RedisPatchSchedule
-	err = actual.AssignPropertiesFromRedisPatchSchedule(&other)
+	err = actual.AssignProperties_From_RedisPatchSchedule(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,16 +160,25 @@ func RedisPatchScheduleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = RedisPatchSchedule_SpecGenerator()
 	gens["Status"] = RedisPatchSchedule_STATUSGenerator()
 }
 
 func Test_RedisPatchSchedule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+=======
+	gens["Spec"] = Redis_PatchSchedules_SpecGenerator()
+	gens["Status"] = RedisPatchSchedule_STATUSGenerator()
+}
+
+func Test_Redis_PatchSchedules_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from RedisPatchSchedule_Spec to RedisPatchSchedule_Spec via AssignPropertiesToRedisPatchSchedule_Spec & AssignPropertiesFromRedisPatchSchedule_Spec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule_Spec, RedisPatchSchedule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
@@ -177,19 +186,38 @@ func Test_RedisPatchSchedule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForRedisPatchSchedule_Spec tests if a specific instance of RedisPatchSchedule_Spec can be assigned to v1beta20201201storage and back losslessly
 func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSchedule_Spec) string {
+=======
+		"Round trip from Redis_PatchSchedules_Spec to Redis_PatchSchedules_Spec via AssignProperties_To_Redis_PatchSchedules_Spec & AssignProperties_From_Redis_PatchSchedules_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedis_PatchSchedules_Spec, Redis_PatchSchedules_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedis_PatchSchedules_Spec tests if a specific instance of Redis_PatchSchedules_Spec can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedis_PatchSchedules_Spec(subject Redis_PatchSchedules_Spec) string {
+>>>>>>> main
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
+<<<<<<< HEAD
 	var other v20201201s.RedisPatchSchedule_Spec
 	err := copied.AssignPropertiesToRedisPatchSchedule_Spec(&other)
+=======
+	var other v20201201s.Redis_PatchSchedules_Spec
+	err := copied.AssignProperties_To_Redis_PatchSchedules_Spec(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
+<<<<<<< HEAD
 	var actual RedisPatchSchedule_Spec
 	err = actual.AssignPropertiesFromRedisPatchSchedule_Spec(&other)
+=======
+	var actual Redis_PatchSchedules_Spec
+	err = actual.AssignProperties_From_Redis_PatchSchedules_Spec(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -206,13 +234,18 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSched
 	return ""
 }
 
+<<<<<<< HEAD
 func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+=======
+func Test_Redis_PatchSchedules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+>>>>>>> main
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of RedisPatchSchedule_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForRedisPatchSchedule_Spec, RedisPatchSchedule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -220,6 +253,15 @@ func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *te
 
 // RunJSONSerializationTestForRedisPatchSchedule_Spec runs a test to see if a specific instance of RedisPatchSchedule_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForRedisPatchSchedule_Spec(subject RedisPatchSchedule_Spec) string {
+=======
+		"Round trip of Redis_PatchSchedules_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_PatchSchedules_Spec, Redis_PatchSchedules_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedis_PatchSchedules_Spec runs a test to see if a specific instance of Redis_PatchSchedules_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_PatchSchedules_Spec(subject Redis_PatchSchedules_Spec) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +269,11 @@ func RunJSONSerializationTestForRedisPatchSchedule_Spec(subject RedisPatchSchedu
 	}
 
 	// Deserialize back into memory
+<<<<<<< HEAD
 	var actual RedisPatchSchedule_Spec
+=======
+	var actual Redis_PatchSchedules_Spec
+>>>>>>> main
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,6 +291,7 @@ func RunJSONSerializationTestForRedisPatchSchedule_Spec(subject RedisPatchSchedu
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of RedisPatchSchedule_Spec instances for property testing - lazily instantiated by
 // RedisPatchSchedule_SpecGenerator()
 var redisPatchSchedule_SpecGenerator gopter.Gen
@@ -279,6 +326,43 @@ func AddIndependentPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]
 
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]gopter.Gen) {
+=======
+// Generator of Redis_PatchSchedules_Spec instances for property testing - lazily instantiated by
+// Redis_PatchSchedules_SpecGenerator()
+var redis_PatchSchedules_SpecGenerator gopter.Gen
+
+// Redis_PatchSchedules_SpecGenerator returns a generator of Redis_PatchSchedules_Spec instances for property testing.
+// We first initialize redis_PatchSchedules_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Redis_PatchSchedules_SpecGenerator() gopter.Gen {
+	if redis_PatchSchedules_SpecGenerator != nil {
+		return redis_PatchSchedules_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedules_Spec(generators)
+	redis_PatchSchedules_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedules_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedules_Spec(generators)
+	AddRelatedPropertyGeneratorsForRedis_PatchSchedules_Spec(generators)
+	redis_PatchSchedules_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedules_Spec{}), generators)
+
+	return redis_PatchSchedules_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedis_PatchSchedules_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_PatchSchedules_Spec(gens map[string]gopter.Gen) {
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedis_PatchSchedules_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedis_PatchSchedules_Spec(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntryGenerator())
 }
 
@@ -288,7 +372,11 @@ func Test_RedisPatchSchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from RedisPatchSchedule_STATUS to RedisPatchSchedule_STATUS via AssignPropertiesToRedisPatchSchedule_STATUS & AssignPropertiesFromRedisPatchSchedule_STATUS returns original",
+=======
+		"Round trip from RedisPatchSchedule_STATUS to RedisPatchSchedule_STATUS via AssignProperties_To_RedisPatchSchedule_STATUS & AssignProperties_From_RedisPatchSchedule_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForRedisPatchSchedule_STATUS, RedisPatchSchedule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -300,14 +388,22 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_STATUS(subject RedisPatchSch
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201201s.RedisPatchSchedule_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToRedisPatchSchedule_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_RedisPatchSchedule_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual RedisPatchSchedule_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromRedisPatchSchedule_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_RedisPatchSchedule_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -408,7 +504,7 @@ func Test_ScheduleEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ScheduleEntry to ScheduleEntry via AssignPropertiesToScheduleEntry & AssignPropertiesFromScheduleEntry returns original",
+		"Round trip from ScheduleEntry to ScheduleEntry via AssignProperties_To_ScheduleEntry & AssignProperties_From_ScheduleEntry returns original",
 		prop.ForAll(RunPropertyAssignmentTestForScheduleEntry, ScheduleEntryGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -420,14 +516,14 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201201s.ScheduleEntry
-	err := copied.AssignPropertiesToScheduleEntry(&other)
+	err := copied.AssignProperties_To_ScheduleEntry(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ScheduleEntry
-	err = actual.AssignPropertiesFromScheduleEntry(&other)
+	err = actual.AssignProperties_From_ScheduleEntry(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -512,7 +608,11 @@ func Test_ScheduleEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ScheduleEntry_STATUS to ScheduleEntry_STATUS via AssignPropertiesToScheduleEntry_STATUS & AssignPropertiesFromScheduleEntry_STATUS returns original",
+=======
+		"Round trip from ScheduleEntry_STATUS to ScheduleEntry_STATUS via AssignProperties_To_ScheduleEntry_STATUS & AssignProperties_From_ScheduleEntry_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForScheduleEntry_STATUS, ScheduleEntry_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -524,14 +624,22 @@ func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STAT
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201201s.ScheduleEntry_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToScheduleEntry_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ScheduleEntry_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ScheduleEntry_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromScheduleEntry_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ScheduleEntry_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

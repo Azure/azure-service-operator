@@ -67,7 +67,7 @@ func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Person to Person via AssignPropertiesToPerson & AssignPropertiesFromPerson returns original",
+		"Round trip from Person to Person via AssignProperties_To_Person & AssignProperties_From_Person returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPerson, PersonGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForPerson(subject Person) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211231s.Person
-	err := copied.AssignPropertiesToPerson(&other)
+	err := copied.AssignProperties_To_Person(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Person
-	err = actual.AssignPropertiesFromPerson(&other)
+	err = actual.AssignProperties_From_Person(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -170,7 +170,11 @@ func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPerson_Spec & AssignPropertiesFromPerson_Spec returns original",
+=======
+		"Round trip from Person_Spec to Person_Spec via AssignProperties_To_Person_Spec & AssignProperties_From_Person_Spec returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPerson_Spec, Person_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -182,14 +186,22 @@ func RunPropertyAssignmentTestForPerson_Spec(subject Person_Spec) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211231s.Person_Spec
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPerson_Spec(&other)
+=======
+	err := copied.AssignProperties_To_Person_Spec(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Person_Spec
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPerson_Spec(&other)
+=======
+	err = actual.AssignProperties_From_Person_Spec(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -274,7 +286,11 @@ func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from Person_STATUS to Person_STATUS via AssignPropertiesToPerson_STATUS & AssignPropertiesFromPerson_STATUS returns original",
+=======
+		"Round trip from Person_STATUS to Person_STATUS via AssignProperties_To_Person_STATUS & AssignProperties_From_Person_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPerson_STATUS, Person_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -286,14 +302,22 @@ func RunPropertyAssignmentTestForPerson_STATUS(subject Person_STATUS) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20211231s.Person_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPerson_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_Person_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Person_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPerson_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_Person_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

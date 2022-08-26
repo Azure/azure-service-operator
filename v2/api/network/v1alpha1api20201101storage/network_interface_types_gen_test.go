@@ -67,7 +67,7 @@ func Test_NetworkInterface_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from NetworkInterface to NetworkInterface via AssignPropertiesToNetworkInterface & AssignPropertiesFromNetworkInterface returns original",
+		"Round trip from NetworkInterface to NetworkInterface via AssignProperties_To_NetworkInterface & AssignProperties_From_NetworkInterface returns original",
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface, NetworkInterfaceGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) stri
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterface
-	err := copied.AssignPropertiesToNetworkInterface(&other)
+	err := copied.AssignProperties_To_NetworkInterface(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterface
-	err = actual.AssignPropertiesFromNetworkInterface(&other)
+	err = actual.AssignProperties_From_NetworkInterface(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,6 +160,7 @@ func NetworkInterfaceGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNetworkInterface is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkInterface(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = NetworkInterface_SpecGenerator()
 	gens["Status"] = NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()
 }
@@ -290,6 +291,10 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_Spec(gens map[string]gopter
 	gens["IpConfigurations"] = gen.SliceOf(NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["PrivateLinkService"] = gen.PtrOf(PrivateLinkServiceSpecGenerator())
+=======
+	gens["Spec"] = NetworkInterfaces_SpecGenerator()
+	gens["Status"] = NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()
+>>>>>>> main
 }
 
 func Test_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -298,7 +303,11 @@ func Test_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_WhenPrope
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded, NetworkInterface_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -310,14 +319,22 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkInterface_SubRes
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -429,6 +446,134 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_STATUS_NetworkInterface_Sub
 	gens["PrivateLinkService"] = gen.PtrOf(PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["TapConfigurations"] = gen.SliceOf(NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["VirtualMachine"] = gen.PtrOf(SubResource_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_NetworkInterfaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaces_Spec to NetworkInterfaces_Spec via AssignProperties_To_NetworkInterfaces_Spec & AssignProperties_From_NetworkInterfaces_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaces_Spec, NetworkInterfaces_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaces_Spec tests if a specific instance of NetworkInterfaces_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaces_Spec(subject NetworkInterfaces_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201101s.NetworkInterfaces_Spec
+	err := copied.AssignProperties_To_NetworkInterfaces_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaces_Spec
+	err = actual.AssignProperties_From_NetworkInterfaces_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkInterfaces_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkInterfaces_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterfaces_Spec, NetworkInterfaces_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkInterfaces_Spec runs a test to see if a specific instance of NetworkInterfaces_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterfaces_Spec(subject NetworkInterfaces_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkInterfaces_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkInterfaces_Spec instances for property testing - lazily instantiated by
+// NetworkInterfaces_SpecGenerator()
+var networkInterfaces_SpecGenerator gopter.Gen
+
+// NetworkInterfaces_SpecGenerator returns a generator of NetworkInterfaces_Spec instances for property testing.
+// We first initialize networkInterfaces_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NetworkInterfaces_SpecGenerator() gopter.Gen {
+	if networkInterfaces_SpecGenerator != nil {
+		return networkInterfaces_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(generators)
+	networkInterfaces_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(generators)
+	AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec(generators)
+	networkInterfaces_SpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec{}), generators)
+
+	return networkInterfaces_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
+	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(NetworkInterfaceDnsSettingsGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
+>>>>>>> main
 }
 
 func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -437,7 +582,7 @@ func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutL
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from NetworkInterfaceDnsSettings to NetworkInterfaceDnsSettings via AssignPropertiesToNetworkInterfaceDnsSettings & AssignPropertiesFromNetworkInterfaceDnsSettings returns original",
+		"Round trip from NetworkInterfaceDnsSettings to NetworkInterfaceDnsSettings via AssignProperties_To_NetworkInterfaceDnsSettings & AssignProperties_From_NetworkInterfaceDnsSettings returns original",
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceDnsSettings, NetworkInterfaceDnsSettingsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -449,14 +594,14 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInte
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterfaceDnsSettings
-	err := copied.AssignPropertiesToNetworkInterfaceDnsSettings(&other)
+	err := copied.AssignProperties_To_NetworkInterfaceDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceDnsSettings
-	err = actual.AssignPropertiesFromNetworkInterfaceDnsSettings(&other)
+	err = actual.AssignProperties_From_NetworkInterfaceDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -541,7 +686,11 @@ func Test_NetworkInterfaceDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsW
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterfaceDnsSettings_STATUS to NetworkInterfaceDnsSettings_STATUS via AssignPropertiesToNetworkInterfaceDnsSettings_STATUS & AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS returns original",
+=======
+		"Round trip from NetworkInterfaceDnsSettings_STATUS to NetworkInterfaceDnsSettings_STATUS via AssignProperties_To_NetworkInterfaceDnsSettings_STATUS & AssignProperties_From_NetworkInterfaceDnsSettings_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS, NetworkInterfaceDnsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -553,14 +702,22 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS(subject Netw
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterfaceDnsSettings_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterfaceDnsSettings_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceDnsSettings_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterfaceDnsSettings_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -776,7 +933,11 @@ func Test_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmb
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -788,14 +949,22 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkI
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -900,6 +1069,136 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_Netwo
 	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["VirtualNetworkTaps"] = gen.SliceOf(VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterfaces_Spec_Properties_IpConfigurations to NetworkInterfaces_Spec_Properties_IpConfigurations via AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations & AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations, NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations tests if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterfaces_Spec_Properties_IpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations
+	err := copied.AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterfaces_Spec_Properties_IpConfigurations
+	err = actual.AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkInterfaces_Spec_Properties_IpConfigurations via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations, NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations runs a test to see if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterfaces_Spec_Properties_IpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkInterfaces_Spec_Properties_IpConfigurations
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing - lazily instantiated
+// by NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator()
+var networkInterfaces_Spec_Properties_IpConfigurationsGenerator gopter.Gen
+
+// NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator returns a generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing.
+// We first initialize networkInterfaces_Spec_Properties_IpConfigurationsGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NetworkInterfaces_Spec_Properties_IpConfigurationsGenerator() gopter.Gen {
+	if networkInterfaces_Spec_Properties_IpConfigurationsGenerator != nil {
+		return networkInterfaces_Spec_Properties_IpConfigurationsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
+	networkInterfaces_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec_Properties_IpConfigurations{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
+	AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(generators)
+	networkInterfaces_Spec_Properties_IpConfigurationsGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaces_Spec_Properties_IpConfigurations{}), generators)
+
+	return networkInterfaces_Spec_Properties_IpConfigurationsGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkInterfaces_Spec_Properties_IpConfigurations(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerInboundNatRules"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIPAddress"] = gen.PtrOf(SubResourceGenerator())
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
+	gens["VirtualNetworkTaps"] = gen.SliceOf(SubResourceGenerator())
+>>>>>>> main
 }
 
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -908,7 +1207,11 @@ func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEm
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded to NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -920,14 +1223,22 @@ func RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_Network
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1011,7 +1322,11 @@ func Test_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenP
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded to NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded to NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1023,14 +1338,22 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_Su
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1232,7 +1555,11 @@ func Test_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_WhenProper
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded to PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded to PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded, PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1244,14 +1571,22 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubReso
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1349,7 +1684,11 @@ func Test_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_WhenPro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded to PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded to PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded, PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1361,14 +1700,22 @@ func RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubR
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1466,8 +1813,13 @@ func Test_PrivateLinkServiceSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PrivateLinkServiceSpec to PrivateLinkServiceSpec via AssignPropertiesToPrivateLinkServiceSpec & AssignPropertiesFromPrivateLinkServiceSpec returns original",
 		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceSpec, PrivateLinkServiceSpecGenerator()))
+=======
+		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
+>>>>>>> main
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
@@ -1477,15 +1829,25 @@ func RunPropertyAssignmentTestForPrivateLinkServiceSpec(subject PrivateLinkServi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
+<<<<<<< HEAD
 	var other v20201101s.PrivateLinkServiceSpec
 	err := copied.AssignPropertiesToPrivateLinkServiceSpec(&other)
+=======
+	var other v20201101s.SubResource
+	err := copied.AssignProperties_To_SubResource(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
+<<<<<<< HEAD
 	var actual PrivateLinkServiceSpec
 	err = actual.AssignPropertiesFromPrivateLinkServiceSpec(&other)
+=======
+	var actual SubResource
+	err = actual.AssignProperties_From_SubResource(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1590,7 +1952,11 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignPropertiesToSubResource_STATUS & AssignPropertiesFromSubResource_STATUS returns original",
+=======
+		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1602,14 +1968,22 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.SubResource_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSubResource_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_SubResource_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual SubResource_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSubResource_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_SubResource_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1809,7 +2183,11 @@ func Test_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResour
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded to ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded to ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1821,14 +2199,22 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_Net
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -1931,7 +2317,11 @@ func Test_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_W
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded to ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1943,14 +2333,22 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterfac
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2131,7 +2529,11 @@ func Test_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenPro
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded to BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded to BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2143,14 +2545,22 @@ func RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubR
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2454,7 +2864,11 @@ func Test_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded to InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded to InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded, InboundNatRule_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2466,14 +2880,22 @@ func RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResou
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2557,7 +2979,11 @@ func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS to NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS via AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS & AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS returns original",
+=======
+		"Round trip from NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS to NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS via AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS & AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS, NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2569,14 +2995,22 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConne
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2783,7 +3217,11 @@ func Test_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_WhenProper
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded to PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded to PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded, PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2795,14 +3233,22 @@ func RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubReso
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -2894,6 +3340,7 @@ func AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_
 func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_STATUSGenerator())
+<<<<<<< HEAD
 }
 
 func Test_ResourceSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3190,6 +3637,8 @@ func Subnet_NetworkInterface_SubResourceEmbeddedGenerator() gopter.Gen {
 	subnet_NetworkInterface_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_NetworkInterface_SubResourceEmbedded{}), generators)
 
 	return subnet_NetworkInterface_SubResourceEmbeddedGenerator
+=======
+>>>>>>> main
 }
 
 func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3198,7 +3647,11 @@ func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConve
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from Subnet_STATUS_NetworkInterface_SubResourceEmbedded to Subnet_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from Subnet_STATUS_NetworkInterface_SubResourceEmbedded to Subnet_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbedded, Subnet_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3210,14 +3663,22 @@ func RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbed
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3301,7 +3762,11 @@ func Test_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_WhenProp
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded to VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded via AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded & AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+=======
+		"Round trip from VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded to VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded via AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded & AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded, VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3313,14 +3778,22 @@ func RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubRe
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -3627,7 +4100,11 @@ func Test_ApplicationGatewayBackendAddress_STATUS_WhenPropertiesConverted_RoundT
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from ApplicationGatewayBackendAddress_STATUS to ApplicationGatewayBackendAddress_STATUS via AssignPropertiesToApplicationGatewayBackendAddress_STATUS & AssignPropertiesFromApplicationGatewayBackendAddress_STATUS returns original",
+=======
+		"Round trip from ApplicationGatewayBackendAddress_STATUS to ApplicationGatewayBackendAddress_STATUS via AssignProperties_To_ApplicationGatewayBackendAddress_STATUS & AssignProperties_From_ApplicationGatewayBackendAddress_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayBackendAddress_STATUS, ApplicationGatewayBackendAddress_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -3639,14 +4116,22 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddress_STATUS(subject
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20201101s.ApplicationGatewayBackendAddress_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToApplicationGatewayBackendAddress_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_ApplicationGatewayBackendAddress_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ApplicationGatewayBackendAddress_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromApplicationGatewayBackendAddress_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_ApplicationGatewayBackendAddress_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

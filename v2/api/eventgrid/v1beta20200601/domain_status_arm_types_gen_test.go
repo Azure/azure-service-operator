@@ -164,6 +164,7 @@ func DomainProperties_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0_STATUS, DomainProperties_InputSchema_CustomEventSchema_STATUS, DomainProperties_InputSchema_EventGridSchema_STATUS))
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
@@ -174,6 +175,18 @@ func AddIndependentPropertyGeneratorsForDomainProperties_STATUSARM(gens map[stri
 		DomainProperties_ProvisioningState_Succeeded_STATUS,
 		DomainProperties_ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled_STATUS, DomainProperties_PublicNetworkAccess_Enabled_STATUS))
+=======
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_STATUS_InputSchema_CloudEventSchemaV1_0, DomainProperties_STATUS_InputSchema_CustomEventSchema, DomainProperties_STATUS_InputSchema_EventGridSchema))
+	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		DomainProperties_STATUS_ProvisioningState_Canceled,
+		DomainProperties_STATUS_ProvisioningState_Creating,
+		DomainProperties_STATUS_ProvisioningState_Deleting,
+		DomainProperties_STATUS_ProvisioningState_Failed,
+		DomainProperties_STATUS_ProvisioningState_Succeeded,
+		DomainProperties_STATUS_ProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_STATUS_PublicNetworkAccess_Disabled, DomainProperties_STATUS_PublicNetworkAccess_Enabled))
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForDomainProperties_STATUSARM is a factory method for creating gopter generators
@@ -181,6 +194,7 @@ func AddRelatedPropertyGeneratorsForDomainProperties_STATUSARM(gens map[string]g
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRule_STATUSARMGenerator())
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_STATUSARMGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARMGenerator())
+<<<<<<< HEAD
 }
 
 func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -255,6 +269,8 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gop
 		SystemData_LastModifiedByType_Key_STATUS,
 		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
 		SystemData_LastModifiedByType_User_STATUS))
+=======
+>>>>>>> main
 }
 
 func Test_InboundIpRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -315,7 +331,11 @@ func InboundIpRule_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule_STATUSARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow_STATUS))
+=======
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_STATUS_Action_Allow))
+>>>>>>> main
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -377,7 +397,11 @@ func InputSchemaMapping_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUSARM(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_Json_STATUS))
+=======
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_STATUS_InputSchemaMappingType_Json))
+>>>>>>> main
 }
 
 func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

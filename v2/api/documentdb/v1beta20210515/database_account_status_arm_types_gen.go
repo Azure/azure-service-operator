@@ -9,7 +9,11 @@ type DatabaseAccount_STATUSARM struct {
 	Identity *ManagedServiceIdentity_STATUSARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 	Kind *DatabaseAccount_Kind_STATUS `json:"kind,omitempty"`
+=======
+	Kind *DatabaseAccountGetResults_STATUS_Kind `json:"kind,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -122,6 +126,17 @@ type DatabaseAccountGetProperties_STATUSARM struct {
 	WriteLocations []Location_STATUSARM `json:"writeLocations,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
+=======
+type DatabaseAccountGetResults_STATUS_Kind string
+
+const (
+	DatabaseAccountGetResults_STATUS_Kind_GlobalDocumentDB = DatabaseAccountGetResults_STATUS_Kind("GlobalDocumentDB")
+	DatabaseAccountGetResults_STATUS_Kind_MongoDB          = DatabaseAccountGetResults_STATUS_Kind("MongoDB")
+	DatabaseAccountGetResults_STATUS_Kind_Parse            = DatabaseAccountGetResults_STATUS_Kind("Parse")
+)
+
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 type ManagedServiceIdentity_STATUSARM struct {
 	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
 	// identity.
@@ -133,7 +148,11 @@ type ManagedServiceIdentity_STATUSARM struct {
 
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 	Type *ManagedServiceIdentity_Type_STATUS `json:"type,omitempty"`
+=======
+	Type *ManagedServiceIdentity_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 
 	// UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -147,7 +166,11 @@ type AnalyticalStorageConfiguration_STATUSARM struct {
 
 type ApiProperties_STATUSARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 	ServerVersion *ApiProperties_ServerVersion_STATUS `json:"serverVersion,omitempty"`
+=======
+	ServerVersion *ApiProperties_STATUS_ServerVersion `json:"serverVersion,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 }
 
 type BackupPolicy_STATUSARM struct {
@@ -162,7 +185,11 @@ type Capability_STATUSARM struct {
 
 type ConsistencyPolicy_STATUSARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
+=======
+	DefaultConsistencyLevel *ConsistencyPolicy_STATUS_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 
 	// MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	// staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -236,6 +263,7 @@ type Location_STATUSARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 type ManagedServiceIdentity_Type_STATUS string
 
 const (
@@ -246,6 +274,18 @@ const (
 )
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
+=======
+type ManagedServiceIdentity_STATUS_Type string
+
+const (
+	ManagedServiceIdentity_STATUS_Type_None                       = ManagedServiceIdentity_STATUS_Type("None")
+	ManagedServiceIdentity_STATUS_Type_SystemAssigned             = ManagedServiceIdentity_STATUS_Type("SystemAssigned")
+	ManagedServiceIdentity_STATUS_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_STATUS_Type("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_STATUS_Type_UserAssigned               = ManagedServiceIdentity_STATUS_Type("UserAssigned")
+)
+
+type ManagedServiceIdentity_STATUS_UserAssignedIdentitiesARM struct {
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -253,7 +293,11 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/documentdb/v1beta20210515/database_account_status_arm_types_gen.go
 type PrivateEndpointConnection_STATUSARM struct {
+=======
+type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+>>>>>>> main:v2/api/documentdb/v1beta20210515/database_account_get_results_status_arm_types_gen.go
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

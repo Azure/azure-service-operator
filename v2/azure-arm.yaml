@@ -67,7 +67,7 @@ typeFilters:
 
   - action: prune
     group: compute
-    name: VirtualMachineScaleSetsExtensionsChildResource;VirtualMachinesExtensionsChildResource
+    name: VirtualMachineScaleSets_Extensions_ChildResource;VirtualMachines_Extensions_ChildResource
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
 
   - action: prune
@@ -140,7 +140,7 @@ typeFilters:
 
   - action: prune
     group: machinelearningservices
-    name: WorkspacesService*
+    name: Workspaces_Service*
     because: Some types use OneOf to model inheritance, which we don't currently support.
 
   - action: prune
@@ -263,7 +263,7 @@ typeTransformers:
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
 
   # TODO(donotmerge)
-  # - name: StorageAccountsManagementPolicies_Spec
+  # - name: StorageAccounts_ManagementPolicies_Spec
   #   group: storage
   #   property: Location
   #   remove: true
@@ -316,6 +316,29 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
+  - name: Namespaces_Eventhubs_Spec_Properties
+    group: eventhub
+    property: Status
+    remove: true
+    because: This property should be marked readonly
+  - group: eventgrid
+    version: v*20190601
+    name: Domains_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
+  - group: eventgrid
+    version: "*"
+    name: Topics_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
+  - group: network
+    version: "*"
+    name: PrivateDnsZones_Spec
+    property: Properties
+    remove: true
+    because: it has no writable properties in swagger
 
   # TODO(donotmerge)
 #  - name: NamespacesEventhubs_Spec_Properties
@@ -428,6 +451,41 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
+  - group: containerservice
+    name: ManagedClusters_AgentPools_Spec
+    property: Tags
+    remove: true
+    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
+  - group: network
+    name: VirtualNetworks_Subnets_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: VirtualNetworks_Subnets_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
+  - group: network
+    name: RouteTables_Routes_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: RouteTables_Routes_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
+  - name: Aliases_Spec
+    group: subscription
+    property: Location
+    remove: true
+    because: This shouldn't be on subscription.
+  - name: Aliases_Spec
+    group: subscription
+    property: Tags
+    remove: true
+    because: Tags for subscription are in a different place
 
   # TODO(donotmerge)
   # - group: network
@@ -723,28 +781,33 @@ objectModelConfiguration:
       RedisCreateProperties:
         SubnetId:
           $armReference: true
-      RedisFirewallRule:
-        $export: true
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
-      RedisLinkedServer:
-        $export: true
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
       RedisLinkedServerCreateProperties:
         LinkedRedisCacheId:
           $armReference: true
-      RedisPatchSchedule: 
-        $export: true
+      Redis_PatchSchedule: 
+        $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
     2021-03-01:
       RedisEnterprise:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-      RedisEnterpriseDatabase:
-        $export: true
+      RedisEnterprise_Database:
+        $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
   # TODO: disabled until (evildiscriminator)
   # cdn:
   #   2021-06-01:
+  #    DeepCreatedOriginProperties:
+  #      PrivateLinkLocation:
+  #        $armReference: true
+  #      PrivateLinkResourceId:
+  #        $armReference: true
   #     EndpointProperties_WebApplicationFirewallPolicyLink:
   #       Id:
   #         $armReference: true
@@ -752,7 +815,7 @@ objectModelConfiguration:
   #       $export: true
   #       $supportedFrom: v2.0.0-beta.1
   #     ProfilesEndpoint:
-  #       $export: true
+  #      $exportAs: ProfilesEndpoint
   #       $supportedFrom: v2.0.0-beta.1
   #     ResourceReference:
   #       Id:
@@ -872,8 +935,8 @@ objectModelConfiguration:
           $armReference: true
         NodePublicIPPrefixID:
           $armReference: true
-      ManagedClustersAgentPool:
-        $export: true
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
         NodePublicIPPrefixID:
@@ -901,10 +964,10 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.1
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-      ServersConfiguration:
+      Servers_Configuration:
         $exportAs: Configuration
         $supportedFrom: v2.0.0-beta.1
-      ServersDatabase:
+      Servers_Database:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
       # TODO(donotmerge)
@@ -928,11 +991,11 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-      FlexibleServersDatabase:
-        $export: true
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-alpha.2
-      FlexibleServersFirewallRule:
-        $export: true
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
       Network:
         PrivateDnsZoneResourceId:
@@ -946,14 +1009,14 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-      FlexibleServersConfiguration:
-        $export: true
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.0.0-alpha.4
-      FlexibleServersDatabase:
-        $export: true
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-alpha.2
-      FlexibleServersFirewallRule:
-        $export: true
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
       Network:
         PrivateDnsZoneArmResourceId:
@@ -977,37 +1040,37 @@ objectModelConfiguration:
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
           $armReference: false  # TODO: Breaking: Change this to true
-      DatabaseAccountsMongodbDatabase:
+      DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsMongodbDatabasesCollection:
+      DatabaseAccounts_MongodbDatabases_Collection:
         $exportAs: MongodbDatabaseCollection
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting:
+      DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
         $exportAs: MongodbDatabaseCollectionThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsMongodbDatabasesThroughputSetting:
+      DatabaseAccounts_MongodbDatabases_ThroughputSetting:
         $exportAs: MongodbDatabaseThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabase:
+      DatabaseAccounts_SqlDatabase:
         $exportAs: SqlDatabase
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesContainer:
+      DatabaseAccounts_SqlDatabases_Container:
         $exportAs: SqlDatabaseContainer
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesContainersStoredProcedure:
+      DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
         $exportAs: SqlDatabaseContainerStoredProcedure
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesContainersThroughputSetting:
+      DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
         $exportAs: SqlDatabaseContainerThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesContainersTrigger:
+      DatabaseAccounts_SqlDatabases_Containers_Trigger:
         $exportAs: SqlDatabaseContainerTrigger
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesContainersUserDefinedFunction:
+      DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
         $exportAs: SqlDatabaseContainerUserDefinedFunction
         $supportedFrom: v2.0.0-alpha.2
-      DatabaseAccountsSqlDatabasesThroughputSetting:
+      DatabaseAccounts_SqlDatabases_ThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
       MongoDBCollectionResource:
@@ -1039,8 +1102,8 @@ objectModelConfiguration:
       Domain:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
-      DomainsTopic:
-        $export: true
+      Domains_Topic:
+        $exportAs: DomainsTopic
         $supportedFrom: v2.0.0-alpha.5
       EventSubscription:
         $export: true
@@ -1077,16 +1140,16 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      NamespacesAuthorizationRule:
-        $export: true
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
         $supportedFrom: v2.0.0-alpha.2
-      NamespacesEventhub:
-        $export: true
+      Namespaces_Eventhub:
+        $exportAs: NamespacesEventhub
         $supportedFrom: v2.0.0-alpha.3
-      NamespacesEventhubsAuthorizationRule:
-        $export: true
+      Namespaces_Eventhubs_AuthorizationRule:
+        $exportAs: NamespacesEventhubsAuthorizationRule
         $supportedFrom: v2.0.0-alpha.3
-      NamespacesEventhubsConsumergroup:
+      Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
       Namespace_Spec_Properties:
@@ -1157,8 +1220,8 @@ objectModelConfiguration:
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
           $armReference: true
-      WorkspacesCompute:
-        $export: true
+      Workspaces_Compute:
+        $exportAs: WorkspacesCompute
         $supportedFrom: v2.0.0-beta.2
       Compute:
         ResourceId:
@@ -1205,8 +1268,8 @@ objectModelConfiguration:
 #      VirtualMachineSshCredentials:
 #        Password:
 #          $isSecret: true
-      WorkspacesConnection:
-        $export: true
+#      Workspaces_Connection:
+#        $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
   network:
     2018-09-01:
@@ -1229,8 +1292,8 @@ objectModelConfiguration:
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      NetworkSecurityGroupsSecurityRule:
-        $export: true
+      NetworkSecurityGroups_SecurityRule:
+        $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
       PublicIPAddress:
         $export: true
@@ -1244,12 +1307,11 @@ objectModelConfiguration:
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      # TODO(donotmerge)
-      # RouteTables_Spec_Properties:
-      #   Routes:
-      #     $isResourceLifecycleOwnedByParent: true
-      RouteTablesRoute:
-        $export: true
+      RouteTables_Spec_Properties:
+        Routes:
+          $isResourceLifecycleOwnedByParent: true
+      RouteTables_Route:
+        $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
       SecurityRule_NetworkInterface_SubResourceEmbedded:
         Id:
@@ -1272,19 +1334,18 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      # TODO(donotmerge)
-      # VirtualNetworks_Spec_Properties:
-      #   Subnets:
-      #     $isResourceLifecycleOwnedByParent: true
-      #   VirtualNetworkPeerings:
-      #     # Technically this resource behaves fine (updating the vnet doesn't delete these if they
-      #     # aren't included in the payload). Marking it here so that the pruning takes effect.
-      #     $isResourceLifecycleOwnedByParent: true
-      VirtualNetworksSubnet:
-        $export: true
+      VirtualNetworks_Spec_Properties:
+        Subnets:
+          $isResourceLifecycleOwnedByParent: true
+        VirtualNetworkPeerings:
+          # Technically this resource behaves fine (updating the vnet doesn't delete these if they
+          # aren't included in the payload). Marking it here so that the pruning takes effect.
+          $isResourceLifecycleOwnedByParent: true
+      VirtualNetworks_Subnet:
+        $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworksVirtualNetworkPeering:
-        $export: true
+      VirtualNetworks_VirtualNetworkPeering:
+        $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
@@ -1302,11 +1363,11 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      NamespacesQueue:
-        $export: true
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
-      NamespacesTopic:
-        $export: true
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
         $supportedFrom: v2.0.0-alpha.1
       PrivateEndpoint:
         Id:
@@ -1339,20 +1400,20 @@ objectModelConfiguration:
           - QueueEndpoint
           - TableEndpoint
           - DfsEndpoint
-      StorageAccountsBlobService:
-        $export: true
+      StorageAccounts_BlobService:
+        $exportAs: StorageAccountsBlobService
         $supportedFrom: v2.0.0-alpha.1
-      StorageAccountsBlobServicesContainer:
-        $export: true
+      StorageAccounts_BlobServices_Container:
+        $exportAs: StorageAccountsBlobServicesContainer
         $supportedFrom: v2.0.0-alpha.1
-      StorageAccountsQueueService:
-        $export: true
+      StorageAccounts_QueueService:
+        $exportAs: StorageAccountsQueueService
         $supportedFrom: v2.0.0-alpha.5
-      StorageAccountsQueueServicesQueue:
-        $export: true
+      StorageAccounts_QueueServices_Queue:
+        $exportAs: StorageAccountsQueueServicesQueue
         $supportedFrom: v2.0.0-alpha.5
-      StorageAccountsManagementPolicy:
-        $export: true
+      StorageAccounts_ManagementPolicy:
+        $exportAs: StorageAccountsManagementPolicy
         $supportedFrom: v2.0.0-alpha.6
       VirtualNetworkRule:
         Id:

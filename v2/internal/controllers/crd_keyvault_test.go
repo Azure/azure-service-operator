@@ -15,6 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
+// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-keyvault-ngmgjs
+
 func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
 	t.Parallel()

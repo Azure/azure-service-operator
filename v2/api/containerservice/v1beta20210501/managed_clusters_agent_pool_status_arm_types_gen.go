@@ -203,6 +203,56 @@ type LinuxOSConfig_STATUSARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/containerservice/v1beta20210501/managed_clusters_agent_pool_status_arm_types_gen.go
+=======
+type OSDiskType_STATUS string
+
+const (
+	OSDiskType_STATUS_Ephemeral = OSDiskType_STATUS("Ephemeral")
+	OSDiskType_STATUS_Managed   = OSDiskType_STATUS("Managed")
+)
+
+type OSSKU_STATUS string
+
+const (
+	OSSKU_STATUS_CBLMariner = OSSKU_STATUS("CBLMariner")
+	OSSKU_STATUS_Ubuntu     = OSSKU_STATUS("Ubuntu")
+)
+
+type OSType_STATUS string
+
+const (
+	OSType_STATUS_Linux   = OSType_STATUS("Linux")
+	OSType_STATUS_Windows = OSType_STATUS("Windows")
+)
+
+type PowerState_STATUSARM struct {
+	// Code: Tells whether the cluster is Running or Stopped
+	Code *PowerState_STATUS_Code `json:"code,omitempty"`
+}
+
+type ScaleSetEvictionPolicy_STATUS string
+
+const (
+	ScaleSetEvictionPolicy_STATUS_Deallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
+	ScaleSetEvictionPolicy_STATUS_Delete     = ScaleSetEvictionPolicy_STATUS("Delete")
+)
+
+type ScaleSetPriority_STATUS string
+
+const (
+	ScaleSetPriority_STATUS_Regular = ScaleSetPriority_STATUS("Regular")
+	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
+)
+
+type PowerState_STATUS_Code string
+
+const (
+	PowerState_STATUS_Code_Running = PowerState_STATUS_Code("Running")
+	PowerState_STATUS_Code_Stopped = PowerState_STATUS_Code("Stopped")
+)
+
+>>>>>>> main:v2/api/containerservice/v1beta20210501/agent_pool_status_arm_types_gen.go
 type SysctlConfig_STATUSARM struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`

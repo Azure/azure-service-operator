@@ -40,7 +40,11 @@ type Identity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 	Type *Identity_Type_STATUS `json:"type,omitempty"`
+=======
+	Type *Identity_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 
 	// UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]DictionaryValue_STATUSARM `json:"userAssignedIdentities,omitempty"`
@@ -80,10 +84,17 @@ type SBSku_STATUSARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 	Name *SBSku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
 	Tier *SBSku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *SBSku_STATUS_Name `json:"name,omitempty"`
+
+	// Tier: The billing tier of this particular SKU.
+	Tier *SBSku_STATUS_Tier `json:"tier,omitempty"`
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 }
 
 type SystemData_STATUSARM struct {
@@ -94,7 +105,11 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+=======
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 
 	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -103,7 +118,11 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+=======
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 }
 
 type DictionaryValue_STATUSARM struct {
@@ -116,7 +135,11 @@ type DictionaryValue_STATUSARM struct {
 
 type Encryption_STATUSARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
+=======
+	KeySource *Encryption_STATUS_KeySource `json:"keySource,omitempty"`
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 
 	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
@@ -125,6 +148,7 @@ type Encryption_STATUSARM struct {
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 type Identity_Type_STATUS string
 
 const (
@@ -132,6 +156,15 @@ const (
 	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
 	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned, UserAssigned")
 	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
+=======
+type Identity_STATUS_Type string
+
+const (
+	Identity_STATUS_Type_None                       = Identity_STATUS_Type("None")
+	Identity_STATUS_Type_SystemAssigned             = Identity_STATUS_Type("SystemAssigned")
+	Identity_STATUS_Type_SystemAssignedUserAssigned = Identity_STATUS_Type("SystemAssigned, UserAssigned")
+	Identity_STATUS_Type_UserAssigned               = Identity_STATUS_Type("UserAssigned")
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 )
 
 type PrivateEndpointConnection_STATUSARM struct {
@@ -142,6 +175,7 @@ type PrivateEndpointConnection_STATUSARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/servicebus/v1beta20210101preview/namespace_status_arm_types_gen.go
 type SBSku_Name_STATUS string
 
 const (
@@ -174,6 +208,40 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+=======
+type SBSku_STATUS_Name string
+
+const (
+	SBSku_STATUS_Name_Basic    = SBSku_STATUS_Name("Basic")
+	SBSku_STATUS_Name_Premium  = SBSku_STATUS_Name("Premium")
+	SBSku_STATUS_Name_Standard = SBSku_STATUS_Name("Standard")
+)
+
+type SBSku_STATUS_Tier string
+
+const (
+	SBSku_STATUS_Tier_Basic    = SBSku_STATUS_Tier("Basic")
+	SBSku_STATUS_Tier_Premium  = SBSku_STATUS_Tier("Premium")
+	SBSku_STATUS_Tier_Standard = SBSku_STATUS_Tier("Standard")
+)
+
+type SystemData_STATUS_CreatedByType string
+
+const (
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+)
+
+type SystemData_STATUS_LastModifiedByType string
+
+const (
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+>>>>>>> main:v2/api/servicebus/v1beta20210101preview/sb_namespace_status_arm_types_gen.go
 )
 
 type KeyVaultProperties_STATUSARM struct {

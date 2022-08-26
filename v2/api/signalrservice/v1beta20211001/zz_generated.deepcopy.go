@@ -21,7 +21,7 @@ func (in *ManagedIdentity) DeepCopyInto(out *ManagedIdentity) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType)
+		*out = new(ManagedIdentity_Type)
 		**out = **in
 	}
 }
@@ -41,7 +41,7 @@ func (in *ManagedIdentityARM) DeepCopyInto(out *ManagedIdentityARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType)
+		*out = new(ManagedIdentity_Type)
 		**out = **in
 	}
 }
@@ -215,12 +215,20 @@ func (in *NetworkACL) DeepCopyInto(out *NetworkACL) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]NetworkACL_Allow, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]NetworkACL_Deny, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 }
@@ -240,12 +248,20 @@ func (in *NetworkACLARM) DeepCopyInto(out *NetworkACLARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]NetworkACL_Allow, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]NetworkACL_Deny, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 }
@@ -315,12 +331,20 @@ func (in *PrivateEndpointACL) DeepCopyInto(out *PrivateEndpointACL) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]PrivateEndpointACL_Allow, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]PrivateEndpointACL_Deny, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -345,12 +369,20 @@ func (in *PrivateEndpointACLARM) DeepCopyInto(out *PrivateEndpointACLARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]PrivateEndpointACL_Allow, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
+<<<<<<< HEAD
 		*out = make([]SignalRRequestType, len(*in))
+=======
+		*out = make([]PrivateEndpointACL_Deny, len(*in))
+>>>>>>> main
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -683,7 +715,11 @@ func (in *ResourceSku) DeepCopyInto(out *ResourceSku) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
+<<<<<<< HEAD
 		*out = new(SignalRSkuTier)
+=======
+		*out = new(ResourceSku_Tier)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -713,7 +749,11 @@ func (in *ResourceSkuARM) DeepCopyInto(out *ResourceSkuARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
+<<<<<<< HEAD
 		*out = new(SignalRSkuTier)
+=======
+		*out = new(ResourceSku_Tier)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -1058,7 +1098,11 @@ func (in *SignalRFeature) DeepCopyInto(out *SignalRFeature) {
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
+<<<<<<< HEAD
 		*out = new(FeatureFlags)
+=======
+		*out = new(SignalRFeature_Flag)
+>>>>>>> main
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1090,7 +1134,11 @@ func (in *SignalRFeatureARM) DeepCopyInto(out *SignalRFeatureARM) {
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
+<<<<<<< HEAD
 		*out = new(FeatureFlags)
+=======
+		*out = new(SignalRFeature_Flag)
+>>>>>>> main
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1218,7 +1266,11 @@ func (in *SignalRNetworkACLs) DeepCopyInto(out *SignalRNetworkACLs) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
+<<<<<<< HEAD
 		*out = new(ACLAction)
+=======
+		*out = new(SignalRNetworkACLs_DefaultAction)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1250,7 +1302,11 @@ func (in *SignalRNetworkACLsARM) DeepCopyInto(out *SignalRNetworkACLsARM) {
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
+<<<<<<< HEAD
 		*out = new(ACLAction)
+=======
+		*out = new(SignalRNetworkACLs_DefaultAction)
+>>>>>>> main
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1858,7 +1914,11 @@ func (in *SignalR_Spec) DeepCopyInto(out *SignalR_Spec) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
+<<<<<<< HEAD
 		*out = new(ServiceKind)
+=======
+		*out = new(SignalR_Spec_Kind)
+>>>>>>> main
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1930,7 +1990,11 @@ func (in *SignalR_SpecARM) DeepCopyInto(out *SignalR_SpecARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
+<<<<<<< HEAD
 		*out = new(ServiceKind)
+=======
+		*out = new(SignalR_Spec_Kind)
+>>>>>>> main
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1982,7 +2046,11 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
+<<<<<<< HEAD
 		*out = new(SystemData_CreatedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_CreatedByType)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1997,7 +2065,11 @@ func (in *SystemData_STATUS) DeepCopyInto(out *SystemData_STATUS) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
+<<<<<<< HEAD
 		*out = new(SystemData_LastModifiedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_LastModifiedByType)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -2027,7 +2099,11 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
+<<<<<<< HEAD
 		*out = new(SystemData_CreatedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_CreatedByType)
+>>>>>>> main
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2042,7 +2118,11 @@ func (in *SystemData_STATUSARM) DeepCopyInto(out *SystemData_STATUSARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
+<<<<<<< HEAD
 		*out = new(SystemData_LastModifiedByType_STATUS)
+=======
+		*out = new(SystemData_STATUS_LastModifiedByType)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -2067,7 +2147,11 @@ func (in *UpstreamAuthSettings) DeepCopyInto(out *UpstreamAuthSettings) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
+<<<<<<< HEAD
 		*out = new(UpstreamAuthType)
+=======
+		*out = new(UpstreamAuthSettings_Type)
+>>>>>>> main
 		**out = **in
 	}
 }
@@ -2092,7 +2176,11 @@ func (in *UpstreamAuthSettingsARM) DeepCopyInto(out *UpstreamAuthSettingsARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
+<<<<<<< HEAD
 		*out = new(UpstreamAuthType)
+=======
+		*out = new(UpstreamAuthSettings_Type)
+>>>>>>> main
 		**out = **in
 	}
 }

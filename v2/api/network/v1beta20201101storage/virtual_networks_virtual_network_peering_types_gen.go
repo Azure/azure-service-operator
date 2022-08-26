@@ -28,8 +28,13 @@ import (
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              VirtualNetworksVirtualNetworkPeering_Spec   `json:"spec,omitempty"`
 	Status            VirtualNetworksVirtualNetworkPeering_STATUS `json:"status,omitempty"`
+=======
+	Spec              VirtualNetworks_VirtualNetworkPeerings_Spec `json:"spec,omitempty"`
+	Status            VirtualNetworkPeering_STATUS                `json:"status,omitempty"`
+>>>>>>> main
 }
 
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
@@ -223,6 +228,55 @@ func (peering *VirtualNetworksVirtualNetworkPeering_STATUS) ConvertStatusTo(dest
 	return destination.ConvertStatusFrom(peering)
 }
 
+<<<<<<< HEAD
+=======
+// Storage version of v1beta20201101.VirtualNetworks_VirtualNetworkPeerings_Spec
+type VirtualNetworks_VirtualNetworkPeerings_Spec struct {
+	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
+	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
+	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Location        *string `json:"location,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/VirtualNetwork resource
+	Owner                *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	PeeringState         *string                            `json:"peeringState,omitempty"`
+	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
+	Tags                 map[string]string                  `json:"tags,omitempty"`
+	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &VirtualNetworks_VirtualNetworkPeerings_Spec{}
+
+// ConvertSpecFrom populates our VirtualNetworks_VirtualNetworkPeerings_Spec from the provided source
+func (peerings *VirtualNetworks_VirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == peerings {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(peerings)
+}
+
+// ConvertSpecTo populates the provided destination from our VirtualNetworks_VirtualNetworkPeerings_Spec
+func (peerings *VirtualNetworks_VirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == peerings {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(peerings)
+}
+
+>>>>>>> main
 func init() {
 	SchemeBuilder.Register(&VirtualNetworksVirtualNetworkPeering{}, &VirtualNetworksVirtualNetworkPeeringList{})
 }

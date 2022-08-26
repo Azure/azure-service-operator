@@ -21,6 +21,7 @@ type RedisEnterpriseDatabase_STATUSARM struct {
 type DatabaseProperties_STATUSARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
+<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise_database_status_arm_types_gen.go
 	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS `json:"clientProtocol,omitempty"`
 
 	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
@@ -28,6 +29,15 @@ type DatabaseProperties_STATUSARM struct {
 
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
 	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
+=======
+	ClientProtocol *DatabaseProperties_STATUS_ClientProtocol `json:"clientProtocol,omitempty"`
+
+	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	ClusteringPolicy *DatabaseProperties_STATUS_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
+
+	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
+	EvictionPolicy *DatabaseProperties_STATUS_EvictionPolicy `json:"evictionPolicy,omitempty"`
+>>>>>>> main:v2/api/cache/v1beta20210301/database_status_arm_types_gen.go
 
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_STATUSARM `json:"modules,omitempty"`
@@ -45,6 +55,36 @@ type DatabaseProperties_STATUSARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise_database_status_arm_types_gen.go
+=======
+type DatabaseProperties_STATUS_ClientProtocol string
+
+const (
+	DatabaseProperties_STATUS_ClientProtocol_Encrypted = DatabaseProperties_STATUS_ClientProtocol("Encrypted")
+	DatabaseProperties_STATUS_ClientProtocol_Plaintext = DatabaseProperties_STATUS_ClientProtocol("Plaintext")
+)
+
+type DatabaseProperties_STATUS_ClusteringPolicy string
+
+const (
+	DatabaseProperties_STATUS_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_STATUS_ClusteringPolicy("EnterpriseCluster")
+	DatabaseProperties_STATUS_ClusteringPolicy_OSSCluster        = DatabaseProperties_STATUS_ClusteringPolicy("OSSCluster")
+)
+
+type DatabaseProperties_STATUS_EvictionPolicy string
+
+const (
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLFU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysLRU     = DatabaseProperties_STATUS_EvictionPolicy("AllKeysLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_AllKeysRandom  = DatabaseProperties_STATUS_EvictionPolicy("AllKeysRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_NoEviction     = DatabaseProperties_STATUS_EvictionPolicy("NoEviction")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLFU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLFU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileLRU    = DatabaseProperties_STATUS_EvictionPolicy("VolatileLRU")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileRandom = DatabaseProperties_STATUS_EvictionPolicy("VolatileRandom")
+	DatabaseProperties_STATUS_EvictionPolicy_VolatileTTL    = DatabaseProperties_STATUS_EvictionPolicy("VolatileTTL")
+)
+
+>>>>>>> main:v2/api/cache/v1beta20210301/database_status_arm_types_gen.go
 type Module_STATUSARM struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
@@ -61,11 +101,35 @@ type Persistence_STATUSARM struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	// AofFrequency: Sets the frequency at which data is written to disk.
+<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise_database_status_arm_types_gen.go
 	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
+=======
+	AofFrequency *Persistence_STATUS_AofFrequency `json:"aofFrequency,omitempty"`
+>>>>>>> main:v2/api/cache/v1beta20210301/database_status_arm_types_gen.go
 
 	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+<<<<<<< HEAD:v2/api/cache/v1beta20210301/redis_enterprise_database_status_arm_types_gen.go
 	RdbFrequency *Persistence_RdbFrequency_STATUS `json:"rdbFrequency,omitempty"`
 }
+=======
+	RdbFrequency *Persistence_STATUS_RdbFrequency `json:"rdbFrequency,omitempty"`
+}
+
+type Persistence_STATUS_AofFrequency string
+
+const (
+	Persistence_STATUS_AofFrequency_1S     = Persistence_STATUS_AofFrequency("1s")
+	Persistence_STATUS_AofFrequency_Always = Persistence_STATUS_AofFrequency("always")
+)
+
+type Persistence_STATUS_RdbFrequency string
+
+const (
+	Persistence_STATUS_RdbFrequency_12H = Persistence_STATUS_RdbFrequency("12h")
+	Persistence_STATUS_RdbFrequency_1H  = Persistence_STATUS_RdbFrequency("1h")
+	Persistence_STATUS_RdbFrequency_6H  = Persistence_STATUS_RdbFrequency("6h")
+)
+>>>>>>> main:v2/api/cache/v1beta20210301/database_status_arm_types_gen.go

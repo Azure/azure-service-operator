@@ -169,7 +169,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayPropertiesFormat_ST
 	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
+<<<<<<< HEAD
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute_STATUS, VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway_STATUS, VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn_STATUS))
+=======
+	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_ExpressRoute, VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_LocalGateway, VirtualNetworkGatewayPropertiesFormat_STATUS_GatewayType_Vpn))
+>>>>>>> main
 	gens["InboundDnsForwardingEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		ProvisioningState_Deleting_STATUS,
@@ -178,8 +182,13 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayPropertiesFormat_ST
 		ProvisioningState_Updating_STATUS))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1_STATUS, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2_STATUS, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None_STATUS))
 	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased_STATUS, VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased_STATUS))
+=======
+	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation1, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_Generation2, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnGatewayGeneration_None))
+	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_PolicyBased, VirtualNetworkGatewayPropertiesFormat_STATUS_VpnType_RouteBased))
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewayPropertiesFormat_STATUSARM is a factory method for creating gopter generators
@@ -467,6 +476,7 @@ func VirtualNetworkGatewaySku_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+<<<<<<< HEAD
 		VirtualNetworkGatewaySku_Name_Basic_STATUS,
 		VirtualNetworkGatewaySku_Name_ErGw1AZ_STATUS,
 		VirtualNetworkGatewaySku_Name_ErGw2AZ_STATUS,
@@ -502,6 +512,43 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUSARM(gens 
 		VirtualNetworkGatewaySku_Tier_VpnGw4AZ_STATUS,
 		VirtualNetworkGatewaySku_Tier_VpnGw5_STATUS,
 		VirtualNetworkGatewaySku_Tier_VpnGw5AZ_STATUS))
+=======
+		VirtualNetworkGatewaySku_STATUS_Name_Basic,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_ErGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_HighPerformance,
+		VirtualNetworkGatewaySku_STATUS_Name_Standard,
+		VirtualNetworkGatewaySku_STATUS_Name_UltraPerformance,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw1,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw2,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw3,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw4,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw4AZ,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw5,
+		VirtualNetworkGatewaySku_STATUS_Name_VpnGw5AZ))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySku_STATUS_Tier_Basic,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_ErGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_HighPerformance,
+		VirtualNetworkGatewaySku_STATUS_Tier_Standard,
+		VirtualNetworkGatewaySku_STATUS_Tier_UltraPerformance,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw1AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw2AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw3AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw4AZ,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5,
+		VirtualNetworkGatewaySku_STATUS_Tier_VpnGw5AZ))
+>>>>>>> main
 }
 
 func Test_VpnClientConfiguration_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -576,8 +623,13 @@ func AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUSARM(gens ma
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnAuthenticationTypes_AAD_STATUS, VpnClientConfiguration_VpnAuthenticationTypes_Certificate_STATUS, VpnClientConfiguration_VpnAuthenticationTypes_Radius_STATUS))
 	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnClientProtocols_IkeV2_STATUS, VpnClientConfiguration_VpnClientProtocols_OpenVPN_STATUS, VpnClientConfiguration_VpnClientProtocols_SSTP_STATUS))
+=======
+	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_STATUS_VpnAuthenticationTypes_AAD, VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Certificate, VpnClientConfiguration_STATUS_VpnAuthenticationTypes_Radius))
+	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_STATUS_VpnClientProtocols_IkeV2, VpnClientConfiguration_STATUS_VpnClientProtocols_OpenVPN, VpnClientConfiguration_STATUS_VpnClientProtocols_SSTP))
+>>>>>>> main
 }
 
 // AddRelatedPropertyGeneratorsForVpnClientConfiguration_STATUSARM is a factory method for creating gopter generators

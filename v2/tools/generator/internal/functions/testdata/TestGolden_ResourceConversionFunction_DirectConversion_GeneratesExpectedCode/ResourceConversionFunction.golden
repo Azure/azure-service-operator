@@ -27,7 +27,7 @@
 +		return fmt.Errorf("expected person/v20211231/Person but received %T instead", hub)
 +	}
 +
-+	return person.AssignPropertiesFromPerson(source)
++	return person.AssignProperties_From_Person(source)
 +}
 +
 +// ConvertTo populates the provided hub Person from our Person
@@ -37,7 +37,7 @@
 +		return fmt.Errorf("expected person/v20211231/Person but received %T instead", hub)
 +	}
 +
-+	return person.AssignPropertiesToPerson(destination)
++	return person.AssignProperties_To_Person(destination)
 +}
 +
  // +kubebuilder:object:root=true

@@ -49,7 +49,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	old := disk.DeepCopy()
-	networkAccessPolicy := compute.NetworkAccessPolicy_DenyAll
+	networkAccessPolicy := compute.DiskProperties_NetworkAccessPolicy_DenyAll
 	disk.Spec.NetworkAccessPolicy = &networkAccessPolicy
 	tc.PatchResourceAndWait(old, disk)
 	tc.Expect(disk.Status.NetworkAccessPolicy).To(BeEquivalentTo(&networkAccessPolicy))

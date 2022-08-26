@@ -35,7 +35,11 @@ type SubscriptionAliasResponseProperties_STATUSARM struct {
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource.
+<<<<<<< HEAD:v2/api/subscription/v1beta20211001/alias_status_arm_types_gen.go
 	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState *SubscriptionAliasResponseProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main:v2/api/subscription/v1beta20211001/subscription_alias_response_status_arm_types_gen.go
 
 	// ResellerId: Reseller Id
 	ResellerId *string `json:"resellerId,omitempty"`
@@ -59,7 +63,11 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
+<<<<<<< HEAD:v2/api/subscription/v1beta20211001/alias_status_arm_types_gen.go
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+=======
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+>>>>>>> main:v2/api/subscription/v1beta20211001/subscription_alias_response_status_arm_types_gen.go
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -68,7 +76,11 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
+<<<<<<< HEAD:v2/api/subscription/v1beta20211001/alias_status_arm_types_gen.go
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+=======
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+>>>>>>> main:v2/api/subscription/v1beta20211001/subscription_alias_response_status_arm_types_gen.go
 }
 
 type AcceptOwnershipState_STATUS string
@@ -79,6 +91,7 @@ const (
 	AcceptOwnershipState_Pending_STATUS   = AcceptOwnershipState_STATUS("Pending")
 )
 
+<<<<<<< HEAD:v2/api/subscription/v1beta20211001/alias_status_arm_types_gen.go
 type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
 
 const (
@@ -103,6 +116,32 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+=======
+type SubscriptionAliasResponseProperties_STATUS_ProvisioningState string
+
+const (
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Accepted  = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Accepted")
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Failed    = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Failed")
+	SubscriptionAliasResponseProperties_STATUS_ProvisioningState_Succeeded = SubscriptionAliasResponseProperties_STATUS_ProvisioningState("Succeeded")
+)
+
+type SystemData_STATUS_CreatedByType string
+
+const (
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+)
+
+type SystemData_STATUS_LastModifiedByType string
+
+const (
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+>>>>>>> main:v2/api/subscription/v1beta20211001/subscription_alias_response_status_arm_types_gen.go
 )
 
 type Workload_STATUS string

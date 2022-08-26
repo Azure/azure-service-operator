@@ -35,7 +35,11 @@ type BatchAccountIdentity_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
+<<<<<<< HEAD
 	Type *BatchAccountIdentity_Type_STATUS `json:"type,omitempty"`
+=======
+	Type *BatchAccountIdentity_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -80,7 +84,11 @@ type BatchAccountProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
+<<<<<<< HEAD
 	ProvisioningState *BatchAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState *BatchAccountProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType_STATUS `json:"publicNetworkAccess,omitempty"`
@@ -94,6 +102,7 @@ type AutoStorageProperties_STATUSARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
+<<<<<<< HEAD
 type BatchAccountIdentity_Type_STATUS string
 
 const (
@@ -103,6 +112,17 @@ const (
 )
 
 type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
+=======
+type BatchAccountIdentity_STATUS_Type string
+
+const (
+	BatchAccountIdentity_STATUS_Type_None           = BatchAccountIdentity_STATUS_Type("None")
+	BatchAccountIdentity_STATUS_Type_SystemAssigned = BatchAccountIdentity_STATUS_Type("SystemAssigned")
+	BatchAccountIdentity_STATUS_Type_UserAssigned   = BatchAccountIdentity_STATUS_Type("UserAssigned")
+)
+
+type BatchAccountIdentity_STATUS_UserAssignedIdentitiesARM struct {
+>>>>>>> main
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
@@ -112,7 +132,11 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUSARM struct {
 
 type EncryptionProperties_STATUSARM struct {
 	// KeySource: Type of the key source.
+<<<<<<< HEAD
 	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
+=======
+	KeySource *EncryptionProperties_STATUS_KeySource `json:"keySource,omitempty"`
+>>>>>>> main
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
@@ -164,7 +188,11 @@ type KeyVaultProperties_STATUSARM struct {
 type PrivateEndpointConnectionProperties_STATUSARM struct {
 	PrivateEndpoint                   *PrivateEndpoint_STATUSARM                                    `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUSARM                  `json:"privateLinkServiceConnectionState,omitempty"`
+<<<<<<< HEAD
 	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+=======
+	ProvisioningState                 *PrivateEndpointConnectionProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+>>>>>>> main
 }
 
 type PrivateEndpoint_STATUSARM struct {

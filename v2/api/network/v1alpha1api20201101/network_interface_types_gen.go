@@ -56,7 +56,7 @@ func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error 
 		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	err = networkInterface.AssignPropertiesFromNetworkInterface(&source)
+	err = networkInterface.AssignProperties_From_NetworkInterface(&source)
 	if err != nil {
 		return errors.Wrap(err, "converting from source to networkInterface")
 	}
@@ -68,7 +68,7 @@ func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error 
 func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
 	var destination alpha20201101s.NetworkInterface
-	err := networkInterface.AssignPropertiesToNetworkInterface(&destination)
+	err := networkInterface.AssignProperties_To_NetworkInterface(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from networkInterface")
 	}
@@ -262,25 +262,38 @@ func (networkInterface *NetworkInterface) validateWriteOnceProperties(old runtim
 	return genruntime.ValidateWriteOnceProperties(oldObj, networkInterface)
 }
 
-// AssignPropertiesFromNetworkInterface populates our NetworkInterface from the provided source NetworkInterface
-func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(source *alpha20201101s.NetworkInterface) error {
+// AssignProperties_From_NetworkInterface populates our NetworkInterface from the provided source NetworkInterface
+func (networkInterface *NetworkInterface) AssignProperties_From_NetworkInterface(source *alpha20201101s.NetworkInterface) error {
 
 	// ObjectMeta
 	networkInterface.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec NetworkInterface_Spec
 	err := spec.AssignPropertiesFromNetworkInterface_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterface_Spec() to populate field Spec")
+=======
+	var spec NetworkInterfaces_Spec
+	err := spec.AssignProperties_From_NetworkInterfaces_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaces_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	networkInterface.Spec = spec
 
 	// Status
 	var status NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+=======
+	err = status.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+>>>>>>> main
 	}
 	networkInterface.Status = status
 
@@ -288,25 +301,38 @@ func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(s
 	return nil
 }
 
-// AssignPropertiesToNetworkInterface populates the provided destination NetworkInterface from our NetworkInterface
-func (networkInterface *NetworkInterface) AssignPropertiesToNetworkInterface(destination *alpha20201101s.NetworkInterface) error {
+// AssignProperties_To_NetworkInterface populates the provided destination NetworkInterface from our NetworkInterface
+func (networkInterface *NetworkInterface) AssignProperties_To_NetworkInterface(destination *alpha20201101s.NetworkInterface) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *networkInterface.ObjectMeta.DeepCopy()
 
 	// Spec
+<<<<<<< HEAD
 	var spec alpha20201101s.NetworkInterface_Spec
 	err := networkInterface.Spec.AssignPropertiesToNetworkInterface_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNetworkInterface_Spec() to populate field Spec")
+=======
+	var spec alpha20201101s.NetworkInterfaces_Spec
+	err := networkInterface.Spec.AssignProperties_To_NetworkInterfaces_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaces_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	destination.Spec = spec
 
 	// Status
 	var status alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 	err = networkInterface.Status.AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+=======
+	err = networkInterface.Status.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -954,10 +980,17 @@ type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded  `json:"ipConfigurations,omitempty"`
 	Location                    *string                                                                        `json:"location,omitempty"`
 	MacAddress                  *string                                                                        `json:"macAddress,omitempty"`
+<<<<<<< HEAD
 	MigrationPhase              *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS                        `json:"migrationPhase,omitempty"`
 	Name                        *string                                                                        `json:"name,omitempty"`
 	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
 	NicType                     *NetworkInterfacePropertiesFormat_NicType_STATUS                               `json:"nicType,omitempty"`
+=======
+	MigrationPhase              *NetworkInterfacePropertiesFormat_STATUS_MigrationPhase                        `json:"migrationPhase,omitempty"`
+	Name                        *string                                                                        `json:"name,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormat_STATUS_NicType                               `json:"nicType,omitempty"`
+>>>>>>> main
 	Primary                     *bool                                                                          `json:"primary,omitempty"`
 	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"privateEndpoint,omitempty"`
 	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                `json:"privateLinkService,omitempty"`
@@ -976,7 +1009,11 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	src, ok := source.(*alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return embedded.AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
+=======
+		return embedded.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -987,7 +1024,11 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = embedded.AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
+=======
+	err = embedded.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1000,12 +1041,20 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Co
 	dst, ok := destination.(*alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return embedded.AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
+=======
+		return embedded.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
+<<<<<<< HEAD
 	err := embedded.AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
+=======
+	err := embedded.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1278,8 +1327,13 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Po
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Conditions
 	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1287,9 +1341,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// DnsSettings
 	if source.DnsSettings != nil {
 		var dnsSetting NetworkInterfaceDnsSettings_STATUS
+<<<<<<< HEAD
 		err := dnsSetting.AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS(source.DnsSettings)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+=======
+		err := dnsSetting.AssignProperties_From_NetworkInterfaceDnsSettings_STATUS(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+>>>>>>> main
 		}
 		embedded.DnsSettings = &dnsSetting
 	} else {
@@ -1299,9 +1359,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// DscpConfiguration
 	if source.DscpConfiguration != nil {
 		var dscpConfiguration SubResource_STATUS
+<<<<<<< HEAD
 		err := dscpConfiguration.AssignPropertiesFromSubResource_STATUS(source.DscpConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field DscpConfiguration")
+=======
+		err := dscpConfiguration.AssignProperties_From_SubResource_STATUS(source.DscpConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration")
+>>>>>>> main
 		}
 		embedded.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -1330,9 +1396,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -1352,9 +1424,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := ipConfiguration.AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+=======
+			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+>>>>>>> main
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1371,7 +1449,11 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// MigrationPhase
 	if source.MigrationPhase != nil {
+<<<<<<< HEAD
 		migrationPhase := NetworkInterfacePropertiesFormat_MigrationPhase_STATUS(*source.MigrationPhase)
+=======
+		migrationPhase := NetworkInterfacePropertiesFormat_STATUS_MigrationPhase(*source.MigrationPhase)
+>>>>>>> main
 		embedded.MigrationPhase = &migrationPhase
 	} else {
 		embedded.MigrationPhase = nil
@@ -1383,9 +1465,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
 		var networkSecurityGroup NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := networkSecurityGroup.AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+=======
+		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+>>>>>>> main
 		}
 		embedded.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1394,7 +1482,11 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// NicType
 	if source.NicType != nil {
+<<<<<<< HEAD
 		nicType := NetworkInterfacePropertiesFormat_NicType_STATUS(*source.NicType)
+=======
+		nicType := NetworkInterfacePropertiesFormat_STATUS_NicType(*source.NicType)
+>>>>>>> main
 		embedded.NicType = &nicType
 	} else {
 		embedded.NicType = nil
@@ -1411,9 +1503,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
 		var privateEndpoint PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := privateEndpoint.AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+=======
+		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+>>>>>>> main
 		}
 		embedded.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -1423,9 +1521,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// PrivateLinkService
 	if source.PrivateLinkService != nil {
 		var privateLinkService PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := privateLinkService.AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+=======
+		err := privateLinkService.AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+>>>>>>> main
 		}
 		embedded.PrivateLinkService = &privateLinkService
 	} else {
@@ -1453,9 +1557,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			// Shadow the loop variable to avoid aliasing
 			tapConfigurationItem := tapConfigurationItem
 			var tapConfiguration NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := tapConfiguration.AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfigurationItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+=======
+			err := tapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+>>>>>>> main
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
@@ -1470,9 +1580,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// VirtualMachine
 	if source.VirtualMachine != nil {
 		var virtualMachine SubResource_STATUS
+<<<<<<< HEAD
 		err := virtualMachine.AssignPropertiesFromSubResource_STATUS(source.VirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field VirtualMachine")
+=======
+		err := virtualMachine.AssignProperties_From_SubResource_STATUS(source.VirtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine")
+>>>>>>> main
 		}
 		embedded.VirtualMachine = &virtualMachine
 	} else {
@@ -1483,8 +1599,13 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1494,9 +1615,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// DnsSettings
 	if embedded.DnsSettings != nil {
 		var dnsSetting alpha20201101s.NetworkInterfaceDnsSettings_STATUS
+<<<<<<< HEAD
 		err := embedded.DnsSettings.AssignPropertiesToNetworkInterfaceDnsSettings_STATUS(&dnsSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+=======
+		err := embedded.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
+>>>>>>> main
 		}
 		destination.DnsSettings = &dnsSetting
 	} else {
@@ -1506,9 +1633,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// DscpConfiguration
 	if embedded.DscpConfiguration != nil {
 		var dscpConfiguration alpha20201101s.SubResource_STATUS
+<<<<<<< HEAD
 		err := embedded.DscpConfiguration.AssignPropertiesToSubResource_STATUS(&dscpConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field DscpConfiguration")
+=======
+		err := embedded.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration")
+>>>>>>> main
 		}
 		destination.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -1537,9 +1670,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1559,9 +1698,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
 			var ipConfiguration alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := ipConfigurationItem.AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+=======
+			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
+>>>>>>> main
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1590,9 +1735,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// NetworkSecurityGroup
 	if embedded.NetworkSecurityGroup != nil {
 		var networkSecurityGroup alpha20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := embedded.NetworkSecurityGroup.AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+=======
+		err := embedded.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
+>>>>>>> main
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -1618,9 +1769,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// PrivateEndpoint
 	if embedded.PrivateEndpoint != nil {
 		var privateEndpoint alpha20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := embedded.PrivateEndpoint.AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&privateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+=======
+		err := embedded.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&privateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
+>>>>>>> main
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -1630,9 +1787,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// PrivateLinkService
 	if embedded.PrivateLinkService != nil {
 		var privateLinkService alpha20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := embedded.PrivateLinkService.AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&privateLinkService)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+=======
+		err := embedded.PrivateLinkService.AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&privateLinkService)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
+>>>>>>> main
 		}
 		destination.PrivateLinkService = &privateLinkService
 	} else {
@@ -1660,9 +1823,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 			// Shadow the loop variable to avoid aliasing
 			tapConfigurationItem := tapConfigurationItem
 			var tapConfiguration alpha20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := tapConfigurationItem.AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+=======
+			err := tapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
+>>>>>>> main
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
@@ -1677,9 +1846,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	// VirtualMachine
 	if embedded.VirtualMachine != nil {
 		var virtualMachine alpha20201101s.SubResource_STATUS
+<<<<<<< HEAD
 		err := embedded.VirtualMachine.AssignPropertiesToSubResource_STATUS(&virtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field VirtualMachine")
+=======
+		err := embedded.VirtualMachine.AssignProperties_To_SubResource_STATUS(&virtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine")
+>>>>>>> main
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
@@ -1697,6 +1872,477 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+type NetworkInterfaces_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                   string                       `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                        `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                        `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation            `json:"extendedLocation,omitempty"`
+
+	// +kubebuilder:validation:Required
+	IpConfigurations     []NetworkInterfaces_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
+	Location             *string                                              `json:"location,omitempty"`
+	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NetworkInterfaces_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if interfaces == nil {
+		return nil, nil
+	}
+	result := &NetworkInterfaces_SpecARM{}
+
+	// Set property ‘ExtendedLocation’:
+	if interfaces.ExtendedLocation != nil {
+		extendedLocationARM, err := (*interfaces.ExtendedLocation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
+		result.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Location’:
+	if interfaces.Location != nil {
+		location := *interfaces.Location
+		result.Location = &location
+	}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if interfaces.DnsSettings != nil ||
+		interfaces.EnableAcceleratedNetworking != nil ||
+		interfaces.EnableIPForwarding != nil ||
+		interfaces.IpConfigurations != nil ||
+		interfaces.NetworkSecurityGroup != nil {
+		result.Properties = &NetworkInterfaces_Spec_PropertiesARM{}
+	}
+	if interfaces.DnsSettings != nil {
+		dnsSettingsARM, err := (*interfaces.DnsSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		dnsSettings := *dnsSettingsARM.(*NetworkInterfaceDnsSettingsARM)
+		result.Properties.DnsSettings = &dnsSettings
+	}
+	if interfaces.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *interfaces.EnableAcceleratedNetworking
+		result.Properties.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	}
+	if interfaces.EnableIPForwarding != nil {
+		enableIPForwarding := *interfaces.EnableIPForwarding
+		result.Properties.EnableIPForwarding = &enableIPForwarding
+	}
+	for _, item := range interfaces.IpConfigurations {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*NetworkInterfaces_Spec_Properties_IpConfigurationsARM))
+	}
+	if interfaces.NetworkSecurityGroup != nil {
+		networkSecurityGroupARM, err := (*interfaces.NetworkSecurityGroup).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
+		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
+	}
+
+	// Set property ‘Tags’:
+	if interfaces.Tags != nil {
+		result.Tags = make(map[string]string, len(interfaces.Tags))
+		for key, value := range interfaces.Tags {
+			result.Tags[key] = value
+		}
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (interfaces *NetworkInterfaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterfaces_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (interfaces *NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkInterfaces_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaces_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AzureName’:
+	interfaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘DnsSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DnsSettings != nil {
+			var dnsSettings1 NetworkInterfaceDnsSettings
+			err := dnsSettings1.PopulateFromARM(owner, *typedInput.Properties.DnsSettings)
+			if err != nil {
+				return err
+			}
+			dnsSettings := dnsSettings1
+			interfaces.DnsSettings = &dnsSettings
+		}
+	}
+
+	// Set property ‘EnableAcceleratedNetworking’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAcceleratedNetworking != nil {
+			enableAcceleratedNetworking := *typedInput.Properties.EnableAcceleratedNetworking
+			interfaces.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+		}
+	}
+
+	// Set property ‘EnableIPForwarding’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableIPForwarding != nil {
+			enableIPForwarding := *typedInput.Properties.EnableIPForwarding
+			interfaces.EnableIPForwarding = &enableIPForwarding
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		interfaces.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘IpConfigurations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpConfigurations {
+			var item1 NetworkInterfaces_Spec_Properties_IpConfigurations
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			interfaces.IpConfigurations = append(interfaces.IpConfigurations, item1)
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		interfaces.Location = &location
+	}
+
+	// Set property ‘NetworkSecurityGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkSecurityGroup != nil {
+			var networkSecurityGroup1 SubResource
+			err := networkSecurityGroup1.PopulateFromARM(owner, *typedInput.Properties.NetworkSecurityGroup)
+			if err != nil {
+				return err
+			}
+			networkSecurityGroup := networkSecurityGroup1
+			interfaces.NetworkSecurityGroup = &networkSecurityGroup
+		}
+	}
+
+	// Set property ‘Owner’:
+	interfaces.Owner = &genruntime.KnownResourceReference{
+		Name: owner.Name,
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		interfaces.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			interfaces.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &NetworkInterfaces_Spec{}
+
+// ConvertSpecFrom populates our NetworkInterfaces_Spec from the provided source
+func (interfaces *NetworkInterfaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20201101s.NetworkInterfaces_Spec)
+	if ok {
+		// Populate our instance from source
+		return interfaces.AssignProperties_From_NetworkInterfaces_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20201101s.NetworkInterfaces_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = interfaces.AssignProperties_From_NetworkInterfaces_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our NetworkInterfaces_Spec
+func (interfaces *NetworkInterfaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20201101s.NetworkInterfaces_Spec)
+	if ok {
+		// Populate destination from our instance
+		return interfaces.AssignProperties_To_NetworkInterfaces_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20201101s.NetworkInterfaces_Spec{}
+	err := interfaces.AssignProperties_To_NetworkInterfaces_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_NetworkInterfaces_Spec populates our NetworkInterfaces_Spec from the provided source NetworkInterfaces_Spec
+func (interfaces *NetworkInterfaces_Spec) AssignProperties_From_NetworkInterfaces_Spec(source *alpha20201101s.NetworkInterfaces_Spec) error {
+
+	// AzureName
+	interfaces.AzureName = source.AzureName
+
+	// DnsSettings
+	if source.DnsSettings != nil {
+		var dnsSetting NetworkInterfaceDnsSettings
+		err := dnsSetting.AssignProperties_From_NetworkInterfaceDnsSettings(source.DnsSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings() to populate field DnsSettings")
+		}
+		interfaces.DnsSettings = &dnsSetting
+	} else {
+		interfaces.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if source.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
+		interfaces.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		interfaces.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableIPForwarding
+	if source.EnableIPForwarding != nil {
+		enableIPForwarding := *source.EnableIPForwarding
+		interfaces.EnableIPForwarding = &enableIPForwarding
+	} else {
+		interfaces.EnableIPForwarding = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		interfaces.ExtendedLocation = &extendedLocation
+	} else {
+		interfaces.ExtendedLocation = nil
+	}
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]NetworkInterfaces_Spec_Properties_IpConfigurations, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration NetworkInterfaces_Spec_Properties_IpConfigurations
+			err := ipConfiguration.AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		interfaces.IpConfigurations = ipConfigurationList
+	} else {
+		interfaces.IpConfigurations = nil
+	}
+
+	// Location
+	interfaces.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkSecurityGroup
+	if source.NetworkSecurityGroup != nil {
+		var networkSecurityGroup SubResource
+		err := networkSecurityGroup.AssignProperties_From_SubResource(source.NetworkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field NetworkSecurityGroup")
+		}
+		interfaces.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		interfaces.NetworkSecurityGroup = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		interfaces.Owner = &owner
+	} else {
+		interfaces.Owner = nil
+	}
+
+	// Tags
+	interfaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaces_Spec populates the provided destination NetworkInterfaces_Spec from our NetworkInterfaces_Spec
+func (interfaces *NetworkInterfaces_Spec) AssignProperties_To_NetworkInterfaces_Spec(destination *alpha20201101s.NetworkInterfaces_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = interfaces.AzureName
+
+	// DnsSettings
+	if interfaces.DnsSettings != nil {
+		var dnsSetting alpha20201101s.NetworkInterfaceDnsSettings
+		err := interfaces.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings(&dnsSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings() to populate field DnsSettings")
+		}
+		destination.DnsSettings = &dnsSetting
+	} else {
+		destination.DnsSettings = nil
+	}
+
+	// EnableAcceleratedNetworking
+	if interfaces.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *interfaces.EnableAcceleratedNetworking
+		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+	} else {
+		destination.EnableAcceleratedNetworking = nil
+	}
+
+	// EnableIPForwarding
+	if interfaces.EnableIPForwarding != nil {
+		enableIPForwarding := *interfaces.EnableIPForwarding
+		destination.EnableIPForwarding = &enableIPForwarding
+	} else {
+		destination.EnableIPForwarding = nil
+	}
+
+	// ExtendedLocation
+	if interfaces.ExtendedLocation != nil {
+		var extendedLocation alpha20201101s.ExtendedLocation
+		err := interfaces.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// IpConfigurations
+	if interfaces.IpConfigurations != nil {
+		ipConfigurationList := make([]alpha20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations, len(interfaces.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range interfaces.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration alpha20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations
+			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(interfaces.Location)
+
+	// NetworkSecurityGroup
+	if interfaces.NetworkSecurityGroup != nil {
+		var networkSecurityGroup alpha20201101s.SubResource
+		err := interfaces.NetworkSecurityGroup.AssignProperties_To_SubResource(&networkSecurityGroup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field NetworkSecurityGroup")
+		}
+		destination.NetworkSecurityGroup = &networkSecurityGroup
+	} else {
+		destination.NetworkSecurityGroup = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = interfaces.OriginalVersion()
+
+	// Owner
+	if interfaces.Owner != nil {
+		owner := interfaces.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(interfaces.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (interfaces *NetworkInterfaces_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (interfaces *NetworkInterfaces_Spec) SetAzureName(azureName string) {
+	interfaces.AzureName = azureName
+}
+
+>>>>>>> main
 // Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead
 type NetworkInterfaceDnsSettings struct {
 	DnsServers           []string `json:"dnsServers,omitempty"`
@@ -1752,8 +2398,8 @@ func (settings *NetworkInterfaceDnsSettings) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignPropertiesFromNetworkInterfaceDnsSettings populates our NetworkInterfaceDnsSettings from the provided source NetworkInterfaceDnsSettings
-func (settings *NetworkInterfaceDnsSettings) AssignPropertiesFromNetworkInterfaceDnsSettings(source *alpha20201101s.NetworkInterfaceDnsSettings) error {
+// AssignProperties_From_NetworkInterfaceDnsSettings populates our NetworkInterfaceDnsSettings from the provided source NetworkInterfaceDnsSettings
+func (settings *NetworkInterfaceDnsSettings) AssignProperties_From_NetworkInterfaceDnsSettings(source *alpha20201101s.NetworkInterfaceDnsSettings) error {
 
 	// DnsServers
 	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
@@ -1765,8 +2411,8 @@ func (settings *NetworkInterfaceDnsSettings) AssignPropertiesFromNetworkInterfac
 	return nil
 }
 
-// AssignPropertiesToNetworkInterfaceDnsSettings populates the provided destination NetworkInterfaceDnsSettings from our NetworkInterfaceDnsSettings
-func (settings *NetworkInterfaceDnsSettings) AssignPropertiesToNetworkInterfaceDnsSettings(destination *alpha20201101s.NetworkInterfaceDnsSettings) error {
+// AssignProperties_To_NetworkInterfaceDnsSettings populates the provided destination NetworkInterfaceDnsSettings from our NetworkInterfaceDnsSettings
+func (settings *NetworkInterfaceDnsSettings) AssignProperties_To_NetworkInterfaceDnsSettings(destination *alpha20201101s.NetworkInterfaceDnsSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1842,8 +2488,13 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS populates our NetworkInterfaceDnsSettings_STATUS from the provided source NetworkInterfaceDnsSettings_STATUS
 func (settings *NetworkInterfaceDnsSettings_STATUS) AssignPropertiesFromNetworkInterfaceDnsSettings_STATUS(source *alpha20201101s.NetworkInterfaceDnsSettings_STATUS) error {
+=======
+// AssignProperties_From_NetworkInterfaceDnsSettings_STATUS populates our NetworkInterfaceDnsSettings_STATUS from the provided source NetworkInterfaceDnsSettings_STATUS
+func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_From_NetworkInterfaceDnsSettings_STATUS(source *alpha20201101s.NetworkInterfaceDnsSettings_STATUS) error {
+>>>>>>> main
 
 	// AppliedDnsServers
 	settings.AppliedDnsServers = genruntime.CloneSliceOfString(source.AppliedDnsServers)
@@ -1864,8 +2515,13 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) AssignPropertiesFromNetworkI
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkInterfaceDnsSettings_STATUS populates the provided destination NetworkInterfaceDnsSettings_STATUS from our NetworkInterfaceDnsSettings_STATUS
 func (settings *NetworkInterfaceDnsSettings_STATUS) AssignPropertiesToNetworkInterfaceDnsSettings_STATUS(destination *alpha20201101s.NetworkInterfaceDnsSettings_STATUS) error {
+=======
+// AssignProperties_To_NetworkInterfaceDnsSettings_STATUS populates the provided destination NetworkInterfaceDnsSettings_STATUS from our NetworkInterfaceDnsSettings_STATUS
+func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(destination *alpha20201101s.NetworkInterfaceDnsSettings_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2735,8 +3391,13 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// ApplicationGatewayBackendAddressPools
 	if source.ApplicationGatewayBackendAddressPools != nil {
@@ -2745,9 +3406,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := applicationGatewayBackendAddressPool.AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+=======
+			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+>>>>>>> main
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -2763,9 +3430,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := applicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+=======
+			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+>>>>>>> main
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -2787,9 +3460,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := loadBalancerBackendAddressPool.AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+=======
+			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+>>>>>>> main
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -2805,9 +3484,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := loadBalancerInboundNatRule.AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+=======
+			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+>>>>>>> main
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -2849,9 +3534,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// PrivateLinkConnectionProperties
 	if source.PrivateLinkConnectionProperties != nil {
 		var privateLinkConnectionProperty NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+<<<<<<< HEAD
 		err := privateLinkConnectionProperty.AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(source.PrivateLinkConnectionProperties)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+=======
+		err := privateLinkConnectionProperty.AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(source.PrivateLinkConnectionProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+>>>>>>> main
 		}
 		embedded.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
 	} else {
@@ -2869,9 +3560,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
 		var publicIPAddress PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := publicIPAddress.AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+=======
+		err := publicIPAddress.AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+>>>>>>> main
 		}
 		embedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2881,9 +3578,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// Subnet
 	if source.Subnet != nil {
 		var subnet Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := subnet.AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+=======
+		err := subnet.AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+>>>>>>> main
 		}
 		embedded.Subnet = &subnet
 	} else {
@@ -2900,9 +3603,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := virtualNetworkTap.AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+=======
+			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+>>>>>>> main
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -2915,8 +3624,13 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2927,9 +3641,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
 			var applicationGatewayBackendAddressPool alpha20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+=======
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
+>>>>>>> main
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -2945,9 +3665,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
 			var applicationSecurityGroup alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := applicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+=======
+			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+>>>>>>> main
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -2969,9 +3695,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
 			var loadBalancerBackendAddressPool alpha20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := loadBalancerBackendAddressPoolItem.AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+=======
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
+>>>>>>> main
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -2987,9 +3719,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
 			var loadBalancerInboundNatRule alpha20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := loadBalancerInboundNatRuleItem.AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+=======
+			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
+>>>>>>> main
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -3031,9 +3769,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// PrivateLinkConnectionProperties
 	if embedded.PrivateLinkConnectionProperties != nil {
 		var privateLinkConnectionProperty alpha20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+<<<<<<< HEAD
 		err := embedded.PrivateLinkConnectionProperties.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&privateLinkConnectionProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+=======
+		err := embedded.PrivateLinkConnectionProperties.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&privateLinkConnectionProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
+>>>>>>> main
 		}
 		destination.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
 	} else {
@@ -3051,9 +3795,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
 		var publicIPAddress alpha20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := embedded.PublicIPAddress.AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+=======
+		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
+>>>>>>> main
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3063,9 +3813,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	// Subnet
 	if embedded.Subnet != nil {
 		var subnet alpha20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 		err := embedded.Subnet.AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+=======
+		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
+>>>>>>> main
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -3082,9 +3838,15 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
 			var virtualNetworkTap alpha20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+<<<<<<< HEAD
 			err := virtualNetworkTapItem.AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+=======
+			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
+>>>>>>> main
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -3104,6 +3866,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of NetworkInterfacePropertiesFormat_MigrationPhase. Use
 // v1beta20201101.NetworkInterfacePropertiesFormat_MigrationPhase instead
 // +kubebuilder:validation:Enum={"Abort","Commit","Committed","None","Prepare"}
@@ -3127,6 +3890,27 @@ const (
 	NetworkInterfacePropertiesFormat_MigrationPhase_Committed_STATUS = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Committed")
 	NetworkInterfacePropertiesFormat_MigrationPhase_None_STATUS      = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("None")
 	NetworkInterfacePropertiesFormat_MigrationPhase_Prepare_STATUS   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Prepare")
+=======
+// Deprecated version of NetworkInterfacePropertiesFormat_STATUS_MigrationPhase. Use
+// v1beta20201101.NetworkInterfacePropertiesFormat_STATUS_MigrationPhase instead
+type NetworkInterfacePropertiesFormat_STATUS_MigrationPhase string
+
+const (
+	NetworkInterfacePropertiesFormat_STATUS_MigrationPhase_Abort     = NetworkInterfacePropertiesFormat_STATUS_MigrationPhase("Abort")
+	NetworkInterfacePropertiesFormat_STATUS_MigrationPhase_Commit    = NetworkInterfacePropertiesFormat_STATUS_MigrationPhase("Commit")
+	NetworkInterfacePropertiesFormat_STATUS_MigrationPhase_Committed = NetworkInterfacePropertiesFormat_STATUS_MigrationPhase("Committed")
+	NetworkInterfacePropertiesFormat_STATUS_MigrationPhase_None      = NetworkInterfacePropertiesFormat_STATUS_MigrationPhase("None")
+	NetworkInterfacePropertiesFormat_STATUS_MigrationPhase_Prepare   = NetworkInterfacePropertiesFormat_STATUS_MigrationPhase("Prepare")
+)
+
+// Deprecated version of NetworkInterfacePropertiesFormat_STATUS_NicType. Use
+// v1beta20201101.NetworkInterfacePropertiesFormat_STATUS_NicType instead
+type NetworkInterfacePropertiesFormat_STATUS_NicType string
+
+const (
+	NetworkInterfacePropertiesFormat_STATUS_NicType_Elastic  = NetworkInterfacePropertiesFormat_STATUS_NicType("Elastic")
+	NetworkInterfacePropertiesFormat_STATUS_NicType_Standard = NetworkInterfacePropertiesFormat_STATUS_NicType("Standard")
+>>>>>>> main
 )
 
 // Deprecated version of NetworkInterfacePropertiesFormat_NicType. Use
@@ -3134,19 +3918,593 @@ const (
 // +kubebuilder:validation:Enum={"Elastic","Standard"}
 type NetworkInterfacePropertiesFormat_NicType string
 
+<<<<<<< HEAD
 const (
 	NetworkInterfacePropertiesFormat_NicType_Elastic  = NetworkInterfacePropertiesFormat_NicType("Elastic")
 	NetworkInterfacePropertiesFormat_NicType_Standard = NetworkInterfacePropertiesFormat_NicType("Standard")
 )
+=======
+	// +kubebuilder:validation:Required
+	Name                      *string                                                                    `json:"name,omitempty"`
+	Primary                   *bool                                                                      `json:"primary,omitempty"`
+	PrivateIPAddress          *string                                                                    `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion   `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *SubResource                                                               `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource                                                               `json:"subnet,omitempty"`
+	VirtualNetworkTaps        []SubResource                                                              `json:"virtualNetworkTaps,omitempty"`
+}
+>>>>>>> main
 
 // Deprecated version of NetworkInterfacePropertiesFormat_NicType_STATUS. Use
 // v1beta20201101.NetworkInterfacePropertiesFormat_NicType_STATUS instead
 type NetworkInterfacePropertiesFormat_NicType_STATUS string
 
+<<<<<<< HEAD
 const (
 	NetworkInterfacePropertiesFormat_NicType_Elastic_STATUS  = NetworkInterfacePropertiesFormat_NicType_STATUS("Elastic")
 	NetworkInterfacePropertiesFormat_NicType_Standard_STATUS = NetworkInterfacePropertiesFormat_NicType_STATUS("Standard")
 )
+=======
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configurations == nil {
+		return nil, nil
+	}
+	result := &NetworkInterfaces_Spec_Properties_IpConfigurationsARM{}
+
+	// Set property ‘Name’:
+	if configurations.Name != nil {
+		name := *configurations.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if configurations.ApplicationGatewayBackendAddressPools != nil ||
+		configurations.ApplicationSecurityGroups != nil ||
+		configurations.LoadBalancerBackendAddressPools != nil ||
+		configurations.LoadBalancerInboundNatRules != nil ||
+		configurations.Primary != nil ||
+		configurations.PrivateIPAddress != nil ||
+		configurations.PrivateIPAddressVersion != nil ||
+		configurations.PrivateIPAllocationMethod != nil ||
+		configurations.PublicIPAddress != nil ||
+		configurations.Subnet != nil ||
+		configurations.VirtualNetworkTaps != nil {
+		result.Properties = &NetworkInterfaceIPConfigurationPropertiesFormatARM{}
+	}
+	for _, item := range configurations.ApplicationGatewayBackendAddressPools {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *itemARM.(*SubResourceARM))
+	}
+	for _, item := range configurations.ApplicationSecurityGroups {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *itemARM.(*SubResourceARM))
+	}
+	for _, item := range configurations.LoadBalancerBackendAddressPools {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *itemARM.(*SubResourceARM))
+	}
+	for _, item := range configurations.LoadBalancerInboundNatRules {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.LoadBalancerInboundNatRules = append(result.Properties.LoadBalancerInboundNatRules, *itemARM.(*SubResourceARM))
+	}
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		result.Properties.Primary = &primary
+	}
+	if configurations.PrivateIPAddress != nil {
+		privateIPAddress := *configurations.PrivateIPAddress
+		result.Properties.PrivateIPAddress = &privateIPAddress
+	}
+	if configurations.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := *configurations.PrivateIPAddressVersion
+		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
+	}
+	if configurations.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := *configurations.PrivateIPAllocationMethod
+		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	}
+	if configurations.PublicIPAddress != nil {
+		publicIPAddressARM, err := (*configurations.PublicIPAddress).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		publicIPAddress := *publicIPAddressARM.(*SubResourceARM)
+		result.Properties.PublicIPAddress = &publicIPAddress
+	}
+	if configurations.Subnet != nil {
+		subnetARM, err := (*configurations.Subnet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		subnet := *subnetARM.(*SubResourceARM)
+		result.Properties.Subnet = &subnet
+	}
+	for _, item := range configurations.VirtualNetworkTaps {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.VirtualNetworkTaps = append(result.Properties.VirtualNetworkTaps, *itemARM.(*SubResourceARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterfaces_Spec_Properties_IpConfigurationsARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkInterfaces_Spec_Properties_IpConfigurationsARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaces_Spec_Properties_IpConfigurationsARM, got %T", armInput)
+	}
+
+	// Set property ‘ApplicationGatewayBackendAddressPools’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ApplicationGatewayBackendAddressPools {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.ApplicationGatewayBackendAddressPools = append(configurations.ApplicationGatewayBackendAddressPools, item1)
+		}
+	}
+
+	// Set property ‘ApplicationSecurityGroups’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ApplicationSecurityGroups {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.ApplicationSecurityGroups = append(configurations.ApplicationSecurityGroups, item1)
+		}
+	}
+
+	// Set property ‘LoadBalancerBackendAddressPools’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancerBackendAddressPools {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.LoadBalancerBackendAddressPools = append(configurations.LoadBalancerBackendAddressPools, item1)
+		}
+	}
+
+	// Set property ‘LoadBalancerInboundNatRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancerInboundNatRules {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.LoadBalancerInboundNatRules = append(configurations.LoadBalancerInboundNatRules, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configurations.Name = &name
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			configurations.Primary = &primary
+		}
+	}
+
+	// Set property ‘PrivateIPAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddress != nil {
+			privateIPAddress := *typedInput.Properties.PrivateIPAddress
+			configurations.PrivateIPAddress = &privateIPAddress
+		}
+	}
+
+	// Set property ‘PrivateIPAddressVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddressVersion != nil {
+			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			configurations.PrivateIPAddressVersion = &privateIPAddressVersion
+		}
+	}
+
+	// Set property ‘PrivateIPAllocationMethod’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAllocationMethod != nil {
+			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			configurations.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		}
+	}
+
+	// Set property ‘PublicIPAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAddress != nil {
+			var publicIPAddress1 SubResource
+			err := publicIPAddress1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddress)
+			if err != nil {
+				return err
+			}
+			publicIPAddress := publicIPAddress1
+			configurations.PublicIPAddress = &publicIPAddress
+		}
+	}
+
+	// Set property ‘Subnet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 SubResource
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			configurations.Subnet = &subnet
+		}
+	}
+
+	// Set property ‘VirtualNetworkTaps’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.VirtualNetworkTaps {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configurations.VirtualNetworkTaps = append(configurations.VirtualNetworkTaps, item1)
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations populates our NetworkInterfaces_Spec_Properties_IpConfigurations from the provided source NetworkInterfaces_Spec_Properties_IpConfigurations
+func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) AssignProperties_From_NetworkInterfaces_Spec_Properties_IpConfigurations(source *alpha20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations) error {
+
+	// ApplicationGatewayBackendAddressPools
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool SubResource
+			err := applicationGatewayBackendAddressPool.AssignProperties_From_SubResource(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationGatewayBackendAddressPools")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		configurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		configurations.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup SubResource
+			err := applicationSecurityGroup.AssignProperties_From_SubResource(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ApplicationSecurityGroups")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		configurations.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		configurations.ApplicationSecurityGroups = nil
+	}
+
+	// LoadBalancerBackendAddressPools
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool SubResource
+			err := loadBalancerBackendAddressPool.AssignProperties_From_SubResource(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadBalancerBackendAddressPools")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		configurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		configurations.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatRules
+	if source.LoadBalancerInboundNatRules != nil {
+		loadBalancerInboundNatRuleList := make([]SubResource, len(source.LoadBalancerInboundNatRules))
+		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
+			var loadBalancerInboundNatRule SubResource
+			err := loadBalancerInboundNatRule.AssignProperties_From_SubResource(&loadBalancerInboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadBalancerInboundNatRules")
+			}
+			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
+		}
+		configurations.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
+	} else {
+		configurations.LoadBalancerInboundNatRules = nil
+	}
+
+	// Name
+	configurations.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configurations.Primary = &primary
+	} else {
+		configurations.Primary = nil
+	}
+
+	// PrivateIPAddress
+	configurations.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if source.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
+		configurations.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		configurations.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod(*source.PrivateIPAllocationMethod)
+		configurations.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		configurations.PrivateIPAllocationMethod = nil
+	}
+
+	// PublicIPAddress
+	if source.PublicIPAddress != nil {
+		var publicIPAddress SubResource
+		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
+		}
+		configurations.PublicIPAddress = &publicIPAddress
+	} else {
+		configurations.PublicIPAddress = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+		}
+		configurations.Subnet = &subnet
+	} else {
+		configurations.Subnet = nil
+	}
+
+	// VirtualNetworkTaps
+	if source.VirtualNetworkTaps != nil {
+		virtualNetworkTapList := make([]SubResource, len(source.VirtualNetworkTaps))
+		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkTapItem := virtualNetworkTapItem
+			var virtualNetworkTap SubResource
+			err := virtualNetworkTap.AssignProperties_From_SubResource(&virtualNetworkTapItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetworkTaps")
+			}
+			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
+		}
+		configurations.VirtualNetworkTaps = virtualNetworkTapList
+	} else {
+		configurations.VirtualNetworkTaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations populates the provided destination NetworkInterfaces_Spec_Properties_IpConfigurations from our NetworkInterfaces_Spec_Properties_IpConfigurations
+func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) AssignProperties_To_NetworkInterfaces_Spec_Properties_IpConfigurations(destination *alpha20201101s.NetworkInterfaces_Spec_Properties_IpConfigurations) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ApplicationGatewayBackendAddressPools
+	if configurations.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]alpha20201101s.SubResource, len(configurations.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configurations.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool alpha20201101s.SubResource
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_SubResource(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationGatewayBackendAddressPools")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		}
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
+	}
+
+	// ApplicationSecurityGroups
+	if configurations.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]alpha20201101s.SubResource, len(configurations.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configurations.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup alpha20201101s.SubResource
+			err := applicationSecurityGroupItem.AssignProperties_To_SubResource(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ApplicationSecurityGroups")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
+	}
+
+	// LoadBalancerBackendAddressPools
+	if configurations.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]alpha20201101s.SubResource, len(configurations.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configurations.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool alpha20201101s.SubResource
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_SubResource(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadBalancerBackendAddressPools")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		}
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
+	}
+
+	// LoadBalancerInboundNatRules
+	if configurations.LoadBalancerInboundNatRules != nil {
+		loadBalancerInboundNatRuleList := make([]alpha20201101s.SubResource, len(configurations.LoadBalancerInboundNatRules))
+		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range configurations.LoadBalancerInboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
+			var loadBalancerInboundNatRule alpha20201101s.SubResource
+			err := loadBalancerInboundNatRuleItem.AssignProperties_To_SubResource(&loadBalancerInboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadBalancerInboundNatRules")
+			}
+			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
+		}
+		destination.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
+	} else {
+		destination.LoadBalancerInboundNatRules = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configurations.Name)
+
+	// Primary
+	if configurations.Primary != nil {
+		primary := *configurations.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// PrivateIPAddress
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(configurations.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if configurations.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := string(*configurations.PrivateIPAddressVersion)
+		destination.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		destination.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if configurations.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := string(*configurations.PrivateIPAllocationMethod)
+		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		destination.PrivateIPAllocationMethod = nil
+	}
+
+	// PublicIPAddress
+	if configurations.PublicIPAddress != nil {
+		var publicIPAddress alpha20201101s.SubResource
+		err := configurations.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
+		}
+		destination.PublicIPAddress = &publicIPAddress
+	} else {
+		destination.PublicIPAddress = nil
+	}
+
+	// Subnet
+	if configurations.Subnet != nil {
+		var subnet alpha20201101s.SubResource
+		err := configurations.Subnet.AssignProperties_To_SubResource(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// VirtualNetworkTaps
+	if configurations.VirtualNetworkTaps != nil {
+		virtualNetworkTapList := make([]alpha20201101s.SubResource, len(configurations.VirtualNetworkTaps))
+		for virtualNetworkTapIndex, virtualNetworkTapItem := range configurations.VirtualNetworkTaps {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkTapItem := virtualNetworkTapItem
+			var virtualNetworkTap alpha20201101s.SubResource
+			err := virtualNetworkTapItem.AssignProperties_To_SubResource(&virtualNetworkTap)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetworkTaps")
+			}
+			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
+		}
+		destination.VirtualNetworkTaps = virtualNetworkTapList
+	} else {
+		destination.VirtualNetworkTaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+>>>>>>> main
 
 // Deprecated version of NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
@@ -3177,8 +4535,13 @@ func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubReso
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3187,8 +4550,13 @@ func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubReso
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3235,8 +4603,13 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3245,8 +4618,13 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3492,15 +4870,26 @@ func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) Pop
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -3514,17 +4903,28 @@ func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -3586,15 +4986,26 @@ func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -3608,17 +5019,28 @@ func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -3841,6 +5263,7 @@ func (service *PrivateLinkServiceSpec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
+<<<<<<< HEAD
 	// Set property ‘Visibility’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -3853,12 +5276,24 @@ func (service *PrivateLinkServiceSpec) PopulateFromARM(owner genruntime.Arbitrar
 			visibility := visibility1
 			service.Visibility = &visibility
 		}
+=======
+// AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
+func (resource *SubResource) AssignProperties_From_SubResource(source *alpha20201101s.SubResource) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
+>>>>>>> main
 	}
 
 	// No error
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPrivateLinkServiceSpec populates our PrivateLinkServiceSpec from the provided source PrivateLinkServiceSpec
 func (service *PrivateLinkServiceSpec) AssignPropertiesFromPrivateLinkServiceSpec(source *alpha20201101s.PrivateLinkServiceSpec) error {
 
@@ -3965,6 +5400,10 @@ func (service *PrivateLinkServiceSpec) AssignPropertiesFromPrivateLinkServiceSpe
 
 // AssignPropertiesToPrivateLinkServiceSpec populates the provided destination PrivateLinkServiceSpec from our PrivateLinkServiceSpec
 func (service *PrivateLinkServiceSpec) AssignPropertiesToPrivateLinkServiceSpec(destination *alpha20201101s.PrivateLinkServiceSpec) error {
+=======
+// AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
+func (resource *SubResource) AssignProperties_To_SubResource(destination *alpha20201101s.SubResource) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4105,8 +5544,13 @@ func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
 func (resource *SubResource_STATUS) AssignPropertiesFromSubResource_STATUS(source *alpha20201101s.SubResource_STATUS) error {
+=======
+// AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *alpha20201101s.SubResource_STATUS) error {
+>>>>>>> main
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -4115,8 +5559,13 @@ func (resource *SubResource_STATUS) AssignPropertiesFromSubResource_STATUS(sourc
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
 func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destination *alpha20201101s.SubResource_STATUS) error {
+=======
+// AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *alpha20201101s.SubResource_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4372,8 +5821,13 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// BackendAddresses
 	if source.BackendAddresses != nil {
@@ -4382,9 +5836,15 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 			// Shadow the loop variable to avoid aliasing
 			backendAddressItem := backendAddressItem
 			var backendAddress ApplicationGatewayBackendAddress_STATUS
+<<<<<<< HEAD
 			err := backendAddress.AssignPropertiesFromApplicationGatewayBackendAddress_STATUS(&backendAddressItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesFromApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
+=======
+			err := backendAddress.AssignProperties_From_ApplicationGatewayBackendAddress_STATUS(&backendAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
+>>>>>>> main
 			}
 			backendAddressList[backendAddressIndex] = backendAddress
 		}
@@ -4417,8 +5877,13 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4429,9 +5894,15 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 			// Shadow the loop variable to avoid aliasing
 			backendAddressItem := backendAddressItem
 			var backendAddress alpha20201101s.ApplicationGatewayBackendAddress_STATUS
+<<<<<<< HEAD
 			err := backendAddressItem.AssignPropertiesToApplicationGatewayBackendAddress_STATUS(&backendAddress)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
+=======
+			err := backendAddressItem.AssignProperties_To_ApplicationGatewayBackendAddress_STATUS(&backendAddress)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
+>>>>>>> main
 			}
 			backendAddressList[backendAddressIndex] = backendAddress
 		}
@@ -4500,8 +5971,13 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -4510,8 +5986,13 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4641,8 +6122,13 @@ func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -4651,8 +6137,13 @@ func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5132,8 +6623,13 @@ func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) Popu
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -5142,8 +6638,13 @@ func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) Assi
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5203,8 +6704,13 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS populates our NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS from the provided source NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) AssignPropertiesFromNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(source *alpha20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) error {
+=======
+// AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS populates our NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS from the provided source NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(source *alpha20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) error {
+>>>>>>> main
 
 	// Fqdns
 	properties.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
@@ -5219,8 +6725,13 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS populates the provided destination NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS from our NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(destination *alpha20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) error {
+=======
+// AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS populates the provided destination NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS from our NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(destination *alpha20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5244,6 +6755,7 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 	return nil
 }
 
+<<<<<<< HEAD
 // Deprecated version of PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded instead
 type PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEmbedded struct {
 	Name                      *string                                      `json:"name,omitempty"`
@@ -5511,6 +7023,27 @@ func (embedded *PrivateLinkServiceIpConfiguration_NetworkInterface_SubResourceEm
 	// No error
 	return nil
 }
+=======
+// Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion. Use
+// v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion instead
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion string
+
+const (
+	NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv4 = NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion("IPv4")
+	NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv6 = NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion("IPv6")
+)
+
+// Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod. Use
+// v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod instead
+// +kubebuilder:validation:Enum={"Dynamic","Static"}
+type NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod string
+
+const (
+	NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic = NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Dynamic")
+	NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static  = NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Static")
+)
+>>>>>>> main
 
 // Deprecated version of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
@@ -5571,15 +7104,26 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Pop
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		embedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -5592,9 +7136,15 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	// Sku
 	if source.Sku != nil {
 		var sku PublicIPAddressSku_STATUS
+<<<<<<< HEAD
 		err := sku.AssignPropertiesFromPublicIPAddressSku_STATUS(source.Sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSku_STATUS() to populate field Sku")
+=======
+		err := sku.AssignProperties_From_PublicIPAddressSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku_STATUS() to populate field Sku")
+>>>>>>> main
 		}
 		embedded.Sku = &sku
 	} else {
@@ -5608,17 +7158,28 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
 		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
+<<<<<<< HEAD
 		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
+=======
+		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+>>>>>>> main
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -5631,9 +7192,15 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	// Sku
 	if embedded.Sku != nil {
 		var sku alpha20201101s.PublicIPAddressSku_STATUS
+<<<<<<< HEAD
 		err := embedded.Sku.AssignPropertiesToPublicIPAddressSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku_STATUS() to populate field Sku")
+=======
+		err := embedded.Sku.AssignProperties_To_PublicIPAddressSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku_STATUS() to populate field Sku")
+>>>>>>> main
 		}
 		destination.Sku = &sku
 	} else {
@@ -5920,8 +7487,13 @@ func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) PopulateFrom
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded populates our Subnet_STATUS_NetworkInterface_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromSubnet_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates our Subnet_STATUS_NetworkInterface_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -5930,8 +7502,13 @@ func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProper
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination Subnet_STATUS_NetworkInterface_SubResourceEmbedded from our Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToSubnet_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination Subnet_STATUS_NetworkInterface_SubResourceEmbedded from our Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5978,8 +7555,13 @@ func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) P
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesFromVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(source *alpha20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -5988,8 +7570,13 @@ func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) A
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignPropertiesToVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
+=======
+// AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(destination *alpha20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6332,8 +7919,13 @@ func (address *ApplicationGatewayBackendAddress_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromApplicationGatewayBackendAddress_STATUS populates our ApplicationGatewayBackendAddress_STATUS from the provided source ApplicationGatewayBackendAddress_STATUS
 func (address *ApplicationGatewayBackendAddress_STATUS) AssignPropertiesFromApplicationGatewayBackendAddress_STATUS(source *alpha20201101s.ApplicationGatewayBackendAddress_STATUS) error {
+=======
+// AssignProperties_From_ApplicationGatewayBackendAddress_STATUS populates our ApplicationGatewayBackendAddress_STATUS from the provided source ApplicationGatewayBackendAddress_STATUS
+func (address *ApplicationGatewayBackendAddress_STATUS) AssignProperties_From_ApplicationGatewayBackendAddress_STATUS(source *alpha20201101s.ApplicationGatewayBackendAddress_STATUS) error {
+>>>>>>> main
 
 	// Fqdn
 	address.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -6345,8 +7937,13 @@ func (address *ApplicationGatewayBackendAddress_STATUS) AssignPropertiesFromAppl
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToApplicationGatewayBackendAddress_STATUS populates the provided destination ApplicationGatewayBackendAddress_STATUS from our ApplicationGatewayBackendAddress_STATUS
 func (address *ApplicationGatewayBackendAddress_STATUS) AssignPropertiesToApplicationGatewayBackendAddress_STATUS(destination *alpha20201101s.ApplicationGatewayBackendAddress_STATUS) error {
+=======
+// AssignProperties_To_ApplicationGatewayBackendAddress_STATUS populates the provided destination ApplicationGatewayBackendAddress_STATUS from our ApplicationGatewayBackendAddress_STATUS
+func (address *ApplicationGatewayBackendAddress_STATUS) AssignProperties_To_ApplicationGatewayBackendAddress_STATUS(destination *alpha20201101s.ApplicationGatewayBackendAddress_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -37,8 +37,13 @@ type LoadBalancerPropertiesFormat_STATUSARM struct {
 
 // Deprecated version of LoadBalancerSku_STATUS. Use v1beta20201101.LoadBalancerSku_STATUS instead
 type LoadBalancerSku_STATUSARM struct {
+<<<<<<< HEAD
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *LoadBalancerSku_STATUS_Name `json:"name,omitempty"`
+	Tier *LoadBalancerSku_STATUS_Tier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 // Deprecated version of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instead
@@ -75,6 +80,7 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+<<<<<<< HEAD
 // Deprecated version of LoadBalancerSku_Name_STATUS. Use v1beta20201101.LoadBalancerSku_Name_STATUS instead
 type LoadBalancerSku_Name_STATUS string
 
@@ -89,6 +95,22 @@ type LoadBalancerSku_Tier_STATUS string
 const (
 	LoadBalancerSku_Tier_Global_STATUS   = LoadBalancerSku_Tier_STATUS("Global")
 	LoadBalancerSku_Tier_Regional_STATUS = LoadBalancerSku_Tier_STATUS("Regional")
+=======
+// Deprecated version of LoadBalancerSku_STATUS_Name. Use v1beta20201101.LoadBalancerSku_STATUS_Name instead
+type LoadBalancerSku_STATUS_Name string
+
+const (
+	LoadBalancerSku_STATUS_Name_Basic    = LoadBalancerSku_STATUS_Name("Basic")
+	LoadBalancerSku_STATUS_Name_Standard = LoadBalancerSku_STATUS_Name("Standard")
+)
+
+// Deprecated version of LoadBalancerSku_STATUS_Tier. Use v1beta20201101.LoadBalancerSku_STATUS_Tier instead
+type LoadBalancerSku_STATUS_Tier string
+
+const (
+	LoadBalancerSku_STATUS_Tier_Global   = LoadBalancerSku_STATUS_Tier("Global")
+	LoadBalancerSku_STATUS_Tier_Regional = LoadBalancerSku_STATUS_Tier("Regional")
+>>>>>>> main
 )
 
 // Deprecated version of LoadBalancingRule_STATUS. Use v1beta20201101.LoadBalancingRule_STATUS instead
@@ -156,7 +178,11 @@ type LoadBalancingRulePropertiesFormat_STATUSARM struct {
 	FrontendIPConfiguration *SubResource_STATUSARM                                     `json:"frontendIPConfiguration,omitempty"`
 	FrontendPort            *int                                                       `json:"frontendPort,omitempty"`
 	IdleTimeoutInMinutes    *int                                                       `json:"idleTimeoutInMinutes,omitempty"`
+<<<<<<< HEAD
 	LoadDistribution        *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
+=======
+	LoadDistribution        *LoadBalancingRulePropertiesFormat_STATUS_LoadDistribution `json:"loadDistribution,omitempty"`
+>>>>>>> main
 	Probe                   *SubResource_STATUSARM                                     `json:"probe,omitempty"`
 	Protocol                *TransportProtocol_STATUS                                  `json:"protocol,omitempty"`
 	ProvisioningState       *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
@@ -169,7 +195,11 @@ type OutboundRulePropertiesFormat_STATUSARM struct {
 	EnableTcpReset           *bool                                         `json:"enableTcpReset,omitempty"`
 	FrontendIPConfigurations []SubResource_STATUSARM                       `json:"frontendIPConfigurations,omitempty"`
 	IdleTimeoutInMinutes     *int                                          `json:"idleTimeoutInMinutes,omitempty"`
+<<<<<<< HEAD
 	Protocol                 *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+=======
+	Protocol                 *OutboundRulePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+>>>>>>> main
 	ProvisioningState        *ProvisioningState_STATUS                     `json:"provisioningState,omitempty"`
 }
 
@@ -179,7 +209,11 @@ type ProbePropertiesFormat_STATUSARM struct {
 	LoadBalancingRules []SubResource_STATUSARM                `json:"loadBalancingRules,omitempty"`
 	NumberOfProbes     *int                                   `json:"numberOfProbes,omitempty"`
 	Port               *int                                   `json:"port,omitempty"`
+<<<<<<< HEAD
 	Protocol           *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+=======
+	Protocol           *ProbePropertiesFormat_STATUS_Protocol `json:"protocol,omitempty"`
+>>>>>>> main
 	ProvisioningState  *ProvisioningState_STATUS              `json:"provisioningState,omitempty"`
 	RequestPath        *string                                `json:"requestPath,omitempty"`
 }

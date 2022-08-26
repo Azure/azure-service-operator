@@ -18,15 +18,21 @@ type Test struct {
 	Or *Test_Or `json:"or,omitempty"`
 }
 
-// AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
+// AssignProperties_From_Test populates our Test from the provided source Test
+func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// Either
 	if source.Either != nil {
 		var either Test_Either
+<<<<<<< HEAD
 		err := either.AssignPropertiesFromTest_Either(source.Either)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromTest_Either() to populate field Either")
+=======
+		err := either.AssignProperties_From_Test_Either(source.Either)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Test_Either() to populate field Either")
+>>>>>>> main
 		}
 		test.Either = &either
 	} else {
@@ -36,9 +42,15 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Or
 	if source.Or != nil {
 		var or Test_Or
+<<<<<<< HEAD
 		err := or.AssignPropertiesFromTest_Or(source.Or)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromTest_Or() to populate field Or")
+=======
+		err := or.AssignProperties_From_Test_Or(source.Or)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Test_Or() to populate field Or")
+>>>>>>> main
 		}
 		test.Or = &or
 	} else {
@@ -49,17 +61,23 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	return nil
 }
 
-// AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
+// AssignProperties_To_Test populates the provided destination Test from our Test
+func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Either
 	if test.Either != nil {
 		var either v20200101s.Test_Either
+<<<<<<< HEAD
 		err := test.Either.AssignPropertiesToTest_Either(&either)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTest_Either() to populate field Either")
+=======
+		err := test.Either.AssignProperties_To_Test_Either(&either)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Test_Either() to populate field Either")
+>>>>>>> main
 		}
 		destination.Either = &either
 	} else {
@@ -69,9 +87,15 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Or
 	if test.Or != nil {
 		var or v20200101s.Test_Or
+<<<<<<< HEAD
 		err := test.Or.AssignPropertiesToTest_Or(&or)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTest_Or() to populate field Or")
+=======
+		err := test.Or.AssignProperties_To_Test_Or(&or)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Test_Or() to populate field Or")
+>>>>>>> main
 		}
 		destination.Or = &or
 	} else {
@@ -94,8 +118,13 @@ type Test_Either struct {
 	Width  *int `json:"width,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromTest_Either populates our Test_Either from the provided source Test_Either
 func (either *Test_Either) AssignPropertiesFromTest_Either(source *v20200101s.Test_Either) error {
+=======
+// AssignProperties_From_Test_Either populates our Test_Either from the provided source Test_Either
+func (either *Test_Either) AssignProperties_From_Test_Either(source *v20200101s.Test_Either) error {
+>>>>>>> main
 
 	// Height
 	either.Height = genruntime.ClonePointerToInt(source.Height)
@@ -107,8 +136,13 @@ func (either *Test_Either) AssignPropertiesFromTest_Either(source *v20200101s.Te
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToTest_Either populates the provided destination Test_Either from our Test_Either
 func (either *Test_Either) AssignPropertiesToTest_Either(destination *v20200101s.Test_Either) error {
+=======
+// AssignProperties_To_Test_Either populates the provided destination Test_Either from our Test_Either
+func (either *Test_Either) AssignProperties_To_Test_Either(destination *v20200101s.Test_Either) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -134,8 +168,13 @@ type Test_Or struct {
 	Width  *int `json:"width,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromTest_Or populates our Test_Or from the provided source Test_Or
 func (testOr *Test_Or) AssignPropertiesFromTest_Or(source *v20200101s.Test_Or) error {
+=======
+// AssignProperties_From_Test_Or populates our Test_Or from the provided source Test_Or
+func (testOr *Test_Or) AssignProperties_From_Test_Or(source *v20200101s.Test_Or) error {
+>>>>>>> main
 
 	// Length
 	testOr.Length = genruntime.ClonePointerToInt(source.Length)
@@ -147,8 +186,13 @@ func (testOr *Test_Or) AssignPropertiesFromTest_Or(source *v20200101s.Test_Or) e
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToTest_Or populates the provided destination Test_Or from our Test_Or
 func (testOr *Test_Or) AssignPropertiesToTest_Or(destination *v20200101s.Test_Or) error {
+=======
+// AssignProperties_To_Test_Or populates the provided destination Test_Or from our Test_Or
+func (testOr *Test_Or) AssignProperties_To_Test_Or(destination *v20200101s.Test_Or) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

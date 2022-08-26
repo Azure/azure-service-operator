@@ -67,7 +67,7 @@ func Test_Topic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Topic to Topic via AssignPropertiesToTopic & AssignPropertiesFromTopic returns original",
+		"Round trip from Topic to Topic via AssignProperties_To_Topic & AssignProperties_From_Topic returns original",
 		prop.ForAll(RunPropertyAssignmentTestForTopic, TopicGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -79,14 +79,14 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.Topic
-	err := copied.AssignPropertiesToTopic(&other)
+	err := copied.AssignProperties_To_Topic(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Topic
-	err = actual.AssignPropertiesFromTopic(&other)
+	err = actual.AssignProperties_From_Topic(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -160,6 +160,7 @@ func TopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = Topic_SpecGenerator()
 	gens["Status"] = Topic_STATUSGenerator()
 }
@@ -283,6 +284,10 @@ func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 func AddRelatedPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
+=======
+	gens["Spec"] = Topics_SpecGenerator()
+	gens["Status"] = Topic_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -291,7 +296,11 @@ func Test_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from Topic_STATUS to Topic_STATUS via AssignPropertiesToTopic_STATUS & AssignPropertiesFromTopic_STATUS returns original",
+=======
+		"Round trip from Topic_STATUS to Topic_STATUS via AssignProperties_To_Topic_STATUS & AssignProperties_From_Topic_STATUS returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForTopic_STATUS, Topic_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -303,14 +312,22 @@ func RunPropertyAssignmentTestForTopic_STATUS(subject Topic_STATUS) string {
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.Topic_STATUS
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToTopic_STATUS(&other)
+=======
+	err := copied.AssignProperties_To_Topic_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Topic_STATUS
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromTopic_STATUS(&other)
+=======
+	err = actual.AssignProperties_From_Topic_STATUS(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
@@ -395,11 +412,16 @@ func Topic_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+<<<<<<< HEAD
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0_STATUS, TopicProperties_InputSchema_CustomEventSchema_STATUS, TopicProperties_InputSchema_EventGridSchema_STATUS))
+=======
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_STATUS_InputSchema_CloudEventSchemaV1_0, TopicProperties_STATUS_InputSchema_CustomEventSchema, TopicProperties_STATUS_InputSchema_EventGridSchema))
+>>>>>>> main
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+<<<<<<< HEAD
 		TopicProperties_ProvisioningState_Canceled_STATUS,
 		TopicProperties_ProvisioningState_Creating_STATUS,
 		TopicProperties_ProvisioningState_Deleting_STATUS,
@@ -407,6 +429,15 @@ func AddIndependentPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen)
 		TopicProperties_ProvisioningState_Succeeded_STATUS,
 		TopicProperties_ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled_STATUS, TopicProperties_PublicNetworkAccess_Enabled_STATUS))
+=======
+		TopicProperties_STATUS_ProvisioningState_Canceled,
+		TopicProperties_STATUS_ProvisioningState_Creating,
+		TopicProperties_STATUS_ProvisioningState_Deleting,
+		TopicProperties_STATUS_ProvisioningState_Failed,
+		TopicProperties_STATUS_ProvisioningState_Succeeded,
+		TopicProperties_STATUS_ProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_STATUS_PublicNetworkAccess_Disabled, TopicProperties_STATUS_PublicNetworkAccess_Enabled))
+>>>>>>> main
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -417,6 +448,113 @@ func AddRelatedPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_Topics_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Topics_Spec to Topics_Spec via AssignProperties_To_Topics_Spec & AssignProperties_From_Topics_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopics_Spec, Topics_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopics_Spec tests if a specific instance of Topics_Spec can be assigned to v1beta20200601storage and back losslessly
+func RunPropertyAssignmentTestForTopics_Spec(subject Topics_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20200601s.Topics_Spec
+	err := copied.AssignProperties_To_Topics_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Topics_Spec
+	err = actual.AssignProperties_From_Topics_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Topics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Topics_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopics_Spec, Topics_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopics_Spec runs a test to see if a specific instance of Topics_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopics_Spec(subject Topics_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Topics_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Topics_Spec instances for property testing - lazily instantiated by Topics_SpecGenerator()
+var topics_SpecGenerator gopter.Gen
+
+// Topics_SpecGenerator returns a generator of Topics_Spec instances for property testing.
+func Topics_SpecGenerator() gopter.Gen {
+	if topics_SpecGenerator != nil {
+		return topics_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopics_Spec(generators)
+	topics_SpecGenerator = gen.Struct(reflect.TypeOf(Topics_Spec{}), generators)
+
+	return topics_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForTopics_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopics_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+>>>>>>> main
 }
 
 func Test_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -425,7 +563,11 @@ func Test_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip from PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded to PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded via AssignPropertiesToPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded & AssignPropertiesFromPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded returns original",
+=======
+		"Round trip from PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded to PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded via AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded & AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded returns original",
+>>>>>>> main
 		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded, PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -437,14 +579,22 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResou
 
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+<<<<<<< HEAD
 	err := copied.AssignPropertiesToPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+=======
+	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+<<<<<<< HEAD
 	err = actual.AssignPropertiesFromPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+=======
+	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
+>>>>>>> main
 	if err != nil {
 		return err.Error()
 	}

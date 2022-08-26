@@ -24,8 +24,8 @@ type AzureBeProvisionedMatcher struct {
 
 var _ types.GomegaMatcher = &AzureBeProvisionedMatcher{}
 
-func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarmclient.PollerResponse, error) {
-	poller, ok := actual.(*genericarmclient.PollerResponse)
+func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarmclient.PollerResponse[genericarmclient.GenericResource], error) {
+	poller, ok := actual.(*genericarmclient.PollerResponse[genericarmclient.GenericResource])
 	if !ok {
 		return nil, errors.Errorf("Expected actual of type *genericarmclient.PollerResponse, instead %T", actual)
 	}

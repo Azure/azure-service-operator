@@ -74,6 +74,7 @@ func StorageAccountGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForStorageAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccount(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = StorageAccount_SpecGenerator()
 	gens["Status"] = StorageAccount_STATUSGenerator()
 }
@@ -174,6 +175,10 @@ func AddRelatedPropertyGeneratorsForStorageAccount_Spec(gens map[string]gopter.G
 	gens["RoutingPreference"] = gen.PtrOf(RoutingPreferenceGenerator())
 	gens["SasPolicy"] = gen.PtrOf(SasPolicyGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
+=======
+	gens["Spec"] = StorageAccounts_SpecGenerator()
+	gens["Status"] = StorageAccount_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_StorageAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -281,11 +286,116 @@ func AddRelatedPropertyGeneratorsForStorageAccount_STATUS(gens map[string]gopter
 	gens["KeyPolicy"] = gen.PtrOf(KeyPolicy_STATUSGenerator())
 	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSet_STATUSGenerator())
 	gens["PrimaryEndpoints"] = gen.PtrOf(Endpoints_STATUSGenerator())
+<<<<<<< HEAD
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+=======
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator())
+>>>>>>> main
 	gens["RoutingPreference"] = gen.PtrOf(RoutingPreference_STATUSGenerator())
 	gens["SasPolicy"] = gen.PtrOf(SasPolicy_STATUSGenerator())
 	gens["SecondaryEndpoints"] = gen.PtrOf(Endpoints_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+<<<<<<< HEAD
+=======
+}
+
+func Test_StorageAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccounts_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccounts_Spec, StorageAccounts_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccounts_Spec runs a test to see if a specific instance of StorageAccounts_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccounts_Spec(subject StorageAccounts_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccounts_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccounts_Spec instances for property testing - lazily instantiated by
+// StorageAccounts_SpecGenerator()
+var storageAccounts_SpecGenerator gopter.Gen
+
+// StorageAccounts_SpecGenerator returns a generator of StorageAccounts_Spec instances for property testing.
+// We first initialize storageAccounts_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageAccounts_SpecGenerator() gopter.Gen {
+	if storageAccounts_SpecGenerator != nil {
+		return storageAccounts_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_Spec(generators)
+	storageAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccounts_Spec(generators)
+	AddRelatedPropertyGeneratorsForStorageAccounts_Spec(generators)
+	storageAccounts_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_Spec{}), generators)
+
+	return storageAccounts_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccounts_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccounts_Spec(gens map[string]gopter.Gen) {
+	gens["AccessTier"] = gen.PtrOf(gen.AlphaString())
+	gens["AllowBlobPublicAccess"] = gen.PtrOf(gen.Bool())
+	gens["AllowCrossTenantReplication"] = gen.PtrOf(gen.Bool())
+	gens["AllowSharedKeyAccess"] = gen.PtrOf(gen.Bool())
+	gens["AzureName"] = gen.AlphaString()
+	gens["IsHnsEnabled"] = gen.PtrOf(gen.Bool())
+	gens["IsNfsV3Enabled"] = gen.PtrOf(gen.Bool())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["LargeFileSharesState"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForStorageAccounts_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccounts_Spec(gens map[string]gopter.Gen) {
+	gens["AzureFilesIdentityBasedAuthentication"] = gen.PtrOf(AzureFilesIdentityBasedAuthenticationGenerator())
+	gens["CustomDomain"] = gen.PtrOf(CustomDomainGenerator())
+	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["Identity"] = gen.PtrOf(IdentityGenerator())
+	gens["KeyPolicy"] = gen.PtrOf(KeyPolicyGenerator())
+	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSetGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountOperatorSpecGenerator())
+	gens["RoutingPreference"] = gen.PtrOf(RoutingPreferenceGenerator())
+	gens["SasPolicy"] = gen.PtrOf(SasPolicyGenerator())
+	gens["Sku"] = gen.PtrOf(SkuGenerator())
+>>>>>>> main
 }
 
 func Test_AzureFilesIdentityBasedAuthentication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1540,6 +1650,7 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of PrivateEndpointConnection_STATUS via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -1547,6 +1658,15 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUS runs a test to see if a specific instance of PrivateEndpointConnection_STATUS round trips to JSON and back losslessly
 func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
+=======
+		"Round trip of PrivateEndpointConnection_STATUS_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded, PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_SubResourceEmbedded) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1572,6 +1692,7 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject Private
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of PrivateEndpointConnection_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSGenerator()
 var privateEndpointConnection_STATUSGenerator gopter.Gen
@@ -1591,6 +1712,27 @@ func PrivateEndpointConnection_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded instances for property testing - lazily
+// instantiated by PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator()
+var privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator gopter.Gen
+
+// PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded instances for property testing.
+func PrivateEndpointConnection_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
+	if privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator != nil {
+		return privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(generators)
+	privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbedded{}), generators)
+
+	return privateEndpointConnection_STATUS_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 

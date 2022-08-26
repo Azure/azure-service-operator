@@ -21,15 +21,15 @@ type Test struct {
 	Foo *Foo `json:"foo,omitempty"`
 }
 
-// AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
+// AssignProperties_From_Test populates our Test from the provided source Test
+func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// Bar
 	if source.Bar != nil {
 		var bar Bar
-		err := bar.AssignPropertiesFromBar(source.Bar)
+		err := bar.AssignProperties_From_Bar(source.Bar)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBar() to populate field Bar")
+			return errors.Wrap(err, "calling AssignProperties_From_Bar() to populate field Bar")
 		}
 		test.Bar = &bar
 	} else {
@@ -39,9 +39,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Baz
 	if source.Baz != nil {
 		var baz Baz
-		err := baz.AssignPropertiesFromBaz(source.Baz)
+		err := baz.AssignProperties_From_Baz(source.Baz)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBaz() to populate field Baz")
+			return errors.Wrap(err, "calling AssignProperties_From_Baz() to populate field Baz")
 		}
 		test.Baz = &baz
 	} else {
@@ -51,9 +51,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Foo
 	if source.Foo != nil {
 		var foo Foo
-		err := foo.AssignPropertiesFromFoo(source.Foo)
+		err := foo.AssignProperties_From_Foo(source.Foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromFoo() to populate field Foo")
+			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field Foo")
 		}
 		test.Foo = &foo
 	} else {
@@ -64,17 +64,17 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	return nil
 }
 
-// AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
+// AssignProperties_To_Test populates the provided destination Test from our Test
+func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Bar
 	if test.Bar != nil {
 		var bar v20200101s.Bar
-		err := test.Bar.AssignPropertiesToBar(&bar)
+		err := test.Bar.AssignProperties_To_Bar(&bar)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBar() to populate field Bar")
+			return errors.Wrap(err, "calling AssignProperties_To_Bar() to populate field Bar")
 		}
 		destination.Bar = &bar
 	} else {
@@ -84,9 +84,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Baz
 	if test.Baz != nil {
 		var baz v20200101s.Baz
-		err := test.Baz.AssignPropertiesToBaz(&baz)
+		err := test.Baz.AssignProperties_To_Baz(&baz)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBaz() to populate field Baz")
+			return errors.Wrap(err, "calling AssignProperties_To_Baz() to populate field Baz")
 		}
 		destination.Baz = &baz
 	} else {
@@ -96,9 +96,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Foo
 	if test.Foo != nil {
 		var foo v20200101s.Foo
-		err := test.Foo.AssignPropertiesToFoo(&foo)
+		err := test.Foo.AssignProperties_To_Foo(&foo)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToFoo() to populate field Foo")
+			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
 		}
 		destination.Foo = &foo
 	} else {
@@ -122,8 +122,8 @@ type Bar struct {
 	Size *int `json:"size,omitempty"`
 }
 
-// AssignPropertiesFromBar populates our Bar from the provided source Bar
-func (bar *Bar) AssignPropertiesFromBar(source *v20200101s.Bar) error {
+// AssignProperties_From_Bar populates our Bar from the provided source Bar
+func (bar *Bar) AssignProperties_From_Bar(source *v20200101s.Bar) error {
 
 	// Size
 	bar.Size = genruntime.ClonePointerToInt(source.Size)
@@ -132,8 +132,8 @@ func (bar *Bar) AssignPropertiesFromBar(source *v20200101s.Bar) error {
 	return nil
 }
 
-// AssignPropertiesToBar populates the provided destination Bar from our Bar
-func (bar *Bar) AssignPropertiesToBar(destination *v20200101s.Bar) error {
+// AssignProperties_To_Bar populates the provided destination Bar from our Bar
+func (bar *Bar) AssignProperties_To_Bar(destination *v20200101s.Bar) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -157,8 +157,8 @@ type Baz struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-// AssignPropertiesFromBaz populates our Baz from the provided source Baz
-func (baz *Baz) AssignPropertiesFromBaz(source *v20200101s.Baz) error {
+// AssignProperties_From_Baz populates our Baz from the provided source Baz
+func (baz *Baz) AssignProperties_From_Baz(source *v20200101s.Baz) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -172,8 +172,8 @@ func (baz *Baz) AssignPropertiesFromBaz(source *v20200101s.Baz) error {
 	return nil
 }
 
-// AssignPropertiesToBaz populates the provided destination Baz from our Baz
-func (baz *Baz) AssignPropertiesToBaz(destination *v20200101s.Baz) error {
+// AssignProperties_To_Baz populates the provided destination Baz from our Baz
+func (baz *Baz) AssignProperties_To_Baz(destination *v20200101s.Baz) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -201,8 +201,8 @@ type Foo struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// AssignPropertiesFromFoo populates our Foo from the provided source Foo
-func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
+// AssignProperties_From_Foo populates our Foo from the provided source Foo
+func (foo *Foo) AssignProperties_From_Foo(source *v20200101s.Foo) error {
 
 	// Name
 	foo.Name = genruntime.ClonePointerToString(source.Name)
@@ -211,8 +211,8 @@ func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
 	return nil
 }
 
-// AssignPropertiesToFoo populates the provided destination Foo from our Foo
-func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
+// AssignProperties_To_Foo populates the provided destination Foo from our Foo
+func (foo *Foo) AssignProperties_To_Foo(destination *v20200101s.Foo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,6 +5,7 @@
 | ActiveDirectoryProperties_STATUS                                     | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication                                | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication_DefaultSharePermission         | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS  | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions        | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS | v1alpha1api20210401 | v1beta20210401 |
@@ -26,6 +27,33 @@
 | CorsRule_AllowedMethods                                              | v1alpha1api20210401 | v1beta20210401 |
 | CorsRule_AllowedMethods_STATUS                                       | v1alpha1api20210401 | v1beta20210401 |
 | CorsRule_STATUS                                                      | v1alpha1api20210401 | v1beta20210401 |
+=======
+| AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions        | v1alpha1api20210401 | v1beta20210401 |
+| AzureFilesIdentityBasedAuthentication_STATUS                         | v1alpha1api20210401 | v1beta20210401 |
+| AzureFilesIdentityBasedAuthentication_STATUS_DefaultSharePermission  | v1alpha1api20210401 | v1beta20210401 |
+| AzureFilesIdentityBasedAuthentication_STATUS_DirectoryServiceOptions | v1alpha1api20210401 | v1beta20210401 |
+| BlobContainer_STATUS                                                 | v1alpha1api20210401 | v1beta20210401 |
+| BlobRestoreParameters_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
+| BlobRestoreRange_STATUS                                              | v1alpha1api20210401 | v1beta20210401 |
+| BlobRestoreStatus_STATUS                                             | v1alpha1api20210401 | v1beta20210401 |
+| BlobRestoreStatus_STATUS_Status                                      | v1alpha1api20210401 | v1beta20210401 |
+| BlobServicePropertiesProperties                                      | v1alpha1api20210401 | v1beta20210401 |
+| BlobServiceProperties_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
+| BlobServiceProperties_STATUS_Properties                              | v1alpha1api20210401 | v1beta20210401 |
+| ChangeFeed                                                           | v1alpha1api20210401 | v1beta20210401 |
+| ChangeFeed_STATUS                                                    | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties                                                  | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_PublicAccess                                     | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_STATUS_LeaseDuration                             | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_STATUS_LeaseState                                | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_STATUS_LeaseStatus                               | v1alpha1api20210401 | v1beta20210401 |
+| ContainerProperties_STATUS_PublicAccess                              | v1alpha1api20210401 | v1beta20210401 |
+| CorsRule                                                             | v1alpha1api20210401 | v1beta20210401 |
+| CorsRule_AllowedMethods                                              | v1alpha1api20210401 | v1beta20210401 |
+| CorsRule_STATUS                                                      | v1alpha1api20210401 | v1beta20210401 |
+| CorsRule_STATUS_AllowedMethods                                       | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | CorsRules                                                            | v1alpha1api20210401 | v1beta20210401 |
 | CorsRules_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
 | CustomDomain                                                         | v1alpha1api20210401 | v1beta20210401 |
@@ -41,6 +69,7 @@
 | EncryptionIdentity_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
 | EncryptionService                                                    | v1alpha1api20210401 | v1beta20210401 |
 | EncryptionService_KeyType                                            | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | EncryptionService_KeyType_STATUS                                     | v1alpha1api20210401 | v1beta20210401 |
 | EncryptionService_STATUS                                             | v1alpha1api20210401 | v1beta20210401 |
 | EncryptionServices                                                   | v1alpha1api20210401 | v1beta20210401 |
@@ -69,6 +98,36 @@
 | ImmutableStorageWithVersioning                                       | v1alpha1api20210401 | v1beta20210401 |
 | ImmutableStorageWithVersioning_MigrationState_STATUS                 | v1alpha1api20210401 | v1beta20210401 |
 | ImmutableStorageWithVersioning_STATUS                                | v1alpha1api20210401 | v1beta20210401 |
+=======
+| EncryptionService_STATUS                                             | v1alpha1api20210401 | v1beta20210401 |
+| EncryptionService_STATUS_KeyType                                     | v1alpha1api20210401 | v1beta20210401 |
+| EncryptionServices                                                   | v1alpha1api20210401 | v1beta20210401 |
+| EncryptionServices_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
+| Encryption_KeySource                                                 | v1alpha1api20210401 | v1beta20210401 |
+| Encryption_STATUS                                                    | v1alpha1api20210401 | v1beta20210401 |
+| Encryption_STATUS_KeySource                                          | v1alpha1api20210401 | v1beta20210401 |
+| Endpoints_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
+| ExtendedLocation                                                     | v1alpha1api20210401 | v1beta20210401 |
+| ExtendedLocationType_STATUS                                          | v1alpha1api20210401 | v1beta20210401 |
+| ExtendedLocation_STATUS                                              | v1alpha1api20210401 | v1beta20210401 |
+| ExtendedLocation_Type                                                | v1alpha1api20210401 | v1beta20210401 |
+| GeoReplicationStats_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
+| GeoReplicationStats_STATUS_Status                                    | v1alpha1api20210401 | v1beta20210401 |
+| IPRule                                                               | v1alpha1api20210401 | v1beta20210401 |
+| IPRule_Action                                                        | v1alpha1api20210401 | v1beta20210401 |
+| IPRule_STATUS                                                        | v1alpha1api20210401 | v1beta20210401 |
+| IPRule_STATUS_Action                                                 | v1alpha1api20210401 | v1beta20210401 |
+| Identity                                                             | v1alpha1api20210401 | v1beta20210401 |
+| Identity_STATUS                                                      | v1alpha1api20210401 | v1beta20210401 |
+| Identity_STATUS_Type                                                 | v1alpha1api20210401 | v1beta20210401 |
+| Identity_Type                                                        | v1alpha1api20210401 | v1beta20210401 |
+| ImmutabilityPolicyProperties_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
+| ImmutabilityPolicyProperty_STATUS                                    | v1alpha1api20210401 | v1beta20210401 |
+| ImmutabilityPolicyProperty_STATUS_State                              | v1alpha1api20210401 | v1beta20210401 |
+| ImmutableStorageWithVersioning                                       | v1alpha1api20210401 | v1beta20210401 |
+| ImmutableStorageWithVersioning_STATUS                                | v1alpha1api20210401 | v1beta20210401 |
+| ImmutableStorageWithVersioning_STATUS_MigrationState                 | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | KeyCreationTime_STATUS                                               | v1alpha1api20210401 | v1beta20210401 |
 | KeyPolicy                                                            | v1alpha1api20210401 | v1beta20210401 |
 | KeyPolicy_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
@@ -76,8 +135,13 @@
 | KeyVaultProperties_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy                                         | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy_Name                                    | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | LastAccessTimeTrackingPolicy_Name_STATUS                             | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
+=======
+| LastAccessTimeTrackingPolicy_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
+| LastAccessTimeTrackingPolicy_STATUS_Name                             | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | LegalHoldProperties_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyAction                                               | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyAction_STATUS                                        | v1alpha1api20210401 | v1beta20210401 |
@@ -91,14 +155,20 @@
 | ManagementPolicyProperties_STATUS                                    | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyRule                                                 | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyRule_STATUS                                          | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | ManagementPolicyRule_Type                                            | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyRule_Type_STATUS                                     | v1alpha1api20210401 | v1beta20210401 |
+=======
+| ManagementPolicyRule_STATUS_Type                                     | v1alpha1api20210401 | v1beta20210401 |
+| ManagementPolicyRule_Type                                            | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | ManagementPolicySchema                                               | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicySchema_STATUS                                        | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicySnapShot                                             | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicySnapShot_STATUS                                      | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyVersion                                              | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyVersion_STATUS                                       | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | NetworkRuleSet                                                       | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSet_Bypass                                                | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSet_Bypass_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
@@ -108,12 +178,28 @@
 | PrivateEndpointConnection_STATUS                                     | v1alpha1api20210401 | v1beta20210401 |
 | QueueProperties                                                      | v1alpha1api20210401 | v1beta20210401 |
 | QueueProperties_STATUS                                               | v1alpha1api20210401 | v1beta20210401 |
+=======
+| ManagementPolicy_STATUS                                              | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet                                                       | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet_Bypass                                                | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet_DefaultAction                                         | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet_STATUS                                                | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet_STATUS_Bypass                                         | v1alpha1api20210401 | v1beta20210401 |
+| NetworkRuleSet_STATUS_DefaultAction                                  | v1alpha1api20210401 | v1beta20210401 |
+| PrivateEndpointConnection_STATUS_SubResourceEmbedded                 | v1alpha1api20210401 | v1beta20210401 |
+| QueueProperties                                                      | v1alpha1api20210401 | v1beta20210401 |
+| QueueProperties_STATUS                                               | v1alpha1api20210401 | v1beta20210401 |
+| QueueServicePropertiesProperties                                     | v1alpha1api20210401 | v1beta20210401 |
+| QueueServiceProperties_STATUS                                        | v1alpha1api20210401 | v1beta20210401 |
+| QueueServiceProperties_STATUS_Properties                             | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | ResourceAccessRule                                                   | v1alpha1api20210401 | v1beta20210401 |
 | ResourceAccessRule_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
 | RestorePolicyProperties                                              | v1alpha1api20210401 | v1beta20210401 |
 | RestorePolicyProperties_STATUS                                       | v1alpha1api20210401 | v1beta20210401 |
 | RoutingPreference                                                    | v1alpha1api20210401 | v1beta20210401 |
 | RoutingPreference_RoutingChoice                                      | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | RoutingPreference_RoutingChoice_STATUS                               | v1alpha1api20210401 | v1beta20210401 |
 | RoutingPreference_STATUS                                             | v1alpha1api20210401 | v1beta20210401 |
 | SasPolicy                                                            | v1alpha1api20210401 | v1beta20210401 |
@@ -124,6 +210,19 @@
 | SkuName                                                              | v1alpha1api20210401 | v1beta20210401 |
 | SkuName_STATUS                                                       | v1alpha1api20210401 | v1beta20210401 |
 | Sku_STATUS                                                           | v1alpha1api20210401 | v1beta20210401 |
+=======
+| RoutingPreference_STATUS                                             | v1alpha1api20210401 | v1beta20210401 |
+| RoutingPreference_STATUS_RoutingChoice                               | v1alpha1api20210401 | v1beta20210401 |
+| SasPolicy                                                            | v1alpha1api20210401 | v1beta20210401 |
+| SasPolicy_ExpirationAction                                           | v1alpha1api20210401 | v1beta20210401 |
+| SasPolicy_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
+| SasPolicy_STATUS_ExpirationAction                                    | v1alpha1api20210401 | v1beta20210401 |
+| Sku                                                                  | v1alpha1api20210401 | v1beta20210401 |
+| SkuName_STATUS                                                       | v1alpha1api20210401 | v1beta20210401 |
+| Sku_Name                                                             | v1alpha1api20210401 | v1beta20210401 |
+| Sku_STATUS                                                           | v1alpha1api20210401 | v1beta20210401 |
+| Sku_Tier                                                             | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main
 | StorageAccount                                                       | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountInternetEndpoints_STATUS                               | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountMicrosoftEndpoints_STATUS                              | v1alpha1api20210401 | v1beta20210401 |
@@ -131,6 +230,7 @@
 | StorageAccountPropertiesCreateParameters_AccessTier                  | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_LargeFileSharesState        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_MinimumTlsVersion           | v1alpha1api20210401 | v1beta20210401 |
+<<<<<<< HEAD
 | StorageAccountProperties_AccessTier_STATUS                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountProperties_LargeFileSharesState_STATUS                 | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountProperties_MinimumTlsVersion_STATUS                    | v1alpha1api20210401 | v1beta20210401 |
@@ -175,3 +275,40 @@
 | VirtualNetworkRule_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
 | VirtualNetworkRule_State                                             | v1alpha1api20210401 | v1beta20210401 |
 | VirtualNetworkRule_State_STATUS                                      | v1alpha1api20210401 | v1beta20210401 |
+=======
+| StorageAccountProperties_STATUS                                      | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_AccessTier                           | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_LargeFileSharesState                 | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_MinimumTlsVersion                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_ProvisioningState                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_StatusOfPrimary                      | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountProperties_STATUS_StatusOfSecondary                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccount_STATUS                                                | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccount_STATUS_Kind                                           | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobService                                           | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobServicesContainer                                 | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsManagementPolicy                                      | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueService                                          | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueServicesQueue                                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_BlobServices_Containers_Spec                         | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_BlobServices_Spec                                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_ManagementPolicies_Spec                              | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_QueueServices_Queues_Spec                            | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_QueueServices_Spec                                   | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_Spec                                                 | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_Spec_Kind                                            | v1alpha1api20210401 | v1beta20210401 |
+| StorageQueue_STATUS                                                  | v1alpha1api20210401 | v1beta20210401 |
+| TagFilter                                                            | v1alpha1api20210401 | v1beta20210401 |
+| TagFilter_STATUS                                                     | v1alpha1api20210401 | v1beta20210401 |
+| TagProperty_STATUS                                                   | v1alpha1api20210401 | v1beta20210401 |
+| Tier_STATUS                                                          | v1alpha1api20210401 | v1beta20210401 |
+| UpdateHistoryProperty_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
+| UpdateHistoryProperty_STATUS_Update                                  | v1alpha1api20210401 | v1beta20210401 |
+| UserAssignedIdentity_STATUS                                          | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule                                                   | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule_Action                                            | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule_STATUS_Action                                     | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule_STATUS_State                                      | v1alpha1api20210401 | v1beta20210401 |
+| VirtualNetworkRule_State                                             | v1alpha1api20210401 | v1beta20210401 |
+>>>>>>> main

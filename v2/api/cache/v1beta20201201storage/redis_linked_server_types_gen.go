@@ -28,7 +28,11 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	Spec              RedisLinkedServer_Spec                 `json:"spec,omitempty"`
+=======
+	Spec              Redis_LinkedServers_Spec               `json:"spec,omitempty"`
+>>>>>>> main
 	Status            RedisLinkedServerWithProperties_STATUS `json:"status,omitempty"`
 }
 
@@ -133,8 +137,13 @@ type RedisLinkedServerList struct {
 	Items           []RedisLinkedServer `json:"items"`
 }
 
+<<<<<<< HEAD
 // Storage version of v1beta20201201.RedisLinkedServer_Spec
 type RedisLinkedServer_Spec struct {
+=======
+// Storage version of v1beta20201201.Redis_LinkedServers_Spec
+type Redis_LinkedServers_Spec struct {
+>>>>>>> main
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                string  `json:"azureName,omitempty"`
@@ -154,20 +163,34 @@ type RedisLinkedServer_Spec struct {
 	ServerRole  *string                            `json:"serverRole,omitempty"`
 }
 
+<<<<<<< HEAD
 var _ genruntime.ConvertibleSpec = &RedisLinkedServer_Spec{}
 
 // ConvertSpecFrom populates our RedisLinkedServer_Spec from the provided source
 func (server *RedisLinkedServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == server {
+=======
+var _ genruntime.ConvertibleSpec = &Redis_LinkedServers_Spec{}
+
+// ConvertSpecFrom populates our Redis_LinkedServers_Spec from the provided source
+func (servers *Redis_LinkedServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == servers {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
 	return source.ConvertSpecTo(server)
 }
 
+<<<<<<< HEAD
 // ConvertSpecTo populates the provided destination from our RedisLinkedServer_Spec
 func (server *RedisLinkedServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == server {
+=======
+// ConvertSpecTo populates the provided destination from our Redis_LinkedServers_Spec
+func (servers *Redis_LinkedServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == servers {
+>>>>>>> main
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 

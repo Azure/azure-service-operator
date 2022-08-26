@@ -13,19 +13,19 @@ type Person struct {
 	Residence Location `json:"residence,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *v20220630.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *v20220630.Person) error {
 
 	// Residence
 	var locationStash v20211231.Location
-	err := locationStash.AssignPropertiesFromLocation(&source.Residence)
+	err := locationStash.AssignProperties_From_Location(&source.Residence)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromLocation() to populate field LocationStash from Residence")
+		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field LocationStash from Residence")
 	}
 	var residence Location
-	err = residence.AssignPropertiesFromLocation(&locationStash)
+	err = residence.AssignProperties_From_Location(&locationStash)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromLocation() to populate field Residence from LocationStash")
+		return errors.Wrap(err, "calling AssignProperties_From_Location() to populate field Residence from LocationStash")
 	}
 	person.Residence = residence
 
@@ -33,19 +33,19 @@ func (person *Person) AssignPropertiesFromPerson(source *v20220630.Person) error
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *v20220630.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *v20220630.Person) error {
 
 	// Residence
 	var locationStash v20211231.Location
-	err := person.Residence.AssignPropertiesToLocation(&locationStash)
+	err := person.Residence.AssignProperties_To_Location(&locationStash)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field LocationStash from Residence")
+		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field LocationStash from Residence")
 	}
 	var residence v20220630.Location
-	err = locationStash.AssignPropertiesToLocation(&residence)
+	err = locationStash.AssignProperties_To_Location(&residence)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field Residence from LocationStash")
+		return errors.Wrap(err, "calling AssignProperties_To_Location() to populate field Residence from LocationStash")
 	}
 	destination.Residence = residence
 

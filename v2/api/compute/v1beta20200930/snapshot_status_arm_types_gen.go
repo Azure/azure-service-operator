@@ -54,7 +54,11 @@ type SnapshotProperties_STATUSARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUSARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+<<<<<<< HEAD
 	HyperVGeneration *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
+=======
+	HyperVGeneration *SnapshotProperties_STATUS_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+>>>>>>> main
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
@@ -62,7 +66,11 @@ type SnapshotProperties_STATUSARM struct {
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
+<<<<<<< HEAD
 	OsType *SnapshotProperties_OsType_STATUS `json:"osType,omitempty"`
+=======
+	OsType *SnapshotProperties_STATUS_OsType `json:"osType,omitempty"`
+>>>>>>> main
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -79,16 +87,29 @@ type SnapshotProperties_STATUSARM struct {
 
 type SnapshotSku_STATUSARM struct {
 	// Name: The sku name.
+<<<<<<< HEAD
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
+=======
+	Name *SnapshotSku_STATUS_Name `json:"name,omitempty"`
+>>>>>>> main
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 
+<<<<<<< HEAD
 type SnapshotSku_Name_STATUS string
 
 const (
 	SnapshotSku_Name_Premium_LRS_STATUS  = SnapshotSku_Name_STATUS("Premium_LRS")
 	SnapshotSku_Name_Standard_LRS_STATUS = SnapshotSku_Name_STATUS("Standard_LRS")
 	SnapshotSku_Name_Standard_ZRS_STATUS = SnapshotSku_Name_STATUS("Standard_ZRS")
+=======
+type SnapshotSku_STATUS_Name string
+
+const (
+	SnapshotSku_STATUS_Name_Premium_LRS  = SnapshotSku_STATUS_Name("Premium_LRS")
+	SnapshotSku_STATUS_Name_Standard_LRS = SnapshotSku_STATUS_Name("Standard_LRS")
+	SnapshotSku_STATUS_Name_Standard_ZRS = SnapshotSku_STATUS_Name("Standard_ZRS")
+>>>>>>> main
 )

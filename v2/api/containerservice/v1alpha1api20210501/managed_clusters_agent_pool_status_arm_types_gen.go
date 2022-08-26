@@ -79,6 +79,62 @@ type LinuxOSConfig_STATUSARM struct {
 	TransparentHugePageEnabled *string                 `json:"transparentHugePageEnabled,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/containerservice/v1alpha1api20210501/managed_clusters_agent_pool_status_arm_types_gen.go
+=======
+// Deprecated version of OSDiskType_STATUS. Use v1beta20210501.OSDiskType_STATUS instead
+type OSDiskType_STATUS string
+
+const (
+	OSDiskType_STATUS_Ephemeral = OSDiskType_STATUS("Ephemeral")
+	OSDiskType_STATUS_Managed   = OSDiskType_STATUS("Managed")
+)
+
+// Deprecated version of OSSKU_STATUS. Use v1beta20210501.OSSKU_STATUS instead
+type OSSKU_STATUS string
+
+const (
+	OSSKU_STATUS_CBLMariner = OSSKU_STATUS("CBLMariner")
+	OSSKU_STATUS_Ubuntu     = OSSKU_STATUS("Ubuntu")
+)
+
+// Deprecated version of OSType_STATUS. Use v1beta20210501.OSType_STATUS instead
+type OSType_STATUS string
+
+const (
+	OSType_STATUS_Linux   = OSType_STATUS("Linux")
+	OSType_STATUS_Windows = OSType_STATUS("Windows")
+)
+
+// Deprecated version of PowerState_STATUS. Use v1beta20210501.PowerState_STATUS instead
+type PowerState_STATUSARM struct {
+	Code *PowerState_STATUS_Code `json:"code,omitempty"`
+}
+
+// Deprecated version of ScaleSetEvictionPolicy_STATUS. Use v1beta20210501.ScaleSetEvictionPolicy_STATUS instead
+type ScaleSetEvictionPolicy_STATUS string
+
+const (
+	ScaleSetEvictionPolicy_STATUS_Deallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
+	ScaleSetEvictionPolicy_STATUS_Delete     = ScaleSetEvictionPolicy_STATUS("Delete")
+)
+
+// Deprecated version of ScaleSetPriority_STATUS. Use v1beta20210501.ScaleSetPriority_STATUS instead
+type ScaleSetPriority_STATUS string
+
+const (
+	ScaleSetPriority_STATUS_Regular = ScaleSetPriority_STATUS("Regular")
+	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
+)
+
+// Deprecated version of PowerState_STATUS_Code. Use v1beta20210501.PowerState_STATUS_Code instead
+type PowerState_STATUS_Code string
+
+const (
+	PowerState_STATUS_Code_Running = PowerState_STATUS_Code("Running")
+	PowerState_STATUS_Code_Stopped = PowerState_STATUS_Code("Stopped")
+)
+
+>>>>>>> main:v2/api/containerservice/v1alpha1api20210501/agent_pool_status_arm_types_gen.go
 // Deprecated version of SysctlConfig_STATUS. Use v1beta20210501.SysctlConfig_STATUS instead
 type SysctlConfig_STATUSARM struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`

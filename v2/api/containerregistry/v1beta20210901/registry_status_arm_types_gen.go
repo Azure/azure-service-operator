@@ -40,7 +40,11 @@ type IdentityProperties_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
+<<<<<<< HEAD
 	Type *IdentityProperties_Type_STATUS `json:"type,omitempty"`
+=======
+	Type *IdentityProperties_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -69,7 +73,11 @@ type RegistryProperties_STATUSARM struct {
 	LoginServer *string `json:"loginServer,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+<<<<<<< HEAD
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
+=======
+	NetworkRuleBypassOptions *RegistryProperties_STATUS_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
+>>>>>>> main
 
 	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet_STATUSARM `json:"networkRuleSet,omitempty"`
@@ -81,24 +89,42 @@ type RegistryProperties_STATUSARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
+<<<<<<< HEAD
 	ProvisioningState *RegistryProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+=======
+	ProvisioningState *RegistryProperties_STATUS_ProvisioningState `json:"provisioningState,omitempty"`
+
+	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
+	PublicNetworkAccess *RegistryProperties_STATUS_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+>>>>>>> main
 
 	// Status: The status of the container registry at the time the operation was called.
 	Status *Status_STATUSARM `json:"status,omitempty"`
 
 	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
+<<<<<<< HEAD
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
+=======
+	ZoneRedundancy *RegistryProperties_STATUS_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
+>>>>>>> main
 }
 
 type Sku_STATUSARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
+<<<<<<< HEAD
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 
 	// Tier: The SKU tier based on the SKU name.
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+=======
+	Name *Sku_STATUS_Name `json:"name,omitempty"`
+
+	// Tier: The SKU tier based on the SKU name.
+	Tier *Sku_STATUS_Tier `json:"tier,omitempty"`
+>>>>>>> main
 }
 
 type SystemData_STATUSARM struct {
@@ -109,7 +135,11 @@ type SystemData_STATUSARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
+<<<<<<< HEAD
 	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+=======
+	CreatedByType *SystemData_STATUS_CreatedByType `json:"createdByType,omitempty"`
+>>>>>>> main
 
 	// LastModifiedAt: The timestamp of resource modification (UTC).
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -118,7 +148,11 @@ type SystemData_STATUSARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
+<<<<<<< HEAD
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+=======
+	LastModifiedByType *SystemData_STATUS_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+>>>>>>> main
 }
 
 type EncryptionProperty_STATUSARM struct {
@@ -126,6 +160,7 @@ type EncryptionProperty_STATUSARM struct {
 	KeyVaultProperties *KeyVaultProperties_STATUSARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for container registry.
+<<<<<<< HEAD
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
@@ -136,11 +171,27 @@ const (
 	IdentityProperties_Type_SystemAssigned_STATUS             = IdentityProperties_Type_STATUS("SystemAssigned")
 	IdentityProperties_Type_SystemAssignedUserAssigned_STATUS = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
 	IdentityProperties_Type_UserAssigned_STATUS               = IdentityProperties_Type_STATUS("UserAssigned")
+=======
+	Status *EncryptionProperty_STATUS_Status `json:"status,omitempty"`
+}
+
+type IdentityProperties_STATUS_Type string
+
+const (
+	IdentityProperties_STATUS_Type_None                       = IdentityProperties_STATUS_Type("None")
+	IdentityProperties_STATUS_Type_SystemAssigned             = IdentityProperties_STATUS_Type("SystemAssigned")
+	IdentityProperties_STATUS_Type_SystemAssignedUserAssigned = IdentityProperties_STATUS_Type("SystemAssigned, UserAssigned")
+	IdentityProperties_STATUS_Type_UserAssigned               = IdentityProperties_STATUS_Type("UserAssigned")
+>>>>>>> main
 )
 
 type NetworkRuleSet_STATUSARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
+<<<<<<< HEAD
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+=======
+	DefaultAction *NetworkRuleSet_STATUS_DefaultAction `json:"defaultAction,omitempty"`
+>>>>>>> main
 
 	// IpRules: The IP ACL rules.
 	IpRules []IPRule_STATUSARM `json:"ipRules,omitempty"`
@@ -168,6 +219,7 @@ type PrivateEndpointConnection_STATUSARM struct {
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
 
+<<<<<<< HEAD
 type Sku_Name_STATUS string
 
 const (
@@ -184,6 +236,24 @@ const (
 	Sku_Tier_Classic_STATUS  = Sku_Tier_STATUS("Classic")
 	Sku_Tier_Premium_STATUS  = Sku_Tier_STATUS("Premium")
 	Sku_Tier_Standard_STATUS = Sku_Tier_STATUS("Standard")
+=======
+type Sku_STATUS_Name string
+
+const (
+	Sku_STATUS_Name_Basic    = Sku_STATUS_Name("Basic")
+	Sku_STATUS_Name_Classic  = Sku_STATUS_Name("Classic")
+	Sku_STATUS_Name_Premium  = Sku_STATUS_Name("Premium")
+	Sku_STATUS_Name_Standard = Sku_STATUS_Name("Standard")
+)
+
+type Sku_STATUS_Tier string
+
+const (
+	Sku_STATUS_Tier_Basic    = Sku_STATUS_Tier("Basic")
+	Sku_STATUS_Tier_Classic  = Sku_STATUS_Tier("Classic")
+	Sku_STATUS_Tier_Premium  = Sku_STATUS_Tier("Premium")
+	Sku_STATUS_Tier_Standard = Sku_STATUS_Tier("Standard")
+>>>>>>> main
 )
 
 type Status_STATUSARM struct {
@@ -197,6 +267,7 @@ type Status_STATUSARM struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 }
 
+<<<<<<< HEAD
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -213,6 +284,24 @@ const (
 	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
 	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
+=======
+type SystemData_STATUS_CreatedByType string
+
+const (
+	SystemData_STATUS_CreatedByType_Application     = SystemData_STATUS_CreatedByType("Application")
+	SystemData_STATUS_CreatedByType_Key             = SystemData_STATUS_CreatedByType("Key")
+	SystemData_STATUS_CreatedByType_ManagedIdentity = SystemData_STATUS_CreatedByType("ManagedIdentity")
+	SystemData_STATUS_CreatedByType_User            = SystemData_STATUS_CreatedByType("User")
+)
+
+type SystemData_STATUS_LastModifiedByType string
+
+const (
+	SystemData_STATUS_LastModifiedByType_Application     = SystemData_STATUS_LastModifiedByType("Application")
+	SystemData_STATUS_LastModifiedByType_Key             = SystemData_STATUS_LastModifiedByType("Key")
+	SystemData_STATUS_LastModifiedByType_ManagedIdentity = SystemData_STATUS_LastModifiedByType("ManagedIdentity")
+	SystemData_STATUS_LastModifiedByType_User            = SystemData_STATUS_LastModifiedByType("User")
+>>>>>>> main
 )
 
 type UserIdentityProperties_STATUSARM struct {
@@ -225,12 +314,20 @@ type UserIdentityProperties_STATUSARM struct {
 
 type ExportPolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
+<<<<<<< HEAD
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Status *ExportPolicy_STATUS_Status `json:"status,omitempty"`
+>>>>>>> main
 }
 
 type IPRule_STATUSARM struct {
 	// Action: The action of IP ACL rule.
+<<<<<<< HEAD
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+=======
+	Action *IPRule_STATUS_Action `json:"action,omitempty"`
+>>>>>>> main
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
@@ -256,7 +353,11 @@ type KeyVaultProperties_STATUSARM struct {
 
 type QuarantinePolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
+<<<<<<< HEAD
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Status *QuarantinePolicy_STATUS_Status `json:"status,omitempty"`
+>>>>>>> main
 }
 
 type RetentionPolicy_STATUSARM struct {
@@ -267,13 +368,24 @@ type RetentionPolicy_STATUSARM struct {
 	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
 	// Status: The value that indicates whether the policy is enabled or not.
+<<<<<<< HEAD
 	Status *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
+=======
+	Status *RetentionPolicy_STATUS_Status `json:"status,omitempty"`
+>>>>>>> main
 }
 
 type TrustPolicy_STATUSARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
+<<<<<<< HEAD
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`
 
 	// Type: The type of trust policy.
 	Type *TrustPolicy_Type_STATUS `json:"type,omitempty"`
+=======
+	Status *TrustPolicy_STATUS_Status `json:"status,omitempty"`
+
+	// Type: The type of trust policy.
+	Type *TrustPolicy_STATUS_Type `json:"type,omitempty"`
+>>>>>>> main
 }

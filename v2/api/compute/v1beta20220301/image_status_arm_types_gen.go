@@ -84,7 +84,11 @@ type ImageDataDisk_STATUSARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
+<<<<<<< HEAD
 	Caching *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
+=======
+	Caching *ImageDataDisk_STATUS_Caching `json:"caching,omitempty"`
+>>>>>>> main
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUSARM `json:"diskEncryptionSet,omitempty"`
@@ -119,7 +123,11 @@ type ImageOSDisk_STATUSARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
+<<<<<<< HEAD
 	Caching *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
+=======
+	Caching *ImageOSDisk_STATUS_Caching `json:"caching,omitempty"`
+>>>>>>> main
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_STATUSARM `json:"diskEncryptionSet,omitempty"`
@@ -133,14 +141,22 @@ type ImageOSDisk_STATUSARM struct {
 	ManagedDisk *SubResource_STATUSARM `json:"managedDisk,omitempty"`
 
 	// OsState: The OS State.
+<<<<<<< HEAD
 	OsState *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
+=======
+	OsState *ImageOSDisk_STATUS_OsState `json:"osState,omitempty"`
+>>>>>>> main
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	// custom image.
 	// Possible values are:
 	// Windows
 	// Linux
+<<<<<<< HEAD
 	OsType *ImageOSDisk_OsType_STATUS `json:"osType,omitempty"`
+=======
+	OsType *ImageOSDisk_STATUS_OsType `json:"osType,omitempty"`
+>>>>>>> main
 
 	// Snapshot: The snapshot.
 	Snapshot *SubResource_STATUSARM `json:"snapshot,omitempty"`

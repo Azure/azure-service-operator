@@ -51,7 +51,7 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 		return fmt.Errorf("expected test/v1beta20200101storage/AResource but received %T instead", hub)
 	}
 
-	return resource.AssignPropertiesFromAResource(source)
+	return resource.AssignProperties_From_AResource(source)
 }
 
 // ConvertTo populates the provided hub AResource from our AResource
@@ -61,7 +61,7 @@ func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 		return fmt.Errorf("expected test/v1beta20200101storage/AResource but received %T instead", hub)
 	}
 
-	return resource.AssignPropertiesToAResource(destination)
+	return resource.AssignProperties_To_AResource(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-aresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.aresources.test.azure.com,admissionReviewVersions=v1
@@ -217,17 +217,23 @@ func (resource *AResource) validateWriteOnceProperties(old runtime.Object) error
 	return genruntime.ValidateWriteOnceProperties(oldObj, resource)
 }
 
-// AssignPropertiesFromAResource populates our AResource from the provided source AResource
-func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.AResource) error {
+// AssignProperties_From_AResource populates our AResource from the provided source AResource
+func (resource *AResource) AssignProperties_From_AResource(source *v20200101s.AResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec AResource_Spec
+<<<<<<< HEAD
 	err := spec.AssignPropertiesFromAResource_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromAResource_Spec() to populate field Spec")
+=======
+	err := spec.AssignProperties_From_AResource_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_AResource_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	resource.Spec = spec
 
@@ -235,17 +241,23 @@ func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.ARes
 	return nil
 }
 
-// AssignPropertiesToAResource populates the provided destination AResource from our AResource
-func (resource *AResource) AssignPropertiesToAResource(destination *v20200101s.AResource) error {
+// AssignProperties_To_AResource populates the provided destination AResource from our AResource
+func (resource *AResource) AssignProperties_To_AResource(destination *v20200101s.AResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20200101s.AResource_Spec
+<<<<<<< HEAD
 	err := resource.Spec.AssignPropertiesToAResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToAResource_Spec() to populate field Spec")
+=======
+	err := resource.Spec.AssignProperties_To_AResource_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	destination.Spec = spec
 
@@ -373,7 +385,11 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return resource.AssignPropertiesFromAResource_Spec(src)
+=======
+		return resource.AssignProperties_From_AResource_Spec(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -384,7 +400,11 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = resource.AssignPropertiesFromAResource_Spec(src)
+=======
+	err = resource.AssignProperties_From_AResource_Spec(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -397,12 +417,20 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return resource.AssignPropertiesToAResource_Spec(dst)
+=======
+		return resource.AssignProperties_To_AResource_Spec(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.AResource_Spec{}
+<<<<<<< HEAD
 	err := resource.AssignPropertiesToAResource_Spec(dst)
+=======
+	err := resource.AssignProperties_To_AResource_Spec(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -416,6 +444,7 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromAResource_Spec populates our AResource_Spec from the provided source AResource_Spec
 func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v20200101s.AResource_Spec) error {
 
@@ -425,6 +454,10 @@ func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v2020
 	} else {
 		resource.APIVersion = ""
 	}
+=======
+// AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
+func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
+>>>>>>> main
 
 	// AzureName
 	azureName := AResource_Spec_Name(source.AzureName)
@@ -449,8 +482,13 @@ func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v2020
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToAResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
 func (resource *AResource_Spec) AssignPropertiesToAResource_Spec(destination *v20200101s.AResource_Spec) error {
+=======
+// AssignProperties_To_AResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
+func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *v20200101s.AResource_Spec) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -85,7 +85,11 @@ type LastAccessTimeTrackingPolicy_STATUSARM struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_blob_service_status_arm_types_gen.go
 	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
+=======
+	Name *LastAccessTimeTrackingPolicy_STATUS_Name `json:"name,omitempty"`
+>>>>>>> main:v2/api/storage/v1beta20210401/blob_service_properties_status_arm_types_gen.go
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -106,6 +110,29 @@ type RestorePolicyProperties_STATUSARM struct {
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_blob_service_status_arm_types_gen.go
+=======
+type SkuName_STATUS string
+
+const (
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
+)
+
+type Tier_STATUS string
+
+const (
+	Tier_STATUS_Premium  = Tier_STATUS("Premium")
+	Tier_STATUS_Standard = Tier_STATUS("Standard")
+)
+
+>>>>>>> main:v2/api/storage/v1beta20210401/blob_service_properties_status_arm_types_gen.go
 type CorsRule_STATUSARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
@@ -113,7 +140,11 @@ type CorsRule_STATUSARM struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_blob_service_status_arm_types_gen.go
 	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
+=======
+	AllowedMethods []CorsRule_STATUS_AllowedMethods `json:"allowedMethods,omitempty"`
+>>>>>>> main:v2/api/storage/v1beta20210401/blob_service_properties_status_arm_types_gen.go
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -126,3 +157,22 @@ type CorsRule_STATUSARM struct {
 	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
+<<<<<<< HEAD:v2/api/storage/v1beta20210401/storage_accounts_blob_service_status_arm_types_gen.go
+=======
+
+type LastAccessTimeTrackingPolicy_STATUS_Name string
+
+const LastAccessTimeTrackingPolicy_STATUS_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_STATUS_Name("AccessTimeTracking")
+
+type CorsRule_STATUS_AllowedMethods string
+
+const (
+	CorsRule_STATUS_AllowedMethods_DELETE  = CorsRule_STATUS_AllowedMethods("DELETE")
+	CorsRule_STATUS_AllowedMethods_GET     = CorsRule_STATUS_AllowedMethods("GET")
+	CorsRule_STATUS_AllowedMethods_HEAD    = CorsRule_STATUS_AllowedMethods("HEAD")
+	CorsRule_STATUS_AllowedMethods_MERGE   = CorsRule_STATUS_AllowedMethods("MERGE")
+	CorsRule_STATUS_AllowedMethods_OPTIONS = CorsRule_STATUS_AllowedMethods("OPTIONS")
+	CorsRule_STATUS_AllowedMethods_POST    = CorsRule_STATUS_AllowedMethods("POST")
+	CorsRule_STATUS_AllowedMethods_PUT     = CorsRule_STATUS_AllowedMethods("PUT")
+)
+>>>>>>> main:v2/api/storage/v1beta20210401/blob_service_properties_status_arm_types_gen.go

@@ -74,6 +74,7 @@ func RouteTableGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRouteTable is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRouteTable(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = RouteTable_SpecGenerator()
 	gens["Status"] = RouteTable_STATUSGenerator()
 }
@@ -154,6 +155,10 @@ func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
 	gens["Routes"] = gen.SliceOf(Route_RouteTable_SubResourceEmbeddedGenerator())
+=======
+	gens["Spec"] = RouteTables_SpecGenerator()
+	gens["Status"] = RouteTable_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_RouteTable_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -231,6 +236,7 @@ func Test_Route_RouteTable_SubResourceEmbedded_WhenSerializedToJson_Deserializes
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of Route_RouteTable_SubResourceEmbedded via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded, Route_RouteTable_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -238,6 +244,15 @@ func Test_Route_RouteTable_SubResourceEmbedded_WhenSerializedToJson_Deserializes
 
 // RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded runs a test to see if a specific instance of Route_RouteTable_SubResourceEmbedded round trips to JSON and back losslessly
 func RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded(subject Route_RouteTable_SubResourceEmbedded) string {
+=======
+		"Round trip of RouteTables_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTables_Spec, RouteTables_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRouteTables_Spec runs a test to see if a specific instance of RouteTables_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTables_Spec(subject RouteTables_Spec) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -263,6 +278,7 @@ func RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded(subject Rou
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of Route_RouteTable_SubResourceEmbedded instances for property testing - lazily instantiated by
 // Route_RouteTable_SubResourceEmbeddedGenerator()
 var route_RouteTable_SubResourceEmbeddedGenerator gopter.Gen
@@ -277,4 +293,29 @@ func Route_RouteTable_SubResourceEmbeddedGenerator() gopter.Gen {
 	route_RouteTable_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Route_RouteTable_SubResourceEmbedded{}), generators)
 
 	return route_RouteTable_SubResourceEmbeddedGenerator
+=======
+// Generator of RouteTables_Spec instances for property testing - lazily instantiated by RouteTables_SpecGenerator()
+var routeTables_SpecGenerator gopter.Gen
+
+// RouteTables_SpecGenerator returns a generator of RouteTables_Spec instances for property testing.
+func RouteTables_SpecGenerator() gopter.Gen {
+	if routeTables_SpecGenerator != nil {
+		return routeTables_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRouteTables_Spec(generators)
+	routeTables_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTables_Spec{}), generators)
+
+	return routeTables_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRouteTables_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTables_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+>>>>>>> main
 }

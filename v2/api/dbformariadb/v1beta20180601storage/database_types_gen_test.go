@@ -74,8 +74,13 @@ func DatabaseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabase(gens map[string]gopter.Gen) {
+<<<<<<< HEAD
 	gens["Spec"] = ServersDatabase_SpecGenerator()
 	gens["Status"] = ServersDatabase_STATUSGenerator()
+=======
+	gens["Spec"] = Servers_Databases_SpecGenerator()
+	gens["Status"] = Database_STATUSGenerator()
+>>>>>>> main
 }
 
 func Test_ServersDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -85,6 +90,7 @@ func Test_ServersDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
+<<<<<<< HEAD
 		"Round trip of ServersDatabase_Spec via JSON returns original",
 		prop.ForAll(RunJSONSerializationTestForServersDatabase_Spec, ServersDatabase_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
@@ -92,6 +98,15 @@ func Test_ServersDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 
 // RunJSONSerializationTestForServersDatabase_Spec runs a test to see if a specific instance of ServersDatabase_Spec round trips to JSON and back losslessly
 func RunJSONSerializationTestForServersDatabase_Spec(subject ServersDatabase_Spec) string {
+=======
+		"Round trip of Database_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabase_STATUS, Database_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabase_STATUS runs a test to see if a specific instance of Database_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabase_STATUS(subject Database_STATUS) string {
+>>>>>>> main
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -117,6 +132,7 @@ func RunJSONSerializationTestForServersDatabase_Spec(subject ServersDatabase_Spe
 	return ""
 }
 
+<<<<<<< HEAD
 // Generator of ServersDatabase_Spec instances for property testing - lazily instantiated by
 // ServersDatabase_SpecGenerator()
 var serversDatabase_SpecGenerator gopter.Gen
@@ -200,9 +216,98 @@ func ServersDatabase_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServersDatabase_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServersDatabase_STATUS(gens map[string]gopter.Gen) {
+=======
+// Generator of Database_STATUS instances for property testing - lazily instantiated by Database_STATUSGenerator()
+var database_STATUSGenerator gopter.Gen
+
+// Database_STATUSGenerator returns a generator of Database_STATUS instances for property testing.
+func Database_STATUSGenerator() gopter.Gen {
+	if database_STATUSGenerator != nil {
+		return database_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabase_STATUS(generators)
+	database_STATUSGenerator = gen.Struct(reflect.TypeOf(Database_STATUS{}), generators)
+
+	return database_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDatabase_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabase_STATUS(gens map[string]gopter.Gen) {
+>>>>>>> main
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
+<<<<<<< HEAD
+=======
+
+func Test_Servers_Databases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_Databases_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_Databases_Spec, Servers_Databases_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_Databases_Spec runs a test to see if a specific instance of Servers_Databases_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_Databases_Spec(subject Servers_Databases_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_Databases_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_Databases_Spec instances for property testing - lazily instantiated by
+// Servers_Databases_SpecGenerator()
+var servers_Databases_SpecGenerator gopter.Gen
+
+// Servers_Databases_SpecGenerator returns a generator of Servers_Databases_Spec instances for property testing.
+func Servers_Databases_SpecGenerator() gopter.Gen {
+	if servers_Databases_SpecGenerator != nil {
+		return servers_Databases_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_Databases_Spec(generators)
+	servers_Databases_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_Spec{}), generators)
+
+	return servers_Databases_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_Databases_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_Databases_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Charset"] = gen.PtrOf(gen.AlphaString())
+	gens["Collation"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginalVersion"] = gen.AlphaString()
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+>>>>>>> main

@@ -19,25 +19,37 @@ type Person struct {
 	Status            Person_STATUS `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) error {
+// AssignProperties_From_Person populates our Person from the provided source Person
+func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) error {
 
 	// ObjectMeta
 	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Person_Spec
+<<<<<<< HEAD
 	err := spec.AssignPropertiesFromPerson_Spec(&source.Spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromPerson_Spec() to populate field Spec")
+=======
+	err := spec.AssignProperties_From_Person_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Person_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	person.Spec = spec
 
 	// Status
 	var status Person_STATUS
+<<<<<<< HEAD
 	err = status.AssignPropertiesFromPerson_STATUS(&source.Status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromPerson_STATUS() to populate field Status")
+=======
+	err = status.AssignProperties_From_Person_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Person_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	person.Status = status
 
@@ -45,25 +57,37 @@ func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) erro
 	return nil
 }
 
-// AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *v20211231s.Person) error {
+// AssignProperties_To_Person populates the provided destination Person from our Person
+func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20211231s.Person_Spec
+<<<<<<< HEAD
 	err := person.Spec.AssignPropertiesToPerson_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToPerson_Spec() to populate field Spec")
+=======
+	err := person.Spec.AssignProperties_To_Person_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Person_Spec() to populate field Spec")
+>>>>>>> main
 	}
 	destination.Spec = spec
 
 	// Status
 	var status v20211231s.Person_STATUS
+<<<<<<< HEAD
 	err = person.Status.AssignPropertiesToPerson_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToPerson_STATUS() to populate field Status")
+=======
+	err = person.Status.AssignProperties_To_Person_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Person_STATUS() to populate field Status")
+>>>>>>> main
 	}
 	destination.Status = status
 
@@ -83,8 +107,13 @@ type Person_Spec struct {
 	FullName string `json:"fullName,omitempty"`
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
 func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Person_Spec) error {
+=======
+// AssignProperties_From_Person_Spec populates our Person_Spec from the provided source Person_Spec
+func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.Person_Spec) error {
+>>>>>>> main
 
 	// FullName
 	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
@@ -93,8 +122,13 @@ func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Pe
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
 func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231s.Person_Spec) error {
+=======
+// AssignProperties_To_Person_Spec populates the provided destination Person_Spec from our Person_Spec
+func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v20211231s.Person_Spec) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -124,7 +158,11 @@ func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	src, ok := source.(*v20211231s.Person_STATUS)
 	if ok {
 		// Populate our instance from source
+<<<<<<< HEAD
 		return person.AssignPropertiesFromPerson_STATUS(src)
+=======
+		return person.AssignProperties_From_Person_STATUS(src)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
@@ -135,7 +173,11 @@ func (person *Person_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	}
 
 	// Update our instance from src
+<<<<<<< HEAD
 	err = person.AssignPropertiesFromPerson_STATUS(src)
+=======
+	err = person.AssignProperties_From_Person_STATUS(src)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -148,12 +190,20 @@ func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	dst, ok := destination.(*v20211231s.Person_STATUS)
 	if ok {
 		// Populate destination from our instance
+<<<<<<< HEAD
 		return person.AssignPropertiesToPerson_STATUS(dst)
+=======
+		return person.AssignProperties_To_Person_STATUS(dst)
+>>>>>>> main
 	}
 
 	// Convert to an intermediate form
 	dst = &v20211231s.Person_STATUS{}
+<<<<<<< HEAD
 	err := person.AssignPropertiesToPerson_STATUS(dst)
+=======
+	err := person.AssignProperties_To_Person_STATUS(dst)
+>>>>>>> main
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -167,8 +217,13 @@ func (person *Person_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesFromPerson_STATUS populates our Person_STATUS from the provided source Person_STATUS
 func (person *Person_STATUS) AssignPropertiesFromPerson_STATUS(source *v20211231s.Person_STATUS) error {
+=======
+// AssignProperties_From_Person_STATUS populates our Person_STATUS from the provided source Person_STATUS
+func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v20211231s.Person_STATUS) error {
+>>>>>>> main
 
 	// Status
 	person.Status = genruntime.GetOptionalStringValue(source.Status)
@@ -177,8 +232,13 @@ func (person *Person_STATUS) AssignPropertiesFromPerson_STATUS(source *v20211231
 	return nil
 }
 
+<<<<<<< HEAD
 // AssignPropertiesToPerson_STATUS populates the provided destination Person_STATUS from our Person_STATUS
 func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20211231s.Person_STATUS) error {
+=======
+// AssignProperties_To_Person_STATUS populates the provided destination Person_STATUS from our Person_STATUS
+func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v20211231s.Person_STATUS) error {
+>>>>>>> main
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
