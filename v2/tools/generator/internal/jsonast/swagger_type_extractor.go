@@ -539,7 +539,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	// Now singularize last part of name:
 	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1], extractor.idFactory)
 
-	name := strings.Join(nameParts, "")
+	name := strings.Join(nameParts, "_")
 
 	return group, resource, name, nil
 }
