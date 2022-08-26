@@ -316,26 +316,26 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhubs_Spec_Properties
+  - name: Namespaces_Eventhub_Spec_Properties
     group: eventhub
     property: Status
     remove: true
     because: This property should be marked readonly
   - group: eventgrid
     version: v*20190601
-    name: Domains_Spec
+    name: Domain_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: eventgrid
     version: "*"
-    name: Topics_Spec
+    name: Topic_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
   - group: network
     version: "*"
-    name: PrivateDnsZones_Spec
+    name: PrivateDnsZone_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
@@ -451,41 +451,6 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
-  - group: containerservice
-    name: ManagedClusters_AgentPools_Spec
-    property: Tags
-    remove: true
-    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
-  - group: network
-    name: VirtualNetworks_Subnets_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: VirtualNetworks_Subnets_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - group: network
-    name: RouteTables_Routes_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: RouteTables_Routes_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - name: Aliases_Spec
-    group: subscription
-    property: Location
-    remove: true
-    because: This shouldn't be on subscription.
-  - name: Aliases_Spec
-    group: subscription
-    property: Tags
-    remove: true
-    because: Tags for subscription are in a different place
 
   # TODO(donotmerge)
   # - group: network
@@ -1270,14 +1235,14 @@ objectModelConfiguration:
 #          $isSecret: true
 #      Workspaces_Connection:
 #        $exportAs: WorkspacesConnection
-        $supportedFrom: v2.0.0-beta.2
+#        $supportedFrom: v2.0.0-beta.2
   network:
     2018-09-01:
       PrivateDnsZone:
         $export: true
         $supportedFrom: v2.0.0-beta.2
     2020-11-01:
-      FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded:
+      FrontendIPConfiguration:
         Id:
           $armReference: true
       LoadBalancer:
@@ -1286,7 +1251,7 @@ objectModelConfiguration:
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-      NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded:
+      NetworkInterfaceIPConfiguration:
         Id:
           $armReference: true
       NetworkSecurityGroup:
@@ -1301,40 +1266,40 @@ objectModelConfiguration:
       PublicIPAddressSpec_SubResourceEmbedded:
         Id:
           $armReference: true
-      Route_RouteTable_SubResourceEmbedded:
-        Id:
-          $armReference: true
+#      Route_RouteTable_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTables_Spec_Properties:
+      RouteTablePropertiesFormat:
         Routes:
           $isResourceLifecycleOwnedByParent: true
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
-      SecurityRule_NetworkInterface_SubResourceEmbedded:
-        Id:
-          $armReference: true
-      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
-        Id:
-          $armReference: true
-      ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded:
+#      SecurityRule_NetworkInterface_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+#      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+      ServiceEndpointPolicyDefinition:
         Id:
           $armReference: true
       SubResource:
         Id:
           $armReference: true
-      Subnet_VirtualNetwork_SubResourceEmbedded:
-        Id:
-          $armReference: true
+#      Subnet_VirtualNetwork_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworks_Spec_Properties:
+      VirtualNetworkPropertiesFormat:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
         VirtualNetworkPeerings:
